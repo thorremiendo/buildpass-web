@@ -1,0 +1,62 @@
+<div class='mat-card py-5 px-3'>
+    <div class='row justify-content-center py-3'>
+        <div class='col-3'>
+            <mat-form-field appearance='outline'>
+                <mat-label>First Name<span class="font-weight-bold text-danger">*</span></mat-label>
+                <input type="text" matInput>
+            </mat-form-field>
+        </div>
+        <div class='col-3'>
+            <mat-form-field appearance='outline'>
+                <mat-label>Middle Name<span class="font-weight-bold text-danger">*</span></mat-label>
+                <input type="text" matInput>
+            </mat-form-field>
+        </div>
+        <div class='col-3'>
+            <mat-form-field appearance='outline'>
+                <mat-label>Last name<span class="font-weight-bold text-danger">*</span></mat-label>
+                <input type="text" matInput>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class='row justify-content-center py-3'>
+        <div class='col-md-6'>
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Birthday<span class="font-weight-bold text-danger">*</span></mat-label>
+                <input matInput [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker touchUi #picker ></mat-datepicker>
+              </mat-form-field>
+        </div>
+        <div class='col-3'>
+                <mat-button-toggle-group appearance="standard" name="gender" aria-label="Gender"  >
+                    <mat-button-toggle value="M">Male</mat-button-toggle>
+                    <mat-button-toggle value="F">Female</mat-button-toggle>
+                </mat-button-toggle-group>
+        </div> 
+    </div>
+
+    <div class='row justify-content-center py-3'>
+        <div class='col-5'>
+            <mat-form-field appearance='outline'>
+                <mat-label>Nationality<span class="font-weight-bold text-danger">*</span></mat-label>
+                <input type="text" matInput>
+            </mat-form-field>
+        </div> 
+        <div class='col-md-4'>
+            <mat-form-field appearance="outline">
+                <mat-label>Marital Status<span class="font-weight-bold text-danger">*</span></mat-label>
+                <mat-select>
+                  <mat-option value="option">Single</mat-option>
+                  <mat-option value="option">Married</mat-option>
+                  <mat-option value="option">Divorce</mat-option>
+                  <mat-option value="option">Widowed</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </div>
+        
+    </div>
+
+
+</div>
