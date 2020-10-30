@@ -14,6 +14,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { UserDashboardModule } from './dashboard-layout/dashboard-layout.module';
 import { UserRoutingModule } from './user-routing.module';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
+import { NewApplicationComponent } from './new-application/new-application.component';
+import { ExistingApplicationsComponent } from './existing-applications/existing-applications.component';
+import { UserFormsComponent } from './user-forms/user-forms.component';
 
 
 
@@ -21,7 +24,9 @@ import { MatCarouselModule } from '@ngmodule/material-carousel';
   declarations: [
     // UserHomeComponent, 
     // DashboardComponent
-  ],
+  NewApplicationComponent,
+    ExistingApplicationsComponent,
+    UserFormsComponent],
   imports: [
     CommonModule,
     UserDashboardRoutingModule,

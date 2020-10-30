@@ -38,19 +38,19 @@ export interface BadgeItem {
       icon: 'home',
     },
     {
-      state: 'dashboard/home',
+      state: 'dashboard/new',
       name: 'New Application',  
       type: 'link',                    
       icon: 'note_add',
     },
     {
-      state: 'dashboard/home',
+      state: 'dashboard/applications',
       name: 'Existing Applications',  
       type: 'link',                    
       icon: 'pageview',
     },
     {
-      state: 'dashboard/home',
+      state: 'dashboard/forms',
       name: 'Forms',  
       type: 'link',                    
       icon: 'folder',
