@@ -1,0 +1,40 @@
+.landing {
+    .banner {
+        text-align: center;
+        padding: 20px 0;
+        color: #000000;
+        -webkit-box-shadow: 0px 2px 1px #dcdcdc;
+        -moz-box-shadow: 0px 2px 1px #dcdcdc;
+        box-shadow: 0px 2px 1px #dcdcdc;
+
+        div:first-of-type {
+            font-size: 45px;
+            font-weight: 700;
+            line-height: 1;
+            margin: 10px;
+        }
+
+        div:last-of-type {
+            font-size: 30px;
+            font-weight: 500;
+            line-height: 1;
+            margin: 10px;
+        }
+    }
+
+    .landing-nav {
+        background-image: url('../../../assets/images/landing/landing-bg.png');
+        background-size: cover;
+        min-height: 450px;
+
+        > div {
+            text-align: center;
+        }
+
+        input {
+            height: 250px;
+            width: auto;
+            margin: 35px;
+        }
+    }
+}
