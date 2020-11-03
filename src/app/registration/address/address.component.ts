@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { RegisterAccountFormService} from '../../core/services/register-account-form.service';
 import { Router } from '@angular/router';
-
+import { AuthService} from '../../core/services/auth.service'
 @Component({
   selector: 'app-address',
   templateUrl: './address.component.html',
@@ -25,7 +25,9 @@ export class AddressComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
+    private _authService: AuthService,
     private _registerAccountFormService: RegisterAccountFormService,
+
     
   ) {
     this.createForm();
@@ -66,7 +68,8 @@ export class AddressComponent implements OnInit {
     if(this._addressForm.valid){
       this.createUserDetails();
       this._registerAccountFormService.setRegisterAccountInfo(this.userDetails);
-      this._router.navigateByUrl("/test");
+      this._authService.SendVerificationMail();
+      //this._router.navigateByUrl("/test");
       console.log(this._addressForm.value);
     }
   }
