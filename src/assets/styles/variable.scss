@@ -27,7 +27,7 @@ $md-ocpasuser: (
     A100 : #66ffc0,
     A200 : #33ffac,
     A400 : #00ff97,
-    A700 : #00e688,
+    A700 : #F9C232,
     contrast: (
         50 : #000000,
         100 : #000000,
@@ -47,7 +47,7 @@ $md-ocpasuser: (
 );
 
 $primary: mat-palette($md-ocpasuser, 500);
-$accent: mat-palette($mat-indigo, 500);
+$accent: mat-palette($md-ocpasuser, A700);
 $warn: mat-palette($mat-red, 600);
 
 $theme: mat-light-theme((
@@ -80,8 +80,8 @@ $sidebar-icons: #99abb4;
 $font-16: 16px;
 
 $light-text: #a6b7bf;
-$themecolor: #1e88e5;
-$themecolor-alt: #26c6da;
+$themecolor: #400C06;
+$themecolor-alt: #452128;
 $themecolor-dark: #028ee1;
 
 /*bootstrap Color*/

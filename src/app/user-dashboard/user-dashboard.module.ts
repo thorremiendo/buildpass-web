@@ -14,19 +14,44 @@ import { BrowserModule } from '@angular/platform-browser';
 import { UserDashboardModule } from './dashboard-layout/dashboard-layout.module';
 import { UserRoutingModule } from './user-routing.module';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
-import { NewApplicationComponent } from './new-application/new-application.component';
+import { NewApplicationComponent } from './step-one/new-application.component';
 import { ExistingApplicationsComponent } from './existing-applications/existing-applications.component';
 import { UserFormsComponent } from './user-forms/user-forms.component';
-
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatButtonModule } from '@angular/material/button';
+import { StepOneComponent } from './new-application/step-one/step-one.component';
+import { InitialFormsComponent } from './new-application/initial-forms/initial-forms.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { CoreModule } from '../core/core.module';
+import { MatIconModule } from '@angular/material/icon';
+import { BuildingPermitFormsComponent } from './new-application/building-permit-forms/building-permit-forms.component';
+import { DesignAnalysisFormsComponent } from './new-application/design-analysis-forms/design-analysis-forms.component';
+import { ProfessionalDetailsComponent } from './new-application/professional-details/professional-details.component';
+import { ClearanceFormsComponent } from './new-application/clearance-forms/clearance-forms.component';
+import { AffidavitFilesComponent } from './new-application/affidavit-files/affidavit-files.component';
+import { OtherRequirementsComponent } from './new-application/other-requirements/other-requirements.component';
+import { ChecklistSummaryComponent } from './new-application/checklist-summary/checklist-summary.component';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
-    // UserHomeComponent, 
+    // UserHomeComponent,
     // DashboardComponent
-  NewApplicationComponent,
+    NewApplicationComponent,
     ExistingApplicationsComponent,
-    UserFormsComponent],
+    UserFormsComponent,
+    StepOneComponent,
+    InitialFormsComponent,
+    BuildingPermitFormsComponent,
+    DesignAnalysisFormsComponent,
+    ProfessionalDetailsComponent,
+    ClearanceFormsComponent,
+    AffidavitFilesComponent,
+    OtherRequirementsComponent,
+    ChecklistSummaryComponent
+  ],
   imports: [
     CommonModule,
     UserDashboardRoutingModule,
@@ -42,7 +67,14 @@ import { UserFormsComponent } from './user-forms/user-forms.component';
     UserDashboardModule,
     UserRoutingModule,
     MatCarouselModule.forRoot(),
-
-  ]
+    MatFormFieldModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatButtonModule,
+    NgxDropzoneModule,
+    CoreModule,
+    MatIconModule,
+    MatCardModule
+  ],
 })
-export class UserModule { }
+export class UserModule {}

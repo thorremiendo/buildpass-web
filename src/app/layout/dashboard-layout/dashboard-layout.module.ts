@@ -13,12 +13,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { MatListModule } from '@angular/material/list';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 
 
 @NgModule({
   declarations: [
     SidebarComponent, 
-    DashboardLayoutComponent,
+    DashboardLayoutComponent, BreadcrumbComponent,
   ],
   imports: [
     CommonModule,

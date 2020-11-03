@@ -32,13 +32,13 @@ export interface BadgeItem {
 
   const USERMENUITEMS = [
     {
-      state: 'dashboard/home',
+      state: 'dashboard',
       name: 'Home',  
       type: 'link',                    
       icon: 'home',
     },
     {
-      state: 'dashboard/new',
+      state: 'dashboard/new/step-one',
       name: 'New Application',  
       type: 'link',                    
       icon: 'note_add',
