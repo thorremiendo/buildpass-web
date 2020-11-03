@@ -45,6 +45,7 @@ import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
+import { LandingPageModule } from './landing-page/landing-page.module';
 
 
 
@@ -66,7 +67,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SignInUpPageComponent,
     TestComponentComponent,
     ForgotPasswordComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+
   ],
   imports: [
     NgbModule,
@@ -76,8 +78,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     RegistrationModule,
     RegistrationRoutingModule,
     HttpClientModule,
-    
-
+    LandingPageModule,
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
