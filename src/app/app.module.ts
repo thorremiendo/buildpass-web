@@ -33,7 +33,29 @@ import { TestComponentComponent } from './test-component/test-component.componen
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
  
+import { LayoutModule } from './layout/layout.module';
+import { UserModule } from './user-dashboard/user-dashboard.module';
+import { PerfectScrollbarConfigInterface, PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/moment';
+import * as moment from 'moment';
+import { CoreModule } from './core/core.module';
 
+import { AngularFireModule } from "@angular/fire";
+import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from '../environments/environment';
+
+
+
+export function momentAdapterFactory() {
+  return adapterFactory(moment);
+};
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true,
+  wheelSpeed: 2,
+  wheelPropagation: true
+};
 
 
 @NgModule({
@@ -71,10 +93,23 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
     
 
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
    
+    LayoutModule,
+    UserModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: momentAdapterFactory }),
+    CoreModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    }, 
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
