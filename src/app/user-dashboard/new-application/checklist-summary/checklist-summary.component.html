@@ -5,10 +5,11 @@
         <h4>Applicant Name: Juan Dela Cruz</h4>
         <p>Permit Category: Building Permit</p>
         <hr />
+        <h2 class="pt-5">Checklist</h2>
       </div>
       <div>
         <img
-          src="../../../../assets/illustrations/building-permit-forms.png"
+          src="../../../../assets/illustrations/requirements.png"
           class="illustration"
         />
       </div>
@@ -66,18 +67,18 @@
           <button mat-button color="accent"><u>Edit</u></button>
         </div>
         <div class="d-flex justify-content-between w-100">
-          <p>Filing Fee proof of payment (receipt)</p>
+          <p>Filing Fee proof of payment (receipt) <mat-icon *ngIf="applicationInfo.filing_fee_receipt" class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
         <div class="d-flex justify-content-between w-100">
-          <p>Duly Accomplished/Notarized Zoning Clearance Application Form</p>
+          <p>Duly Accomplished/Notarized Zoning Clearance Application Form<mat-icon *ngIf="applicationInfo.zoning_clearance_form"class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
         <div class="d-flex justify-content-between w-100">
           <p>
             Authorization Letter of Special Power of Attorney from Owner to
             Submit, follow-up, and receive approved permits (for representative
-            only)
+            only)<mat-icon *ngIf="applicationInfo.special_power_of_attorney" class="p-2"style="color: green;">check_circle_outline</mat-icon>
           </p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
@@ -85,7 +86,7 @@
           <p>
             Certified True Copy of the Title (updated not more than 6 months),
             or Copy of award w/ approved surveyed plan (Signed and Sealed by
-            Geodetic Engineer
+            Geodetic Engineer<mat-icon *ngIf="applicationInfo.true_copy_of_title" class="p-2"style="color: green;">check_circle_outline</mat-icon>
           </p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
@@ -93,28 +94,28 @@
           <p>
             Contract of Lease, or Absolute Deed of Sale, or Conditional Deed of
             Sale, or Certified Copy of Authority to Construct on the subject
-            property
+            property<mat-icon *ngIf="applicationInfo.contract_of_lease" class="p-2"style="color: green;">check_circle_outline</mat-icon>
           </p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
         <div class="d-flex justify-content-between w-100">
           <p>
             Tax Declaration from City Assessor's Office with Documentary Stamp
-            from City Treasurers Office
+            from City Treasurers Office<mat-icon *ngIf="applicationInfo.tax_declaration" class="p-2"style="color: green;">check_circle_outline</mat-icon>
           </p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
         <div class="d-flex justify-content-between w-100">
           <p>
             Latest Quarter of the Real Property Tax Receipt, or Certificate of
-            Non-Tax Deliquency w/ documentary stamp from City Treasurers Office
+            Non-Tax Deliquency w/ documentary stamp from City Treasurers Office<mat-icon *ngIf="applicationInfo.real_property_tax_receipt" class="p-2"style="color: green;">check_circle_outline</mat-icon>
           </p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
         <div class="d-flex justify-content-between w-100 mb-3">
           <p>
             Clear Latest picture of site/are (taken at least a week before
-            application)
+            application)<mat-icon *ngIf="applicationInfo.latest_picture_of_site" class="p-2"style="color: green;">check_circle_outline</mat-icon>
           </p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
@@ -125,15 +126,15 @@
           <button mat-button color="accent"><u>Edit</u></button>
         </div>
         <div class="d-flex justify-content-between w-100">
-          <p>Building Permit Form</p>
+          <p>Building Permit Form<mat-icon *ngIf="applicationInfo.building_permit_form" class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
         <div class="d-flex justify-content-between w-100">
-          <p>Sanitary Permit Form</p>
+          <p>Sanitary Permit Form<mat-icon *ngIf="applicationInfo.sanitary_permit_form" class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
         <div class="d-flex justify-content-between w-100 mb-3">
-          <p>Electrical Permit Form</p>
+          <p>Electrical Permit Form<mat-icon *ngIf="applicationInfo.electrical_permit_form" class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
       </div>
@@ -143,24 +144,24 @@
           <button mat-button color="accent"><u>Edit</u></button>
         </div>
         <div class="d-flex justify-content-between w-100">
-          <p>Building Plans (to be signed by applicant/owner)</p>
+          <p>Building Plans (to be signed by applicant/owner)<mat-icon *ngIf="applicationInfo.building_plan" class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
         <div class="d-flex justify-content-between w-100">
           <p>
             Structural Design and Analysis for Buildings with floor area of
-            20.00 sq.m. or more
+            20.00 sq.m. or more<mat-icon *ngIf="applicationInfo.structural_design" class="p-2"style="color: green;">check_circle_outline</mat-icon>
           </p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
         <div class="d-flex justify-content-between w-100">
-          <p>Electrical Design Analysis</p>
+          <p>Electrical Design Analysis<mat-icon *ngIf="applicationInfo.electrical_design" class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
         <div class="d-flex justify-content-between w-100 mb-3">
           <p>
             Soil Analysis for Residential Buildings with 3 storeys or more
-            (Signed and Sealed)
+            (Signed and Sealed)<mat-icon *ngIf="applicationInfo.soil_analaysis" class="p-2"style="color: green;">check_circle_outline</mat-icon>
           </p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
@@ -174,15 +175,15 @@
           <button mat-button color="accent"><u>Edit</u></button>
         </div>
         <div class="d-flex justify-content-between w-100">
-          <p>Civil Engineer</p>
+          <p>Civil Engineer<mat-icon *ngIf="applicationInfo.civil_engineer_details" class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
         <div class="d-flex justify-content-between w-100">
-          <p>Architect</p>
+          <p>Architect<mat-icon *ngIf="applicationInfo.architect_details" class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
         <div class="d-flex justify-content-between w-100 mb-3">
-          <p>Sanitary Engineer/Master Plumber</p>
+          <p>Sanitary Engineer/Master Plumber<mat-icon *ngIf="applicationInfo.sanitary_engineer_details" class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
       </div>
@@ -192,19 +193,51 @@
           <button mat-button color="accent"><u>Edit</u></button>
         </div>
         <div class="d-flex justify-content-between w-100">
-          <p>Zoning Compliance Certificate from CPDO</p>
+          <p>Zoning Compliance Certificate from CPDO<mat-icon *ngIf="applicationInfo.zoning_compliance_certificate" class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
         <div class="d-flex justify-content-between w-100">
-          <p>Fire Safety Evaluation Clearance from Fire Department Office</p>
+          <p>Fire Safety Evaluation Clearance from Fire Department Office<mat-icon *ngIf="applicationInfo.fire_safety_evaluation" class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
         <div class="d-flex justify-content-between w-100">
-          <p>WWMS Certificate from CEPMO</p>
+          <p>WWMS Certificate from CEPMO<mat-icon *ngIf="applicationInfo.wwms_certificate" class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
         <div class="d-flex justify-content-between w-100 mb-3">
-          <p>Barangay Clearance</p>
+          <p>Barangay Clearance<mat-icon *ngIf="applicationInfo.barangay_clearance" class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
+          <button mat-button color="primary"><u>View</u></button>
+        </div>
+      </div>
+      <div class="border-bottom mt-3">
+        <div class="d-flex justify-content-between w-100">
+          <h4>Affidavits</h4>
+          <button mat-button color="accent"><u>Edit</u></button>
+        </div>
+        <div class="d-flex justify-content-between w-100">
+          <p>Geodetic Engineer Affidavit<mat-icon *ngIf="applicationInfo.geodetic_engineer_affidavit" class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
+          <button mat-button color="primary"><u>View</u></button>
+        </div>
+        <div class="d-flex justify-content-between w-100">
+          <p>Civil Engineer Affidavit<mat-icon *ngIf="applicationInfo.civil_engineer_affidavit" class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
+          <button mat-button color="primary"><u>View</u></button>
+        </div>
+      </div>
+      <div class="border-bottom mt-3">
+        <div class="d-flex justify-content-between w-100">
+          <h4>Other Requirements</h4>
+          <button mat-button color="accent"><u>Edit</u></button>
+        </div>
+        <div class="d-flex justify-content-between w-100">
+          <p>Environmental Compliance Certificate of Building for Critical/Hazardous Projects or for a floor area of 10,000 sq.m<mat-icon *ngIf="applicationInfo.environmental_compliance" class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
+          <button mat-button color="primary"><u>View</u></button>
+        </div>
+        <div class="d-flex justify-content-between w-100">
+          <p>Clearance from other government agencies, pursuant to No. 12 (B) of Section 302 of the IRR of the National Building Code (PD 1096) (if applicable)<mat-icon *ngIf="applicationInfo.government_clearance" class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
+          <button mat-button color="primary"><u>View</u></button>
+        </div>
+        <div class="d-flex justify-content-between w-100">
+          <p>Certificate of Construction Safety Health Program (CSHP) from DOLE<mat-icon *ngIf="applicationInfo.chsp_certificate" class="p-2"style="color: green;">check_circle_outline</mat-icon></p>
           <button mat-button color="primary"><u>View</u></button>
         </div>
       </div>
