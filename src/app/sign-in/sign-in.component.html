@@ -1,0 +1,50 @@
+<form [formGroup]='_signinForm' (ngSubmit)= "tryLogin(_signinForm.value);">
+    <div class='row justify-content-md-center pt-5'>
+        <div class='col-md-8'>
+            <mat-form-field appearance="outline">
+                <mat-label>Email address</mat-label>
+                <input matInput placeholder="kaBoom@example.com" formControlName="email" required>
+                <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class='row justify-content-md-center pt-1'>
+        <div class='col-md-8'>
+            <mat-form-field appearance="outline">
+                <mat-label>Enter your password</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" formControlName = "password">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+            <a style="margin-top: -10px; color:maroon;"
+               routerLink="/forgot-password" routerLinkActive="active">forgot password?</a>
+        </div>
+    </div>
+    <div class='row justify-content-md-center py-3'>
+        <div class='col-md-4 text-center'>
+       
+                <button 
+                style="background-color: maroon; color:white;"
+                mat-stroked-button>
+                Sign in</button>
+        </div>
+    </div>
+    <hr>
+    <div class='row row justify-content-md-center pt-3'>
+        <p style="font-size:smaller; color:gray">or sign in with </p>
+    </div>
+    <div class='row justify-content-md-center'>
+        <div class='col-md-4 text-center'>
+                <button 
+                mat-stroked-button
+                (click)= 'tryGoogle()'>
+
+                    <mat-icon matPrefix style="width: 40px; height:25px; margin-bottom:15px;"
+                              svgIcon="logo">
+                    </mat-icon>Google
+                </button>  
+        </div>
+    </div>
+</form>

@@ -1,0 +1,16 @@
+<mat-card class='card-container mt-5'>
+    
+    <nav mat-tab-nav-bar mat-stretch-tabs>
+        <a mat-tab-link 
+            *ngFor="let link of navLinks" 
+            [routerLink]="link.link" 
+            routerLinkActive #rla="routerLinkActive"
+            [active]="rla.isActive">
+            {{link.label}}
+
+            
+    
+        </a>
+    </nav>
+    <router-outlet></router-outlet>
+</mat-card>

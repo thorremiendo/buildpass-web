@@ -1,0 +1,44 @@
+<mat-card class="card-container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-12">
+            <h1>Verifiy Your Email</h1>
+        </div>
+    </div>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="formGroup" *ngIf="_authService.userData as user">
+          <p class="text-center">We have sent a confirmation email to <strong>{{user.email}}</strong>.</p>
+          <p class="text-center">Please check your email and click on the link to verfiy your email address.</p>
+        </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <img 
+            style="width:300px;height:300px;"
+            src="../../assets/images/verify-email-maroon-vector.png">
+    </div>
+    <div class="row justify-content-center">
+        <div class='row justify-content-center py-1'>
+            <div class='col-md-12 text-center py-2'>
+              
+                    <button 
+                 
+                    style="background-color: maroon; color:white;"
+                    mat-stroked-button
+                    (click)="sendAgainVerification();">
+                    Resend Verication Email
+                    </button>
+                    
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <a style="color:maroon;"
+            routerLink="/sign-in-up/sign-in" 
+            routerLinkActive="active">Go back to login</a>  
+          
+    </div>
+
+
+</mat-card>
