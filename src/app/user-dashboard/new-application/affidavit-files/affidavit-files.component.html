@@ -1,0 +1,95 @@
+<div class="container">
+    <div class="row mx-5">
+      <div class="d-flex justify-content-between w-100">
+        <div>
+          <h2>Building Permit Application</h2>
+          <p>
+            Click <a href="" target="_blank">here</a> to view all required forms
+            for Building Permit Application.
+          </p>
+          <hr />
+        <p class="pt-5">Please upload the necessary files.</p>
+
+        </div>
+        <div>
+          <img
+            src="../../../../assets/illustrations/building-permit-forms.png"
+            class="illustration"
+          />
+        </div>
+      </div>
+      <div class="content px-5 w-100">
+        <h4 class="my-4">Affidavits</h4>
+        <div class="mb-4">
+          <div class="d-flex justify-content-between">
+            <h5>Geodetic Engineer Affidavit</h5>
+            <mat-icon *ngIf="geodeticEngineerAffidavit" style="color: green"
+              >check_circle</mat-icon
+            >
+          </div>
+          <ngx-dropzone
+            (change)="onSelect($event, 'geodeticEngineerAffidavit')"
+            [multiple]="false"
+          >
+            <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+            <ngx-dropzone-preview
+              *ngIf="geodeticEngineerAffidavit"
+              [removable]="true"
+              (removed)="onRemove('geodeticEngineerAffidavit')"
+              class="mx-auto"
+            >
+              <ngx-dropzone-label
+                >{{ geodeticEngineerAffidavit.name }} ({{
+                  geodeticEngineerAffidavit.type
+                }})</ngx-dropzone-label
+              >
+            </ngx-dropzone-preview>
+          </ngx-dropzone>
+        </div>
+        <div class="mb-4">
+          <div class="d-flex justify-content-between">
+            <h5>Civil Engineer Affidavit</h5>
+            <mat-icon *ngIf="civilEngineerAffidavit" style="color: green"
+              >check_circle</mat-icon
+            >
+          </div>
+          <ngx-dropzone
+            (change)="onSelect($event, 'civilEngineerAffidavit')"
+            [multiple]="false"
+          >
+            <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+            <ngx-dropzone-preview
+              *ngIf="civilEngineerAffidavit"
+              [removable]="true"
+              (removed)="onRemove('civilEngineerAffidavit')"
+              class="mx-auto"
+            >
+              <ngx-dropzone-label
+                >{{ civilEngineerAffidavit.name }} ({{
+                  civilEngineerAffidavit.type
+                }})</ngx-dropzone-label
+              >
+            </ngx-dropzone-preview>
+          </ngx-dropzone>
+        </div>
+        <div class="d-flex justify-content-between mb-4">
+          <div>
+            <button mat-button>
+              <mat-icon>chevron_left</mat-icon>
+              Back
+            </button>
+          </div>
+          <div>
+            <button mat-raised-button color="primary" (click)="callNext()">Next</button>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="content-background col-md-6">
+        <img
+          class="img-fluid mt-5"
+          src="../../../assets/illustrations/construction.png"
+        />
+      </div> -->
+    </div>
+  </div>
+  

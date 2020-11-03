@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-12 p-5" [formGroup]="permitStepOneForm">
+      <h2 class="mb-5">Hi, Thor! Let's get started with your application.</h2>
+      <p style="color: #767676"><strong>STEP 1</strong></p>
+      <div>
+        <h4>What type of permit do you want to apply?</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Application Type</mat-label>
+          <mat-select [(value)]="selectedPermitType" formControlName="application_type">
+            <mat-option value="1">Building Permit</mat-option>
+            <mat-option value="2">Occupancy Permit</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <p *ngIf="selectedPermitType==1" style="font-size: 12px;">Click <a href="" target="_blank">here</a> to download required forms for Building Permit</p>
+      </div>
+      <div *ngIf="selectedPermitType" class="mt-4">
+        <h4>Are you a representative?</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Choose</mat-label>
+          <mat-select [(value)]="isRepresentative" formControlName="is_representative">
+            <mat-option value="Yes">Yes</mat-option>
+            <mat-option value="No">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isRepresentative" class="mt-4">
+        <h4>Are you the lot owner?</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Choose</mat-label>
+          <mat-select [(value)]="isLotOwner" formControlName="is_lot_owner">
+            <mat-option value="Yes">Yes</mat-option>
+            <mat-option value="No">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="mt-3 text-right" *ngIf="isLotOwner">
+        <button mat-raised-button color="primary" (click)="callNext()">Next</button>
+      </div>
+    </div>
+    <div class="col-md-6 col-12">
+      <div class="d-flex justify-content-center mt-5">
+        <img
+          class="new-illustration"
+          src="../../../assets/illustrations/folder-illustration.png"
+        />
+      </div>
+    </div>
+  </div>
+</div>

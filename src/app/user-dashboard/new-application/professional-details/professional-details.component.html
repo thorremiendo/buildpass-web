@@ -1,0 +1,124 @@
+<div class="container">
+  <div class="row mx-5">
+    <div class="d-flex justify-content-between w-100">
+      <div>
+        <h2>Building Permit Application</h2>
+        <p>
+          Click <a href="" target="_blank">here</a> to view all required forms
+          for Building Permit Application.
+        </p>
+        <hr />
+        <p class="pt-5">Please upload the necessary files.</p>
+      </div>
+      <div>
+        <img
+          src="../../../../assets/illustrations/building-permit-forms.png"
+          class="illustration"
+        />
+      </div>
+    </div>
+    <div class="content px-5 w-100">
+      <h4 class="my-4">
+        Professional Details (Professional Tax Receipt and Professional
+        Regulations Commission ID, signed and sealed)
+      </h4>
+      <div class="mb-4">
+        <div class="d-flex justify-content-between">
+          <h5>Civil Engineer</h5>
+          <mat-icon *ngIf="civilEngineerDetails" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'civilEngineerDetails')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="civilEngineerDetails"
+            [removable]="true"
+            (removed)="onRemove('civilEngineerDetails')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ civilEngineerDetails.name }} ({{
+                civilEngineerDetails.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4">
+        <div class="d-flex justify-content-between">
+          <h5>Architect</h5>
+          <mat-icon *ngIf="architectDetails" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'architectDetails')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="architectDetails"
+            [removable]="true"
+            (removed)="onRemove('architectDetails')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ architectDetails.name }} ({{
+                architectDetails.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4">
+        <div class="d-flex justify-content-between">
+          <h5>Sanitary Engineer/Master Plumber</h5>
+          <mat-icon *ngIf="sanitaryEngineerDetails" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'sanitaryEngineerDetails')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="sanitaryEngineerDetails"
+            [removable]="true"
+            (removed)="onRemove('sanitaryEngineerDetails')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ sanitaryEngineerDetails.name }} ({{
+                sanitaryEngineerDetails.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="d-flex justify-content-between mb-4">
+        <div>
+          <button mat-button>
+            <mat-icon>chevron_left</mat-icon>
+            Back
+          </button>
+        </div>
+        <div>
+          <button mat-raised-button color="primary" (click)="callNext()">
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="content-background col-md-6">
+        <img
+          class="img-fluid mt-5"
+          src="../../../assets/illustrations/construction.png"
+        />
+      </div> -->
+  </div>
+</div>
