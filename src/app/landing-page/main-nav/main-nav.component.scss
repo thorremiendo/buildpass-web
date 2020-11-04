@@ -1,14 +1,14 @@
-.mat-toolbar.mat-primary {
+.main-nav {
+  background-color: #400001 !important;
   position: sticky;
   top: 0;
   z-index: 1;
-}
-
-.main-nav {
-  background-color: #400001 !important;
+  height: auto;
+  padding: 0 50px;
 
   img {
-    height: 50px;
+    height: 75px;
+    padding: 5px 0;
   }
 
   a {
@@ -18,7 +18,7 @@
     color: #ffffff;
     text-transform: uppercase;
     text-decoration: none;
-    border-radius: 10px;
+    border-radius: 5px;
 
     &:hover {
       text-decoration: underline;
@@ -30,6 +30,7 @@
 
     &.login {
       background-color: #ffc200;
+      margin-left: 50px;
     }
   }
 
@@ -56,4 +57,14 @@
 
 .hidden {
   display: none;
+}
+
+@media (max-width: 768px) {
+  .main-nav {
+    padding: 0 30px;
+    
+    img {
+      height: 65px;
+    }
+  }
 }
