@@ -54,7 +54,7 @@ export class SignUpComponent implements OnInit {
   }
 
   tryGoogle(){
-    this._authService.GoogleAuth();
+    this._authService.GoogleAuthSignup();
   }
 
   ngOnInit(): void {

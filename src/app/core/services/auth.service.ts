@@ -14,6 +14,7 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthService {
+  
   userData: any; // Save logged in user data
   private currentUserSubject = new BehaviorSubject<any>(null);
   public currentUser = this.currentUserSubject
@@ -47,7 +48,13 @@ export class AuthService {
         console.log(result);
         this.currentUserSubject.next(result);
         this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
+            if(result.user.emailVerified == true){
+              this.router.navigate(['dashboard']);
+            }
+            else {
+              window.alert("Email not yet verified");
+            }
+         
         });
         this.SetUserData(result.user);
       })
@@ -98,23 +105,47 @@ export class AuthService {
     const user = JSON.parse(localStorage.getItem('user'));
     return user !== null && user.emailVerified !== false ? true : false;
   }
+  get isVerified(): boolean{
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user.emailVerified !== false? true:false;
+  }
 
   // Sign in with Google
   GoogleAuth() {
+   
     return this.AuthLogin(new auth.GoogleAuthProvider())
+    
+  }
+
+  GoogleAuthSignup(){
+      this.GoogleAuth()
+        .then((result) => {
+          this.router.navigateByUrl('registration/personal-info');
+    
+        })
+        .catch((error) => {
+          window.alert(error);
+        })
+    
+    
+   
+    
   }
   // Auth logic to run auth providers
   AuthLogin(provider) {
     return this.afAuth.auth
       .signInWithPopup(provider)
       .then((result) => {
+        
         this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
+          console.log(result.user);
+              this.router.navigate(['dashboard']);
+            
         });
         this.SetUserData(result.user);
       })
       .catch((error) => {
-        window.alert(error);
+        window.alert(error.email);
       });
   }
 
@@ -137,6 +168,8 @@ export class AuthService {
     return userRef.set(userData, {
       merge: true,
     });
+
+    
   }
 
 
