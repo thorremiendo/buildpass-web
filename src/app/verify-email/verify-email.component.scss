@@ -1,1 +1,90 @@
- 
+.card-container {
+    max-width: 600px;
+    height: auto;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    margin-top: 50px;
+  }
+  .mat-toolbar.mat-primary {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  
+  .main-nav {
+    background-color: #400001 !important;
+  
+    img {
+      height: 50px;
+    }
+  
+    a {
+      display: inline-block;
+      font-size: 16px;
+      padding: 0 20px;
+      color: #ffffff;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 10px;
+  
+      &:hover {
+        text-decoration: underline;
+      }
+  
+      &.logo {
+        padding: 0;
+      }
+  
+      &.login {
+        background-color: #ffc200;
+      }
+    }
+  
+    .spacer {
+      flex: 1 1 auto;
+    }
+  }
+  
+  .mobile-nav-container {
+    height: 100%;
+  
+    .mobile-nav {
+      width: 200px;
+  
+      .mat-toolbar {
+        background: inherit;
+      }
+  
+      a {
+        text-transform: uppercase;
+      }
+    }
+  }
+  
+  .hidden {
+    display: none;
+  }
+  .banner {
+    text-align: center;
+    padding: 10px 0;
+    color: #000000;
+    -webkit-box-shadow: 0px 2px 1px #dcdcdc;
+    -moz-box-shadow: 0px 2px 1px #dcdcdc;
+    box-shadow: 0px 2px 1px #dcdcdc;
+  
+    > div > div:first-of-type {
+      font-size: 45px;
+      font-weight: 700;
+      line-height: 1;
+      margin: 10px;
+    }
+  
+    > div > div:last-of-type {
+      font-size: 30px;
+      font-weight: 500;
+      line-height: 1;
+      margin: 10px;
+    }
+  }
+  

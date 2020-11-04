@@ -1,5 +1,28 @@
-
-<div class="row justify-content-center">
+<mat-sidenav-container class="mobile-nav-container">
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="main-nav">
+      <a class="logo" href="#">
+        <img src="../../assets/images/logo-city.png" />
+      </a>
+      <span class="spacer"></span>
+      <div>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">News</a>
+        <a href="#">Contact Us</a>
+        <a class="login" href="user/sign-in">Login</a>
+      </div>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<div class="row banner">
+  <div class="col-12">
+    <div>OCPAS</div>
+    <div>Online Construction Permit Application System</div>
+  </div>
+</div>
+<div class="row justify-content-center mt-3">
   <img
     style="width: 300px; height: 300px"
     src="../../assets/images/verify-email-maroon-vector.png"
@@ -8,10 +31,10 @@
 <div class="row justify-content-center">
   <div class="col-md-12">
     <div class="formGroup" *ngIf="_authService.userData as user">
-      <p class="text-center">
+      <h4 class="mt-3 text-center">
         We have sent a confirmation email to <strong>{{ user.email }}</strong
         >.
-      </p>
+      </h4>
       <p class="text-center">
         Please check your email and click on the link to verfiy your email
         address.
@@ -33,10 +56,7 @@
   </div>
 </div>
 <div class="row justify-content-center">
-  <a
-    style="color: maroon"
-    routerLink="/user/sign-in"
-    routerLinkActive="active"
+  <a style="color: maroon" routerLink="/user/sign-in" routerLinkActive="active"
     >Go back to login</a
   >
 </div>

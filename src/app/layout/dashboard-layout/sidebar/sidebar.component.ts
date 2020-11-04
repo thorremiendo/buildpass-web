@@ -65,6 +65,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.authService.currentUser.subscribe((currentUser) => {
       this.user = currentUser;
+      console.log(this.user)
     });
   }
   ngOnDestroy(): void {
@@ -78,6 +79,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.router.navigateByUrl('');
+    this.authService.SignOut()
   }
 }
