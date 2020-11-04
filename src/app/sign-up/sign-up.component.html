@@ -1,104 +1,165 @@
-<form [formGroup]="_signupForm" (ngSubmit)="tryRegister(_signupForm.value);">
-    <div class='row justify-content-center pt-5'>
-        <div class='col-md-4'>
-            <mat-form-field appearance='outline'>
-                <mat-label>First Name</mat-label>
-                <input type="text" matInput formControlName="fname" required>
-                <mat-error *ngIf="(signupFormControl.fname.touched || _submitted) && signupFormControl.fname.errors?.required">
-                    First name is Required
-                  </mat-error>
-            </mat-form-field>
-        </div>
-        <div class='col-md-4'>
-            <mat-form-field appearance='outline'>
-                <mat-label>Last name</mat-label>
-                <input type="text" matInput formControlName="lname" required>
-                <mat-error *ngIf="(signupFormControl.lname.touched || _submitted) && signupFormControl.lname.errors?.required">
-                    Last name is Required
-                </mat-error>
-            </mat-form-field>
-        </div>
+<form [formGroup]="_signupForm" (ngSubmit)="tryRegister(_signupForm.value)">
+  <div class="row justify-content-center pt-5 mb-5">
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input type="text" matInput formControlName="fname" required />
+        <mat-error
+          *ngIf="
+            (signupFormControl.fname.touched || _submitted) &&
+            signupFormControl.fname.errors?.required
+          "
+        >
+          First name is Required
+        </mat-error>
+      </mat-form-field>
     </div>
-    <div class='row justify-content-center py-1'>
-        <div class='col-md-8'>
-            <mat-form-field appearance="outline">
-                <mat-label>Email address</mat-label>
-                <input matInput placeholder="kaBoom@example.com" formControlName="email" required>
-                <mat-icon matSuffix>email</mat-icon>
-                <mat-error *ngIf="(signupFormControl.email.touched || _submitted) && signupFormControl.email.errors?.required">
-                    Email is Required
-                </mat-error>
-                <mat-error *ngIf="signupFormControl.email.touched && signupFormControl.email.errors?.email">
-                    Enter valid Email 
-                </mat-error>
-                
-
-              </mat-form-field>
-        </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+        <mat-label>Last name</mat-label>
+        <input type="text" matInput formControlName="lname" required />
+        <mat-error
+          *ngIf="
+            (signupFormControl.lname.touched || _submitted) &&
+            signupFormControl.lname.errors?.required
+          "
+        >
+          Last name is Required
+        </mat-error>
+      </mat-form-field>
     </div>
-    <div class='row justify-content-center py-1'>
-        <div class='col-md-8'>
-            <mat-form-field appearance="outline">
-                <mat-label>Enter your password</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
-                <mat-error *ngIf="(signupFormControl.password.touched || _submitted) && signupFormControl.password.errors?.required">
-                    Password is Required
-                </mat-error>
-                <mat-error *ngIf="signupFormControl.password.touched && signupFormControl.password.errors?.invalidPassword">
-                    Password should have minimum 8 characters, at least 1 uppercase letter, 1 lowercase
-                    letter and 1 number
-                </mat-error>
-              </mat-form-field>
-        </div>
+  </div>
+  <div class="row justify-content-center py-1">
+    <div class="col-md-8">
+      <mat-form-field appearance="outline">
+        <mat-label>Email address</mat-label>
+        <input
+          matInput
+          placeholder="kaBoom@example.com"
+          formControlName="email"
+          required
+        />
+        <mat-icon matSuffix>email</mat-icon>
+        <mat-error
+          *ngIf="
+            (signupFormControl.email.touched || _submitted) &&
+            signupFormControl.email.errors?.required
+          "
+        >
+          Email is Required
+        </mat-error>
+        <mat-error
+          *ngIf="
+            signupFormControl.email.touched &&
+            signupFormControl.email.errors?.email
+          "
+        >
+          Enter valid Email
+        </mat-error>
+      </mat-form-field>
     </div>
-    <div class='row justify-content-center py-1'>
-        <div class='col-md-8'>
-            <mat-form-field appearance="outline">
-                <mat-label>Re-type your password</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" formControlName="confirmPassword">
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
-                <mat-error *ngIf="(signupFormControl.confirmPassword.touched || _submitted) && signupFormControl.confirmPassword.errors?.required">
-                    Confirm Password is Required
-                </mat-error>
-                <mat-error *ngIf="signupFormControl.confirmPassword.touched && signupFormControl.confirmPassword.errors?.invalidconfirmPassword">
-                    Password doest not match 
-                </mat-error>
-              </mat-form-field>
-        </div>
+  </div>
+  <div class="row justify-content-center py-1">
+    <div class="col-md-8">
+      <mat-form-field appearance="outline">
+        <mat-label>Enter your password</mat-label>
+        <input
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          formControlName="password"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+        <mat-error
+          *ngIf="
+            (signupFormControl.password.touched || _submitted) &&
+            signupFormControl.password.errors?.required
+          "
+        >
+          Password is Required
+        </mat-error>
+        <mat-error
+          *ngIf="
+            signupFormControl.password.touched &&
+            signupFormControl.password.errors?.invalidPassword
+          "
+        >
+          Password should have minimum 8 characters, at least 1 uppercase
+          letter, 1 lowercase letter and 1 number
+        </mat-error>
+      </mat-form-field>
     </div>
-    <div class='row justify-content-center py-1'>
-        <div class='col-md-4 text-center'>
-          
-                <button 
-                style="background-color: maroon; color:white;"
-                mat-stroked-button
-                type="submit"
-               >
-                Sign up
-                </button>
-      
-        </div>
+  </div>
+  <div class="row justify-content-center py-1">
+    <div class="col-md-8">
+      <mat-form-field appearance="outline">
+        <mat-label>Re-type your password</mat-label>
+        <input
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          formControlName="confirmPassword"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+        <mat-error
+          *ngIf="
+            (signupFormControl.confirmPassword.touched || _submitted) &&
+            signupFormControl.confirmPassword.errors?.required
+          "
+        >
+          Confirm Password is Required
+        </mat-error>
+        <mat-error
+          *ngIf="
+            signupFormControl.confirmPassword.touched &&
+            signupFormControl.confirmPassword.errors?.invalidconfirmPassword
+          "
+        >
+          Password doest not match
+        </mat-error>
+      </mat-form-field>
     </div>
-    <hr>
-    <div class='row row justify-content-md-center pt-3'>
-        <p style="font-size:smaller; color:gray">or sign up with </p>
+  </div>
+  <div class="row justify-content-center py-1">
+    <div class="col-md-4 text-center">
+      <button
+        style="background-color: maroon; color: white"
+        mat-stroked-button
+        type="submit"
+      >
+        Sign up
+      </button>
     </div>
-    <div class='row justify-content-md-center'>
-        <div class='col-md-4 text-center'>
-                <button 
-                mat-stroked-button
-                (click)='tryGoogle()'>
-                    <mat-icon matPrefix style="width: 40px; height:25px; margin-bottom:15px;"
-                              svgIcon="logo">
-                    </mat-icon>Google
-                </button>  
-        </div>
+  </div>
+  <hr />
+  <div class="row row justify-content-md-center pt-3">
+    <p style="font-size: smaller; color: gray">or sign up with</p>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col-md-4 text-center mb-5">
+      <button mat-stroked-button (click)="tryGoogle()">
+        <mat-icon
+          matPrefix
+          style="width: 40px; height: 25px; margin-bottom: 15px"
+          svgIcon="logo"
+        >
+        </mat-icon
+        >Google
+      </button>
     </div>
-    
-
+  </div>
 </form>

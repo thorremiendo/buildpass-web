@@ -34,6 +34,7 @@ import { AffidavitFilesComponent } from './new-application/affidavit-files/affid
 import { OtherRequirementsComponent } from './new-application/other-requirements/other-requirements.component';
 import { ChecklistSummaryComponent } from './new-application/checklist-summary/checklist-summary.component';
 import {MatCardModule} from '@angular/material/card';
+import { SuccessPageComponent } from './new-application/success-page/success-page.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import {MatCardModule} from '@angular/material/card';
     ClearanceFormsComponent,
     AffidavitFilesComponent,
     OtherRequirementsComponent,
-    ChecklistSummaryComponent
+    ChecklistSummaryComponent,
+    SuccessPageComponent
   ],
   imports: [
     CommonModule,

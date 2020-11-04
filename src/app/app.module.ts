@@ -46,6 +46,8 @@ import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { LandingPageModule } from './landing-page/landing-page.module';
+import { MainNavComponent } from './landing-page/main-nav/main-nav.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 
 
@@ -68,7 +70,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     TestComponentComponent,
     ForgotPasswordComponent,
     VerifyEmailComponent,
-
   ],
   imports: [
     NgbModule,
@@ -91,7 +92,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatTabsModule,
     MatToolbarModule,
     MatCardModule,
-    
+    MatSidenavModule,
 
     BrowserAnimationsModule,
     ReactiveFormsModule,

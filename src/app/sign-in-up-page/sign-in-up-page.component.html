@@ -1,16 +1,34 @@
-<mat-card class='card-container mt-5'>
-    
-    <nav mat-tab-nav-bar mat-stretch-tabs>
-        <a mat-tab-link 
-            *ngFor="let link of navLinks" 
-            [routerLink]="link.link" 
-            routerLinkActive #rla="routerLinkActive"
-            [active]="rla.isActive">
-            {{link.label}}
-
-            
-    
+<mat-sidenav-container class="mobile-nav-container">
+    <mat-sidenav-content>
+      <mat-toolbar color="primary" class="main-nav">
+        <a class="logo" href="#">
+          <img src="../../assets/images/logo-city.png" />
         </a>
-    </nav>
-    <router-outlet></router-outlet>
+        <span class="spacer"></span>
+        <div
+      >
+          <a href="#">About</a>
+          <a href="#">Services</a>
+          <a href="#">News</a>
+          <a href="#">Contact Us</a>
+          <a class="login" href="user/sign-in">Login</a>
+        </div>
+      </mat-toolbar>
+      <!-- Add Content Here -->
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+<mat-card class="card-container mt-5">
+  <nav mat-tab-nav-bar mat-stretch-tabs>
+    <a
+      mat-tab-link
+      *ngFor="let link of navLinks"
+      [routerLink]="link.link"
+      routerLinkActive
+      #rla="routerLinkActive"
+      [active]="rla.isActive"
+    >
+      {{ link.label }}
+    </a>
+  </nav>
+  <router-outlet></router-outlet>
 </mat-card>
