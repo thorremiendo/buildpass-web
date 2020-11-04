@@ -2,16 +2,20 @@
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins/breakpoints";
 
-
-.content {
-  position: relative;
-  z-index: 2;
-  background-color: #fefefe;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-  border-radius: 5px;
-;
-}
-.illustration{
+.illustration {
   width: 200px;
   height: auto;
+}
+.container {
+  .content {
+    position: relative;
+    z-index: 2;
+    background-color: #fefefe;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    border-radius: 5px;
+    h5 {
+      color:maroon;
+      font-weight: 600;
+    }
+  }
 }
