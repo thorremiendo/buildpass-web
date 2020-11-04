@@ -24,6 +24,7 @@ export class PersonalInfoComponent implements OnInit {
     private _fb: FormBuilder,
     private _router: Router,
     private _registerAccountFormService: RegisterAccountFormService,
+
   ) {
     this.createForm();
    }
@@ -83,10 +84,12 @@ export class PersonalInfoComponent implements OnInit {
       console.log(this.userDetails);
 
     
-  }
+    }
+  
    
   }
 
+  
   ngOnInit(): void {
     this._registerAccountFormService.cast.subscribe(registerAccountSubject => this.userDetails = registerAccountSubject)
     this.createForm();

@@ -1,8 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { RegisterAccountFormService} from '../../core/services/register-account-form.service';
 import { Router } from '@angular/router';
 import { AuthService} from '../../core/services/auth.service'
+
+import { MatDialog } from '@angular/material/dialog';
+
+import { DataPrivacyComponent } from '../data-privacy/data-privacy.component'
+
+
+@Injectable({
+  providedIn: 'root',
+})
+
 @Component({
   selector: 'app-address',
   templateUrl: './address.component.html',
@@ -27,6 +37,7 @@ export class AddressComponent implements OnInit {
     private _router: Router,
     private _authService: AuthService,
     private _registerAccountFormService: RegisterAccountFormService,
+    private _dialog: MatDialog,
 
     
   ) {
@@ -45,15 +56,7 @@ export class AddressComponent implements OnInit {
   createUserDetails(){
 
     this.userDetails ={
-      // "first_name": this.userDetails.value.first_name,
-      // "middle_name":this.userDetails.value.middle_name,
-      // "last_name":  this.userDetails.value.last_name,
-      // "suffix_name":this.userDetails.value.suffix_name,
-      // "birthdate": this.userDetails.value.birthdate,
-      // "gender": this.userDetails.value.gender,
-      // "nationality": this.userDetails.value.nationality,
-      // "marital_status": this.userDetails.value.marital_status,
-
+     
       "home_address": this._addressForm.value.home_address,
       "banangay":this._addressForm.value.home_address,
       "comntact_number":  this._addressForm.value.home_address,
@@ -64,15 +67,28 @@ export class AddressComponent implements OnInit {
   }
 
   onSubmit(){
-    this._submitted = true;
-    if(this._addressForm.valid){
+
       this.createUserDetails();
       this._registerAccountFormService.setRegisterAccountInfo(this.userDetails);
       this._authService.SendVerificationMail();
-      //this._router.navigateByUrl("/test");
       console.log(this._addressForm.value);
-    }
+    
   }
+
+  openDialog() {
+    this._submitted = true;
+    if(this._addressForm.valid){
+      const dialogRef = this._dialog.open(DataPrivacyComponent);
+      dialogRef.afterClosed().subscribe(result => {
+        this.onSubmit();
+
+      });
+      
+    }
+    
+  
+  }
+
 
   ngOnInit(): void {
     this._registerAccountFormService.cast.subscribe(registerAccountSubject => this.userDetails = registerAccountSubject);
