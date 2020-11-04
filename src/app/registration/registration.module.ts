@@ -17,6 +17,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+ 
 
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
@@ -28,6 +30,7 @@ import { AuthService } from "../core/services/auth.service";
 
 
 import { AddressComponent } from './address/address.component';
+import { DataPrivacyComponent } from './data-privacy/data-privacy.component';
 
 
 
@@ -37,7 +40,7 @@ import { AddressComponent } from './address/address.component';
 @NgModule({
   declarations: [
     PersonalInfoComponent, 
-    RegistrationPageComponent, AddressComponent,],
+    RegistrationPageComponent, AddressComponent, DataPrivacyComponent,],
     
     
 
@@ -56,6 +59,7 @@ import { AddressComponent } from './address/address.component';
     MatIconModule,
     MatTabsModule,
     MatCardModule,
+    MatDialogModule,
 
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
