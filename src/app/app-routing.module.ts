@@ -5,7 +5,6 @@ import { RegistrationPageComponent } from './registration/registration-page/regi
 import { SignInUpPageComponent } from './sign-in-up-page/sign-in-up-page.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
-import { TestComponentComponent } from './test-component/test-component.component';
 
 import { AuthGuard } from './core/guard/auth.guard';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
@@ -13,11 +12,7 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { LandingPageComponent } from './landing-page/landing-page/landing-page.component';
 
 const routes: Routes = [
-  // {
-  //   path: 'test',
-  //   component:TestComponentComponent,
-  //   canActivate: [AuthGuard]
-  // },
+
   {
     path: '',
     component: LandingPageComponent,

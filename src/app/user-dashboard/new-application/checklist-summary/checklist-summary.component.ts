@@ -23,4 +23,8 @@ export class ChecklistSummaryComponent implements OnInit {
           (this.applicationInfo = newApplicationSubject)
       );
   }
+
+  submit(){
+    this.router.navigateByUrl('dashboard/new/success')
+  }
 }

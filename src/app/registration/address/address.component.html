@@ -1,54 +1,78 @@
 <mat-card class="mat-card py-5 px-3">
-    <mat-card-title>
-        Address Info
-    </mat-card-title>
+  <div class="p-5">
+    <h2>Address Info</h2>
     <div class="horizontal-line"></div>
-    <form [formGroup]="_addressForm" (ngSubmit)= "onSubmit();">
-        <div class='row justify-content-center py-3'>
-            <div class='col-md-6'>
-                <mat-form-field appearance='outline'>
-                    <mat-label>House No., Bldg, Street</mat-label>
-                    <input type="text" matInput formControlName="home_address" required>
-                    <mat-error *ngIf="(addressFormControl.home_address.touched || _submitted) && addressFormControl.home_address.errors?.required">
-                        Home Address is required
-                    </mat-error>
-                </mat-form-field>
-            </div>
-        </div>
-        <div class='row justify-content-center py-3'>
-            <div class='col-md-6'>
-                <mat-form-field appearance='outline'>
-                    <mat-label>Barangay</mat-label>
-                   <input type="text" matInput formControlName="barangay" required>
-                    <mat-error *ngIf="(addressFormControl.barangay.touched || _submitted) && addressFormControl.barangay.errors?.required">
-                        Barangay is required
-                    </mat-error>
-                </mat-form-field>
-            </div>
-        </div>
-        <div class='row justify-content-center py-3'>
-            <div class='col-md-6'>
-                <mat-form-field appearance='outline'>
-                    <mat-label>Contact Number</mat-label>
-                    <input type="tel" matInput formControlName="contact_number"  [maxLength]="maxLength"  placeholder="Ex. 09123456789" #contact required>
-                    <mat-error *ngIf="(addressFormControl.contact_number.touched || _submitted) && addressFormControl.contact_number.errors?.required">
-                        Contact Number is required
-                    </mat-error>
-                    <mat-hint align="end">{{contact.value.length}} / {{maxLength}}</mat-hint>
-                </mat-form-field>
-            </div>
-        </div>
-        <div class='row justify-content-center py-3'>
-            <div class='col-md-3 col-3 text-right'>
-                <button 
-                style="background-color: maroon; color:white;"
-                mat-stroked-button
-                type="submit"
-               >
-                Proceed
-                </button>
-            </div>
-        </div>
-
-    </form>
+  </div>
+  <form [formGroup]="_addressForm" (ngSubmit)="onSubmit()">
+    <div class="row justify-content-center py-3">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>House No., Bldg, Street</mat-label>
+          <input type="text" matInput formControlName="home_address" required />
+          <mat-error
+            *ngIf="
+              (addressFormControl.home_address.touched || _submitted) &&
+              addressFormControl.home_address.errors?.required
+            "
+          >
+            Home Address is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row justify-content-center py-3">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Barangay</mat-label>
+          <input type="text" matInput formControlName="barangay" required />
+          <mat-error
+            *ngIf="
+              (addressFormControl.barangay.touched || _submitted) &&
+              addressFormControl.barangay.errors?.required
+            "
+          >
+            Barangay is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row justify-content-center py-3">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Contact Number</mat-label>
+          <input
+            type="tel"
+            matInput
+            formControlName="contact_number"
+            [maxLength]="maxLength"
+            placeholder="Ex. 09123456789"
+            #contact
+            required
+          />
+          <mat-error
+            *ngIf="
+              (addressFormControl.contact_number.touched || _submitted) &&
+              addressFormControl.contact_number.errors?.required
+            "
+          >
+            Contact Number is required
+          </mat-error>
+          <mat-hint align="end"
+            >{{ contact.value.length }} / {{ maxLength }}</mat-hint
+          >
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row justify-content-center py-3">
+      <div class="col-md-3 col-3 text-right mb-3">
+        <button
+          style="background-color: maroon; color: white"
+          mat-stroked-button
+          type="submit"
+        >
+          Proceed
+        </button>
+      </div>
+    </div>
+  </form>
 </mat-card>
