@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { NewApplicationFormService } from './services/new-application-form-service';
+import { UserGuardService } from './guard/user-guard.service';
 
 
 
@@ -13,7 +14,8 @@ import { NewApplicationFormService } from './services/new-application-form-servi
   ],
   providers: [
     // Services
-   NewApplicationFormService
+   NewApplicationFormService,
+   UserGuardService
   ],
  
 })

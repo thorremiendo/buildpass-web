@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { UserGuardService } from 'src/app/core/guard/user-guard.service';
 import { ExistingApplicationsComponent } from '../existing-applications/existing-applications.component';
 import { AffidavitFilesComponent } from '../new-application/affidavit-files/affidavit-files.component';
 import { BuildingPermitFormsComponent } from '../new-application/building-permit-forms/building-permit-forms.component';
@@ -21,6 +22,7 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [UserGuardService],
     children: [
       {
         path: '',
