@@ -17,6 +17,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
@@ -28,6 +29,8 @@ import { AuthService } from "../core/services/auth.service";
 
 
 import { AddressComponent } from './address/address.component';
+import { LandingPageModule } from '../landing-page/landing-page.module';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 
 
@@ -44,7 +47,7 @@ import { AddressComponent } from './address/address.component';
   imports: [
     CommonModule,
     RegistrationRoutingModule,
-
+    MatSidenavModule,
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
@@ -56,13 +59,13 @@ import { AddressComponent } from './address/address.component';
     MatIconModule,
     MatTabsModule,
     MatCardModule,
-
+    LandingPageModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
     ReactiveFormsModule,
     FormsModule,
-    
+    MatToolbarModule,
 
     BrowserAnimationsModule,
   
