@@ -12,6 +12,7 @@ import { NewApplicationRouterComponent } from '../new-application/new-applicatio
 import { OtherRequirementsComponent } from '../new-application/other-requirements/other-requirements.component';
 import { ProfessionalDetailsComponent } from '../new-application/professional-details/professional-details.component';
 import { StepOneComponent } from '../new-application/step-one/step-one.component';
+import { SuccessPageComponent } from '../new-application/success-page/success-page.component';
 import { UserFormsComponent } from '../user-forms/user-forms.component';
 import { UserHomeComponent } from '../user-home/user-home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -161,6 +162,20 @@ const routes: Routes = [
                       url: '/dashboard/new/step-one',
                     },
                     { title: 'Checklist' },
+                  ],
+                },
+              },
+              {
+                path: 'success',
+                component: SuccessPageComponent,
+                data: {
+                  title: 'Application Submitted',
+                  urls: [
+                    {
+                      title: 'New Application',
+                      url: '/dashboard/new/step-one',
+                    },
+                    { title: 'Application Submitted' },
                   ],
                 },
               },

@@ -12,11 +12,12 @@ import { ClearanceFormsComponent } from './clearance-forms/clearance-forms.compo
 import { AffidavitFilesComponent } from './affidavit-files/affidavit-files.component';
 import { OtherRequirementsComponent } from './other-requirements/other-requirements.component';
 import { ChecklistSummaryComponent } from './checklist-summary/checklist-summary.component';
+import { SuccessPageComponent } from './success-page/success-page.component';
 
 
 
 @NgModule({
-  declarations: [StepOneComponent, InitialFormsComponent, NewApplicationPageComponent, NewApplicationRouterComponent, BuildingPermitFormsComponent, DesignAnalysisFormsComponent, ProfessionalDetailsComponent, ClearanceFormsComponent, AffidavitFilesComponent, OtherRequirementsComponent, ChecklistSummaryComponent],
+  declarations: [StepOneComponent, InitialFormsComponent, NewApplicationPageComponent, NewApplicationRouterComponent, BuildingPermitFormsComponent, DesignAnalysisFormsComponent, ProfessionalDetailsComponent, ClearanceFormsComponent, AffidavitFilesComponent, OtherRequirementsComponent, ChecklistSummaryComponent, SuccessPageComponent],
   imports: [
     CommonModule,
     RouterModule
