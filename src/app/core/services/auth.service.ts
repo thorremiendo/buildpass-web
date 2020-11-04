@@ -101,16 +101,15 @@ export class AuthService {
 
   // Sign in with Google
   GoogleAuth() {
-    return this.AuthLogin(new auth.GoogleAuthProvider());
+    return this.AuthLogin(new auth.GoogleAuthProvider())
   }
-
   // Auth logic to run auth providers
   AuthLogin(provider) {
     return this.afAuth.auth
       .signInWithPopup(provider)
       .then((result) => {
         this.ngZone.run(() => {
-          this.router.navigate(['test']);
+          this.router.navigate(['dashboard']);
         });
         this.SetUserData(result.user);
       })
@@ -118,6 +117,8 @@ export class AuthService {
         window.alert(error);
       });
   }
+
+  
 
   /* Setting up user data when sign in with username/password,
   sign up with username/password and sign in with social auth
@@ -137,6 +138,7 @@ export class AuthService {
       merge: true,
     });
   }
+
 
   // Sign out
   SignOut() {

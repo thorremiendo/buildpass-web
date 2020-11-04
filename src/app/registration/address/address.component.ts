@@ -58,8 +58,8 @@ export class AddressComponent implements OnInit {
     this.userDetails ={
      
       "home_address": this._addressForm.value.home_address,
-      "banangay":this._addressForm.value.home_address,
-      "comntact_number":  this._addressForm.value.home_address,
+      "banangay":this._addressForm.value.barangay,
+      "comntact_number":  this._addressForm.value.contact_number,
      
 
     }

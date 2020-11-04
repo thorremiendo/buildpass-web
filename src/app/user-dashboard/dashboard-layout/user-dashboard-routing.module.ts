@@ -16,11 +16,13 @@ import { SuccessPageComponent } from '../new-application/success-page/success-pa
 import { UserFormsComponent } from '../user-forms/user-forms.component';
 import { UserHomeComponent } from '../user-home/user-home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AuthGuard } from '../../core/guard/auth.guard';
 
 const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
