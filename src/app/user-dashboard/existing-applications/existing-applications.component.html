@@ -1,12 +1,50 @@
-<div class="container-success">
-    <div class="construction-img d-flex justify-content-center w-100">
-      <img id="check" src="../../../assets/images/underconstruction.png" alt="https://stories.freepik.com/web" />
+<h1 class='mt-4 ml-3'>My Applications</h1>
+<mat-card class='scheduled-travels'>
+  <mat-card-content>
+    <div class='scheduled-travels__filter'>
+      <div class="scheduled-travels__search">
+        <mat-form-field appearance='outline'>
+          <mat-label>Application Number</mat-label>
+          <input matInput/>
+        </mat-form-field>
+      </div>
     </div>
-    <div class="text-center w-100 mb-5">
-      <h4>This section is still under construction. Please check back soon!</h4>
-    </div>
-    <div class="d-flex justify-content-center w-100">
-      <button mat-raised-button color="accent" routerLink="../">Back to Home</button>
-      
-    </div>
-  </div>
+    <table mat-table [dataSource]='applicationInfoData' class='scheduled-travels__table'>
+      <ng-container matColumnDef='applicationNumber'>
+        <th mat-header-cell *matHeaderCellDef>Application Number</th>
+        <td mat-cell> 
+          123123
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef='applicationDate'>
+        <th mat-header-cell *matHeaderCellDef>Application Date</th>
+        <td mat-cell> 
+          2020-11-11
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef='applicationType'>
+        <th mat-header-cell *matHeaderCellDef>Application Type</th>
+        <td mat-cell> Building Permit</td>
+      </ng-container>
+
+      <ng-container matColumnDef='applicationStatus'>
+        <th mat-header-cell *matHeaderCellDef>Application Status</th>
+        <td mat-cell> 
+          ??
+        </td>
+      </ng-container>
+      <ng-container matColumnDef='action'>
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell> 
+            <button mat-button color="primary">View</button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+    </table>
+
+  </mat-card-content>
+</mat-card>

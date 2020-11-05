@@ -35,6 +35,9 @@ import { OtherRequirementsComponent } from './new-application/other-requirements
 import { ChecklistSummaryComponent } from './new-application/checklist-summary/checklist-summary.component';
 import {MatCardModule} from '@angular/material/card';
 import { SuccessPageComponent } from './new-application/success-page/success-page.component';
+import { MatTableModule } from '@angular/material/table'  
+import {MatInputModule} from '@angular/material/input';
+
 
 @NgModule({
   declarations: [
@@ -76,7 +79,9 @@ import { SuccessPageComponent } from './new-application/success-page/success-pag
     NgxDropzoneModule,
     CoreModule,
     MatIconModule,
-    MatCardModule
+    MatCardModule,
+    MatTableModule,
+    MatInputModule
   ],
 })
 export class UserModule {}
