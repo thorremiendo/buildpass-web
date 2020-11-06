@@ -23,7 +23,7 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [UserGuardService],
     children: [
       {
         path: '',

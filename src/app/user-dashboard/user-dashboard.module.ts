@@ -81,7 +81,7 @@ import {MatInputModule} from '@angular/material/input';
     MatIconModule,
     MatCardModule,
     MatTableModule,
-    MatInputModule
+    MatInputModule,
   ],
 })
 export class UserModule {}

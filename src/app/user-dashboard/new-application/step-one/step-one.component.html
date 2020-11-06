@@ -23,7 +23,17 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div *ngIf="isRepresentative" class="mt-4">
+        <div *ngIf="permitStepOneForm.value.is_representative == 'Yes'" class="mt-4">
+          <h4>Is the representee the lot owner?</h4>
+          <mat-form-field appearance="outline">
+            <mat-label>Choose</mat-label>
+            <mat-select [(value)]="isLotOwner" formControlName="is_lot_owner">
+              <mat-option value="Yes">Yes</mat-option>
+              <mat-option value="No">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf="permitStepOneForm.value.is_representative == 'No'" class="mt-4">
           <h4>Are you the lot owner?</h4>
           <mat-form-field appearance="outline">
             <mat-label>Choose</mat-label>

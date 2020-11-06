@@ -87,6 +87,6 @@ export class ProfessionalDetailsComponent implements OnInit {
       body["sanitary_engineer_details"] = this.sanitaryEngineerDetails
     }
     this.newApplicationService.setApplicationInfo(body)
-    this.router.navigateByUrl('/dashboard/new/clearances');
+    this.router.navigateByUrl('/dashboard/new/affidavits');
   }
 }
