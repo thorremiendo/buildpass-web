@@ -22,7 +22,7 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [UserGuardService],
+    // canActivate: [UserGuardService],
     children: [
       {
         path: '',

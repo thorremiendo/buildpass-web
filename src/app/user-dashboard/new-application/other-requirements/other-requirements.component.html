@@ -9,7 +9,6 @@
         </p>
         <hr />
         <p class="pt-5">Please upload the necessary files.</p>
-
       </div>
       <div>
         <img
@@ -19,7 +18,39 @@
       </div>
     </div>
     <div class="content px-5 w-100">
-      <h4 class="my-4">Other Requirements</h4>
+      <div class="d-flex align-items-center mt-3">
+        <mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
+          >attachment</mat-icon
+        >
+        <h3 class="mt-2">Other Requirements</h3>
+      </div>
+      <hr>
+      <div class="mb-4">
+        <div class="d-flex justify-content-between">
+          <h5>Barangay Clearance</h5>
+          <mat-icon *ngIf="barangayClearance" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'barangayClearance')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="barangayClearance"
+            [removable]="true"
+            (removed)="onRemove('barangayClearance')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ barangayClearance.name }} ({{
+                barangayClearance.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
       <div class="mb-4">
         <div class="d-flex justify-content-between">
           <h5>

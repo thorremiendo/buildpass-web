@@ -12,6 +12,7 @@ export class OtherRequirementsComponent implements OnInit {
   public environmentalCompliance: File;
   public governmentClearance: File;
   public chspCertificate: File;
+  public barangayClearance: File;
 
   public applicationInfo;
   constructor(
@@ -31,6 +32,9 @@ export class OtherRequirementsComponent implements OnInit {
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
     switch (type) {
+      case 'barangayClearance':
+        this.barangayClearance = file;
+        break;
       case 'environmentalCompliance':
         this.environmentalCompliance = file;
         break;
@@ -44,6 +48,9 @@ export class OtherRequirementsComponent implements OnInit {
   }
   onRemove(type) {
     switch (type) {
+      case 'barangayClearance':
+        this.barangayClearance = null;
+        break;
       case 'environmentalCompliance':
         this.environmentalCompliance = null;
         break;
@@ -79,12 +86,8 @@ export class OtherRequirementsComponent implements OnInit {
       civil_engineer_details: value.civil_engineer_details,
       architect_details: value.architect_details,
       sanitary_engineer_details: value.sanitary_engineer_details,
-      zoning_compliance_certificate: value.zoning_compliance_certificate,
-      fire_safety_evaluation: value.fire_safety_evaluation,
-      wwms_certificate: value.wwms_certificate,
-      barangay_clearance: value.barangay_clearance,
       geodetic_engineer_affidavit: value.geodetic_engineer_affidavit,
-      civil_engineer_affidavit: value.civil_engineer_affidavit
+      civil_engineer_affidavit: value.civil_engineer_affidavit,
     };
     if (this.environmentalCompliance) {
       body['environmental_compliance'] = this.environmentalCompliance;
@@ -94,6 +97,9 @@ export class OtherRequirementsComponent implements OnInit {
     }
     if (this.chspCertificate) {
       body['chsp_certificate'] = this.chspCertificate;
+    }
+    if (this.barangayClearance) {
+      body['barangay_clearance'] = this.barangayClearance;
     }
     this.newApplicationService.setApplicationInfo(body);
     this.router.navigateByUrl('/dashboard/new/summary');

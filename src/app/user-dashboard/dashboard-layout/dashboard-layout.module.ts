@@ -19,6 +19,7 @@ import { InitialFormsComponent } from '../new-application/initial-forms/initial-
 import { NewApplicationPageComponent } from '../new-application/new-application-page/new-application-page.component';
 import { NewApplicationRouterComponent } from '../new-application/new-application-router/new-application-router.component';
 import { CoreModule } from 'src/app/core/core.module';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -39,7 +40,8 @@ import { CoreModule } from 'src/app/core/core.module';
     MatExpansionModule,
     MatStepperModule,
     MatFormFieldModule,
-    CoreModule
+    CoreModule,
+    MatIconModule
     
   ]
 })
