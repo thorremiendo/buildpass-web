@@ -14,34 +14,28 @@
           </mat-form-field>
         </div>
         <div *ngIf="selectedPermitType" class="mt-4">
-          <h4>Are you a representative?</h4>
+          <h4>Applicant Type:</h4>
           <mat-form-field appearance="outline">
             <mat-label>Choose</mat-label>
             <mat-select [(value)]="isRepresentative" formControlName="is_representative">
-              <mat-option value="Yes">Yes</mat-option>
-              <mat-option value="No">No</mat-option>
+              <mat-option value="No">Owner</mat-option>
+              <mat-option value="Yes">Representative</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
-        <div *ngIf="permitStepOneForm.value.is_representative == 'Yes'" class="mt-4">
-          <h4>Is the representee the lot owner?</h4>
+        <div *ngIf="isRepresentative" class="mt-4">
+          <h4>Lot Ownership Type:</h4>
           <mat-form-field appearance="outline">
             <mat-label>Choose</mat-label>
             <mat-select [(value)]="isLotOwner" formControlName="is_lot_owner">
-              <mat-option value="Yes">Yes</mat-option>
-              <mat-option value="No">No</mat-option>
+              <mat-option value="Yes">Property Owner</mat-option>
+              <mat-option value="No">Lessor</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
-        <div *ngIf="permitStepOneForm.value.is_representative == 'No'" class="mt-4">
-          <h4>Are you the lot owner?</h4>
-          <mat-form-field appearance="outline">
-            <mat-label>Choose</mat-label>
-            <mat-select [(value)]="isLotOwner" formControlName="is_lot_owner">
-              <mat-option value="Yes">Yes</mat-option>
-              <mat-option value="No">No</mat-option>
-            </mat-select>
-          </mat-form-field>
+        <div *ngIf="isLotOwner" class="map-container mt-4">
+          <h4>Site Location:</h4>
+          <app-map></app-map>
         </div>
         <div class="mt-3 text-right" *ngIf="isLotOwner">
           <button mat-raised-button color="primary" (click)="callNext()">Next</button>

@@ -55,7 +55,32 @@ export interface BadgeItem {
       type: 'link',                    
       icon: 'folder',
     },
-
+  ]
+  const EVALUATORMENUITEMS = [
+    {
+      state: 'evaluator/home/table',
+      name: 'Dashboard',  
+      type: 'link',                    
+      icon: 'home',
+    },
+    {
+      state: 'evaluator/new-tasks',
+      name: 'New Tasks',  
+      type: 'link',                    
+      icon: 'note_add',
+    },
+    {
+      state: 'evaluator/opened-tasks',
+      name: 'Opened Tasks',  
+      type: 'link',                    
+      icon: 'pageview',
+    },
+    {
+      state: 'evaluator/closed-tasks',
+      name: 'Closed Tasks',  
+      type: 'link',                    
+      icon: 'folder',
+    },
   ]
 
   
@@ -68,6 +93,9 @@ export class MenuItems {
       case 'user':
         menu = USERMENUITEMS;
         break;
+        case 'evaluator':
+          menu = EVALUATORMENUITEMS;
+          break;
     }
 
     return menu;

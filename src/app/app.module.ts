@@ -48,6 +48,8 @@ import { environment } from '../environments/environment';
 import { LandingPageModule } from './landing-page/landing-page.module';
 import { MainNavComponent } from './landing-page/main-nav/main-nav.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { EvaluatorModule } from './evaluator-dashboard/evaluator-dashboard.module';
+
 
 
 
@@ -70,6 +72,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     TestComponentComponent,
     ForgotPasswordComponent,
     VerifyEmailComponent,
+
   ],
   imports: [
     NgbModule,
@@ -101,6 +104,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AngularFireAuthModule,
     AngularFirestoreModule,
    
+    EvaluatorModule,
     LayoutModule,
     UserModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: momentAdapterFactory }),
