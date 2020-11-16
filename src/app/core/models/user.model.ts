@@ -16,7 +16,7 @@ export interface User {
     suffix_name:string;
     birthdate:string;
     gender:string;
-    civil_status:string;
+    marital_status:number;
     nationality:string;
     contact_number:string;
 
