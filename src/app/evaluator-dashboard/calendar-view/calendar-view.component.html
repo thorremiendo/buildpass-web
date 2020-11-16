@@ -1,0 +1,49 @@
+
+    <mat-toolbar color="primary" class="no-shadow">
+      <mat-toolbar-row class="d-flex justify-content-between">
+        <div>
+          <span fxFlex fxShow="false" fxShow.gt-xs>{{
+            viewDate | calendarDate: view + "ViewTitle":"en"
+          }}</span>
+
+          <span fxFlex fxHide="false" fxHide.gt-xs></span>
+        </div>
+
+        <div>
+          <button
+            mat-icon-button
+            mwlCalendarPreviousView
+            [view]="view"
+            [(viewDate)]="viewDate"
+          >
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+          <button mat-icon-button mwlCalendarToday [(viewDate)]="viewDate">
+            <mat-icon>today</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            mwlCalendarNextView
+            [view]="view"
+            [(viewDate)]="viewDate"
+          >
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div [ngSwitch]="view">
+      <mwl-calendar-month-view
+        *ngSwitchCase="'month'"
+        [viewDate]="viewDate"
+        [events]="events"
+        [refresh]="refresh"
+        [activeDayIsOpen]="activeDayIsOpen"
+        (dayClicked)="dayClicked($event.day)"
+        (eventClicked)="handleEvent($event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)"
+      >
+      </mwl-calendar-month-view>
+    </div>
+
+<mat-card> </mat-card>

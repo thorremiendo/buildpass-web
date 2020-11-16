@@ -9,6 +9,7 @@ import { NewApplicationFormService } from 'src/app/core/services/new-application
   styleUrls: ['./initial-forms.component.scss'],
 })
 export class InitialFormsComponent implements OnInit {
+
   public filingFeeReceipt: File;
   public zoningClearanceForm: File;
   public specialPowerOfAttorney: File;

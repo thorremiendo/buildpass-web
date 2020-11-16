@@ -12,6 +12,9 @@ export const environment = {
     storageBucket: "baguio-ocpas.appspot.com",
     messagingSenderId: "555420675385"
   },
+  mapbox: {
+    accessToken: 'pk.eyJ1IjoidGhvcnJlbWllbmRvIiwiYSI6ImNraGs1MnF4MDFsZG4yeW53M3U3ZjJ4ZTMifQ.a5GU9EWk45shfNxhK07G-w'
+  }
 };
 
 /*

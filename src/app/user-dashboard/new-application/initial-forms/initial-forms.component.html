@@ -59,9 +59,41 @@
             >check_circle</mat-icon
           >
         </div>
+        <mat-expansion-panel hideToggle *ngIf="!zoningClearanceForm" class="mb-4">
+          <mat-expansion-panel-header>
+            <mat-panel-title> Fill out and Download Form</mat-panel-title>
+          </mat-expansion-panel-header>
+          <ngx-extended-pdf-viewer
+            [src]="
+              'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf'
+            "
+            [showToolbar]="true"
+            [showSidebarButton]="false"
+            [showFindButton]="false"
+            [showPagingButtons]="false"
+            [showZoomButtons]="false"
+            [showPresentationModeButton]="false"
+            [showOpenFileButton]="false"
+            [showPrintButton]="false"
+            [showDownloadButton]="true"
+            [showBookmarkButton]="false"
+            [showSecondaryToolbarButton]="true"
+            [showRotateButton]="false"
+            [showHandToolButton]="false"
+            [showScrollingButton]="false"
+            [showSpreadButton]="false"
+            [showPropertiesButton]="false"
+            [useBrowserLocale]="true"
+            height="500px"
+            zoom="80%"
+          >
+          </ngx-extended-pdf-viewer>
+        </mat-expansion-panel>
+
         <ngx-dropzone
           (change)="onSelect($event, 'zoningClearanceForm')"
           [multiple]="false"
+          *ngIf="!zoningClearanceForm"
         >
           <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
           <ngx-dropzone-preview
