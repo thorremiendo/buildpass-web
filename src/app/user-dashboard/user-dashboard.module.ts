@@ -37,12 +37,17 @@ import {MatCardModule} from '@angular/material/card';
 import { SuccessPageComponent } from './new-application/success-page/success-page.component';
 import { MatTableModule } from '@angular/material/table'  
 import {MatInputModule} from '@angular/material/input';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { MapComponent } from '../map/map.component';
+
 
 
 @NgModule({
   declarations: [
     // UserHomeComponent,
     // DashboardComponent
+    MapComponent,
     NewApplicationComponent,
     ExistingApplicationsComponent,
     UserFormsComponent,
@@ -82,6 +87,8 @@ import {MatInputModule} from '@angular/material/input';
     MatCardModule,
     MatTableModule,
     MatInputModule,
+    NgxExtendedPdfViewerModule,
+    MatExpansionModule
   ],
 })
 export class UserModule {}

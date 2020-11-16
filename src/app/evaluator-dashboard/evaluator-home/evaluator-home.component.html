@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="d-flex w-100">
+        <mat-card>
+          <mat-card-title class="m-3">Applications</mat-card-title>
+          <hr class="m-0" />
+          <p class="ml-3 mt-3">as of {{date}}</p>
+          <div class="piechart justify-content-center">
+            <ngx-charts-advanced-pie-chart
+              [view]="view"
+              [scheme]="colorScheme"
+              [results]="single"
+              [gradient]="gradient"
+              (select)="onSelect($event)"
+              (activate)="onActivate($event)"
+              (deactivate)="onDeactivate($event)"
+            >
+            </ngx-charts-advanced-pie-chart>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="d-flex w-100">
+        <mat-card>
+          <mat-card-title class="m-3">Notifications</mat-card-title>
+          <hr class="m-0" />
+          <mat-card-content>
+            <div class="d-flex justify-content-center w-100 m-0">
+              <img
+                src="../../../assets/illustrations/notification-mail.png"
+                class="_illustration"
+              />
+            </div>
+            <p>You don't have any notifications..</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <mat-card class="card-container mt-5">
+        <nav mat-tab-nav-bar mat-stretch-tabs>
+          <a
+            mat-tab-link
+            *ngFor="let link of navLinks"
+            [routerLink]="link.link"
+            routerLinkActive
+            #rla="routerLinkActive"
+            [active]="rla.isActive"
+          >
+            {{ link.label }}
+          </a>
+        </nav>
+        <router-outlet></router-outlet>
+      </mat-card>
+    </div>
+  </div>
+</div>
