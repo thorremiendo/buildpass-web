@@ -9,21 +9,18 @@ import { NewApplicationFormService } from 'src/app/core/services/new-application
   styleUrls: ['./initial-forms.component.scss'],
 })
 export class InitialFormsComponent implements OnInit {
-
-  public filingFeeReceipt: File;
   public zoningClearanceForm: File;
-  public specialPowerOfAttorney: File;
-  public trueCopyOfTitle: File;
-  public contractOfLease: File;
-  public taxDeclaration: File;
-  public realPropertyTaxReceipt: File;
-  public latestPictureOfSite: File;
+  public buildingPermitForm: File;
+  public sanitaryPermitForm: File;
+  public electricalPermitForm: File;
+  public geodeticEngineerAffidavit: File;
+  public civilEngineerAffidavit: File;
 
   public applicationInfo;
   constructor(
     private newApplicationService: NewApplicationFormService,
     private router: Router
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.newApplicationService.newApplicationSubject
@@ -37,57 +34,45 @@ export class InitialFormsComponent implements OnInit {
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
     switch (type) {
-      case 'filingFeeReceipt':
-        this.filingFeeReceipt = file;
-        break;
       case 'zoningClearanceForm':
         this.zoningClearanceForm = file;
         break;
-      case 'specialPowerOfAttorney':
-        this.specialPowerOfAttorney = file;
+      case 'buildingPermitForm':
+        this.buildingPermitForm = file;
         break;
-      case 'trueCopyOfTitle':
-        this.trueCopyOfTitle = file;
+      case 'sanitaryPermitForm':
+        this.sanitaryPermitForm = file;
         break;
-      case 'contractOfLease':
-        this.contractOfLease = file;
+      case 'electricalPermitForm':
+        this.electricalPermitForm = file;
         break;
-      case 'taxDeclaration':
-        this.taxDeclaration = file;
+      case 'geodeticEngineerAffidavit':
+        this.geodeticEngineerAffidavit = file;
         break;
-      case 'realPropertyTaxReceipt':
-        this.realPropertyTaxReceipt = file;
-        break;
-      case 'latestPictureOfSite':
-        this.latestPictureOfSite = file;
+      case 'civilEngineerAffidavit':
+        this.civilEngineerAffidavit = file;
         break;
     }
   }
   onRemove(type) {
     switch (type) {
-      case 'filingFeeReceipt':
-        this.filingFeeReceipt = null;
-        break;
       case 'zoningClearanceForm':
         this.zoningClearanceForm = null;
         break;
-      case 'specialPowerOfAttorney':
-        this.specialPowerOfAttorney = null;
+      case 'buildingPermitForm':
+        this.buildingPermitForm = null;
         break;
-      case 'trueCopyOfTitle':
-        this.trueCopyOfTitle = null;
+      case 'sanitaryPermitForm':
+        this.sanitaryPermitForm = null;
         break;
-      case 'contractOfLease':
-        this.contractOfLease = null;
+      case 'electricalPermitForm':
+        this.electricalPermitForm = null;
         break;
-      case 'taxDeclaration':
-        this.taxDeclaration = null;
+      case 'geodeticEngineerAffidavit':
+        this.geodeticEngineerAffidavit = null;
         break;
-      case 'realPropertyTaxReceipt':
-        this.realPropertyTaxReceipt = null;
-        break;
-      case 'latestPictureOfSite':
-        this.latestPictureOfSite = null;
+      case 'civilEngineerAffidavit':
+        this.civilEngineerAffidavit = null;
         break;
     }
   }
@@ -96,32 +81,27 @@ export class InitialFormsComponent implements OnInit {
       application_type: this.applicationInfo.application_type,
       is_representative: this.applicationInfo.is_representative,
       is_lot_owner: this.applicationInfo.is_lot_owner,
+      construction_status: this.applicationInfo.construction_status,
+    };
+    if (this.zoningClearanceForm) {
+      body['zoning_clearance_form'] = this.zoningClearanceForm;
     }
-    if(this.filingFeeReceipt) {
-      body["filing_fee_receipt"] = this.filingFeeReceipt
+    if (this.buildingPermitForm) {
+      body['building_permit_form'] = this.buildingPermitForm;
     }
-    if(this.zoningClearanceForm) {
-      body["zoning_clearance_form"] = this.zoningClearanceForm
+    if (this.sanitaryPermitForm) {
+      body['sanitary_permit_form'] = this.sanitaryPermitForm;
     }
-    if(this.specialPowerOfAttorney) {
-      body["special_power_of_attorney"] = this.specialPowerOfAttorney
+    if (this.electricalPermitForm) {
+      body['electrical_permit_form'] = this.electricalPermitForm;
     }
-    if(this.trueCopyOfTitle) {
-      body["true_copy_of_title"] = this.trueCopyOfTitle
+    if (this.geodeticEngineerAffidavit) {
+      body['geodetic_engineer_affidavit'] = this.geodeticEngineerAffidavit;
     }
-    if(this.contractOfLease) {
-      body["contract_of_lease"] = this.contractOfLease
+    if (this.civilEngineerAffidavit) {
+      body['civil_engineer_affidavit'] = this.civilEngineerAffidavit;
     }
-    if(this.taxDeclaration) {
-      body["tax_declaration"] = this.taxDeclaration
-    }
-    if(this.realPropertyTaxReceipt) {
-      body["real_property_tax_receipt"] = this.realPropertyTaxReceipt
-    }
-    if(this.latestPictureOfSite) {
-      body["latest_picture_of_site"] = this.latestPictureOfSite
-    }
-    this.newApplicationService.setApplicationInfo(body)
-    this.router.navigateByUrl('/dashboard/new/building-permit-forms')
+    this.newApplicationService.setApplicationInfo(body);
+    this.router.navigateByUrl('/dashboard/new/documentary-requirements');
   }
 }

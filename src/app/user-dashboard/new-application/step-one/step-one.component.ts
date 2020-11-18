@@ -17,6 +17,7 @@ export class StepOneComponent implements OnInit {
   public selectedPermitType;
   public isRepresentative;
   public isLotOwner;
+  public constructionStatus;
   public permitStepOneForm: FormGroup;
   constructor(
     private fb: FormBuilder, 
@@ -28,6 +29,8 @@ export class StepOneComponent implements OnInit {
       application_type: new FormControl('', Validators.required),
       is_representative: new FormControl('', Validators.required),
       is_lot_owner: new FormControl('', Validators.required),
+      construction_status: new FormControl('', Validators.required),
+
     });
   }
   callNext() {
@@ -36,6 +39,7 @@ export class StepOneComponent implements OnInit {
       application_type: value.application_type,
       is_representative: value.is_representative,
       is_lot_owner: value.is_lot_owner,
+      construction_status: value.construction_status
     };
     this.newApplicationService.setApplicationInfo(body)
     this.router.navigateByUrl('/dashboard/new/initial-forms')

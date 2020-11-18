@@ -22,67 +22,36 @@
         <mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
           >receipt_long</mat-icon
         >
-        <h3 class="mt-2">Initial Forms</h3>
+        <h3 class="mt-2">Documentary Requirements</h3>
       </div>
 
       <hr />
-      <div class="mb-4">
+      <div class="mb-4" *ngIf="applicationInfo.is_representative == 'Yes'">
         <div class="d-flex justify-content-between">
-          <h5>Duly Accomplished/Notarized Zoning Clearance Application Form</h5>
-          <mat-icon *ngIf="zoningClearanceForm" style="color: green"
+          <h5>
+            Authorization Letter of Special Power of Attorney from Owner to
+            Submit, follow-up, and receive approved permits (for representative
+            only)
+          </h5>
+          <mat-icon *ngIf="authorizationLetter" style="color: green"
             >check_circle</mat-icon
           >
         </div>
-        <mat-expansion-panel
-          hideToggle
-          *ngIf="!zoningClearanceForm"
-          class="mb-4"
-        >
-          <mat-expansion-panel-header>
-            <mat-panel-title> Fill out and Download Form</mat-panel-title>
-          </mat-expansion-panel-header>
-          <ngx-extended-pdf-viewer
-            [src]="
-              'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf'
-            "
-            [showToolbar]="true"
-            [showSidebarButton]="false"
-            [showFindButton]="false"
-            [showPagingButtons]="false"
-            [showZoomButtons]="false"
-            [showPresentationModeButton]="false"
-            [showOpenFileButton]="false"
-            [showPrintButton]="false"
-            [showDownloadButton]="true"
-            [showBookmarkButton]="false"
-            [showSecondaryToolbarButton]="true"
-            [showRotateButton]="false"
-            [showHandToolButton]="false"
-            [showScrollingButton]="false"
-            [showSpreadButton]="false"
-            [showPropertiesButton]="false"
-            [useBrowserLocale]="true"
-            height="500px"
-            zoom="80%"
-          >
-          </ngx-extended-pdf-viewer>
-        </mat-expansion-panel>
-
         <ngx-dropzone
-          (change)="onSelect($event, 'zoningClearanceForm')"
+          (change)="onSelect($event, 'authorizationLetter')"
           [multiple]="false"
-          *ngIf="!zoningClearanceForm"
+          *ngIf="!authorizationLetter"
         >
           <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
           <ngx-dropzone-preview
-            *ngIf="zoningClearanceForm"
+            *ngIf="authorizationLetter"
             [removable]="true"
-            (removed)="onRemove('zoningClearanceForm')"
+            (removed)="onRemove('authorizationLetter')"
             class="mx-auto"
           >
             <ngx-dropzone-label
-              >{{ zoningClearanceForm.name }} ({{
-                zoningClearanceForm.type
+              >{{ authorizationLetter.name }} ({{
+                authorizationLetter.type
               }})</ngx-dropzone-label
             >
           </ngx-dropzone-preview>
@@ -90,25 +59,25 @@
       </div>
       <div class="mb-4">
         <div class="d-flex justify-content-between">
-          <h5>Building Permit Form</h5>
-          <mat-icon *ngIf="buildingPermitForm" style="color: green"
+          <h5>Filing Fee proof of payment (receipt)</h5>
+          <mat-icon *ngIf="filingFeeReceipt" style="color: green"
             >check_circle</mat-icon
           >
         </div>
         <ngx-dropzone
-          (change)="onSelect($event, 'buildingPermitForm')"
+          (change)="onSelect($event, 'filingFeeReceipt')"
           [multiple]="false"
         >
           <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
           <ngx-dropzone-preview
-            *ngIf="buildingPermitForm"
+            *ngIf="filingFeeReceipt"
             [removable]="true"
-            (removed)="onRemove('buildingPermitForm')"
+            (removed)="onRemove('filingFeeReceipt')"
             class="mx-auto"
           >
             <ngx-dropzone-label
-              >{{ buildingPermitForm.name }} ({{
-                buildingPermitForm.type
+              >{{ filingFeeReceipt.name }} ({{
+                filingFeeReceipt.type
               }})</ngx-dropzone-label
             >
           </ngx-dropzone-preview>
@@ -116,25 +85,28 @@
       </div>
       <div class="mb-4">
         <div class="d-flex justify-content-between">
-          <h5>Sanitary Permit Form</h5>
-          <mat-icon *ngIf="sanitaryPermitForm" style="color: green"
+          <h5>
+            Tax Declaration from City Assessor's Office with Documentary Stamp
+            from City Treasurers Office
+          </h5>
+          <mat-icon *ngIf="taxDeclaration" style="color: green"
             >check_circle</mat-icon
           >
         </div>
         <ngx-dropzone
-          (change)="onSelect($event, 'sanitaryPermitForm')"
+          (change)="onSelect($event, 'taxDeclaration')"
           [multiple]="false"
         >
           <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
           <ngx-dropzone-preview
-            *ngIf="sanitaryPermitForm"
+            *ngIf="taxDeclaration"
             [removable]="true"
-            (removed)="onRemove('sanitaryPermitForm')"
+            (removed)="onRemove('taxDeclaration')"
             class="mx-auto"
           >
             <ngx-dropzone-label
-              >{{ sanitaryPermitForm.name }} ({{
-                sanitaryPermitForm.type
+              >{{ taxDeclaration.name }} ({{
+                taxDeclaration.type
               }})</ngx-dropzone-label
             >
           </ngx-dropzone-preview>
@@ -142,25 +114,28 @@
       </div>
       <div class="mb-4">
         <div class="d-flex justify-content-between">
-          <h5>Electrical Permit Form</h5>
-          <mat-icon *ngIf="electricalPermitForm" style="color: green"
+          <h5>
+            Latest Quarter of the Real Property Tax Receipt, or Certificate of
+            Non-Tax Deliquency w/ documentary stamp from City Treasurers Office
+          </h5>
+          <mat-icon *ngIf="realPropertyTaxReceipt" style="color: green"
             >check_circle</mat-icon
           >
         </div>
         <ngx-dropzone
-          (change)="onSelect($event, 'electricalPermitForm')"
+          (change)="onSelect($event, 'realPropertyTaxReceipt')"
           [multiple]="false"
         >
           <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
           <ngx-dropzone-preview
-            *ngIf="electricalPermitForm"
+            *ngIf="realPropertyTaxReceipt"
             [removable]="true"
-            (removed)="onRemove('electricalPermitForm')"
+            (removed)="onRemove('realPropertyTaxReceipt')"
             class="mx-auto"
           >
             <ngx-dropzone-label
-              >{{ electricalPermitForm.name }} ({{
-                electricalPermitForm.type
+              >{{ realPropertyTaxReceipt.name }} ({{
+                realPropertyTaxReceipt.type
               }})</ngx-dropzone-label
             >
           </ngx-dropzone-preview>
@@ -168,57 +143,91 @@
       </div>
       <div class="mb-4">
         <div class="d-flex justify-content-between">
-          <h5>Geodetic Engineer Affidavit</h5>
-          <mat-icon *ngIf="geodeticEngineerAffidavit" style="color: green"
+          <h5>
+            Clear Latest picture of site/are (taken at least a week before
+            application)
+          </h5>
+          <mat-icon *ngIf="siteLatestPicture" style="color: green"
             >check_circle</mat-icon
           >
         </div>
         <ngx-dropzone
-          (change)="onSelect($event, 'geodeticEngineerAffidavit')"
+          (change)="onSelect($event, 'siteLatestPicture')"
           [multiple]="false"
         >
           <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
           <ngx-dropzone-preview
-            *ngIf="geodeticEngineerAffidavit"
+            *ngIf="siteLatestPicture"
             [removable]="true"
-            (removed)="onRemove('geodeticEngineerAffidavit')"
+            (removed)="onRemove('siteLatestPicture')"
             class="mx-auto"
           >
             <ngx-dropzone-label
-              >{{ geodeticEngineerAffidavit.name }} ({{
-                geodeticEngineerAffidavit.type
+              >{{ siteLatestPicture.name }} ({{
+                siteLatestPicture.type
               }})</ngx-dropzone-label
             >
           </ngx-dropzone-preview>
         </ngx-dropzone>
       </div>
-      <div class="mb-4">
+      <div class="mb-4" *ngIf="applicationInfo.is_lot_owner == 'Yes'">
         <div class="d-flex justify-content-between">
-          <h5>Civil Engineer Affidavit</h5>
-          <mat-icon *ngIf="civilEngineerAffidavit" style="color: green"
+          <h5>
+            Certified True Copy of the Title (updated not more than 6 months),
+            or Copy of award w/ approved surveyed plan (signed and sealed by
+            Geodetic Engineer)
+          </h5>
+          <mat-icon *ngIf="trueCopyTitle" style="color: green"
             >check_circle</mat-icon
           >
         </div>
         <ngx-dropzone
-          (change)="onSelect($event, 'civilEngineerAffidavit')"
+          (change)="onSelect($event, 'trueCopyTitle')"
           [multiple]="false"
         >
           <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
           <ngx-dropzone-preview
-            *ngIf="civilEngineerAffidavit"
+            *ngIf="trueCopyTitle"
             [removable]="true"
-            (removed)="onRemove('civilEngineerAffidavit')"
+            (removed)="onRemove('trueCopyTitle')"
             class="mx-auto"
           >
             <ngx-dropzone-label
-              >{{ civilEngineerAffidavit.name }} ({{
-                civilEngineerAffidavit.type
+              >{{ trueCopyTitle.name }} ({{
+                trueCopyTitle.type
               }})</ngx-dropzone-label
             >
           </ngx-dropzone-preview>
         </ngx-dropzone>
       </div>
-
+      <div class="mb-4" *ngIf="applicationInfo.is_lot_owner == 'No'">
+        <div class="d-flex justify-content-between">
+          <h5>
+            Contract of Lease, or Absolute Deed of Sale, or Conditional Deed of Sale, or Certified Copy of Authority to Construct on the subject property
+          </h5>
+          <mat-icon *ngIf="lessorDocument" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'lessorDocument')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="lessorDocument"
+            [removable]="true"
+            (removed)="onRemove('lessorDocument')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ lessorDocument.name }} ({{
+                lessorDocument.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
       <div class="d-flex justify-content-between mb-4">
         <div>
           <button mat-button>
@@ -234,10 +243,10 @@
       </div>
     </div>
     <!-- <div class="content-background col-md-6">
-      <img
-        class="img-fluid mt-5"
-        src="../../../assets/illustrations/construction.png"
-      />
-    </div> -->
+        <img
+          class="img-fluid mt-5"
+          src="../../../assets/illustrations/construction.png"
+        />
+      </div> -->
   </div>
 </div>

@@ -11,7 +11,7 @@ import { Marker } from 'mapbox-gl/dist/mapbox-gl'
 })
 export class MapComponent implements OnInit {
   map: mapboxgl.Map;
-  style = 'mapbox://styles/mapbox/satellite-streets-v11';
+  style = 'mapbox://styles/mapbox/streets-v11';
   lat = 16.4136559;
   lng = 120.5893339;
   marker: mapboxgl.Marker
@@ -22,7 +22,7 @@ export class MapComponent implements OnInit {
     this.map = new Map({
       container: 'map',
       style: this.style,
-      zoom: 20,
+      zoom: 16,
       center: [this.lng, this.lat],
     });
     // Add map controls

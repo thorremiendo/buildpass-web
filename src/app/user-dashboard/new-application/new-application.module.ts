@@ -13,12 +13,13 @@ import { AffidavitFilesComponent } from './affidavit-files/affidavit-files.compo
 import { OtherRequirementsComponent } from './other-requirements/other-requirements.component';
 import { ChecklistSummaryComponent } from './checklist-summary/checklist-summary.component';
 import { SuccessPageComponent } from './success-page/success-page.component';
-import { MapComponent } from '../../map/map.component'
+import { MapComponent } from '../../map/map.component';
+import { DocumentaryRequirementsComponent } from './documentary-requirements/documentary-requirements.component'
 
 
 
 @NgModule({
-  declarations: [MapComponent, StepOneComponent, InitialFormsComponent, NewApplicationPageComponent, NewApplicationRouterComponent, BuildingPermitFormsComponent, DesignAnalysisFormsComponent, ProfessionalDetailsComponent, ClearanceFormsComponent, AffidavitFilesComponent, OtherRequirementsComponent, ChecklistSummaryComponent, SuccessPageComponent],
+  declarations: [MapComponent, StepOneComponent, InitialFormsComponent, NewApplicationPageComponent, NewApplicationRouterComponent, BuildingPermitFormsComponent, DesignAnalysisFormsComponent, ProfessionalDetailsComponent, ClearanceFormsComponent, AffidavitFilesComponent, OtherRequirementsComponent, ChecklistSummaryComponent, SuccessPageComponent, DocumentaryRequirementsComponent],
   imports: [
     CommonModule,
     RouterModule
