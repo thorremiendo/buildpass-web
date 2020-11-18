@@ -7,6 +7,7 @@ import { BuildingPermitFormsComponent } from '../new-application/building-permit
 import { ChecklistSummaryComponent } from '../new-application/checklist-summary/checklist-summary.component';
 import { ClearanceFormsComponent } from '../new-application/clearance-forms/clearance-forms.component';
 import { DesignAnalysisFormsComponent } from '../new-application/design-analysis-forms/design-analysis-forms.component';
+import { DocumentaryRequirementsComponent } from '../new-application/documentary-requirements/documentary-requirements.component';
 import { InitialFormsComponent } from '../new-application/initial-forms/initial-forms.component';
 import { NewApplicationPageComponent } from '../new-application/new-application-page/new-application-page.component';
 import { NewApplicationRouterComponent } from '../new-application/new-application-router/new-application-router.component';
@@ -71,10 +72,10 @@ const routes: Routes = [
                 },
               },
               {
-                path: 'building-permit-forms',
-                component: BuildingPermitFormsComponent,
+                path: 'documentary-requirements',
+                component: DocumentaryRequirementsComponent,
                 data: {
-                  title: 'Building Permit Forms',
+                  title: 'Documentary Requirements',
                   urls: [
                     {
                       title: 'New Application',

@@ -1,54 +1,73 @@
 <div class="container">
-    <div class="row">
-      <div class="col-md-6 col-12 p-5" [formGroup]="permitStepOneForm">
-        <h2 class="mb-5">Hi, Thor! Let's get started with your application.</h2>
-        <p style="color: #767676"><strong>STEP 1</strong></p>
-        <div>
-          <h4>What type of permit do you want to apply?</h4>
-          <mat-form-field appearance="outline">
-            <mat-label>Application Type</mat-label>
-            <mat-select [(value)]="selectedPermitType" formControlName="application_type">
-              <mat-option value="1">Building Permit</mat-option>
-              <mat-option value="2">Occupancy Permit</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div *ngIf="selectedPermitType" class="mt-4">
-          <h4>Applicant Type:</h4>
-          <mat-form-field appearance="outline">
-            <mat-label>Choose</mat-label>
-            <mat-select [(value)]="isRepresentative" formControlName="is_representative">
-              <mat-option value="No">Owner</mat-option>
-              <mat-option value="Yes">Representative</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div *ngIf="isRepresentative" class="mt-4">
-          <h4>Lot Ownership Type:</h4>
-          <mat-form-field appearance="outline">
-            <mat-label>Choose</mat-label>
-            <mat-select [(value)]="isLotOwner" formControlName="is_lot_owner">
-              <mat-option value="Yes">Property Owner</mat-option>
-              <mat-option value="No">Lessor</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div *ngIf="isLotOwner" class="map-container mt-4">
-          <h4>Site Location:</h4>
-          <app-map></app-map>
-        </div>
-        <div class="mt-3 text-right" *ngIf="isLotOwner">
-          <button mat-raised-button color="primary" (click)="callNext()">Next</button>
-        </div>
+  <div class="row">
+    <div class="col-md-6 col-12 p-5" [formGroup]="permitStepOneForm">
+      <h2 class="mb-5">Hi, Thor! Let's get started with your application.</h2>
+      <p style="color: #767676"><strong>STEP 1</strong></p>
+      <div>
+        <h4>What type of permit do you want to apply?</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Application Type</mat-label>
+          <mat-select
+            [(value)]="selectedPermitType"
+            formControlName="application_type"
+          >
+            <mat-option value="1">Building Permit</mat-option>
+            <mat-option value="2">Occupancy Permit</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <div class="col-md-6 col-12">
-        <div class="d-flex justify-content-center mt-5">
-          <img
-            class="new-illustration mt-5"
-            src="../../../assets/illustrations/folder.png"
-          />
-        </div>
+      <div *ngIf="selectedPermitType" class="mt-4">
+        <h4>Applicant Type:</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Choose</mat-label>
+          <mat-select
+            [(value)]="isRepresentative"
+            formControlName="is_representative"
+          >
+            <mat-option value="No">Owner</mat-option>
+            <mat-option value="Yes">Representative</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isRepresentative" class="mt-4">
+        <h4>Lot Ownership Type:</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Choose</mat-label>
+          <mat-select [(value)]="isLotOwner" formControlName="is_lot_owner">
+            <mat-option value="Yes">Property Owner</mat-option>
+            <mat-option value="No">Lessor</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="isLotOwner" class="mt-4">
+        <h4>Construction Status:</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Choose</mat-label>
+          <mat-select [(value)]="constructionStatus" formControlName="construction_status">
+            <mat-option value="1">New</mat-option>
+            <mat-option value="2">On-Going</mat-option>
+            <mat-option value="3">Complete</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="constructionStatus" class="map-container mt-4">
+        <h4>Site Location:</h4>
+        <app-map></app-map>
+      </div>
+
+      <div class="mt-5 text-right" *ngIf="constructionStatus">
+        <button mat-raised-button color="primary" (click)="callNext()">
+          Next
+        </button>
+      </div>
+    </div>
+    <div class="col-md-6 col-12">
+      <div class="d-flex justify-content-center mt-5">
+        <img
+          class="new-illustration mt-5"
+          src="../../../assets/illustrations/folder.png"
+        />
       </div>
     </div>
   </div>
-  
+</div>

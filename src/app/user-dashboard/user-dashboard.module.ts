@@ -40,6 +40,7 @@ import {MatInputModule} from '@angular/material/input';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MapComponent } from '../map/map.component';
+import { DocumentaryRequirementsComponent } from './new-application/documentary-requirements/documentary-requirements.component';
 
 
 
@@ -60,7 +61,8 @@ import { MapComponent } from '../map/map.component';
     AffidavitFilesComponent,
     OtherRequirementsComponent,
     ChecklistSummaryComponent,
-    SuccessPageComponent
+    SuccessPageComponent,
+    DocumentaryRequirementsComponent
   ],
   imports: [
     CommonModule,
