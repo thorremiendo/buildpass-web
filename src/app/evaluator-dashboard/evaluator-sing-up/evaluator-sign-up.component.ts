@@ -1,27 +1,32 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { AuthService } from '../core/services/auth.service'
+import { AuthService } from '../../core/services/auth.service'
 import { Router, Params } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, EmailValidator } from '@angular/forms';
 import { AngularFirestore, AngularFirestoreDocument, } from '@angular/fire/firestore';
-import { FormValidatorService } from '../core/services/form-validator.service'
-import { User } from '../core/models/user.model';
-import { RegisterAccountFormService } from '../core/services/register-account-form.service' 
+import { FormValidatorService } from '../../core/services/form-validator.service'
+import { User } from '../../core/models/user.model';
+import { RegisterAccountEvaluatorFormService } from '../../core/services/register-account-evaluator-form.service';
+import {DomSanitizer} from '@angular/platform-browser';
+import {MatIconRegistry} from '@angular/material/icon';
 
+const googleLogoURL = 
+"https://raw.githubusercontent.com/fireflysemantics/logo/master/Google.svg";
 
 
 
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss']
+  selector: 'app-evaluator-sign-up',
+  templateUrl: './evaluator-sign-up.component.html',
+  styleUrls: ['./evaluator-sign-up.component.scss']
 })
-export class SignUpComponent implements OnInit {
+export class EvaluatorSignUpComponent implements OnInit {
+
   public fireBaseUser: any;
   public fireBaseUid: any;
   public hide:boolean = true;
   public userDetails;
 
-  _signupForm: FormGroup;
+  _evaluatorSignOutForm: FormGroup;
   _submitted = false;
 
   constructor(
@@ -30,14 +35,20 @@ export class SignUpComponent implements OnInit {
     public _fb: FormBuilder,
     private _formValidator: FormValidatorService,
     private _afs: AngularFirestore,
-    private _registerAccountFormService: RegisterAccountFormService,
+    private _registerAccountEvaluatorFormService : RegisterAccountEvaluatorFormService ,
     private _ngZone: NgZone,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
+
   ) {
+    this.matIconRegistry.addSvgIcon("logo",
+    this.domSanitizer.bypassSecurityTrustResourceUrl(googleLogoURL));
+    
     this.createForm();
-   }
+  }
 
    createForm() {
-    this._signupForm = this._fb.group({
+    this._evaluatorSignOutForm = this._fb.group({
       first_name: ['', Validators.required ],
       last_name: ['', Validators.required ],
       email: ['', Validators.required],
@@ -53,7 +64,7 @@ export class SignUpComponent implements OnInit {
   tryRegister(value){
     this._submitted = true;
 
-    if (this._signupForm.valid)
+    if (this._evaluatorSignOutForm.valid)
     {
           this._authService.SignUp(value)
           .then(result => {
@@ -64,8 +75,8 @@ export class SignUpComponent implements OnInit {
 
             this.SetUserDataFire(value);
             this.createUserDetails(value);
-            this._registerAccountFormService.setRegisterAccountInfo(this.userDetails);
-            this._router.navigateByUrl('registration/personal-info');
+            this._registerAccountEvaluatorFormService.setRegisterAccountInfo(this.userDetails);
+            this._router.navigateByUrl('/evaluator/registration/personal-info');
       }) 
           .catch((error) => {
             window.alert(error.message);
@@ -83,7 +94,8 @@ export class SignUpComponent implements OnInit {
       this._ngZone.run(() => {
 
         if (result.additionalUserInfo.isNewUser != true) {
-          this._router.navigate(['dashboard']);
+          this._router.navigateByUrl('/evaluators');
+        
         }
         else {
           const user = result.additionalUserInfo.profile;
@@ -92,8 +104,8 @@ export class SignUpComponent implements OnInit {
         
           this.SetUserDataFireGoogle(this.fireBaseUser);
           this.createUserDetailsGoogle(this.fireBaseUser);
-          this._registerAccountFormService.setRegisterAccountInfo(this.userDetails);
-          this._router.navigateByUrl('registration/personal-info');
+          this._registerAccountEvaluatorFormService.setRegisterAccountInfo(this.userDetails);
+          this._router.navigateByUrl('/evaluator/registration/personal-info');
         }
         
       });
@@ -103,6 +115,10 @@ export class SignUpComponent implements OnInit {
       console.log(error.message);
       window.alert(error.message);
     });
+  }
+
+  signIn(){
+    this._router.navigateByUrl("/evaluator/sign-in")
   }
 
   ngOnInit(): void {
@@ -119,7 +135,7 @@ export class SignUpComponent implements OnInit {
       first_name: value.first_name,
       last_name: value.last_name,
       emailVerified: this.fireBaseUser.emailVerified,
-      is_evaluator: false,
+      is_evaluator: true,
     };
     return userRef.set(userData, {
       merge: true,
@@ -135,7 +151,7 @@ export class SignUpComponent implements OnInit {
       "first_name": value.first_name,
       "last_name":  value.last_name,
       "email": value.email,
-      "is_evaluator": false,
+      "is_evaluator": true,
       "emailVerified": this.fireBaseUser.emailVerified
     };
 
@@ -151,7 +167,7 @@ export class SignUpComponent implements OnInit {
       first_name: user.given_name,
       last_name: user.family_name,
       emailVerified: user.verified_email,
-      is_evaluator: false,
+      is_evaluator: true,
     };
     return userRef.set(userData, {
       merge: true,
@@ -167,7 +183,7 @@ export class SignUpComponent implements OnInit {
       "first_name": user.given_name,
       "last_name":  user.family_name,
       "email": user.email,
-      "is_evaluator": false,
+      "is_evaluator": true,
       "emailVerified": user.verified_email,
     };
 
@@ -177,7 +193,7 @@ export class SignUpComponent implements OnInit {
 
 
   get signupFormControl() {
-    return this._signupForm.controls;
+    return this._evaluatorSignOutForm.controls;
   }
   
 
