@@ -14,12 +14,18 @@ import { OtherRequirementsComponent } from './other-requirements/other-requireme
 import { ChecklistSummaryComponent } from './checklist-summary/checklist-summary.component';
 import { SuccessPageComponent } from './success-page/success-page.component';
 import { MapComponent } from '../../map/map.component';
-import { DocumentaryRequirementsComponent } from './documentary-requirements/documentary-requirements.component'
+import { DocumentaryRequirementsComponent } from './documentary-requirements/documentary-requirements.component';
+import { ZoningClearanceFormComponent } from './forms/zoning-clearance-form/zoning-clearance-form.component';
+import { BuildingPermitFormComponent } from './forms/building-permit-form/building-permit-form.component';
+import { SanitaryPermitFormComponent } from './forms/sanitary-permit-form/sanitary-permit-form.component';
+import { ElectricalPermitFormComponent } from './forms/electrical-permit-form/electrical-permit-form.component';
+import { CivilEngineerAffidavitComponent } from './forms/civil-engineer-affidavit/civil-engineer-affidavit.component';
+import { GeodeticEngineerAffidavitComponent } from './forms/geodetic-engineer-affidavit/geodetic-engineer-affidavit.component'
 
 
 
 @NgModule({
-  declarations: [MapComponent, StepOneComponent, InitialFormsComponent, NewApplicationPageComponent, NewApplicationRouterComponent, BuildingPermitFormsComponent, DesignAnalysisFormsComponent, ProfessionalDetailsComponent, ClearanceFormsComponent, AffidavitFilesComponent, OtherRequirementsComponent, ChecklistSummaryComponent, SuccessPageComponent, DocumentaryRequirementsComponent],
+  declarations: [MapComponent, StepOneComponent, InitialFormsComponent, NewApplicationPageComponent, NewApplicationRouterComponent, BuildingPermitFormsComponent, DesignAnalysisFormsComponent, ProfessionalDetailsComponent, ClearanceFormsComponent, AffidavitFilesComponent, OtherRequirementsComponent, ChecklistSummaryComponent, SuccessPageComponent, DocumentaryRequirementsComponent, ZoningClearanceFormComponent, BuildingPermitFormComponent, SanitaryPermitFormComponent, ElectricalPermitFormComponent, CivilEngineerAffidavitComponent, GeodeticEngineerAffidavitComponent],
   imports: [
     CommonModule,
     RouterModule

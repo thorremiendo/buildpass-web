@@ -42,6 +42,6 @@ export class StepOneComponent implements OnInit {
       construction_status: value.construction_status
     };
     this.newApplicationService.setApplicationInfo(body)
-    this.router.navigateByUrl('/dashboard/new/initial-forms')
+    this.router.navigateByUrl('/dashboard/new/initial-forms/zoning-clearance')
   }
 }

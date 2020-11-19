@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-initial-forms',
@@ -17,10 +17,12 @@ export class InitialFormsComponent implements OnInit {
   public civilEngineerAffidavit: File;
 
   public applicationInfo;
+
   constructor(
     private newApplicationService: NewApplicationFormService,
-    private router: Router
-  ) {}
+    private router: Router,
+  ) {
+  }
 
   ngOnInit(): void {
     this.newApplicationService.newApplicationSubject
@@ -29,8 +31,8 @@ export class InitialFormsComponent implements OnInit {
         (newApplicationSubject) =>
           (this.applicationInfo = newApplicationSubject)
       );
-    console.log(this.applicationInfo);
   }
+
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
     switch (type) {
