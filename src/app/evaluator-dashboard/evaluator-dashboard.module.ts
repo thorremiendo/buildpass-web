@@ -31,6 +31,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ApplicationDetailsComponent } from './application-details/application-details.component';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 
 
@@ -59,6 +60,7 @@ import { ApplicationDetailsComponent } from './application-details/application-d
     MatInputModule,
     MatFormFieldModule,
     MatDatepickerModule,
+    NgxExtendedPdfViewerModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
