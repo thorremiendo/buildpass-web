@@ -1,0 +1,28 @@
+.landing {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    .landing-nav {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        background-image: url('../../../assets/images/landing/landing-bg.png');
+        background-size: cover;
+
+        > div {
+            text-align: center;
+        }
+
+        input {
+            height: 250px;
+            width: auto;
+            margin: 35px;
+            transition: transform .2s;
+
+            &:hover {
+                transform: scale(1.2);
+            }
+        }
+    }
+}

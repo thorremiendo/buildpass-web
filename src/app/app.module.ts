@@ -46,8 +46,8 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
-import { LandingPageModule } from './landing-page/landing-page.module';
-import { MainNavComponent } from './landing-page/main-nav/main-nav.component';
+import { LandingModule } from './landing/landing.module';
+import { NavigationComponent } from './landing/navigation/navigation.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { EvaluatorModule } from './evaluator-dashboard/evaluator-dashboard.module';
 
@@ -85,7 +85,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     RegistrationModule,
     RegistrationRoutingModule,
     HttpClientModule,
-    LandingPageModule,
+    LandingModule,
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
