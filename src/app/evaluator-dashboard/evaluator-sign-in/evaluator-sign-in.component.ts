@@ -1,21 +1,27 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { AuthService } from '../core/services/auth.service'
+import { AuthService } from '../../core/services/auth.service'
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, } from '@angular/forms';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import {DomSanitizer} from '@angular/platform-browser';
+import {MatIconRegistry} from '@angular/material/icon';
+
+const googleLogoURL = 
+"https://raw.githubusercontent.com/fireflysemantics/logo/master/Google.svg";
+
 
 @Component({
-  selector: 'app-sign-in',
-  templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss']
+  selector: 'app-evaluator-sign-in',
+  templateUrl: './evaluator-sign-in.component.html',
+  styleUrls: ['./evaluator-sign-in.component.scss']
 })
-export class SignInComponent implements OnInit {
+
+
+export class EvaluatorSignInComponent implements OnInit {
+
   public hide: boolean = true;
   public user;
   _submitted: boolean =false;
-  _signinForm: FormGroup;
+  _evaluatorSignInForm: FormGroup;
 
   
 
@@ -25,13 +31,18 @@ export class SignInComponent implements OnInit {
     private _fb: FormBuilder,
     private _route: ActivatedRoute,
     private _ngZone: NgZone,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
 
   ) {
+    this.matIconRegistry.addSvgIcon("logo",
+    this.domSanitizer.bypassSecurityTrustResourceUrl(googleLogoURL));
+    
     this.createForm();
   }
 
   createForm() {
-    this._signinForm = this._fb.group({
+    this._evaluatorSignInForm = this._fb.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
@@ -39,14 +50,14 @@ export class SignInComponent implements OnInit {
 
   tryLogin(value) {
     this._submitted = true;
-    if (this._signinForm.valid) {
+    if (this._evaluatorSignInForm.valid) {
       this._authService.SignIn(value)
         .then((result) => {
           console.log(result);
           this._authService.currentUserSubject.next(result);
           this._ngZone.run(() => {
             if (result.user.emailVerified == true) {
-              this._router.navigate(['dashboard']);
+              this._router.navigateByUrl('/evaluator');
             }
             else {
               window.alert("Email not yet verified");
@@ -71,10 +82,10 @@ export class SignInComponent implements OnInit {
       this._authService.currentUserSubject.next(result);
       this._ngZone.run(() => {
         if (result.additionalUserInfo.isNewUser != true) {
-          this._router.navigate(['dashboard']);
+          this._router.navigateByUrl('/evaluator');
         }
         else {
-          this._router.navigateByUrl('registration/personal-info');
+          this._router.navigateByUrl('/evaluator/registration/personal-info');
         }
 
       });
@@ -86,8 +97,13 @@ export class SignInComponent implements OnInit {
     });
   }
 
+  signUp(){
+    this._router.navigateByUrl("/evaluator/sign-up")
+  }
+
 
   ngOnInit(): void {
+    this.createForm();
 
   }
 

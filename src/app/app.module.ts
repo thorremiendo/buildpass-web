@@ -58,6 +58,7 @@ declare module '@angular/core' {
   }
 }
 
+
 export function momentAdapterFactory() {
   return adapterFactory(moment);
 }
@@ -76,6 +77,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     TestComponentComponent,
     ForgotPasswordComponent,
     VerifyEmailComponent,
+
+
   ],
   imports: [
     NgbModule,

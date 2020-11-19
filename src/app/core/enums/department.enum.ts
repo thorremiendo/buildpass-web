@@ -1,0 +1,30 @@
+export enum Office {
+    "City Planning and Development Office" = 1,
+    "City Environment and Park Office" = 2,
+    "Bureau of Fire" = 3,
+    "City Buildings and Architecture Office" = 4,
+}
+
+export enum Position{
+    "City Planning and Development Coordinator" = 1,
+    "Assistant Planning and Development Coordinator" =2,
+    "Zoning Inspector" = 3,
+    "Administrative Officer" = 4,
+    "Adimnistrative Assistant" = 5,
+    "Administrative Aide" = 6,
+    "Statistician" = 7, 
+    "Plumbing and Tinning Inspector" = 8,
+    "Architect" = 9,
+    "Engineer" = 10,
+    "Electrical Engineer" = 11,
+    "Sanitary Engineer" = 12,
+    "Geodetic Engineer" = 13,
+    "Mechanical Engineer" = 14,
+    "Civil Engineer" = 15,
+    "Laborer" = 16,
+    "Municipal Fire Marshal" = 17,
+    "Chief, FSE Fire Code Assessor" = 18,
+    "Fire Code Collecting Agent" = 19,
+    "Customer Relations Officer" = 20,
+    "Receiving" = 21,
+}
