@@ -48,6 +48,7 @@ import { EvaluatorSignUpComponent } from './evaluator-sing-up/evaluator-sign-up.
 import { EvaluatorPersonalInfoComponent } from './evaluator-personal-info/evaluator-personal-info.component';
 import { EvaluatorEmployeeInfoComponent } from './evaluator-employee-info/evaluator-employee-info.component';
 import { EvaluatorsSummaryComponent } from './evaluators-summary/evaluators-summary.component';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 
 
@@ -102,6 +103,7 @@ import { EvaluatorsSummaryComponent } from './evaluators-summary/evaluators-summ
     MatListModule,
     MatGridListModule,
 
+    NgxExtendedPdfViewerModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
