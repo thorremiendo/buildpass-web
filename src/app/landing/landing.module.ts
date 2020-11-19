@@ -28,6 +28,10 @@ import { ContactComponent } from './contact/contact.component';
     MatListModule,
     RouterModule,
     LandingRoutingModule
+  ],
+  exports: [
+    NavigationComponent,
+    BannerComponent
   ]
 })
 export class LandingModule { }

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule, Routes, Router } from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
+import { NavigationComponent } from '../landing/navigation/navigation.component';
+import { BannerComponent } from '../landing/banner/banner.component';
 
 
 const googleLogoURL = 

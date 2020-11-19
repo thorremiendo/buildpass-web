@@ -5,7 +5,9 @@ import { AuthService} from '../../core/services/auth.service'
 import { Router } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
-import { DataPrivacyComponent } from '../data-privacy/data-privacy.component'
+import { DataPrivacyComponent } from '../data-privacy/data-privacy.component';
+import { NavigationComponent } from '../../landing/navigation/navigation.component';
+import { BannerComponent } from '../../landing/banner/banner.component';
 
 
 

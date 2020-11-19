@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../core/services/auth.service' 
 import { RegisterAccountEvaluatorFormService } from '../core/services/register-account-evaluator-form.service'
 import { Router } from '@angular/router'
+import { NavigationComponent } from '../landing/navigation/navigation.component';
+import { BannerComponent } from '../landing/banner/banner.component';
 
 @Component({
   selector: 'app-verify-email',
