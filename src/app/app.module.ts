@@ -1,8 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,24 +23,27 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 
-
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignInUpPageComponent } from './sign-in-up-page/sign-in-up-page.component';
 import { TestComponentComponent } from './test-component/test-component.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
- 
+
 import { LayoutModule } from './layout/layout.module';
 import { UserModule } from './user-dashboard/user-dashboard.module';
-import { PerfectScrollbarConfigInterface, PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import {
+  PerfectScrollbarConfigInterface,
+  PerfectScrollbarModule,
+  PERFECT_SCROLLBAR_CONFIG,
+} from 'ngx-perfect-scrollbar';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/moment';
 import * as moment from 'moment';
 import { CoreModule } from './core/core.module';
 
-import { AngularFireModule } from "@angular/fire";
-import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { LandingPageModule } from './landing-page/landing-page.module';
@@ -50,18 +51,21 @@ import { MainNavComponent } from './landing-page/main-nav/main-nav.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { EvaluatorModule } from './evaluator-dashboard/evaluator-dashboard.module';
 
-
-
+declare module '@angular/core' {
+  interface ModuleWithProviders<T = any> {
+    ngModule: Type<T>;
+    providers?: Provider[];
+  }
+}
 
 export function momentAdapterFactory() {
   return adapterFactory(moment);
-};
+}
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelSpeed: 2,
-  wheelPropagation: true
+  wheelPropagation: true,
 };
-
 
 @NgModule({
   declarations: [
@@ -72,7 +76,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     TestComponentComponent,
     ForgotPasswordComponent,
     VerifyEmailComponent,
-
   ],
   imports: [
     NgbModule,
@@ -103,19 +106,22 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
-   
+
     EvaluatorModule,
     LayoutModule,
     UserModule,
-    CalendarModule.forRoot({ provide: DateAdapter, useFactory: momentAdapterFactory }),
-    CoreModule
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: momentAdapterFactory,
+    }),
+    CoreModule,
   ],
   providers: [
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-    }, 
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

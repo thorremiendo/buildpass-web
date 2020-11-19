@@ -41,6 +41,15 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MapComponent } from '../map/map.component';
 import { DocumentaryRequirementsComponent } from './new-application/documentary-requirements/documentary-requirements.component';
+import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
+import {MatTabsModule} from '@angular/material/tabs';
+import { ZoningClearanceFormComponent } from './new-application/forms/zoning-clearance-form/zoning-clearance-form.component';
+import { BuildingPermitFormComponent } from './new-application/forms/building-permit-form/building-permit-form.component';
+import { SanitaryPermitFormComponent } from './new-application/forms/sanitary-permit-form/sanitary-permit-form.component';
+import { ElectricalPermitFormComponent } from './new-application/forms/electrical-permit-form/electrical-permit-form.component';
+import { CivilEngineerAffidavitComponent } from './new-application/forms/civil-engineer-affidavit/civil-engineer-affidavit.component';
+import { GeodeticEngineerAffidavitComponent } from './new-application/forms/geodetic-engineer-affidavit/geodetic-engineer-affidavit.component';
+
 
 
 
@@ -62,7 +71,13 @@ import { DocumentaryRequirementsComponent } from './new-application/documentary-
     OtherRequirementsComponent,
     ChecklistSummaryComponent,
     SuccessPageComponent,
-    DocumentaryRequirementsComponent
+    DocumentaryRequirementsComponent,
+    ZoningClearanceFormComponent,
+    BuildingPermitFormComponent,
+    SanitaryPermitFormComponent,
+    ElectricalPermitFormComponent,
+    CivilEngineerAffidavitComponent,
+    GeodeticEngineerAffidavitComponent
   ],
   imports: [
     CommonModule,
@@ -90,7 +105,9 @@ import { DocumentaryRequirementsComponent } from './new-application/documentary-
     MatTableModule,
     MatInputModule,
     NgxExtendedPdfViewerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    PdfJsViewerModule,
+    MatTabsModule
   ],
 })
 export class UserModule {}
