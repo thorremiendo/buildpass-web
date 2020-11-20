@@ -9,6 +9,13 @@ import { NewApplicationFormService } from 'src/app/core/services/new-application
   styleUrls: ['./zoning-clearance-form.component.scss'],
 })
 export class ZoningClearanceFormComponent implements OnInit {
+  public formData = {
+    first_name: "Thor",
+    middle_name: "Ocampo",
+    last_name: "Remiendo",
+    contact_no: "09360637051"
+  }
+
   public zoningClearanceForm: File;
   public applicationInfo;
   constructor(
@@ -17,6 +24,7 @@ export class ZoningClearanceFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    debugger
     this.newApplicationService.newApplicationSubject
       .asObservable()
       .subscribe(

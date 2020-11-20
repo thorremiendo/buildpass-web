@@ -7,7 +7,7 @@
       the right.
     </p>
     <ngx-extended-pdf-viewer
-      [src]="'../../../../assets/forms/zoningform.pdf'"
+      [src]="'../../../../assets/forms/zoning_clearance.pdf'"
       [showToolbar]="true"
       [showSidebarButton]="false"
       [showFindButton]="false"
@@ -27,6 +27,7 @@
       [useBrowserLocale]="true"
       height="500px"
       zoom="80%"
+      [(formData)]="formData"
     >
     </ngx-extended-pdf-viewer>
     <p class="ml-2 mt-4">2. Upload the form.</p>
