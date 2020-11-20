@@ -1,0 +1,44 @@
+<mat-sidenav-container class="mobile-nav-container">
+  <mat-sidenav 
+      #drawer
+      class="mobile-nav"
+      [ngClass]="{hidden: (isHandset$ | async) === false}"
+      fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+    <mat-toolbar>OCPAS</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item href="/about">About</a>
+      <a mat-list-item href="/services">Services</a>
+      <a mat-list-item href="/news">News</a>
+      <a mat-list-item href="/contact">Contact Us</a>
+      <a mat-list-item href="/user/sign-in">Login</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="navigation">
+      <a class="logo" href="/">
+        <img src="../../assets/images/logo-city.png" />
+      </a>
+      <span class="spacer"></span>
+      <div
+        [ngClass]="{hidden: (isHandset$ | async) === true}">
+        <a href="/about">About</a>
+        <a href="/services">Services</a>
+        <a href="/news">News</a>
+        <a href="/contact">Contact Us</a>
+        <a class="login" href="user/sign-in">Login</a>
+      </div>
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

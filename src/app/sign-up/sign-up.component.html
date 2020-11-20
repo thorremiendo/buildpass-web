@@ -1,13 +1,13 @@
 <form [formGroup]="_signupForm" (ngSubmit)="tryRegister(_signupForm.value)">
-  <div class="row justify-content-center pt-5 mb-5">
+  <div class="row justify-content-center pt-5 mb-3">
     <div class="col-md-4">
       <mat-form-field appearance="outline">
         <mat-label>First Name</mat-label>
-        <input type="text" matInput formControlName="fname" required />
+        <input type="text" matInput formControlName="first_name" required />
         <mat-error
           *ngIf="
-            (signupFormControl.fname.touched || _submitted) &&
-            signupFormControl.fname.errors?.required
+            (signupFormControl.first_name.touched || _submitted) &&
+            signupFormControl.first_name.errors?.required
           "
         >
           First name is Required
@@ -17,11 +17,11 @@
     <div class="col-md-4">
       <mat-form-field appearance="outline">
         <mat-label>Last name</mat-label>
-        <input type="text" matInput formControlName="lname" required />
+        <input type="text" matInput formControlName="last_name" required />
         <mat-error
           *ngIf="
-            (signupFormControl.lname.touched || _submitted) &&
-            signupFormControl.lname.errors?.required
+            (signupFormControl.last_name.touched || _submitted) &&
+            signupFormControl.last_name.errors?.required
           "
         >
           Last name is Required

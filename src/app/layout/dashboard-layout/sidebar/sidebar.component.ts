@@ -79,6 +79,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.authService.SignOut()
+    this.authService.SignOut();
+
   }
 }

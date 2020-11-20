@@ -9,13 +9,13 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { AuthGuard } from './core/guard/auth.guard';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
-import { LandingPageComponent } from './landing-page/landing-page/landing-page.component';
+import { LandingComponent } from './landing/landing/landing.component';
 
 const routes: Routes = [
 
   {
     path: '',
-    component: LandingPageComponent,
+    component: LandingComponent,
   },
   {
     path: 'user',

@@ -18,6 +18,13 @@ import { SuccessPageComponent } from '../new-application/success-page/success-pa
 import { UserFormsComponent } from '../user-forms/user-forms.component';
 import { UserHomeComponent } from '../user-home/user-home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AuthGuard } from '../../core/guard/auth.guard';
+import { ZoningClearanceFormComponent } from '../new-application/forms/zoning-clearance-form/zoning-clearance-form.component';
+import { BuildingPermitFormComponent } from '../new-application/forms/building-permit-form/building-permit-form.component';
+import { SanitaryPermitFormComponent } from '../new-application/forms/sanitary-permit-form/sanitary-permit-form.component';
+import { ElectricalPermitFormComponent } from '../new-application/forms/electrical-permit-form/electrical-permit-form.component';
+import { CivilEngineerAffidavitComponent } from '../new-application/forms/civil-engineer-affidavit/civil-engineer-affidavit.component';
+import { GeodeticEngineerAffidavitComponent } from '../new-application/forms/geodetic-engineer-affidavit/geodetic-engineer-affidavit.component';
 
 const routes: Routes = [
   {
@@ -69,6 +76,33 @@ const routes: Routes = [
                     { title: 'Initial Forms' },
                   ],
                 },
+                children: [
+                  {
+                    path: 'zoning-clearance',
+                    component: ZoningClearanceFormComponent,
+                  },
+
+                  {
+                    path: 'building-permit',
+                    component: BuildingPermitFormComponent,
+                  },
+                  {
+                    path: 'sanitary-permit',
+                    component: SanitaryPermitFormComponent
+                  },
+                  {
+                    path: 'electrical-permit',
+                    component: ElectricalPermitFormComponent
+                  },
+                  {
+                    path: 'civil-engineer-affidavit',
+                    component: CivilEngineerAffidavitComponent
+                  },
+                  {
+                    path: 'geodetic-engineer-affidavit',
+                    component: GeodeticEngineerAffidavitComponent
+                  }
+                ],
               },
               {
                 path: 'documentary-requirements',

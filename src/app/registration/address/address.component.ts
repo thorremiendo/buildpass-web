@@ -1,17 +1,11 @@
-import { Component, OnInit, Injectable } from '@angular/core';
-import { FormControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { RegisterAccountFormService} from '../../core/services/register-account-form.service';
 import { Router } from '@angular/router';
 import { AuthService} from '../../core/services/auth.service'
 
 import { MatDialog } from '@angular/material/dialog';
-
 import { DataPrivacyComponent } from '../data-privacy/data-privacy.component'
-
-
-@Injectable({
-  providedIn: 'root',
-})
 
 @Component({
   selector: 'app-address',
@@ -19,13 +13,12 @@ import { DataPrivacyComponent } from '../data-privacy/data-privacy.component'
   styleUrls: ['./address.component.scss']
 })
 export class AddressComponent implements OnInit {
-  public maxLength = 11;
+  public maxLength: number = 11;
 
   _addressForm: FormGroup;
-  _submitted =  false;
+  _submitted: boolean =  false;
 
   public userDetails;
-  public updatedUserDetails;
 
   get addressFormControl() {
     return this._addressForm.controls;
@@ -58,8 +51,8 @@ export class AddressComponent implements OnInit {
     this.userDetails ={
      
       "home_address": this._addressForm.value.home_address,
-      "banangay":this._addressForm.value.home_address,
-      "comntact_number":  this._addressForm.value.home_address,
+      "barangay":this._addressForm.value.barangay,
+      "contact_number":  this._addressForm.value.contact_number,
      
 
     }

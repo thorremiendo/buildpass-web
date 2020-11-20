@@ -32,7 +32,7 @@ import { AuthService } from "../core/services/auth.service";
 
 import { AddressComponent } from './address/address.component';
 import { DataPrivacyComponent } from './data-privacy/data-privacy.component';
-import { LandingPageModule } from '../landing-page/landing-page.module';
+import { LandingModule } from '../landing/landing.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 
@@ -64,7 +64,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatCardModule,
     MatDialogModule,
 
-    LandingPageModule,
+    LandingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
