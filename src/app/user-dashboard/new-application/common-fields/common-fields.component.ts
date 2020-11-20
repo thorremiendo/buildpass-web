@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
+
 
 @Component({
   selector: 'app-common-fields',
@@ -14,34 +8,38 @@ import { NewApplicationFormService } from 'src/app/core/services/new-application
   styleUrls: ['./common-fields.component.scss']
 })
 export class CommonFieldsComponent implements OnInit {
-  public commonFields: FormGroup;
-  public userDetails;
+  
+  navLinks: any[];
+  activeLinkIndex = -1; 
 
   constructor(
-    private router: Router,
-    private fb: FormBuilder, 
-    private commonFieldService: NewApplicationFormService
-  ) { }
+    private _router: Router) 
+
+    {
+
+    this.navLinks = [
+        {
+            label: 'Personal Info',
+            link: './personal-info',
+            index: 0
+        }, 
+        {
+            label: 'Address Info',
+            link: './address-info',
+            index: 1
+        },
+
+    ];
+
+
+}
+
 
   ngOnInit(): void {
-    this.commonFields = this.fb.group({
-      first_name: new FormControl('', Validators.required),
-      middle_name: new FormControl('', Validators.required),
-      last_name: new FormControl('', Validators.required),
-      contact_no: new FormControl('', Validators.required),
+    this._router.events.subscribe((res) => {
+      this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this._router.url));
+  });
 
-    });
-    //get user details
   }
-  callNext(){
 
-    // const body = {
-    //   first_name: //userdetails.firstname
-    //   middle_name: value.middle_name,
-    //   last_name: value.last_name,
-    //   contact_no: value.contact_no
-    // };
-    // this.commonFieldService.setCommonFields(body)
-    this.router.navigateByUrl('/dashboard/new/initial-forms/zoning-clearance')
-  }
 }

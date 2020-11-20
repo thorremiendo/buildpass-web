@@ -25,6 +25,7 @@ export interface User {
     is_evaluator:boolean;
     home_address:string;
     barangay:string;
+    
 
  }
 
@@ -39,7 +40,7 @@ export interface User {
    marital_status:number;
 
    contact_number:string;
-   email:string,
+   email:string, 
    emailVerified:boolean;
    is_evaluator:boolean;
    home_address:string;

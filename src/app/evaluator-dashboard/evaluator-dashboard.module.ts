@@ -30,6 +30,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -102,6 +103,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     MatDividerModule,
     MatListModule,
     MatGridListModule,
+    MatAutocompleteModule,
 
     NgxExtendedPdfViewerModule,
     CalendarModule.forRoot({

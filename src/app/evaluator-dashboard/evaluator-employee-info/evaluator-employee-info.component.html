@@ -16,12 +16,19 @@
         <div class="col-md-6">
             <mat-form-field appearance="outline">
                 <mat-label>Department</mat-label>
-                <mat-select placeholder="Select Department" formControlName="department" required>
-                    <mat-option value="1">City Planning and Development Office</mat-option>
-                    <mat-option value="2">City Environment and Park Office</mat-option>
-                    <mat-option value="3">Bureau of Fire</mat-option>
-                    <mat-option value="4">City Buildings and Architecture Office</mat-option>
+                <mat-select 
+                    type="text" 
+                    matInput 
+                    formControlName="department" 
+                    required>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>
+                    <mat-option value="cpdo">City Planning and Development Office</mat-option>
+                    <mat-option value="cepo">City Environment and Park Office</mat-option>
+                    <mat-option value="bfp">Bureau of Fire Protection</mat-option>
+                    <mat-option value="cbao">City Buildings and Architecture Office</mat-option>
                 </mat-select>
+               
+    
                 <mat-error *ngIf="
                 (evaluatorEmployeeFormControl.department.touched || _submitted) &&
                 evaluatorEmployeeFormControl.department.errors?.required">
@@ -34,7 +41,19 @@
         <div class="col-md-6">
             <mat-form-field appearance="outline">
                 <mat-label>Position</mat-label>
-                <input type="text" matInput formControlName="position" required />
+                <input 
+                    type="text" 
+                    matInput 
+                    formControlName="position" 
+                    [matAutocomplete]="auto_position" 
+                    required />
+                <mat-icon matSuffix>arrow_drop_down</mat-icon>
+                <mat-autocomplete autoActiveFirstOption #auto_position="matAutocomplete">
+                    <mat-option *ngFor="let position of _filteredPositionOptions | async" [value]="position">
+                      {{position}}
+                    </mat-option>
+                </mat-autocomplete>
+               
                 <mat-error *ngIf="
                   (evaluatorEmployeeFormControl.position.touched || _submitted) &&
                   evaluatorEmployeeFormControl.position.errors?.required

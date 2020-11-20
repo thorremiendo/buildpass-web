@@ -44,8 +44,9 @@ export class SignInComponent implements OnInit {
         .then((result) => {
           console.log(result);
           this._authService.currentUserSubject.next(result);
+          
           this._ngZone.run(() => {
-            if (result.user.emailVerified == true) {
+            if (result.user.emailVerified == true ) {
               this._router.navigate(['dashboard']);
             }
             else {

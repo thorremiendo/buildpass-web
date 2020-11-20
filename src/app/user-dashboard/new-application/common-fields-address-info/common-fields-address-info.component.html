@@ -1,0 +1,108 @@
+ <form [formGroup]="_addressInfoFormCommonFields" (ngSubmit)="onSubmit()">
+        <div class="row justify-content-center pt-5 pb-3">
+          <div class="col-md-2">
+            <mat-form-field appearance="outline">
+              <mat-label>No</mat-label>
+              <input type="text" matInput formControlName="no" required />
+              <mat-error
+                *ngIf="
+                  (addressInfoFormCommonFieldControl.no.touched || _submitted) &&
+                  addressInfoFormCommonFieldControl.no.errors?.required
+                "
+              >
+                No is Required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Street</mat-label>
+              <input type="text" matInput formControlName="street" required />
+              <mat-error
+                *ngIf="
+                  (addressInfoFormCommonFieldControl.street.touched || _submitted) &&
+                  addressInfoFormCommonFieldControl.street.errors?.required
+                "
+              >
+                Street is Required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Barangay</mat-label>
+              <input type="text" matInput formControlName="barangay" required />
+              <mat-error
+                *ngIf="
+                  (addressInfoFormCommonFieldControl.barangay.touched || _submitted) &&
+                  addressInfoFormCommonFieldControl.barangay.errors?.required
+                "
+              >
+                Barangay is Required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+    
+        <div class="row justify-content-center py-3">
+          <div class="col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Municipality</mat-label>
+              <input type="text" matInput formControlName="municipality" required />
+              <mat-error
+                *ngIf="
+                  (addressInfoFormCommonFieldControl.municipality.touched || _submitted) &&
+                  addressInfoFormCommonFieldControl.municipality.errors?.required
+                "
+              >
+                Municipality is Required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Province</mat-label>
+              <input type="text" matInput formControlName="province" required />
+              <mat-error
+                *ngIf="
+                  (addressInfoFormCommonFieldControl.province.touched || _submitted) &&
+                  addressInfoFormCommonFieldControl.province.errors?.required
+                "
+              >
+                Province is Required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field appearance="outline">
+              <mat-label>Zipcode</mat-label>
+              <input type="text" matInput formControlName="zipcode" required />
+              <mat-error
+                *ngIf="
+                  (addressInfoFormCommonFieldControl.zipcode.touched || _submitted) &&
+                  addressInfoFormCommonFieldControl.zipcode.errors?.required
+                "
+              >
+                Zipcode is Required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          
+        </div>
+
+      
+    
+       
+        <div class="row justify-content-center py-3">
+          <div class="col-md-3 col-3 text-right mb-3">
+            <button
+              style="background-color: maroon; color: white"
+              mat-stroked-button
+              type="submit"
+            >
+              Proceed
+            </button>
+          </div>
+        </div>
+      </form>
+  

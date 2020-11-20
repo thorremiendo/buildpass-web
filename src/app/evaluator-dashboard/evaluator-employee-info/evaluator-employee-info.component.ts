@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { RegisterAccountEvaluatorFormService } from '../../core/services/register-account-evaluator-form.service';
 import { Router } from '@angular/router';
-import { Office, Position } from '../../core/enums/department.enum'
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+import { Position, Office } from '../../core/enums/department.enum'
 
 @Component({
   selector: 'app-evaluator-employee-info',
@@ -13,17 +15,16 @@ export class EvaluatorEmployeeInfoComponent implements OnInit {
 
   public userDetails;
   public maxLength: number = 11;
-  
-  // public officeEnumKeys= [];
-
-  // public office: Office;
-  // private _posistion: Position;
-
 
   _evaluatorEmployeeInfoForm: FormGroup;
   _submitted = false;
 
-
+  _filteredOfficeOptions: Observable<string[]>;
+  _filteredPositionOptions: Observable<string[]>;
+ 
+  _office_options:string[] = Object.keys(Office).map(key => Office[key]).filter(k => !(parseInt(k) >= 0));
+  _position_options:string[] = Object.keys(Position).map(key => Position[key]).filter(k => !(parseInt(k) >= 0));
+  
   get evaluatorEmployeeFormControl() {
     return this._evaluatorEmployeeInfoForm.controls;
   }
@@ -36,19 +37,16 @@ export class EvaluatorEmployeeInfoComponent implements OnInit {
 
   ) {
     this.createForm();
-    // this.officeEnumKeys = Object.keys(this.office);
     
     
    }
-  //  change(value: string) {
-  //   this.office = this._office[value];
-  // }
+ 
 
 
   createForm() {
     this._evaluatorEmployeeInfoForm = this._fb.group({
       employee_number:['', Validators.required],
-      department:[''],
+      department:['', Validators.required],
       position: ['', Validators.required],
       contact_number:['', [Validators.required, Validators.maxLength(11),]],
       
@@ -84,7 +82,18 @@ export class EvaluatorEmployeeInfoComponent implements OnInit {
     
     }
   
-   
+  }
+  _filterOffice(value: string): string[] {
+    const filterValueOffice = value.toLowerCase();
+
+    return this._office_options.filter(_office_option=> _office_option.toLowerCase().includes(filterValueOffice));
+  }
+
+
+  _filterPosition(value: string): string[] {
+    const filterValuePosition = value.toLowerCase();
+
+    return this._position_options.filter(_position_option=> _position_option.toLowerCase().includes(filterValuePosition));
   }
 
   
@@ -92,9 +101,21 @@ export class EvaluatorEmployeeInfoComponent implements OnInit {
     this._registerAccountEvaluatorFormService.cast.subscribe(registerAccountEvaluatorSubject => this.userDetails = registerAccountEvaluatorSubject)
     console.log(this.userDetails)
     this.createForm();
+
+    this._filteredOfficeOptions = this.evaluatorEmployeeFormControl.department.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterOffice(value))
+    );
+
+    this._filteredPositionOptions = this.evaluatorEmployeeFormControl.position.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterPosition(value))
+    );
+
    
+  }
+}
 
     
-  }
 
-}
+

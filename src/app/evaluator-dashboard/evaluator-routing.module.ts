@@ -18,7 +18,7 @@ const routes: Routes = [
         { 
           path: '',
           component: DashboardComponent,
-          canActivate: [EvaluatorAuthGuard],
+          //canActivate: [EvaluatorAuthGuard],
         },
 
         {

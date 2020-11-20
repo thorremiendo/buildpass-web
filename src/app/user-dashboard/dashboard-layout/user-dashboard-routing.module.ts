@@ -26,6 +26,8 @@ import { ElectricalPermitFormComponent } from '../new-application/forms/electric
 import { CivilEngineerAffidavitComponent } from '../new-application/forms/civil-engineer-affidavit/civil-engineer-affidavit.component';
 import { GeodeticEngineerAffidavitComponent } from '../new-application/forms/geodetic-engineer-affidavit/geodetic-engineer-affidavit.component';
 import { CommonFieldsComponent } from '../new-application/common-fields/common-fields.component';
+import { CommonFieldsPersonalInfoComponent } from '../new-application/common-fields-personal-info/common-fields-personal-info.component';
+import { CommonFieldsAddressInfoComponent } from '../new-application/common-fields-address-info/common-fields-address-info.component';
 
 const routes: Routes = [
   {
@@ -66,7 +68,19 @@ const routes: Routes = [
               },
               {
                 path: 'step-two',
-                component: CommonFieldsComponent
+                component: CommonFieldsComponent,
+                children:[
+                  {
+                    path:"personal-info",
+                    component:CommonFieldsPersonalInfoComponent,
+                
+                  },
+                  
+                  {
+                    path:"address-info",
+                    component:CommonFieldsAddressInfoComponent,
+                  }
+                ]
               },
               {
                 path: 'initial-forms',

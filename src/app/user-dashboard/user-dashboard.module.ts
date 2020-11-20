@@ -13,19 +13,17 @@ import { LayoutModule } from '../layout/layout.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { UserDashboardModule } from './dashboard-layout/dashboard-layout.module';
 import { UserRoutingModule } from './user-routing.module';
-import { MatCarouselModule } from '@ngmodule/material-carousel';
+
+
 import { NewApplicationComponent } from './step-one/new-application.component';
 import { ExistingApplicationsComponent } from './existing-applications/existing-applications.component';
 import { UserFormsComponent } from './user-forms/user-forms.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatButtonModule } from '@angular/material/button';
+
 import { StepOneComponent } from './new-application/step-one/step-one.component';
 import { InitialFormsComponent } from './new-application/initial-forms/initial-forms.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CoreModule } from '../core/core.module';
-import { MatIconModule } from '@angular/material/icon';
+
 import { BuildingPermitFormsComponent } from './new-application/building-permit-forms/building-permit-forms.component';
 import { DesignAnalysisFormsComponent } from './new-application/design-analysis-forms/design-analysis-forms.component';
 import { ProfessionalDetailsComponent } from './new-application/professional-details/professional-details.component';
@@ -33,23 +31,31 @@ import { ClearanceFormsComponent } from './new-application/clearance-forms/clear
 import { AffidavitFilesComponent } from './new-application/affidavit-files/affidavit-files.component';
 import { OtherRequirementsComponent } from './new-application/other-requirements/other-requirements.component';
 import { ChecklistSummaryComponent } from './new-application/checklist-summary/checklist-summary.component';
-import {MatCardModule} from '@angular/material/card';
 import { SuccessPageComponent } from './new-application/success-page/success-page.component';
-import { MatTableModule } from '@angular/material/table'  
-import {MatInputModule} from '@angular/material/input';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
-import {MatExpansionModule} from '@angular/material/expansion';
 import { MapComponent } from '../map/map.component';
 import { DocumentaryRequirementsComponent } from './new-application/documentary-requirements/documentary-requirements.component';
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
-import {MatTabsModule} from '@angular/material/tabs';
 import { ZoningClearanceFormComponent } from './new-application/forms/zoning-clearance-form/zoning-clearance-form.component';
 import { BuildingPermitFormComponent } from './new-application/forms/building-permit-form/building-permit-form.component';
 import { SanitaryPermitFormComponent } from './new-application/forms/sanitary-permit-form/sanitary-permit-form.component';
 import { ElectricalPermitFormComponent } from './new-application/forms/electrical-permit-form/electrical-permit-form.component';
 import { CivilEngineerAffidavitComponent } from './new-application/forms/civil-engineer-affidavit/civil-engineer-affidavit.component';
 import { GeodeticEngineerAffidavitComponent } from './new-application/forms/geodetic-engineer-affidavit/geodetic-engineer-affidavit.component';
-import { CommonFieldsComponent } from './new-application/common-fields/common-fields.component';
+
+
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCarouselModule } from '@ngmodule/material-carousel';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table'  
+import { MatInputModule } from '@angular/material/input';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 
@@ -79,7 +85,7 @@ import { CommonFieldsComponent } from './new-application/common-fields/common-fi
     ElectricalPermitFormComponent,
     CivilEngineerAffidavitComponent,
     GeodeticEngineerAffidavitComponent,
-    CommonFieldsComponent
+
   ],
   imports: [
     CommonModule,
@@ -109,7 +115,10 @@ import { CommonFieldsComponent } from './new-application/common-fields/common-fi
     NgxExtendedPdfViewerModule,
     MatExpansionModule,
     PdfJsViewerModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDatepickerModule
+
+  
   ],
 })
 export class UserModule {}

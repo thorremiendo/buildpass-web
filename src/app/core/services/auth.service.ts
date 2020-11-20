@@ -132,6 +132,16 @@ export class AuthService {
   }
 
 
+  getFireBaseData(uid){
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${uid}`)
+    
+    return userRef.get()
+    
+
+  }
+
+
+
  
 
   

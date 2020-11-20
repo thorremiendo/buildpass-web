@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StepOneComponent } from './step-one/step-one.component';
 import { InitialFormsComponent } from './initial-forms/initial-forms.component';
 import { RouterModule } from '@angular/router';
@@ -21,15 +23,63 @@ import { SanitaryPermitFormComponent } from './forms/sanitary-permit-form/sanita
 import { ElectricalPermitFormComponent } from './forms/electrical-permit-form/electrical-permit-form.component';
 import { CivilEngineerAffidavitComponent } from './forms/civil-engineer-affidavit/civil-engineer-affidavit.component';
 import { GeodeticEngineerAffidavitComponent } from './forms/geodetic-engineer-affidavit/geodetic-engineer-affidavit.component';
-import { CommonFieldsComponent } from './common-fields/common-fields.component'
+
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+
+import { MatTabsModule } from '@angular/material/tabs';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 
 
 @NgModule({
-  declarations: [MapComponent, StepOneComponent, InitialFormsComponent, NewApplicationPageComponent, NewApplicationRouterComponent, BuildingPermitFormsComponent, DesignAnalysisFormsComponent, ProfessionalDetailsComponent, ClearanceFormsComponent, AffidavitFilesComponent, OtherRequirementsComponent, ChecklistSummaryComponent, SuccessPageComponent, DocumentaryRequirementsComponent, ZoningClearanceFormComponent, BuildingPermitFormComponent, SanitaryPermitFormComponent, ElectricalPermitFormComponent, CivilEngineerAffidavitComponent, GeodeticEngineerAffidavitComponent, CommonFieldsComponent],
+  declarations: 
+  [
+    MapComponent, 
+    StepOneComponent, 
+    InitialFormsComponent, 
+    NewApplicationPageComponent, 
+    NewApplicationRouterComponent, 
+    BuildingPermitFormsComponent, 
+    DesignAnalysisFormsComponent, 
+    ProfessionalDetailsComponent, 
+    ClearanceFormsComponent, 
+    AffidavitFilesComponent, 
+    OtherRequirementsComponent, 
+    ChecklistSummaryComponent, 
+    SuccessPageComponent, 
+    DocumentaryRequirementsComponent, 
+    ZoningClearanceFormComponent, 
+    BuildingPermitFormComponent, 
+    SanitaryPermitFormComponent, 
+    ElectricalPermitFormComponent, 
+    CivilEngineerAffidavitComponent, 
+    GeodeticEngineerAffidavitComponent, 
+  ],
+
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    NgbModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatCardModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTabsModule
+
+    
   ]
 })
 export class NewApplicationModule { }

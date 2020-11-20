@@ -53,10 +53,15 @@ export class EvaluatorSignInComponent implements OnInit {
     if (this._evaluatorSignInForm.valid) {
       this._authService.SignIn(value)
         .then((result) => {
+          this._authService.getFireBaseData(result.user.uid).subscribe(result =>{ // eto yung retrive ng data from firebase
+            const user = result.data();
+            console.log(user);
+          })
+            
           console.log(result);
           this._authService.currentUserSubject.next(result);
           this._ngZone.run(() => {
-            if (result.user.emailVerified == true) {
+            if (result.user.emailVerified == true ) {
               this._router.navigateByUrl('/evaluator');
             }
             else {

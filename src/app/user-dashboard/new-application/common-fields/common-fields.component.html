@@ -1,3 +1,21 @@
-<p>common-fields works!</p>
+<mat-card class=" mt-3">
+    <nav mat-tab-nav-bar mat-stretch-tabs>
+      <a
+        mat-tab-link
+        *ngFor="let link of navLinks"
+        [routerLink]="link.link"
+        routerLinkActive
+        #rla="routerLinkActive"
+        [active]="rla.isActive"
+      >
+        {{ link.label }}
+      </a>
+    </nav>
+   
+  </mat-card>
+  <router-outlet></router-outlet>
+  
+  
+ 
 
-<button mat-raised-button color="primary" (click)="callNext()">Next</button>
+<!-- <button mat-raised-button color="primary" (click)="callNext()">Next</button> -->

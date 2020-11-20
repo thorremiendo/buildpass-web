@@ -7,6 +7,14 @@ export class NewApplicationFormService {
   public newApplicationSubject= new BehaviorSubject<any>("");
   public commonFieldsSubject= new BehaviorSubject<any>("");
 
+  constructor(
+   
+    ) {
+      this.newApplicationSubject.subscribe((res) => {
+         console.log("This is the result: ", res);
+      });
+    }
+
   setApplicationInfo(newApplicationInfo) {
     this.newApplicationSubject.next(newApplicationInfo);
   }
