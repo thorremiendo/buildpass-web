@@ -25,6 +25,7 @@ import { SanitaryPermitFormComponent } from '../new-application/forms/sanitary-p
 import { ElectricalPermitFormComponent } from '../new-application/forms/electrical-permit-form/electrical-permit-form.component';
 import { CivilEngineerAffidavitComponent } from '../new-application/forms/civil-engineer-affidavit/civil-engineer-affidavit.component';
 import { GeodeticEngineerAffidavitComponent } from '../new-application/forms/geodetic-engineer-affidavit/geodetic-engineer-affidavit.component';
+import { CommonFieldsComponent } from '../new-application/common-fields/common-fields.component';
 
 const routes: Routes = [
   {
@@ -62,6 +63,10 @@ const routes: Routes = [
                     { title: 'Step One' },
                   ],
                 },
+              },
+              {
+                path: 'step-two',
+                component: CommonFieldsComponent
               },
               {
                 path: 'initial-forms',

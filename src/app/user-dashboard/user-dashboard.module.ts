@@ -49,6 +49,7 @@ import { SanitaryPermitFormComponent } from './new-application/forms/sanitary-pe
 import { ElectricalPermitFormComponent } from './new-application/forms/electrical-permit-form/electrical-permit-form.component';
 import { CivilEngineerAffidavitComponent } from './new-application/forms/civil-engineer-affidavit/civil-engineer-affidavit.component';
 import { GeodeticEngineerAffidavitComponent } from './new-application/forms/geodetic-engineer-affidavit/geodetic-engineer-affidavit.component';
+import { CommonFieldsComponent } from './new-application/common-fields/common-fields.component';
 
 
 
@@ -77,7 +78,8 @@ import { GeodeticEngineerAffidavitComponent } from './new-application/forms/geod
     SanitaryPermitFormComponent,
     ElectricalPermitFormComponent,
     CivilEngineerAffidavitComponent,
-    GeodeticEngineerAffidavitComponent
+    GeodeticEngineerAffidavitComponent,
+    CommonFieldsComponent
   ],
   imports: [
     CommonModule,

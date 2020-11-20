@@ -20,12 +20,13 @@ import { BuildingPermitFormComponent } from './forms/building-permit-form/buildi
 import { SanitaryPermitFormComponent } from './forms/sanitary-permit-form/sanitary-permit-form.component';
 import { ElectricalPermitFormComponent } from './forms/electrical-permit-form/electrical-permit-form.component';
 import { CivilEngineerAffidavitComponent } from './forms/civil-engineer-affidavit/civil-engineer-affidavit.component';
-import { GeodeticEngineerAffidavitComponent } from './forms/geodetic-engineer-affidavit/geodetic-engineer-affidavit.component'
+import { GeodeticEngineerAffidavitComponent } from './forms/geodetic-engineer-affidavit/geodetic-engineer-affidavit.component';
+import { CommonFieldsComponent } from './common-fields/common-fields.component'
 
 
 
 @NgModule({
-  declarations: [MapComponent, StepOneComponent, InitialFormsComponent, NewApplicationPageComponent, NewApplicationRouterComponent, BuildingPermitFormsComponent, DesignAnalysisFormsComponent, ProfessionalDetailsComponent, ClearanceFormsComponent, AffidavitFilesComponent, OtherRequirementsComponent, ChecklistSummaryComponent, SuccessPageComponent, DocumentaryRequirementsComponent, ZoningClearanceFormComponent, BuildingPermitFormComponent, SanitaryPermitFormComponent, ElectricalPermitFormComponent, CivilEngineerAffidavitComponent, GeodeticEngineerAffidavitComponent],
+  declarations: [MapComponent, StepOneComponent, InitialFormsComponent, NewApplicationPageComponent, NewApplicationRouterComponent, BuildingPermitFormsComponent, DesignAnalysisFormsComponent, ProfessionalDetailsComponent, ClearanceFormsComponent, AffidavitFilesComponent, OtherRequirementsComponent, ChecklistSummaryComponent, SuccessPageComponent, DocumentaryRequirementsComponent, ZoningClearanceFormComponent, BuildingPermitFormComponent, SanitaryPermitFormComponent, ElectricalPermitFormComponent, CivilEngineerAffidavitComponent, GeodeticEngineerAffidavitComponent, CommonFieldsComponent],
   imports: [
     CommonModule,
     RouterModule
