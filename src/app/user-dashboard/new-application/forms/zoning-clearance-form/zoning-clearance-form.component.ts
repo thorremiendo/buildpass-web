@@ -10,10 +10,10 @@ import { NewApplicationFormService } from 'src/app/core/services/new-application
 })
 export class ZoningClearanceFormComponent implements OnInit {
   public formData = {
-    first_name: "Thor",
-    middle_name: "Ocampo",
-    last_name: "Remiendo",
-    contact_no: "09360637051"
+    first_name: "Joshua",
+    middle_name: "",
+    last_name: "Basoc",
+    contact_no: "123123123123"
   }
 
   public zoningClearanceForm: File;
@@ -24,7 +24,6 @@ export class ZoningClearanceFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    debugger
     this.newApplicationService.newApplicationSubject
       .asObservable()
       .subscribe(
