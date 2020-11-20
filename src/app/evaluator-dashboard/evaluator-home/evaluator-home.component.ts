@@ -13,6 +13,7 @@ const googleLogoURL =
   styleUrls: ['./evaluator-home.component.scss'],
 })
 export class EvaluatorHomeComponent implements OnInit {
+  public role_id = "2"
   //piechart data
   single: any[];
   view: any[] = [700, 400];
@@ -73,5 +74,8 @@ export class EvaluatorHomeComponent implements OnInit {
 
   onDeactivate(data): void {
     console.log('Deactivate', JSON.parse(JSON.stringify(data)));
+  }
+  handleView(){
+    this._router.navigateByUrl('evaluator/application')
   }
 }

@@ -41,90 +41,167 @@
 </div>
 <mat-card>
   <mat-tab-group animationDuration="0ms">
-    <mat-tab label="CBAO">
+    <mat-tab label="CBAO" *ngIf="role_id == '1'">
       <div class="m-4">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="mt-4">
               <div class="d-flex flex-column">
-                <h4>Forms</h4>
+                <h4>A. Forms</h4>
+                <div class="d-flex justify-content-between w-100">
+                  <button
+                    mat-button
+                    color="primary"
+                    class="text-left"
+                    id="zoning"
+                    (click)="handleForm('zoning')"
+                  >
+                    1. Zoning Clearance Application Form
+                  </button>
+                  <mat-icon
+                    *ngIf="zoningPermit.is_compliant == 'Yes'"
+                    class="p-2"
+                    style="color: green"
+                    >check_circle_outline</mat-icon
+                  >
+                  <mat-icon
+                    *ngIf="zoningPermit.is_compliant == 'No'"
+                    class="p-2"
+                    style="color: red"
+                    >report_problem</mat-icon
+                  >
+                </div>
+                <div class="d-flex justify-content-between w-100">
+                  <button
+                    mat-button
+                    color="primary"
+                    class="text-left"
+                    (click)="handleForm('building')"
+                  >
+                    2. Building Permit Form
+                  </button>
+                  <mat-icon
+                    *ngIf="buildingPermit.is_compliant == 'Yes'"
+                    class="p-2"
+                    style="color: green"
+                    >check_circle_outline</mat-icon
+                  >
+                  <mat-icon
+                    *ngIf="buildingPermit.is_compliant == 'No'"
+                    class="p-2"
+                    style="color: red"
+                    >report_problem</mat-icon
+                  >
+                </div>
+                <div class="d-flex justify-content-between w-100">
+                  <button
+                    mat-button
+                    color="primary"
+                    class="text-left"
+                    (click)="handleForm('sanitary')"
+                  >
+                    3. Sanitary Permit Form
+                  </button>
+                  <mat-icon
+                    *ngIf="sanitaryPermit.is_compliant == 'Yes'"
+                    class="p-2"
+                    style="color: green"
+                    >check_circle_outline</mat-icon
+                  >
+                  <mat-icon
+                    *ngIf="sanitaryPermit.is_compliant == 'No'"
+                    class="p-2"
+                    style="color: red"
+                    >report_problem</mat-icon
+                  >
+                </div>
+                <div class="d-flex justify-content-between w-100">
+                  <button
+                    mat-button
+                    color="primary"
+                    class="text-left"
+                    (click)="handleForm('electric')"
+                  >
+                    4. Electrical Permit Form
+                  </button>
+                  <mat-icon
+                    *ngIf="electricPermit.is_compliant == 'Yes'"
+                    class="p-2"
+                    style="color: green"
+                    >check_circle_outline</mat-icon
+                  >
+                  <mat-icon
+                    *ngIf="electricPermit.is_compliant == 'No'"
+                    class="p-2"
+                    style="color: red"
+                    >report_problem</mat-icon
+                  >
+                </div>
+              </div>
+              <div class="d-flex flex-column my-3">
+                <h4>B. Documentary Requirements</h4>
                 <button mat-button color="primary" class="text-left">
-                  Duly Accomplished/Notarized Zoning Clearance Application Form
+                  1. Authorization Letter of Special Power of Attorney
                 </button>
                 <button mat-button color="primary" class="text-left">
-                  Building Permit Form
+                  2. Filing Fee proof of payment (receipt)
                 </button>
                 <button mat-button color="primary" class="text-left">
-                  Sanitary Permit Form
+                  3. Tax Declaration from City Assessor's Office
                 </button>
                 <button mat-button color="primary" class="text-left">
-                  Electrical Permit Form
+                  4. Latest Quarter of the Real Property Tax Receipt
+                </button>
+                <button mat-button color="primary" class="text-left">
+                  5. Clear Latest picture of site/are
+                </button>
+                <button mat-button color="primary" class="text-left">
+                  6. Certified True Copy of the Title
+                </button>
+                <button mat-button color="primary" class="text-left">
+                  7.Contract of Lease
+                </button>
+                <button mat-button color="primary" class="text-left">
+                  8. Barangay Clearance
                 </button>
               </div>
               <div class="d-flex flex-column my-3">
-                <h4>Documentary Requirements</h4>
+                <h4>C. Plans, Designs, Specifications, Cost Estimate</h4>
                 <button mat-button color="primary" class="text-left">
-                  Authorization Letter of Special Power of Attorney 
+                  1. Building Plans (to be signed by applicant/owner)
                 </button>
                 <button mat-button color="primary" class="text-left">
-                  Filing Fee proof of payment (receipt)
+                  2. Structural Design and Analysis
                 </button>
                 <button mat-button color="primary" class="text-left">
-                  Tax Declaration from City Assessor's Office 
+                  3. Electrical Design Analysis
                 </button>
                 <button mat-button color="primary" class="text-left">
-                  Latest Quarter of the Real Property Tax Receipt
+                  4. Soil Analysis for Residential Buildings with 3 storeys or
+                  more
                 </button>
                 <button mat-button color="primary" class="text-left">
-                  Clear Latest picture of site/are 
+                  5. Building Specification
                 </button>
                 <button mat-button color="primary" class="text-left">
-                  Certified True Copy of the Title 
-                </button>
-                <button mat-button color="primary" class="text-left">
-                  Contract of Lease
-                </button>
-                <button mat-button color="primary" class="text-left">
-                  Barangay Clearance
-                </button>
-              </div>
-              <div class="d-flex flex-column my-3">
-                <h4>Plans, Designs, Specifications, Cost Estimate</h4>
-                <button mat-button color="primary" class="text-left">
-                  Building Plans (to be signed by applicant/owner)
-                </button>
-                <button mat-button color="primary" class="text-left">
-                  Structural Design and Analysis 
-                </button>
-                <button mat-button color="primary" class="text-left">
-                  Electrical Design Analysis 
-                </button>
-                <button mat-button color="primary" class="text-left">
-                  Soil Analysis for Residential Buildings with 3 storeys or more
-                </button>
-                <button mat-button color="primary" class="text-left">
-                  Building Specification
-                </button>
-                <button mat-button color="primary" class="text-left">
-                  Bill of Materials
+                  6. Bill of Materials
                 </button>
               </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <mat-card style="width: 100%">
+          <div class="col-md-8">
+            <mat-card style="width: 100%; background-color: whitesmoke">
               <hr />
               <mat-card-content>
+                <h3>{{ formName }}</h3>
                 <ngx-extended-pdf-viewer
-                  [src]="
-                    '../../../../assets/forms/Geodetic_Engineer_Affidavit.pdf'
-                  "
+                  [src]="pdfSrc"
                   [showToolbar]="true"
                   [showSidebarButton]="false"
                   [showFindButton]="false"
                   [showPagingButtons]="false"
                   [showZoomButtons]="true"
-                  [showPresentationModeButton]="false"
+                  [showPresentationModeButton]="true"
                   [showOpenFileButton]="false"
                   [showPrintButton]="false"
                   [showDownloadButton]="true"
@@ -140,36 +217,176 @@
                   zoom="80%"
                 >
                 </ngx-extended-pdf-viewer>
-                <mat-form-field class="example-full-width mt-3">
-                  <mat-label>Leave a comment</mat-label>
-                  <textarea matInput placeholder="Comment"></textarea>
-                </mat-form-field>
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-12">
+                    <mat-form-field class="example-full-width mt-3">
+                      <mat-label>Leave a comment</mat-label>
+                      <textarea matInput placeholder="Comment"></textarea>
+                    </mat-form-field>
                     <mat-form-field appearance="fill">
                       <mat-label>Review</mat-label>
-                      <mat-select>
-                        <mat-option value="Compliant"> Compliant </mat-option>
-                        <mat-option value="Non-Compliant"> Non-Compliant </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-6">
-                    <mat-form-field appearance="fill">
-                      <mat-label>Route To:</mat-label>
-                      <mat-select>
-                        <mat-option value="CPDO"> CPDO </mat-option>
-                        <mat-option value="BFP"> BFP </mat-option>
-                        <mat-option value="CEPMO"> CEPMO </mat-option>
+                      <mat-select [(value)]="isCompliant">
+                        <mat-option value="Yes"> Compliant </mat-option>
+                        <mat-option value="No"> Non-Compliant </mat-option>
                       </mat-select>
                     </mat-form-field>
                   </div>
                 </div>
-                <button mat-raised-button color="primary">Submit</button>
+
+                <button
+                  mat-raised-button
+                  color="accent"
+                  (click)="handleSubmit(selectedForm)"
+                >
+                  Submit
+                </button>
               </mat-card-content>
             </mat-card>
           </div>
         </div>
+      </div>
+      <hr />
+      <div class="d-flex justify-content-end w-100 mb-3 pr-3">
+        <button mat-raised-button color="primary" style="font-size: 18px;" (click)="handleForward()">Forward to CPDO</button>
+      </div>
+    </mat-tab>
+    <mat-tab label="CPDO" *ngIf="role_id == '2'">
+      <div class="m-4">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="mt-4">
+              <div class="d-flex flex-column">
+                <h4>A. Documents</h4>
+                <div class="d-flex justify-content-between w-100">
+                  <button
+                    mat-button
+                    color="primary"
+                    class="text-left"
+                    id="zoning"
+                    (click)="handleForm('zoning')"
+                  >
+                    1. Zoning Clearance Application Form
+                  </button>
+                  <mat-icon
+                    *ngIf="zoningPermit.is_compliant == 'Yes'"
+                    class="p-2"
+                    style="color: green"
+                    >check_circle_outline</mat-icon
+                  >
+                  <mat-icon
+                    *ngIf="zoningPermit.is_compliant == 'No'"
+                    class="p-2"
+                    style="color: red"
+                    >report_problem</mat-icon
+                  >
+                </div>
+                <div class="d-flex justify-content-between w-100">
+                  <button
+                    mat-button
+                    color="primary"
+                    class="text-left"
+                    (click)="handleForm('building')"
+                  >
+                    2. Building Plans
+                  </button>
+                  <mat-icon
+                    *ngIf="buildingPermit.is_compliant == 'Yes'"
+                    class="p-2"
+                    style="color: green"
+                    >check_circle_outline</mat-icon
+                  >
+                  <mat-icon
+                    *ngIf="buildingPermit.is_compliant == 'No'"
+                    class="p-2"
+                    style="color: red"
+                    >report_problem</mat-icon
+                  >
+                </div>
+                <div class="d-flex justify-content-between w-100">
+                  <button
+                    mat-button
+                    color="primary"
+                    class="text-left"
+                    (click)="handleForm('sanitary')"
+                  >
+                    3. Certified True Copy of Title
+                  </button>
+                  <mat-icon
+                    *ngIf="sanitaryPermit.is_compliant == 'Yes'"
+                    class="p-2"
+                    style="color: green"
+                    >check_circle_outline</mat-icon
+                  >
+                  <mat-icon
+                    *ngIf="sanitaryPermit.is_compliant == 'No'"
+                    class="p-2"
+                    style="color: red"
+                    >report_problem</mat-icon
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <mat-card style="width: 100%; background-color: whitesmoke">
+              <hr />
+              <mat-card-content>
+                <h3>{{ formName }}</h3>
+                <ngx-extended-pdf-viewer
+                  [src]="pdfSrc"
+                  [showToolbar]="true"
+                  [showSidebarButton]="false"
+                  [showFindButton]="false"
+                  [showPagingButtons]="false"
+                  [showZoomButtons]="true"
+                  [showPresentationModeButton]="true"
+                  [showOpenFileButton]="false"
+                  [showPrintButton]="false"
+                  [showDownloadButton]="true"
+                  [showBookmarkButton]="false"
+                  [showSecondaryToolbarButton]="true"
+                  [showRotateButton]="false"
+                  [showHandToolButton]="false"
+                  [showScrollingButton]="false"
+                  [showSpreadButton]="false"
+                  [showPropertiesButton]="false"
+                  [useBrowserLocale]="true"
+                  height="500px"
+                  zoom="80%"
+                >
+                </ngx-extended-pdf-viewer>
+                <div class="row">
+                  <div class="col-md-12">
+                    <mat-form-field class="example-full-width mt-3">
+                      <mat-label>Leave a comment</mat-label>
+                      <textarea matInput placeholder="Comment"></textarea>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Review</mat-label>
+                      <mat-select [(value)]="isCompliant">
+                        <mat-option value="Yes"> Compliant </mat-option>
+                        <mat-option value="No"> Non-Compliant </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <button
+                  mat-raised-button
+                  color="accent"
+                  (click)="handleSubmit(selectedForm)"
+                >
+                  Submit
+                </button>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="d-flex justify-content-end w-100 mb-3 pr-3">
+        <button mat-raised-button color="primary" style="font-size: 18px;" (click)="handleForward()" *ngIf="role_id == '1'">Forward to CPDO</button>
+        <button mat-raised-button color="primary" style="font-size: 18px;" (click)="handleForward()" *ngIf="role_id == '2'">Release Zoning Clearance</button>
       </div>
     </mat-tab>
   </mat-tab-group>
