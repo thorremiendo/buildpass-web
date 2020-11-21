@@ -337,7 +337,10 @@
                     >report_problem</mat-icon
                   >
                 </div>
-                <div class="d-flex justify-content-between w-100" *ngIf="copyOfTitle.is_compliant=='Yes' && buildingPlan.is_compliant=='Yes' && zoningPermit.is_compliant=='Yes'">
+                <div>
+                  <button mat-raised-button color="primary" (click)="generateClearance()" *ngIf="copyOfTitle.is_compliant=='Yes' && buildingPlan.is_compliant=='Yes' && zoningPermit.is_compliant=='Yes'">Generate Certificate of Zoning Clearance</button>
+                </div>
+                <div class="d-flex justify-content-between w-100" *ngIf="clearanceForm">
                   <button
                     mat-button
                     color="primary"

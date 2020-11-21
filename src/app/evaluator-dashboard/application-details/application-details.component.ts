@@ -23,7 +23,8 @@ export class ApplicationDetailsComponent implements OnInit {
   public formName;
   public isCompliant;
   public selectedForm;
-  public formDetails: FormGroup
+  public formDetails: FormGroup;
+  public clearanceForm;
   public zoningPermit = {
     is_compliant: ""
   };
@@ -190,5 +191,8 @@ export class ApplicationDetailsComponent implements OnInit {
         this.router.navigateByUrl('evaluator/home/table')
       }
     })
+  }
+  generateClearance(){
+    this.clearanceForm = "1"
   }
 }
