@@ -10,11 +10,7 @@ import { NewApplicationFormService } from 'src/app/core/services/new-application
 })
 export class ZoningClearanceFormComponent implements OnInit {
   public formData = {
-    first_name: "Joshua",
-    middle_name: "",
-    last_name: "Basoc",
-    contact_no: "123123123123"
-  }
+  };
 
   public zoningClearanceForm: File;
   public applicationInfo;
@@ -30,6 +26,12 @@ export class ZoningClearanceFormComponent implements OnInit {
         (newApplicationSubject) =>
           (this.applicationInfo = newApplicationSubject)
       );
+    this.newApplicationService.commonFieldsSubject
+      .asObservable()
+      .subscribe(
+        (commonFieldsSubject) => (this.formData = commonFieldsSubject)
+      );
+      console.log(this.formData)
   }
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];

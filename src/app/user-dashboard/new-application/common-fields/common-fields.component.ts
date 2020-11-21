@@ -19,15 +19,15 @@ export class CommonFieldsComponent implements OnInit {
 
     this.navLinks = [
         {
-            label: 'Personal Info',
+            label: 'Lot Owner Details',
             link: './personal-info',
             index: 0
         }, 
-        {
-            label: 'Address Info',
-            link: './address-info',
-            index: 1
-        },
+        // {
+        //     label: 'Address Info',
+        //     link: './address-info',
+        //     index: 1
+        // },
 
     ];
 

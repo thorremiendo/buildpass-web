@@ -9,6 +9,8 @@ import { NewApplicationFormService } from 'src/app/core/services/new-application
   styleUrls: ['./building-permit-form.component.scss'],
 })
 export class BuildingPermitFormComponent implements OnInit {
+  public formData = {
+  };
   public buildingPermitForm: File;
   public applicationInfo;
   constructor(
@@ -23,6 +25,12 @@ export class BuildingPermitFormComponent implements OnInit {
         (newApplicationSubject) =>
           (this.applicationInfo = newApplicationSubject)
       );
+      this.newApplicationService.commonFieldsSubject
+      .asObservable()
+      .subscribe(
+        (commonFieldsSubject) => (this.formData = commonFieldsSubject)
+      );
+      console.log(this.formData)
   }
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
