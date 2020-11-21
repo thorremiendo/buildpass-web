@@ -3,21 +3,21 @@
     <div class="col-md-4">
       <mat-card>
         <mat-card-content>
-          <p>Applicant Name</p>
+          <p>Applicant Name: Juan Dela Cruz</p>
         </mat-card-content>
       </mat-card>
     </div>
     <div class="col-md-4">
       <mat-card>
         <mat-card-content>
-          <p>Application Date</p>
+          <p>Application Date: November 21, 2020</p>
         </mat-card-content>
       </mat-card>
     </div>
     <div class="col-md-4">
       <mat-card>
         <mat-card-content>
-          <p>Progress</p>
+          <p>Progress: On-going</p>
         </mat-card-content>
       </mat-card>
     </div>
@@ -26,22 +26,35 @@
     <div class="col-md-6">
       <mat-card>
         <mat-card-content>
-          <p>Application No.</p>
+          <p>Application No: A2020-1</p>
         </mat-card-content>
       </mat-card>
     </div>
     <div class="col-md-6">
       <mat-card>
         <mat-card-content>
-          <p>Task No.</p>
+          <p>Task No: T2020-1</p>
         </mat-card-content>
       </mat-card>
     </div>
   </div>
+  <div>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Show Project Location
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="map" id="map" class="match-parent"></div>
+      </mat-expansion-panel> 
+</mat-accordion>
+    
+  </div>
 </div>
 <mat-card>
   <mat-tab-group animationDuration="0ms">
-    <mat-tab label="CBAO" *ngIf="role_id == '1'">
+    <mat-tab label="CBAO" *ngIf="evaluatorDetails.department == 'cbao'">
       <div class="m-4">
         <div class="row">
           <div class="col-md-4">
@@ -250,7 +263,7 @@
         <button mat-raised-button color="primary" style="font-size: 18px;" (click)="handleForward()">Forward to CPDO</button>
       </div>
     </mat-tab>
-    <mat-tab label="CPDO" *ngIf="role_id == '2'">
+    <mat-tab label="CPDO" *ngIf="evaluatorDetails.department == 'cpdo'">
       <div class="m-4">
         <div class="row">
           <div class="col-md-4">
@@ -285,18 +298,18 @@
                     mat-button
                     color="primary"
                     class="text-left"
-                    (click)="handleForm('building')"
+                    (click)="handleForm('buildingPlan')"
                   >
                     2. Building Plans
                   </button>
                   <mat-icon
-                    *ngIf="buildingPermit.is_compliant == 'Yes'"
+                    *ngIf="buildingPlan.is_compliant == 'Yes'"
                     class="p-2"
                     style="color: green"
                     >check_circle_outline</mat-icon
                   >
                   <mat-icon
-                    *ngIf="buildingPermit.is_compliant == 'No'"
+                    *ngIf="buildingPlan.is_compliant == 'No'"
                     class="p-2"
                     style="color: red"
                     >report_problem</mat-icon
@@ -307,18 +320,40 @@
                     mat-button
                     color="primary"
                     class="text-left"
-                    (click)="handleForm('sanitary')"
+                    (click)="handleForm('copyOfTitle')"
                   >
                     3. Certified True Copy of Title
                   </button>
                   <mat-icon
-                    *ngIf="sanitaryPermit.is_compliant == 'Yes'"
+                    *ngIf="copyOfTitle.is_compliant == 'Yes'"
                     class="p-2"
                     style="color: green"
                     >check_circle_outline</mat-icon
                   >
                   <mat-icon
-                    *ngIf="sanitaryPermit.is_compliant == 'No'"
+                    *ngIf="copyOfTitle.is_compliant == 'No'"
+                    class="p-2"
+                    style="color: red"
+                    >report_problem</mat-icon
+                  >
+                </div>
+                <div class="d-flex justify-content-between w-100" *ngIf="copyOfTitle.is_compliant=='Yes' && buildingPlan.is_compliant=='Yes' && zoningPermit.is_compliant=='Yes'">
+                  <button
+                    mat-button
+                    color="primary"
+                    class="text-left"
+                    (click)="handleForm('zoningClearance')"
+                  >
+                    4. Zoning Clearance
+                  </button>
+                  <mat-icon
+                    *ngIf="zoningClearance.is_compliant == 'Yes'"
+                    class="p-2"
+                    style="color: green"
+                    >check_circle_outline</mat-icon
+                  >
+                  <mat-icon
+                    *ngIf="zoningClearance.is_compliant == 'No'"
                     class="p-2"
                     style="color: red"
                     >report_problem</mat-icon
@@ -385,8 +420,8 @@
       </div>
       <hr />
       <div class="d-flex justify-content-end w-100 mb-3 pr-3">
-        <button mat-raised-button color="primary" style="font-size: 18px;" (click)="handleForward()" *ngIf="role_id == '1'">Forward to CPDO</button>
-        <button mat-raised-button color="primary" style="font-size: 18px;" (click)="handleForward()" *ngIf="role_id == '2'">Release Zoning Clearance</button>
+        <button mat-raised-button color="primary" style="font-size: 18px;" (click)="handleForward()" *ngIf="evaluatorDetails.department == 'cbao'">Forward to CPDO</button>
+        <button mat-raised-button color="primary" style="font-size: 18px;" (click)="handleProceed()" *ngIf="evaluatorDetails.department == 'cpdo'">Proceed</button>
       </div>
     </mat-tab>
   </mat-tab-group>

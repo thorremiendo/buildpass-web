@@ -62,7 +62,7 @@ export class EvaluatorSignInComponent implements OnInit {
           this._authService.currentUserSubject.next(result);
           this._ngZone.run(() => {
             if (result.user.emailVerified == true ) {
-              this._router.navigateByUrl('/evaluator');
+              this._router.navigateByUrl('/evaluator/home/table');
             }
             else {
               window.alert("Email not yet verified");

@@ -50,6 +50,7 @@ import { EvaluatorPersonalInfoComponent } from './evaluator-personal-info/evalua
 import { EvaluatorEmployeeInfoComponent } from './evaluator-employee-info/evaluator-employee-info.component';
 import { EvaluatorsSummaryComponent } from './evaluators-summary/evaluators-summary.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 
@@ -104,7 +105,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     MatListModule,
     MatGridListModule,
     MatAutocompleteModule,
-
+    MatExpansionModule,
     NgxExtendedPdfViewerModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
