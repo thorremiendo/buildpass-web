@@ -25,9 +25,10 @@ import { SanitaryPermitFormComponent } from '../new-application/forms/sanitary-p
 import { ElectricalPermitFormComponent } from '../new-application/forms/electrical-permit-form/electrical-permit-form.component';
 import { CivilEngineerAffidavitComponent } from '../new-application/forms/civil-engineer-affidavit/civil-engineer-affidavit.component';
 import { GeodeticEngineerAffidavitComponent } from '../new-application/forms/geodetic-engineer-affidavit/geodetic-engineer-affidavit.component';
-import { CommonFieldsComponent } from '../new-application/common-fields/common-fields.component';
-import { CommonFieldsPersonalInfoComponent } from '../new-application/common-fields-personal-info/common-fields-personal-info.component';
-import { CommonFieldsAddressInfoComponent } from '../new-application/common-fields-address-info/common-fields-address-info.component';
+import { CommonFieldsComponent } from '../new-application/common-fields/common-fields-home/common-fields.component';
+import { CommonFieldsPersonalInfoComponent } from '../new-application/common-fields/common-fields-personal-info/common-fields-personal-info.component';
+import { CommonFieldsAddressInfoComponent } from '../new-application/common-fields/common-fields-address-info/common-fields-address-info.component';
+import { CommonFieldsRepresentativeComponent } from '../new-application/common-fields/common-fields-representative/common-fields-representative.component';
 
 const routes: Routes = [
   {
@@ -71,14 +72,18 @@ const routes: Routes = [
                 component: CommonFieldsComponent,
                 children:[
                   {
-                    path:"personal-info",
-                    component:CommonFieldsPersonalInfoComponent,
+                    path:"lot-owner",
+                    component: CommonFieldsPersonalInfoComponent,
                 
                   },
                   
                   {
-                    path:"address-info",
-                    component:CommonFieldsAddressInfoComponent,
+                    path:"project-site",
+                    component: CommonFieldsAddressInfoComponent,
+                  },
+                  {
+                    path: "representative",
+                    component: CommonFieldsRepresentativeComponent
                   }
                 ]
               },

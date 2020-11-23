@@ -35,6 +35,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommonFieldsRepresentativeComponent } from './common-fields/common-fields-representative/common-fields-representative.component';
 
 
 
@@ -61,7 +62,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SanitaryPermitFormComponent, 
     ElectricalPermitFormComponent, 
     CivilEngineerAffidavitComponent, 
-    GeodeticEngineerAffidavitComponent, 
+    GeodeticEngineerAffidavitComponent, CommonFieldsRepresentativeComponent, 
   ],
 
   imports: [

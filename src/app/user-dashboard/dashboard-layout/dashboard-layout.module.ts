@@ -29,15 +29,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
+import { CommonFieldsComponent } from '../new-application/common-fields/common-fields-home/common-fields.component';
+import { CommonFieldsPersonalInfoComponent } from '../new-application/common-fields/common-fields-personal-info/common-fields-personal-info.component';
+import { CommonFieldsAddressInfoComponent } from '../new-application/common-fields/common-fields-address-info/common-fields-address-info.component';
 
 
 
 
 
-
-import { CommonFieldsComponent } from '../new-application/common-fields/common-fields.component';
-import { CommonFieldsPersonalInfoComponent } from '../new-application/common-fields-personal-info/common-fields-personal-info.component';
-import { CommonFieldsAddressInfoComponent } from '../new-application/common-fields-address-info/common-fields-address-info.component'
 
 
 

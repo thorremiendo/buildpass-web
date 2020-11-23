@@ -6,7 +6,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
-import { RegisterAccountFormService} from '../../../core/services/register-account-form.service';
+import { RegisterAccountFormService } from 'src/app/core/services/register-account-form.service';
+
 
 @Component({
   selector: 'app-common-fields-address-info',
