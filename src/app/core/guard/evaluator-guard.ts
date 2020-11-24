@@ -20,7 +20,7 @@ export class EvaluatorAuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if(this._authService.isLoggedIn !== true && this._authService.isEvaluator !== true) {
-      this._router.navigate([''])
+      this._router.navigate(['evaluator/sign-in'])
     }
     return true;
   }

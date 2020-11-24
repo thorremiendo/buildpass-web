@@ -1,108 +1,205 @@
- <form [formGroup]="_addressInfoFormCommonFields" (ngSubmit)="onSubmit()">
-        <div class="row justify-content-center pt-5 pb-3">
-          <div class="col-md-2">
-            <mat-form-field appearance="outline">
-              <mat-label>No</mat-label>
-              <input type="text" matInput formControlName="no" required />
-              <mat-error
-                *ngIf="
-                  (addressInfoFormCommonFieldControl.no.touched || _submitted) &&
-                  addressInfoFormCommonFieldControl.no.errors?.required
-                "
-              >
-                No is Required
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-md-3">
-            <mat-form-field appearance="outline">
-              <mat-label>Street</mat-label>
-              <input type="text" matInput formControlName="street" required />
-              <mat-error
-                *ngIf="
-                  (addressInfoFormCommonFieldControl.street.touched || _submitted) &&
-                  addressInfoFormCommonFieldControl.street.errors?.required
-                "
-              >
-                Street is Required
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-md-3">
-            <mat-form-field appearance="outline">
-              <mat-label>Barangay</mat-label>
-              <input type="text" matInput formControlName="barangay" required />
-              <mat-error
-                *ngIf="
-                  (addressInfoFormCommonFieldControl.barangay.touched || _submitted) &&
-                  addressInfoFormCommonFieldControl.barangay.errors?.required
-                "
-              >
-                Barangay is Required
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-    
-        <div class="row justify-content-center py-3">
-          <div class="col-md-3">
-            <mat-form-field appearance="outline">
-              <mat-label>Municipality</mat-label>
-              <input type="text" matInput formControlName="municipality" required />
-              <mat-error
-                *ngIf="
-                  (addressInfoFormCommonFieldControl.municipality.touched || _submitted) &&
-                  addressInfoFormCommonFieldControl.municipality.errors?.required
-                "
-              >
-                Municipality is Required
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-md-3">
-            <mat-form-field appearance="outline">
-              <mat-label>Province</mat-label>
-              <input type="text" matInput formControlName="province" required />
-              <mat-error
-                *ngIf="
-                  (addressInfoFormCommonFieldControl.province.touched || _submitted) &&
-                  addressInfoFormCommonFieldControl.province.errors?.required
-                "
-              >
-                Province is Required
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-md-2">
-            <mat-form-field appearance="outline">
-              <mat-label>Zipcode</mat-label>
-              <input type="text" matInput formControlName="zipcode" required />
-              <mat-error
-                *ngIf="
-                  (addressInfoFormCommonFieldControl.zipcode.touched || _submitted) &&
-                  addressInfoFormCommonFieldControl.zipcode.errors?.required
-                "
-              >
-                Zipcode is Required
-              </mat-error>
-            </mat-form-field>
-          </div>
-          
-        </div>
-
-      
-    
-       
-        <div class="row justify-content-center py-3">
-          <div class="col-md-3 col-3 text-right mb-3">
-            <button
-              style="background-color: maroon; color: white"
-              mat-stroked-button
-              type="submit"
-            >
-              Proceed
-            </button>
-          </div>
-        </div>
-      </form>
-  
+<form [formGroup]="projectDetailsForm" (ngSubmit)="onSubmit()">
+  <div class="row justify-content-center pt-3 px-3">
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Lot Number</mat-label>
+        <input type="text" matInput formControlName="project_lot_number" required />
+        <mat-error
+          *ngIf="
+            (projectDetailsFormControl.project_lot_number.touched ||
+              _submitted) &&
+            projectDetailsFormControl.project_lot_number.errors?.required
+          "
+        >
+          Lot Number is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Block Number</mat-label>
+        <input type="text" matInput formControlName="project_block_number" />
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Unit Number</mat-label>
+        <input type="text" matInput formControlName="project_unit_number" required />
+        <mat-error
+          *ngIf="
+            (projectDetailsFormControl.project_unit_number.touched ||
+              _submitted) &&
+            projectDetailsFormControl.project_unit_number.errors?.required
+          "
+        >
+          Unit Number is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Floor Number</mat-label>
+        <input type="text" matInput formControlName="project_floor_number" />
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row justify-content-center px-3">
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Street</mat-label>
+        <input type="text" matInput formControlName="project_street" required />
+        <mat-error
+          *ngIf="
+            (projectDetailsFormControl.project_street.touched ||
+              _submitted) &&
+            projectDetailsFormControl.project_street.errors?.required
+          "
+        >
+          Street is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Barangay</mat-label>
+        <input matInput formControlName="project_barangay" required />
+        <mat-error
+          *ngIf="
+            (projectDetailsFormControl.project_barangay.touched ||
+              _submitted) &&
+            projectDetailsFormControl.project_barangay.errors?.required
+          "
+        >
+          Barangay is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>City/Municipality/Province</mat-label>
+        <input matInput formControlName="project_municipality" required />
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Lot Area (square meters)</mat-label>
+        <input type="text" matInput formControlName="project_lot_area" required />
+        <mat-error
+          *ngIf="
+            (projectDetailsFormControl.project_lot_area.touched ||
+              _submitted) &&
+            projectDetailsFormControl.project_lot_area.errors?.required
+          "
+        >
+          Lot Area (square meters) is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row justify-content-center px-3">
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Total Floor Area (square meters)/Building Area</mat-label>
+        <input type="text" matInput formControlName="project_floor_area" required />
+        <mat-error
+          *ngIf="
+            (projectDetailsFormControl.project_floor_area.touched ||
+              _submitted) &&
+            projectDetailsFormControl.project_floor_area.errors?.required
+          "
+        >
+          Total Floor Area (square meters)/Building Area is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Number of Units</mat-label>
+        <input matInput formControlName="project_units" required />
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Number of Storey</mat-label>
+        <input matInput formControlName="project_storeys" />
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Project Title</mat-label>
+        <input matInput formControlName="project_title" />
+        <mat-error
+          *ngIf="
+            (projectDetailsFormControl.project_title.touched ||
+              _submitted) &&
+            projectDetailsFormControl.project_title.errors?.required
+          "
+        >
+          Project Title is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row justify-content-center px-3">
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+        <mat-label>Project Cost Capitalization/Total Estimated Cost</mat-label>
+        <input type="text" matInput formControlName="project_cost" required />
+        <mat-error
+          *ngIf="
+            (projectDetailsFormControl.project_cost.touched ||
+              _submitted) &&
+            projectDetailsFormControl.project_cost.errors?.required
+          "
+        >
+        Project Cost Capitalization/Total Estimated Cost is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+        <mat-label>TCT Number</mat-label>
+        <input type="text" matInput formControlName="project_tct_number" required />
+        <mat-error
+          *ngIf="
+            (projectDetailsFormControl.project_tct_number.touched ||
+              _submitted) &&
+            projectDetailsFormControl.project_tct_number.errors?.required
+          "
+        >
+        TCT Number is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+        <mat-label>Tax Dec. Number</mat-label>
+        <input type="text" matInput formControlName="project_td_number" required />
+        <mat-error
+          *ngIf="
+            (projectDetailsFormControl.project_td_number.touched ||
+              _submitted) &&
+            projectDetailsFormControl.project_td_number.errors?.required
+          "
+        >
+        Tax Dec. Number is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <p>Project Location</p>
+    <div class="map" id="map" class="match-parent" style="height: 400px;"></div>
+  </div>
+  <div class="row justify-content-center py-3">
+    <div class="col-md-3 col-3 text-right mb-3">
+      <button
+        style="background-color: maroon; color: white"
+        mat-stroked-button
+        type="submit"
+      >
+        Proceed
+      </button>
+    </div>
+  </div>
+</form>

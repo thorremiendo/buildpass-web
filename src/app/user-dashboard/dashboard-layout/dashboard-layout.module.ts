@@ -32,6 +32,7 @@ import { MatInputModule } from '@angular/material/input';
 import { CommonFieldsComponent } from '../new-application/common-fields/common-fields-home/common-fields.component';
 import { CommonFieldsPersonalInfoComponent } from '../new-application/common-fields/common-fields-personal-info/common-fields-personal-info.component';
 import { CommonFieldsAddressInfoComponent } from '../new-application/common-fields/common-fields-address-info/common-fields-address-info.component';
+import { CommonFieldsRepresentativeComponent } from '../new-application/common-fields/common-fields-representative/common-fields-representative.component';
 
 
 
@@ -49,7 +50,7 @@ import { CommonFieldsAddressInfoComponent } from '../new-application/common-fiel
      CommonFieldsComponent,
      CommonFieldsPersonalInfoComponent,
      CommonFieldsAddressInfoComponent,
-     
+     CommonFieldsRepresentativeComponent
     ],
      
   imports: [

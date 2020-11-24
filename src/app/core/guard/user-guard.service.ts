@@ -28,7 +28,7 @@ export class UserGuardService implements CanActivate {
     if (this.user) {
       return true;
     } else {
-      this.router.navigateByUrl("");
+      this.router.navigateByUrl("user/sign-in");
       return false;
     }
   }

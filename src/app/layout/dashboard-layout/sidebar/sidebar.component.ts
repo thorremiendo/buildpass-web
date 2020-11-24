@@ -27,7 +27,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   status = true;
 
   public user;
-
+  public evaluatorDetails;
+  
   itemSelect: number[] = [];
   parentIndex = 0;
   childIndex = 0;
@@ -65,7 +66,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.authService.currentUser.subscribe((currentUser) => {
       this.user = currentUser;
-      console.log(this.user)
+      this.authService.getFireBaseData(this.user.user.uid).subscribe(result =>{
+        this.evaluatorDetails = result.data();
+        console.log(this.evaluatorDetails)
+      })
     });
   }
   ngOnDestroy(): void {
