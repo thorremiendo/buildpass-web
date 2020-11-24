@@ -15,9 +15,10 @@ import { BannerComponent } from './banner/banner.component';
 import { ServicesComponent } from './services/services.component';
 import { NewsComponent } from './news/news.component';
 import { ContactComponent } from './contact/contact.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
-  declarations: [LandingComponent, NavigationComponent, AboutComponent, BannerComponent, ServicesComponent, NewsComponent, ContactComponent],
+  declarations: [LandingComponent, NavigationComponent, AboutComponent, BannerComponent, ServicesComponent, NewsComponent, ContactComponent, FooterComponent],
   imports: [
     CommonModule,
     LayoutModule,
