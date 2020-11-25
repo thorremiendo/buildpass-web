@@ -7,13 +7,13 @@
         the right.
       </p>
       <ngx-extended-pdf-viewer
-        [src]="'../../../../assets/forms/Sanitary_Plumbing_Permit.pdf'"
+        [src]="'../../../../assets/forms/sanitary_permit.pdf'"
         [showToolbar]="true"
         [showSidebarButton]="false"
         [showFindButton]="false"
         [showPagingButtons]="false"
         [showZoomButtons]="true"
-        [showPresentationModeButton]="false"
+        [showPresentationModeButton]="true"
         [showOpenFileButton]="false"
         [showPrintButton]="false"
         [showDownloadButton]="true"
@@ -27,6 +27,8 @@
         [useBrowserLocale]="true"
         height="500px"
         zoom="80%"
+      [(formData)]="formData"
+
       >
       </ngx-extended-pdf-viewer>
       <p class="ml-2 mt-4">2. Upload the form.</p>

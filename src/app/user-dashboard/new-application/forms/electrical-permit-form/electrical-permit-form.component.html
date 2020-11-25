@@ -1,59 +1,59 @@
 <mat-card style="width: 100%">
-    <mat-card-title class="p-3">Electrical Permit Form</mat-card-title>
-    <hr />
-    <mat-card-content>
-      <p class="ml-2">
-        1. After filling out the form, please click the download/save button on
-        the right.
-      </p>
-      <ngx-extended-pdf-viewer
-        [src]="'../../../../assets/forms/Electrical_Permit.pdf'"
-        [showToolbar]="true"
-        [showSidebarButton]="false"
-        [showFindButton]="false"
-        [showPagingButtons]="false"
-        [showZoomButtons]="true"
-        [showPresentationModeButton]="false"
-        [showOpenFileButton]="false"
-        [showPrintButton]="false"
-        [showDownloadButton]="true"
-        [showBookmarkButton]="false"
-        [showSecondaryToolbarButton]="true"
-        [showRotateButton]="false"
-        [showHandToolButton]="false"
-        [showScrollingButton]="false"
-        [showSpreadButton]="false"
-        [showPropertiesButton]="false"
-        [useBrowserLocale]="true"
-        height="500px"
-        zoom="80%"
+  <mat-card-title class="p-3">Electrical Permit Form</mat-card-title>
+  <hr />
+  <mat-card-content>
+    <p class="ml-2">
+      1. After filling out the form, please click the download/save button on
+      the right.
+    </p>
+    <ngx-extended-pdf-viewer
+      [src]="'../../../../assets/forms/electrical_permit.pdf'"
+      [showToolbar]="true"
+      [showSidebarButton]="false"
+      [showFindButton]="false"
+      [showPagingButtons]="false"
+      [showZoomButtons]="true"
+      [showPresentationModeButton]="true"
+      [showOpenFileButton]="false"
+      [showPrintButton]="false"
+      [showDownloadButton]="true"
+      [showBookmarkButton]="false"
+      [showSecondaryToolbarButton]="true"
+      [showRotateButton]="false"
+      [showHandToolButton]="false"
+      [showScrollingButton]="false"
+      [showSpreadButton]="false"
+      [showPropertiesButton]="false"
+      [useBrowserLocale]="true"
+      height="500px"
+      zoom="80%"
+      [(formData)]="formData"
+    >
+    </ngx-extended-pdf-viewer>
+    <p class="ml-2 mt-4">2. Upload the form.</p>
+    <ngx-dropzone
+      (change)="onSelect($event, 'electricalPermitForm')"
+      [multiple]="false"
+      class="mt-3"
+    >
+      <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+      <ngx-dropzone-preview
+        *ngIf="electricalPermitForm"
+        [removable]="true"
+        (removed)="onRemove('electricalPermitForm')"
+        class="mx-auto"
       >
-      </ngx-extended-pdf-viewer>
-      <p class="ml-2 mt-4">2. Upload the form.</p>
-      <ngx-dropzone
-        (change)="onSelect($event, 'electricalPermitForm')"
-        [multiple]="false"
-        class="mt-3"
-      >
-        <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-        <ngx-dropzone-preview
-          *ngIf="electricalPermitForm"
-          [removable]="true"
-          (removed)="onRemove('electricalPermitForm')"
-          class="mx-auto"
+        <ngx-dropzone-label
+          >{{ electricalPermitForm.name }} ({{
+            electricalPermitForm.type
+          }})</ngx-dropzone-label
         >
-          <ngx-dropzone-label
-            >{{ electricalPermitForm.name }} ({{
-              electricalPermitForm.type
-            }})</ngx-dropzone-label
-          >
-        </ngx-dropzone-preview>
-      </ngx-dropzone>
-      <div class="mt-5 mb-3 text-right">
-        <button mat-raised-button color="primary" (click)="callNext()">
-          Next
-        </button>
-      </div>
-    </mat-card-content>
-  </mat-card>
-  
+      </ngx-dropzone-preview>
+    </ngx-dropzone>
+    <div class="mt-5 mb-3 text-right">
+      <button mat-raised-button color="primary" (click)="callNext()">
+        Next
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

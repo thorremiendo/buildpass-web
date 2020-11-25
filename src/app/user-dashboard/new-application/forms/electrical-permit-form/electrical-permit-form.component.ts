@@ -9,6 +9,8 @@ import { NewApplicationFormService } from 'src/app/core/services/new-application
   styleUrls: ['./electrical-permit-form.component.scss']
 })
 export class ElectricalPermitFormComponent implements OnInit {
+  public formData = {
+  };
   public electricalPermitForm: File;
   public applicationInfo;
   constructor(
@@ -22,6 +24,11 @@ export class ElectricalPermitFormComponent implements OnInit {
     .subscribe(
       (newApplicationSubject) =>
         (this.applicationInfo = newApplicationSubject)
+    );
+    this.newApplicationService.commonFieldsSubject
+    .asObservable()
+    .subscribe(
+      (commonFieldsSubject) => (this.formData = commonFieldsSubject)
     );
   }
   onSelect($event: NgxDropzoneChangeEvent, type) {

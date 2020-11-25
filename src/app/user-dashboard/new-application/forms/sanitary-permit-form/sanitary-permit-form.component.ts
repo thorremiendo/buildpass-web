@@ -9,6 +9,8 @@ import { NewApplicationFormService } from 'src/app/core/services/new-application
   styleUrls: ['./sanitary-permit-form.component.scss']
 })
 export class SanitaryPermitFormComponent implements OnInit {
+  public formData = {
+  };
   public sanitaryPermitForm: File;
   public applicationInfo;
 
@@ -23,6 +25,11 @@ export class SanitaryPermitFormComponent implements OnInit {
       .subscribe(
         (newApplicationSubject) =>
           (this.applicationInfo = newApplicationSubject)
+      );
+      this.newApplicationService.commonFieldsSubject
+      .asObservable()
+      .subscribe(
+        (commonFieldsSubject) => (this.formData = commonFieldsSubject)
       );
   }
   onSelect($event: NgxDropzoneChangeEvent, type) {
