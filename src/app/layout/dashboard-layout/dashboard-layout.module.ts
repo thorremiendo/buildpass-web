@@ -14,6 +14,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { MatListModule } from '@angular/material/list';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import {MatCardModule} from '@angular/material/card';
 
 
 @NgModule({
@@ -34,6 +35,8 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
     PerfectScrollbarModule,
     CdkAccordionModule,
     RouterModule,
+    MatCardModule
+  
   ],
   exports: [
     DashboardLayoutComponent

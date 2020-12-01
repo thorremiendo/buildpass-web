@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./data-privacy.component.scss']
 })
 export class DataPrivacyComponent implements OnInit {
-  public userDetails;
+  
   
 
   constructor() { }

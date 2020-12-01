@@ -1,7 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { RegisterAccountFormService} from '../../core/services/register-account-form.service';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AuthService} from '../../core/services/auth.service'
 import { Router } from '@angular/router';
+
+import { MatDialog } from '@angular/material/dialog';
+import { DataPrivacyComponent } from '../data-privacy/data-privacy.component';
+import { NavigationComponent } from '../../landing/navigation/navigation.component';
+import { BannerComponent } from '../../landing/banner/banner.component';
+import { RegisterAccountFormService } from 'src/app/core/services/register-account-form.service';
+
+
 
 @Component({
   selector: 'app-personal-info',
@@ -10,6 +18,7 @@ import { Router } from '@angular/router';
 })
 export class PersonalInfoComponent implements OnInit {
   public userDetails;
+  public maxLength: number = 11;
 
   _personalInfoForm: FormGroup;
   _submitted = false;
@@ -23,6 +32,8 @@ export class PersonalInfoComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
+    private _dialog: MatDialog,
+    private _authService: AuthService,
     private _registerAccountFormService: RegisterAccountFormService,
 
   ) {
@@ -37,8 +48,12 @@ export class PersonalInfoComponent implements OnInit {
       suffix_name:[''],
       birthdate:['', Validators.required],
       gender:['', Validators.required],
-      nationality:['', Validators.required],
-      marital_status:['', Validators.required]
+      nationality:['Filipino', Validators.required],
+      marital_status:['', Validators.required],
+
+      home_address: ['', Validators.required ],
+      barangay: ['', Validators.required ],
+      contact_number:['', [Validators.required, Validators.maxLength(11),]],
       
     },
     );
@@ -55,6 +70,10 @@ export class PersonalInfoComponent implements OnInit {
       "gender": this._personalInfoForm.value.gender,
       "nationality": this._personalInfoForm.value.nationality,
       "marital_status": this._personalInfoForm.value.marital_status,
+
+      "home_address": this._personalInfoForm.value.home_address,
+      "barangay":this._personalInfoForm.value.barangay,
+      "contact_number":  this._personalInfoForm.value.contact_number,
       
 
     }
@@ -79,20 +98,40 @@ export class PersonalInfoComponent implements OnInit {
     if (this._personalInfoForm.valid){
       this.createUserDetails();
       this._registerAccountFormService.setRegisterAccountInfo(this.userDetails);
-      this._router.navigateByUrl("registration/address");
+      this._authService.SendVerificationMail();
       
       console.log(this.userDetails);
 
-    
     }
-  
    
   }
+  openDialog() {
+    this._submitted = true;
+    if(this._personalInfoForm.valid){
+      const dialogRef = this._dialog.open(DataPrivacyComponent);
+      dialogRef.afterClosed().subscribe(result => {
+        this.onSubmit();
+
+      });
+      
+    }
+    
+  
+  }
+
 
   
   ngOnInit(): void {
     this._registerAccountFormService.cast.subscribe(registerAccountSubject => this.userDetails = registerAccountSubject)
     this.createForm();
+    this._personalInfoForm.patchValue({
+      first_name: this.userDetails.first_name,
+      last_name: this.userDetails.last_name,
+      email_address: this.userDetails.email_address
+
+    })
+
+    
   }
 
 }

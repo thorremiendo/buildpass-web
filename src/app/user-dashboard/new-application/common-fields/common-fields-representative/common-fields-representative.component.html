@@ -1,0 +1,123 @@
+<form [formGroup]="representativeDetailsForm" (ngSubmit)="onSubmit()">
+  <div class="row justify-content-center pt-3 px-3">
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Fist Name</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="representative_first_name"
+          required
+        />
+        <mat-error
+          *ngIf="
+            (representativeDetailsFormControl.representative_first_name.touched ||
+              _submitted) &&
+            representativeDetailsFormControl.representative_first_name.errors
+              ?.required
+          "
+        >
+          Fist Name is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Middle Initial</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="representative_middle_initial"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="representative_last_name"
+          required
+        />
+        <mat-error
+          *ngIf="
+            (representativeDetailsFormControl.representative_last_name.touched ||
+              _submitted) &&
+            representativeDetailsFormControl.representative_last_name.errors
+              ?.required
+          "
+        >
+          Last Name is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Suffix</mat-label>
+        <mat-select formControlName="representative_suffix">
+          <mat-option value=" "></mat-option>
+          <mat-option value="Jr">Jr</mat-option>
+          <mat-option value="Sr">Sr</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row justify-content-center px-3">
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+        <mat-label>House Number</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="representative_house_number"
+          required
+        />
+        <mat-error
+          *ngIf="
+            (representativeDetailsFormControl.representative_house_number.touched ||
+              _submitted) &&
+            representativeDetailsFormControl.representative_house_number.errors
+              ?.required
+          "
+        >
+          House Number is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+        <mat-label>Road/Street Name</mat-label>
+        <input matInput formControlName="representative_street_name" required />
+        <mat-error
+          *ngIf="
+            (representativeDetailsFormControl.representative_street_name.touched ||
+              _submitted) &&
+            representativeDetailsFormControl.representative_street_name.errors
+              ?.required
+          "
+        >
+          Road/Street Name is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+        <mat-label>Barangay/Purok/Sitio</mat-label>
+        <input matInput formControlName="representative_barangay" required />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row justify-content-center py-3">
+    <div class="col-md-3 col-3 text-right mb-3">
+      <button
+        style="background-color: maroon; color: white"
+        mat-stroked-button
+        type="submit"
+      >
+        Proceed
+      </button>
+    </div>
+  </div>
+</form>

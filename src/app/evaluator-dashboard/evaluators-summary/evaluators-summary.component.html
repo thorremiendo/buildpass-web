@@ -1,0 +1,93 @@
+<div class="row mx-3 mt-4">
+    <div class="col-md-6 text-left">
+        <h3> Full Name: </h3>  
+    </div>
+    <div class="col-md-6 text-right">
+        <h3> {{this.userDetails.first_name}} {{this.userDetails.middle_name}} {{this.userDetails.last_name}} </h3>  
+    </div>
+</div>
+<mat-divider class="mx-5"></mat-divider>
+<div class="row mx-3 mt-3">
+    <div class="col-md-6 text-left">
+        <h3> Employee Number: </h3>  
+    </div>
+    <div class="col-md-6 text-right">
+        <h3> {{this.userDetails.employee_number}} </h3>  
+    </div>
+</div>
+<mat-divider class="mx-5"></mat-divider>
+<div class="row mx-3 mt-3">
+    <div class="col-md-6 text-left">
+        <h3> Department: </h3>  
+    </div>
+    <div class="col-md-6 text-right">
+        <h3> {{this.userDetails.department}} </h3>  
+    </div>
+</div>
+<mat-divider class="mx-5"></mat-divider>
+<div class="row mx-3 mt-3">
+    <div class="col-md-6 text-left">
+        <h3> Position: </h3>  
+    </div>
+    <div class="col-md-6 text-right">
+        <h3> {{this.userDetails.position}} </h3>  
+    </div>
+</div>
+<mat-divider class="mx-5"></mat-divider>
+<div class="row mx-3 mt-3">
+    <div class="col-md-6 text-left">
+        <h3> Home address: </h3>  
+    </div>
+    <div class="col-md-6 text-right">
+        <h3> {{this.userDetails.home_address}} {{this.userDetails.barangay}} </h3>  
+    </div>
+</div>
+<mat-divider class="mx-5"></mat-divider>
+<div class="row mx-3 mt-3">
+    <div class="col-md-6 text-left">
+        <h3> BirthDate: </h3>  
+    </div>
+    <div class="col-md-6 text-right">
+        <h3> {{this.userDetails.birthdate}}  </h3>  
+    </div>
+</div>
+<mat-divider class="mx-5"></mat-divider>
+<div class="row mx-3 mt-3">
+    <div class="col-md-6 text-left">
+        <h3> Email Address: </h3>  
+    </div>
+    <div class="col-md-6 text-right">
+        <h3> {{this.userDetails.email}}  </h3>  
+    </div>
+</div>
+<mat-divider class="mx-5"></mat-divider>
+<div class="row mx-3 mt-3">
+    <div class="col-md-6 text-left">
+        <h3> Contact Number: </h3>  
+    </div>
+    <div class="col-md-6 text-right">
+        <h3> {{this.userDetails.contact_number}}  </h3>  
+    </div>
+</div>
+<mat-divider class="mx-5"></mat-divider>
+
+<div class="row justify-content-center py-3">
+    <div class="col-md-3 col-3 text-right mb-3">
+      <button
+        style="background-color: maroon; color: white"
+        mat-stroked-button
+        (click)= "onSubmit()"
+      >
+        Proceed
+      </button>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+

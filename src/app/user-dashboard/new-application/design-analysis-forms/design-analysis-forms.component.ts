@@ -13,7 +13,8 @@ export class DesignAnalysisFormsComponent implements OnInit {
   public structuralDesign: File;
   public electricalDesign: File;
   public soilAnalysis: File;
-
+  public buildingSpecification: File;
+  public billOfMaterials: File;
   public applicationInfo;
   constructor(
     private newApplicationService: NewApplicationFormService,
@@ -44,6 +45,12 @@ export class DesignAnalysisFormsComponent implements OnInit {
       case 'soilAnalysis':
         this.soilAnalysis = file;
         break;
+      case 'buildingSpecification':
+        this.buildingSpecification = file;
+        break;
+      case 'billOfMaterials':
+        this.billOfMaterials = file;
+        break;
     }
   }
   onRemove(type) {
@@ -60,39 +67,48 @@ export class DesignAnalysisFormsComponent implements OnInit {
       case 'soilAnalysis':
         this.soilAnalysis = null;
         break;
+      case 'buildingSpecification':
+        this.buildingSpecification = null;
+        break;
+      case 'billOfMaterials':
+        this.billOfMaterials = null;
+        break;
     }
   }
   callNext() {
-    const value = this.applicationInfo
+    const value = this.applicationInfo;
     const body = {
       application_type: value.application_type,
       is_representative: value.is_representative,
       is_lot_owner: value.is_lot_owner,
-      filing_fee_receipt: value.filing_fee_receipt,
+      construction_status: value.construction_status,
       zoning_clearance_form: value.zoning_clearance_form,
-      special_power_of_attorney: value.special_power_of_attorney,
-      true_copy_of_title: value.true_copy_of_title,
-      contract_of_lease: value.contract_of_lease,
-      tax_declaration: value.tax_declaration,
-      real_property_tax_receipt: value.real_property_tax_receipt,
-      latest_picture_of_site: value.latest_picture_of_site,
       building_permit_form: value.building_permit_form,
       sanitary_permit_form: value.sanitary_permit_form,
-      electrical_permit_form: value.electrical_permit_form
+      electrical_permit_form: value.electrical_permit_form,
+      geodetic_engineer_affidavit: this.applicationInfo.geodetic_engineer_affidavit,
+      civil_engineer_affidavit: this.applicationInfo.civil_engineer_affidavit,
+      authorization_letter: value.authorization_letter,
+      filing_fee_receipt: value.filing_fee_receipt,
+      tax_declaration: value.tax_declaration,
+      real_property_tax_receipt: value.real_property_tax_receipt,
+      site_latest_picture: value.site_latest_picture,
+      true_copy_title: value.true_copy_title,
+      lessor_document: value.lessor_document,
+    };
+    if (this.buildingPlans) {
+      body['building_plan'] = this.buildingPlans;
     }
-    if(this.buildingPlans) {
-      body["building_plan"] = this.buildingPlans
+    if (this.structuralDesign) {
+      body['structural_design'] = this.structuralDesign;
     }
-    if(this.structuralDesign) {
-      body["structural_design"] = this.structuralDesign
+    if (this.electricalDesign) {
+      body['electrical_design'] = this.electricalDesign;
     }
-    if(this.electricalDesign) {
-      body["electrical_design"] = this.electricalDesign
+    if (this.soilAnalysis) {
+      body['soil_analaysis'] = this.soilAnalysis;
     }
-    if(this.soilAnalysis) {
-      body["soil_analaysis"] = this.soilAnalysis
-    }
-    this.newApplicationService.setApplicationInfo(body)
+    this.newApplicationService.setApplicationInfo(body);
     this.router.navigateByUrl('/dashboard/new/professional-details');
   }
 }

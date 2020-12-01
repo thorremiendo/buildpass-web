@@ -1,33 +1,11 @@
-<mat-sidenav-container class="mobile-nav-container">
-  <mat-sidenav-content>
-    <mat-toolbar color="primary" class="main-nav">
-      <a class="logo" href="#">
-        <img src="../../assets/images/logo-city.png" />
-      </a>
-      <span class="spacer"></span>
-      <div>
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">News</a>
-        <a href="#">Contact Us</a>
-        <a class="login" href="user/sign-in">Login</a>
-      </div>
-    </mat-toolbar>
-    <!-- Add Content Here -->
-  </mat-sidenav-content>
-</mat-sidenav-container>
-<div class="row banner">
-  <div class="col-12">
-    <div>OCPAS</div>
-    <div>Online Construction Permit Application System</div>
-  </div>
-</div>
+<app-navigation></app-navigation>
+<app-banner></app-banner>
 <mat-card class="mat-card p-5 m-5">
   <div class="p-5">
     <h2>Personal Info</h2>
     <div class="horizontal-line"></div>
   </div>
-  <form [formGroup]="_personalInfoForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="_personalInfoForm" (ngSubmit)="openDialog()">
     <div class="row justify-content-center py-3">
       <div class="col-md-3">
         <mat-form-field appearance="outline">
@@ -67,6 +45,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Suffix</mat-label>
           <mat-select formControlName="suffix_name">
+            <mat-option value=" "></mat-option>
             <mat-option value="Jr">Jr</mat-option>
             <mat-option value="Sr">Sr</mat-option>
           </mat-select>
@@ -75,7 +54,28 @@
     </div>
 
     <div class="row justify-content-center py-3">
-      <div class="col-md-6">
+      
+        <div class="col-md-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Marital Status</mat-label>
+            <mat-select formControlName="marital_status" required>
+              <mat-option value="Single">Single</mat-option>
+              <mat-option value="Married">Married</mat-option>
+              <mat-option value="Divorce">Divorce</mat-option>
+              <mat-option value="Widowed">Widowed</mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                (personalInfoFormcControl.marital_status.touched || _submitted) &&
+                personalInfoFormcControl.marital_status.errors?.required
+              "
+            >
+              Marital Status is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+    
+      <div class="col-md-3">
         <mat-form-field class="example-full-width" appearance="outline">
           <mat-label>Birthday</mat-label>
           <input
@@ -83,6 +83,7 @@
             [matDatepicker]="picker"
             formControlName="birthdate"
             placeholder="click the calendar icon"
+            readonly
             required
           />
           <mat-datepicker-toggle
@@ -101,16 +102,13 @@
         </mat-form-field>
       </div>
       <div class="col-md-3">
-        <mat-button-toggle-group
-          appearance="standard"
-          name="gender"
-          aria-label="Gender"
-          formControlName="gender"
-          required
-        >
-          <mat-button-toggle value="M">Male</mat-button-toggle>
-          <mat-button-toggle value="F">Female</mat-button-toggle>
-        </mat-button-toggle-group>
+        <mat-form-field appearance="outline">
+          <mat-label>Gender</mat-label>
+          <mat-select formControlName="gender">
+            <mat-option value="M">Male</mat-option>
+            <mat-option value="F">Female</mat-option>
+          </mat-select>
+        </mat-form-field>
         <mat-error
           *ngIf="
             (personalInfoFormcControl.gender.touched || _submitted) &&
@@ -121,42 +119,64 @@
         </mat-error>
       </div>
     </div>
-
     <div class="row justify-content-center py-3">
-      <div class="col-md-5">
+      <div class="col-md-3">
         <mat-form-field appearance="outline">
-          <mat-label>Nationality</mat-label>
-          <input type="text" matInput formControlName="nationality" required />
+          <mat-label>House No., Bldg, Street</mat-label>
+          <input type="text" matInput formControlName="home_address" required />
           <mat-error
             *ngIf="
-              (personalInfoFormcControl.nationality.touched || _submitted) &&
-              personalInfoFormcControl.nationality.errors?.required
+              (personalInfoFormcControl.home_address.touched || _submitted) &&
+              personalInfoFormcControl.home_address.errors?.required
             "
           >
-            Nationality is required
+            Home Address is required
           </mat-error>
         </mat-form-field>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <mat-form-field appearance="outline">
-          <mat-label>Marital Status</mat-label>
-          <mat-select formControlName="marital_status" required>
-            <mat-option value="Single">Single</mat-option>
-            <mat-option value="Married">Married</mat-option>
-            <mat-option value="Divorce">Divorce</mat-option>
-            <mat-option value="Widowed">Widowed</mat-option>
-          </mat-select>
+          <mat-label>Barangay</mat-label>
+          <input type="text" matInput formControlName="barangay" required />
           <mat-error
             *ngIf="
-              (personalInfoFormcControl.marital_status.touched || _submitted) &&
-              personalInfoFormcControl.marital_status.errors?.required
+              (personalInfoFormcControl.barangay.touched || _submitted) &&
+              personalInfoFormcControl.barangay.errors?.required
             "
           >
-            Marital Status is required
+            Barangay is required
           </mat-error>
         </mat-form-field>
       </div>
+      <div class="col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Contact Number</mat-label>
+          <input
+            type="tel"
+            matInput
+            formControlName="contact_number"
+            [maxLength]="maxLength"
+            placeholder="Ex. 09123456789"
+            #contact
+            required
+          />
+          <mat-error
+            *ngIf="
+              (personalInfoFormcControl.contact_number.touched || _submitted) &&
+              personalInfoFormcControl.contact_number.errors?.required
+            "
+          >
+            Contact Number is required
+          </mat-error>
+          <mat-hint align="end"
+            >{{ contact.value.length }} / {{ maxLength }}</mat-hint
+          >
+        </mat-form-field>
+      </div>
+
     </div>
+
+   
     <div class="row justify-content-center py-3">
       <div class="col-md-3 col-3 text-right mb-3">
         <button

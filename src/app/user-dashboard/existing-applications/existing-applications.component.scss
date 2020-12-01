@@ -2,27 +2,41 @@
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins/breakpoints";
 
-#bg-image {
+table {
   width: 100%;
-  height: 100vh;
-  object-fit: cover;
+}
 
-  @include media-breakpoint-up(md) {
-    width: 100%;
-    height: 100vh;
+.scheduled-travels{
+  &__loader {
+    padding-top: 2em;
+    padding-bottom: 2em;
+
+    mat-progress-spinner {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  &__empty {
+    padding-top: 2em;
+    padding-bottom: 2em;
+  }
+
+  &__filter {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__date {
+    width: 250px;
+  }
+
+  &__search {
+    width: 250px;
+    margin-right: 1em;
+  }
+  &__select {
+    width: 250px;
+    margin-right: 1em;
   }
 }
-
-.container-success{
-    background-color: #F9FAFB;
-    height: 100vh;
-}
-#check {
-  width: 300px;
-  height: auto;
-  @include media-breakpoint-up(md) {
-    width: 400px;
-    height: auto;
-  }
-}
-
