@@ -1,0 +1,53 @@
+.card-container {
+	max-width: 600px;
+	height: auto;
+	justify-content: center;
+	text-align: center;
+	margin: auto;
+	margin-top: 50px;
+	margin-bottom: 50px;
+
+	::ng-deep .mat-tab-label {
+		min-width: 50%;
+	}
+
+	::ng-deep .mat-tab-label-active {
+		opacity: 1;
+	}
+
+	::ng-deep .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar{
+		background: maroon;
+		height: 5px;
+	} 
+
+	.mat-icon {
+		margin: 0;
+		float: right;
+	}
+
+	.password-input {
+		a { 
+			color: gray;
+			font-size: 16px;
+		}
+	}
+
+	.sign-in-button, .sign-up-button {
+		button {
+			background-color: maroon;
+			color: #ffffff;
+		}
+	}
+
+	.google-login {
+		p {
+			font-size: 14px;
+			color: gray;
+		}
+		.mat-icon {
+			line-height: 100%;
+			margin-right: 5px;
+			float: none;
+		}
+	}
+}

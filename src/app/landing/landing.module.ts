@@ -1,24 +1,33 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { LandingRoutingModule } from './landing-routing.module';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { LandingComponent } from './landing/landing.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
+
+import { LandingRoutingModule } from './landing-routing.module';
 import { NavigationComponent } from './navigation/navigation.component';
-import { AboutComponent } from './about/about.component';
 import { BannerComponent } from './banner/banner.component';
+import { FooterComponent } from './footer/footer.component';
+import { LandingComponent } from './landing/landing.component';
+import { AboutComponent } from './about/about.component';
 import { ServicesComponent } from './services/services.component';
 import { NewsComponent } from './news/news.component';
 import { ContactComponent } from './contact/contact.component';
-import { FooterComponent } from './footer/footer.component';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
-  declarations: [LandingComponent, NavigationComponent, AboutComponent, BannerComponent, ServicesComponent, NewsComponent, ContactComponent, FooterComponent],
+  declarations: [LandingComponent, NavigationComponent, AboutComponent, BannerComponent, ServicesComponent, NewsComponent, ContactComponent, FooterComponent, SignInComponent, VerifyEmailComponent, ForgotPasswordComponent],
   imports: [
     CommonModule,
     LayoutModule,
@@ -28,7 +37,17 @@ import { FooterComponent } from './footer/footer.component';
     MatIconModule,
     MatListModule,
     RouterModule,
-    LandingRoutingModule
+    LandingRoutingModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule,
+    MatTabsModule
+  ],
+  exports: [
+    NavigationComponent,
+    BannerComponent,
+    FooterComponent
   ]
 })
 export class LandingModule { }

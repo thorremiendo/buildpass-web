@@ -1,8 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,13 +23,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 
-
-import { SignInComponent } from './sign-in/sign-in.component';
-import { SignUpComponent } from './sign-up/sign-up.component';
-import { SignInUpPageComponent } from './sign-in-up-page/sign-in-up-page.component';
 import { TestComponentComponent } from './test-component/test-component.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { VerifyEmailComponent } from './verify-email/verify-email.component';
  
 import { LayoutModule } from './layout/layout.module';
 import { UserModule } from './user-dashboard/user-dashboard.module';
@@ -46,33 +38,23 @@ import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { LandingModule } from './landing/landing.module';
-import { NavigationComponent } from './landing/navigation/navigation.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { EvaluatorModule } from './evaluator-dashboard/evaluator-dashboard.module';
-
-
-
 
 export function momentAdapterFactory() {
   return adapterFactory(moment);
 };
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelSpeed: 2,
   wheelPropagation: true
 };
 
-
 @NgModule({
   declarations: [
     AppComponent,
-    SignInComponent,
-    SignUpComponent,
-    SignInUpPageComponent,
-    TestComponentComponent,
-    ForgotPasswordComponent,
-    VerifyEmailComponent,
-
+    TestComponentComponent
   ],
   imports: [
     NgbModule,
@@ -96,14 +78,11 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatToolbarModule,
     MatCardModule,
     MatSidenavModule,
-
     BrowserAnimationsModule,
     ReactiveFormsModule,
-
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
-   
     EvaluatorModule,
     LayoutModule,
     UserModule,

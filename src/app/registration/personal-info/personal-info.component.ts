@@ -14,20 +14,17 @@ export class PersonalInfoComponent implements OnInit {
   _personalInfoForm: FormGroup;
   _submitted = false;
 
-
   get personalInfoFormcControl() {
     return this._personalInfoForm.controls;
   }
-
 
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
     private _registerAccountFormService: RegisterAccountFormService,
-
   ) {
     this.createForm();
-   }
+  }
 
   createForm() {
     this._personalInfoForm = this._fb.group({
@@ -39,14 +36,11 @@ export class PersonalInfoComponent implements OnInit {
       gender:['', Validators.required],
       nationality:['', Validators.required],
       marital_status:['', Validators.required]
-      
-    },
-    );
+    });
   }
 
   createUserDetails(){
-
-    this.userDetails ={
+    this.userDetails = {
       "first_name": this._personalInfoForm.value.first_name,
       "middle_name":this._personalInfoForm.value.middle_name,
       "last_name":  this._personalInfoForm.value.last_name,
@@ -55,10 +49,7 @@ export class PersonalInfoComponent implements OnInit {
       "gender": this._personalInfoForm.value.gender,
       "nationality": this._personalInfoForm.value.nationality,
       "marital_status": this._personalInfoForm.value.marital_status,
-      
-
     }
-  
   }
 
   dateToString(){
@@ -68,9 +59,7 @@ export class PersonalInfoComponent implements OnInit {
       let yyyy = this._personalInfoForm.value.birthdate.getFullYear();
       let birthdateString = (`${yyyy}-${mm}-${dd}`);
       this._personalInfoForm.value.birthdate = birthdateString;
-      console.log(birthdateString);
     }
-
   }
 
   onSubmit(){
@@ -80,19 +69,11 @@ export class PersonalInfoComponent implements OnInit {
       this.createUserDetails();
       this._registerAccountFormService.setRegisterAccountInfo(this.userDetails);
       this._router.navigateByUrl("registration/address");
-      
-      console.log(this.userDetails);
-
-    
     }
-  
-   
   }
-
   
   ngOnInit(): void {
     this._registerAccountFormService.cast.subscribe(registerAccountSubject => this.userDetails = registerAccountSubject)
     this.createForm();
   }
-
 }

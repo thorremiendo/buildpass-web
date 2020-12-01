@@ -1,0 +1,34 @@
+<app-navigation></app-navigation>
+<app-banner></app-banner>
+<div class="container-fluid">
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <img src="../../assets/images/verify-email-maroon-vector.png"/>
+      <div class="formGroup" *ngIf="_authService.userData as user">
+        <h4 class="mt-3 text-center">
+          We have sent a confirmation email to <strong>{{ user.email }}</strong>.
+        </h4>
+        <p class="text-center">
+          Please check your email and click on the link to verfiy your email
+          address.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-4">
+      <button mat-stroked-button (click)="sendAgainVerification()">
+        Resend Verication Email
+      </button>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-4 mb-5">
+    <div class="col-md-4 text-center">
+      <a href="/login">
+        Go back to login
+      </a>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
+  
