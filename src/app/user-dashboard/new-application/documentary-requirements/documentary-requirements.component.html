@@ -1,0 +1,252 @@
+<div class="container">
+  <div class="row mx-5">
+    <div class="d-flex justify-content-between w-100">
+      <div>
+        <h2>Building Permit Application</h2>
+        <p>
+          Click <a href="" target="_blank">here</a> to view all required forms
+          for Building Permit Application.
+        </p>
+        <hr />
+        <p class="pt-5">Please upload the necessary files.</p>
+      </div>
+      <div>
+        <img
+          src="../../../../assets/illustrations/construction-gold.png"
+          class="illustration"
+        />
+      </div>
+    </div>
+    <div class="content px-5 w-100">
+      <div class="d-flex align-items-center mt-3">
+        <mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
+          >receipt_long</mat-icon
+        >
+        <h3 class="mt-2">Documentary Requirements</h3>
+      </div>
+
+      <hr />
+      <div class="mb-4" *ngIf="applicationInfo.is_representative == 'Yes'">
+        <div class="d-flex justify-content-between">
+          <h5>
+            Authorization Letter of Special Power of Attorney from Owner to
+            Submit, follow-up, and receive approved permits (for representative
+            only)
+          </h5>
+          <mat-icon *ngIf="authorizationLetter" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'authorizationLetter')"
+          [multiple]="false"
+          *ngIf="!authorizationLetter"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="authorizationLetter"
+            [removable]="true"
+            (removed)="onRemove('authorizationLetter')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ authorizationLetter.name }} ({{
+                authorizationLetter.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4">
+        <div class="d-flex justify-content-between">
+          <h5>Filing Fee proof of payment (receipt)</h5>
+          <mat-icon *ngIf="filingFeeReceipt" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'filingFeeReceipt')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="filingFeeReceipt"
+            [removable]="true"
+            (removed)="onRemove('filingFeeReceipt')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ filingFeeReceipt.name }} ({{
+                filingFeeReceipt.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4">
+        <div class="d-flex justify-content-between">
+          <h5>
+            Tax Declaration from City Assessor's Office with Documentary Stamp
+            from City Treasurers Office
+          </h5>
+          <mat-icon *ngIf="taxDeclaration" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'taxDeclaration')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="taxDeclaration"
+            [removable]="true"
+            (removed)="onRemove('taxDeclaration')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ taxDeclaration.name }} ({{
+                taxDeclaration.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4">
+        <div class="d-flex justify-content-between">
+          <h5>
+            Latest Quarter of the Real Property Tax Receipt, or Certificate of
+            Non-Tax Deliquency w/ documentary stamp from City Treasurers Office
+          </h5>
+          <mat-icon *ngIf="realPropertyTaxReceipt" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'realPropertyTaxReceipt')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="realPropertyTaxReceipt"
+            [removable]="true"
+            (removed)="onRemove('realPropertyTaxReceipt')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ realPropertyTaxReceipt.name }} ({{
+                realPropertyTaxReceipt.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4">
+        <div class="d-flex justify-content-between">
+          <h5>
+            Clear Latest picture of site/are (taken at least a week before
+            application)
+          </h5>
+          <mat-icon *ngIf="siteLatestPicture" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'siteLatestPicture')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="siteLatestPicture"
+            [removable]="true"
+            (removed)="onRemove('siteLatestPicture')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ siteLatestPicture.name }} ({{
+                siteLatestPicture.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4" *ngIf="applicationInfo.is_lot_owner == 'Yes'">
+        <div class="d-flex justify-content-between">
+          <h5>
+            Certified True Copy of the Title (updated not more than 6 months),
+            or Copy of award w/ approved surveyed plan (signed and sealed by
+            Geodetic Engineer)
+          </h5>
+          <mat-icon *ngIf="trueCopyTitle" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'trueCopyTitle')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="trueCopyTitle"
+            [removable]="true"
+            (removed)="onRemove('trueCopyTitle')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ trueCopyTitle.name }} ({{
+                trueCopyTitle.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4" *ngIf="applicationInfo.is_lot_owner == 'No'">
+        <div class="d-flex justify-content-between">
+          <h5>
+            Contract of Lease, or Absolute Deed of Sale, or Conditional Deed of Sale, or Certified Copy of Authority to Construct on the subject property
+          </h5>
+          <mat-icon *ngIf="lessorDocument" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'lessorDocument')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="lessorDocument"
+            [removable]="true"
+            (removed)="onRemove('lessorDocument')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ lessorDocument.name }} ({{
+                lessorDocument.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="d-flex justify-content-between mb-4">
+        <div>
+          <button mat-button>
+            <mat-icon>chevron_left</mat-icon>
+            Back
+          </button>
+        </div>
+        <div>
+          <button mat-raised-button color="primary" (click)="callNext()">
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="content-background col-md-6">
+        <img
+          class="img-fluid mt-5"
+          src="../../../assets/illustrations/construction.png"
+        />
+      </div> -->
+  </div>
+</div>

@@ -23,7 +23,7 @@
           <mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
             >import_contacts</mat-icon
           >
-          <h3 class="mt-2">Design Analysis Forms</h3>
+          <h3 class="mt-2">Plans/Designs/Specifications and Cost Estimate</h3>
         </div>
         <hr>
         <div class="mb-4">
@@ -129,6 +129,62 @@
               <ngx-dropzone-label
                 >{{ soilAnalysis.name }} ({{
                   soilAnalysis.type
+                }})</ngx-dropzone-label
+              >
+            </ngx-dropzone-preview>
+          </ngx-dropzone>
+        </div>
+        <div class="mb-4">
+          <div class="d-flex justify-content-between">
+            <h5>
+              Building Specification (Signed and Sealed)
+            </h5>
+            <mat-icon *ngIf="buildingSpecification" style="color: green"
+              >check_circle</mat-icon
+            >
+          </div>
+          <ngx-dropzone
+            (change)="onSelect($event, 'buildingSpecification')"
+            [multiple]="false"
+          >
+            <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+            <ngx-dropzone-preview
+              *ngIf="buildingSpecification"
+              [removable]="true"
+              (removed)="onRemove('buildingSpecification')"
+              class="mx-auto"
+            >
+              <ngx-dropzone-label
+                >{{ buildingSpecification.name }} ({{
+                  buildingSpecification.type
+                }})</ngx-dropzone-label
+              >
+            </ngx-dropzone-preview>
+          </ngx-dropzone>
+        </div>
+        <div class="mb-4">
+          <div class="d-flex justify-content-between">
+            <h5>
+              Bill of Materials (Signed and Sealed)
+            </h5>
+            <mat-icon *ngIf="billOfMaterials" style="color: green"
+              >check_circle</mat-icon
+            >
+          </div>
+          <ngx-dropzone
+            (change)="onSelect($event, 'billOfMaterials')"
+            [multiple]="false"
+          >
+            <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+            <ngx-dropzone-preview
+              *ngIf="billOfMaterials"
+              [removable]="true"
+              (removed)="onRemove('billOfMaterials')"
+              class="mx-auto"
+            >
+              <ngx-dropzone-label
+                >{{ billOfMaterials.name }} ({{
+                  billOfMaterials.type
                 }})</ngx-dropzone-label
               >
             </ngx-dropzone-preview>

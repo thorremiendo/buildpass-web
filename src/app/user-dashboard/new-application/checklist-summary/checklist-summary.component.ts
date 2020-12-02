@@ -22,7 +22,7 @@ export class ChecklistSummaryComponent implements OnInit {
         (newApplicationSubject) =>
           (this.applicationInfo = newApplicationSubject)
       );
-      debugger
+        console.log(this.applicationInfo)
   }
 
   submit() {

@@ -5,7 +5,7 @@
         <mat-card>
           <mat-card-title class="m-3">Applications</mat-card-title>
           <hr class="m-0" />
-          <p class="ml-3 mt-3">as of {{date}}</p>
+          <p class="ml-3 mt-3">as of {{ date }}</p>
           <div class="piechart justify-content-center">
             <ngx-charts-advanced-pie-chart
               [view]="view"
@@ -27,13 +27,33 @@
           <mat-card-title class="m-3">Notifications</mat-card-title>
           <hr class="m-0" />
           <mat-card-content>
-            <div class="d-flex justify-content-center w-100 m-0">
-              <img
-                src="../../../assets/illustrations/notification-mail.png"
-                class="_illustration"
-              />
+            <div class="d-flex justify-content-around w-100 m-0" *ngIf="evaluatorDetails.department=='cbao'">
+              <a routerLink="" (click)="handleView()"
+                ><p style="color: rgb(90, 108, 116); font-size: 12px">
+                  Nov-21-2020 3:43PM
+                </p></a
+              >
+
+              <a routerLink="" (click)="handleView()"
+                ><p style="color: rgb(90, 108, 116)">
+                  A2020-1 for Document Checking
+                </p></a
+              >
             </div>
-            <p>You don't have any notifications..</p>
+            <div class="d-flex justify-content-around w-100 m-0" *ngIf="evaluatorDetails.department=='cpdo'">
+              <a routerLink="" (click)="handleView()"
+                ><p style="color: rgb(90, 108, 116); font-size: 12px">
+                  Nov-21-2020 3:43PM
+                </p></a
+              >
+
+              <a routerLink="" (click)="handleView()"
+                ><p style="color: rgb(90, 108, 116)">
+                  A2020-1 for Document Processing
+                </p></a
+              >
+            </div>
+            <hr />
           </mat-card-content>
         </mat-card>
       </div>

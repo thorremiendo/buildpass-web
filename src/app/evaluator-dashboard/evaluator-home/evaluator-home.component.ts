@@ -3,6 +3,7 @@ import { RouterModule, Routes, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import {single} from './data'
+import { AuthService } from 'src/app/core/services/auth.service';
 
 const googleLogoURL =
   'https://raw.githubusercontent.com/fireflysemantics/logo/master/Google.svg';
@@ -13,6 +14,8 @@ const googleLogoURL =
   styleUrls: ['./evaluator-home.component.scss'],
 })
 export class EvaluatorHomeComponent implements OnInit {
+  public user;
+  public evaluatorDetails
   //piechart data
   single: any[];
   view: any[] = [700, 400];
@@ -33,7 +36,8 @@ export class EvaluatorHomeComponent implements OnInit {
   constructor(
     private _router: Router,
     private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private authService: AuthService
   ) {
     Object.assign(this, { single });
 
@@ -62,6 +66,13 @@ export class EvaluatorHomeComponent implements OnInit {
         this.navLinks.find((tab) => tab.link === '.' + this._router.url)
       );
     });
+    this.authService.currentUser.subscribe((currentUser) => {
+      this.user = currentUser;
+      this.authService.getFireBaseData(this.user.user.uid).subscribe(result =>{
+        this.evaluatorDetails = result.data();
+        console.log(this.evaluatorDetails)
+      })
+    });
   }
   onSelect(data): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));
@@ -73,5 +84,8 @@ export class EvaluatorHomeComponent implements OnInit {
 
   onDeactivate(data): void {
     console.log('Deactivate', JSON.parse(JSON.stringify(data)));
+  }
+  handleView(){
+    this._router.navigateByUrl('evaluator/application')
   }
 }

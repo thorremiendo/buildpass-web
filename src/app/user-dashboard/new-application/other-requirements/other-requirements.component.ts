@@ -68,17 +68,20 @@ export class OtherRequirementsComponent implements OnInit {
       application_type: value.application_type,
       is_representative: value.is_representative,
       is_lot_owner: value.is_lot_owner,
-      filing_fee_receipt: value.filing_fee_receipt,
+      construction_status: value.construction_status,
       zoning_clearance_form: value.zoning_clearance_form,
-      special_power_of_attorney: value.special_power_of_attorney,
-      true_copy_of_title: value.true_copy_of_title,
-      contract_of_lease: value.contract_of_lease,
-      tax_declaration: value.tax_declaration,
-      real_property_tax_receipt: value.real_property_tax_receipt,
-      latest_picture_of_site: value.latest_picture_of_site,
       building_permit_form: value.building_permit_form,
       sanitary_permit_form: value.sanitary_permit_form,
       electrical_permit_form: value.electrical_permit_form,
+      geodetic_engineer_affidavit: this.applicationInfo.geodetic_engineer_affidavit,
+      civil_engineer_affidavit: this.applicationInfo.civil_engineer_affidavit,
+      authorization_letter: value.authorization_letter,
+      filing_fee_receipt: value.filing_fee_receipt,
+      tax_declaration: value.tax_declaration,
+      real_property_tax_receipt: value.real_property_tax_receipt,
+      site_latest_picture: value.site_latest_picture,
+      true_copy_title: value.true_copy_title,
+      lessor_document: value.lessor_document,
       building_plan: value.building_plan,
       structural_design: value.structural_design,
       electrical_design: value.electrical_design,
@@ -86,8 +89,8 @@ export class OtherRequirementsComponent implements OnInit {
       civil_engineer_details: value.civil_engineer_details,
       architect_details: value.architect_details,
       sanitary_engineer_details: value.sanitary_engineer_details,
-      geodetic_engineer_affidavit: value.geodetic_engineer_affidavit,
-      civil_engineer_affidavit: value.civil_engineer_affidavit,
+      
+
     };
     if (this.environmentalCompliance) {
       body['environmental_compliance'] = this.environmentalCompliance;
