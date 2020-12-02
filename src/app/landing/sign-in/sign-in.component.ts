@@ -74,10 +74,6 @@ export class SignInComponent implements OnInit {
     }
   }
 
-  tryGoogleRegister() {
-    this._authService.GoogleAuthSignup();
-  }
-
   ngOnInit(): void {
     this.createForm();
   }

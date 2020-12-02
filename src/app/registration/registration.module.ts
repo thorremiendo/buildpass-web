@@ -5,7 +5,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RegistrationRoutingModule } from './registration-routing.module';
 import { RegistrationComponent } from './registration/registration.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
-import { AddressComponent } from './address/address.component';
 import { DataPrivacyComponent } from './data-privacy/data-privacy.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -38,7 +37,6 @@ import { LandingModule } from '../landing/landing.module';
   declarations: [
     PersonalInfoComponent, 
     RegistrationComponent,
-    AddressComponent,
     DataPrivacyComponent
   ],
   imports: [

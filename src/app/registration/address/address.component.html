@@ -1,25 +1,9 @@
-<app-navigation></app-navigation>
-<app-banner></app-banner>
-<mat-card class="mat-card p-5 m-5">
-  <div class="p-5">
-    <h2>Address Info</h2>
-    <div class="horizontal-line"></div>
-  </div>
-  <form [formGroup]="_addressForm" (ngSubmit)="openDialog()">
-    <div class="row justify-content-center py-3">
-      <div class="col-md-6">
-        <mat-form-field appearance="outline">
-          <mat-label>House No., Bldg, Street</mat-label>
-          <input type="text" matInput formControlName="home_address" required />
-          <mat-error
-            *ngIf="
-              (addressFormControl.home_address.touched || _submitted) &&
-              addressFormControl.home_address.errors?.required
-            "
-          >
-            Home Address is required
-          </mat-error>
-        </mat-form-field>
+<mat-card class="card-container">
+  <div class="container-fluid">
+    <div class="row pt-5 pb-4 pl-md-4">
+      <div class="col-12">
+        <h2>Address Info</h2>
+        <div class="horizontal-line"></div>
       </div>
     </div>
     <form [formGroup]="_addressForm" (ngSubmit)="openDialog()">
@@ -76,9 +60,9 @@
             >
               Contact Number is required
             </mat-error>
-            <mat-hint align="end"
-              >{{ contact.value.length }} / {{ maxLength }}</mat-hint
-            >
+            <mat-hint align="end">
+              {{ contact.value.length }} / {{ maxLength }}
+            </mat-hint>
           </mat-form-field>
         </div>
       </div>
