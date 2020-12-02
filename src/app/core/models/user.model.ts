@@ -25,6 +25,8 @@ export interface User {
     is_evaluator:boolean;
     home_address:string;
     barangay:string;
+
+    photo: string 
     
 
  }
@@ -49,5 +51,7 @@ export interface User {
    employee_number:string;
    department:string;
    position:string;
+
+   photo;string;
 
 }

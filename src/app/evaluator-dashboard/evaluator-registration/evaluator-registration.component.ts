@@ -38,6 +38,11 @@ export class EvaluatorRegistrationComponent implements OnInit {
             index: 1
         },
         {
+          label: 'Identification',
+          link: './identification-info',
+          index: 2
+      },
+        {
           label: 'Summary',
           link: './summary',
           index: 3

@@ -14,6 +14,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { LayoutModule } from '../layout/layout.module';
 import { CoreModule } from '../core/core.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 import { TableViewComponent } from './table-view/table-view.component';
 import { CalendarViewComponent } from './calendar-view/calendar-view.component';
@@ -51,6 +52,7 @@ import { EvaluatorEmployeeInfoComponent } from './evaluator-employee-info/evalua
 import { EvaluatorsSummaryComponent } from './evaluators-summary/evaluators-summary.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { EvaluatorIdentificationComponent } from './evaluator-identification/evaluator-identification.component';
 
 
 
@@ -69,7 +71,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     EvaluatorSignUpComponent, 
     EvaluatorPersonalInfoComponent, 
     EvaluatorEmployeeInfoComponent, 
-    EvaluatorsSummaryComponent],
+    EvaluatorsSummaryComponent, EvaluatorIdentificationComponent],
 
   imports: [
     CommonModule,
@@ -83,6 +85,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     LayoutModule,
     CoreModule,
     ReactiveFormsModule,
+    NgxDropzoneModule,
 
     MatNativeDateModule,
     MatButtonToggleModule,

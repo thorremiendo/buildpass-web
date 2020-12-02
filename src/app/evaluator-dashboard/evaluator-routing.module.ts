@@ -10,6 +10,7 @@ import { EvaluatorSignUpComponent } from './evaluator-sing-up/evaluator-sign-up.
 import { EvaluatorsSummaryComponent } from './evaluators-summary/evaluators-summary.component';
 import { EvaluatorAuthGuard } from '../core/guard/evaluator-guard'
 import { UserGuardService } from '../core/guard/user-guard.service';
+import { EvaluatorIdentificationComponent } from './evaluator-identification/evaluator-identification.component';
 
 
 const routes: Routes = [
@@ -48,6 +49,11 @@ const routes: Routes = [
             {
               path:"employee-info",
               component: EvaluatorEmployeeInfoComponent
+            },
+
+            {
+              path:"identification-info",
+              component: EvaluatorIdentificationComponent
             },
 
             {

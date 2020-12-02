@@ -5,8 +5,6 @@ import { Router } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
 import { DataPrivacyComponent } from '../data-privacy/data-privacy.component';
-import { NavigationComponent } from '../../landing/navigation/navigation.component';
-import { BannerComponent } from '../../landing/banner/banner.component';
 import { RegisterAccountFormService } from 'src/app/core/services/register-account-form.service';
 
 
@@ -98,6 +96,7 @@ export class PersonalInfoComponent implements OnInit {
     if (this._personalInfoForm.valid){
       this.createUserDetails();
       this._registerAccountFormService.setRegisterAccountInfo(this.userDetails);
+      this._router.navigateByUrl("/registration/identification-info")
       this._authService.SendVerificationMail();
       
       console.log(this.userDetails);
@@ -105,22 +104,8 @@ export class PersonalInfoComponent implements OnInit {
     }
    
   }
-  openDialog() {
-    this._submitted = true;
-    if(this._personalInfoForm.valid){
-      const dialogRef = this._dialog.open(DataPrivacyComponent);
-      dialogRef.afterClosed().subscribe(result => {
-        this.onSubmit();
-
-      });
-      
-    }
-    
-  
-  }
 
 
-  
   ngOnInit(): void {
     this._registerAccountFormService.cast.subscribe(registerAccountSubject => this.userDetails = registerAccountSubject)
     this.createForm();

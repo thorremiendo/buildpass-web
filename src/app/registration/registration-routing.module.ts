@@ -4,6 +4,7 @@ import { MAT_DATE_RANGE_INPUT_PARENT } from '@angular/material/datepicker/date-r
 import { Routes, RouterModule } from '@angular/router';
 import { AddressComponent } from './address/address.component';
 import { DataPrivacyComponent } from './data-privacy/data-privacy.component';
+import { IdentificationComponent } from './identification/identification.component';
 import { PersonalInfoComponent } from './personal-info/personal-info.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 
@@ -23,8 +24,8 @@ const routes: Routes = [
         },
 
         {
-          path: 'address',
-          component: AddressComponent,
+          path: 'identification-info',
+          component: IdentificationComponent,
 
       }],
     

@@ -5,6 +5,7 @@ import { RegistrationPageComponent } from './registration-page/registration-page
 import { RegistrationRoutingModule } from './registration-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -26,6 +27,7 @@ import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../../environments/environment';
 
+
 // Auth service
 import { AuthService } from "../core/services/auth.service";
 
@@ -34,6 +36,7 @@ import { AddressComponent } from './address/address.component';
 import { DataPrivacyComponent } from './data-privacy/data-privacy.component';
 import { LandingModule } from '../landing/landing.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { IdentificationComponent } from './identification/identification.component';
 
 
 
@@ -43,7 +46,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 @NgModule({
   declarations: [
     PersonalInfoComponent, 
-    RegistrationPageComponent, AddressComponent, DataPrivacyComponent,],
+    RegistrationPageComponent,
+    AddressComponent, 
+    DataPrivacyComponent, 
+    IdentificationComponent,],
     
     
 
@@ -63,6 +69,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatTabsModule,
     MatCardModule,
     MatDialogModule,
+    NgxDropzoneModule,
 
     LandingModule,
     AngularFireModule.initializeApp(environment.firebase),
