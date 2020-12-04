@@ -1,3 +1,5 @@
+import '../../../polyfills';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -33,7 +35,8 @@ import { CommonFieldsComponent } from '../new-application/common-fields/common-f
 import { CommonFieldsPersonalInfoComponent } from '../new-application/common-fields/common-fields-personal-info/common-fields-personal-info.component';
 import { CommonFieldsAddressInfoComponent } from '../new-application/common-fields/common-fields-address-info/common-fields-address-info.component';
 import { CommonFieldsRepresentativeComponent } from '../new-application/common-fields/common-fields-representative/common-fields-representative.component';
-
+import {environment} from '../../../environments/environment'
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 
 
@@ -76,7 +79,9 @@ import { CommonFieldsRepresentativeComponent } from '../new-application/common-f
     MatInputModule,
     MatNativeDateModule, 
     MatRippleModule,
-    
+    NgxMapboxGLModule.withConfig({
+      accessToken: environment.mapbox.accessToken
+    })
   ]
 })
 export class UserDashboardModule { }

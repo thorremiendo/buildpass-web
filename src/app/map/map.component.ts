@@ -38,6 +38,6 @@ export class MapComponent implements OnInit {
   }
 
   onDragEnd() {
-    console.log(this.marker)
+    console.log("Marker")
   }
 }

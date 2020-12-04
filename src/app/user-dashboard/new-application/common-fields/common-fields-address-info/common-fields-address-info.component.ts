@@ -10,6 +10,8 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Map } from 'mapbox-gl/dist/mapbox-gl';
 import * as mapboxgl from 'mapbox-gl/dist/mapbox-gl';
 import { Marker } from 'mapbox-gl/dist/mapbox-gl';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+
 @Component({
   selector: 'app-common-fields-address-info',
   templateUrl: './common-fields-address-info.component.html',
@@ -18,8 +20,6 @@ import { Marker } from 'mapbox-gl/dist/mapbox-gl';
 export class CommonFieldsAddressInfoComponent implements OnInit {
   public projectDetails;
   public ownerDetails;
-
-  public maxLength: number = 11;
 
   public projectDetailsForm: FormGroup;
   _submitted = false;
@@ -32,7 +32,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   style = 'mapbox://styles/mapbox/streets-v11';
   lat = 16.4136559;
   lng = 120.5893339;
-  marker: mapboxgl.Marker;
+  public marker: mapboxgl.Marker;
   public lnglat;
   constructor(
     private _fb: FormBuilder,
@@ -88,11 +88,19 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       .addTo(this.map); //
 
     this.map.addControl(new mapboxgl.NavigationControl());
-
+    this.map.addControl(
+      new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl,
+      marker: {
+        draggable: true
+      }
+      })
+      );
     this.marker.on('dragend', this.onDragEnd);
   }
   onDragEnd() {
-    console.log(this.marker);
+    console.log("marker dragged")
   }
 
   createForm() {
@@ -101,7 +109,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_block_number: ['', Validators.required],
       project_floor_number: [''],
       owner_tin_number: ['', Validators.required],
-      project_street: ['', [Validators.required, Validators.maxLength(11)]],
+      project_street: ['', Validators.required],
       project_unit_number: ['', Validators.required],
       project_barangay: ['', Validators.required],
       project_municipality: ['', Validators.required],

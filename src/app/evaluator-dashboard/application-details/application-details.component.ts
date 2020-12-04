@@ -3,20 +3,18 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import Swal from 'sweetalert2'
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { ProjectDetailsComponent } from '../project-details/project-details.component';
 
-//map
-import { environment } from '../../../environments/environment'
-import { ChangeDetectorRef } from '@angular/core';
-import { Map } from 'mapbox-gl/dist/mapbox-gl';
-import * as mapboxgl from 'mapbox-gl/dist/mapbox-gl';
-import { Marker } from 'mapbox-gl/dist/mapbox-gl'
 @Component({
   selector: 'app-application-details',
   templateUrl: './application-details.component.html',
   styleUrls: ['./application-details.component.scss']
 })
 export class ApplicationDetailsComponent implements OnInit {
+  public isLoading: boolean = true;
   public evaluatorDetails;
+  public department = "cbao"
   public user;
   public role_id = "2"
   public pdfSrc;
@@ -45,52 +43,41 @@ export class ApplicationDetailsComponent implements OnInit {
   public zoningClearance = {
     is_compliant: ""
   };
- //map
- map: mapboxgl.Map;
-  style = 'mapbox://styles/mapbox/streets-v11';
-  lat = 16.4136559;
-  lng = 120.5893339;
-  marker: mapboxgl.Marker
-  public lnglat; 
+  
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    public dialog: MatDialog
   ) { }
+  openProjectDialog(): void {
+    const dialogRef = this.dialog.open(ProjectDetailsComponent, {
+      width: '1000px',
+      data: {
+        department: this.department
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
 
   ngOnInit(): void {
-    this.formDetails = this.fb.group({
-      is_compliant: new FormControl("")
-    })
-    this.authService.currentUser.subscribe((currentUser) => {
-      this.user = currentUser;
-      this.authService.getFireBaseData(this.user.user.uid).subscribe(result =>{
-        this.evaluatorDetails = result.data();
-        console.log(this.evaluatorDetails)
-      })
-    });
-    //map
-    mapboxgl.accessToken = environment.mapbox.accessToken;
-    this.map = new Map({
-      container: 'map',
-      style: this.style,
-      zoom: 16,
-      center: [this.lng, this.lat],
-    });
-    // Add map controls
-    this.marker = new Marker({
-      draggable: true,
-    })
-      .setLngLat([this.lng, this.lat])
-      .addTo(this.map); //
-
-    this.map.addControl(new mapboxgl.NavigationControl());
-
-    this.marker.on('dragend', this.onDragEnd);
+    // this.formDetails = this.fb.group({
+    //   is_compliant: new FormControl("")
+    // })
+    // this.authService.currentUser.subscribe((currentUser) => {
+    //   this.user = currentUser;
+    //   this.authService.getFireBaseData(this.user.user.uid).subscribe(result =>{
+    //     this.evaluatorDetails = result.data();
+    //     this.isLoading = false;
+    //   })
+    // });
+  
   }
-  onDragEnd() {
-    console.log(this.marker)
-  }
+  
+  
   handleForm(value){
     this.selectedForm = value
     if(value == 'zoning') {
@@ -176,7 +163,7 @@ export class ApplicationDetailsComponent implements OnInit {
         this.zoningClearance.is_compliant = "No"
       }
     }
-  }
+  }  
 
   handleForward(){
     Swal.fire('Success!', 'Application Forwarded to CPDO', 'success').then((result) => {
@@ -185,6 +172,7 @@ export class ApplicationDetailsComponent implements OnInit {
       }
     })
   }
+  
   handleProceed(){
     Swal.fire('Success!', 'Certificate of Zoning Clearance Released!', 'success').then((result) => {
       if(result.isConfirmed){

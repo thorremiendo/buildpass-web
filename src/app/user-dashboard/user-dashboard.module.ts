@@ -56,7 +56,8 @@ import { MatTableModule } from '@angular/material/table'
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
-
+import {environment} from '../../environments/environment'
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 
 
@@ -116,9 +117,10 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatExpansionModule,
     PdfJsViewerModule,
     MatTabsModule,
-    MatDatepickerModule
-
-  
+    MatDatepickerModule,
+    NgxMapboxGLModule.withConfig({
+      accessToken: environment.mapbox.accessToken
+    })
   ],
 })
 export class UserModule {}

@@ -44,7 +44,10 @@
   <div class="row">
     <div class="col-md-4">
       <mat-card class="reminders">
-        <mat-card-title class="m-3">Notifications</mat-card-title>
+        <mat-card-header>
+          <mat-card-title class="m-3">Notifications</mat-card-title>
+          <button mat-button color="primary">View All</button>
+        </mat-card-header>
         <hr class="m-0" />
         <mat-card-content>
           <div class="d-flex justify-content-center w-100 m-0">
@@ -60,7 +63,10 @@
 
     <div class="col-md-8">
       <mat-card class="reminders">
-        <mat-card-title class="m-3">Reminders</mat-card-title>
+        <mat-card-header>
+          <mat-card-title class="m-3">Reminders</mat-card-title>
+          <button mat-button color="primary">View All</button>
+        </mat-card-header>
         <hr class="m-0" />
         <mat-card-content>
           <!-- <div class="row ml-3" *ngFor="let reminder of reminders">

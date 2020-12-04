@@ -51,6 +51,13 @@ import { EvaluatorEmployeeInfoComponent } from './evaluator-employee-info/evalua
 import { EvaluatorsSummaryComponent } from './evaluators-summary/evaluators-summary.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { CbaoEvaluatorComponent } from './cbao-evaluator/cbao-evaluator.component';
+import { CpdoEvaluatorComponent } from './cpdo-evaluator/cpdo-evaluator.component';
+import { CepmoEvaluatorComponent } from './cepmo-evaluator/cepmo-evaluator.component';
+import { BfpEvaluatorComponent } from './bfp-evaluator/bfp-evaluator.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { ProjectDetailsComponent } from './project-details/project-details.component';
+import { FormDetailsComponent } from './form-details/form-details.component';
 
 
 
@@ -69,7 +76,14 @@ import {MatExpansionModule} from '@angular/material/expansion';
     EvaluatorSignUpComponent, 
     EvaluatorPersonalInfoComponent, 
     EvaluatorEmployeeInfoComponent, 
-    EvaluatorsSummaryComponent],
+    EvaluatorsSummaryComponent,
+    CbaoEvaluatorComponent,
+    CpdoEvaluatorComponent,
+    CepmoEvaluatorComponent,
+    BfpEvaluatorComponent,
+    ProjectDetailsComponent,
+    FormDetailsComponent
+  ],
 
   imports: [
     CommonModule,
@@ -111,6 +125,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    MatDialogModule
     
   ]
 })
