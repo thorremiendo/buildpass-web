@@ -2,13 +2,13 @@
 	background-color: #400001 !important;
 	position: sticky;
 	top: 0;
-	z-index: 1;
 	height: auto;
 	padding: 0 50px;
+	overflow: hidden;
 
 	img {
-		height: 75px;
-		padding: 5px 0;
+		height: 100px;
+		padding: 10px 0;
 	}
 
 	a {
@@ -56,15 +56,17 @@
 	}
 
 	.hidden {
-	display: none;
+		display: none;
 	}
 
 	@media (max-width: 768px) {
 	.navigation {
 		padding: 0 30px;
+		height: auto !important;
 		
 		img {
-		height: 65px;
+			height: 90px;
+			padding: 10px 0;
 		}
 	}
 }

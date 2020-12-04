@@ -1,5 +1,5 @@
 <form [formGroup]="_signinForm" (ngSubmit)="tryLogin(_signinForm.value)">
-  <div class="row justify-content-md-center pt-5">
+  <div class="row justify-content-center pt-5">
     <div class="col-md-8">
       <mat-form-field appearance="outline">
         <mat-label>Email address</mat-label>
@@ -13,8 +13,8 @@
       </mat-form-field>
     </div>
   </div>
-  <div class="row justify-content-md-center pt-1">
-    <div class="col-md-8">
+  <div class="row justify-content-center">
+    <div class="col-md-8 password-input">
       <mat-form-field appearance="outline">
         <mat-label>Enter your password</mat-label>
         <input
@@ -32,35 +32,25 @@
           <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
       </mat-form-field>
-      <a
-        style="margin-top: -10px; color: maroon"
-        routerLink="/forgot-password"
-        routerLinkActive="active"
-        >forgot password?</a
-      >
+      <a routerLink="/forgot-password">
+        forgot password?
+      </a>
     </div>
   </div>
-  <div class="row justify-content-md-center py-3">
-    <div class="col-md-4 text-center">
-      <button style="background-color: maroon; color: white" mat-stroked-button>
+  <div class="row justify-content-center pt-3 pb-3">
+    <div class="col-md-4 sign-in-button">
+      <button mat-stroked-button>
         Sign in
       </button>
     </div>
   </div>
   <hr />
-  <div class="row row justify-content-md-center pt-3">
-    <p style="font-size: smaller; color: gray">or sign in with</p>
-  </div>
-  <div class="row justify-content-md-center">
-    <div class="col-md-4 text-center mb-5">
+  <div class="row justify-content-center pt-2 pb-5">
+    <div class="col-md-4 google-login">
+      <p>or sign in with</p>
       <button mat-stroked-button (click)="tryGoogle()">
-        <mat-icon
-          matPrefix
-          style="width: 40px; height: 25px; margin-bottom: 15px"
-          svgIcon="logo"
-        >
-        </mat-icon
-        >Google
+        <mat-icon matPrefix svgIcon="logo"></mat-icon>
+        Google
       </button>
     </div>
   </div>
