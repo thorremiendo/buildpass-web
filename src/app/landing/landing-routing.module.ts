@@ -6,7 +6,9 @@ import { AboutComponent } from './about/about.component';
 import { ServicesComponent } from './services/services.component';
 import { NewsComponent } from './news/news.component';
 import { ContactComponent } from './contact/contact.component';
+import { SignInUpComponent } from './sign-in-up/sign-in-up.component';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
@@ -32,8 +34,19 @@ const routes: Routes = [
     component: ContactComponent,
   },
   {
-    path: 'login',
-    component: SignInComponent
+    path: 'user',
+    component: SignInUpComponent,
+    children: [
+      {
+        path: 'sign-in',
+        component: SignInComponent,
+      },
+
+      {
+        path: 'sign-up',
+        component: SignUpComponent,
+      },
+    ],
   },
   {
     path: 'verify-email',

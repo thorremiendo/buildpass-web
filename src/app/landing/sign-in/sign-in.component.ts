@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../core/services/auth.service';
-import { FormBuilder, FormGroup, FormControl, Validators, } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
-import { MatIconRegistry } from '@angular/material/icon';
-import { FormValidatorService } from '../../core/services/form-validator.service'
-
-const googleLogoURL = "https://raw.githubusercontent.com/fireflysemantics/logo/master/Google.svg";
+import { Component, OnInit, NgZone } from '@angular/core';
+import { AuthService } from '../../core/services/auth.service'
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, } from '@angular/forms';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sign-in',
@@ -13,72 +12,76 @@ const googleLogoURL = "https://raw.githubusercontent.com/fireflysemantics/logo/m
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit {
-  public hide = true;
-  _submitted = false;
+  public hide: boolean = true;
+  public user;
+  _submitted: boolean =false;
   _signinForm: FormGroup;
-  _signupForm: FormGroup;
 
-  navLinks: any[];
-  activeLinkIndex = -1; 
-  
   constructor(
     private _authService: AuthService,
+    private _router: Router,
     private _fb: FormBuilder,
-    private _formValidator: FormValidatorService,
-    private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer
+    private _route: ActivatedRoute,
+    private _ngZone: NgZone,
+
   ) {
-
-    this.matIconRegistry.addSvgIcon("logo",
-      this.domSanitizer.bypassSecurityTrustResourceUrl(googleLogoURL)
-    );
-
     this.createForm();
   }
 
-  createForm(){
+  createForm() {
     this._signinForm = this._fb.group({
       email: ['', Validators.required],
-      password:['', Validators.required]
+      password: ['', Validators.required]
     });
-
-    this._signupForm = this._fb.group(
-      {
-        fname: ['', Validators.required ],
-        lname: ['', Validators.required ],
-        email: ['', Validators.required],
-        password: ['', Validators.compose([Validators.required, this._formValidator.patternValidator()])],
-        confirmPassword: ['', [Validators.required]],
-      },
-      {
-        validator: this._formValidator.MatchPassword('password', 'confirmPassword'),
-      }
-    );
   }
 
-  tryLogin(value){
+  tryLogin(value) {
     this._submitted = true;
-    if (this._signinForm.valid){
-      this._authService.SignIn(value);
-    }
+    if (this._signinForm.valid) {
+      this._authService.SignIn(value)
+        .then((result) => {
+          console.log(result);
+          this._authService.currentUserSubject.next(result);
+          this._ngZone.run(() => {
+            if (result.user.emailVerified == true ) {
+              this._router.navigate(['dashboard']);
+            }
+            else {
+              window.alert("Email not yet verified");
+            }
+          });
+          // this.SetUserData(result.user);
+        })
+        .catch((error) => {
+          console.log(error.message);
+          window.alert(error.message);
+        });
+      }
   }
 
-  tryGoogleLogin() {
-    this._authService.GoogleAuth();
+  tryGoogle() {
+    this._authService.GoogleAuth()
+    .then((result) => {
+      console.log(result);
+      this._authService.currentUserSubject.next(result);
+      this._ngZone.run(() => {
+        if (result.additionalUserInfo.isNewUser != true) {
+          this._router.navigate(['dashboard']);
+        }
+        else {
+          this._router.navigateByUrl('registration/personal-info');
+        }
+      });
+      // this.SetUserData(result.user);
+    })
+    .catch((error) => {
+      console.log(error.message);
+      window.alert(error.message);
+    });
   }
   
-  tryRegister(value) {
-    this._submitted = true;
-    if (this._signupForm.valid){
-      this._authService.SignUp(value);
-    }
-  }
-
   ngOnInit(): void {
-    this.createForm();
+
   }
 
-  get signupFormControl() {
-    return this._signupForm.controls;
-  }
 }

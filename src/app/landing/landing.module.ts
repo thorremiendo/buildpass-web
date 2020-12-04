@@ -23,11 +23,13 @@ import { ServicesComponent } from './services/services.component';
 import { NewsComponent } from './news/news.component';
 import { ContactComponent } from './contact/contact.component';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { SignInUpComponent } from './sign-in-up/sign-in-up.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
-  declarations: [LandingComponent, NavigationComponent, AboutComponent, BannerComponent, ServicesComponent, NewsComponent, ContactComponent, FooterComponent, SignInComponent, VerifyEmailComponent, ForgotPasswordComponent],
+  declarations: [LandingComponent, NavigationComponent, AboutComponent, BannerComponent, ServicesComponent, NewsComponent, ContactComponent, FooterComponent, SignInComponent, SignUpComponent, SignInUpComponent, VerifyEmailComponent, ForgotPasswordComponent],
   imports: [
     CommonModule,
     LayoutModule,
