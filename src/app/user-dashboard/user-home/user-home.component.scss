@@ -39,18 +39,17 @@
 }
 
 mat-card {
-  height: 300px;
+  max-height: 300px;
   mat-card-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     mat-card-title {
       margin-bottom: 0;
     }
   }
-}
-
-.reminders {
-  overflow-y: auto;
+  ._notifications {
+    overflow: auto;
+    max-height: 180px;
+  }
 }

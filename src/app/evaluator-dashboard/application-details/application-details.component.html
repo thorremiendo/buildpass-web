@@ -18,7 +18,18 @@
         </div>
       </div>
       <div class="row mb-1">
-        <div class="col-md-6">
+        <div class="avatar-container col-md-4 text-center">
+          <div class="avatar mb-2">
+            <img src="../../../assets/images/avatar.png" alt="" />
+          </div>
+          <div>
+            <h5 style="color: #7b7b7b">applicant@gmail.com</h5>
+          </div>
+          <div>
+            <h5 style="color: #7b7b7b">09123456789</h5>
+          </div>
+        </div>
+        <div class="col-md-4">
           <div class="col">
             <h5 style="color: #7b7b7b">Application Number:</h5>
             <h5><strong>&nbsp;A2020-001</strong></h5>
@@ -28,7 +39,7 @@
             <h5><strong>&nbsp;2020-12-12</strong></h5>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
           <div class="col">
             <h5 style="color: #7b7b7b">Applicant Name:</h5>
             <h5><strong>&nbsp;Juan Dela Cruz</strong></h5>
@@ -55,6 +66,11 @@
 <div class="app-forms">
   <mat-card>
     <mat-card-content>
+      <div>
+        <h4 style="color: #400c06" class="mb-4">
+          <strong>Application Forms</strong>
+        </h4>
+      </div>
       <div *ngIf="department == 'cbao'">
         <app-cbao-evaluator></app-cbao-evaluator>
       </div>

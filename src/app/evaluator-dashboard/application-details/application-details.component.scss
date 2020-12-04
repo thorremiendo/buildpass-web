@@ -8,5 +8,15 @@
   }
 }
 .app-forms {
-    width: 100%;
+  width: 100%;
+}
+.avatar-container {
+  border-right: 2px solid grey;
+  .avatar {
+    img {
+      width: 80px;
+      height: auto;
+      object-fit: cover;
+    }
   }
+}
