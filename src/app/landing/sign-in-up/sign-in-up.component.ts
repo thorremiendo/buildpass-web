@@ -3,10 +3,8 @@ import { RouterModule, Routes, Router } from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
 
-
 const googleLogoURL = 
 "https://raw.githubusercontent.com/fireflysemantics/logo/master/Google.svg";
-
 
 @Component({
   selector: 'app-sign-in-up',
@@ -36,16 +34,11 @@ export class SignInUpComponent implements OnInit {
             index: 1
         },
     ];
-
-
-}
-
+  }
 
   ngOnInit(): void {
     this._router.events.subscribe((res) => {
       this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === '.' + this._router.url));
-  });
-
+    });
   }
-
 }
