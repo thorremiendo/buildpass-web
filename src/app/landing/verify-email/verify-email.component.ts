@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../core/services/auth.service' 
-import { RegisterAccountEvaluatorFormService } from '../core/services/register-account-evaluator-form.service'
-import { Router } from '@angular/router'
-import { NavigationComponent } from '../landing/navigation/navigation.component';
-import { BannerComponent } from '../landing/banner/banner.component';
+import { AuthService } from '../../core/services/auth.service';
+import { RegisterAccountEvaluatorFormService } from '../../core/services/register-account-evaluator-form.service';
+import { Router } from '@angular/router';
+import { NavigationComponent } from '../../landing/navigation/navigation.component';
+import { BannerComponent } from '../../landing/banner/banner.component';
 
 @Component({
   selector: 'app-verify-email',
@@ -30,20 +30,13 @@ export class VerifyEmailComponent implements OnInit {
 
     }
 
-    else 
-    {
+    else {
       this._router.navigateByUrl('evaluator/sign-in');
-
     }
-
-
-    
-
   }
 
   ngOnInit(): void {
     this._registerAccountEvaluatorFormService.cast.subscribe(registerAccountEvaluatorSubject => this.userDetails = registerAccountEvaluatorSubject)
 
   }
-
 }

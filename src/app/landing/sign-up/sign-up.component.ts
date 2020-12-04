@@ -1,14 +1,11 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { AuthService } from '../core/services/auth.service'
+import { AuthService } from '../../core/services/auth.service';
 import { Router, Params } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, EmailValidator } from '@angular/forms';
 import { AngularFirestore, AngularFirestoreDocument, } from '@angular/fire/firestore';
-import { FormValidatorService } from '../core/services/form-validator.service'
-import { User } from '../core/models/user.model';
-import { RegisterAccountFormService } from '../core/services/register-account-form.service' 
-
-
-
+import { FormValidatorService } from '../../core/services/form-validator.service';
+import { User } from '../../core/models/user.model';
+import { RegisterAccountFormService } from '../../core/services/register-account-form.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -34,9 +31,9 @@ export class SignUpComponent implements OnInit {
     private _ngZone: NgZone,
   ) {
     this.createForm();
-   }
+  }
 
-   createForm() {
+  createForm() {
     this._signupForm = this._fb.group({
       first_name: ['', Validators.required ],
       last_name: ['', Validators.required ],
@@ -50,29 +47,26 @@ export class SignUpComponent implements OnInit {
     );
   }
 
-  tryRegister(value){
+  tryRegister(value) {
     this._submitted = true;
 
-    if (this._signupForm.valid)
-    {
-          this._authService.SignUp(value)
-          .then(result => {
-            console.log(result);
+    if (this._signupForm.valid) {
+      this._authService.SignUp(value)
+      .then(result => {
+        console.log(result);
 
-            const user = result.user;
-            this.fireBaseUser = user;
+        const user = result.user;
+        this.fireBaseUser = user;
 
-            this.SetUserDataFire(value);
-            this.createUserDetails(value);
-            this._registerAccountFormService.setRegisterAccountInfo(this.userDetails);
-            this._router.navigateByUrl('registration/personal-info');
+        this.SetUserDataFire(value);
+        this.createUserDetails(value);
+        this._registerAccountFormService.setRegisterAccountInfo(this.userDetails);
+        this._router.navigateByUrl('registration/personal-info');
       }) 
-          .catch((error) => {
-            window.alert(error.message);
+      .catch((error) => {
+        window.alert(error.message);
       });
-    
-  }
-
+    }
   }
 
   tryGoogle() {
@@ -124,12 +118,9 @@ export class SignUpComponent implements OnInit {
     return userRef.set(userData, {
       merge: true,
     });
-
-    
   }
 
-  createUserDetails(value){
-  
+  createUserDetails(value) {
     this.userDetails ={
       "uid": this.fireBaseUser.uid,
       "first_name": value.first_name,
@@ -138,13 +129,10 @@ export class SignUpComponent implements OnInit {
       "is_evaluator": false,
       "emailVerified": this.fireBaseUser.emailVerified
     };
-
-
   }
 
   SetUserDataFireGoogle(user) {
-    const userRef: AngularFirestoreDocument<any> = this._afs.doc(`users/${user.uid}`
-    );
+    const userRef: AngularFirestoreDocument<any> = this._afs.doc(`users/${user.uid}`);
     const userData: User = {
       uid: this.fireBaseUid.uid,
       email: user.email,
@@ -156,12 +144,9 @@ export class SignUpComponent implements OnInit {
     return userRef.set(userData, {
       merge: true,
     });
-
-    
   }
 
-  createUserDetailsGoogle(user){
-  
+  createUserDetailsGoogle(user) {
     this.userDetails ={
       "uid": this.fireBaseUid.uid,
       "first_name": user.given_name,
@@ -170,18 +155,9 @@ export class SignUpComponent implements OnInit {
       "is_evaluator": false,
       "emailVerified": user.verified_email,
     };
-
-
   }
-
-
 
   get signupFormControl() {
     return this._signupForm.controls;
   }
-  
-
-  
-
-
 }

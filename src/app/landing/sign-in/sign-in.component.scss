@@ -1,0 +1,32 @@
+::ng-deep .mat-tab-label-active {
+	opacity: 1;
+}
+
+.mat-icon {
+	margin: 0;
+	float: right;
+}
+
+.password-input { 
+	a { 
+		color: gray;
+		font-size: 15px;
+	}
+}
+
+.sign-in-button button {
+	background-color: maroon;
+	color: #ffffff;
+}
+
+.google-login {
+	p {
+		font-size: 14px;
+		color: gray;
+	}
+	.mat-icon {
+		line-height: 100%;
+		margin-right: 5px;
+		float: none;
+	}
+}
