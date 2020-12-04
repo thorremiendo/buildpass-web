@@ -15,11 +15,11 @@
     <div class="row justify-content-center my-3 mx-3">
         <div class="col-md-6">
             <mat-form-field appearance="outline">
-                <mat-label>Department</mat-label>
+                <mat-label>Office</mat-label>
                 <mat-select 
                     type="text" 
                     matInput 
-                    formControlName="department" 
+                    formControlName="office" 
                     required>
                     <mat-icon matSuffix>arrow_drop_down</mat-icon>
                     <mat-option value="cpdo">City Planning and Development Office</mat-option>
@@ -30,9 +30,9 @@
                
     
                 <mat-error *ngIf="
-                (evaluatorEmployeeFormControl.department.touched || _submitted) &&
-                evaluatorEmployeeFormControl.department.errors?.required">
-                    Department is Required
+                (evaluatorEmployeeFormControl.office.touched || _submitted) &&
+                evaluatorEmployeeFormControl.office.errors?.required">
+                    Office is Required
                 </mat-error>
             </mat-form-field>
         </div>

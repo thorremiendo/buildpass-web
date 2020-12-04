@@ -56,6 +56,7 @@ import { MatTableModule } from '@angular/material/table'
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
+import { UserEditProfileComponent } from './user-edit-profile/user-edit-profile.component';
 
 
 
@@ -85,6 +86,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     ElectricalPermitFormComponent,
     CivilEngineerAffidavitComponent,
     GeodeticEngineerAffidavitComponent,
+    UserEditProfileComponent,
 
   ],
   imports: [

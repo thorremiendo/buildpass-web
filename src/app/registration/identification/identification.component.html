@@ -1,0 +1,71 @@
+<mat-card class="mat-card p-5 m-5">
+  <div class="p-5">
+    <h2>Address Info</h2>
+    <div class="horizontal-line"></div>
+  </div>
+  <div [formGroup]='identificationForm'>
+    <div class="avatar-upload text-center">
+      <div class="text-center avatar-block d-inline-block">
+        <img [src]="displayPhoto" alt="" class='user-avatar'>
+        <button class='btn btn-dark btn-sm edit-button' type='button' (click)='openFileChooser()'>
+          <i class='fa fa-edit'></i>
+        </button>
+      </div>
+      <p>
+        <small class='font-weight-bold'>Profile Picture</small>
+      </p>
+      <input type="file" class='sr-only' id='photo' accept="image/*" (change)='handlePhotoFileChange($event)'>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <mat-form-field appearance="outline" class="form-group pt-1">
+          <mat-label for="id-type">ID Type</mat-label>
+          <mat-select formControlName='id_type' required>
+            <mat-option value="1">Passport</mat-option>
+            <mat-option value="2">Driver's License</mat-option>
+            <mat-option value="3">PRCID</mat-option>
+            <mat-option value="4">School ID</mat-option>
+            <mat-option value="5">SSS/UMID ID</mat-option>
+            <mat-option value="6">Senior Citizen's ID</mat-option>
+            <mat-option value="7">PWD ID</mat-option>
+            <mat-option value="8">Parent or Legal Guardian's ID</mat-option>
+            <mat-option value="9">Others</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <mat-form-field appearance="outline">
+          <mat-label>ID Number</mat-label>
+          <input matInput type="text" formControlName='id_number'>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="id-file" class="head">ID Photo</label>
+          <ngx-dropzone (change)="handleFileChangeEvent($event)">
+            <ngx-dropzone-label>Click here to upload file!</ngx-dropzone-label>
+            <ngx-dropzone-preview *ngIf='selectedFile'>
+              <ngx-dropzone-label>{{ selectedFile.name }} ({{ selectedFile.type }})</ngx-dropzone-label>
+            </ngx-dropzone-preview>
+          </ngx-dropzone>
+          <span><strong>Note:</strong></span> Please upload a valid ID and recent photo.
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-3 col-3 text-right my-4 pb-3">
+        <button 
+        style="background-color: maroon; color: white"
+        mat-stroked-button
+          (click)="openDialog()"
+          [disabled]="!identificationForm.valid || !selectedFile || !photoUploaded">
+        Proceed
+      </button>
+      </div>
+    </div>
+  </div>
+</mat-card>

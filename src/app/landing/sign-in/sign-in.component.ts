@@ -2,9 +2,10 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service'
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, } from '@angular/forms';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-sign-in',
@@ -23,6 +24,7 @@ export class SignInComponent implements OnInit {
     private _fb: FormBuilder,
     private _route: ActivatedRoute,
     private _ngZone: NgZone,
+    private _afs: AngularFirestore,
 
   ) {
     this.createForm();
@@ -44,6 +46,7 @@ export class SignInComponent implements OnInit {
           this._authService.currentUserSubject.next(result);
           this._ngZone.run(() => {
             if (result.user.emailVerified == true ) {
+              this.SetUserDataFire(result.user.uid,result.user.emailVerified);
               this._router.navigate(['dashboard']);
             }
             else {
@@ -66,6 +69,7 @@ export class SignInComponent implements OnInit {
       this._authService.currentUserSubject.next(result);
       this._ngZone.run(() => {
         if (result.additionalUserInfo.isNewUser != true) {
+          this.SetUserDataFire(result.user.uid,result.user.emailVerified);
           this._router.navigate(['dashboard']);
         }
         else {
@@ -79,7 +83,23 @@ export class SignInComponent implements OnInit {
       window.alert(error.message);
     });
   }
-  
+
+  SetUserDataFire(user, emailVerified ) {
+    const userRef: AngularFirestoreDocument<any> = this._afs.doc(
+      `users/${user}`);
+
+    console.log(user)
+    const userData = {
+     emailVerified: emailVerified,
+     
+    };
+    return userRef.set(userData, {
+      merge: true,
+    });
+
+  }
+
+
   ngOnInit(): void {
 
   }

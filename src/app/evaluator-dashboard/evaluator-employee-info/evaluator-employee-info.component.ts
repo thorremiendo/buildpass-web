@@ -16,8 +16,8 @@ export class EvaluatorEmployeeInfoComponent implements OnInit {
   public userDetails;
   public maxLength: number = 11;
 
-  _evaluatorEmployeeInfoForm: FormGroup;
   _submitted = false;
+  _evaluatorEmployeeInfoForm: FormGroup;
 
   _filteredOfficeOptions: Observable<string[]>;
   _filteredPositionOptions: Observable<string[]>;
@@ -46,7 +46,7 @@ export class EvaluatorEmployeeInfoComponent implements OnInit {
   createForm() {
     this._evaluatorEmployeeInfoForm = this._fb.group({
       employee_number:['', Validators.required],
-      department:['', Validators.required],
+      office:['', Validators.required],
       position: ['', Validators.required],
       contact_number:['', [Validators.required, Validators.maxLength(11),]],
       
@@ -57,13 +57,11 @@ export class EvaluatorEmployeeInfoComponent implements OnInit {
   createUserDetails(){
 
     this.userDetails ={
-      "employee_number": this._evaluatorEmployeeInfoForm.value.employee_number,
-      "department": this._evaluatorEmployeeInfoForm.value.department,
+      "employee_no": this._evaluatorEmployeeInfoForm.value.employee_number,
+      "office": this._evaluatorEmployeeInfoForm.value.office,
       "position": this._evaluatorEmployeeInfoForm.value.position, 
-      "contact_number":  this._evaluatorEmployeeInfoForm.value.contact_number,
+      "mobile_no":  this._evaluatorEmployeeInfoForm.value.contact_number,
      
-      
-
     }
   
   }
@@ -75,10 +73,9 @@ export class EvaluatorEmployeeInfoComponent implements OnInit {
     if (this._evaluatorEmployeeInfoForm.valid){
       this.createUserDetails();
       this._registerAccountEvaluatorFormService.setRegisterAccountInfo(this.userDetails);
-      this._router.navigateByUrl("evaluator/registration/summary");
+      this._router.navigateByUrl("evaluator/registration/identification-info");
       
       console.log(this.userDetails);
-
     
     }
   
@@ -99,10 +96,18 @@ export class EvaluatorEmployeeInfoComponent implements OnInit {
   
   ngOnInit(): void {
     this._registerAccountEvaluatorFormService.cast.subscribe(registerAccountEvaluatorSubject => this.userDetails = registerAccountEvaluatorSubject)
-    console.log(this.userDetails)
     this.createForm();
+    this._evaluatorEmployeeInfoForm.patchValue({
+      employee_number: this.userDetails.employee_number,
+      office: this.userDetails.office,
+      position: this.userDetails.position, 
+      contact_number:  this.userDetails.contact_number,
+      
+    });
+    console.log(this.userDetails)
+    
 
-    this._filteredOfficeOptions = this.evaluatorEmployeeFormControl.department.valueChanges.pipe(
+    this._filteredOfficeOptions = this.evaluatorEmployeeFormControl.office.valueChanges.pipe(
       startWith(''),
       map(value => this._filterOffice(value))
     );
