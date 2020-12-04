@@ -19,8 +19,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
- 
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
@@ -69,6 +70,7 @@ import { IdentificationComponent } from './identification/identification.compone
     MatTabsModule,
     MatCardModule,
     MatDialogModule,
+    MatAutocompleteModule,
     NgxDropzoneModule,
 
     LandingModule,

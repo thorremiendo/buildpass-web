@@ -13,8 +13,8 @@
           <input type="text" matInput formControlName="first_name" required />
           <mat-error
             *ngIf="
-              (personalInfoFormcControl.first_name.touched || _submitted) &&
-              personalInfoFormcControl.first_name.errors?.required
+              (personalInfoFormControl.first_name.touched || _submitted) &&
+              personalInfoFormControl.first_name.errors?.required
             "
           >
             First Name is Required
@@ -33,8 +33,8 @@
           <input type="text" matInput formControlName="last_name" required />
           <mat-error
             *ngIf="
-              (personalInfoFormcControl.last_name.touched || _submitted) &&
-              personalInfoFormcControl.last_name.errors?.required
+              (personalInfoFormControl.last_name.touched || _submitted) &&
+              personalInfoFormControl.last_name.errors?.required
             "
           >
             Last Name is Required
@@ -66,8 +66,8 @@
             </mat-select>
             <mat-error
               *ngIf="
-                (personalInfoFormcControl.marital_status.touched || _submitted) &&
-                personalInfoFormcControl.marital_status.errors?.required
+                (personalInfoFormControl.marital_status.touched || _submitted) &&
+                personalInfoFormControl.marital_status.errors?.required
               "
             >
               Marital Status is required
@@ -93,8 +93,8 @@
           <mat-datepicker touchUi #picker></mat-datepicker>
           <mat-error
             *ngIf="
-              (personalInfoFormcControl.birthdate.touched || _submitted) &&
-              personalInfoFormcControl.birthdate.errors?.required
+              (personalInfoFormControl.birthdate.touched || _submitted) &&
+              personalInfoFormControl.birthdate.errors?.required
             "
           >
             Birthdate is required
@@ -111,8 +111,8 @@
         </mat-form-field>
         <mat-error
           *ngIf="
-            (personalInfoFormcControl.gender.touched || _submitted) &&
-            personalInfoFormcControl.gender.errors?.required
+            (personalInfoFormControl.gender.touched || _submitted) &&
+            personalInfoFormControl.gender.errors?.required
           "
         >
           Gender is required
@@ -126,8 +126,8 @@
           <input type="text" matInput formControlName="home_address" required />
           <mat-error
             *ngIf="
-              (personalInfoFormcControl.home_address.touched || _submitted) &&
-              personalInfoFormcControl.home_address.errors?.required
+              (personalInfoFormControl.home_address.touched || _submitted) &&
+              personalInfoFormControl.home_address.errors?.required
             "
           >
             Home Address is required
@@ -137,15 +137,27 @@
       <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Barangay</mat-label>
-          <input type="text" matInput formControlName="barangay" required />
+          <input type="text"
+                 placeholder="Select Barangay"
+                 aria-label="Barangay"
+                 matInput
+                 formControlName="barangay"
+                 [matAutocomplete]="auto"
+                 required>
+                 <mat-icon matSuffix>arrow_drop_down</mat-icon>
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let barangays of _filteredBarangayOptions | async" [value]="barangays.name">
+              {{barangays.name}}
+            </mat-option>
+          </mat-autocomplete>
           <mat-error
-            *ngIf="
-              (personalInfoFormcControl.barangay.touched || _submitted) &&
-              personalInfoFormcControl.barangay.errors?.required
-            "
-          >
-            Barangay is required
-          </mat-error>
+          *ngIf="
+            (personalInfoFormControl.barangay.touched || _submitted) &&
+            personalInfoFormControl.barangay.errors?.required
+          "
+        >
+          Barangay is required
+        </mat-error>
         </mat-form-field>
       </div>
       <div class="col-md-3">
@@ -162,8 +174,8 @@
           />
           <mat-error
             *ngIf="
-              (personalInfoFormcControl.contact_number.touched || _submitted) &&
-              personalInfoFormcControl.contact_number.errors?.required
+              (personalInfoFormControl.contact_number.touched || _submitted) &&
+              personalInfoFormControl.contact_number.errors?.required
             "
           >
             Contact Number is required
@@ -192,9 +204,9 @@
 </mat-card>
 
 
-<!-- <ul>
+<ul>
   <li *ngFor="let b of barangay">
-    {{barangay.data.name}}
+    {{b.name}}
 
   </li>
-</ul> -->
+</ul>

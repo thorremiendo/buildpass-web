@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { RegisterAccountFormService } from 'src/app/core/services/register-account-form.service';
 import { BarangayService } from '../../core/services/barangay.service'
 
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 
 
@@ -16,14 +18,16 @@ import { BarangayService } from '../../core/services/barangay.service'
 export class PersonalInfoComponent implements OnInit {
   public userDetails;
   public maxLength: number = 11;
-  public barangay:any =[];
-  public barangay_name: [];
+  public barangay: Barangay[];
 
   _personalInfoForm: FormGroup;
   _submitted = false;
 
+  _filteredBarangayOptions: Observable<Barangay[]>;
+ //_barangay_options:string[] = Object.keys(this.barangay).map(key => this.barangay[key]).filter(k => !(parseInt(k) >= 0));
 
-  get personalInfoFormcControl() {
+
+  get personalInfoFormControl() {
     return this._personalInfoForm.controls;
   }
 
@@ -36,6 +40,20 @@ export class PersonalInfoComponent implements OnInit {
 
   ) {
     this.createForm();
+    this._barangayService.getBarangayInfo().subscribe(data=>{
+      this.barangay = data; 
+
+      this._filteredBarangayOptions = this.personalInfoFormControl.barangay.valueChanges
+      .pipe(
+        startWith(''),
+        map(barangay => barangay ? this._filter(barangay) : this.barangay.slice())
+      );
+
+    });
+
+   
+ 
+  
     
 
    
@@ -107,8 +125,22 @@ export class PersonalInfoComponent implements OnInit {
    
   }
 
+  private _filter(value: string): Barangay[] {
+    const filterValue = value.toLowerCase();
+
+    return this.barangay.filter(option => option.name.toLowerCase().includes(filterValue));
+  }
+
 
   ngOnInit(): void {
+    // this._filteredBarangayOptions = this.personalInfoFormControl.barangay.valueChanges
+    // .pipe(
+    //   startWith(''),
+    //   map(value => this._filter(value))
+    // );
+
+    
+
     this._registerAccountFormService.cast.subscribe(registerAccountSubject => this.userDetails = registerAccountSubject)
     this.createForm();
     this._personalInfoForm.patchValue({
@@ -118,23 +150,22 @@ export class PersonalInfoComponent implements OnInit {
 
     });
 
-    // this._barangayService.getBarangayInfo().subscribe(data=>{
-    //   this.barangay = Object.values(data);
-    //   this.barangay = Array.of(this.barangay);
-      
-
-    //   console.log(this.barangay)
-    //   console.log( Object.values(this.barangay));
-      
-    // });
-  
-   
-   
-
-
-   
 
     
   }
 
+  
+
+}
+export interface Barangay {
+  id: number
+  b_id: number,
+  name:string,
+  locality_id: number;
+  province_id: number; 
+  zip_code: number;
+  region_id: number;
+  country_id: number; 
+  created_at: string,
+  updated_at: string;
 }
