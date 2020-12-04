@@ -29,12 +29,13 @@ import { CommonFieldsComponent } from '../new-application/common-fields/common-f
 import { CommonFieldsPersonalInfoComponent } from '../new-application/common-fields/common-fields-personal-info/common-fields-personal-info.component';
 import { CommonFieldsAddressInfoComponent } from '../new-application/common-fields/common-fields-address-info/common-fields-address-info.component';
 import { CommonFieldsRepresentativeComponent } from '../new-application/common-fields/common-fields-representative/common-fields-representative.component';
+import { UserEditProfileComponent } from '../user-edit-profile/user-edit-profile.component';
 
 const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [UserGuardService],
+    //canActivate: [UserGuardService],
     children: [
       {
         path: '',
@@ -252,6 +253,12 @@ const routes: Routes = [
         path: 'forms',
         component: UserFormsComponent,
       },
+      {
+        path: 'edit-profile',
+        component: UserEditProfileComponent,
+      }
+        
+
     ],
   },
 ];

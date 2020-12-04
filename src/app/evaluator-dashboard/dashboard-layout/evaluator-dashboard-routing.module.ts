@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ApplicationDetailsComponent } from '../application-details/application-details.component';
 import { CalendarViewComponent } from '../calendar-view/calendar-view.component';
 import { ClosedTasksComponent } from '../closed-tasks/closed-tasks.component';
+import { EvaluatorEditProfileComponent } from '../evaluator-edit-profile/evaluator-edit-profile.component';
 import { EvaluatorHomeComponent } from '../evaluator-home/evaluator-home.component';
 import { NewTasksComponent } from '../new-tasks/new-tasks.component';
 import { OpenedTasksComponent } from '../opened-tasks/opened-tasks.component';
@@ -45,6 +46,11 @@ const routes: Routes = [
       {
         path: 'application',
         component: ApplicationDetailsComponent,
+      },
+      {
+        path:'edit-profile',
+        component: EvaluatorEditProfileComponent,
+
       },
     ],
   },

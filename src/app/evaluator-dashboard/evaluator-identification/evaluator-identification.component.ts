@@ -35,23 +35,22 @@ export class EvaluatorIdentificationComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _registerAccountEvaluatorFormService: RegisterAccountEvaluatorFormService,
-   
+    private _router: Router,
 
   ) {
     this.identificationForm = _fb.group({
-      idNumber: new FormControl("", Validators.required),
-      idTypeId: new FormControl("1", Validators.required),
+      id_number: new FormControl("", Validators.required),
+      id_type: new FormControl("", Validators.required),
     });
 
-    this.identificationForm.valueChanges.subscribe((res) => {
-      this.emitFormValue();
-    });
   }
 
   ngOnInit(): void {
+    this.createForm();
     
-    this._registerAccountEvaluatorFormService.cast.subscribe(registerAccountEvaluatorSubject => this.userDetails = registerAccountEvaluatorSubject)
-    console.log(this.userDetails);
+    this._registerAccountEvaluatorFormService.cast.subscribe(
+      (registerAccountSubject) => (this.userDetails = registerAccountSubject)
+    );
     this._registerAccountEvaluatorFormService.registerAccountInfo.subscribe((res) => {
       this._displayPhoto = res.photo;
       this.photo = res.photo
@@ -66,32 +65,13 @@ export class EvaluatorIdentificationComponent implements OnInit {
 
     console.log(this.selectedPhoto);
 
-    this.identificationForm = this._fb.group({
-      //photo: new FormControl("", Validators.required),
-
-      idNumber: new FormControl("", Validators.required),
-      idTypeId: new FormControl("1", Validators.required),
-    });
-  }
-  emitFormValue() {
-    const { idNumber, idTypeId = 1 } = this.identificationForm.value;
-
-    const value: IdentificationFormValues = {
-      idNumber,
-      idTypeId,
-      idCard: this.selectedFile,
-      photoFile: this.selectedPhoto ? this.selectedPhoto : this.photo,
-    };
-
-    // if(this.onChange) this.onChange(value);
   }
 
-  writeValue(obj: IdentificationFormValues): void {
-    const { idNumber, idTypeId = 1 } = obj;
-
-    this.identificationForm.patchValue({
-      idNumber,
-      idTypeId,
+  createForm() {
+    this.identificationForm= this._fb.group({
+      id_number: ["", Validators.required],
+      id_type: ["", Validators.required],
+      
     });
   }
 
@@ -115,7 +95,6 @@ export class EvaluatorIdentificationComponent implements OnInit {
 
   handleFileChangeEvent($event) {
     const file = $event.addedFiles[0];
-
     this.selectedFile = file;
   }
 
@@ -143,15 +122,16 @@ export class EvaluatorIdentificationComponent implements OnInit {
 
   onSubmit() {
     this.userDetails = {
-      id_photo_path: this.selectedFile,
-      photo: this.selectedPhoto,
-      id_number: this.identificationForm.value.idNumber,
-      id_type_id: this.identificationForm.value.idTypeId,
+      "id_photo_path": this.selectedFile,
+      "photo_path": this.selectedPhoto,
+      "id_number": this.identificationForm.value.id_number,
+      "id_type": this.identificationForm.value.id_type,
     };
     if (this.identificationForm.valid) {
        this._registerAccountEvaluatorFormService.setRegisterAccountInfo(this.userDetails);
-    }
+       this._router.navigateByUrl('/evaluator/registration/summary');
   }
+}
 
   
 
@@ -159,7 +139,7 @@ export class EvaluatorIdentificationComponent implements OnInit {
 
 interface IdentificationFormValues {
   idCard?: File;
-  idNumber?: string;
-  idTypeId?: string;
+  id_number?: string;
+  id_type?: string;
   photoFile?: string | File;
 }

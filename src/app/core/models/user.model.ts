@@ -1,5 +1,5 @@
 export interface User {
-    uid:string;
+    firebase_uid:string;
     email:string;
     first_name:string;
     last_name:string;
@@ -10,7 +10,7 @@ export interface User {
  }
 
  export interface RegisterAccountModel{
-    uid:string;
+    firebase_uid:string;
     first_name:string;
     middle_name:string;
     last_name:string;
@@ -32,7 +32,7 @@ export interface User {
  }
 
  export interface RegisterAccountEvaluatorModel{
-   uid:string;
+   firebase_uid:string;
    first_name:string;
    middle_name:string;
    last_name:string;
@@ -41,8 +41,8 @@ export interface User {
    gender:string;
    marital_status:number;
 
-   contact_number:string;
-   email:string, 
+   mobile_no:string;
+   email_address:string, 
    emailVerified:boolean;
    is_evaluator:boolean;
    home_address:string;

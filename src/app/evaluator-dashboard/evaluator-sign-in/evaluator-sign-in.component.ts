@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, } from '@angular/forms';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
+import { AngularFirestore, AngularFirestoreDocument, } from '@angular/fire/firestore';
 
 const googleLogoURL = 
 "https://raw.githubusercontent.com/fireflysemantics/logo/master/Google.svg";
@@ -32,7 +33,8 @@ export class EvaluatorSignInComponent implements OnInit {
     private _route: ActivatedRoute,
     private _ngZone: NgZone,
     private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private _afs: AngularFirestore,
 
   ) {
     this.matIconRegistry.addSvgIcon("logo",
@@ -55,13 +57,15 @@ export class EvaluatorSignInComponent implements OnInit {
         .then((result) => {
           this._authService.getFireBaseData(result.user.uid).subscribe(result =>{ // eto yung retrive ng data from firebase
             const user = result.data();
-            console.log(user);
+            console.log(user)
+            console.log(user.uid);
           })
             
           console.log(result);
           this._authService.currentUserSubject.next(result);
           this._ngZone.run(() => {
             if (result.user.emailVerified == true ) {
+              this.SetUserDataFire(result.user.uid,result.user.emailVerified);
               this._router.navigateByUrl('/evaluator/home/table');
             }
             else {
@@ -87,7 +91,9 @@ export class EvaluatorSignInComponent implements OnInit {
       this._authService.currentUserSubject.next(result);
       this._ngZone.run(() => {
         if (result.additionalUserInfo.isNewUser != true) {
+          this.SetUserDataFire(result.user.uid,result.user.emailVerified);
           this._router.navigateByUrl('/evaluator');
+          
         }
         else {
           this._router.navigateByUrl('/evaluator/registration/personal-info');
@@ -100,6 +106,21 @@ export class EvaluatorSignInComponent implements OnInit {
       console.log(error.message);
       window.alert(error.message);
     });
+  }
+
+  SetUserDataFire(user, emailVerified ) {
+    const userRef: AngularFirestoreDocument<any> = this._afs.doc(
+      `users/${user}`);
+
+    console.log(user)
+    const userData = {
+     emailVerified: emailVerified,
+     
+    };
+    return userRef.set(userData, {
+      merge: true,
+    });
+
   }
 
   signUp(){

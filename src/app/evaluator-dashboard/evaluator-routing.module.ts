@@ -20,7 +20,7 @@ const routes: Routes = [
         { 
           path: '',
           component: DashboardComponent,
-          canActivate: [UserGuardService],
+          //canActivate: [UserGuardService],
         },
 
         {

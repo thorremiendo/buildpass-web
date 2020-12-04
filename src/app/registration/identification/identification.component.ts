@@ -15,6 +15,7 @@ import { DataPrivacyComponent } from '../data-privacy/data-privacy.component';
 export class IdentificationComponent implements OnInit {
   public photo: string = "";
   public idFile: FormControl = new FormControl("");
+
   public identificationForm: FormGroup;
 
   private onTouched: () => void;
@@ -24,8 +25,6 @@ export class IdentificationComponent implements OnInit {
 
   public photoUploaded: boolean = false;
   public userDetails;
-
-
 
   private _displayPhoto: string | ArrayBuffer = "";
 
@@ -42,18 +41,14 @@ export class IdentificationComponent implements OnInit {
     private _authService: AuthService,
     private _registerAccountFormService: RegisterAccountFormService,
 
-  ) {
-    this.identificationForm = _fb.group({
-      idNumber: new FormControl("", Validators.required),
-      idTypeId: new FormControl("1", Validators.required),
-    });
-
-    this.identificationForm.valueChanges.subscribe((res) => {
-      this.emitFormValue();
-    });
+  ) 
+  {
+    this.createForm();
+   
   }
 
   ngOnInit(): void {
+    this.createForm();
     
     this._registerAccountFormService.cast.subscribe(
       (registerAccountSubject) => (this.userDetails = registerAccountSubject)
@@ -72,32 +67,13 @@ export class IdentificationComponent implements OnInit {
 
     console.log(this.selectedPhoto);
 
-    this.identificationForm = this._fb.group({
-      //photo: new FormControl("", Validators.required),
-
-      idNumber: new FormControl("", Validators.required),
-      idTypeId: new FormControl("1", Validators.required),
-    });
-  }
-  emitFormValue() {
-    const { idNumber, idTypeId = 1 } = this.identificationForm.value;
-
-    const value: IdentificationFormValues = {
-      idNumber,
-      idTypeId,
-      idCard: this.selectedFile,
-      photoFile: this.selectedPhoto ? this.selectedPhoto : this.photo,
-    };
-
-    // if(this.onChange) this.onChange(value);
   }
 
-  writeValue(obj: IdentificationFormValues): void {
-    const { idNumber, idTypeId = 1 } = obj;
-
-    this.identificationForm.patchValue({
-      idNumber,
-      idTypeId,
+  createForm() {
+    this.identificationForm= this._fb.group({
+      id_number: ["", Validators.required],
+      id_type: ["", Validators.required],
+      
     });
   }
 
@@ -121,7 +97,6 @@ export class IdentificationComponent implements OnInit {
 
   handleFileChangeEvent($event) {
     const file = $event.addedFiles[0];
-
     this.selectedFile = file;
   }
 
@@ -149,14 +124,22 @@ export class IdentificationComponent implements OnInit {
 
   onSubmit() {
     this.userDetails = {
-      id_photo_path: this.selectedFile,
-      photo: this.selectedPhoto,
-      id_number: this.identificationForm.value.idNumber,
-      id_type_id: this.identificationForm.value.idTypeId,
+      "id_photo_path": this.selectedFile,
+      "photo_path": this.selectedPhoto,
+      "id_number": this.identificationForm.value.id_number,
+      "id_type": this.identificationForm.value.id_type,
     };
     if (this.identificationForm.valid) {
        this._registerAccountFormService.setRegisterAccountInfo(this.userDetails);
-       this._authService.SendVerificationMail();
+       this._registerAccountFormService.submitRegisterAccountInfo(this.userDetails).subscribe((res) => {
+        this._authService.SendVerificationMail();
+      }, (err => {
+        console.log(err);
+        console.log(this.userDetails)
+       
+      
+      }));
+       
     }
   }
 
@@ -173,11 +156,4 @@ export class IdentificationComponent implements OnInit {
   
   }
 
-}
-
-interface IdentificationFormValues {
-  idCard?: File;
-  idNumber?: string;
-  idTypeId?: string;
-  photoFile?: string | File;
 }

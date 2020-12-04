@@ -53,6 +53,7 @@ import { EvaluatorsSummaryComponent } from './evaluators-summary/evaluators-summ
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { EvaluatorIdentificationComponent } from './evaluator-identification/evaluator-identification.component';
+import { EvaluatorEditProfileComponent } from './evaluator-edit-profile/evaluator-edit-profile.component';
 
 
 
@@ -71,7 +72,7 @@ import { EvaluatorIdentificationComponent } from './evaluator-identification/eva
     EvaluatorSignUpComponent, 
     EvaluatorPersonalInfoComponent, 
     EvaluatorEmployeeInfoComponent, 
-    EvaluatorsSummaryComponent, EvaluatorIdentificationComponent],
+    EvaluatorsSummaryComponent, EvaluatorIdentificationComponent, EvaluatorEditProfileComponent],
 
   imports: [
     CommonModule,

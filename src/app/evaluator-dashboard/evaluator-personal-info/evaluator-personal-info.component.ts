@@ -38,7 +38,6 @@ export class EvaluatorPersonalInfoComponent implements OnInit {
       suffix_name:[''],
       birthdate:['', Validators.required],
       gender:['', Validators.required],
-      nationality:['Filipino', Validators.required],
       marital_status:['', Validators.required],
       home_address: ['', Validators.required ],
       barangay: ['', Validators.required ],
@@ -57,14 +56,10 @@ export class EvaluatorPersonalInfoComponent implements OnInit {
       "suffix_name":this._evaluatorPersonalInfoForm.value.suffix_name,
       "birthdate": this._evaluatorPersonalInfoForm.value.birthdate,
       "gender": this._evaluatorPersonalInfoForm.value.gender,
-      "nationality": this._evaluatorPersonalInfoForm.value.nationality,
       "marital_status": this._evaluatorPersonalInfoForm.value.marital_status,
 
       "home_address": this._evaluatorPersonalInfoForm.value.home_address,
       "barangay":this._evaluatorPersonalInfoForm.value.barangay,
-     
-     
-      
 
     }
   
@@ -73,7 +68,7 @@ export class EvaluatorPersonalInfoComponent implements OnInit {
   dateToString(){
     if(this._evaluatorPersonalInfoForm.value.birthdate != null){
       let dd = this._evaluatorPersonalInfoForm.value.birthdate.getDate();
-      let mm = this._evaluatorPersonalInfoForm.value.birthdate.getMonth();
+      let mm = this._evaluatorPersonalInfoForm.value.birthdate.getMonth() + 1;
       let yyyy = this._evaluatorPersonalInfoForm.value.birthdate.getFullYear();
       let birthdateString = (`${yyyy}-${mm}-${dd}`);
       this._evaluatorPersonalInfoForm.value.birthdate = birthdateString;
@@ -95,7 +90,7 @@ export class EvaluatorPersonalInfoComponent implements OnInit {
     
     }
   
-   
+
   }
 
   
@@ -105,7 +100,15 @@ export class EvaluatorPersonalInfoComponent implements OnInit {
     this._evaluatorPersonalInfoForm.patchValue({
       first_name: this.userDetails.first_name,
       last_name: this.userDetails.last_name,
-      email_address: this.userDetails.email_address
+      email_address: this.userDetails.email_address,
+      middle_name:this.userDetails.middle_name,
+      suffix_name:this.userDetails.suffix_name,
+      birthdate: this.userDetails.birthdate,
+      gender: this.userDetails.gender,
+      marital_status: this.userDetails.marital_status,
+      home_address: this.userDetails.home_address,
+      barangay:this.userDetails.barangay,
+     
 
     })
 

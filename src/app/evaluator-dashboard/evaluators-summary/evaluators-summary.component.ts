@@ -13,25 +13,35 @@ export class EvaluatorsSummaryComponent implements OnInit {
   public userDetails;
 
   constructor(
-    private _route: Router,
+    private _router: Router,
     private _afs: AngularFirestore,
     private _authService: AuthService,
     private _registerAccountEvaluatorFormService: RegisterAccountEvaluatorFormService,
   ) { }
 
   onSubmit(){
-    console.log(this.userDetails)
+    
     this.SetUserDataFire();
-    this._authService.SendVerificationMail();
+    this._registerAccountEvaluatorFormService.setRegisterAccountInfo(this.userDetails)
+    
+    this._registerAccountEvaluatorFormService.submitRegisterAccountInfo(this.userDetails).subscribe((res) => {
+      this._authService.SendVerificationMail();
+    }, (err => {
+      console.log(err);
+      console.log(this.userDetails)
+     
+    
+    }));
+   
 
   }
 
   SetUserDataFire() {
     const userRef: AngularFirestoreDocument<any> = this._afs.doc(
-      `users/${this.userDetails.uid}`
+      `users/${this.userDetails.firebase_uid}`
     );
     const userData = {
-     department: this.userDetails.department,
+     department: this.userDetails.office,
      position: this.userDetails.position,
     };
     return userRef.set(userData, {

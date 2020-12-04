@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService} from '../../core/services/auth.service'
 import { Router } from '@angular/router';
-
-import { MatDialog } from '@angular/material/dialog';
-import { DataPrivacyComponent } from '../data-privacy/data-privacy.component';
 import { RegisterAccountFormService } from 'src/app/core/services/register-account-form.service';
+import { BarangayService } from '../../core/services/barangay.service'
+
 
 
 
@@ -17,6 +16,8 @@ import { RegisterAccountFormService } from 'src/app/core/services/register-accou
 export class PersonalInfoComponent implements OnInit {
   public userDetails;
   public maxLength: number = 11;
+  public barangay:any =[];
+  public barangay_name: [];
 
   _personalInfoForm: FormGroup;
   _submitted = false;
@@ -30,12 +31,14 @@ export class PersonalInfoComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
-    private _dialog: MatDialog,
-    private _authService: AuthService,
+    private _barangayService: BarangayService,
     private _registerAccountFormService: RegisterAccountFormService,
 
   ) {
     this.createForm();
+    
+
+   
    }
 
   createForm() {
@@ -71,7 +74,7 @@ export class PersonalInfoComponent implements OnInit {
 
       "home_address": this._personalInfoForm.value.home_address,
       "barangay":this._personalInfoForm.value.barangay,
-      "contact_number":  this._personalInfoForm.value.contact_number,
+      "mobile_no":  this._personalInfoForm.value.contact_number,
       
 
     }
@@ -97,7 +100,6 @@ export class PersonalInfoComponent implements OnInit {
       this.createUserDetails();
       this._registerAccountFormService.setRegisterAccountInfo(this.userDetails);
       this._router.navigateByUrl("/registration/identification-info")
-      this._authService.SendVerificationMail();
       
       console.log(this.userDetails);
 
@@ -114,7 +116,23 @@ export class PersonalInfoComponent implements OnInit {
       last_name: this.userDetails.last_name,
       email_address: this.userDetails.email_address
 
-    })
+    });
+
+    // this._barangayService.getBarangayInfo().subscribe(data=>{
+    //   this.barangay = Object.values(data);
+    //   this.barangay = Array.of(this.barangay);
+      
+
+    //   console.log(this.barangay)
+    //   console.log( Object.values(this.barangay));
+      
+    // });
+  
+   
+   
+
+
+   
 
     
   }
