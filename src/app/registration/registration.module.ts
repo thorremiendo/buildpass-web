@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PersonalInfoComponent } from './personal-info/personal-info.component';
-import { RegistrationPageComponent } from './registration-page/registration-page.component';
 import { RegistrationRoutingModule } from './registration-routing.module';
+import { RegistrationComponent } from './registration/registration.component';
+import { PersonalInfoComponent } from './personal-info/personal-info.component';
+import { DataPrivacyComponent } from './data-privacy/data-privacy.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxDropzoneModule } from 'ngx-dropzone';
@@ -32,9 +33,6 @@ import { environment } from '../../environments/environment';
 // Auth service
 import { AuthService } from "../core/services/auth.service";
 
-
-import { AddressComponent } from './address/address.component';
-import { DataPrivacyComponent } from './data-privacy/data-privacy.component';
 import { LandingModule } from '../landing/landing.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { IdentificationComponent } from './identification/identification.component';
@@ -47,8 +45,7 @@ import { IdentificationComponent } from './identification/identification.compone
 @NgModule({
   declarations: [
     PersonalInfoComponent, 
-    RegistrationPageComponent,
-    AddressComponent, 
+    RegistrationComponent, 
     DataPrivacyComponent, 
     IdentificationComponent,],
     
@@ -73,20 +70,14 @@ import { IdentificationComponent } from './identification/identification.compone
     MatAutocompleteModule,
     NgxDropzoneModule,
 
-    LandingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
     ReactiveFormsModule,
     FormsModule,
-    MatToolbarModule,
-
     BrowserAnimationsModule,
-  
-
-
-
     
+    LandingModule
   ]
 })
 export class RegistrationModule { }

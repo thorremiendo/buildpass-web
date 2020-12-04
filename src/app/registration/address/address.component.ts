@@ -24,48 +24,37 @@ export class AddressComponent implements OnInit {
     return this._addressForm.controls;
   }
 
-
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
     private _authService: AuthService,
     private _registerAccountFormService: RegisterAccountFormService,
     private _dialog: MatDialog,
-
-    
   ) {
     this.createForm();
-   }
+  }
 
   createForm() {
     this._addressForm = this._fb.group({
       home_address: ['', Validators.required ],
       barangay: ['', Validators.required ],
       contact_number:['', [Validators.required, Validators.maxLength(11),]],
-    },
-    );
+    });
   }
 
   createUserDetails(){
-
     this.userDetails ={
-     
       "home_address": this._addressForm.value.home_address,
       "barangay":this._addressForm.value.barangay,
       "contact_number":  this._addressForm.value.contact_number,
-     
-
     }
-  
   }
 
   onSubmit(){
-
       this.createUserDetails();
       this._registerAccountFormService.setRegisterAccountInfo(this.userDetails);
       this._authService.SendVerificationMail();
       console.log(this._addressForm.value);
-    
   }
 
   openDialog() {
@@ -74,14 +63,9 @@ export class AddressComponent implements OnInit {
       const dialogRef = this._dialog.open(DataPrivacyComponent);
       dialogRef.afterClosed().subscribe(result => {
         this.onSubmit();
-
       });
-      
     }
-    
-  
   }
-
 
   ngOnInit(): void {
     this._registerAccountFormService.cast.subscribe(registerAccountSubject => this.userDetails = registerAccountSubject);

@@ -50,12 +50,6 @@ export class PersonalInfoComponent implements OnInit {
       );
 
     });
-
-   
- 
-  
-    
-
    
    }
 
@@ -133,14 +127,6 @@ export class PersonalInfoComponent implements OnInit {
 
 
   ngOnInit(): void {
-    // this._filteredBarangayOptions = this.personalInfoFormControl.barangay.valueChanges
-    // .pipe(
-    //   startWith(''),
-    //   map(value => this._filter(value))
-    // );
-
-    
-
     this._registerAccountFormService.cast.subscribe(registerAccountSubject => this.userDetails = registerAccountSubject)
     this.createForm();
     this._personalInfoForm.patchValue({
@@ -149,12 +135,7 @@ export class PersonalInfoComponent implements OnInit {
       email_address: this.userDetails.email_address
 
     });
-
-
-    
   }
-
-  
 
 }
 export interface Barangay {

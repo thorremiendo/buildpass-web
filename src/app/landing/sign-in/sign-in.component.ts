@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { AuthService } from '../core/services/auth.service'
+import { AuthService } from '../../core/services/auth.service'
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, } from '@angular/forms';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
@@ -17,8 +17,6 @@ export class SignInComponent implements OnInit {
   public user;
   _submitted: boolean =false;
   _signinForm: FormGroup;
-
-  
 
   constructor(
     private _authService: AuthService,
@@ -46,7 +44,6 @@ export class SignInComponent implements OnInit {
         .then((result) => {
           console.log(result);
           this._authService.currentUserSubject.next(result);
-          
           this._ngZone.run(() => {
             if (result.user.emailVerified == true ) {
               this.SetUserDataFire(result.user.uid,result.user.emailVerified);
@@ -55,7 +52,6 @@ export class SignInComponent implements OnInit {
             else {
               window.alert("Email not yet verified");
             }
-
           });
           // this.SetUserData(result.user);
         })
@@ -63,9 +59,7 @@ export class SignInComponent implements OnInit {
           console.log(error.message);
           window.alert(error.message);
         });
-
-    }
-
+      }
   }
 
   tryGoogle() {
@@ -81,7 +75,6 @@ export class SignInComponent implements OnInit {
         else {
           this._router.navigateByUrl('registration/personal-info');
         }
-
       });
       // this.SetUserData(result.user);
     })
