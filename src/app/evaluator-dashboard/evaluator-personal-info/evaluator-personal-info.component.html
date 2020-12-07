@@ -128,13 +128,18 @@
           <div class="col-md-6">
             <mat-form-field appearance="outline">
               <mat-label>Barangay</mat-label>
-              <input type="text" matInput formControlName="barangay" required />
-              <mat-error
-                *ngIf="
-                  (evaluatorPersonalInfoFormControl.barangay.touched || _submitted) &&
-                  evaluatorPersonalInfoFormControl.barangay.errors?.required
-                "
-              >
+              <input type="text" placeholder="Select Barangay" aria-label="Barangay" matInput formControlName="barangay"
+                [matAutocomplete]="auto" required>
+              <mat-icon matSuffix>arrow_drop_down</mat-icon>
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let barangays of _filteredBarangayOptions | async" [value]="barangays.name">
+                  {{barangays.name}}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="
+                (evaluatorPersonalInfoFormControl.barangay.touched || _submitted) &&
+                evaluatorPersonalInfoFormControl.barangay.errors?.required
+              ">
                 Barangay is required
               </mat-error>
             </mat-form-field>

@@ -81,12 +81,11 @@ export class PersonalInfoComponent implements OnInit {
       "suffix_name":this._personalInfoForm.value.suffix_name,
       "birthdate": this._personalInfoForm.value.birthdate,
       "gender": this._personalInfoForm.value.gender,
-      "nationality": this._personalInfoForm.value.nationality,
       "marital_status": this._personalInfoForm.value.marital_status,
 
       "home_address": this._personalInfoForm.value.home_address,
       "barangay":this._personalInfoForm.value.barangay,
-      "mobile_no":  this._personalInfoForm.value.contact_number,
+      "contact_number":  this._personalInfoForm.value.contact_number,
       
 
     }
