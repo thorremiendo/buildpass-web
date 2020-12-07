@@ -14,6 +14,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { LayoutModule } from '../layout/layout.module';
 import { CoreModule } from '../core/core.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 import { TableViewComponent } from './table-view/table-view.component';
 import { CalendarViewComponent } from './calendar-view/calendar-view.component';
@@ -58,6 +59,8 @@ import { BfpEvaluatorComponent } from './bfp-evaluator/bfp-evaluator.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ProjectDetailsComponent } from './project-details/project-details.component';
 import { FormDetailsComponent } from './form-details/form-details.component';
+import { EvaluatorIdentificationComponent } from './evaluator-identification/evaluator-identification.component';
+import { EvaluatorEditProfileComponent } from './evaluator-edit-profile/evaluator-edit-profile.component';
 
 
 
@@ -82,8 +85,8 @@ import { FormDetailsComponent } from './form-details/form-details.component';
     CepmoEvaluatorComponent,
     BfpEvaluatorComponent,
     ProjectDetailsComponent,
-    FormDetailsComponent
-  ],
+    FormDetailsComponent,
+    EvaluatorsSummaryComponent, EvaluatorIdentificationComponent, EvaluatorEditProfileComponent],
 
   imports: [
     CommonModule,
@@ -97,6 +100,7 @@ import { FormDetailsComponent } from './form-details/form-details.component';
     LayoutModule,
     CoreModule,
     ReactiveFormsModule,
+    NgxDropzoneModule,
 
     MatNativeDateModule,
     MatButtonToggleModule,

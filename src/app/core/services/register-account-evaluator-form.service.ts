@@ -2,7 +2,7 @@ import { Injectable, APP_ID } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
 import { RegisterAccountEvaluatorModel } from "../models/user.model";
-//import { ApiService} from './api.service';
+import { ApiService} from './api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,7 @@ export class RegisterAccountEvaluatorFormService {
   );
 
   constructor(
+    public api: ApiService,
 
   ) {
     this.registerAccountEvaluatorSubject
@@ -40,8 +41,9 @@ export class RegisterAccountEvaluatorFormService {
       });
   }
 
-  // submitRegisterAccountInfo(body): Observable<RegisterAccountEvaluatorModel> {
-  //   const url = "/user-info";
-  //   return this.api.post(url, body);
-  // }
+  submitRegisterAccountInfo(body): Observable<RegisterAccountEvaluatorModel> {
+    const url = "/user";
+    console.log(body)
+    return this.api.post(url, body);
+  }
 }

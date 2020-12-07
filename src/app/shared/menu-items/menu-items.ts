@@ -55,6 +55,12 @@ export interface BadgeItem {
       type: 'link',                    
       icon: 'folder',
     },
+    {
+      state: 'dashboard/edit-profile',
+      name: 'Edit Profile',  
+      type: 'link',                    
+      icon: 'folder',
+    },
   ]
   const EVALUATORMENUITEMS = [
     {
@@ -78,6 +84,12 @@ export interface BadgeItem {
     {
       state: 'evaluator/closed-tasks',
       name: 'Closed Tasks',  
+      type: 'link',                    
+      icon: 'folder',
+    },
+    {
+      state: 'evaluator/edit-profile',
+      name: 'Edit Profile',  
       type: 'link',                    
       icon: 'folder',
     },

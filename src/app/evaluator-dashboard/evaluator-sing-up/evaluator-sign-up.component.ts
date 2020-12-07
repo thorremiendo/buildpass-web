@@ -94,7 +94,7 @@ export class EvaluatorSignUpComponent implements OnInit {
       this._ngZone.run(() => {
 
         if (result.additionalUserInfo.isNewUser != true) {
-          this._router.navigateByUrl('/evaluators');
+          this._router.navigateByUrl('/evaluator');
         
         }
         else {
@@ -130,7 +130,7 @@ export class EvaluatorSignUpComponent implements OnInit {
       `users/${this.fireBaseUser.uid}`
     );
     const userData: User = {
-      uid: this.fireBaseUser.uid,
+      firebase_uid: this.fireBaseUser.uid,
       email: value.email,
       first_name: value.first_name,
       last_name: value.last_name,
@@ -147,10 +147,10 @@ export class EvaluatorSignUpComponent implements OnInit {
   createUserDetails(value){
   
     this.userDetails ={
-      "uid": this.fireBaseUser.uid,
+      "firebase_uid": this.fireBaseUser.uid,
       "first_name": value.first_name,
       "last_name":  value.last_name,
-      "email": value.email,
+      "email_address": value.email,
       "is_evaluator": true,
       "emailVerified": this.fireBaseUser.emailVerified
     };
@@ -159,10 +159,10 @@ export class EvaluatorSignUpComponent implements OnInit {
   }
 
   SetUserDataFireGoogle(user) {
-    const userRef: AngularFirestoreDocument<any> = this._afs.doc(`users/${user.uid}`
+    const userRef: AngularFirestoreDocument<any> = this._afs.doc(`users/${this.fireBaseUid.uid}`
     );
     const userData: User = {
-      uid: this.fireBaseUid.uid,
+      firebase_uid: this.fireBaseUid.uid,
       email: user.email,
       first_name: user.given_name,
       last_name: user.family_name,
@@ -179,10 +179,10 @@ export class EvaluatorSignUpComponent implements OnInit {
   createUserDetailsGoogle(user){
   
     this.userDetails ={
-      "uid": this.fireBaseUid.uid,
+      "firebase_uid": this.fireBaseUid.uid,
       "first_name": user.given_name,
       "last_name":  user.family_name,
-      "email": user.email,
+      "email_address": user.email,
       "is_evaluator": true,
       "emailVerified": user.verified_email,
     };
