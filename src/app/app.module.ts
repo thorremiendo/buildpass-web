@@ -45,6 +45,7 @@ import { LandingModule } from './landing/landing.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { EvaluatorModule } from './evaluator-dashboard/evaluator-dashboard.module';
 
+
 declare module '@angular/core' {
   interface ModuleWithProviders<T = any> {
     ngModule: Type<T>;
@@ -101,6 +102,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       useFactory: momentAdapterFactory,
     }),
     CoreModule,
+    
   ],
   providers: [
     {

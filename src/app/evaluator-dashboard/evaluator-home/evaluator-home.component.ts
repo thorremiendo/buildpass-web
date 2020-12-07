@@ -16,6 +16,7 @@ const googleLogoURL =
 export class EvaluatorHomeComponent implements OnInit {
   public user;
   public evaluatorDetails
+  public department = "cbao"
   //piechart data
   single: any[];
   view: any[] = [700, 400];
@@ -66,13 +67,13 @@ export class EvaluatorHomeComponent implements OnInit {
         this.navLinks.find((tab) => tab.link === '.' + this._router.url)
       );
     });
-    this.authService.currentUser.subscribe((currentUser) => {
-      this.user = currentUser;
-      this.authService.getFireBaseData(this.user.user.uid).subscribe(result =>{
-        this.evaluatorDetails = result.data();
-        console.log(this.evaluatorDetails)
-      })
-    });
+    // this.authService.currentUser.subscribe((currentUser) => {
+    //   this.user = currentUser;
+    //   this.authService.getFireBaseData(this.user.user.uid).subscribe(result =>{
+    //     this.evaluatorDetails = result.data();
+    //     console.log(this.evaluatorDetails)
+    //   })
+    // });
   }
   onSelect(data): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));

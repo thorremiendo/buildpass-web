@@ -3,6 +3,22 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
 import { RegisterAccountFormService } from 'src/app/core/services/register-account-form.service';
+import { BarangayService } from 'src/app/core/services/barangay.service';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+
+export interface Barangay {
+  id: number
+  b_id: number,
+  name:string,
+  locality_id: number;
+  province_id: number; 
+  zip_code: number;
+  region_id: number;
+  country_id: number; 
+  created_at: string,
+  updated_at: string;
+}
 
 @Component({
   selector: 'app-common-fields-personal-info',
@@ -13,21 +29,33 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
   public userDetails;
   public maxLength: number = 11;
   public applicationDetails;
-
+  public barangay: Barangay[];
   _personalInfoFormCommonFields: FormGroup;
   _submitted = false;
 
   get personalInfoFormCommonFieldControl() {
     return this._personalInfoFormCommonFields.controls;
   }
+  _filteredBarangayOptions: Observable<Barangay[]>;
 
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
     private _registerAccountFormService: RegisterAccountFormService,
-    private _commonFieldsFormService: NewApplicationFormService
+    private _commonFieldsFormService: NewApplicationFormService,
+    private barangayService: BarangayService
   ) {
     this.createForm();
+    this.barangayService.getBarangayInfo().subscribe(data=>{
+      this.barangay = data; 
+
+      this._filteredBarangayOptions = this.personalInfoFormCommonFieldControl.owner_barangay.valueChanges
+      .pipe(
+        startWith(''),
+        map(barangay => barangay ? this._filter(barangay) : this.barangay.slice())
+      );
+
+    });
   }
 
   ngOnInit(): void {
@@ -59,6 +87,12 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
       blank: this.userDetails.blank,
     });
     console.log(this._personalInfoFormCommonFields);
+  }
+
+  private _filter(value: string): Barangay[] {
+    const filterValue = value.toLowerCase();
+
+    return this.barangay.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
   createForm() {

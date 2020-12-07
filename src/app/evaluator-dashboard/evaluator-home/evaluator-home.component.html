@@ -27,7 +27,7 @@
           <mat-card-title class="m-3">Notifications</mat-card-title>
           <hr class="m-0" />
           <mat-card-content>
-            <div class="d-flex justify-content-around w-100 m-0" *ngIf="evaluatorDetails.department=='cbao'">
+            <div class="d-flex justify-content-around w-100 m-0" *ngIf="department=='cbao'">
               <a routerLink="" (click)="handleView()"
                 ><p style="color: rgb(90, 108, 116); font-size: 12px">
                   Nov-21-2020 3:43PM
@@ -40,7 +40,7 @@
                 </p></a
               >
             </div>
-            <div class="d-flex justify-content-around w-100 m-0" *ngIf="evaluatorDetails.department=='cpdo'">
+            <div class="d-flex justify-content-around w-100 m-0" *ngIf="department=='cpdo'">
               <a routerLink="" (click)="handleView()"
                 ><p style="color: rgb(90, 108, 116); font-size: 12px">
                   Nov-21-2020 3:43PM

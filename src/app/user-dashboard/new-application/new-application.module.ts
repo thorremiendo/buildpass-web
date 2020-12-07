@@ -1,3 +1,4 @@
+import '../../../polyfills'
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
@@ -23,7 +24,7 @@ import { SanitaryPermitFormComponent } from './forms/sanitary-permit-form/sanita
 import { ElectricalPermitFormComponent } from './forms/electrical-permit-form/electrical-permit-form.component';
 import { CivilEngineerAffidavitComponent } from './forms/civil-engineer-affidavit/civil-engineer-affidavit.component';
 import { GeodeticEngineerAffidavitComponent } from './forms/geodetic-engineer-affidavit/geodetic-engineer-affidavit.component';
-
+import {environment} from '../../../environments/environment'
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -36,8 +37,10 @@ import { MatTabsModule } from '@angular/material/tabs';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonFieldsRepresentativeComponent } from './common-fields/common-fields-representative/common-fields-representative.component';
-
-
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { AccessoryFormsComponent } from './accessory-forms/accessory-forms.component';
 
 
 @NgModule({
@@ -62,7 +65,7 @@ import { CommonFieldsRepresentativeComponent } from './common-fields/common-fiel
     SanitaryPermitFormComponent, 
     ElectricalPermitFormComponent, 
     CivilEngineerAffidavitComponent, 
-    GeodeticEngineerAffidavitComponent, CommonFieldsRepresentativeComponent, 
+    GeodeticEngineerAffidavitComponent, CommonFieldsRepresentativeComponent, AccessoryFormsComponent, 
   ],
 
   imports: [
@@ -78,8 +81,12 @@ import { CommonFieldsRepresentativeComponent } from './common-fields/common-fiel
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatTabsModule
-
+    MatTabsModule,
+    NgxMapboxGLModule.withConfig({
+      accessToken: environment.mapbox.accessToken
+    }),
+    MatAutocompleteModule,
+    MatCheckboxModule
     
   ]
 })

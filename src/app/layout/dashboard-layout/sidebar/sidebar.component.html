@@ -9,36 +9,43 @@
     border-bottom-color: #400c06;
   "
 >
-  <div class="col text-center p-3" *ngIf="evaluatorDetails.is_evaluator == true">
-    <div class="mb-3">
-      <img
-        style="width: 70px"
-        src="../../../../assets/images/avatar.png"
-        alt="user"
-      />
+  <div *ngIf="user">
+    <div
+      class="col text-center p-3"
+      *ngIf="evaluatorDetails.is_evaluator == true"
+    >
+      <div class="mb-3">
+        <img
+          style="width: 70px"
+          src="../../../../assets/images/avatar.png"
+          alt="user"
+        />
+      </div>
+      <h3 style="color: #400c06">
+        {{ evaluatorDetails.first_name }} {{ evaluatorDetails.last_name }}
+      </h3>
+      <h4 style="color: #400c06">{{ evaluatorDetails.position }}</h4>
+      <h4 style="color: #400c06">
+        {{ evaluatorDetails.department.toUpperCase() }}
+      </h4>
     </div>
-    <h3 style="color: #400c06">
-      {{ evaluatorDetails.first_name }} {{ evaluatorDetails.last_name }}
-    </h3>
-    <h4 style="color: #400c06">{{ evaluatorDetails.position }}</h4>
-    <h4 style="color: #400c06">
-      {{ evaluatorDetails.department.toUpperCase() }}
-    </h4>
-  </div>
-  <div class="col text-center p-3" *ngIf="evaluatorDetails.is_evaluator == false">
-    <div class="mb-3">
-      <img
-        style="width: 70px"
-        src="../../../../assets/images/avatar.png"
-        alt="user"
-      />
+    <div
+      class="col text-center p-3"
+      *ngIf="evaluatorDetails.is_evaluator == false"
+    >
+      <div class="mb-3">
+        <img
+          style="width: 70px"
+          src="../../../../assets/images/avatar.png"
+          alt="user"
+        />
+      </div>
+      <h3 style="color: #400c06">
+        {{ evaluatorDetails.first_name }} {{ evaluatorDetails.last_name }}
+      </h3>
+      <p style="color: #400c06">{{ evaluatorDetails.email }}</p>
+      <p style="color: #400c06">Applicant</p>
     </div>
-    <h3 style="color: #400c06">
-      {{ evaluatorDetails.first_name }} {{ evaluatorDetails.last_name }}
-    </h3>
-    <p style="color: #400c06">{{ evaluatorDetails.email }}</p>
-    <p style="color: #400c06">Applicant</p>
-
   </div>
 
   <!-- User profile text-->

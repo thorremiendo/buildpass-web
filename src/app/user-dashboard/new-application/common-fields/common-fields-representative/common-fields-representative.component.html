@@ -87,8 +87,8 @@
     </div>
     <div class="col-md-4">
       <mat-form-field appearance="outline">
-        <mat-label>Road/Street Name</mat-label>
-        <input matInput formControlName="representative_street_name" required />
+        <mat-label>Street Name</mat-label>
+        <input matInput formControlName="representative_street_name" />
         <mat-error
           *ngIf="
             (representativeDetailsFormControl.representative_street_name.touched ||
@@ -103,7 +103,7 @@
     </div>
     <div class="col-md-4">
       <mat-form-field appearance="outline">
-        <mat-label>Barangay/Purok/Sitio</mat-label>
+        <mat-label>Barangay</mat-label>
         <input matInput formControlName="representative_barangay" required />
       </mat-form-field>
     </div>

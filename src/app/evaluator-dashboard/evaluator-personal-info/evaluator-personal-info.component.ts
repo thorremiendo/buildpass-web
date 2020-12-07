@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { RegisterAccountEvaluatorFormService } from '../../core/services/register-account-evaluator-form.service';
 import { Router } from '@angular/router';
 import { BarangayService } from '../../core/services/barangay.service'
-
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 

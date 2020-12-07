@@ -1,0 +1,51 @@
+<h4><strong>Zoning Clearance Application Form</strong></h4>
+<ngx-extended-pdf-viewer
+  [src]="pdfSrc"
+  [showToolbar]="true"
+  [showSidebarButton]="false"
+  [showFindButton]="false"
+  [showPagingButtons]="false"
+  [showZoomButtons]="true"
+  [showPresentationModeButton]="true"
+  [showOpenFileButton]="false"
+  [showPrintButton]="false"
+  [showDownloadButton]="true"
+  [showBookmarkButton]="false"
+  [showSecondaryToolbarButton]="true"
+  [showRotateButton]="false"
+  [showHandToolButton]="false"
+  [showScrollingButton]="false"
+  [showSpreadButton]="false"
+  [showPropertiesButton]="false"
+  [useBrowserLocale]="true"
+  height="1000px"
+  zoom="80%"
+>
+</ngx-extended-pdf-viewer>
+<div class="row">
+  <div class="col-md-12">
+    <mat-form-field class="example-full-width mt-3">
+      <mat-label>Leave a comment</mat-label>
+      <textarea matInput placeholder="Comment"></textarea>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Review</mat-label>
+      <mat-select>
+        <mat-option value="Yes"> Compliant </mat-option>
+        <mat-option value="No"> Non-Compliant </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div class="text-left">
+    <button mat-raised-button color="accent" [mat-dialog-close]="">
+      Close
+    </button>
+  </div>
+  <div class="text-right">
+    <button mat-raised-button color="primary" [mat-dialog-close]="">
+      Save
+    </button>
+  </div>
+</div>

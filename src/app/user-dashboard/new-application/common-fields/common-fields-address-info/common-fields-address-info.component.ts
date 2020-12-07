@@ -3,13 +3,30 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
 import { RegisterAccountFormService } from 'src/app/core/services/register-account-form.service';
-
+import { BarangayService } from 'src/app/core/services/barangay.service';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 //map
 import { environment } from '../../../../../environments/environment';
 import { ChangeDetectorRef } from '@angular/core';
 import { Map } from 'mapbox-gl/dist/mapbox-gl';
 import * as mapboxgl from 'mapbox-gl/dist/mapbox-gl';
 import { Marker } from 'mapbox-gl/dist/mapbox-gl';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+
+export interface Barangay {
+  id: number
+  b_id: number,
+  name:string,
+  locality_id: number;
+  province_id: number; 
+  zip_code: number;
+  region_id: number;
+  country_id: number; 
+  created_at: string,
+  updated_at: string;
+}
+
 @Component({
   selector: 'app-common-fields-address-info',
   templateUrl: './common-fields-address-info.component.html',
@@ -19,28 +36,41 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   public projectDetails;
   public ownerDetails;
 
-  public maxLength: number = 11;
-
   public projectDetailsForm: FormGroup;
   _submitted = false;
+  public barangay: Barangay[];
 
   get projectDetailsFormControl() {
     return this.projectDetailsForm.controls;
   }
+  _filteredBarangayOptions: Observable<Barangay[]>;
+
   //map
   map: mapboxgl.Map;
   style = 'mapbox://styles/mapbox/streets-v11';
   lat = 16.4136559;
   lng = 120.5893339;
-  marker: mapboxgl.Marker;
+  public marker: mapboxgl.Marker;
   public lnglat;
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
     private _registerAccountFormService: RegisterAccountFormService,
-    private _commonFieldsFormService: NewApplicationFormService
+    private _commonFieldsFormService: NewApplicationFormService,
+    private barangayService: BarangayService
+
   ) {
     this.createForm();
+    this.barangayService.getBarangayInfo().subscribe(data=>{
+      this.barangay = data; 
+
+      this._filteredBarangayOptions = this.projectDetailsFormControl.project_barangay.valueChanges
+      .pipe(
+        startWith(''),
+        map(barangay => barangay ? this._filter(barangay) : this.barangay.slice())
+      );
+
+    });
   }
 
   ngOnInit(): void {
@@ -70,6 +100,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_cost: this.projectDetails.project_cost,
       project_tct_number: this.projectDetails.project_tct_number,
       project_td_number: this.projectDetails.project_td_number,
+      project_basement: this.projectDetails.project_basement,
+      project_house_number: this.projectDetails.project_house_number
     });
 
     //map
@@ -88,11 +120,26 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       .addTo(this.map); //
 
     this.map.addControl(new mapboxgl.NavigationControl());
-
+    this.map.addControl(
+      new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl,
+      marker: {
+        draggable: true
+      }
+      })
+      );
     this.marker.on('dragend', this.onDragEnd);
   }
+
   onDragEnd() {
-    console.log(this.marker);
+    console.log("marker dragged")
+  }
+
+  private _filter(value: string): Barangay[] {
+    const filterValue = value.toLowerCase();
+
+    return this.barangay.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
   createForm() {
@@ -101,7 +148,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_block_number: ['', Validators.required],
       project_floor_number: [''],
       owner_tin_number: ['', Validators.required],
-      project_street: ['', [Validators.required, Validators.maxLength(11)]],
+      project_street: ['', Validators.required],
       project_unit_number: ['', Validators.required],
       project_barangay: ['', Validators.required],
       project_municipality: ['', Validators.required],
@@ -113,6 +160,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_cost: ['', Validators.required],
       project_tct_number: ['', Validators.required],
       project_td_number: ['', Validators.required],
+      project_basement: ['', Validators.required],
+      project_house_number: ['', Validators.required]
     });
   }
 
@@ -124,6 +173,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_street: this.projectDetailsForm.value.project_street,
       project_unit_number: this.projectDetailsForm.value.project_unit_number,
       project_barangay: this.projectDetailsForm.value.project_barangay,
+      project_basement: this.projectDetailsForm.value.project_basement,
       project_municipality: this.projectDetailsForm.value.project_municipality,
       project_lot_area: this.projectDetailsForm.value.project_lot_area,
       project_floor_area: this.projectDetailsForm.value.project_floor_area,
@@ -133,6 +183,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_cost: this.projectDetailsForm.value.project_cost,
       project_tct_number: this.projectDetailsForm.value.project_tct_number,
       project_td_number: this.projectDetailsForm.value.project_td_number,
+      project_house_number: this.projectDetailsForm.value.project_house_number,
       owner_first_name: this.ownerDetails.owner_first_name,
       owner_last_name: this.ownerDetails.owner_last_name,
       owner_suffix: this.ownerDetails.owner_suffix,
@@ -149,6 +200,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       owner_zip_code: '2600',
       blank: this.ownerDetails.blank,
       is_representative: this.ownerDetails.is_representative
+      
     };
   }
 
@@ -162,7 +214,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     debugger
     if (this.ownerDetails.is_representative == 'No') {
       this._router.navigateByUrl(
-        '/dashboard/new/initial-forms/zoning-clearance'
+        '/dashboard/new/accessory-forms'
       );
     } else {
       this._router.navigateByUrl('/dashboard/new/step-two/representative');

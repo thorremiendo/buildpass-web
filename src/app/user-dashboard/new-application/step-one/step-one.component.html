@@ -50,6 +50,16 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <div *ngIf="isLotOwner" class="mt-4">
+        <h4>Are you the registered owner of the lot?:</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Choose</mat-label>
+          <mat-select [(value)]="registeredOwner" formControlName="registerd_owner">
+            <mat-option value="1">Yes</mat-option>
+            <mat-option value="2">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
       <!-- <div *ngIf="constructionStatus" class="map-container mt-4">
         <h4>Site Location:</h4>
         <app-map></app-map>
@@ -70,3 +80,4 @@
     </div>
   </div>
 </div>
+

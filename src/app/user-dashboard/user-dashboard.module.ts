@@ -14,7 +14,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { UserDashboardModule } from './dashboard-layout/dashboard-layout.module';
 import { UserRoutingModule } from './user-routing.module';
 
-
 import { NewApplicationComponent } from './step-one/new-application.component';
 import { ExistingApplicationsComponent } from './existing-applications/existing-applications.component';
 import { UserFormsComponent } from './user-forms/user-forms.component';
@@ -43,7 +42,6 @@ import { ElectricalPermitFormComponent } from './new-application/forms/electrica
 import { CivilEngineerAffidavitComponent } from './new-application/forms/civil-engineer-affidavit/civil-engineer-affidavit.component';
 import { GeodeticEngineerAffidavitComponent } from './new-application/forms/geodetic-engineer-affidavit/geodetic-engineer-affidavit.component';
 
-
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -52,14 +50,15 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table'  
+import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
 import { UserEditProfileComponent } from './user-edit-profile/user-edit-profile.component';
-
-
-
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { environment } from '../../environments/environment';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -87,7 +86,6 @@ import { UserEditProfileComponent } from './user-edit-profile/user-edit-profile.
     CivilEngineerAffidavitComponent,
     GeodeticEngineerAffidavitComponent,
     UserEditProfileComponent,
-
   ],
   imports: [
     CommonModule,
@@ -118,9 +116,12 @@ import { UserEditProfileComponent } from './user-edit-profile/user-edit-profile.
     MatExpansionModule,
     PdfJsViewerModule,
     MatTabsModule,
-    MatDatepickerModule
-
-  
+    MatDatepickerModule,
+    NgxMapboxGLModule.withConfig({
+      accessToken: environment.mapbox.accessToken,
+    }),
+    MatAutocompleteModule,
+    MatCheckboxModule
   ],
 })
 export class UserModule {}

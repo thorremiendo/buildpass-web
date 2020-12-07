@@ -1,3 +1,22 @@
-// button {
-//     max-width: 70%;
-// }
+.container {
+  width: 100%;
+  ._app-details {
+    width: 60%;
+  }
+  ._app-timeline {
+    width: 40%;
+  }
+}
+.app-forms {
+  width: 100%;
+}
+.avatar-container {
+  border-right: 2px solid grey;
+  .avatar {
+    img {
+      width: 80px;
+      height: auto;
+      object-fit: cover;
+    }
+  }
+}

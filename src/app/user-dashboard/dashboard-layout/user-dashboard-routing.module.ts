@@ -30,6 +30,7 @@ import { CommonFieldsPersonalInfoComponent } from '../new-application/common-fie
 import { CommonFieldsAddressInfoComponent } from '../new-application/common-fields/common-fields-address-info/common-fields-address-info.component';
 import { CommonFieldsRepresentativeComponent } from '../new-application/common-fields/common-fields-representative/common-fields-representative.component';
 import { UserEditProfileComponent } from '../user-edit-profile/user-edit-profile.component';
+import { AccessoryFormsComponent } from '../new-application/accessory-forms/accessory-forms.component';
 
 const routes: Routes = [
   {
@@ -87,6 +88,10 @@ const routes: Routes = [
                     component: CommonFieldsRepresentativeComponent
                   }
                 ]
+              },
+              {
+                path: 'accessory-forms',
+                component: AccessoryFormsComponent
               },
               {
                 path: 'initial-forms',

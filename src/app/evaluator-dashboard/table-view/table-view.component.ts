@@ -1,36 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-export interface PeriodicElement {
-  applicationNo: string;
-  postedDate: string;
 
-  progress: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
+const ELEMENT_DATA = [
   {
     applicationNo: 'A2020-1',
     postedDate: '11-10-2020',
-
     progress: '50%',
   },
   {
     applicationNo: 'A2020-2',
     postedDate: '11-10-2020',
-
     progress: '50%',
   },
   {
     applicationNo: 'A2020-3',
     postedDate: '11-10-2020',
-
     progress: '50%',
   },
   {
     applicationNo: 'A2020-4',
     postedDate: '11-10-2020',
-
     progress: '50%',
   },
 ];
