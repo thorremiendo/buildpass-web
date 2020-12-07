@@ -7,15 +7,6 @@
             <strong>Application Details</strong>
           </h4>
         </div>
-        <div>
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="openProjectDialog()"
-          >
-            View Project Details
-          </button>
-        </div>
       </div>
       <div class="row mb-1">
         <div class="avatar-container col-md-4 text-center">
@@ -49,6 +40,11 @@
             <h5><strong>&nbsp;Building Permit</strong></h5>
           </div>
         </div>
+      </div>
+      <div class="text-right">
+        <button mat-raised-button color="primary" (click)="openProjectDialog()">
+          Project Details
+        </button>
       </div>
     </mat-card-content>
   </mat-card>
