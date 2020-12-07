@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-accessory-forms',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccessoryFormsComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  callNext(){
+    this.router.navigateByUrl('/dashboard/new/initial-forms/zoning-clearance')
   }
 
 }

@@ -214,7 +214,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     debugger
     if (this.ownerDetails.is_representative == 'No') {
       this._router.navigateByUrl(
-        '/dashboard/new/accessory-forms'
+        '/dashboard/new/initial-forms/zoning-clearance'
       );
     } else {
       this._router.navigateByUrl('/dashboard/new/step-two/representative');
