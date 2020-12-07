@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { RegisterAccountEvaluatorFormService } from '../../core/services/register-account-evaluator-form.service';
 import { Router } from '@angular/router';
+import { BarangayService } from '../../core/services/barangay.service'
+
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-evaluator-personal-info',
@@ -11,9 +16,12 @@ import { Router } from '@angular/router';
 export class EvaluatorPersonalInfoComponent implements OnInit {
   public userDetails;
   public maxLength: number = 11;
+  public barangay: Barangay[];
 
   _evaluatorPersonalInfoForm: FormGroup;
   _submitted = false;
+
+  _filteredBarangayOptions: Observable<Barangay[]>;
 
 
   get evaluatorPersonalInfoFormControl() {
@@ -24,10 +32,21 @@ export class EvaluatorPersonalInfoComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
+    private _barangayService: BarangayService,
     private _registerAccountEvaluatorFormService: RegisterAccountEvaluatorFormService,
 
   ) {
     this.createForm();
+    this._barangayService.getBarangayInfo().subscribe(data=>{
+      this.barangay = data; 
+
+      this._filteredBarangayOptions = this.evaluatorPersonalInfoFormControl.barangay.valueChanges
+      .pipe(
+        startWith(''),
+        map(barangay => barangay ? this._filter(barangay) : this.barangay.slice())
+      );
+
+    });
    }
 
   createForm() {
@@ -93,6 +112,12 @@ export class EvaluatorPersonalInfoComponent implements OnInit {
 
   }
 
+  private _filter(value: string): Barangay[] {
+    const filterValue = value.toLowerCase();
+
+    return this.barangay.filter(option => option.name.toLowerCase().includes(filterValue));
+  }
+
   
   ngOnInit(): void {
     this._registerAccountEvaluatorFormService.cast.subscribe(registerAccountEvaluatorSubject => this.userDetails = registerAccountEvaluatorSubject)
@@ -115,4 +140,17 @@ export class EvaluatorPersonalInfoComponent implements OnInit {
     
   }
 
+}
+
+export interface Barangay {
+  id: number
+  b_id: number,
+  name:string,
+  locality_id: number;
+  province_id: number; 
+  zip_code: number;
+  region_id: number;
+  country_id: number; 
+  created_at: string,
+  updated_at: string;
 }
