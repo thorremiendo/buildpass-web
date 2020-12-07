@@ -25,8 +25,6 @@ import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -37,13 +35,8 @@ import { CommonFieldsAddressInfoComponent } from '../new-application/common-fiel
 import { CommonFieldsRepresentativeComponent } from '../new-application/common-fields/common-fields-representative/common-fields-representative.component';
 import {environment} from '../../../environments/environment'
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
-
-
-
-
-
-
-
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [DashboardComponent, 
@@ -81,7 +74,9 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
     MatRippleModule,
     NgxMapboxGLModule.withConfig({
       accessToken: environment.mapbox.accessToken
-    })
+    }),
+    MatAutocompleteModule,
+    MatCheckboxModule
   ]
 })
 export class UserDashboardModule { }

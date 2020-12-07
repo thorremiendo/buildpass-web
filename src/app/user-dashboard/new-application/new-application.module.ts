@@ -38,6 +38,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonFieldsRepresentativeComponent } from './common-fields/common-fields-representative/common-fields-representative.component';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { AccessoryFormsComponent } from './accessory-forms/accessory-forms.component';
 
 
 @NgModule({
@@ -62,7 +65,7 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
     SanitaryPermitFormComponent, 
     ElectricalPermitFormComponent, 
     CivilEngineerAffidavitComponent, 
-    GeodeticEngineerAffidavitComponent, CommonFieldsRepresentativeComponent, 
+    GeodeticEngineerAffidavitComponent, CommonFieldsRepresentativeComponent, AccessoryFormsComponent, 
   ],
 
   imports: [
@@ -81,7 +84,9 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
     MatTabsModule,
     NgxMapboxGLModule.withConfig({
       accessToken: environment.mapbox.accessToken
-    })
+    }),
+    MatAutocompleteModule,
+    MatCheckboxModule
     
   ]
 })

@@ -57,6 +57,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { UserEditProfileComponent } from './user-edit-profile/user-edit-profile.component';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from '../../environments/environment';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -118,6 +120,8 @@ import { environment } from '../../environments/environment';
     NgxMapboxGLModule.withConfig({
       accessToken: environment.mapbox.accessToken,
     }),
+    MatAutocompleteModule,
+    MatCheckboxModule
   ],
 })
 export class UserModule {}

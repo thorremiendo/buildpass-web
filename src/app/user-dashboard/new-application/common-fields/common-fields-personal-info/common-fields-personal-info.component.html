@@ -3,7 +3,12 @@
     <div class="col-md-3">
       <mat-form-field appearance="outline">
         <mat-label>First Name</mat-label>
-        <input type="text" matInput formControlName="owner_first_name" required />
+        <input
+          type="text"
+          matInput
+          formControlName="owner_first_name"
+          required
+        />
         <mat-error
           *ngIf="
             (personalInfoFormCommonFieldControl.owner_first_name.touched ||
@@ -24,7 +29,12 @@
     <div class="col-md-3">
       <mat-form-field appearance="outline">
         <mat-label>Last name</mat-label>
-        <input type="text" matInput formControlName="owner_last_name" required />
+        <input
+          type="text"
+          matInput
+          formControlName="owner_last_name"
+          required
+        />
         <mat-error
           *ngIf="
             (personalInfoFormCommonFieldControl.owner_last_name.touched ||
@@ -48,10 +58,15 @@
     </div>
   </div>
   <div class="row justify-content-center px-3">
-    <div class="col-md-4">
+    <div class="col-md-3">
       <mat-form-field appearance="outline">
         <mat-label>TIN Number</mat-label>
-        <input type="text" matInput formControlName="owner_tin_number" required />
+        <input
+          type="text"
+          matInput
+          formControlName="owner_tin_number"
+          required
+        />
         <mat-error
           *ngIf="
             (personalInfoFormCommonFieldControl.owner_tin_number.touched ||
@@ -63,7 +78,7 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <mat-form-field appearance="outline">
         <mat-label>Email Address</mat-label>
         <input matInput formControlName="owner_email_address" required />
@@ -71,14 +86,15 @@
           *ngIf="
             (personalInfoFormCommonFieldControl.owner_email_address.touched ||
               _submitted) &&
-            personalInfoFormCommonFieldControl.owner_email_address.errors?.required
+            personalInfoFormCommonFieldControl.owner_email_address.errors
+              ?.required
           "
         >
           Email Address is required
         </mat-error>
       </mat-form-field>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <mat-form-field appearance="outline">
         <mat-label>Contact Number</mat-label>
         <input
@@ -94,7 +110,8 @@
           *ngIf="
             (personalInfoFormCommonFieldControl.owner_contact_number.touched ||
               _submitted) &&
-            personalInfoFormCommonFieldControl.owner_contact_number.errors?.required
+            personalInfoFormCommonFieldControl.owner_contact_number.errors
+              ?.required
           "
         >
           Contact Number is required
@@ -104,27 +121,33 @@
         >
       </mat-form-field>
     </div>
-  </div>
-  <div class="row justify-content-center px-3">
     <div class="col-md-3">
       <mat-form-field appearance="outline">
         <mat-label>House Number</mat-label>
-        <input type="text" matInput formControlName="owner_house_number" required />
+        <input
+          type="text"
+          matInput
+          formControlName="owner_house_number"
+          required
+        />
         <mat-error
           *ngIf="
             (personalInfoFormCommonFieldControl.owner_house_number.touched ||
               _submitted) &&
-            personalInfoFormCommonFieldControl.owner_house_number.errors?.required
+            personalInfoFormCommonFieldControl.owner_house_number.errors
+              ?.required
           "
         >
           House Number is Required
         </mat-error>
       </mat-form-field>
     </div>
+  </div>
+  <div class="row justify-content-center px-3">
     <div class="col-md-3">
       <mat-form-field appearance="outline">
         <mat-label>Unit Number</mat-label>
-        <input matInput formControlName="owner_unit_number" required />
+        <input matInput formControlName="owner_unit_number" />
       </mat-form-field>
     </div>
     <div class="col-md-3">
@@ -148,12 +171,27 @@
         </mat-error>
       </mat-form-field>
     </div>
-  </div>
-  <div class="row justify-content-center px-3">
     <div class="col-md-3">
       <mat-form-field appearance="outline">
         <mat-label>Barangay</mat-label>
-        <input type="text" matInput formControlName="owner_barangay" required />
+        <input
+          type="text"
+          placeholder="Select Barangay"
+          aria-label="Barangay"
+          matInput
+          formControlName="owner_barangay"
+          [matAutocomplete]="auto"
+          required
+        />
+        <mat-icon matSuffix>arrow_drop_down</mat-icon>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let barangays of _filteredBarangayOptions | async"
+            [value]="barangays.name"
+          >
+            {{ barangays.name }}
+          </mat-option>
+        </mat-autocomplete>
         <mat-error
           *ngIf="
             (personalInfoFormCommonFieldControl.owner_barangay.touched ||
@@ -165,7 +203,6 @@
         </mat-error>
       </mat-form-field>
     </div>
-
   </div>
   <div class="row justify-content-center py-3">
     <div class="col-md-3 col-3 text-right mb-3">
