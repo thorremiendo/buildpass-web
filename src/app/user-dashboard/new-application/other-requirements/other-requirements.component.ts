@@ -89,7 +89,7 @@ export class OtherRequirementsComponent implements OnInit {
       civil_engineer_details: value.civil_engineer_details,
       architect_details: value.architect_details,
       sanitary_engineer_details: value.sanitary_engineer_details,
-      
+      deed_of_sale: value.deed_of_sale
 
     };
     if (this.environmentalCompliance) {

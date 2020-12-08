@@ -26,7 +26,7 @@
       </div>
 
       <hr />
-      <div class="mb-4" *ngIf="applicationInfo.is_representative == 'Yes'">
+      <div class="mb-4" *ngIf="applicationInfo.is_representative == '0'">
         <div class="d-flex justify-content-between">
           <h5>
             Authorization Letter of Special Power of Attorney from Owner to
@@ -170,7 +170,7 @@
           </ngx-dropzone-preview>
         </ngx-dropzone>
       </div>
-      <div class="mb-4" *ngIf="applicationInfo.is_lot_owner == 'Yes'">
+      <div class="mb-4">
         <div class="d-flex justify-content-between">
           <h5>
             Certified True Copy of the Title (updated not more than 6 months),
@@ -200,10 +200,38 @@
           </ngx-dropzone-preview>
         </ngx-dropzone>
       </div>
-      <div class="mb-4" *ngIf="applicationInfo.is_lot_owner == 'No'">
+      <div class="mb-4" *ngIf="applicationInfo.registered_owner == '1'">
         <div class="d-flex justify-content-between">
           <h5>
-            Contract of Lease, or Absolute Deed of Sale, or Conditional Deed of Sale, or Certified Copy of Authority to Construct on the subject property
+            Absolute Deed of Sale or Conditional Deed of Sale
+          </h5>
+          <mat-icon *ngIf="deedOfSale" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'deedOfSale')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="deedOfSale"
+            [removable]="true"
+            (removed)="onRemove('deedOfSale')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ deedOfSale.name }} ({{
+                deedOfSale.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4" *ngIf="applicationInfo.is_lot_owner == '1'">
+        <div class="d-flex justify-content-between">
+          <h5>
+            Contract of Lease or Certified Copy of Authority to Construct on the subject property
           </h5>
           <mat-icon *ngIf="lessorDocument" style="color: green"
             >check_circle</mat-icon

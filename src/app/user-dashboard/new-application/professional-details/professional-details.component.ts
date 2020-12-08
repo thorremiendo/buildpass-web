@@ -79,7 +79,7 @@ export class ProfessionalDetailsComponent implements OnInit {
       structural_design: value.structural_design,
       electrical_design: value.electrical_design,
       soil_analaysis: value.soil_analaysis,
-
+      deed_of_sale: value.deed_of_sale
     };
     if(this.civilEngineerDetails) {
       body["civil_engineer_details"] = this.civilEngineerDetails

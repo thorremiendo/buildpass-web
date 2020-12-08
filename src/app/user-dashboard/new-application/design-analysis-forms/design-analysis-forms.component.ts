@@ -95,6 +95,7 @@ export class DesignAnalysisFormsComponent implements OnInit {
       site_latest_picture: value.site_latest_picture,
       true_copy_title: value.true_copy_title,
       lessor_document: value.lessor_document,
+      deed_of_sale: value.deed_of_sale
     };
     if (this.buildingPlans) {
       body['building_plan'] = this.buildingPlans;

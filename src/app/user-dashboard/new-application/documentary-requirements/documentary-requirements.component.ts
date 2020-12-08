@@ -16,6 +16,7 @@ export class DocumentaryRequirementsComponent implements OnInit {
   public siteLatestPicture: File;
   public trueCopyTitle: File;
   public lessorDocument: File;
+  public deedOfSale: File;
 
   public applicationInfo;
 
@@ -58,6 +59,9 @@ export class DocumentaryRequirementsComponent implements OnInit {
       case 'lessorDocument':
         this.lessorDocument = file;
         break;
+      case 'deedOfSale':
+        this.deedOfSale = file;
+        break;
     }
   }
   onRemove(type) {
@@ -83,6 +87,9 @@ export class DocumentaryRequirementsComponent implements OnInit {
       case 'lessorDocument':
         this.lessorDocument = null;
         break;
+      case 'deedOfSale':
+        this.deedOfSale = null;
+        break;
     }
   }
 
@@ -96,31 +103,35 @@ export class DocumentaryRequirementsComponent implements OnInit {
       building_permit_form: this.applicationInfo.building_permit_form,
       sanitary_permit_form: this.applicationInfo.sanitary_permit_form,
       electrical_permit_form: this.applicationInfo.electrical_permit_form,
-      geodetic_engineer_affidavit: this.applicationInfo.geodetic_engineer_affidavit,
-      civil_engineer_affidavit: this.applicationInfo.civil_engineer_affidavit
+      geodetic_engineer_affidavit: this.applicationInfo
+        .geodetic_engineer_affidavit,
+      civil_engineer_affidavit: this.applicationInfo.civil_engineer_affidavit,
+    };
+    if (this.authorizationLetter) {
+      body['authorization_letter'] = this.authorizationLetter;
     }
-    if(this.authorizationLetter) {
-      body["authorization_letter"] = this.authorizationLetter
+    if (this.filingFeeReceipt) {
+      body['filing_fee_receipt'] = this.filingFeeReceipt;
     }
-    if(this.filingFeeReceipt) {
-      body["filing_fee_receipt"] = this.filingFeeReceipt
+    if (this.taxDeclaration) {
+      body['tax_declaration'] = this.taxDeclaration;
     }
-    if(this.taxDeclaration) {
-      body["tax_declaration"] = this.taxDeclaration
+    if (this.realPropertyTaxReceipt) {
+      body['real_property_tax_receipt'] = this.realPropertyTaxReceipt;
     }
-    if(this.realPropertyTaxReceipt) {
-      body["real_property_tax_receipt"] = this.realPropertyTaxReceipt
+    if (this.siteLatestPicture) {
+      body['site_latest_picture'] = this.siteLatestPicture;
     }
-    if(this.siteLatestPicture) {
-      body["site_latest_picture"] = this.siteLatestPicture
+    if (this.trueCopyTitle) {
+      body['true_copy_title'] = this.trueCopyTitle;
     }
-    if(this.trueCopyTitle) {
-      body["true_copy_title"] = this.trueCopyTitle
-    }if(this.lessorDocument) {
-      body["lessor_document"] = this.lessorDocument
+    if (this.lessorDocument) {
+      body['lessor_document'] = this.lessorDocument;
     }
-    this.newApplicationService.setApplicationInfo(body)
-    this.router.navigateByUrl('/dashboard/new/design-analysis')
+    if (this.deedOfSale) {
+      body['deed_of_sale'] = this.deedOfSale;
+    }
+    this.newApplicationService.setApplicationInfo(body);
+    this.router.navigateByUrl('/dashboard/new/design-analysis');
   }
 }
-

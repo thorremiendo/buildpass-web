@@ -31,7 +31,7 @@ export class StepOneComponent implements OnInit {
       is_representative: new FormControl('', Validators.required),
       is_lot_owner: new FormControl('', Validators.required),
       construction_status: new FormControl('', Validators.required),
-      registerd_owner: new FormControl('', Validators.required)
+      registered_owner: new FormControl('', Validators.required)
     });
   }
   callNext() {
