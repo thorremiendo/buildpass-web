@@ -6,9 +6,8 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 export class NewApplicationFormService {
   public newApplicationSubject= new BehaviorSubject<any>("");
   public commonFieldsSubject= new BehaviorSubject<any>("");
-
+  public additionalPermitsSubject = new BehaviorSubject<any>("")
   constructor(
-   
     ) {
       this.newApplicationSubject.subscribe((res) => {
          console.log("This is the result: ", res);
@@ -20,5 +19,8 @@ export class NewApplicationFormService {
   }
   setCommonFields(commonFieldsInfo) {
     this.commonFieldsSubject.next(commonFieldsInfo)
+  }
+  setAdditionalPermits(additionalPermits){
+    this.additionalPermitsSubject.next(additionalPermits)
   }
 }

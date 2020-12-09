@@ -94,18 +94,23 @@ export class DocumentaryRequirementsComponent implements OnInit {
   }
 
   callNext() {
+    const value = this.applicationInfo
     const body = {
-      application_type: this.applicationInfo.application_type,
-      is_representative: this.applicationInfo.is_representative,
-      is_lot_owner: this.applicationInfo.is_lot_owner,
-      construction_status: this.applicationInfo.construction_status,
-      zoning_clearance_form: this.applicationInfo.zoning_clearance_form,
-      building_permit_form: this.applicationInfo.building_permit_form,
-      sanitary_permit_form: this.applicationInfo.sanitary_permit_form,
-      electrical_permit_form: this.applicationInfo.electrical_permit_form,
-      geodetic_engineer_affidavit: this.applicationInfo
+      application_type: value.application_type,
+      is_representative: value.is_representative,
+      is_lot_owner: value.is_lot_owner,
+      construction_status: value.construction_status,
+      registered_owner: value.registered_owner,
+      zoning_clearance_form: value.zoning_clearance_form,
+      building_permit_form: value.building_permit_form,
+      sanitary_permit_form: value.sanitary_permit_form,
+      electrical_permit_form: value.electrical_permit_form,
+      geodetic_engineer_affidavit: value
         .geodetic_engineer_affidavit,
-      civil_engineer_affidavit: this.applicationInfo.civil_engineer_affidavit,
+      civil_engineer_affidavit: value.civil_engineer_affidavit,
+      excavation_permit: value.excavation_permit,
+      demolition_permit: value.demolition_permit,
+      fencing_permit: value.fencing_permit,
     };
     if (this.authorizationLetter) {
       body['authorization_letter'] = this.authorizationLetter;

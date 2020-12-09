@@ -1,23 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
+import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-sanitary-permit-form',
-  templateUrl: './sanitary-permit-form.component.html',
-  styleUrls: ['./sanitary-permit-form.component.scss']
+  selector: 'app-excavation-permit',
+  templateUrl: './excavation-permit.component.html',
+  styleUrls: ['./excavation-permit.component.scss'],
 })
-export class SanitaryPermitFormComponent implements OnInit {
-  public formData = {
-  };
-  public sanitaryPermitForm: File;
+export class ExcavationPermitComponent implements OnInit {
+  public selectedOption;
+  public excavationPermit: File;
   public applicationInfo;
-
   constructor(
-    private router: Router,
-    private newApplicationService: NewApplicationFormService
-  ) { }
+    private newApplicationService: NewApplicationFormService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.newApplicationService.newApplicationSubject
@@ -26,27 +24,23 @@ export class SanitaryPermitFormComponent implements OnInit {
         (newApplicationSubject) =>
           (this.applicationInfo = newApplicationSubject)
       );
-      this.newApplicationService.commonFieldsSubject
-      .asObservable()
-      .subscribe(
-        (commonFieldsSubject) => (this.formData = commonFieldsSubject)
-      );
   }
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
     switch (type) {
-      case 'sanitaryPermitForm':
-        this.sanitaryPermitForm = file;
+      case 'excavationPermit':
+        this.excavationPermit = file;
         break;
     }
   }
   onRemove(type) {
     switch (type) {
-      case 'sanitaryPermitForm':
-        this.sanitaryPermitForm = null;
+      case 'excavationPermit':
+        this.excavationPermit = null;
         break;
     }
   }
+
   callNext() {
     const body = {
       application_type: this.applicationInfo.application_type,
@@ -55,13 +49,14 @@ export class SanitaryPermitFormComponent implements OnInit {
       construction_status: this.applicationInfo.construction_status,
       registered_owner: this.applicationInfo.registered_owner,
       zoning_clearance_form: this.applicationInfo.zoning_clearance_form,
-      building_permit_form: this.applicationInfo.building_permit_form
+      building_permit_form: this.applicationInfo.building_permit_form,
+      sanitary_permit_form: this.applicationInfo.sanitary_permit_form,
+      electrical_permit_form: this.applicationInfo.electrical_permit_form,
     };
-    if (this.sanitaryPermitForm) {
-      body['sanitary_permit_form'] = this.sanitaryPermitForm;
+    if (this.excavationPermit) {
+      body['excavation_permit'] = this.excavationPermit;
     }
     this.newApplicationService.setApplicationInfo(body);
-    this.router.navigateByUrl('dashboard/new/initial-forms/electrical-permit');
+    this.router.navigateByUrl('dashboard/new/initial-forms/demolition-permit')
   }
-
 }

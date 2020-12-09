@@ -29,6 +29,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
   public userDetails;
   public maxLength: number = 11;
   public applicationDetails;
+  public additionalPermits;
   public barangay: Barangay[];
   _personalInfoFormCommonFields: FormGroup;
   _submitted = false;
@@ -42,7 +43,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     private _fb: FormBuilder,
     private _router: Router,
     private _registerAccountFormService: RegisterAccountFormService,
-    private _commonFieldsFormService: NewApplicationFormService,
+    private newApplicationFormService: NewApplicationFormService,
     private barangayService: BarangayService
   ) {
     this.createForm();
@@ -62,14 +63,14 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     this._registerAccountFormService.cast.subscribe(
       (registerAccountSubject) => (this.userDetails = registerAccountSubject)
     );
-    this._commonFieldsFormService.newApplicationSubject
+    this.newApplicationFormService.newApplicationSubject
       .asObservable()
       .subscribe(
         (newApplicationSubject) =>
           (this.applicationDetails = newApplicationSubject)
       );
-    console.log(this.applicationDetails);
 
+    console.log(this.applicationDetails)
     this.createForm();
 
     this._personalInfoFormCommonFields.patchValue({
@@ -167,7 +168,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
 
     this.createUserDetails();
 
-    this._commonFieldsFormService.setCommonFields(this.userDetails);
+    this.newApplicationFormService.setCommonFields(this.userDetails);
     console.log(this.userDetails);
     this._router.navigateByUrl('/dashboard/new/step-two/project-site');
   }

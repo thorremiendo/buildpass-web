@@ -82,12 +82,17 @@ export class DesignAnalysisFormsComponent implements OnInit {
       is_representative: value.is_representative,
       is_lot_owner: value.is_lot_owner,
       construction_status: value.construction_status,
+      registered_owner: this.applicationInfo.registered_owner,
       zoning_clearance_form: value.zoning_clearance_form,
       building_permit_form: value.building_permit_form,
       sanitary_permit_form: value.sanitary_permit_form,
       electrical_permit_form: value.electrical_permit_form,
-      geodetic_engineer_affidavit: this.applicationInfo.geodetic_engineer_affidavit,
+      geodetic_engineer_affidavit: this.applicationInfo
+        .geodetic_engineer_affidavit,
       civil_engineer_affidavit: this.applicationInfo.civil_engineer_affidavit,
+      excavation_permit: value.excavation_permit,
+      demolition_permit: value.demolition_permit,
+      fencing_permit: value.fencing_permit,
       authorization_letter: value.authorization_letter,
       filing_fee_receipt: value.filing_fee_receipt,
       tax_declaration: value.tax_declaration,
@@ -95,7 +100,7 @@ export class DesignAnalysisFormsComponent implements OnInit {
       site_latest_picture: value.site_latest_picture,
       true_copy_title: value.true_copy_title,
       lessor_document: value.lessor_document,
-      deed_of_sale: value.deed_of_sale
+      deed_of_sale: value.deed_of_sale,
     };
     if (this.buildingPlans) {
       body['building_plan'] = this.buildingPlans;

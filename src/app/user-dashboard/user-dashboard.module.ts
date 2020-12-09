@@ -14,7 +14,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { UserDashboardModule } from './dashboard-layout/dashboard-layout.module';
 import { UserRoutingModule } from './user-routing.module';
 
-import { NewApplicationComponent } from './step-one/new-application.component';
 import { ExistingApplicationsComponent } from './existing-applications/existing-applications.component';
 import { UserFormsComponent } from './user-forms/user-forms.component';
 
@@ -59,13 +58,16 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from '../../environments/environment';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { AdditionalPermitsComponent } from './new-application/additional-permits/additional-permits.component';
+import { ExcavationPermitComponent } from './new-application/forms/excavation-permit/excavation-permit.component';
+import { DemolitionPermitComponent } from './new-application/forms/demolition-permit/demolition-permit.component';
+import { FencingPermitComponent } from './new-application/forms/fencing-permit/fencing-permit.component';
 
 @NgModule({
   declarations: [
     // UserHomeComponent,
     // DashboardComponent
     MapComponent,
-    NewApplicationComponent,
     ExistingApplicationsComponent,
     UserFormsComponent,
     StepOneComponent,
@@ -86,6 +88,10 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     CivilEngineerAffidavitComponent,
     GeodeticEngineerAffidavitComponent,
     UserEditProfileComponent,
+    AdditionalPermitsComponent,
+    ExcavationPermitComponent,
+    DemolitionPermitComponent,
+    FencingPermitComponent
   ],
   imports: [
     CommonModule,

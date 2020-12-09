@@ -29,7 +29,7 @@ export class CommonFieldsComponent implements OnInit {
         (newApplicationSubject) =>
           (this.applicationInfo = newApplicationSubject)
       );
-    if (this.applicationInfo.is_representative == 'No') {
+    if (this.applicationInfo.is_representative == '2') {
       this.navLinks = [
         {
           label: 'Owner/Applicant Information',

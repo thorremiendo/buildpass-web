@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NewApplicationComponent } from './new-application.component';
+import { AdditionalPermitsComponent } from './additional-permits.component';
 
-describe('NewApplicationComponent', () => {
-  let component: NewApplicationComponent;
-  let fixture: ComponentFixture<NewApplicationComponent>;
+describe('AdditionalPermitsComponent', () => {
+  let component: AdditionalPermitsComponent;
+  let fixture: ComponentFixture<AdditionalPermitsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NewApplicationComponent ]
+      declarations: [ AdditionalPermitsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewApplicationComponent);
+    fixture = TestBed.createComponent(AdditionalPermitsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

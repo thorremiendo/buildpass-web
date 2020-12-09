@@ -207,8 +207,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
 
     this._commonFieldsFormService.setCommonFields(this.projectDetails);
     console.log(this.projectDetails);
-    debugger
-    if (this.ownerDetails.is_representative == 'No') {
+    if (this.ownerDetails.is_representative == '2') {
       this._router.navigateByUrl(
         '/dashboard/new/initial-forms/zoning-clearance'
       );

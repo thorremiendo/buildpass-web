@@ -9,8 +9,7 @@ import { NewApplicationFormService } from 'src/app/core/services/new-application
   styleUrls: ['./zoning-clearance-form.component.scss'],
 })
 export class ZoningClearanceFormComponent implements OnInit {
-  public formData = {
-  };
+  public formData = {};
 
   public zoningClearanceForm: File;
   public applicationInfo;
@@ -26,12 +25,13 @@ export class ZoningClearanceFormComponent implements OnInit {
         (newApplicationSubject) =>
           (this.applicationInfo = newApplicationSubject)
       );
+    console.log(this.applicationInfo);
     this.newApplicationService.commonFieldsSubject
       .asObservable()
       .subscribe(
         (commonFieldsSubject) => (this.formData = commonFieldsSubject)
       );
-      console.log(this.formData)
+    console.log(this.formData);
   }
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
@@ -54,6 +54,8 @@ export class ZoningClearanceFormComponent implements OnInit {
       is_representative: this.applicationInfo.is_representative,
       is_lot_owner: this.applicationInfo.is_lot_owner,
       construction_status: this.applicationInfo.construction_status,
+      registered_owner: this.applicationInfo.registered_owner,
+
     };
     if (this.zoningClearanceForm) {
       body['zoning_clearance_form'] = this.zoningClearanceForm;

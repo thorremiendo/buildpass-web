@@ -29,6 +29,7 @@ export class ElectricalPermitFormComponent implements OnInit {
       .subscribe(
         (commonFieldsSubject) => (this.formData = commonFieldsSubject)
       );
+    console.log(this.applicationInfo);
   }
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
@@ -51,6 +52,7 @@ export class ElectricalPermitFormComponent implements OnInit {
       is_representative: this.applicationInfo.is_representative,
       is_lot_owner: this.applicationInfo.is_lot_owner,
       construction_status: this.applicationInfo.construction_status,
+      registered_owner: this.applicationInfo.registered_owner,
       zoning_clearance_form: this.applicationInfo.zoning_clearance_form,
       building_permit_form: this.applicationInfo.building_permit_form,
       sanitary_permit_form: this.applicationInfo.sanitary_permit_form,
@@ -59,15 +61,6 @@ export class ElectricalPermitFormComponent implements OnInit {
       body['electrical_permit_form'] = this.electricalPermitForm;
     }
     this.newApplicationService.setApplicationInfo(body);
-    if (
-      this.applicationInfo.construction_status == '1' ||
-      this.applicationInfo.construction_status == '2'
-    ) {
-      this.router.navigateByUrl(
-        'dashboard/new/initial-forms/civil-engineer-affidavit'
-      );
-    } else {
-      this.router.navigateByUrl('dashboard/new/documentary-requirements');
-    }
+    this.router.navigateByUrl('dashboard/new/initial-forms/excavation-permit')
   }
 }
