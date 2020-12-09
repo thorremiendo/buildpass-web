@@ -22,6 +22,8 @@ export class EvaluatorIdentificationComponent implements OnInit {
   public photoUploaded: boolean = false;
   public userDetails;
 
+  _identificationForm: FormGroup;
+
 
 
   private _displayPhoto: string | ArrayBuffer = "";
@@ -38,7 +40,7 @@ export class EvaluatorIdentificationComponent implements OnInit {
     private _router: Router,
 
   ) {
-    this.identificationForm = _fb.group({
+    this._identificationForm = _fb.group({
       id_number: new FormControl("", Validators.required),
       id_type: new FormControl("", Validators.required),
     });
@@ -49,8 +51,16 @@ export class EvaluatorIdentificationComponent implements OnInit {
     this.createForm();
     
     this._registerAccountEvaluatorFormService.cast.subscribe(
-      (registerAccountSubject) => (this.userDetails = registerAccountSubject)
+      registerAccountEvaluatorSubject => (this.userDetails = registerAccountEvaluatorSubject)
     );
+    this._identificationForm.patchValue({
+      id_number: this.userDetails.id_number,
+      id_type: this.userDetails.id_type,
+      
+    });
+    console.log(this.userDetails)
+
+   
     this._registerAccountEvaluatorFormService.registerAccountInfo.subscribe((res) => {
       this._displayPhoto = res.photo;
       this.photo = res.photo
@@ -61,7 +71,11 @@ export class EvaluatorIdentificationComponent implements OnInit {
       } else {
         this.photoUploaded = false;
       }
+      
+
     });
+
+   
 
     console.log(this.selectedPhoto);
 

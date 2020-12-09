@@ -39,16 +39,36 @@
     text-align: center;
     font-size: 16px;
     margin: 4px 2px;
-    opacity: 0.6;
+    opacity: 1;
     transition: 0.3s;
+    position: relative;
   }
   
   .hideText {
-    display: none;
+      display: none;
+      position: absolute;
+      margin-left: auto;
+      margin-right: auto;
+      left: 0;
+      right: 0;
+      top: 40%;
+      text-align: center;
+      font-weight: 900;
+      color:maroon;
+      background-color: white;
+      width:120px;
+      height: 30px;
+      border-radius: 10px;
+      opacity: 1;
   }
-  .triggerUpload:hover {opacity: 1}
 
-  .triggerUpload:hover + .hideText {
+  .triggerUpload:hover {
+      opacity: 0.4;
+      cursor: pointer;
+      
+      
+    }
+
+  .triggerUpload:hover .hideText {
     display: block;
-    color: white;
   }
