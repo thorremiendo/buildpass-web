@@ -59,7 +59,7 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
       representative_middle_initial: [''],
       representative_suffix: ['', Validators.required],
       representative_house_number: ['', Validators.required],
-      representative_street_name: ['', Validators.required],
+      representative_street_name: [''],
       representative_barangay: ['', Validators.required],
       representative_province: ['', Validators.required]
     });

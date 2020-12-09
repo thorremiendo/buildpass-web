@@ -30,7 +30,10 @@ import { CommonFieldsPersonalInfoComponent } from '../new-application/common-fie
 import { CommonFieldsAddressInfoComponent } from '../new-application/common-fields/common-fields-address-info/common-fields-address-info.component';
 import { CommonFieldsRepresentativeComponent } from '../new-application/common-fields/common-fields-representative/common-fields-representative.component';
 import { UserEditProfileComponent } from '../user-edit-profile/user-edit-profile.component';
-import { AccessoryFormsComponent } from '../new-application/accessory-forms/accessory-forms.component';
+import { AdditionalPermitsComponent } from '../new-application/additional-permits/additional-permits.component';
+import { ExcavationPermitComponent } from '../new-application/forms/excavation-permit/excavation-permit.component';
+import { DemolitionPermitComponent } from '../new-application/forms/demolition-permit/demolition-permit.component';
+import { FencingPermitComponent } from '../new-application/forms/fencing-permit/fencing-permit.component';
 
 const routes: Routes = [
   {
@@ -72,26 +75,25 @@ const routes: Routes = [
               {
                 path: 'step-two',
                 component: CommonFieldsComponent,
-                children:[
+                children: [
                   {
-                    path:"lot-owner",
+                    path: 'lot-owner',
                     component: CommonFieldsPersonalInfoComponent,
-                
                   },
-                  
+
                   {
-                    path:"project-site",
+                    path: 'project-site',
                     component: CommonFieldsAddressInfoComponent,
                   },
                   {
-                    path: "representative",
-                    component: CommonFieldsRepresentativeComponent
-                  }
-                ]
+                    path: 'representative',
+                    component: CommonFieldsRepresentativeComponent,
+                  },
+                ],
               },
               {
-                path: 'accessory-forms',
-                component: AccessoryFormsComponent
+                path: 'additional-permits',
+                component: AdditionalPermitsComponent
               },
               {
                 path: 'initial-forms',
@@ -118,19 +120,31 @@ const routes: Routes = [
                   },
                   {
                     path: 'sanitary-permit',
-                    component: SanitaryPermitFormComponent
+                    component: SanitaryPermitFormComponent,
                   },
                   {
                     path: 'electrical-permit',
-                    component: ElectricalPermitFormComponent
+                    component: ElectricalPermitFormComponent,
                   },
                   {
                     path: 'civil-engineer-affidavit',
-                    component: CivilEngineerAffidavitComponent
+                    component: CivilEngineerAffidavitComponent,
                   },
                   {
                     path: 'geodetic-engineer-affidavit',
-                    component: GeodeticEngineerAffidavitComponent
+                    component: GeodeticEngineerAffidavitComponent,
+                  },
+                  {
+                    path: 'excavation-permit',
+                    component: ExcavationPermitComponent
+                  },
+                  {
+                    path: 'demolition-permit',
+                    component: DemolitionPermitComponent
+                  },
+                  {
+                    path: 'fencing-permit',
+                    component: FencingPermitComponent
                   }
                 ],
               },
@@ -261,9 +275,7 @@ const routes: Routes = [
       {
         path: 'edit-profile',
         component: UserEditProfileComponent,
-      }
-        
-
+      },
     ],
   },
 ];

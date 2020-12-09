@@ -88,7 +88,6 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_lot_number: this.projectDetails.project_lot_number,
       project_block_number: this.projectDetails.project_block_number,
       project_unit_number: this.projectDetails.project_unit_number,
-      project_floor_number: this.projectDetails.project_floor_number,
       project_street: this.projectDetails.project_street,
       project_barangay: this.projectDetails.project_barangay,
       project_municipality: this.projectDetails.project_municipality,
@@ -144,14 +143,13 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
 
   createForm() {
     this.projectDetailsForm = this._fb.group({
+      project_house_number: ['', Validators.required],
       project_lot_number: ['', Validators.required],
-      project_block_number: ['', Validators.required],
-      project_floor_number: [''],
-      owner_tin_number: ['', Validators.required],
-      project_street: ['', Validators.required],
-      project_unit_number: ['', Validators.required],
+      project_block_number: [''],
+      project_unit_number: [''],
+      project_street: [''],
       project_barangay: ['', Validators.required],
-      project_municipality: ['', Validators.required],
+      project_municipality: [''],
       project_lot_area: ['', Validators.required],
       project_floor_area: ['', Validators.required],
       project_units: ['', Validators.required],
@@ -161,7 +159,6 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_tct_number: ['', Validators.required],
       project_td_number: ['', Validators.required],
       project_basement: ['', Validators.required],
-      project_house_number: ['', Validators.required]
     });
   }
 
@@ -169,12 +166,11 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     this.projectDetails = {
       project_lot_number: this.projectDetailsForm.value.project_lot_number,
       project_block_number: this.projectDetailsForm.value.project_block_number,
-      project_floor_number: this.projectDetailsForm.value.project_floor_number,
       project_street: this.projectDetailsForm.value.project_street,
       project_unit_number: this.projectDetailsForm.value.project_unit_number,
       project_barangay: this.projectDetailsForm.value.project_barangay,
       project_basement: this.projectDetailsForm.value.project_basement,
-      project_municipality: this.projectDetailsForm.value.project_municipality,
+      project_municipality: 'Baguio City',
       project_lot_area: this.projectDetailsForm.value.project_lot_area,
       project_floor_area: this.projectDetailsForm.value.project_floor_area,
       project_units: this.projectDetailsForm.value.project_units,
@@ -211,10 +207,9 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
 
     this._commonFieldsFormService.setCommonFields(this.projectDetails);
     console.log(this.projectDetails);
-    debugger
-    if (this.ownerDetails.is_representative == 'No') {
+    if (this.ownerDetails.is_representative == '2') {
       this._router.navigateByUrl(
-        '/dashboard/new/accessory-forms'
+        '/dashboard/new/initial-forms/zoning-clearance'
       );
     } else {
       this._router.navigateByUrl('/dashboard/new/step-two/representative');

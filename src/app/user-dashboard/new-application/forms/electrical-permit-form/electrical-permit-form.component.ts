@@ -6,30 +6,30 @@ import { NewApplicationFormService } from 'src/app/core/services/new-application
 @Component({
   selector: 'app-electrical-permit-form',
   templateUrl: './electrical-permit-form.component.html',
-  styleUrls: ['./electrical-permit-form.component.scss']
+  styleUrls: ['./electrical-permit-form.component.scss'],
 })
 export class ElectricalPermitFormComponent implements OnInit {
-  public formData = {
-  };
+  public formData = {};
   public electricalPermitForm: File;
   public applicationInfo;
   constructor(
     private router: Router,
     private newApplicationService: NewApplicationFormService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.newApplicationService.newApplicationSubject
-    .asObservable()
-    .subscribe(
-      (newApplicationSubject) =>
-        (this.applicationInfo = newApplicationSubject)
-    );
+      .asObservable()
+      .subscribe(
+        (newApplicationSubject) =>
+          (this.applicationInfo = newApplicationSubject)
+      );
     this.newApplicationService.commonFieldsSubject
-    .asObservable()
-    .subscribe(
-      (commonFieldsSubject) => (this.formData = commonFieldsSubject)
-    );
+      .asObservable()
+      .subscribe(
+        (commonFieldsSubject) => (this.formData = commonFieldsSubject)
+      );
+    console.log(this.applicationInfo);
   }
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
@@ -52,15 +52,15 @@ export class ElectricalPermitFormComponent implements OnInit {
       is_representative: this.applicationInfo.is_representative,
       is_lot_owner: this.applicationInfo.is_lot_owner,
       construction_status: this.applicationInfo.construction_status,
+      registered_owner: this.applicationInfo.registered_owner,
       zoning_clearance_form: this.applicationInfo.zoning_clearance_form,
       building_permit_form: this.applicationInfo.building_permit_form,
-      sanitary_permit_form: this.applicationInfo.sanitary_permit_form
+      sanitary_permit_form: this.applicationInfo.sanitary_permit_form,
     };
     if (this.electricalPermitForm) {
       body['electrical_permit_form'] = this.electricalPermitForm;
     }
     this.newApplicationService.setApplicationInfo(body);
-    this.router.navigateByUrl('dashboard/new/initial-forms/civil-engineer-affidavit');
+    this.router.navigateByUrl('dashboard/new/initial-forms/excavation-permit')
   }
-
 }

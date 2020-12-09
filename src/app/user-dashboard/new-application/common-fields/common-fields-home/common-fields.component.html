@@ -6,6 +6,9 @@
     <hr style="height: 3px;"/>
   </div>
 </div>
+<div class="col-md-12">
+  <p>Please fill out all required information to autofill your forms.</p>
+</div>
 <mat-card>
   <nav mat-tab-nav-bar mat-stretch-tabs>
     <a
@@ -15,6 +18,7 @@
       routerLinkActive
       #rla="routerLinkActive"
       [active]="rla.isActive"
+      [disabled]='!rla.isActive'
     >
       {{ link.label }}
     </a>

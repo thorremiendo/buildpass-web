@@ -53,6 +53,7 @@ export class BuildingPermitFormComponent implements OnInit {
       is_representative: this.applicationInfo.is_representative,
       is_lot_owner: this.applicationInfo.is_lot_owner,
       construction_status: this.applicationInfo.construction_status,
+      registered_owner: this.applicationInfo.registered_owner,
       zoning_clearance_form: this.applicationInfo.zoning_clearance_form,
     };
     if (this.buildingPermitForm) {

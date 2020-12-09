@@ -1,4 +1,4 @@
-import '../../../polyfills'
+import '../../../polyfills';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
@@ -24,7 +24,7 @@ import { SanitaryPermitFormComponent } from './forms/sanitary-permit-form/sanita
 import { ElectricalPermitFormComponent } from './forms/electrical-permit-form/electrical-permit-form.component';
 import { CivilEngineerAffidavitComponent } from './forms/civil-engineer-affidavit/civil-engineer-affidavit.component';
 import { GeodeticEngineerAffidavitComponent } from './forms/geodetic-engineer-affidavit/geodetic-engineer-affidavit.component';
-import {environment} from '../../../environments/environment'
+import { environment } from '../../../environments/environment';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -32,40 +32,45 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
-
 import { MatTabsModule } from '@angular/material/tabs';
-
+import {MatRadioModule} from '@angular/material/radio';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonFieldsRepresentativeComponent } from './common-fields/common-fields-representative/common-fields-representative.component';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import { AccessoryFormsComponent } from './accessory-forms/accessory-forms.component';
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AdditionalPermitsComponent } from './additional-permits/additional-permits.component';
+import { ExcavationPermitComponent } from './forms/excavation-permit/excavation-permit.component';
+import { DemolitionPermitComponent } from './forms/demolition-permit/demolition-permit.component';
+import { FencingPermitComponent } from './forms/fencing-permit/fencing-permit.component';
 
 @NgModule({
-  declarations: 
-  [
-    MapComponent, 
-    StepOneComponent, 
-    InitialFormsComponent, 
-    NewApplicationPageComponent, 
-    NewApplicationRouterComponent, 
-    BuildingPermitFormsComponent, 
-    DesignAnalysisFormsComponent, 
-    ProfessionalDetailsComponent, 
-    ClearanceFormsComponent, 
-    AffidavitFilesComponent, 
-    OtherRequirementsComponent, 
-    ChecklistSummaryComponent, 
-    SuccessPageComponent, 
-    DocumentaryRequirementsComponent, 
-    ZoningClearanceFormComponent, 
-    BuildingPermitFormComponent, 
-    SanitaryPermitFormComponent, 
-    ElectricalPermitFormComponent, 
-    CivilEngineerAffidavitComponent, 
-    GeodeticEngineerAffidavitComponent, CommonFieldsRepresentativeComponent, AccessoryFormsComponent, 
+  declarations: [
+    MapComponent,
+    StepOneComponent,
+    InitialFormsComponent,
+    NewApplicationPageComponent,
+    NewApplicationRouterComponent,
+    BuildingPermitFormsComponent,
+    DesignAnalysisFormsComponent,
+    ProfessionalDetailsComponent,
+    ClearanceFormsComponent,
+    AffidavitFilesComponent,
+    OtherRequirementsComponent,
+    ChecklistSummaryComponent,
+    SuccessPageComponent,
+    DocumentaryRequirementsComponent,
+    ZoningClearanceFormComponent,
+    BuildingPermitFormComponent,
+    SanitaryPermitFormComponent,
+    ElectricalPermitFormComponent,
+    CivilEngineerAffidavitComponent,
+    GeodeticEngineerAffidavitComponent,
+    CommonFieldsRepresentativeComponent,
+    AdditionalPermitsComponent,
+    ExcavationPermitComponent,
+    DemolitionPermitComponent,
+    FencingPermitComponent,
   ],
 
   imports: [
@@ -81,13 +86,13 @@ import { AccessoryFormsComponent } from './accessory-forms/accessory-forms.compo
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatRadioModule,
     MatTabsModule,
     NgxMapboxGLModule.withConfig({
-      accessToken: environment.mapbox.accessToken
+      accessToken: environment.mapbox.accessToken,
     }),
     MatAutocompleteModule,
-    MatCheckboxModule
-    
-  ]
+    MatCheckboxModule,
+  ],
 })
-export class NewApplicationModule { }
+export class NewApplicationModule {}

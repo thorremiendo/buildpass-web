@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccessoryFormsComponent } from './accessory-forms.component';
+import { ExcavationPermitComponent } from './excavation-permit.component';
 
-describe('AccessoryFormsComponent', () => {
-  let component: AccessoryFormsComponent;
-  let fixture: ComponentFixture<AccessoryFormsComponent>;
+describe('ExcavationPermitComponent', () => {
+  let component: ExcavationPermitComponent;
+  let fixture: ComponentFixture<ExcavationPermitComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AccessoryFormsComponent ]
+      declarations: [ ExcavationPermitComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AccessoryFormsComponent);
+    fixture = TestBed.createComponent(ExcavationPermitComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -4,19 +4,19 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
 import { RegisterAccountFormService } from 'src/app/core/services/register-account-form.service';
 import { BarangayService } from 'src/app/core/services/barangay.service';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 export interface Barangay {
-  id: number
-  b_id: number,
-  name:string,
+  id: number;
+  b_id: number;
+  name: string;
   locality_id: number;
-  province_id: number; 
+  province_id: number;
   zip_code: number;
   region_id: number;
-  country_id: number; 
-  created_at: string,
+  country_id: number;
+  created_at: string;
   updated_at: string;
 }
 
@@ -29,6 +29,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
   public userDetails;
   public maxLength: number = 11;
   public applicationDetails;
+  public additionalPermits;
   public barangay: Barangay[];
   _personalInfoFormCommonFields: FormGroup;
   _submitted = false;
@@ -42,19 +43,19 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     private _fb: FormBuilder,
     private _router: Router,
     private _registerAccountFormService: RegisterAccountFormService,
-    private _commonFieldsFormService: NewApplicationFormService,
+    private newApplicationFormService: NewApplicationFormService,
     private barangayService: BarangayService
   ) {
     this.createForm();
-    this.barangayService.getBarangayInfo().subscribe(data=>{
-      this.barangay = data; 
+    this.barangayService.getBarangayInfo().subscribe((data) => {
+      this.barangay = data;
 
-      this._filteredBarangayOptions = this.personalInfoFormCommonFieldControl.owner_barangay.valueChanges
-      .pipe(
+      this._filteredBarangayOptions = this.personalInfoFormCommonFieldControl.owner_barangay.valueChanges.pipe(
         startWith(''),
-        map(barangay => barangay ? this._filter(barangay) : this.barangay.slice())
+        map((barangay) =>
+          barangay ? this._filter(barangay) : this.barangay.slice()
+        )
       );
-
     });
   }
 
@@ -62,12 +63,14 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     this._registerAccountFormService.cast.subscribe(
       (registerAccountSubject) => (this.userDetails = registerAccountSubject)
     );
-    this._commonFieldsFormService.newApplicationSubject
+    this.newApplicationFormService.newApplicationSubject
       .asObservable()
       .subscribe(
         (newApplicationSubject) =>
           (this.applicationDetails = newApplicationSubject)
       );
+
+    console.log(this.applicationDetails)
     this.createForm();
 
     this._personalInfoFormCommonFields.patchValue({
@@ -92,7 +95,9 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
   private _filter(value: string): Barangay[] {
     const filterValue = value.toLowerCase();
 
-    return this.barangay.filter(option => option.name.toLowerCase().includes(filterValue));
+    return this.barangay.filter((option) =>
+      option.name.toLowerCase().includes(filterValue)
+    );
   }
 
   createForm() {
@@ -108,8 +113,8 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
       ],
       owner_email_address: ['', Validators.required],
       owner_house_number: ['', Validators.required],
-      owner_unit_number: ['', Validators.required],
-      owner_floor_number: ['', Validators.required],
+      owner_unit_number: [''],
+      owner_floor_number: [''],
       owner_street: ['', Validators.required],
       owner_barangay: ['', Validators.required],
       owner_province: ['', Validators.required],
@@ -143,8 +148,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
       owner_municipality: 'Baguio City',
       owner_zip_code: '2600',
       blank: this._personalInfoFormCommonFields.value.blank,
-      is_representative: this.applicationDetails.is_representative
-
+      is_representative: this.applicationDetails.is_representative,
     };
   }
 
@@ -164,7 +168,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
 
     this.createUserDetails();
 
-    this._commonFieldsFormService.setCommonFields(this.userDetails);
+    this.newApplicationFormService.setCommonFields(this.userDetails);
     console.log(this.userDetails);
     this._router.navigateByUrl('/dashboard/new/step-two/project-site');
   }

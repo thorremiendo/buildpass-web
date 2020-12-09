@@ -37,6 +37,7 @@ import {environment} from '../../../environments/environment'
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [DashboardComponent, 
@@ -46,7 +47,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
      CommonFieldsComponent,
      CommonFieldsPersonalInfoComponent,
      CommonFieldsAddressInfoComponent,
-     CommonFieldsRepresentativeComponent
+     CommonFieldsRepresentativeComponent,
+     
     ],
      
   imports: [
@@ -76,7 +78,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
       accessToken: environment.mapbox.accessToken
     }),
     MatAutocompleteModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatRadioModule
   ]
 })
 export class UserDashboardModule { }
