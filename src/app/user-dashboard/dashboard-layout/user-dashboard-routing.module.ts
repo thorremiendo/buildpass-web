@@ -34,6 +34,7 @@ import { AdditionalPermitsComponent } from '../new-application/additional-permit
 import { ExcavationPermitComponent } from '../new-application/forms/excavation-permit/excavation-permit.component';
 import { DemolitionPermitComponent } from '../new-application/forms/demolition-permit/demolition-permit.component';
 import { FencingPermitComponent } from '../new-application/forms/fencing-permit/fencing-permit.component';
+import { OtherPermitsComponent } from '../new-application/other-permits/other-permits.component';
 
 const routes: Routes = [
   {
@@ -93,7 +94,7 @@ const routes: Routes = [
               },
               {
                 path: 'additional-permits',
-                component: AdditionalPermitsComponent
+                component: AdditionalPermitsComponent,
               },
               {
                 path: 'initial-forms',
@@ -136,17 +137,13 @@ const routes: Routes = [
                   },
                   {
                     path: 'excavation-permit',
-                    component: ExcavationPermitComponent
+                    component: ExcavationPermitComponent,
                   },
-                  {
-                    path: 'demolition-permit',
-                    component: DemolitionPermitComponent
-                  },
-                  {
-                    path: 'fencing-permit',
-                    component: FencingPermitComponent
-                  }
                 ],
+              },
+              {
+                path: 'other-permits',
+                component: OtherPermitsComponent,
               },
               {
                 path: 'documentary-requirements',

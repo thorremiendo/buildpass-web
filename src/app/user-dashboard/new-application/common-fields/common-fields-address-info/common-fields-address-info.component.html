@@ -83,7 +83,7 @@
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option
             *ngFor="let barangays of _filteredBarangayOptions | async"
-            [value]="barangays.name"
+            [value]="barangays.id"
           >
             {{ barangays.name }}
           </mat-option>

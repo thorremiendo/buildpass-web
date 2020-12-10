@@ -59,21 +59,25 @@ const FORM_TABLE_DATA = [
   styleUrls: ['./cbao-evaluator.component.scss'],
 })
 export class CbaoEvaluatorComponent implements OnInit {
-  displayedColumns: string[] = ['index','name', 'status', 'remarks', 'action'];
+  displayedColumns: string[] = ['index', 'name', 'status', 'remarks', 'action'];
   dataSource = FORM_TABLE_DATA;
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
   constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {}
-  openFormDialog(): void {
+  openFormDialog(element): void {
     const dialogRef = this.dialog.open(FormDetailsComponent, {
       width: '1500px',
       height: '2000px',
+      data: {
+        name: element,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
+      console.log(result)
     });
   }
 }

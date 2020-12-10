@@ -129,7 +129,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
       owner_first_name: this._personalInfoFormCommonFields.value
         .owner_first_name,
       owner_last_name: this._personalInfoFormCommonFields.value.owner_last_name,
-      owner_suffix: this._personalInfoFormCommonFields.value.owner_suffix,
+      owner_suffix: this._personalInfoFormCommonFields.value.owner_suffix ? this._personalInfoFormCommonFields.value.owner_suffix : "n/a",
       owner_tin_number: this._personalInfoFormCommonFields.value
         .owner_tin_number,
       owner_contact_number: this._personalInfoFormCommonFields.value

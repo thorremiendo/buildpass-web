@@ -44,5 +44,12 @@ export class UserService {
     const url = `/user/${firebase_uid}`
     return this._api.get(url).pipe(
         map(res => res.data))
+    }
+
+
+  fetchUserInfo(id: string | number): Observable<any> {
+    const url = `/user/${id}`;
+    console.log(url)
+    return this._api.get(url);
   }
 }

@@ -50,7 +50,7 @@
       <mat-form-field appearance="outline">
         <mat-label>Suffix</mat-label>
         <mat-select formControlName="owner_suffix">
-          <mat-option value=" "></mat-option>
+          <mat-option value=""></mat-option>
           <mat-option value="Jr">Jr</mat-option>
           <mat-option value="Sr">Sr</mat-option>
         </mat-select>
@@ -187,7 +187,7 @@
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option
             *ngFor="let barangays of _filteredBarangayOptions | async"
-            [value]="barangays.name"
+            [value]="barangays.id"
           >
             {{ barangays.name }}
           </mat-option>

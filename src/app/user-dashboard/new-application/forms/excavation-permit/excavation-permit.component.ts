@@ -57,6 +57,21 @@ export class ExcavationPermitComponent implements OnInit {
       body['excavation_permit'] = this.excavationPermit;
     }
     this.newApplicationService.setApplicationInfo(body);
-    this.router.navigateByUrl('dashboard/new/initial-forms/demolition-permit')
+    if (this.selectedOption == 'Yes') {
+      this.router.navigateByUrl(
+        'dashboard/new/other-permits'
+      );
+    } else {
+      if (
+        this.applicationInfo.construction_status == '2' ||
+        this.applicationInfo.construction_status == '3'
+      ) {
+        this.router.navigateByUrl(
+          'dashboard/new/initial-forms/civil-engineer-affidavit'
+        );
+      } else {
+        this.router.navigateByUrl('dashboard/new/documentary-requirements');
+      }
+    }
   }
 }

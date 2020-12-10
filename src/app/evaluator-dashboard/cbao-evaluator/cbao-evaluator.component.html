@@ -191,7 +191,7 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef>Action</th>
       <td mat-cell *matCellDef="let element">
-        <button mat-button color="accent" (click)="openFormDialog()">
+        <button mat-button color="accent" (click)="openFormDialog(element.name)">
           View
         </button>
       </td>

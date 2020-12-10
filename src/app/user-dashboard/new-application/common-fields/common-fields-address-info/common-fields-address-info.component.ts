@@ -4,8 +4,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
 import { RegisterAccountFormService } from 'src/app/core/services/register-account-form.service';
 import { BarangayService } from 'src/app/core/services/barangay.service';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import Swal from 'sweetalert2';
+import { AuthService } from 'src/app/core/services/auth.service';
+
 //map
 import { environment } from '../../../../../environments/environment';
 import { ChangeDetectorRef } from '@angular/core';
@@ -13,17 +16,19 @@ import { Map } from 'mapbox-gl/dist/mapbox-gl';
 import * as mapboxgl from 'mapbox-gl/dist/mapbox-gl';
 import { Marker } from 'mapbox-gl/dist/mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import { NewApplicationService } from 'src/app/core/services/new-application.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 export interface Barangay {
-  id: number
-  b_id: number,
-  name:string,
+  id: number;
+  b_id: number;
+  name: string;
   locality_id: number;
-  province_id: number; 
+  province_id: number;
   zip_code: number;
   region_id: number;
-  country_id: number; 
-  created_at: string,
+  country_id: number;
+  created_at: string;
   updated_at: string;
 }
 
@@ -35,7 +40,10 @@ export interface Barangay {
 export class CommonFieldsAddressInfoComponent implements OnInit {
   public projectDetails;
   public ownerDetails;
-
+  public applicationDetails;
+  public user;
+  public userDetails;
+  public isLoading: boolean = true;
   public projectDetailsForm: FormGroup;
   _submitted = false;
   public barangay: Barangay[];
@@ -56,31 +64,50 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     private _fb: FormBuilder,
     private _router: Router,
     private _registerAccountFormService: RegisterAccountFormService,
-    private _commonFieldsFormService: NewApplicationFormService,
-    private barangayService: BarangayService
-
+    private newApplicationFormService: NewApplicationFormService,
+    private newApplicationSerivce: NewApplicationService,
+    private barangayService: BarangayService,
+    private authService: AuthService,
+    private userService: UserService
   ) {
     this.createForm();
-    this.barangayService.getBarangayInfo().subscribe(data=>{
-      this.barangay = data; 
+    this.barangayService.getBarangayInfo().subscribe((data) => {
+      this.barangay = data;
 
-      this._filteredBarangayOptions = this.projectDetailsFormControl.project_barangay.valueChanges
-      .pipe(
+      this._filteredBarangayOptions = this.projectDetailsFormControl.project_barangay.valueChanges.pipe(
         startWith(''),
-        map(barangay => barangay ? this._filter(barangay) : this.barangay.slice())
+        map((barangay) =>
+          barangay ? this._filter(barangay) : this.barangay.slice()
+        )
       );
-
     });
   }
 
   ngOnInit(): void {
+    this.authService.currentUser.subscribe((currentUser) => {
+      this.user = currentUser;
+      this.userService.fetchUserInfo(this.user.user.uid).subscribe((result) => {
+        this.userDetails = result.data;
+        console.log(this.userDetails);
+      });
+    });
+    // this.authService.getFireBaseData(this.user.user.uid).subscribe(result =>{
+    //   this.evaluatorDetails = result.data();
+    //   console.log(this.evaluatorDetails)
+    // })
     this._registerAccountFormService.cast.subscribe(
       (registerAccountSubject) => (this.projectDetails = registerAccountSubject)
     );
-    this._commonFieldsFormService.commonFieldsSubject
+    this.newApplicationFormService.commonFieldsSubject
       .asObservable()
       .subscribe(
         (commonFieldsSubject) => (this.ownerDetails = commonFieldsSubject)
+      );
+    this.newApplicationFormService.newApplicationSubject
+      .asObservable()
+      .subscribe(
+        (newApplicationSubject) =>
+          (this.applicationDetails = newApplicationSubject)
       );
     this.createForm();
 
@@ -100,7 +127,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_tct_number: this.projectDetails.project_tct_number,
       project_td_number: this.projectDetails.project_td_number,
       project_basement: this.projectDetails.project_basement,
-      project_house_number: this.projectDetails.project_house_number
+      project_house_number: this.projectDetails.project_house_number,
     });
 
     //map
@@ -121,24 +148,28 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     this.map.addControl(new mapboxgl.NavigationControl());
     this.map.addControl(
       new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl,
-      marker: {
-        draggable: true
-      }
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+        marker: {
+          draggable: true,
+        },
       })
-      );
+    );
     this.marker.on('dragend', this.onDragEnd);
+
+    this.isLoading = false;
   }
 
   onDragEnd() {
-    console.log("marker dragged")
+    console.log('marker dragged');
   }
 
   private _filter(value: string): Barangay[] {
     const filterValue = value.toLowerCase();
 
-    return this.barangay.filter(option => option.name.toLowerCase().includes(filterValue));
+    return this.barangay.filter((option) =>
+      option.name.toLowerCase().includes(filterValue)
+    );
   }
 
   createForm() {
@@ -180,39 +211,74 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_tct_number: this.projectDetailsForm.value.project_tct_number,
       project_td_number: this.projectDetailsForm.value.project_td_number,
       project_house_number: this.projectDetailsForm.value.project_house_number,
-      owner_first_name: this.ownerDetails.owner_first_name,
-      owner_last_name: this.ownerDetails.owner_last_name,
-      owner_suffix: this.ownerDetails.owner_suffix,
-      owner_tin_number: this.ownerDetails.owner_tin_number,
-      owner_contact_number: this.ownerDetails.owner_contact_number,
-      owner_email_address: this.ownerDetails.owner_email_address,
-      owner_house_number: this.ownerDetails.owner_house_number,
-      owner_unit_number: this.ownerDetails.owner_unit_number,
-      owner_floor_number: this.ownerDetails.owner_floor_number,
-      owner_street: this.ownerDetails.owner_street,
-      owner_barangay: this.ownerDetails.owner_barangay,
-      owner_province: 'Benguet',
-      owner_municipality: 'Baguio City',
-      owner_zip_code: '2600',
-      blank: this.ownerDetails.blank,
-      is_representative: this.ownerDetails.is_representative
-      
     };
   }
 
   onSubmit() {
+    this.isLoading = true;
     this._submitted = true;
-
     this.createprojectDetails();
+    console.log(this.projectDetailsForm.value.project_barangay)
+    const body = {
+      user_id: this.userDetails.id,
+      permit_type_id: this.applicationDetails.application_type,
+      is_representative: this.applicationDetails.is_representative,
+      rol_status_id: this.applicationDetails.is_lot_owner,
+      construction_status_id: this.applicationDetails.construction_status,
+      is_registered_owner: this.applicationDetails.registered_owner,
+      applicant_first_name: this.ownerDetails.owner_first_name,
+      applicant_last_name: this.ownerDetails.owner_last_name,
+      applicant_suffix_name: this.ownerDetails.owner_suffix,
+      applicant_tin_number: this.ownerDetails.owner_tin_number,
+      applicant_contact_number: this.ownerDetails.owner_contact_number,
+      applicant_email_address: this.ownerDetails.owner_email_address,
+      applicant_house_number: this.ownerDetails.owner_house_number,
+      applicant_unit_number: this.ownerDetails.owner_unit_number,
+      applicant_floor_number: this.ownerDetails.owner_floor_number,
+      applicant_street_name: this.ownerDetails.owner_street,
+      applicant_barangay_id: this.ownerDetails.owner_barangay,
+      project_house_number: this.projectDetailsForm.value.project_house_number,
+      project_lot_number: this.projectDetailsForm.value.project_lot_number,
+      project_block_number: this.projectDetailsForm.value.project_block_number,
+      project_street_name: this.projectDetailsForm.value.project_street,
+      project_number_of_units: this.projectDetailsForm.value
+        .project_units,
+      project_barangay_id: this.projectDetailsForm.value.project_barangay,
+      project_number_of_basement: this.projectDetailsForm.value
+        .project_basement,
+      project_lot_area: this.projectDetailsForm.value.project_lot_area,
+      project_total_floor_area: this.projectDetailsForm.value
+        .project_floor_area,
+      project_units: this.projectDetailsForm.value.project_unit_number,
+      project_number_of_storey: this.projectDetailsForm.value.project_storeys,
+      project_title: this.projectDetailsForm.value.project_title,
+      project_cost_cap: this.projectDetailsForm.value.project_cost,
+      project_tct_number: this.projectDetailsForm.value.project_tct_number,
+      project_tax_dec_number: this.projectDetailsForm.value.project_td_number,
+    };
 
-    this._commonFieldsFormService.setCommonFields(this.projectDetails);
-    console.log(this.projectDetails);
     if (this.ownerDetails.is_representative == '2') {
-      this._router.navigateByUrl(
-        '/dashboard/new/initial-forms/zoning-clearance'
-      );
+      this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
+        Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
+          (result) => {
+            this.isLoading = false;
+            this._router.navigateByUrl(
+              '/dashboard/new/initial-forms/zoning-clearance'
+            );
+          }
+        );
+      });
     } else {
-      this._router.navigateByUrl('/dashboard/new/step-two/representative');
+      this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
+        Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
+          (result) => {
+            this.isLoading = false;
+            this._router.navigateByUrl(
+              '/dashboard/new/step-two/representative'
+            );
+          }
+        );
+      });
     }
   }
 }
