@@ -62,6 +62,7 @@ import { AdditionalPermitsComponent } from './new-application/additional-permits
 import { ExcavationPermitComponent } from './new-application/forms/excavation-permit/excavation-permit.component';
 import { DemolitionPermitComponent } from './new-application/forms/demolition-permit/demolition-permit.component';
 import { FencingPermitComponent } from './new-application/forms/fencing-permit/fencing-permit.component';
+import { OtherPermitsComponent } from './new-application/other-permits/other-permits.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { FencingPermitComponent } from './new-application/forms/fencing-permit/f
     AdditionalPermitsComponent,
     ExcavationPermitComponent,
     DemolitionPermitComponent,
-    FencingPermitComponent
+    FencingPermitComponent,
+    OtherPermitsComponent
   ],
   imports: [
     CommonModule,

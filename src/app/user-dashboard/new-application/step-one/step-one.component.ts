@@ -23,7 +23,7 @@ export class StepOneComponent implements OnInit {
   constructor(
     private fb: FormBuilder, 
     private router: Router,
-    private newApplicationService: NewApplicationFormService) {}
+    private newApplicationFormService: NewApplicationFormService) {}
 
   ngOnInit(): void {
     this.permitStepOneForm = this.fb.group({
@@ -43,7 +43,7 @@ export class StepOneComponent implements OnInit {
       construction_status: value.construction_status,
       registered_owner: value.registered_owner
     };
-    this.newApplicationService.setApplicationInfo(body)
+    this.newApplicationFormService.setApplicationInfo(body)
     // this.router.navigateByUrl('/dashboard/new/initial-forms/zoning-clearance')
     this.router.navigateByUrl('/dashboard/new/step-two/lot-owner')
 

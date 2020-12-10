@@ -78,7 +78,7 @@ export class PersonalInfoComponent implements OnInit {
       "first_name": this._personalInfoForm.value.first_name,
       "middle_name":this._personalInfoForm.value.middle_name,
       "last_name":  this._personalInfoForm.value.last_name,
-      "suffix_name":this._personalInfoForm.value.suffix_name,
+      "suffix_name":this._personalInfoForm.value.suffix_name ? this._personalInfoForm.value.suffix_name : "n/a",
       "birthdate": this._personalInfoForm.value.birthdate,
       "gender": this._personalInfoForm.value.gender,
       "marital_status": this._personalInfoForm.value.marital_status,
