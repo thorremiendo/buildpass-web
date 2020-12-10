@@ -1,6 +1,7 @@
+import firebase from 'firebase/app';
 import { Injectable, NgZone } from '@angular/core';
-import { User } from '../models/user.model';
-import { auth } from 'firebase/app';
+//import { User } from '../models/user.model';
+//import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import {
   AngularFirestore,
@@ -9,7 +10,7 @@ import {
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import * as firebase from 'firebase/app';
+
 
 @Injectable({
   providedIn: 'root',
@@ -42,7 +43,7 @@ export class AuthService {
   }
 
   SignIn(value) {
-    return new Promise<any>((resolve, reject) => { this.afAuth.auth
+    return new Promise<any>((resolve, reject) => { firebase.auth()
       .signInWithEmailAndPassword(value.email, value.password)
       .then((result) => {
         resolve(result);
@@ -57,7 +58,7 @@ export class AuthService {
 
   // Sign up with email/password
   SignUp(value) {
-    return new Promise<any>((resolve, reject) => { this.afAuth.auth
+    return new Promise<any>((resolve, reject) => { firebase.auth()
       .createUserWithEmailAndPassword(value.email, value.password)
       .then((result) => {
         resolve(result);
@@ -70,14 +71,14 @@ export class AuthService {
 
   // Send email verfificaiton when new user sign up
   SendVerificationMail() {
-    return this.afAuth.auth.currentUser.sendEmailVerification().then(() => {
+    return firebase.auth().currentUser.sendEmailVerification().then(() => {
       this.router.navigate(['verify-email']);
     });
   }
 
   // Reset Forggot password
   ForgotPassword(passwordResetEmail) {
-    return this.afAuth.auth
+    return firebase.auth()
       .sendPasswordResetEmail(passwordResetEmail)
       .then(() => {
         window.alert('Password reset email sent, check your inbox.');
@@ -102,7 +103,7 @@ export class AuthService {
    
     return new Promise<any>((resolve, reject) =>{ 
       
-      this.AuthLogin(new auth.GoogleAuthProvider())
+      this.AuthLogin(new firebase.auth.GoogleAuthProvider())
       .then((result) => {
         resolve(result);
       })
@@ -120,7 +121,7 @@ export class AuthService {
       let provider = new firebase.auth.GoogleAuthProvider();
       provider.addScope('profile');
       provider.addScope('email'); 
-      this.afAuth.auth
+      firebase.auth()
       .signInWithPopup(provider)
        .then((result) => {
         resolve(result);
@@ -170,7 +171,7 @@ export class AuthService {
 
   // Sign out
   SignOut() {
-    return this.afAuth.auth.signOut().then(() => {
+    return firebase.auth().signOut().then(() => {
       localStorage.removeItem('user');
       this.router.navigate(['']);
     });

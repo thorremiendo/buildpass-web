@@ -11,7 +11,9 @@ export const environment = {
     databaseURL: "https://baguio-ocpas.firebaseio.com",
     projectId: "baguio-ocpas",
     storageBucket: "baguio-ocpas.appspot.com",
-    messagingSenderId: "555420675385"
+    messagingSenderId: "555420675385",
+    appId: "1:555420675385:web:e2622f3115b82c1cfa8ce8",
+    measurementId: "G-CC58SB2Y8X"
   },
   mapbox: {
     accessToken: 'pk.eyJ1IjoidGhvcnJlbWllbmRvIiwiYSI6ImNraGs1MnF4MDFsZG4yeW53M3U3ZjJ4ZTMifQ.a5GU9EWk45shfNxhK07G-w'

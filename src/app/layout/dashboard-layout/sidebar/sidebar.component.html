@@ -41,9 +41,9 @@
         />
       </div>
       <h3 style="color: #400c06">
-        {{ evaluatorDetails.first_name }} {{ evaluatorDetails.last_name }}
+        {{ user.first_name }} {{ user.last_name }}
       </h3>
-      <p style="color: #400c06">{{ evaluatorDetails.email }}</p>
+      <p style="color: #400c06">{{ user.email }}</p>
       <p style="color: #400c06">Applicant</p>
     </div>
   </div>
@@ -62,9 +62,7 @@
         <button mat-menu-item>
             <mat-icon>notifications_off</mat-icon> Disable notifications
         </button> -->
-    <button mat-menu-item (click)="logout()">
-      <mat-icon>exit_to_app</mat-icon> Sign Out
-    </button>
+  
   </mat-menu>
 </div>
 
@@ -141,6 +139,9 @@
       >
       <mat-icon class="dd-icon">keyboard_arrow_down</mat-icon>
     </a>
+    
+    
+
     <mat-nav-list class="sub-item" *ngIf="menuitem.type === 'sub'">
       <mat-list-item
         *ngFor="
@@ -200,3 +201,6 @@
     </div>
   </mat-list-item>
 </mat-nav-list>
+<button mat-menu-item (click)="logout()">
+  <mat-icon>exit_to_app</mat-icon> Sign Out
+</button>

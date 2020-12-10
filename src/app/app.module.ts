@@ -42,9 +42,16 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { MessagingService } from './core/services/messaging.service';
+import { AsyncPipe } from '../../node_modules/@angular/common';
+
+
 import { LandingModule } from './landing/landing.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { EvaluatorModule } from './evaluator-dashboard/evaluator-dashboard.module';
+import { TestNotificationComponent } from './test-notification/test-notification.component';
 
 
 declare module '@angular/core' {
@@ -67,6 +74,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   declarations: [
     AppComponent,
     TestComponentComponent,
+    TestNotificationComponent,
   ],
   imports: [
     NgbModule,
@@ -93,9 +101,12 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatProgressBarModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
+    AngularFireMessagingModule,
     AngularFireAuthModule,
     AngularFirestoreModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    
     EvaluatorModule,
     LayoutModule,
     UserModule,
@@ -106,11 +117,15 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     CoreModule,
     
   ],
-  providers: [
+  providers: [ MessagingService,AsyncPipe,
     {
+      
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+     
     },
+
+
   ],
   bootstrap: [AppComponent],
 })
