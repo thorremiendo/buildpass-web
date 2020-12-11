@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { userDocuments } from 'src/app/core/variables/documents';
@@ -17,13 +16,14 @@ export class ZoningClearanceFormComponent implements OnInit {
   public user;
   public userDetails;
   public formData = {};
+  public mergedFormData;
   public userDocument = userDocuments[0];
   public zoningClearanceForm: File;
   public isLoading: boolean = true;
+  public applicationId;
   public applicationInfo;
   constructor(
     private router: Router,
-    private newApplicationFormSerivce: NewApplicationFormService,
     private newApplicationService: NewApplicationService,
     private authService: AuthService,
     private userService: UserService
@@ -37,17 +37,27 @@ export class ZoningClearanceFormComponent implements OnInit {
         console.log(this.userDetails);
       });
     });
-    this.newApplicationFormSerivce.newApplicationSubject
+    this.newApplicationService.applicationId
       .asObservable()
-      .subscribe(
-        (newApplicationSubject) =>
-          (this.applicationInfo = newApplicationSubject)
-      );
-    this.newApplicationFormSerivce.commonFieldsSubject
-      .asObservable()
-      .subscribe(
-        (commonFieldsSubject) => (this.formData = commonFieldsSubject)
-      );
+      .subscribe((applicationId) => (this.applicationId = applicationId));
+    console.log('application id:', this.applicationId);
+    this.newApplicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((result) => {
+        this.applicationInfo = result.data;
+        this.mergeFormData()
+      });
+  
+  }
+
+  mergeFormData(){
+    this.mergeFormData = {
+      ...this.applicationInfo.applicant_detail,
+      ...this.applicationInfo.project_detail,
+      ...this.applicationInfo.representative_detail
+    }
+    console.log(this.applicationInfo)
+    console.log(this.mergeFormData)
     this.isLoading = false;
   }
   onSelect($event: NgxDropzoneChangeEvent, type) {
@@ -67,15 +77,8 @@ export class ZoningClearanceFormComponent implements OnInit {
   }
   callNext() {
     this.isLoading = true;
-    const body = {
-      application_type: this.applicationInfo.application_type,
-      is_representative: this.applicationInfo.is_representative,
-      is_lot_owner: this.applicationInfo.is_lot_owner,
-      construction_status: this.applicationInfo.construction_status,
-      registered_owner: this.applicationInfo.registered_owner,
-    };
-
     const uploadDocumentData = {
+      application_id: this.applicationId,
       user_id: this.userDetails.id,
       document_id: this.userDocument.id,
       document_status: this.userDocument.status,
@@ -92,7 +95,6 @@ export class ZoningClearanceFormComponent implements OnInit {
           'success'
         ).then((result) => {
           this.isLoading = false;
-          this.newApplicationFormSerivce.setApplicationInfo(body);
           this.router.navigateByUrl(
             'dashboard/new/initial-forms/building-permit'
           );

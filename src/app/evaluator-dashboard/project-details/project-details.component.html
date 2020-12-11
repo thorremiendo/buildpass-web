@@ -10,25 +10,25 @@
           <div class="col-md-3">
             <div class="d-flex">
               <h5>House Number:</h5>
-              <h5 style="color: maroon">&nbsp;{{ data.department }}</h5>
+              <h5 style="color: maroon">&nbsp;{{ data.projectDetails.house_number == "undefined" ? "N/A" : data.projectDetails.house_number}}</h5>
             </div>
           </div>
           <div class="col-md-3">
             <div class="d-flex">
               <h5>Lot Number:</h5>
-              <h5 style="color: maroon">&nbsp;</h5>
+              <h5 style="color: maroon">&nbsp;{{ data.projectDetails.lot_number == "undefined" ? "N/A" : data.projectDetails.lot_number}}</h5>
             </div>
           </div>
           <div class="col-md-3">
             <div class="d-flex">
               <h5>Block Number:</h5>
-              <h5 style="color: maroon">&nbsp;</h5>
+              <h5 style="color: maroon">&nbsp;{{ data.projectDetails.block_number == "undefined" ? "N/A" : data.projectDetails.block_number}}</h5>
             </div>
           </div>
           <div class="col-md-3">
             <div class="d-flex">
               <h5>Unit Number:</h5>
-              <h5 style="color: maroon">&nbsp;2</h5>
+              <h5 style="color: maroon">&nbsp;{{ data.projectDetails.unit_number == "undefined" ? "N/A" : data.projectDetails.unit_number }}</h5>
             </div>
           </div>
         </div>
@@ -37,25 +37,25 @@
           <div class="col-md-3">
             <div class="d-flex">
               <h5>Street:</h5>
-              <h5 style="color: maroon">&nbsp;Purok 3</h5>
+              <h5 style="color: maroon">&nbsp;{{ data.projectDetails.street_name == "undefined" ? "N/A" : data.projectDetails.street_name}}</h5>
             </div>
           </div>
           <div class="col-md-3">
             <div class="d-flex">
               <h5>Barangay:</h5>
-              <h5 style="color: maroon">&nbsp;Gibraltar</h5>
+              <h5 style="color: maroon">&nbsp;{{ data.projectDetails.barangay == "undefined" ? "N/A" : data.projectDetails.barangay }}</h5>
             </div>
           </div>
           <div class="col-md-3">
             <div class="d-flex">
               <h5>Lot Area (sqm):</h5>
-              <h5 style="color: maroon">&nbsp;200</h5>
+              <h5 style="color: maroon">&nbsp;{{ data.projectDetails.lot_area == "undefined" ? "N/A" : data.projectDetails.lot_area}}</h5>
             </div>
           </div>
           <div class="col-md-3">
             <div class="d-flex">
               <h5>Total Floor Area (sqm):</h5>
-              <h5 style="color: maroon">&nbsp;200</h5>
+              <h5 style="color: maroon">&nbsp;{{ data.projectDetails.total_floor_area == "undefined" ? "N/A" : data.projectDetails.total_floor_area}}</h5>
             </div>
           </div>
           <hr />
@@ -65,25 +65,25 @@
           <div class="col-md-3">
             <div class="d-flex">
               <h5>Number of Units</h5>
-              <h5 style="color: maroon">&nbsp;1</h5>
+              <h5 style="color: maroon">&nbsp;{{ data.projectDetails.number_of_units == "undefined" ? "N/A" : data.projectDetails.number_of_units}}</h5>
             </div>
           </div>
           <div class="col-md-3">
             <div class="d-flex">
               <h5>Number of Storey:</h5>
-              <h5 style="color: maroon">&nbsp;1</h5>
+              <h5 style="color: maroon">&nbsp;{{ data.projectDetails.number_of_storey == "undefined" ? "N/A" : data.projectDetails.number_of_storey}}</h5>
             </div>
           </div>
           <div class="col-md-3">
             <div class="d-flex">
               <h5>Project Title:</h5>
-              <h5 style="color: maroon">&nbsp;Test</h5>
+              <h5 style="color: maroon">&nbsp;{{ data.projectDetails.project_title == "undefined" ? "N/A" : data.projectDetails.project_title}}</h5>
             </div>
           </div>
           <div class="col-md-3">
             <div class="d-flex">
               <h5>Number of Basement:</h5>
-              <h5 style="color: maroon">&nbsp;n/a</h5>
+              <h5 style="color: maroon">&nbsp;{{ data.projectDetails.number_of_basement == "undefined" ? "N/A" : data.projectDetails.number_of_basement}}</h5>
             </div>
           </div>
           <hr />
@@ -93,19 +93,19 @@
           <div class="col-md-3">
             <div class="d-flex">
               <h5>Project Cost Estimation:</h5>
-              <h5 style="color: maroon">&nbsp;300,000</h5>
+              <h5 style="color: maroon">&nbsp;{{ data.projectDetails.project_cost_cap == "undefined" ? "N/A" : data.projectDetails.project_cost_cap }}</h5>
             </div>
           </div>
           <div class="col-md-3">
             <div class="d-flex">
               <h5>TCT Number:</h5>
-              <h5 style="color: maroon">&nbsp;TCT123123</h5>
+              <h5 style="color: maroon">&nbsp;{{ data.projectDetails.tct_number == "undefined" ? "N/A" : data.projectDetails.tct_number}}</h5>
             </div>
           </div>
           <div class="col-md-6">
             <div class="d-flex">
               <h5>Tax Declaration Number:</h5>
-              <h5 style="color: maroon">&nbsp;TAXDEC13123</h5>
+              <h5 style="color: maroon">&nbsp;{{ data.projectDetails.tax_dec_number == "undefined" ? "N/A" : data.projectDetails.tax_dec_number}}</h5>
             </div>
           </div>
           <div class="col-md-3"></div>

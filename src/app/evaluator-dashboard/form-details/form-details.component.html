@@ -1,8 +1,5 @@
-<h4>
-  <strong>{{ data.name }}</strong>
-</h4>
 <ngx-extended-pdf-viewer
-  [src]="pdfSrc"
+  [src]="data.form.document_path"
   [showToolbar]="true"
   [showSidebarButton]="false"
   [showFindButton]="false"

@@ -1,4 +1,4 @@
-<div class="app-details">
+<div class="app-details" *ngIf="!isLoading">
   <mat-card>
     <mat-card-content>
       <div class="d-flex justify-content-between">
@@ -14,30 +14,54 @@
             <img src="../../../assets/images/avatar.png" alt="" />
           </div>
           <div>
-            <h5 style="color: #7b7b7b">applicant@gmail.com</h5>
+            <h5 style="color: #7b7b7b">
+              {{ applicationDetails.applicant_detail.email_address }}
+            </h5>
           </div>
           <div>
-            <h5 style="color: #7b7b7b">09123456789</h5>
+            <h5 style="color: #7b7b7b">
+              {{ applicationDetails.applicant_detail.contact_number }}
+            </h5>
           </div>
         </div>
         <div class="col-md-4">
           <div class="col">
             <h5 style="color: #7b7b7b">Application Number:</h5>
-            <h5><strong>&nbsp;A2020-001</strong></h5>
+            <h5>
+              <strong>&nbsp;A2020-{{ applicationDetails.id }}</strong>
+            </h5>
           </div>
           <div class="col">
             <h5 style="color: #7b7b7b">Application Date:</h5>
-            <h5><strong>&nbsp;2020-12-12</strong></h5>
+            <h5>
+              <strong>&nbsp;{{ applicationDetails.created_at }}</strong>
+            </h5>
           </div>
         </div>
         <div class="col-md-4">
           <div class="col">
             <h5 style="color: #7b7b7b">Applicant Name:</h5>
-            <h5><strong>&nbsp;Juan Dela Cruz</strong></h5>
+            <h5>
+              <strong
+                >&nbsp;{{
+                  applicationDetails.applicant_detail.first_name
+                }}&nbsp;{{
+                  applicationDetails.applicant_detail.last_name
+                }}</strong
+              >
+            </h5>
           </div>
           <div class="col">
             <h5 style="color: #7b7b7b">Application Type:</h5>
-            <h5><strong>&nbsp;Building Permit</strong></h5>
+            <h5>
+              <strong
+                >&nbsp;{{
+                  applicationDetails.permit_type_id == "1"
+                    ? "Building Permit"
+                    : "Occupancy Permit"
+                }}</strong
+              >
+            </h5>
           </div>
         </div>
       </div>
@@ -59,7 +83,7 @@
     </mat-card-content>
   </mat-card>
 </div>
-<div class="app-forms">
+<div class="app-forms" *ngIf="!isLoading">
   <mat-card>
     <mat-card-content>
       <div>
@@ -67,16 +91,16 @@
           <strong>Application Forms</strong>
         </h4>
       </div>
-      <div *ngIf="department == 'cbao'">
+      <div *ngIf="evaluatorDetails.office_id == '4'">
         <app-cbao-evaluator></app-cbao-evaluator>
       </div>
-      <div *ngIf="department == 'cpdo'">
+      <div *ngIf="evaluatorDetails.office_id == '1'">
         <app-cpdo-evaluator></app-cpdo-evaluator>
       </div>
-      <div *ngIf="department == 'cepmo'">
+      <div *ngIf="evaluatorDetails.office_id == '2'">
         <app-cepmo-evaluator></app-cepmo-evaluator>
       </div>
-      <div *ngIf="department == 'bfp'">
+      <div *ngIf="evaluatorDetails.office_id == '3'">
         <app-bfp-evaluator></app-bfp-evaluator>
       </div>
     </mat-card-content>

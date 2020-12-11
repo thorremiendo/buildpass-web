@@ -128,18 +128,7 @@
           type="text"
           matInput
           formControlName="owner_house_number"
-          required
         />
-        <mat-error
-          *ngIf="
-            (personalInfoFormCommonFieldControl.owner_house_number.touched ||
-              _submitted) &&
-            personalInfoFormCommonFieldControl.owner_house_number.errors
-              ?.required
-          "
-        >
-          House Number is Required
-        </mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -187,7 +176,7 @@
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option
             *ngFor="let barangays of _filteredBarangayOptions | async"
-            [value]="barangays.id"
+            [value]="barangays.name"
           >
             {{ barangays.name }}
           </mat-option>
