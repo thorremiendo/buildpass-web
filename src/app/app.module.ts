@@ -52,6 +52,9 @@ import { LandingModule } from './landing/landing.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { EvaluatorModule } from './evaluator-dashboard/evaluator-dashboard.module';
 import { TestNotificationComponent } from './test-notification/test-notification.component';
+import { AdminModule } from './admin/admin.module';
+import { SharedModule } from './shared/shared.module';
+
 
 
 declare module '@angular/core' {
@@ -85,6 +88,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     RegistrationRoutingModule,
     HttpClientModule,
     LandingModule,
+    SharedModule,
+    LayoutModule,
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
@@ -107,6 +112,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
     
+    AdminModule,
     EvaluatorModule,
     LayoutModule,
     UserModule,

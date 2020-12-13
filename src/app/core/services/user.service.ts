@@ -26,7 +26,7 @@ export class UserService {
     });
   }
 
-  setUserInfo(value: UserModel) {
+  setUserInfo(value) {
     const currentValue = this.userSubject.value;
     this.userSubject.next({
       ...currentValue,

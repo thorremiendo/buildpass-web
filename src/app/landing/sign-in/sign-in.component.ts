@@ -78,7 +78,6 @@ export class SignInComponent implements OnInit {
           this.SetUserDataFire(result.user.uid,result.user.emailVerified);
           this._userService.getUserInfo(result.user.uid).subscribe(data =>{
             this._userService.setUserInfo(data);
-            console.log("Result data"+data)
           });
           this._router.navigate(['dashboard']);
         }
