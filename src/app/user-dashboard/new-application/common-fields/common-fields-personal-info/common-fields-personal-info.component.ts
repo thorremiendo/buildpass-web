@@ -70,7 +70,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
           (this.applicationDetails = newApplicationSubject)
       );
 
-    console.log(this.applicationDetails)
+    console.log(this.applicationDetails);
     this.createForm();
 
     this._personalInfoFormCommonFields.patchValue({
@@ -112,7 +112,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
         [Validators.required, Validators.maxLength(11)],
       ],
       owner_email_address: ['', Validators.required],
-      owner_house_number: ['', Validators.required],
+      owner_house_number: [''],
       owner_unit_number: [''],
       owner_floor_number: [''],
       owner_street: ['', Validators.required],
@@ -128,8 +128,12 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     this.userDetails = {
       owner_first_name: this._personalInfoFormCommonFields.value
         .owner_first_name,
+      owner_middle_name: this._personalInfoFormCommonFields.value
+        .owner_middle_name,
       owner_last_name: this._personalInfoFormCommonFields.value.owner_last_name,
-      owner_suffix: this._personalInfoFormCommonFields.value.owner_suffix ? this._personalInfoFormCommonFields.value.owner_suffix : "n/a",
+      owner_suffix: this._personalInfoFormCommonFields.value.owner_suffix
+        ? this._personalInfoFormCommonFields.value.owner_suffix
+        : 'na',
       owner_tin_number: this._personalInfoFormCommonFields.value
         .owner_tin_number,
       owner_contact_number: this._personalInfoFormCommonFields.value

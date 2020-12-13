@@ -3,7 +3,7 @@
     <div class="col-md-3">
       <mat-form-field appearance="outline">
         <mat-label>House Number</mat-label>
-        <input type="text" matInput formControlName="project_house_number" required/>
+        <input type="text" matInput formControlName="project_house_number"/>
       </mat-form-field>
     </div>
     <div class="col-md-3">
@@ -83,7 +83,7 @@
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option
             *ngFor="let barangays of _filteredBarangayOptions | async"
-            [value]="barangays.id"
+            [value]="barangays.name"
           >
             {{ barangays.name }}
           </mat-option>

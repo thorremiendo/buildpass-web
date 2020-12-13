@@ -1,8 +1,10 @@
 import { Injectable, APP_ID } from "@angular/core";
-import { BehaviorSubject, Observable, ReplaySubject } from "rxjs";
-import { distinctUntilChanged, map } from "rxjs/operators";
+import { BehaviorSubject, Observable, ReplaySubject, throwError } from "rxjs";
+import { distinctUntilChanged, map, catchError  } from "rxjs/operators";
 import { UserModel } from "../models/user.model";
-import { ApiService} from './api.service';
+import { ApiService } from './api.service';
+import * as Rx from 'rxjs/Rx';
+
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +51,15 @@ export class UserService {
 
   fetchUserInfo(id: string | number): Observable<any> {
     const url = `/user/${id}`;
-    console.log(url)
-    return this._api.get(url);
+    console.log(url);
+    return this._api.get(url).pipe(
+      map((data: any) => {
+        console.log("fetchUserInfo Result:", data)
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
   }
 }

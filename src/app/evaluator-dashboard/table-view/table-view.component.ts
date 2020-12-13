@@ -1,46 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 
-
-const ELEMENT_DATA = [
-  {
-    applicationNo: 'A2020-1',
-    postedDate: '11-10-2020',
-    progress: '50%',
-  },
-  {
-    applicationNo: 'A2020-2',
-    postedDate: '11-10-2020',
-    progress: '50%',
-  },
-  {
-    applicationNo: 'A2020-3',
-    postedDate: '11-10-2020',
-    progress: '50%',
-  },
-  {
-    applicationNo: 'A2020-4',
-    postedDate: '11-10-2020',
-    progress: '50%',
-  },
-];
 @Component({
   selector: 'app-table-view',
   templateUrl: './table-view.component.html',
   styleUrls: ['./table-view.component.scss'],
 })
 export class TableViewComponent implements OnInit {
+  public dataSource;
   displayedColumns: string[] = [
     'applicationNo',
-    'postedDate',
-    'progress',
+    'applicantFullName',
+    'permitType',
     'action',
   ];
-  dataSource = ELEMENT_DATA;
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private applicationService: ApplicationInfoService
+  ) {}
 
-  ngOnInit(): void {}
-  goToApplicationInfo() {
-    this.router.navigateByUrl('/evaluator/application');
+  ngOnInit(): void {
+    this.applicationService.fetchApplications().subscribe((result) => {
+      this.dataSource = result.data;
+    });
+  }
+  goToApplicationInfo(id) {
+    this.router.navigate(["evaluator/application", id]);
+
   }
 }

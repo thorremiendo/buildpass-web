@@ -44,7 +44,7 @@ const routes: Routes = [
         component: ClosedTasksComponent,
       },
       {
-        path: 'application',
+        path: 'application/:id',
         component: ApplicationDetailsComponent,
       },
       {

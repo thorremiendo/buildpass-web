@@ -1,36 +1,63 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
-import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { NewApplicationService } from 'src/app/core/services/new-application.service';
+import { UserService } from 'src/app/core/services/user.service';
+import { userDocuments } from 'src/app/core/variables/documents';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-sanitary-permit-form',
   templateUrl: './sanitary-permit-form.component.html',
-  styleUrls: ['./sanitary-permit-form.component.scss']
+  styleUrls: ['./sanitary-permit-form.component.scss'],
 })
 export class SanitaryPermitFormComponent implements OnInit {
-  public formData = {
-  };
-  public sanitaryPermitForm: File;
+  public user;
+  public userDetails;
+  public formData = {};
+  public mergedFormData;
+  public userDocument = userDocuments[2];
+  public isLoading: boolean = true;
+  public applicationId;
   public applicationInfo;
+  public sanitaryPermitForm: File;
 
   constructor(
     private router: Router,
-    private newApplicationService: NewApplicationFormService
-  ) { }
+    private newApplicationService: NewApplicationService,
+    private authService: AuthService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
-    this.newApplicationService.newApplicationSubject
+    this.authService.currentUser.subscribe((currentUser) => {
+      this.user = currentUser;
+      this.userService.fetchUserInfo(this.user.user.uid).subscribe((result) => {
+        this.userDetails = result.data;
+        console.log(this.userDetails);
+      });
+    });
+    this.newApplicationService.applicationId
       .asObservable()
-      .subscribe(
-        (newApplicationSubject) =>
-          (this.applicationInfo = newApplicationSubject)
-      );
-      this.newApplicationService.commonFieldsSubject
-      .asObservable()
-      .subscribe(
-        (commonFieldsSubject) => (this.formData = commonFieldsSubject)
-      );
+      .subscribe((applicationId) => (this.applicationId = applicationId));
+    console.log('application id:', this.applicationId);
+    this.newApplicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((result) => {
+        this.applicationInfo = result.data;
+        this.mergeFormData();
+      });
+  }
+  mergeFormData() {
+    this.mergeFormData = {
+      ...this.applicationInfo.applicant_detail,
+      ...this.applicationInfo.project_detail,
+      ...this.applicationInfo.representative_detail,
+    };
+    console.log(this.applicationInfo);
+    console.log(this.mergeFormData);
+    this.isLoading = false;
   }
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
@@ -48,20 +75,29 @@ export class SanitaryPermitFormComponent implements OnInit {
     }
   }
   callNext() {
-    const body = {
-      application_type: this.applicationInfo.application_type,
-      is_representative: this.applicationInfo.is_representative,
-      is_lot_owner: this.applicationInfo.is_lot_owner,
-      construction_status: this.applicationInfo.construction_status,
-      registered_owner: this.applicationInfo.registered_owner,
-      zoning_clearance_form: this.applicationInfo.zoning_clearance_form,
-      building_permit_form: this.applicationInfo.building_permit_form
+    this.isLoading = true;
+    const uploadDocumentData = {
+      application_id: this.applicationId,
+      user_id: this.userDetails.id,
+      document_id: this.userDocument.id,
+      document_status: this.userDocument.status,
     };
     if (this.sanitaryPermitForm) {
-      body['sanitary_permit_form'] = this.sanitaryPermitForm;
+      uploadDocumentData['document_path'] = this.sanitaryPermitForm;
     }
-    this.newApplicationService.setApplicationInfo(body);
-    this.router.navigateByUrl('dashboard/new/initial-forms/electrical-permit');
+    this.newApplicationService
+      .submitDocument(uploadDocumentData)
+      .subscribe((res) => {
+        Swal.fire(
+          'Success!',
+          `${this.userDocument.name} uploaded!`,
+          'success'
+        ).then((result) => {
+          this.isLoading = false;
+          this.router.navigateByUrl(
+            'dashboard/new/initial-forms/electrical-permit'
+          );
+        });
+      });
   }
-
 }

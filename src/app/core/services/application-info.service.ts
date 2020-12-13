@@ -7,18 +7,14 @@ import { map, catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class NewApplicationService {
+export class ApplicationInfoService {
   constructor(private api: ApiService) {}
-  public applicationId = new BehaviorSubject<any>('');
 
-  submitApplication(body) {
-    const url = `/application`;
-
-    return this.api.post(url, body).pipe(
+  fetchApplications() {
+    const url = `/application/`;
+    return this.api.get(url).pipe(
       map((data: any) => {
-        console.log('submitApplication result:', data);
-        this.applicationId.next(data.data.id);
-        console.log(this.applicationId);
+        console.log('fetchApplications Result:', data);
         return data;
       }),
       catchError((error) => {
@@ -27,17 +23,23 @@ export class NewApplicationService {
     );
   }
 
-  submitDocument(body) {
-    const url = `/userdocs`;
-
-    return this.api.post(url, body);
-  }
-
   fetchApplicationInfo(id) {
     const url = `/application/${id}`;
     return this.api.get(url).pipe(
       map((data: any) => {
         console.log('fetchApplicationInfo Result:', data);
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+  fetchUserDocs(id) {
+    const url = `/userdocs/${id}`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        console.log('fetchUserDocs Result:', data);
         return data;
       }),
       catchError((error) => {

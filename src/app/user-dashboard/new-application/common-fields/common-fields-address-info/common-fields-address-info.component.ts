@@ -174,7 +174,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
 
   createForm() {
     this.projectDetailsForm = this._fb.group({
-      project_house_number: ['', Validators.required],
+      project_house_number: [''],
       project_lot_number: ['', Validators.required],
       project_block_number: [''],
       project_unit_number: [''],
@@ -227,6 +227,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       construction_status_id: this.applicationDetails.construction_status,
       is_registered_owner: this.applicationDetails.registered_owner,
       applicant_first_name: this.ownerDetails.owner_first_name,
+      appicant_middle_name: this.ownerDetails.owner_middle_name,
       applicant_last_name: this.ownerDetails.owner_last_name,
       applicant_suffix_name: this.ownerDetails.owner_suffix,
       applicant_tin_number: this.ownerDetails.owner_tin_number,
@@ -236,14 +237,14 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       applicant_unit_number: this.ownerDetails.owner_unit_number,
       applicant_floor_number: this.ownerDetails.owner_floor_number,
       applicant_street_name: this.ownerDetails.owner_street,
-      applicant_barangay_id: this.ownerDetails.owner_barangay,
+      applicant_barangay: this.ownerDetails.owner_barangay,
       project_house_number: this.projectDetailsForm.value.project_house_number,
       project_lot_number: this.projectDetailsForm.value.project_lot_number,
       project_block_number: this.projectDetailsForm.value.project_block_number,
       project_street_name: this.projectDetailsForm.value.project_street,
       project_number_of_units: this.projectDetailsForm.value
         .project_units,
-      project_barangay_id: this.projectDetailsForm.value.project_barangay,
+      project_barangay: this.projectDetailsForm.value.project_barangay,
       project_number_of_basement: this.projectDetailsForm.value
         .project_basement,
       project_lot_area: this.projectDetailsForm.value.project_lot_area,
@@ -256,7 +257,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_tct_number: this.projectDetailsForm.value.project_tct_number,
       project_tax_dec_number: this.projectDetailsForm.value.project_td_number,
     };
-
+    this.newApplicationFormService.setCommonFields(body);
     if (this.ownerDetails.is_representative == '2') {
       this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
         Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
