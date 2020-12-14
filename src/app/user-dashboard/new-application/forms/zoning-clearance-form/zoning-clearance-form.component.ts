@@ -40,19 +40,34 @@ export class ZoningClearanceFormComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationInfo = result.data;
-        this.mergeFormData()
+        this.mergeFormData();
       });
-  
   }
 
-  mergeFormData(){
-    this.mergeFormData = {
-      ...this.applicationInfo.applicant_detail,
-      ...this.applicationInfo.project_detail,
-      ...this.applicationInfo.representative_detail
-    }
-    console.log(this.applicationInfo)
-    console.log(this.mergeFormData)
+  mergeFormData() {
+    const applicantDetails = this.applicationInfo.applicant_detail
+    const projectDetails = this.applicationInfo.project_detail
+    const repDetails = this.applicationInfo.representative_detail
+
+    this.formData = {
+      owner_contact_number: applicantDetails.contact_number,
+      owner_first_name: applicantDetails.first_name,
+      owner_middle_name: applicantDetails.middle_name,
+      owner_last_name: applicantDetails.last_name,
+      owner_municipality: "Baguio City",
+      owner_street: applicantDetails.street_name,
+      owner_house_number: applicantDetails.house_number,
+      owner_barangay: applicantDetails.barangay,
+      project_barangay: projectDetails.barangay,
+      project_cost: projectDetails.project_cost_cap,
+      project_floor_area: projectDetails.floor_number,
+      project_lot_area: projectDetails.lot_area,
+      project_lot_number: projectDetails.lot_number,
+      project_municipality: "Baguio City",
+      project_street: projectDetails.street_name
+    };
+    console.log(this.applicationInfo);
+    console.log('formData:', this.formData);
     this.isLoading = false;
   }
   onSelect($event: NgxDropzoneChangeEvent, type) {

@@ -31,13 +31,8 @@ export class ElectricalPermitFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authService.currentUser.subscribe((currentUser) => {
-      this.user = currentUser;
-      this.userService.fetchUserInfo(this.user.user.uid).subscribe((result) => {
-        this.userDetails = result.data;
-        console.log(this.userDetails);
-      });
-    });
+    this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
+    console.log(this.user);
     this.newApplicationService.applicationId
       .asObservable()
       .subscribe((applicationId) => (this.applicationId = applicationId));
@@ -78,7 +73,7 @@ export class ElectricalPermitFormComponent implements OnInit {
     this.isLoading = true;
     const uploadDocumentData = {
       application_id: this.applicationId,
-      user_id: this.userDetails.id,
+      user_id: this.user.id,
       document_id: this.userDocument.id,
       document_status: this.userDocument.status,
     };
