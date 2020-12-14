@@ -3,6 +3,7 @@ import { AuthService } from '../../core/services/auth.service'
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, } from '@angular/forms';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { UserService } from '../../core/services/user.service'
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
@@ -25,6 +26,7 @@ export class SignInComponent implements OnInit {
     private _route: ActivatedRoute,
     private _ngZone: NgZone,
     private _afs: AngularFirestore,
+    private _userService: UserService,
 
   ) {
     this.createForm();
@@ -42,11 +44,15 @@ export class SignInComponent implements OnInit {
     if (this._signinForm.valid) {
       this._authService.SignIn(value)
         .then((result) => {
-          console.log(result);
+          //console.log(result);
           this._authService.currentUserSubject.next(result);
           this._ngZone.run(() => {
             if (result.user.emailVerified == true ) {
               this.SetUserDataFire(result.user.uid,result.user.emailVerified);
+              this._userService.getUserInfo(result.user.uid).subscribe(data =>{
+                this._userService.setUserInfo(data);
+                console.log("Result data"+data)
+              });
               this._router.navigate(['dashboard']);
             }
             else {
@@ -65,11 +71,14 @@ export class SignInComponent implements OnInit {
   tryGoogle() {
     this._authService.GoogleAuth()
     .then((result) => {
-      console.log(result);
+      //console.log(result);
       this._authService.currentUserSubject.next(result);
       this._ngZone.run(() => {
         if (result.additionalUserInfo.isNewUser != true) {
           this.SetUserDataFire(result.user.uid,result.user.emailVerified);
+          this._userService.getUserInfo(result.user.uid).subscribe(data =>{
+            this._userService.setUserInfo(data);
+          });
           this._router.navigate(['dashboard']);
         }
         else {

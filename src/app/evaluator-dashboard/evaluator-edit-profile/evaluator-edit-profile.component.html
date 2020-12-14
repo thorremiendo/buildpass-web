@@ -1,272 +1,290 @@
 <div class="row mx-5 my-3">
-    <div class="col-md-6 justify-content-center ">
-        <h2>Personal Info</h2>
-        <div class="horizontal-line"></div>
+  <div class="col-md-6 justify-content-center">
+    <h2>Personal Info</h2>
+    <div class="horizontal-line"></div>
+  </div>
+  <div class="col-md-6">
+    <div class="avatar-upload text-center">
+      <div class="text-center avatar-block d-inline-block">
+        <img [src]="displayProfilePhoto" alt="" class="user-avatar" />
+        <button
+          class="btn btn-dark btn-sm edit-button"
+          type="button"
+          (click)="openFileChooser()"
+        >
+          <i class="fa fa-edit"></i>
+        </button>
+      </div>
+      <p>
+        <small class="font-weight-bold">Profile Picture</small>
+      </p>
+      <input
+        type="file"
+        class="sr-only"
+        id="photo"
+        accept="image/*"
+        (change)="handlePhotoFileChange($event)"
+      />
+    </div>
+  </div>
+</div>
+<form [formGroup]="_evaluatorEditProfileForm" (ngSubmit)="onSubmit()">
+  <div class="row justify-content-center my-3 mx-3">
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input type="text" matInput formControlName="first_name" required />
+        <mat-error
+          *ngIf="
+            (evaluatorEditProfileFormControl.first_name.touched ||
+              _submitted) &&
+            evaluatorEditProfileFormControl.first_name.errors?.required
+          "
+        >
+          First Name is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Middle Name</mat-label>
+        <input type="text" matInput formControlName="middle_name" />
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Last name</mat-label>
+        <input type="text" matInput formControlName="last_name" required />
+        <mat-error
+          *ngIf="
+            (evaluatorEditProfileFormControl.last_name.touched || _submitted) &&
+            evaluatorEditProfileFormControl.last_name.errors?.required
+          "
+        >
+          Last Name is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Suffix</mat-label>
+        <mat-select formControlName="suffix_name">
+          <mat-option value=" "></mat-option>
+          <mat-option value="Jr">Jr</mat-option>
+          <mat-option value="Sr">Sr</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row justify-content-center my-3 mx-3">
+    <div class="col-md-4">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Birthday</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="birthdate"
+          placeholder="click the calendar icon"
+          (dateInput)="checkValue('change', $event)"
+          readonly
+          required
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker touchUi #picker></mat-datepicker>
+        <mat-error
+          *ngIf="
+            (evaluatorEditProfileFormControl.birthdate.touched || _submitted) &&
+            evaluatorEditProfileFormControl.birthdate.errors?.required
+          "
+        >
+          Birthdate is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+        <mat-label>{{this._marital_status}}</mat-label>
+        <mat-select formControlName="marital_status" required>
+          <mat-option value=1>Single</mat-option>
+          <mat-option value=2>Married</mat-option>
+          <mat-option value=2>Divorce</mat-option>
+          <mat-option value=4>Widowed</mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="
+            (evaluatorEditProfileFormControl.marital_status.touched ||
+              _submitted) &&
+            evaluatorEditProfileFormControl.marital_status.errors?.required
+          "
+        >
+          Marital Status is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+        <mat-label>Gender</mat-label>
+        <mat-select formControlName="gender">
+          <mat-option value="M">Male</mat-option>
+          <mat-option value="F">Female</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-error
+        *ngIf="
+          (evaluatorEditProfileFormControl.gender.touched || _submitted) &&
+          evaluatorEditProfileFormControl.gender.errors?.required
+        "
+      >
+        Gender is required
+      </mat-error>
+    </div>
+  </div>
+
+  <div class="row justify-content-center my-3 mx-3">
+    <div class="col-md-6">
+      <mat-form-field appearance="outline">
+        <mat-label>House No., Bldg, Street</mat-label>
+        <input type="text" matInput formControlName="home_address" required />
+        <mat-error
+          *ngIf="
+            (evaluatorEditProfileFormControl.home_address.touched ||
+              _submitted) &&
+            evaluatorEditProfileFormControl.home_address.errors?.required
+          "
+        >
+          Home Address is required
+        </mat-error>
+      </mat-form-field>
     </div>
     <div class="col-md-6">
-        <div class="avatar-upload text-center">
-            <div class="text-center avatar-block d-inline-block">
-                <img [src]="displayPhoto" alt="" class="user-avatar" />
-                <button class="btn btn-dark btn-sm edit-button" type="button" (click)="openFileChooser()">
-                    <i class="fa fa-edit"></i>
-                </button>
+      <mat-form-field appearance="outline">
+        <mat-label>Barangay</mat-label>
+        <input type="text" matInput formControlName="barangay" required />
+        <mat-error
+          *ngIf="
+            (evaluatorEditProfileFormControl.barangay.touched || _submitted) &&
+            evaluatorEditProfileFormControl.barangay.errors?.required
+          "
+        >
+          Barangay is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mt-5 mb-3 mx-3">
+    <div class="col-md-6">
+      <mat-form-field appearance="outline">
+        <mat-label>{{this.userInfo.employee_detail.employee_no}}</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="employee_no"
+          disabled
+          readonly
+        />
+       
+      </mat-form-field>
+    </div>
+    <div class="col-md-6">
+      <mat-form-field appearance="outline" >
+        <mat-label>{{this.userInfo.employee_detail.position}}</mat-label>
+        <input type="text" matInput formControlName="office" readonly disabled/>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row justify-content-center my-3 mx-3">
+    <div class="col-md-6">
+      <mat-form-field appearance="outline" >
+        <mat-label>{{this.userInfo.employee_detail.position}}</mat-label>
+        <input type="text" matInput formControlName="position" readonly disabled/>
+      </mat-form-field>
+    </div>
+    <div class="col-md-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Contact Number</mat-label>
+        <input
+          type="tel"
+          matInput
+          formControlName="contact_number"
+          [maxLength]="maxLength"
+          placeholder="Ex. 09123456789"
+          #contact
+          required
+        />
+        <mat-error
+          *ngIf="
+            (evaluatorEditProfileFormControl.contact_number.touched ||
+              _submitted) &&
+            evaluatorEditProfileFormControl.contact_number.errors?.required
+          "
+        >
+          Contact Number is required
+        </mat-error>
+        <mat-hint align="end"
+          >{{ contact.value.length }} / {{ maxLength }}</mat-hint
+        >
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mx-3" style="margin-top: 50px">
+    <div class="col-md-6">
+        <mat-card class="text-center triggerUpload" (click)="openIdChooser()">
+            <p class="hideText">UPLOAD</p>
+            <div class="text-center">
+              <img [src]="displayIDPhoto" alt="" class="idHolder" />
+
             </div>
-            <p>
-                <small class="font-weight-bold">Profile Picture</small>
-            </p>
-            <input type="file" class="sr-only" id="photo" accept="image/*" (change)="handlePhotoFileChange($event)" />
-        </div>
+    
+            <input
+              type="file"
+              class="sr-only"
+              id="idCard"
+              accept="image/*"
+              (change)="handleFileChangeEvent($event)"
+            />
+          </mat-card>
     </div>
-</div>
-<form [formGroup]='_evaluatorEditProfileForm' (ngSubmit)="onSubmit()">
-    <div class="row justify-content-center my-3 mx-3">
-        <div class="col-md-3">
-            <mat-form-field appearance="outline">
-                <mat-label>First Name</mat-label>
-                <input type="text" matInput formControlName="first_name" required />
-                <mat-error *ngIf="
-              (evaluatorEditProfileFormControl.first_name.touched || _submitted) &&
-              evaluatorEditProfileFormControl.first_name.errors?.required">
-                    First Name is Required
-                </mat-error>
-            </mat-form-field>
+    <div class="col-md-6">
+      <div class="row justify-content-center mt-3 mb-3">
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label for="id-type">ID Type</mat-label>
+            <mat-select formControlName="id_type" required>
+              <mat-option value="1">Passport</mat-option>
+              <mat-option value="2">Driver's License</mat-option>
+              <mat-option value="3">PRCID</mat-option>
+              <mat-option value="4">School ID</mat-option>
+              <mat-option value="5">SSS/UMID ID</mat-option>
+              <mat-option value="6">Senior Citizen's ID</mat-option>
+              <mat-option value="7">PWD ID</mat-option>
+              <mat-option value="8">Parent or Legal Guardian's ID</mat-option>
+              <mat-option value="9">Others</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
-        <div class="col-md-3">
-            <mat-form-field appearance="outline">
-                <mat-label>Middle Name</mat-label>
-                <input type="text" matInput formControlName="middle_name" />
-            </mat-form-field>
+      </div>
+      <div class="row justify-content-center mt-3 mb-3">
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label>ID Number</mat-label>
+            <input matInput type="text" formControlName="id_number" />
+          </mat-form-field>
         </div>
-        <div class="col-md-3">
-            <mat-form-field appearance="outline">
-                <mat-label>Last name</mat-label>
-                <input type="text" matInput formControlName="last_name" required />
-                <mat-error *ngIf="
-              (evaluatorEditProfileFormControl.last_name.touched || _submitted) &&
-              evaluatorEditProfileFormControl.last_name.errors?.required
-            ">
-                    Last Name is Required
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="col-md-3">
-            <mat-form-field appearance="outline">
-                <mat-label>Suffix</mat-label>
-                <mat-select formControlName="suffix_name">
-                    <mat-option value=" "></mat-option>
-                    <mat-option value="Jr">Jr</mat-option>
-                    <mat-option value="Sr">Sr</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
+      </div>
     </div>
-
-    <div class="row justify-content-center my-3 mx-3">
-        <div class="col-md-4">
-            <mat-form-field class="example-full-width" appearance="outline">
-                <mat-label>Birthday</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="birthdate"
-                    placeholder="click the calendar icon" readonly required />
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker touchUi #picker></mat-datepicker>
-                <mat-error *ngIf="
-              (evaluatorEditProfileFormControl.birthdate.touched || _submitted) &&
-              evaluatorEditProfileFormControl.birthdate.errors?.required
-            ">
-                    Birthdate is required
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="col-md-4">
-            <mat-form-field appearance="outline">
-                <mat-label>Marital Status</mat-label>
-                <mat-select formControlName="marital_status" required>
-                    <mat-option value="Single">Single</mat-option>
-                    <mat-option value="Married">Married</mat-option>
-                    <mat-option value="Divorce">Divorce</mat-option>
-                    <mat-option value="Widowed">Widowed</mat-option>
-                </mat-select>
-                <mat-error *ngIf="
-              (evaluatorEditProfileFormControl.marital_status.touched || _submitted) &&
-              evaluatorEditProfileFormControl.marital_status.errors?.required
-            ">
-                    Marital Status is required
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="col-md-4">
-            <mat-form-field appearance="outline">
-                <mat-label>Gender</mat-label>
-                <mat-select formControlName="gender">
-                    <mat-option value="M">Male</mat-option>
-                    <mat-option value="F">Female</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-error *ngIf="
-            (evaluatorEditProfileFormControl.gender.touched || _submitted) &&
-            evaluatorEditProfileFormControl.gender.errors?.required
-          ">
-                Gender is required
-            </mat-error>
-        </div>
+  </div>
+  <div class="d-flex flex-row-reverse" style="margin-right: 20px">
+    <div class="col-md-2 text-right mt-5 mb-5">
+      <button
+        style="background-color: maroon; color: white"
+        mat-stroked-button
+        type="submit"
+      >
+        Update
+      </button>
     </div>
-
-    <div class="row justify-content-center my-3 mx-3">
-        <div class="col-md-6">
-            <mat-form-field appearance="outline">
-                <mat-label>House No., Bldg, Street</mat-label>
-                <input type="text" matInput formControlName="home_address" required />
-                <mat-error *ngIf="
-                  (evaluatorEditProfileFormControl.home_address.touched || _submitted) &&
-                  evaluatorEditProfileFormControl.home_address.errors?.required
-                ">
-                    Home Address is required
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="col-md-6">
-            <mat-form-field appearance="outline">
-                <mat-label>Barangay</mat-label>
-                <input type="text" matInput formControlName="barangay" required />
-                <mat-error *ngIf="
-                  (evaluatorEditProfileFormControl.barangay.touched || _submitted) &&
-                  evaluatorEditProfileFormControl.barangay.errors?.required
-                ">
-                    Barangay is required
-                </mat-error>
-            </mat-form-field>
-        </div>
-
-
-
-    </div>
-
-
-    <div class="row justify-content-center mt-5 mb-3 mx-3">
-        <div class="col-md-6">
-            <mat-form-field appearance="outline">
-                <mat-label>Employee Number</mat-label>
-                <input type="text" matInput formControlName="employee_number" required />
-                <mat-error *ngIf="
-              (evaluatorEditProfileFormControl.employee_number.touched || _submitted) &&
-              evaluatorEditProfileFormControl.employee_number.errors?.required">
-                    Employee Number is Required
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="col-md-6">
-            <mat-form-field appearance="outline">
-                <mat-label>Office</mat-label>
-                <mat-select type="text" matInput formControlName="office" required>
-                    <mat-icon matSuffix>arrow_drop_down</mat-icon>
-                    <mat-option value="cpdo">City Planning and Development Office</mat-option>
-                    <mat-option value="cepo">City Environment and Park Office</mat-option>
-                    <mat-option value="bfp">Bureau of Fire Protection</mat-option>
-                    <mat-option value="cbao">City Buildings and Architecture Office</mat-option>
-                </mat-select>
-
-
-                <mat-error *ngIf="
-                (evaluatorEditProfileFormControl.office.touched || _submitted) &&
-                evaluatorEditProfileFormControl.office.errors?.required">
-                    Office is Required
-                </mat-error>
-            </mat-form-field>
-        </div>
-    </div>
-    <div class="row justify-content-center my-3 mx-3">
-
-        <div class="col-md-6">
-            <mat-form-field appearance="outline">
-                <mat-label>Position</mat-label>
-                <input type="text" matInput formControlName="position" [matAutocomplete]="auto_position" required />
-                <mat-icon matSuffix>arrow_drop_down</mat-icon>
-                <mat-autocomplete autoActiveFirstOption #auto_position="matAutocomplete">
-                    <mat-option *ngFor="let position of _filteredPositionOptions | async" [value]="position">
-                        {{position}}
-                    </mat-option>
-                </mat-autocomplete>
-
-                <mat-error *ngIf="
-                  (evaluatorEditProfileFormControl.position.touched || _submitted) &&
-                  evaluatorEditProfileFormControl.position.errors?.required
-                ">
-                    Position is required
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="col-md-6">
-            <mat-form-field appearance="outline">
-                <mat-label>Contact Number</mat-label>
-                <input type="tel" matInput formControlName="contact_number" [maxLength]="maxLength"
-                    placeholder="Ex. 09123456789" #contact required />
-                <mat-error *ngIf="
-                  (evaluatorEditProfileFormControl.contact_number.touched || _submitted) &&
-                  evaluatorEditProfileFormControl.contact_number.errors?.required
-                ">
-                    Contact Number is required
-                </mat-error>
-                <mat-hint align="end">{{ contact.value.length }} / {{ maxLength }}</mat-hint>
-            </mat-form-field>
-        </div>
-    </div>
-
-
-    <div class="row justify-content-center mx-3" style="margin-top: 50px;">
-        <div class="col-md-6">
-            <mat-card class="text-center triggerUpload" (click)="openFileChooser()">
-                <p class="hideText">Upload</p>
-                <div class="text-center">
-                    <img [src]="displayPhoto" alt="" class="idHolder" />
-                    <!-- <button style="background-color: maroon; color: white" mat-stroked-button type="button" (click)="openFileChooser()">
-                            Upload ID
-                        </button> -->
-
-                </div>
-
-                <input type="file" class="sr-only" id="photo" accept="image/*"
-                    (change)="handlePhotoFileChange($event)" />
-            </mat-card>
-
-        </div>
-        <div class="col-md-6 ">
-            <div class="row justify-content-center mt-3 mb-3">
-                <div class="col-md-12">
-                    <mat-form-field appearance="outline">
-                        <mat-label for="id-type">ID Type</mat-label>
-                        <mat-select formControlName='id_type' required>
-                            <mat-option value="1">Passport</mat-option>
-                            <mat-option value="2">Driver's License</mat-option>
-                            <mat-option value="3">PRCID</mat-option>
-                            <mat-option value="4">School ID</mat-option>
-                            <mat-option value="5">SSS/UMID ID</mat-option>
-                            <mat-option value="6">Senior Citizen's ID</mat-option>
-                            <mat-option value="7">PWD ID</mat-option>
-                            <mat-option value="8">Parent or Legal Guardian's ID</mat-option>
-                            <mat-option value="9">Others</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="row justify-content-center mt-3 mb-3">
-                <div class="col-md-12">
-                    <mat-form-field appearance="outline">
-                        <mat-label>ID Number</mat-label>
-                        <input matInput type="text" formControlName='id_number'>
-                    </mat-form-field>
-                </div>
-            </div>
-        </div>
-
-
-
-    </div>
-    <div class="d-flex flex-row-reverse" style="margin-right: 20px">
-        <div class="col-md-2 text-right  mt-5 mb-5">
-            <button style="background-color: maroon; color: white" mat-stroked-button type="submit">
-                Update
-            </button>
-        </div>
-    </div>
-
+  </div>
 </form>

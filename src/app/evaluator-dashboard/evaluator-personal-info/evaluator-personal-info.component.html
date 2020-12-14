@@ -76,10 +76,10 @@
         <mat-form-field appearance="outline">
           <mat-label>Marital Status</mat-label>
           <mat-select formControlName="marital_status" required>
-            <mat-option value="Single">Single</mat-option>
-            <mat-option value="Married">Married</mat-option>
-            <mat-option value="Divorce">Divorce</mat-option>
-            <mat-option value="Widowed">Widowed</mat-option>
+            <mat-option value=1>Single</mat-option>
+            <mat-option value=2>Married</mat-option>
+            <mat-option value=3>Divorce</mat-option>
+            <mat-option value=4>Widowed</mat-option>
           </mat-select>
           <mat-error
             *ngIf="
