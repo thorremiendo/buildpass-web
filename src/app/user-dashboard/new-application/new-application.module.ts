@@ -44,6 +44,8 @@ import { ExcavationPermitComponent } from './forms/excavation-permit/excavation-
 import { DemolitionPermitComponent } from './forms/demolition-permit/demolition-permit.component';
 import { FencingPermitComponent } from './forms/fencing-permit/fencing-permit.component';
 import { OtherPermitsComponent } from './other-permits/other-permits.component';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [
@@ -90,6 +92,8 @@ import { OtherPermitsComponent } from './other-permits/other-permits.component';
     MatIconModule,
     MatRadioModule,
     MatTabsModule,
+    NgxExtendedPdfViewerModule,
+    NgxDropzoneModule,
     NgxMapboxGLModule.withConfig({
       accessToken: environment.mapbox.accessToken,
     }),
