@@ -13,7 +13,7 @@ export class NewApplicationService {
 
   submitApplication(body) {
     const url = `/application`;
-
+    console.log(body)
     return this.api.post(url, body).pipe(
       map((data: any) => {
         console.log('submitApplication result:', data);

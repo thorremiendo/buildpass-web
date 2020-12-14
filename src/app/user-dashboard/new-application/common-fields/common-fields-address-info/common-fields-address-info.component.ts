@@ -84,13 +84,16 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.currentUser.subscribe((currentUser) => {
-      this.user = currentUser;
-      this.userService.fetchUserInfo(this.user.user.uid).subscribe((result) => {
-        this.userDetails = result.data;
-        console.log(this.userDetails);
-      });
-    });
+    // this.authService.currentUser.subscribe((currentUser) => {
+    //   this.user = currentUser;
+    //   console.log(this.user)
+    //   this.userService.fetchUserInfo(this.user.user.uid).subscribe((result) => {
+    //     this.userDetails = result.data;
+    //     console.log(this.userDetails);
+    //   });
+    // });
+    this.userService.cast.subscribe(userSubject => this.user = userSubject)
+    console.log(this.user)
     // this.authService.getFireBaseData(this.user.user.uid).subscribe(result =>{
     //   this.evaluatorDetails = result.data();
     //   console.log(this.evaluatorDetails)
@@ -220,7 +223,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     this.createprojectDetails();
     console.log(this.projectDetailsForm.value.project_barangay)
     const body = {
-      user_id: this.userDetails.id,
+      user_id: this.user.id,
       permit_type_id: this.applicationDetails.application_type,
       is_representative: this.applicationDetails.is_representative,
       rol_status_id: this.applicationDetails.is_lot_owner,
