@@ -26,6 +26,7 @@ export class ApiService {
     const formData = this.createFormData(body);
     console.log(body);
     console.log(formData);
+    console.log(completeUrl);
 
     return this.httpClient.post(completeUrl, formData);
   }

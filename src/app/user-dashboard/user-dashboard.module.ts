@@ -53,6 +53,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { UserEditProfileComponent } from './user-edit-profile/user-edit-profile.component';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from '../../environments/environment';
@@ -129,7 +130,8 @@ import { OtherPermitsComponent } from './new-application/other-permits/other-per
       accessToken: environment.mapbox.accessToken,
     }),
     MatAutocompleteModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatProgressBarModule
   ],
 })
 export class UserModule {}

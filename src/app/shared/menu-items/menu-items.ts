@@ -95,6 +95,15 @@ export interface BadgeItem {
     },
   ]
 
+  const ADMINMENUITEMS =[{
+    
+      state: 'admin/dashboard/users',
+      name: 'Users',  
+      type: 'link',                    
+      icon: 'home',
+  }
+]
+
   
 @Injectable()
 export class MenuItems {
@@ -105,9 +114,12 @@ export class MenuItems {
       case 'user':
         menu = USERMENUITEMS;
         break;
-        case 'evaluator':
-          menu = EVALUATORMENUITEMS;
-          break;
+      case 'evaluator':
+        menu = EVALUATORMENUITEMS;
+        break;
+      case 'super admin':
+        menu = ADMINMENUITEMS;
+        break;
     }
 
     return menu;

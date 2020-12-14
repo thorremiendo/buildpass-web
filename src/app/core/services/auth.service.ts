@@ -1,6 +1,7 @@
+import firebase from 'firebase/app';
 import { Injectable, NgZone } from '@angular/core';
-import { User } from '../models/user.model';
-import { auth } from 'firebase/app';
+//import { User } from '../models/user.model';
+//import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import {
   AngularFirestore,
@@ -9,7 +10,8 @@ import {
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import * as firebase from 'firebase/app';
+import { UserService } from './user.service';
+
 
 @Injectable({
   providedIn: 'root',
@@ -21,28 +23,44 @@ export class AuthService {
   public currentUser = this.currentUserSubject
     .asObservable()
     .pipe(distinctUntilChanged());
+  
+  private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
+  public isAuthenticated = this.isAuthenticatedSubject.asObservable();
+
   constructor(
     public afs: AngularFirestore, // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
-    public ngZone: NgZone // NgZone service to remove outside scope warning
+    public ngZone: NgZone, // NgZone service to remove outside scope warning
+    public userService: UserService,
   ) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe((user) => {
       if (user) {
         this.userData = user;
+        this.updateUserInfo(user)
         localStorage.setItem('user', JSON.stringify(this.userData));
+        this.isAuthenticatedSubject.next(true)
         JSON.parse(localStorage.getItem('user'));
       } else {
         localStorage.setItem('user', null);
         JSON.parse(localStorage.getItem('user'));
+        this.isAuthenticatedSubject.next(false)
+
       }
     });
   }
 
+  updateUserInfo(user) {
+    this.userService.getUserInfo(user.uid).subscribe((data) => {
+      this.userService.setUserInfo(data);
+      console.log('get user from api' + data);
+    });
+  }
+
   SignIn(value) {
-    return new Promise<any>((resolve, reject) => { this.afAuth.auth
+    return new Promise<any>((resolve, reject) => { firebase.auth()
       .signInWithEmailAndPassword(value.email, value.password)
       .then((result) => {
         resolve(result);
@@ -57,7 +75,7 @@ export class AuthService {
 
   // Sign up with email/password
   SignUp(value) {
-    return new Promise<any>((resolve, reject) => { this.afAuth.auth
+    return new Promise<any>((resolve, reject) => { firebase.auth()
       .createUserWithEmailAndPassword(value.email, value.password)
       .then((result) => {
         resolve(result);
@@ -70,14 +88,14 @@ export class AuthService {
 
   // Send email verfificaiton when new user sign up
   SendVerificationMail() {
-    return this.afAuth.auth.currentUser.sendEmailVerification().then(() => {
+    return firebase.auth().currentUser.sendEmailVerification().then(() => {
       this.router.navigate(['verify-email']);
     });
   }
 
   // Reset Forggot password
   ForgotPassword(passwordResetEmail) {
-    return this.afAuth.auth
+    return firebase.auth()
       .sendPasswordResetEmail(passwordResetEmail)
       .then(() => {
         window.alert('Password reset email sent, check your inbox.');
@@ -102,7 +120,7 @@ export class AuthService {
    
     return new Promise<any>((resolve, reject) =>{ 
       
-      this.AuthLogin(new auth.GoogleAuthProvider())
+      this.AuthLogin(new firebase.auth.GoogleAuthProvider())
       .then((result) => {
         resolve(result);
       })
@@ -120,7 +138,7 @@ export class AuthService {
       let provider = new firebase.auth.GoogleAuthProvider();
       provider.addScope('profile');
       provider.addScope('email'); 
-      this.afAuth.auth
+      firebase.auth()
       .signInWithPopup(provider)
        .then((result) => {
         resolve(result);
@@ -134,7 +152,6 @@ export class AuthService {
 
   getFireBaseData(uid){
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${uid}`)
-    
     return userRef.get()
     
 
@@ -170,8 +187,9 @@ export class AuthService {
 
   // Sign out
   SignOut() {
-    return this.afAuth.auth.signOut().then(() => {
+    return firebase.auth().signOut().then(() => {
       localStorage.removeItem('user');
+      this.isAuthenticatedSubject.next(false);
       this.router.navigate(['']);
     });
   }

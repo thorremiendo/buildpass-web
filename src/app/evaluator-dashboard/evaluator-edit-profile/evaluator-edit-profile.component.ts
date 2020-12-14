@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from "@angular/forms";
-import { RegisterAccountEvaluatorFormService } from '../../core/services/register-account-evaluator-form.service';
 import { Router } from '@angular/router';
+
+import { UserService } from '../../core/services/user.service';
+import { User } from 'src/app/core/models/user.model';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
@@ -13,17 +16,24 @@ import { Position, Office } from '../../core/enums/department.enum'
   styleUrls: ['./evaluator-edit-profile.component.scss']
 })
 export class EvaluatorEditProfileComponent implements OnInit {
-  public userDetails;
-  public maxLength: number = 11;
-
-  public photo: string = "";
-  public idFile: FormControl = new FormControl("");
+  public photo: string = '';
+  public idFile: FormControl = new FormControl('');
   public selectedFile: File = null;
   public selectedPhoto: File = null;
   public photoUploaded: boolean = false;
+  public maxLength: number = 11;
+  public isUpdating: boolean = false;
+  public userInfo;
+  public user;
+  public updateUserDetails;
+  public _marital_status:string;
 
+  _birthdateString: string;
   _evaluatorEditProfileForm: FormGroup;
-  _displayPhoto: string | ArrayBuffer = "";
+  _identificationForm: FormGroup;
+
+  _displayPhoto: string | ArrayBuffer = '';
+  _displayIdPhoto: string | ArrayBuffer = '';
   _submitted = false;
 
   _filteredOfficeOptions: Observable<string[]>;
@@ -34,10 +44,14 @@ export class EvaluatorEditProfileComponent implements OnInit {
 
   private onTouched: () => void;
 
-  get displayPhoto(): string | ArrayBuffer {
-    return this._displayPhoto
-      ? this._displayPhoto
-      : "https://baguio-visita.s3-ap-southeast-1.amazonaws.com/default-avatar.png";
+  get displayProfilePhoto(): string | ArrayBuffer {
+    return this._displayPhoto ? this._displayPhoto : this.userInfo.photo_path;
+  }
+
+  get displayIDPhoto(): string | ArrayBuffer {
+    return this._displayIdPhoto
+      ? this._displayIdPhoto
+      : this.userInfo.id_photo_path;
   }
 
 
@@ -49,7 +63,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
-    private _registerAccountEvaluatorFormService: RegisterAccountEvaluatorFormService,
+    private _userService: UserService
 
   ) {
     this.createForm();
@@ -67,9 +81,9 @@ export class EvaluatorEditProfileComponent implements OnInit {
       home_address: ['', Validators.required ],
       barangay: ['', Validators.required ],
 
-      employee_number:['', Validators.required],
-      office:['', Validators.required],
-      position: ['', Validators.required],
+      employee_no:[''],
+      office:[''],
+      position: [''],
       contact_number:['', [Validators.required, Validators.maxLength(11),]],
 
       id_number: ["", Validators.required],
@@ -81,58 +95,60 @@ export class EvaluatorEditProfileComponent implements OnInit {
     );
   }
 
-  createUserDetails(){
+  createUserDetails() {
+    console.log(this.selectedFile);
+    console.log(this.selectedPhoto);
 
-    this.userDetails ={
-      "first_name": this._evaluatorEditProfileForm.value.first_name,
-      "middle_name":this._evaluatorEditProfileForm.value.middle_name,
-      "last_name":  this._evaluatorEditProfileForm.value.last_name,
-      "suffix_name":this._evaluatorEditProfileForm.value.suffix_name,
-      "birthdate": this._evaluatorEditProfileForm.value.birthdate,
-      "gender": this._evaluatorEditProfileForm.value.gender,
-      "marital_status": this._evaluatorEditProfileForm.value.marital_status,
+    this.updateUserDetails = {
+      first_name: this._evaluatorEditProfileForm.value.first_name,
+      middle_name: this._evaluatorEditProfileForm.value.middle_name,
+      last_name: this._evaluatorEditProfileForm.value.last_name,
+      suffix_name: this._evaluatorEditProfileForm.value.suffix_name,
+      birthdate: this._evaluatorEditProfileForm.value.birthdate,
+      gender: this._evaluatorEditProfileForm.value.gender,
+      marital_status_id: this._evaluatorEditProfileForm.value.marital_status,
 
-      "home_address": this._evaluatorEditProfileForm.value.home_address,
-      "barangay":this._evaluatorEditProfileForm.value.barangay,
+      home_address: this._evaluatorEditProfileForm.value.home_address,
+      //"barangay":this._evaluatorEditProfileForm.value.barangay,
+      contact_number: this._evaluatorEditProfileForm.value.contact_number,
 
-      "employee_no": this._evaluatorEditProfileForm.value.employee_number,
-      "office": this._evaluatorEditProfileForm.value.office,
-      "position": this._evaluatorEditProfileForm.value.position, 
-      "contact_no":  this._evaluatorEditProfileForm.value.contact_number,
+      employee_no: this._evaluatorEditProfileForm.value.employee_no,
+      office: this._evaluatorEditProfileForm.value.office,
+      position: this._evaluatorEditProfileForm.value.position, 
 
-      "id_number": this._evaluatorEditProfileForm.value.id_number,
-      "id_type": this._evaluatorEditProfileForm.value.id_type,
+      id_number: this._evaluatorEditProfileForm.value.id_number,
+      id_type: this._evaluatorEditProfileForm.value.id_type,
+    };
 
+    if (this.selectedPhoto) {
+      this.updateUserDetails['photo_path'] = this.selectedPhoto;
     }
-  
+    if (this.selectedFile) {
+      this.updateUserDetails['id_photo_path'] = this.selectedFile;
+    }
   }
 
-  dateToString(){
-    if(this._evaluatorEditProfileForm.value.birthdate != null){
-      let dd = this._evaluatorEditProfileForm.value.birthdate.getDate();
-      let mm = this._evaluatorEditProfileForm.value.birthdate.getMonth() + 1;
-      let yyyy = this._evaluatorEditProfileForm.value.birthdate.getFullYear();
-      let birthdateString = (`${yyyy}-${mm}-${dd}`);
-      this._evaluatorEditProfileForm.value.birthdate = birthdateString;
-      console.log(birthdateString);
-    }
 
-  }
 
-  onSubmit(){
+  onSubmit() {
     this._submitted = true;
-    this.dateToString();
-    if (this._evaluatorEditProfileForm.valid){
-      this.createUserDetails();
-      this._registerAccountEvaluatorFormService.setRegisterAccountInfo(this.userDetails);
-      this._router.navigateByUrl("evaluator/registration/employee-info");
-      
-      console.log(this.userDetails);
-
-    
+    console.log('date' + this._evaluatorEditProfileForm.value.birthdate);
+    if (this.evaluatorEditProfileFormControl.onTouched) {
     }
-  
 
+    if (this._evaluatorEditProfileForm.valid) {
+      this.isUpdating = true;
+      this.createUserDetails();
+      this._userService.setUserInfo(this.updateUserDetails);
+      this._userService
+        .updateUserInfo(this.updateUserDetails, this.userInfo.id)
+        .subscribe((result) => {
+          this.isUpdating = false;
+          console.log(result);
+          console.log(this.updateUserDetails);
+        });
+      this.isUpdating = false;
+    }
   }
 
   _filterOffice(value: string): string[] {
@@ -140,7 +156,6 @@ export class EvaluatorEditProfileComponent implements OnInit {
 
     return this._office_options.filter(_office_option=> _office_option.toLowerCase().includes(filterValueOffice));
   }
-
 
   _filterPosition(value: string): string[] {
     const filterValuePosition = value.toLowerCase();
@@ -150,13 +165,19 @@ export class EvaluatorEditProfileComponent implements OnInit {
 
   openFileChooser() {
     const element: HTMLElement = document.getElementById(
-      "photo"
+      'photo'
     ) as HTMLElement;
 
     element.click();
   }
 
+  openIdChooser() {
+    const element: HTMLElement = document.getElementById(
+      'idCard'
+    ) as HTMLElement;
 
+    element.click();
+  }
 
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
@@ -166,15 +187,14 @@ export class EvaluatorEditProfileComponent implements OnInit {
     this.onTouched();
   }
 
-  handleFileChangeEvent($event) {
-    const file = $event.addedFiles[0];
-    this.selectedFile = file;
-  }
-
   handlePhotoFileChange($event) {
     this.selectedPhoto = $event.target.files[0];
-
     this.readSelectedInfo();
+  }
+
+  handleFileChangeEvent($event) {
+    this.selectedFile = $event.target.files[0];
+    this.readSelectedIdInfo();
   }
 
   readSelectedInfo() {
@@ -188,41 +208,94 @@ export class EvaluatorEditProfileComponent implements OnInit {
       };
 
       reader.readAsDataURL(this.selectedPhoto); // convert to base64 string
-      this.photoUploaded = true;
     }
   }
+
+  readSelectedIdInfo() {
+    if (this.selectedFile) {
+      let reader = new FileReader();
+
+      reader.onload = (res) => {
+        this._displayIdPhoto = reader.result;
+      };
+
+      reader.readAsDataURL(this.selectedFile); // convert to base64 string
+    }
+  }
+
+  getUserInfo() {
+    this._userService.getUserInfo(this.user.uid).subscribe((data) => {
+      this._userService.setUserInfo(data);
+      console.log('ger user' + data);
+    });
+  }
+
+  checkValue(type: string, event: MatDatepickerInputEvent<Date>) {
+    let dd = event.value.getDate();
+    let mm = event.value.getMonth() + 1;
+    let yyyy = event.value.getFullYear();
+    let birthdateString = `${yyyy}-${mm}-${dd}`;
+    this._evaluatorEditProfileForm.value.birthdate = birthdateString;
+    console.log(this._evaluatorEditProfileForm.value.birthdate);
+  }
+
 
 
   
   ngOnInit(): void {
-    this._registerAccountEvaluatorFormService.cast.subscribe(registerAccountEvaluatorSubject => this.userDetails = registerAccountEvaluatorSubject)
-    this.createForm();
-    this._evaluatorEditProfileForm.patchValue({
-      first_name: this.userDetails.first_name,
-      last_name: this.userDetails.last_name,
-      email_address: this.userDetails.email_address,
-      middle_name:this.userDetails.middle_name,
-      suffix_name:this.userDetails.suffix_name,
-      birthdate: this.userDetails.birthdate,
-      gender: this.userDetails.gender,
-      marital_status: this.userDetails.marital_status,
-      home_address: this.userDetails.home_address,
-      barangay:this.userDetails.barangay,
-     
-
-    })
-
-    this._filteredOfficeOptions = this.evaluatorEditProfileFormControl.office.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterOffice(value))
-    );
-
-    this._filteredPositionOptions = this.evaluatorEditProfileFormControl.position.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterPosition(value))
-    );
-
     
-  }
+    this._userService.cast.subscribe(
+      (userSubject) => (this.userInfo = userSubject)
+    
+    );
 
+
+    this.createForm();
+
+    switch(this.userInfo.marital_status_id){
+
+      case 1:
+        this._marital_status = "Single";
+        console.log(this._marital_status);
+        break;
+      case 2:
+        this._marital_status = "Married";
+        console.log(this._marital_status);
+        break;
+      case 3:
+        this._marital_status = "Divorce";
+        console.log(this._marital_status);
+        break;
+      case 4:
+        this._marital_status = "Widowed";
+        console.log(this._marital_status);
+        break;
+
+    }
+
+    this._evaluatorEditProfileForm.patchValue({
+      first_name: this.userInfo.first_name,
+      last_name: this.userInfo.last_name,
+      middle_name: this.userInfo.middle_name,
+
+      suffix_name: this.userInfo.suffix_name,
+      birthdate: this.userInfo.birthdate,
+      gender: this.userInfo.gender,
+      marital_status_id: this._marital_status,
+
+      home_address: this.userInfo.home_address,
+      barangay: this.userInfo.barangay,
+      contact_number: this.userInfo.contact_number,
+
+      
+      id_number: this.userInfo.id_number,
+      id_type: this.userInfo.id_type,
+
+    });
+
+    this.user = JSON.parse(localStorage.getItem('user'));
+    this.getUserInfo();
+    console.log(this.userInfo);
+
+  }
 }

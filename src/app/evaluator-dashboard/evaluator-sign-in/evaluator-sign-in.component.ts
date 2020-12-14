@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators, } from '@angular/forms';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
 import { AngularFirestore, AngularFirestoreDocument, } from '@angular/fire/firestore';
+import { UserService} from '../../core';
 
 const googleLogoURL = 
 "https://raw.githubusercontent.com/fireflysemantics/logo/master/Google.svg";
@@ -35,6 +36,7 @@ export class EvaluatorSignInComponent implements OnInit {
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
     private _afs: AngularFirestore,
+    private _userService: UserService,
 
   ) {
     this.matIconRegistry.addSvgIcon("logo",
@@ -55,7 +57,7 @@ export class EvaluatorSignInComponent implements OnInit {
     if (this._evaluatorSignInForm.valid) {
       this._authService.SignIn(value)
         .then((result) => {
-          this._authService.getFireBaseData(result.user.uid).subscribe(result =>{ // eto yung retrive ng data from firebase
+          this._authService.getFireBaseData(result.user.uid).subscribe(result =>{ 
             const user = result.data();
             console.log(user)
             console.log(user.uid);
@@ -66,6 +68,10 @@ export class EvaluatorSignInComponent implements OnInit {
           this._ngZone.run(() => {
             if (result.user.emailVerified == true ) {
               this.SetUserDataFire(result.user.uid,result.user.emailVerified);
+              this._userService.getUserInfo(result.user.uid).subscribe(data =>{
+                this._userService.setUserInfo(data);
+
+              })
               this._router.navigateByUrl('/evaluator/home/table');
             }
             else {

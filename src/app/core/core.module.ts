@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { NewApplicationFormService } from './services/new-application-form-service';
 import { UserGuardService } from './guard/user-guard.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AdminUserParamBuilder } from './http-builder';
 
 
 
@@ -15,7 +17,8 @@ import { UserGuardService } from './guard/user-guard.service';
   providers: [
     // Services
    NewApplicationFormService,
-   UserGuardService
+   UserGuardService,
+   AdminUserParamBuilder,
   ],
  
 })

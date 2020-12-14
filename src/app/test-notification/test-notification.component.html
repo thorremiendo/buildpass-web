@@ -1,0 +1,9 @@
+<!-- <p>{{ message | async | json }}</p> -->
+<p> From: {{ (message | async)?.from }}</p>
+<p> Topic: {{ (message | async)?.notification.title }}</p>
+<p> Message: {{ (message | async)?.notification.body }}</p>
+
+
+
+
+

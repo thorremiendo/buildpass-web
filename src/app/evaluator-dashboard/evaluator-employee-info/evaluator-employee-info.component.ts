@@ -45,7 +45,7 @@ export class EvaluatorEmployeeInfoComponent implements OnInit {
 
   createForm() {
     this._evaluatorEmployeeInfoForm = this._fb.group({
-      employee_number:['', Validators.required],
+      employee_no:['', Validators.required],
       office:['', Validators.required],
       position: ['', Validators.required],
       contact_number:['', [Validators.required, Validators.maxLength(11),]],
@@ -60,7 +60,7 @@ export class EvaluatorEmployeeInfoComponent implements OnInit {
       "employee_no": this._evaluatorEmployeeInfoForm.value.employee_number,
       "office": this._evaluatorEmployeeInfoForm.value.office,
       "position": this._evaluatorEmployeeInfoForm.value.position, 
-      "mobile_no":  this._evaluatorEmployeeInfoForm.value.contact_number,
+      "contact_number":  this._evaluatorEmployeeInfoForm.value.contact_number,
      
     }
   
@@ -98,7 +98,7 @@ export class EvaluatorEmployeeInfoComponent implements OnInit {
     this._registerAccountEvaluatorFormService.cast.subscribe(registerAccountEvaluatorSubject => this.userDetails = registerAccountEvaluatorSubject)
     this.createForm();
     this._evaluatorEmployeeInfoForm.patchValue({
-      employee_number: this.userDetails.employee_number,
+      employee_no: this.userDetails.employee_no,
       office: this.userDetails.office,
       position: this.userDetails.position, 
       contact_number:  this.userDetails.contact_number,

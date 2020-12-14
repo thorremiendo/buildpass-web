@@ -9,10 +9,10 @@
     border-bottom-color: #400c06;
   "
 >
-  <div *ngIf="user">
+  <div *ngIf="!_isLoading">
     <div
       class="col text-center p-3"
-      *ngIf="evaluatorDetails.is_evaluator == true"
+      *ngIf="evaluatorDetails == null"
     >
       <div class="mb-3">
         <img
@@ -22,30 +22,31 @@
         />
       </div>
       <h3 style="color: #400c06">
-        {{ evaluatorDetails.first_name }} {{ evaluatorDetails.last_name }}
+        {{ userInfo.first_name }} {{ userInfo.last_name }}
+      </h3>
+      <p style="color: #400c06">{{ userInfo.email }}</p>
+      <p style="color: #400c06">Applicant</p>
+    </div>
+    <div
+      class="col text-center p-3"
+      *ngIf="hasEvaluatorDetails"
+    >
+      <div class="mb-3">
+        <img
+          style="width: 70px"
+          src="../../../../assets/images/avatar.png"
+          alt="user"
+        />
+      </div>
+      <h3 style="color: #400c06">
+        {{ userInfo.first_name }} {{ userInfo.last_name }}
       </h3>
       <h4 style="color: #400c06">{{ evaluatorDetails.position }}</h4>
       <h4 style="color: #400c06">
-        {{ evaluatorDetails.department.toUpperCase() }}
+        {{ officeString }}
       </h4>
     </div>
-    <div
-      class="col text-center p-3"
-      *ngIf="evaluatorDetails.is_evaluator == false"
-    >
-      <div class="mb-3">
-        <img
-          style="width: 70px"
-          src="../../../../assets/images/avatar.png"
-          alt="user"
-        />
-      </div>
-      <h3 style="color: #400c06">
-        {{ evaluatorDetails.first_name }} {{ evaluatorDetails.last_name }}
-      </h3>
-      <p style="color: #400c06">{{ evaluatorDetails.email }}</p>
-      <p style="color: #400c06">Applicant</p>
-    </div>
+    
   </div>
 
   <!-- User profile text-->
@@ -62,9 +63,7 @@
         <button mat-menu-item>
             <mat-icon>notifications_off</mat-icon> Disable notifications
         </button> -->
-    <button mat-menu-item (click)="logout()">
-      <mat-icon>exit_to_app</mat-icon> Sign Out
-    </button>
+  
   </mat-menu>
 </div>
 
@@ -141,6 +140,9 @@
       >
       <mat-icon class="dd-icon">keyboard_arrow_down</mat-icon>
     </a>
+    
+    
+
     <mat-nav-list class="sub-item" *ngIf="menuitem.type === 'sub'">
       <mat-list-item
         *ngFor="
@@ -200,3 +202,6 @@
     </div>
   </mat-list-item>
 </mat-nav-list>
+<button mat-menu-item (click)="logout()">
+  <mat-icon>exit_to_app</mat-icon> Sign Out
+</button>
