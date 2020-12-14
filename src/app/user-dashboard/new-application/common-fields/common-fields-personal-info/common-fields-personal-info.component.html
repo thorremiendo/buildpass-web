@@ -199,6 +199,7 @@
         style="background-color: maroon; color: white"
         mat-stroked-button
         type="submit"
+        [disabled]="!_personalInfoFormCommonFields.valid"
       >
         Proceed
       </button>

@@ -115,11 +115,11 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
       owner_house_number: [''],
       owner_unit_number: [''],
       owner_floor_number: [''],
-      owner_street: ['', Validators.required],
+      owner_street: [''],
       owner_barangay: ['', Validators.required],
-      owner_province: ['', Validators.required],
-      owner_municipality: ['', Validators.required],
-      owner_zip_code: ['', Validators.required],
+      owner_province: [''],
+      owner_municipality: [''],
+      owner_zip_code: [''],
       blank: [''],
     });
   }

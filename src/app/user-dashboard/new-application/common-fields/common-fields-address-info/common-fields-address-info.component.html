@@ -40,15 +40,6 @@
           matInput
           formControlName="project_unit_number"
         />
-        <mat-error
-          *ngIf="
-            (projectDetailsFormControl.project_unit_number.touched ||
-              _submitted) &&
-            projectDetailsFormControl.project_unit_number.errors?.required
-          "
-        >
-          Unit Number is Required
-        </mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -57,14 +48,6 @@
       <mat-form-field appearance="outline">
         <mat-label>Street</mat-label>
         <input type="text" matInput formControlName="project_street" />
-        <mat-error
-          *ngIf="
-            (projectDetailsFormControl.project_street.touched || _submitted) &&
-            projectDetailsFormControl.project_street.errors?.required
-          "
-        >
-          Street is Required
-        </mat-error>
       </mat-form-field>
     </div>
     <div class="col-md-3">
@@ -172,15 +155,7 @@
       <mat-form-field appearance="outline">
         <mat-label>Number of Basement</mat-label>
         <input matInput formControlName="project_basement" required />
-        <mat-error
-          *ngIf="
-            (projectDetailsFormControl.project_basement.touched ||
-              _submitted) &&
-            projectDetailsFormControl.project_basement.errors?.required
-          "
-        >
-          Project Title is required
-        </mat-error>
+    
       </mat-form-field>
     </div>
   </div>

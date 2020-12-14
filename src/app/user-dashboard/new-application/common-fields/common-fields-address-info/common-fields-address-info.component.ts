@@ -92,8 +92,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     //     console.log(this.userDetails);
     //   });
     // });
-    this.userService.cast.subscribe(userSubject => this.user = userSubject)
-    console.log(this.user)
+    this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
+    console.log(this.user);
     // this.authService.getFireBaseData(this.user.user.uid).subscribe(result =>{
     //   this.evaluatorDetails = result.data();
     //   console.log(this.evaluatorDetails)
@@ -186,13 +186,13 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_municipality: [''],
       project_lot_area: ['', Validators.required],
       project_floor_area: ['', Validators.required],
-      project_units: ['', Validators.required],
+      project_units: [''],
       project_storeys: ['', Validators.required],
       project_title: ['', Validators.required],
       project_cost: ['', Validators.required],
       project_tct_number: ['', Validators.required],
       project_td_number: ['', Validators.required],
-      project_basement: ['', Validators.required],
+      project_basement: [''],
     });
   }
 
@@ -221,7 +221,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     this.isLoading = true;
     this._submitted = true;
     this.createprojectDetails();
-    console.log(this.projectDetailsForm.value.project_barangay)
+    console.log(this.projectDetailsForm.value.project_barangay);
     const body = {
       user_id: this.user.id,
       permit_type_id: this.applicationDetails.application_type,
@@ -245,15 +245,19 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_lot_number: this.projectDetailsForm.value.project_lot_number,
       project_block_number: this.projectDetailsForm.value.project_block_number,
       project_street_name: this.projectDetailsForm.value.project_street,
-      project_number_of_units: this.projectDetailsForm.value
-        .project_units,
+      project_number_of_units: this.projectDetailsForm.value.project_units
+        ? this.projectDetailsForm.value.project_units
+        : 0,
       project_barangay: this.projectDetailsForm.value.project_barangay,
-      project_number_of_basement: this.projectDetailsForm.value
-        .project_basement,
+      project_number_of_basement: this.projectDetailsForm.value.project_basement
+        ? this.projectDetailsForm.value.project_basement
+        : 0,
       project_lot_area: this.projectDetailsForm.value.project_lot_area,
       project_total_floor_area: this.projectDetailsForm.value
         .project_floor_area,
-      project_units: this.projectDetailsForm.value.project_unit_number,
+      project_units: this.projectDetailsForm.value.project_unit_number
+        ? this.projectDetailsForm.value.project_unit_number
+        : 0,
       project_number_of_storey: this.projectDetailsForm.value.project_storeys,
       project_title: this.projectDetailsForm.value.project_title,
       project_cost_cap: this.projectDetailsForm.value.project_cost,
