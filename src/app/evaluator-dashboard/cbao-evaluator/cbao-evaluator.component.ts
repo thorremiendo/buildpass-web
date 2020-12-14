@@ -7,6 +7,8 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { FormDetailsComponent } from '../form-details/form-details.component';
+import { documentTypes } from '../../core/enums/document-type.enum';
+import { documentStatus } from '../../core/enums/document-status.enum';
 
 @Component({
   selector: 'app-cbao-evaluator',
@@ -22,21 +24,32 @@ export class CbaoEvaluatorComponent implements OnInit {
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
-    public dialog: MatDialog) {}
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.applicationId = this.route.snapshot.params.id;
-    this.applicationService.fetchUserDocs(this.applicationId).subscribe(result => {
-      this.dataSource = result.data
-    })
+    this.applicationService
+      .fetchUserDocs(this.applicationId)
+      .subscribe((result) => {
+        this.dataSource = result.data;
+      });
   }
+  getDocType(id): string {
+    return documentTypes[id];
+  }
+  getDocStatus(id): string {
+    return documentStatus[id];
+  }
+
   openFormDialog(element): void {
-    console.log(element)
+    console.log(element);
     const dialogRef = this.dialog.open(FormDetailsComponent, {
       width: '1500px',
       height: '2000px',
       data: {
         form: element,
+        route: this.route
       },
     });
 

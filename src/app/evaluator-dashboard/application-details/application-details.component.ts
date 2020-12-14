@@ -18,12 +18,13 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./application-details.component.scss'],
 })
 export class ApplicationDetailsComponent implements OnInit {
-  public isLoading: boolean = true;
+  public isLoading = true;
   public applicationId;
   public evaluatorDetails;
   public user;
   public pdfSrc;
   public applicationDetails;
+  public applicationDate;
   constructor(
     private router: Router,
     private applicationService: ApplicationInfoService,
@@ -56,14 +57,22 @@ export class ApplicationDetailsComponent implements OnInit {
     this.fetchEvaluatorDetails();
   }
 
+  // tslint:disable-next-line:typedef
   fetchEvaluatorDetails() {
     this.authService.currentUser.subscribe((currentUser) => {
       this.user = currentUser;
       this.userService.fetchUserInfo(this.user.user.uid).subscribe((result) => {
         this.evaluatorDetails = result.data.employee_detail;
         console.log(this.evaluatorDetails);
-        this.isLoading = false
+        this.isLoading = false;
       });
     });
   }
+
+  // dateToString() {
+  //   this.applicationDate = this.applicationDetails.created_at.format(
+  //     'YYYY,MM,DD'
+  //   );
+  //   console.log('Application date', this.applicationDate);
+  // }
 }
