@@ -41,7 +41,7 @@ export class StepOneComponent implements OnInit {
       is_representative: value.is_representative,
       is_lot_owner: value.is_lot_owner,
       construction_status: value.construction_status,
-      registered_owner: value.registered_owner
+      registered_owner: value.registered_owner ? value.registered_owner : 0
     };
     this.newApplicationFormService.setApplicationInfo(body)
     // this.router.navigateByUrl('/dashboard/new/initial-forms/zoning-clearance')

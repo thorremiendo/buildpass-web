@@ -258,7 +258,9 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_units: this.projectDetailsForm.value.project_unit_number
         ? this.projectDetailsForm.value.project_unit_number
         : 0,
-      project_number_of_storey: this.projectDetailsForm.value.project_storeys,
+      project_number_of_storey: this.projectDetailsForm.value.project_storeys
+        ? this.projectDetailsForm.value.project_storeys
+        : 0,
       project_title: this.projectDetailsForm.value.project_title,
       project_cost_cap: this.projectDetailsForm.value.project_cost,
       project_tct_number: this.projectDetailsForm.value.project_tct_number,
