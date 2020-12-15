@@ -52,6 +52,6 @@ export class AdminUserService {
   approveEmployee(uid) {
     const url = `/admin/${uid}/approve`;
 
-    return this.apiService.get(url);
+    return this.apiService.post(url,uid);
   }
 }

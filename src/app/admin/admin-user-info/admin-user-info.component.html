@@ -93,10 +93,10 @@
             </div>
             <div class="row mx-3 mt-3">
                 <div class="col-md-6 text-left">
-                    <h3> Position: </h3>  
+                    <h3> Evaluator </h3>  
                 </div>
                 <div class="col-md-6 text-right">
-                    <h3> {{userInfo.is_admin == 1 ? "Approved" : "To Verify"}}</h3>  
+                    <h3> {{userInfo.employee_detail.is_enabled == 1 ? "Approved" : "To Verify"}}</h3>  
                 </div>
             </div>
            
@@ -108,7 +108,7 @@
           <button
             style="background-color: maroon; color: white"
             mat-stroked-button
-            (click) = 'approve(userInfo.user_credentials[0].firebase_uid)'
+            (click) = 'approve(userInfo.id)'
         
           >
             Approve

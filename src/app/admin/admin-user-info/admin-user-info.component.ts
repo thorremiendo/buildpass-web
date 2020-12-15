@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
-import { UserService, AdminUserService } from '../../core'
+import { UserService, AdminUserService } from "../../core";
+
 
 
 
@@ -13,7 +14,7 @@ export class AdminUserInfoComponent implements OnInit {
   public userInfo;
   public isLoading: Boolean = true;
   public isUpdating: Boolean = false;
-  private _uid;
+  private _id;
 
 
   constructor(
@@ -22,9 +23,9 @@ export class AdminUserInfoComponent implements OnInit {
     private _adminUserService: AdminUserService,
   )
    {
-    this._uid = this._activatedRoute.snapshot.params.uid;
+    this._id = this._activatedRoute.snapshot.params.uid;
    
-    
+  
     
    }
 
@@ -32,7 +33,7 @@ export class AdminUserInfoComponent implements OnInit {
 
   ngOnInit(): void {
     
-    console.log("uid"+this._uid);
+    console.log("uid"+this._id);
     this.fetchUserInfo()
     
 
@@ -43,17 +44,17 @@ export class AdminUserInfoComponent implements OnInit {
   fetchUserInfo(){
 
     this._userService
-      .getUserInfo(this._uid)
+      .getUserInfo(this._id)
       .subscribe(data =>{
         this.userInfo = data;
-        console.log("Selected Employee" + data);
+        console.log("Selected Employee" + this.userInfo.id);
         this.isLoading = false;
       })
   }
 
-  approve(uid){
+  approve(id){
     this.isUpdating = true
-    this._adminUserService.approveEmployee(uid).subscribe(result =>
+    this._adminUserService.approveEmployee(id).subscribe(result =>
       {
         this.isUpdating = false;
       })

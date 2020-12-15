@@ -23,7 +23,7 @@
 
     <ng-container matColumnDef="is_admin">
       <th mat-header-cell *matHeaderCellDef> Admin </th>
-      <td mat-cell *matCellDef="let user"> {{user.is_admin == 1 ? "Approved" : "To Verify"}} </td>
+      <td mat-cell *matCellDef="let user"> {{user.employee_detail.is_enabled == 1 ? "Approved" : "To Verify"}} </td>
     </ng-container>
 
     <ng-container matColumnDef="office">
