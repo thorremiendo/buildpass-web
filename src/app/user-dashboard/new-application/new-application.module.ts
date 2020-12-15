@@ -33,9 +33,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CommonFieldsRepresentativeComponent } from './common-fields/common-fields-representative/common-fields-representative.component';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -69,7 +68,6 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     ElectricalPermitFormComponent,
     CivilEngineerAffidavitComponent,
     GeodeticEngineerAffidavitComponent,
-    CommonFieldsRepresentativeComponent,
     AdditionalPermitsComponent,
     ExcavationPermitComponent,
     DemolitionPermitComponent,

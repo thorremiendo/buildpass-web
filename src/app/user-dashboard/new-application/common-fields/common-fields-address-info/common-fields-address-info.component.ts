@@ -84,20 +84,9 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.authService.currentUser.subscribe((currentUser) => {
-    //   this.user = currentUser;
-    //   console.log(this.user)
-    //   this.userService.fetchUserInfo(this.user.user.uid).subscribe((result) => {
-    //     this.userDetails = result.data;
-    //     console.log(this.userDetails);
-    //   });
-    // });
     this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
     console.log(this.user);
-    // this.authService.getFireBaseData(this.user.user.uid).subscribe(result =>{
-    //   this.evaluatorDetails = result.data();
-    //   console.log(this.evaluatorDetails)
-    // })
+
     this._registerAccountFormService.cast.subscribe(
       (registerAccountSubject) => (this.projectDetails = registerAccountSubject)
     );
@@ -120,7 +109,6 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_unit_number: this.projectDetails.project_unit_number,
       project_street: this.projectDetails.project_street,
       project_barangay: this.projectDetails.project_barangay,
-      project_municipality: this.projectDetails.project_municipality,
       project_lot_area: this.projectDetails.project_lot_area,
       project_floor_area: this.projectDetails.project_floor_area,
       project_units: this.projectDetails.project_units,
@@ -183,7 +171,6 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_unit_number: [''],
       project_street: [''],
       project_barangay: ['', Validators.required],
-      project_municipality: [''],
       project_lot_area: ['', Validators.required],
       project_floor_area: ['', Validators.required],
       project_units: [''],
@@ -198,22 +185,30 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
 
   createprojectDetails() {
     this.projectDetails = {
+      project_house_number: this.projectDetailsForm.value.project_house_number,
       project_lot_number: this.projectDetailsForm.value.project_lot_number,
       project_block_number: this.projectDetailsForm.value.project_block_number,
-      project_street: this.projectDetailsForm.value.project_street,
-      project_unit_number: this.projectDetailsForm.value.project_unit_number,
+      project_street_name: this.projectDetailsForm.value.project_street,
+      project_number_of_units: this.projectDetailsForm.value.project_units
+        ? this.projectDetailsForm.value.project_units
+        : 0,
       project_barangay: this.projectDetailsForm.value.project_barangay,
-      project_basement: this.projectDetailsForm.value.project_basement,
-      project_municipality: 'Baguio City',
+      project_number_of_basement: this.projectDetailsForm.value.project_basement
+        ? this.projectDetailsForm.value.project_basement
+        : 0,
       project_lot_area: this.projectDetailsForm.value.project_lot_area,
-      project_floor_area: this.projectDetailsForm.value.project_floor_area,
-      project_units: this.projectDetailsForm.value.project_units,
-      project_storeys: this.projectDetailsForm.value.project_storeys,
+      project_total_floor_area: this.projectDetailsForm.value
+        .project_floor_area,
+      project_units: this.projectDetailsForm.value.project_unit_number
+        ? this.projectDetailsForm.value.project_unit_number
+        : 0,
+      project_number_of_storey: this.projectDetailsForm.value.project_storeys
+        ? this.projectDetailsForm.value.project_storeys
+        : 0,
       project_title: this.projectDetailsForm.value.project_title,
-      project_cost: this.projectDetailsForm.value.project_cost,
+      project_cost_cap: this.projectDetailsForm.value.project_cost,
       project_tct_number: this.projectDetailsForm.value.project_tct_number,
-      project_td_number: this.projectDetailsForm.value.project_td_number,
-      project_house_number: this.projectDetailsForm.value.project_house_number,
+      project_tax_dec_number: this.projectDetailsForm.value.project_td_number,
     };
   }
 
@@ -241,32 +236,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       applicant_floor_number: this.ownerDetails.owner_floor_number,
       applicant_street_name: this.ownerDetails.owner_street,
       applicant_barangay: this.ownerDetails.owner_barangay,
-      project_house_number: this.projectDetailsForm.value.project_house_number,
-      project_lot_number: this.projectDetailsForm.value.project_lot_number,
-      project_block_number: this.projectDetailsForm.value.project_block_number,
-      project_street_name: this.projectDetailsForm.value.project_street,
-      project_number_of_units: this.projectDetailsForm.value.project_units
-        ? this.projectDetailsForm.value.project_units
-        : 0,
-      project_barangay: this.projectDetailsForm.value.project_barangay,
-      project_number_of_basement: this.projectDetailsForm.value.project_basement
-        ? this.projectDetailsForm.value.project_basement
-        : 0,
-      project_lot_area: this.projectDetailsForm.value.project_lot_area,
-      project_total_floor_area: this.projectDetailsForm.value
-        .project_floor_area,
-      project_units: this.projectDetailsForm.value.project_unit_number
-        ? this.projectDetailsForm.value.project_unit_number
-        : 0,
-      project_number_of_storey: this.projectDetailsForm.value.project_storeys
-        ? this.projectDetailsForm.value.project_storeys
-        : 0,
-      project_title: this.projectDetailsForm.value.project_title,
-      project_cost_cap: this.projectDetailsForm.value.project_cost,
-      project_tct_number: this.projectDetailsForm.value.project_tct_number,
-      project_tax_dec_number: this.projectDetailsForm.value.project_td_number,
+      ...this.projectDetails,
     };
-    this.newApplicationFormService.setCommonFields(body);
     if (this.ownerDetails.is_representative == '2') {
       this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
         Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
@@ -279,16 +250,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
         );
       });
     } else {
-      this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
-        Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
-          (result) => {
-            this.isLoading = false;
-            this._router.navigateByUrl(
-              '/dashboard/new/step-two/representative'
-            );
-          }
-        );
-      });
+      this.newApplicationFormService.setCommonFields(body);
+      this._router.navigateByUrl('/dashboard/new/step-two/representative');
     }
   }
 }

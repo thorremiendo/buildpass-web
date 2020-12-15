@@ -11,7 +11,8 @@
         />
         <mat-error
           *ngIf="
-            (representativeDetailsFormControl.representative_first_name.touched ||
+            (representativeDetailsFormControl.representative_first_name
+              .touched ||
               _submitted) &&
             representativeDetailsFormControl.representative_first_name.errors
               ?.required
@@ -42,7 +43,8 @@
         />
         <mat-error
           *ngIf="
-            (representativeDetailsFormControl.representative_last_name.touched ||
+            (representativeDetailsFormControl.representative_last_name
+              .touched ||
               _submitted) &&
             representativeDetailsFormControl.representative_last_name.errors
               ?.required
@@ -66,6 +68,28 @@
   <div class="row justify-content-center px-3">
     <div class="col-md-3">
       <mat-form-field appearance="outline">
+        <mat-label>Email Address</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="representative_email_address"
+          required
+        />
+        <mat-error
+          *ngIf="
+            (representativeDetailsFormControl.representative_email_address
+              .touched ||
+              _submitted) &&
+            representativeDetailsFormControl.representative_email_address.errors
+              ?.required
+          "
+        >
+          Email Address is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
         <mat-label>House Number</mat-label>
         <input
           type="text"
@@ -75,7 +99,8 @@
         />
         <mat-error
           *ngIf="
-            (representativeDetailsFormControl.representative_house_number.touched ||
+            (representativeDetailsFormControl.representative_house_number
+              .touched ||
               _submitted) &&
             representativeDetailsFormControl.representative_house_number.errors
               ?.required
@@ -89,27 +114,75 @@
       <mat-form-field appearance="outline">
         <mat-label>Street Name</mat-label>
         <input matInput formControlName="representative_street_name" />
-        <mat-error
-          *ngIf="
-            (representativeDetailsFormControl.representative_street_name.touched ||
-              _submitted) &&
-            representativeDetailsFormControl.representative_street_name.errors
-              ?.required
-          "
-        >
-          Road/Street Name is required
-        </mat-error>
       </mat-form-field>
     </div>
     <div class="col-md-3">
       <mat-form-field appearance="outline">
+        <mat-label>Contact Number</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="representative_contact_no"
+          [maxLength]="maxLength"
+          placeholder="Ex. 09123456789"
+          #contact
+          required
+        />
+        <mat-error
+          *ngIf="
+            (representativeDetailsFormControl.representative_contact_no
+              .touched ||
+              _submitted) &&
+            representativeDetailsFormControl.representative_contact_no.errors
+              ?.required
+          "
+        >
+          Email Address is Required
+        </mat-error>
+        <mat-hint align="end"
+          >{{ contact.value.length }} / {{ maxLength }}</mat-hint
+        >
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row justify-content-center px-3">
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
         <mat-label>Barangay</mat-label>
-        <input matInput formControlName="representative_barangay" required />
+        <input
+          type="text"
+          placeholder="Select Barangay"
+          aria-label="Barangay"
+          matInput
+          formControlName="representative_barangay"
+          [matAutocomplete]="auto"
+          required
+        />
+        <mat-icon matSuffix>arrow_drop_down</mat-icon>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let barangays of _filteredBarangayOptions | async"
+            [value]="barangays.name"
+          >
+            {{ barangays.name }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error
+          *ngIf="
+            (representativeDetailsFormControl.representative_barangay.touched ||
+              _submitted) &&
+            representativeDetailsFormControl.representative_barangay.errors
+              ?.required
+          "
+        >
+          Barangay is required
+        </mat-error>
       </mat-form-field>
     </div>
     <div class="col-md-3"></div>
+    <div class="col-md-3"></div>
+    <div class="col-md-3"></div>
   </div>
-
   <div class="row justify-content-center py-3">
     <div class="col-md-3 col-3 text-right mb-3">
       <button

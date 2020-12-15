@@ -3,116 +3,152 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
 import { RegisterAccountFormService } from 'src/app/core/services/register-account-form.service';
+import { NewApplicationService } from 'src/app/core/services/new-application.service';
+import { UserService } from 'src/app/core/services/user.service';
+import { Observable } from 'rxjs';
+import { AuthService, BarangayService } from 'src/app/core';
+import { map, startWith } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
-
+export interface Barangay {
+  id: number;
+  b_id: number;
+  name: string;
+  locality_id: number;
+  province_id: number;
+  zip_code: number;
+  region_id: number;
+  country_id: number;
+  created_at: string;
+  updated_at: string;
+}
 @Component({
   selector: 'app-common-fields-representative',
   templateUrl: './common-fields-representative.component.html',
-  styleUrls: ['./common-fields-representative.component.scss']
+  styleUrls: ['./common-fields-representative.component.scss'],
 })
 export class CommonFieldsRepresentativeComponent implements OnInit {
   public projectDetails;
+  public ownerDetails;
+  public applicationDetails;
   public representativeDetails;
-
+  public user;
+  public userDetails;
+  public isLoading: boolean = true;
+  public barangay: Barangay[];
   public representativeDetailsForm: FormGroup;
   _submitted = false;
+  public maxLength: number = 11;
 
   get representativeDetailsFormControl() {
     return this.representativeDetailsForm.controls;
   }
+  _filteredBarangayOptions: Observable<Barangay[]>;
+
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
     private _registerAccountFormService: RegisterAccountFormService,
-    private _commonFieldsFormService: NewApplicationFormService
-  ) { 
+    private newApplicationFormService: NewApplicationFormService,
+    private newApplicationService: NewApplicationService,
+    private barangayService: BarangayService,
+    private authService: AuthService,
+    private userService: UserService
+  ) {
     this.createForm();
+    this.barangayService.getBarangayInfo().subscribe((data) => {
+      this.barangay = data;
 
+      this._filteredBarangayOptions = this.representativeDetailsFormControl.representative_barangay.valueChanges.pipe(
+        startWith(''),
+        map((barangay) =>
+          barangay ? this._filter(barangay) : this.barangay.slice()
+        )
+      );
+    });
   }
 
   ngOnInit(): void {
-    this._registerAccountFormService.cast.subscribe(
-      (registerAccountSubject) => (this.projectDetails = registerAccountSubject)
-    );
-    this._commonFieldsFormService.commonFieldsSubject
-    .asObservable()
-    .subscribe(
-      (commonFieldsSubject) => (this.projectDetails = commonFieldsSubject)
-    );
+    this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
+    console.log(this.user);
+    this.newApplicationFormService.commonFieldsSubject
+      .asObservable()
+      .subscribe((commonFieldsSubject) => {
+        this.applicationDetails = commonFieldsSubject;
+        console.log(this.applicationDetails);
+      });
+
     this.createForm();
 
-    this.representativeDetailsForm.patchValue({
-      representative_first_name: this.projectDetails.representative_first_name,
-      representative_last_name: this.projectDetails.representative_last_name,
-      representative_middle_name: this.projectDetails.representative_middle_name,
-      representative_suffix: this.projectDetails.representative_suffix,
-      representative_house_number: this.projectDetails.representative_house_number,
-      representative_street_name: this.projectDetails.representative_street_name,
-      representative_barangay: this.projectDetails.representative_barangay,
-      representative_province: this.projectDetails.representative_province,
-    });
+    // this.representativeDetailsForm.patchValue({
+    //   representative_first_name: this.projectDetails.representative_first_name,
+    //   representative_last_name: this.projectDetails.representative_last_name,
+    //   representative_middle_name: this.projectDetails
+    //     .representative_middle_name,
+    //   representative_suffix: this.projectDetails.representative_suffix,
+    //   representative_house_number: this.projectDetails
+    //     .representative_house_number,
+    //   representative_street_name: this.projectDetails
+    //     .representative_street_name,
+    //   representative_barangay: this.projectDetails.representative_barangay,
+    //   representative_email_address: this.projectDetails.representative_email_address,
+    //   representative_contact_no: this.projectDetails.representative_contact_no
+    // });
+  }
+  private _filter(value: string): Barangay[] {
+    const filterValue = value.toLowerCase();
+
+    return this.barangay.filter((option) =>
+      option.name.toLowerCase().includes(filterValue)
+    );
   }
   createForm() {
     this.representativeDetailsForm = this._fb.group({
       representative_first_name: ['', Validators.required],
       representative_last_name: ['', Validators.required],
       representative_middle_name: [''],
-      representative_suffix: ['', Validators.required],
+      representative_suffix: [''],
       representative_house_number: ['', Validators.required],
       representative_street_name: [''],
       representative_barangay: ['', Validators.required],
-      representative_province: ['', Validators.required]
+      representative_email_address: ['', Validators.required],
+      representative_contact_no: [
+        '',
+        [Validators.required, Validators.maxLength(11)],
+      ],
     });
   }
   createprojectDetails() {
+    const value = this.representativeDetailsForm.value;
     this.representativeDetails = {
-      rep_first_name: this.representativeDetailsForm.value.representative_first_name,
-      rep_last_name: this.representativeDetailsForm.value.representative_last_name,
-      rep_middle_name: this.representativeDetailsForm.value.representative_middle_name,
-      rep_suffix_name: this.representativeDetailsForm.value.representative_suffix,
-      rep_house_number: this.representativeDetailsForm.value.representative_house_number,
-      rep_street_name: this.representativeDetailsForm.value.representative_street_name,
-      rep_barangay: this.representativeDetailsForm.value.representative_barangay,
-      applicant_first_name: this.projectDetails.applicant_first_name,
-      applicant_last_name: this.projectDetails.applicant_last_name,
-      applicant_suffix_name: this.projectDetails.applicant_suffix_name,
-      applicant_tin_number: this.projectDetails.applicant_tin_number,
-      applicant_contact_number: this.projectDetails.applicant_contact_number,
-      applicant_email_address: this.projectDetails.applicant_email_address,
-      applicant_house_number: this.projectDetails.applicant_house_number,
-      applicant_unit_number: this.projectDetails.applicant_unit_number,
-      applicant_floor_number: this.projectDetails.applicant_floor_number,
-      applicant_street_name: this.projectDetails.applicant_street_name,
-      applicant_barangay: this.projectDetails.applicant_barangay,
-      project_house_number: this.projectDetails.value.project_house_number,
-      project_lot_number: this.projectDetails.value.project_lot_number,
-      project_block_number: this.projectDetails.value.project_block_number,
-      project_street_name: this.projectDetails.value.project_street_name,
-      project_number_of_units: this.projectDetails.value
-        .project_number_of_units,
-      project_barangay: this.projectDetails.value.project_barangay,
-      project_number_of_basement: this.projectDetails.value
-        .project_number_of_basement,
-      project_lot_area: this.projectDetails.value.project_lot_area,
-      project_total_floor_area: this.projectDetails.value
-        .project_total_floor_area,
-      project_units: this.projectDetails.value.project_units,
-      project_number_of_storey: this.projectDetails.value.project_number_of_storey,
-      project_title: this.projectDetails.value.project_title,
-      project_cost_cap: this.projectDetails.value.project_cost_cap,
-      project_tct_number: this.projectDetails.value.project_tct_number,
-      project_tax_dec_number: this.projectDetails.value.project_tax_dec_number,
-
+      rep_first_name: value.representative_first_name,
+      rep_last_name: value.representative_last_name,
+      rep_middle_name: value.representative_middle_name,
+      rep_suffix_name: value.representative_suffix,
+      rep_house_number: value.representative_house_number,
+      rep_street_name: value.representative_street_name,
+      rep_barangay: value.representative_barangay,
+      rep_contact_number: value.representative_contact_no,
+      rep_email_address: value.representative_email_address,
     };
   }
   onSubmit() {
-    this._submitted = true;
-
     this.createprojectDetails();
-
-    this._commonFieldsFormService.setCommonFields(this.representativeDetails);
-    console.log(this.representativeDetails);
-    this._router.navigateByUrl('/dashboard/new/initial-forms/zoning-clearance');
+    this._submitted = true;
+    const body = {
+      ...this.representativeDetails,
+      ...this.applicationDetails,
+    };
+    console.log(body);
+    this.newApplicationService.submitApplication(body).subscribe((res) => {
+      Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
+        (result) => {
+          this.isLoading = false;
+          this._router.navigateByUrl(
+            '/dashboard/new/initial-forms/zoning-clearance'
+          );
+        }
+      );
+    });
   }
-
 }
