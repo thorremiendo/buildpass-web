@@ -94,7 +94,7 @@ export class DocumentaryRequirementsComponent implements OnInit {
   }
 
   callNext() {
-    const value = this.applicationInfo
+    const value = this.applicationInfo;
     const body = {
       application_type: value.application_type,
       is_representative: value.is_representative,
@@ -105,8 +105,7 @@ export class DocumentaryRequirementsComponent implements OnInit {
       building_permit_form: value.building_permit_form,
       sanitary_permit_form: value.sanitary_permit_form,
       electrical_permit_form: value.electrical_permit_form,
-      geodetic_engineer_affidavit: value
-        .geodetic_engineer_affidavit,
+      geodetic_engineer_affidavit: value.geodetic_engineer_affidavit,
       civil_engineer_affidavit: value.civil_engineer_affidavit,
       excavation_permit: value.excavation_permit,
       demolition_permit: value.demolition_permit,

@@ -44,16 +44,7 @@ export class SanitaryPermitFormComponent implements OnInit {
         this.mergeFormData();
       });
   }
-  mergeFormData() {
-    this.mergeFormData = {
-      ...this.applicationInfo.applicant_detail,
-      ...this.applicationInfo.project_detail,
-      ...this.applicationInfo.representative_detail,
-    };
-    console.log(this.applicationInfo);
-    console.log(this.mergeFormData);
-    this.isLoading = false;
-  }
+
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
     switch (type) {
@@ -94,5 +85,117 @@ export class SanitaryPermitFormComponent implements OnInit {
           );
         });
       });
+  }
+
+  mergeFormData() {
+    const applicantDetails = this.applicationInfo.applicant_detail;
+    const projectDetails = this.applicationInfo.project_detail;
+    const repDetails = this.applicationInfo.representative_detail;
+
+    this.formData = {
+      applicant_first_name:
+        applicantDetails.first_name == 'undefined'
+          ? ''
+          : applicantDetails.first_name,
+      applicant_last_name:
+        applicantDetails.last_name == 'undefined'
+          ? ''
+          : applicantDetails.last_name,
+      applicant_middle_name:
+        applicantDetails.middle_name == 'undefined'
+          ? ''
+          : applicantDetails.middle_name,
+      applicant_suffix_name:
+        applicantDetails.suffix_name == 'na'
+          ? ' '
+          : applicantDetails.suffix_name,
+      applicant_tin_number:
+        applicantDetails.tin_number == 'undefined'
+          ? ''
+          : applicantDetails.tin_number,
+      applicant_contact_number:
+        applicantDetails.contact_number == 'undefined'
+          ? ''
+          : applicantDetails.contact_number,
+      applicant_email_address:
+        applicantDetails.email_address == 'undefined'
+          ? ''
+          : applicantDetails.email_address,
+      applicant_house_number:
+        applicantDetails.house_number == 'undefined'
+          ? ''
+          : applicantDetails.house_number,
+      applicant_unit_number:
+        applicantDetails.unit_number == 'undefined'
+          ? ''
+          : applicantDetails.unit_number,
+      applicant_floor_number:
+        applicantDetails.floor_number == 'undefined'
+          ? ''
+          : applicantDetails.floor_number,
+      applicant_street_name:
+        applicantDetails.street_name == 'undefined'
+          ? ''
+          : applicantDetails.street_name,
+      applicant_barangay:
+        applicantDetails.barangay == 'undefined'
+          ? ''
+          : applicantDetails.barangay,
+      applicant_province: 'Benguet',
+      applicant_city: 'Baguio City',
+      appicant_zipcode: '2600',
+      project_house_number: projectDetails.house_number,
+      project_lot_number: projectDetails.lot_number,
+      project_block_number: projectDetails.block_number,
+      project_street_name: projectDetails.street_name,
+      project_number_of_units: projectDetails.number_of_units,
+      project_barangay: projectDetails.barangay,
+      project_number_of_basement: projectDetails.number_of_basement,
+      project_lot_area: projectDetails.lot_area,
+      project_total_floor_area: projectDetails.total_floor_area,
+      project_units: projectDetails.number_of_units,
+      project_number_of_storey: projectDetails.number_of_storey,
+      project_title: projectDetails.project_title,
+      project_cost_cap: projectDetails.project_cost_cap,
+      project_tct_number: projectDetails.tct_number,
+      project_tax_dec_number: projectDetails.tax_dec_number,
+      project_province: 'Benguet',
+      project_city: 'Baguio City',
+      project_zipcode: '2600',
+      // rep_full_name: `${repDetails.first_name} ${repDetails.last_name}`,
+      // project_location: `${projectDetails.house_number}, ${projectDetails.street_name}, ${projectDetails.barangay}`,
+    };
+    if (repDetails) {
+      this.formData['rep_first_name'] = repDetails.first_name
+        ? repDetails.first_name
+        : '';
+      this.formData['rep_last_name'] = repDetails.last_name
+        ? repDetails.last_name
+        : '';
+      this.formData['rep_middle_name'] = repDetails.middle_name
+        ? repDetails.middle_name
+        : '';
+      this.formData['rep_suffix_name'] = repDetails.suffix_name
+        ? repDetails.suffix_name
+        : '';
+      this.formData['rep_house_number'] = repDetails.house_number
+        ? repDetails.house_number
+        : '';
+      this.formData['rep_street_name'] = repDetails.street_name
+        ? repDetails.street_name
+        : '';
+      this.formData['rep_barangay'] = repDetails.barangay
+        ? repDetails.barangay
+        : '';
+      this.formData['rep_contact_number'] = repDetails.contact_number
+        ? repDetails.contact_number
+        : '';
+      this.formData['rep_province'] = 'Benguet';
+      this.formData['rep_city'] = 'Baguio City';
+      this.formData['rep_zipcode'] = '2600';
+    }
+    console.log(this.applicationInfo);
+    console.log('formData:', this.formData);
+    this.isLoading = false;
   }
 }
