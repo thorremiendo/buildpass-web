@@ -45,6 +45,7 @@ import { FencingPermitComponent } from './forms/fencing-permit/fencing-permit.co
 import { OtherPermitsComponent } from './other-permits/other-permits.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -97,6 +98,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     }),
     MatAutocompleteModule,
     MatCheckboxModule,
+    MatProgressSpinnerModule
   ],
 })
 export class NewApplicationModule {}
