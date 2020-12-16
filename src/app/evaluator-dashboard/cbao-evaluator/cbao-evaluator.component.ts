@@ -22,7 +22,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   public dataSource;
   public applicationId;
   public evaluatorDetails;
-  public isLoading: boolean = true
+  public isLoading: boolean = true;
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
   constructor(

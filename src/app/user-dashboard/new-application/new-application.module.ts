@@ -35,7 +35,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatRadioModule } from '@angular/material/radio';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AdditionalPermitsComponent } from './additional-permits/additional-permits.component';
@@ -46,6 +45,7 @@ import { OtherPermitsComponent } from './other-permits/other-permits.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 @NgModule({
   declarations: [
@@ -93,12 +93,13 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatTabsModule,
     NgxExtendedPdfViewerModule,
     NgxDropzoneModule,
-    NgxMapboxGLModule.withConfig({
-      accessToken: environment.mapbox.accessToken,
-    }),
     MatAutocompleteModule,
     MatCheckboxModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    NgxMapboxGLModule.withConfig({
+      accessToken: environment.mapbox.accessToken,
+      geocoderAccessToken: environment.mapbox.accessToken,
+    })
   ],
 })
 export class NewApplicationModule {}

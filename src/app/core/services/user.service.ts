@@ -42,7 +42,6 @@ export class UserService {
     return this._api.get(url).pipe(map((res) => res.data));
   }
 
-
   fetchUserInfo(id: string | number): Observable<any> {
     const url = `/user/${id}`;
     console.log(url);
@@ -52,6 +51,21 @@ export class UserService {
         return data;
       }),
       catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+
+  fetchUserApplications(id: string | number): Observable<any> {
+    const url = `/user/${id}/application`;
+    console.log(url);
+    return this._api.get(url).pipe(
+      map((data: any) => {
+        console.log('fetchUserApplication Result:', data);
+        return data;
+      }),
+      catchError((error) => {
+        console.log(error)
         return throwError('Something went wrong.');
       })
     );
