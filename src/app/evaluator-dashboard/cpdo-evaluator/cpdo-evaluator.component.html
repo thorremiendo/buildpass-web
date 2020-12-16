@@ -1,194 +1,42 @@
-<p>cpdo-evaluator works!</p>
-<p>cpdo-dashboard works!</p>
-<!-- <div class="m-4">
-  <div class="row">
-    <div class="col-md-4">
-      <div class="mt-4">
-        <div class="d-flex flex-column">
-          <h4>A. Documents</h4>
-          <div class="d-flex justify-content-between w-100">
-            <button
-              mat-button
-              color="primary"
-              class="text-left"
-              id="zoning"
-              (click)="handleForm('zoning')"
-            >
-              1. Zoning Clearance Application Form
-            </button>
-            <mat-icon
-              *ngIf="zoningPermit.is_compliant == 'Yes'"
-              class="p-2"
-              style="color: green"
-              >check_circle_outline</mat-icon
-            >
-            <mat-icon
-              *ngIf="zoningPermit.is_compliant == 'No'"
-              class="p-2"
-              style="color: red"
-              >report_problem</mat-icon
-            >
-          </div>
-          <div class="d-flex justify-content-between w-100">
-            <button
-              mat-button
-              color="primary"
-              class="text-left"
-              (click)="handleForm('buildingPlan')"
-            >
-              2. Building Plans
-            </button>
-            <mat-icon
-              *ngIf="buildingPlan.is_compliant == 'Yes'"
-              class="p-2"
-              style="color: green"
-              >check_circle_outline</mat-icon
-            >
-            <mat-icon
-              *ngIf="buildingPlan.is_compliant == 'No'"
-              class="p-2"
-              style="color: red"
-              >report_problem</mat-icon
-            >
-          </div>
-          <div class="d-flex justify-content-between w-100">
-            <button
-              mat-button
-              color="primary"
-              class="text-left"
-              (click)="handleForm('copyOfTitle')"
-            >
-              3. Certified True Copy of Title
-            </button>
-            <mat-icon
-              *ngIf="copyOfTitle.is_compliant == 'Yes'"
-              class="p-2"
-              style="color: green"
-              >check_circle_outline</mat-icon
-            >
-            <mat-icon
-              *ngIf="copyOfTitle.is_compliant == 'No'"
-              class="p-2"
-              style="color: red"
-              >report_problem</mat-icon
-            >
-          </div>
-          <div>
-            <button
-              mat-raised-button
-              color="primary"
-              (click)="generateClearance()"
-              *ngIf="
-                copyOfTitle.is_compliant == 'Yes' &&
-                buildingPlan.is_compliant == 'Yes' &&
-                zoningPermit.is_compliant == 'Yes'
-              "
-            >
-              Generate Certificate of Zoning Clearance
-            </button>
-          </div>
-          <div
-            class="d-flex justify-content-between w-100"
-            *ngIf="clearanceForm"
-          >
-            <button
-              mat-button
-              color="primary"
-              class="text-left"
-              (click)="handleForm('zoningClearance')"
-            >
-              4. Zoning Clearance
-            </button>
-            <mat-icon
-              *ngIf="zoningClearance.is_compliant == 'Yes'"
-              class="p-2"
-              style="color: green"
-              >check_circle_outline</mat-icon
-            >
-            <mat-icon
-              *ngIf="zoningClearance.is_compliant == 'No'"
-              class="p-2"
-              style="color: red"
-              >report_problem</mat-icon
-            >
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <mat-card style="width: 100%; background-color: whitesmoke">
-        <hr />
-        <mat-card-content>
-          <h3>{{ formName }}</h3>
-          <ngx-extended-pdf-viewer
-            [src]="pdfSrc"
-            [showToolbar]="true"
-            [showSidebarButton]="false"
-            [showFindButton]="false"
-            [showPagingButtons]="false"
-            [showZoomButtons]="true"
-            [showPresentationModeButton]="true"
-            [showOpenFileButton]="false"
-            [showPrintButton]="false"
-            [showDownloadButton]="true"
-            [showBookmarkButton]="false"
-            [showSecondaryToolbarButton]="true"
-            [showRotateButton]="false"
-            [showHandToolButton]="false"
-            [showScrollingButton]="false"
-            [showSpreadButton]="false"
-            [showPropertiesButton]="false"
-            [useBrowserLocale]="true"
-            height="500px"
-            zoom="80%"
-          >
-          </ngx-extended-pdf-viewer>
-          <div class="row">
-            <div class="col-md-12">
-              <mat-form-field class="example-full-width mt-3">
-                <mat-label>Leave a comment</mat-label>
-                <textarea matInput placeholder="Comment"></textarea>
-              </mat-form-field>
-              <mat-form-field appearance="fill">
-                <mat-label>Review</mat-label>
-                <mat-select [(value)]="isCompliant">
-                  <mat-option value="Yes"> Compliant </mat-option>
-                  <mat-option value="No"> Non-Compliant </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </div>
+<div>
+  <table mat-table [dataSource]="dataSource">
+    <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+    <ng-container matColumnDef="index">
+      <th mat-header-cell *matHeaderCellDef>No.</th>
+      <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+    </ng-container>
+    <!--  Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element">
+        {{ getDocType(element.document_id) }}
+      </td>
+    </ng-container>
 
-          <button
-            mat-raised-button
-            color="accent"
-            (click)="handleSubmit(selectedForm)"
-          >
-            Submit
-          </button>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </div>
+    <!-- Status Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let element">
+        {{ getDocStatus(element.receiving_status_id) }}
+      </td>
+    </ng-container>
+    <!-- Remarks Column -->
+    <ng-container matColumnDef="remarks">
+      <th mat-header-cell *matHeaderCellDef>Remarks</th>
+      <td mat-cell *matCellDef="let element">--</td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button color="accent" (click)="openFormDialog(element)">
+          View
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
 </div>
-<hr />
-<div class="d-flex justify-content-end w-100 mb-3 pr-3">
-  <button
-    mat-raised-button
-    color="primary"
-    style="font-size: 18px"
-    (click)="handleForward()"
-    *ngIf="evaluatorDetails.department == 'cbao'"
-  >
-    Forward to CPDO
-  </button>
-  <button
-    mat-raised-button
-    color="primary"
-    style="font-size: 18px"
-    (click)="handleProceed()"
-    *ngIf="evaluatorDetails.department == 'cpdo'"
-  >
-    Proceed
-  </button>
-</div> -->

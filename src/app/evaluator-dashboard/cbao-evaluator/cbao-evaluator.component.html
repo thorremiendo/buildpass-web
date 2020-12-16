@@ -18,7 +18,7 @@
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef>Status</th>
       <td mat-cell *matCellDef="let element">
-        {{ getDocStatus(element.document_status_id) }}
+        {{ getDocStatus(element.receiving_status_id) }}
       </td>
     </ng-container>
     <!-- Remarks Column -->
@@ -39,4 +39,8 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
+  <div class="d-flex justify-content-between mt-5">
+    <button mat-raised-button color="warn">Non Compliant</button>
+    <button mat-raised-button color="primary">Forward to CPDO</button>
+  </div>
 </div>

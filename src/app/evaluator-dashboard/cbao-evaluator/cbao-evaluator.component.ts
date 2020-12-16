@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
@@ -9,6 +9,7 @@ import { ApplicationInfoService } from 'src/app/core/services/application-info.s
 import { FormDetailsComponent } from '../form-details/form-details.component';
 import { documentTypes } from '../../core/enums/document-type.enum';
 import { documentStatus } from '../../core/enums/document-status.enum';
+import { UserService } from 'src/app/core';
 
 @Component({
   selector: 'app-cbao-evaluator',
@@ -17,14 +18,19 @@ import { documentStatus } from '../../core/enums/document-status.enum';
 })
 export class CbaoEvaluatorComponent implements OnInit {
   displayedColumns: string[] = ['index', 'name', 'status', 'remarks', 'action'];
+  public user;
   public dataSource;
   public applicationId;
+  public evaluatorDetails;
+  public isLoading: boolean = true
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private changeDetectorRefs: ChangeDetectorRef,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -33,7 +39,17 @@ export class CbaoEvaluatorComponent implements OnInit {
       .fetchUserDocs(this.applicationId)
       .subscribe((result) => {
         this.dataSource = result.data;
+        this.fetchEvaluatorDetails();
       });
+    this.changeDetectorRefs.detectChanges();
+  }
+  fetchEvaluatorDetails() {
+    this.userService.cast.subscribe((userSubject) => {
+      this.user = userSubject;
+      this.evaluatorDetails = this.user.employee_detail;
+      console.log('Evaluator Details', this.evaluatorDetails);
+      this.isLoading = false;
+    });
   }
   getDocType(id): string {
     return documentTypes[id];
@@ -48,14 +64,15 @@ export class CbaoEvaluatorComponent implements OnInit {
       width: '1500px',
       height: '2000px',
       data: {
+        evaluator: this.evaluatorDetails,
         form: element,
-        route: this.route
+        route: this.route,
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
-      console.log(result);
+      this.ngOnInit();
     });
   }
 }

@@ -42,32 +42,26 @@ export class FormDetailsComponent implements OnInit {
       });
     });
     this.applicationId = this.data.route.snapshot.params.id;
-    console.log(this.applicationId)
+    console.log(this.applicationId);
 
     this.permitDetails = this.fb.group({
       form_remarks: new FormControl(''),
-      is_compliant: new FormControl('')
-    })
+      is_compliant: new FormControl(''),
+    });
   }
 
   callSave() {
     console.log(this.permitDetails.value);
     const uploadDocumentData = {
-      application_id: this.applicationId,
-      user_id: this.userDetails.id,
-      document_id: this.data.form.document_id,
-      document_status_id: this.permitDetails.value.is_compliant,
+      evaluator_user_id: this.data.evaluator.id,
+      remarks: this.permitDetails.value.form_remarks,
+      receiving_status_id: this.permitDetails.value.is_compliant,
     };
-    console.log(uploadDocumentData)
+    console.log(uploadDocumentData, this.data.form.document_id);
     this.newApplicationService
-      .submitDocument(uploadDocumentData)
+      .updateUserDocs(uploadDocumentData, this.data.form.document_id)
       .subscribe((res) => {
-        Swal.fire(
-          'Success!',
-          `Review saved!`,
-          'success'
-        ).then((result) => {
-        });
+        Swal.fire('Success!', `Review saved!`, 'success').then((result) => {});
       });
     this.onNoClick();
   }
