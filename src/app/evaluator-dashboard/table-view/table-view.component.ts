@@ -12,6 +12,7 @@ export class TableViewComponent implements OnInit {
   displayedColumns: string[] = [
     'applicationNo',
     'applicantFullName',
+    'applicationDate',
     'permitType',
     'action',
   ];

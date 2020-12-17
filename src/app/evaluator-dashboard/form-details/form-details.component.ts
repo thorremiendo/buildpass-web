@@ -17,6 +17,7 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./form-details.component.scss'],
 })
 export class FormDetailsComponent implements OnInit {
+  panelOpenState = false;
   public permitDetails: FormGroup;
   public user;
   public userDetails;
@@ -34,13 +35,8 @@ export class FormDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authService.currentUser.subscribe((currentUser) => {
-      this.user = currentUser;
-      this.userService.fetchUserInfo(this.user.user.uid).subscribe((result) => {
-        this.userDetails = result.data;
-        console.log(this.userDetails);
-      });
-    });
+    this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
+    console.log("Current user", this.user);
     this.applicationId = this.data.route.snapshot.params.id;
     console.log(this.applicationId);
 
@@ -67,5 +63,8 @@ export class FormDetailsComponent implements OnInit {
   }
   onNoClick(): void {
     this.dialogRef.close();
+  }
+  callUpdate(){
+    console.log("Update clicked")
   }
 }

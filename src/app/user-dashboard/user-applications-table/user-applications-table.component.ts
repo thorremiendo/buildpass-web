@@ -13,6 +13,7 @@ export class UserApplicationsTableComponent implements OnInit {
   public columnsToDisplay: string[] = [
     'applicationNumber',
     'applicationType',
+    'applicationDate',
     'applicationStatus',
     'action',
   ];

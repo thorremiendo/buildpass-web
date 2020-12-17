@@ -47,13 +47,16 @@
           <div class="col">
             <h5 style="color: #7b7b7b">Application Date:</h5>
             <h5>
-              <strong>&nbsp;{{ applicationDetails.created_at }}</strong>
+              <strong
+                >&nbsp;{{
+                  applicationDetails.created_at | date: "MMMM dd, yyyy"
+                }}</strong
+              >
             </h5>
           </div>
         </div>
         <div class="col-md-4">
-          <div class="col">
-          </div>
+          <div class="col"></div>
           <div class="col">
             <h5 style="color: #7b7b7b">Application Type:</h5>
             <h5>

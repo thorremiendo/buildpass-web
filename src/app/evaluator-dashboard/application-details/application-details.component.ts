@@ -53,10 +53,11 @@ export class ApplicationDetailsComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
-        console.log(this.applicationDetails);
+        console.log(this.applicationDate);
         this.fetchEvaluatorDetails();
       });
   }
+
 
   fetchEvaluatorDetails() {
     this.userService.cast.subscribe((userSubject) => {
