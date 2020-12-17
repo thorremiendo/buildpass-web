@@ -10,8 +10,16 @@
       </div>
       <div class="row mb-1">
         <div class="avatar-container col-md-4 text-center">
-          <div class="avatar mb-2">
-            <img src="../../../assets/images/avatar.png" alt="" />
+          <div>
+            <h5>
+              <strong
+                >&nbsp;{{
+                  applicationDetails.applicant_detail.first_name
+                }}&nbsp;{{
+                  applicationDetails.applicant_detail.last_name
+                }}</strong
+              >
+            </h5>
           </div>
           <div>
             <h5 style="color: #7b7b7b">
@@ -21,6 +29,11 @@
           <div>
             <h5 style="color: #7b7b7b">
               {{ applicationDetails.applicant_detail.contact_number }}
+            </h5>
+          </div>
+          <div>
+            <h5 style="color: #7b7b7b">
+              {{ applicationDetails.applicant_detail.barangay }}
             </h5>
           </div>
         </div>
@@ -40,16 +53,6 @@
         </div>
         <div class="col-md-4">
           <div class="col">
-            <h5 style="color: #7b7b7b">Applicant Name:</h5>
-            <h5>
-              <strong
-                >&nbsp;{{
-                  applicationDetails.applicant_detail.first_name
-                }}&nbsp;{{
-                  applicationDetails.applicant_detail.last_name
-                }}</strong
-              >
-            </h5>
           </div>
           <div class="col">
             <h5 style="color: #7b7b7b">Application Type:</h5>

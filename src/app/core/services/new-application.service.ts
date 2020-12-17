@@ -13,7 +13,7 @@ export class NewApplicationService {
 
   submitApplication(body) {
     const url = `/application`;
-    console.log(body)
+    console.log(body);
     return this.api.post(url, body).pipe(
       map((data: any) => {
         console.log('submitApplication result:', data);
@@ -22,7 +22,7 @@ export class NewApplicationService {
         return data;
       }),
       catchError((error) => {
-        console.log(error)
+        console.log(error);
         return throwError('Something went wrong.');
       })
     );
@@ -31,6 +31,11 @@ export class NewApplicationService {
   submitDocument(body) {
     const url = `/userdocs`;
 
+    return this.api.post(url, body);
+  }
+
+  updateUserDocs(body, id) {
+    const url = `/userdocs/${id}/revision`;
     return this.api.post(url, body);
   }
 

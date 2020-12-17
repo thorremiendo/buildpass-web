@@ -6,6 +6,8 @@ export const environment = {
     databaseURL: "https://baguio-ocpas.firebaseio.com",
     projectId: "baguio-ocpas",
     storageBucket: "baguio-ocpas.appspot.com",
-    messagingSenderId: "555420675385"
+    messagingSenderId: "555420675385",
+    appId: "1:555420675385:web:9c6c47107f6b9695fa8ce8",
+    measurementId: "G-CC0KM4S06Z"
   },
 };

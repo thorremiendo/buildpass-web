@@ -47,32 +47,23 @@ export class ApplicationDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.applicationId = this.route.snapshot.params.id;
     this.applicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
         console.log(this.applicationDetails);
+        this.fetchEvaluatorDetails();
       });
-    this.fetchEvaluatorDetails();
   }
 
-  // tslint:disable-next-line:typedef
   fetchEvaluatorDetails() {
-    this.authService.currentUser.subscribe((currentUser) => {
-      this.user = currentUser;
-      this.userService.fetchUserInfo(this.user.user.uid).subscribe((result) => {
-        this.evaluatorDetails = result.data.employee_detail;
-        console.log(this.evaluatorDetails);
-        this.isLoading = false;
-      });
+    this.userService.cast.subscribe((userSubject) => {
+      this.user = userSubject;
+      this.evaluatorDetails = this.user.employee_detail;
+      console.log('Evaluator Details', this.evaluatorDetails);
+      this.isLoading = false;
     });
   }
-
-  // dateToString() {
-  //   this.applicationDate = this.applicationDetails.created_at.format(
-  //     'YYYY,MM,DD'
-  //   );
-  //   console.log('Application date', this.applicationDate);
-  // }
 }
