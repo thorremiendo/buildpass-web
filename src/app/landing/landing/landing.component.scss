@@ -1,14 +1,14 @@
 .landing {
     display: flex;
     flex-direction: column;
+    background-image: url('../../../assets/images/landing/landing-bg.png');
+    background-size: cover;
 
     .landing-nav {
         flex: 1;
         display: flex;
         align-items: center;
-        background-image: url('../../../assets/images/landing/landing-bg.png');
-        background-size: cover;
-        padding: 100px 0;
+        margin: 70px 0 60px 0;
 
         > div {
             text-align: center;
@@ -23,6 +23,32 @@
             &:hover {
                 transform: scale(1.2);
             }
+        }
+    }
+
+    .faq {
+        text-align: left;
+
+        .mat-card-content {
+            padding-top: 0;
+        }
+
+        .mat-expansion-panel {
+            margin-bottom: 5px;
+        }
+    }
+
+    .ordinances {
+        text-align: left;
+        margin-bottom: 50px;
+
+        .mat-card-content {
+            padding-top: 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 5px;
         }
     }
 }

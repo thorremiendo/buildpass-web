@@ -27,6 +27,23 @@
         }
     }
 
+    ol {
+        list-style-type: none;
+        counter-reset: item;
+        padding: 0;
+
+        li {
+            display: table;
+            counter-increment: item;
+
+            &::before {
+                display: table-cell;
+                content: counters(item, ".") ". ";
+                padding-right: 7px;
+            }
+        }
+    }
+
     @media (max-width: 767.5px) {
         max-width: 90%;
 
