@@ -18,7 +18,7 @@ export class ExcavationPermitComponent implements OnInit {
   public userDetails;
   public formData = {};
   public mergedFormData;
-  public userDocument = userDocuments[1];
+  public userDocument = userDocuments[4];
   public isLoading: boolean = true;
   public applicationId;
   public applicationInfo;

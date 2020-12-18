@@ -71,32 +71,32 @@ export class DesignAnalysisFormsComponent implements OnInit {
     switch (type) {
       case 'buildingPlans':
         this.buildingPlans = file;
-        const buildingPlans = userDocuments[11];
+        const buildingPlans = userDocuments[27];
         this.handleUpload(this.buildingPlans, buildingPlans);
         break;
       case 'structuralDesign':
         this.structuralDesign = file;
-        const structuralDesign = userDocuments[12];
+        const structuralDesign = userDocuments[28];
         this.handleUpload(this.structuralDesign, structuralDesign);
         break;
       case 'electricalDesign':
         this.electricalDesign = file;
-        const electricalDesign = userDocuments[13];
+        const electricalDesign = userDocuments[29];
         this.handleUpload(this.electricalDesign, electricalDesign);
         break;
       case 'soilAnalysis':
         this.soilAnalysis = file;
-        const soilAnalysis = userDocuments[14];
+        const soilAnalysis = userDocuments[30];
         this.handleUpload(this.soilAnalysis, soilAnalysis);
         break;
       case 'buildingSpecification':
         this.buildingSpecification = file;
-        const buildingSpecification = userDocuments[4];
+        const buildingSpecification = userDocuments[31];
         this.handleUpload(this.buildingSpecification, buildingSpecification);
         break;
       case 'billOfMaterials':
         this.billOfMaterials = file;
-        const billOfMaterials = userDocuments[4];
+        const billOfMaterials = userDocuments[32];
         this.handleUpload(this.billOfMaterials, billOfMaterials);
         break;
     }
@@ -124,45 +124,6 @@ export class DesignAnalysisFormsComponent implements OnInit {
     }
   }
   callNext() {
-    const value = this.applicationInfo;
-    const body = {
-      application_type: value.application_type,
-      is_representative: value.is_representative,
-      is_lot_owner: value.is_lot_owner,
-      construction_status: value.construction_status,
-      registered_owner: this.applicationInfo.registered_owner,
-      zoning_clearance_form: value.zoning_clearance_form,
-      building_permit_form: value.building_permit_form,
-      sanitary_permit_form: value.sanitary_permit_form,
-      electrical_permit_form: value.electrical_permit_form,
-      geodetic_engineer_affidavit: this.applicationInfo
-        .geodetic_engineer_affidavit,
-      civil_engineer_affidavit: this.applicationInfo.civil_engineer_affidavit,
-      excavation_permit: value.excavation_permit,
-      demolition_permit: value.demolition_permit,
-      fencing_permit: value.fencing_permit,
-      authorization_letter: value.authorization_letter,
-      filing_fee_receipt: value.filing_fee_receipt,
-      tax_declaration: value.tax_declaration,
-      real_property_tax_receipt: value.real_property_tax_receipt,
-      site_latest_picture: value.site_latest_picture,
-      true_copy_title: value.true_copy_title,
-      lessor_document: value.lessor_document,
-      deed_of_sale: value.deed_of_sale,
-    };
-    if (this.buildingPlans) {
-      body['building_plan'] = this.buildingPlans;
-    }
-    if (this.structuralDesign) {
-      body['structural_design'] = this.structuralDesign;
-    }
-    if (this.electricalDesign) {
-      body['electrical_design'] = this.electricalDesign;
-    }
-    if (this.soilAnalysis) {
-      body['soil_analaysis'] = this.soilAnalysis;
-    }
-
     this.router.navigateByUrl('/dashboard/new/professional-details');
   }
 }
