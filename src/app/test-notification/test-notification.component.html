@@ -6,4 +6,39 @@
 
 
 
+<div class='row notificationBox'>
+    <div class="col-md-5">
+        <mat-card >
+          <mat-card-header>
+            <mat-card-title class="m-3">Notifications</mat-card-title>
+            <button mat-button color="primary">View All</button>
+          </mat-card-header>
+          <hr class="m-0" />
+          <mat-card-content>
+            <div class="_notifications">
+              <div class="d-flex justify-content-center w-100 m-0">
+                <!-- <img
+                  src="../../../assets/illustrations/notification-mail.png"
+                  class="_illustration"
+                /> -->
+              </div>
+              <mat-nav-list>
+                <a mat-list-item *ngFor="let notif of notifbox"> 
+                    {{notif.type}}
+                    {{notif.from}}
+                    {{notif.notification?.title}}  
+                    {{notif.notification?.body}}
+                </a>
+             </mat-nav-list>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    
+     
+    
+    
+    
+    
 
+</div>

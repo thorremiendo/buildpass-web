@@ -23,6 +23,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatListModule } from '@angular/material/list';
 
 import { TestComponentComponent } from './test-component/test-component.component';
  
@@ -104,6 +105,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatCardModule,
     MatSidenavModule,
     MatProgressBarModule,
+    MatListModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     AngularFireDatabaseModule,

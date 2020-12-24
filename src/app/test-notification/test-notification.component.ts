@@ -9,6 +9,7 @@ import { MessagingService } from './../core/services/messaging.service';
 export class TestNotificationComponent implements OnInit {
   title = 'push-notification';
   public message;
+  public notifbox =[];
 
   constructor(
     private _messagingService: MessagingService,
@@ -17,9 +18,12 @@ export class TestNotificationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     this._messagingService.requestPermission()
     this._messagingService.receiveMessage()
-    this.message = this._messagingService.currentMessage
+    this.message = this._messagingService.currentMessage;
+    this.notifbox = this._messagingService.notifBox;
+    console.log(this.notifbox);
     
     console.log(this.message);
   }

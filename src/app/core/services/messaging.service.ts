@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireMessaging } from '@angular/fire/messaging';
+
 import { BehaviorSubject } from 'rxjs'
 
 
@@ -8,7 +9,13 @@ import { BehaviorSubject } from 'rxjs'
 
 
 export class MessagingService {
+    public notifBox:any[]= [];
     currentMessage = new BehaviorSubject(null);
+    
+
+    cast = this.currentMessage.asObservable()
+
+
     constructor(private angularFireMessaging: AngularFireMessaging) {
         this.angularFireMessaging.messages.subscribe(
             (_messaging: AngularFireMessaging) => {
@@ -16,6 +23,9 @@ export class MessagingService {
               _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
             }
           )
+          this.currentMessage.subscribe((res) => {
+            console.log("Message Content ", res);
+         })
         
     }
     requestPermission() {
@@ -32,11 +42,23 @@ export class MessagingService {
         this.angularFireMessaging.messages.subscribe(
             (payload) => {
                 console.log("new message received. ", payload);
-                this.currentMessage.next(payload);
+                //this.currentMessage.next(payload);
                 this.showCustomNotiFication(payload);
+                //this.setMessage(payload);
+                this.notifBox.push(payload);
+
             })
         
     }
+
+    setMessage(notif) {
+        const currentValue = this.currentMessage.value;
+        this.currentMessage.next({
+          ...currentValue,
+          ...notif,
+          
+        });
+      }
 
     showCustomNotiFication(payload){
         let notify_data = payload['notification'];
@@ -62,3 +84,4 @@ export class MessagingService {
 
    
 }
+
