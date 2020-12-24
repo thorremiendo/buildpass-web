@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="row mx-5">
+  <div class="row mx-5" *ngIf="!isLoading">
     <div class="d-flex justify-content-between w-100">
       <div>
         <h2>Building Permit Application</h2>
@@ -202,9 +202,7 @@
       </div>
       <div class="mb-4" *ngIf="applicationInfo.registered_owner == '2'">
         <div class="d-flex justify-content-between">
-          <h5>
-            Absolute Deed of Sale or Conditional Deed of Sale
-          </h5>
+          <h5>Absolute Deed of Sale or Conditional Deed of Sale</h5>
           <mat-icon *ngIf="deedOfSale" style="color: green"
             >check_circle</mat-icon
           >
@@ -221,9 +219,7 @@
             class="mx-auto"
           >
             <ngx-dropzone-label
-              >{{ deedOfSale.name }} ({{
-                deedOfSale.type
-              }})</ngx-dropzone-label
+              >{{ deedOfSale.name }} ({{ deedOfSale.type }})</ngx-dropzone-label
             >
           </ngx-dropzone-preview>
         </ngx-dropzone>
@@ -231,7 +227,8 @@
       <div class="mb-4" *ngIf="applicationInfo.is_lot_owner == '2'">
         <div class="d-flex justify-content-between">
           <h5>
-            Contract of Lease or Certified Copy of Authority to Construct on the subject property
+            Contract of Lease or Certified Copy of Authority to Construct on the
+            subject property
           </h5>
           <mat-icon *ngIf="lessorDocument" style="color: green"
             >check_circle</mat-icon
@@ -276,5 +273,11 @@
           src="../../../assets/illustrations/construction.png"
         />
       </div> -->
+  </div>
+  <div *ngIf="isLoading">
+    <mat-progress-spinner
+      class="example-margin"
+    >
+    </mat-progress-spinner>
   </div>
 </div>

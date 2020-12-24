@@ -144,21 +144,62 @@ export class SanitaryPermitFormComponent implements OnInit {
       applicant_province: 'Benguet',
       applicant_city: 'Baguio City',
       appicant_zipcode: '2600',
-      project_house_number: projectDetails.house_number,
-      project_lot_number: projectDetails.lot_number,
-      project_block_number: projectDetails.block_number,
-      project_street_name: projectDetails.street_name,
-      project_number_of_units: projectDetails.number_of_units,
-      project_barangay: projectDetails.barangay,
-      project_number_of_basement: projectDetails.number_of_basement,
-      project_lot_area: projectDetails.lot_area,
-      project_total_floor_area: projectDetails.total_floor_area,
-      project_units: projectDetails.number_of_units,
-      project_number_of_storey: projectDetails.number_of_storey,
-      project_title: projectDetails.project_title,
-      project_cost_cap: projectDetails.project_cost_cap,
-      project_tct_number: projectDetails.tct_number,
-      project_tax_dec_number: projectDetails.tax_dec_number,
+      project_house_number:
+        projectDetails.house_number == 'undefined'
+          ? ''
+          : projectDetails.house_number,
+      project_lot_number:
+        projectDetails.lot_number == 'undefined'
+          ? ''
+          : projectDetails.lot_number,
+      project_block_number:
+        projectDetails.block_number == 'undefined'
+          ? ''
+          : projectDetails.lot_number,
+      project_street_name:
+        projectDetails.street_name == 'undefined'
+          ? ''
+          : projectDetails.street_name,
+      project_number_of_units:
+        projectDetails.number_of_units == 'undefined'
+          ? ''
+          : projectDetails.number_of_units,
+      project_barangay:
+        projectDetails.barangay == 'undefined' ? '' : projectDetails.barangay,
+      project_number_of_basement:
+        projectDetails.number_of_basement == 'undefined'
+          ? ''
+          : projectDetails.number_of_basement,
+      project_lot_area:
+        projectDetails.lot_area == 'undefined' ? '' : projectDetails.lot_area,
+      project_total_floor_area:
+        projectDetails.total_floor_area == 'undefined'
+          ? ''
+          : projectDetails.total_floor_area,
+      project_units:
+        projectDetails.number_of_units == 'undefined'
+          ? ''
+          : projectDetails.number_of_units,
+      project_number_of_storey:
+        projectDetails.number_of_storey == 'undefined'
+          ? ''
+          : projectDetails.number_of_storey,
+      project_title:
+        projectDetails.project_title == 'undefined'
+          ? ''
+          : projectDetails.project_title,
+      project_cost_cap:
+        projectDetails.project_cost_cap == 'undefined'
+          ? ''
+          : projectDetails.project_cost_cap,
+      project_tct_number:
+        projectDetails.tct_number == 'undefined'
+          ? ''
+          : projectDetails.tct_number,
+      project_tax_dec_number:
+        projectDetails.tax_dec_number == 'undefined'
+          ? ''
+          : projectDetails.tax_dec_number,
       project_province: 'Benguet',
       project_city: 'Baguio City',
       project_zipcode: '2600',

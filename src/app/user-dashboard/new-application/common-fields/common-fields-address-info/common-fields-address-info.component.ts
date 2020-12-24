@@ -55,7 +55,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
 
   //map
   map: mapboxgl.Map;
-  style = 'mapbox://styles/mapbox/streets-v11';
+  style = 'mapbox://styles/mapbox/satellite-v9';
   lat = 16.4136559;
   lng = 120.5893339;
   public marker: mapboxgl.Marker;

@@ -35,6 +35,8 @@ import { ExcavationPermitComponent } from '../new-application/forms/excavation-p
 import { DemolitionPermitComponent } from '../new-application/forms/demolition-permit/demolition-permit.component';
 import { FencingPermitComponent } from '../new-application/forms/fencing-permit/fencing-permit.component';
 import { OtherPermitsComponent } from '../new-application/other-permits/other-permits.component';
+import { ViewApplicationComponent } from '../view-application/view-application.component';
+import { UserApplicationsTableComponent } from '../user-applications-table/user-applications-table.component';
 
 const routes: Routes = [
   {
@@ -264,6 +266,17 @@ const routes: Routes = [
       {
         path: 'applications',
         component: ExistingApplicationsComponent,
+        children: [
+          {
+            path: '',
+            component: UserApplicationsTableComponent,
+            pathMatch: 'full',
+          },
+          {
+            path: 'view/:id',
+            component: ViewApplicationComponent,
+          },
+        ],
       },
       {
         path: 'forms',

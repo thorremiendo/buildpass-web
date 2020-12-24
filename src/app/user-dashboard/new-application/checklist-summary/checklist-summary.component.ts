@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
 import { Router } from '@angular/router';
+import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { NewApplicationService } from 'src/app/core/services/new-application.service';
+import { UserService } from 'src/app/core/services/user.service';
+import { userDocuments } from 'src/app/core/variables/documents';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-checklist-summary',
@@ -9,20 +14,28 @@ import { Router } from '@angular/router';
 })
 export class ChecklistSummaryComponent implements OnInit {
   public applicationInfo;
-
+  public user;
+  public userDetails;
+  public applicationId;
   constructor(
-    private newApplicationService: NewApplicationFormService,
-    private router: Router
+    private router: Router,
+    private newApplicationService: NewApplicationService,
+    private authService: AuthService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.newApplicationService.newApplicationSubject
+    this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
+    console.log(this.user);
+    this.newApplicationService.applicationId
       .asObservable()
-      .subscribe(
-        (newApplicationSubject) =>
-          (this.applicationInfo = newApplicationSubject)
-      );
-        console.log(this.applicationInfo)
+      .subscribe((applicationId) => (this.applicationId = applicationId));
+    console.log('application id:', this.applicationId);
+    this.newApplicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((result) => {
+        this.applicationInfo = result.data;
+      });
   }
 
   submit() {

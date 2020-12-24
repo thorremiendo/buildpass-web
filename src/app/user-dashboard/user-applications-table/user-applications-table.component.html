@@ -1,0 +1,56 @@
+<h1 class="mt-4 ml-3">My Applications</h1>
+<mat-card class="scheduled-travels">
+  <mat-card-content>
+    <div>
+      <table mat-table [dataSource]="applicationInfoData">
+        <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+        <ng-container matColumnDef="applicationNumber">
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+        <!--  Name Column -->
+        <ng-container matColumnDef="applicationType">
+          <th mat-header-cell *matHeaderCellDef>Application Type</th>
+          <td mat-cell *matCellDef="let element">
+            {{
+              element.permit_type_id == "1"
+                ? "Building Permit"
+                : "Occupancy Permit"
+            }}
+          </td>
+        </ng-container>
+        <!-- Status Column -->
+        <ng-container matColumnDef="applicationDate">
+          <th mat-header-cell *matHeaderCellDef>Application Date</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.applicant_detail.created_at | date: "MMMM dd, yyyy" }}
+          </td>
+        </ng-container>
+        <!-- Status Column -->
+        <ng-container matColumnDef="applicationStatus">
+          <th mat-header-cell *matHeaderCellDef>Application Status</th>
+          <td mat-cell *matCellDef="let element">
+            {{ getApplicationStatus(element.application_status_id) }}
+          </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              mat-button
+              color="accent"
+              (click)="viewApplication(element.id)"
+            >
+              View
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>
