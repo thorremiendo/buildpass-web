@@ -56,6 +56,8 @@ import { TestNotificationComponent } from './test-notification/test-notification
 import { AdminModule } from './admin/admin.module';
 import { SharedModule } from './shared/shared.module';
 
+import { TestPusherModule } from './test-pusher/test-pusher.module';
+
 
 
 declare module '@angular/core' {
@@ -123,6 +125,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       useFactory: momentAdapterFactory,
     }),
     CoreModule,
+
+    TestPusherModule,
     
   ],
   providers: [ MessagingService,AsyncPipe,
