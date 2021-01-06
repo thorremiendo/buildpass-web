@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { applicationStatus } from '../../core/enums/application-status.enum';
 import Swal from 'sweetalert2';
 import {
   MatDialog,
@@ -58,7 +59,6 @@ export class ApplicationDetailsComponent implements OnInit {
       });
   }
 
-
   fetchEvaluatorDetails() {
     this.userService.cast.subscribe((userSubject) => {
       this.user = userSubject;
@@ -66,5 +66,8 @@ export class ApplicationDetailsComponent implements OnInit {
       console.log('Evaluator Details', this.evaluatorDetails);
       this.isLoading = false;
     });
+  }
+  getApplicationStatus(id): string {
+    return applicationStatus[id];
   }
 }

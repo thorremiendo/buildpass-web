@@ -17,13 +17,12 @@
     <div class="col-12 m-0 p-0">
       <div>
         <ul>
-          <li *ngFor="let element of applicantForms; let i = index">
-            <a href="{{ element.document_path }}" target="_blank">{{
-              getDocType(element.document_id)
-            }}</a>
-            <mat-icon class="p-2" style="color: green"
-              >check_circle_outline</mat-icon
-            >
+          <li
+            class="d-flex justify-content-between"
+            *ngFor="let element of applicantForms; let i = index"
+          >
+            {{ i + 1 }}. {{ getDocType(element.document_id) }}
+            <button mat-button color="primary" (click)="goToLink(element.document_path)"><u>View</u></button>
           </li>
         </ul>
       </div>

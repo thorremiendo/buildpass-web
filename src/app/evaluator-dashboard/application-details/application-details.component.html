@@ -56,7 +56,15 @@
           </div>
         </div>
         <div class="col-md-4">
-          <div class="col"></div>
+          <div class="col">
+            <h5 style="color: #7b7b7b">Application Status:</h5>
+            <h5>
+              <strong
+                >&nbsp;
+                {{ getApplicationStatus(applicationDetails.application_status_id) }}
+              </strong>
+            </h5>
+          </div>
           <div class="col">
             <h5 style="color: #7b7b7b">Application Type:</h5>
             <h5>

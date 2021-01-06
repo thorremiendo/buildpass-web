@@ -44,6 +44,9 @@ export class ChecklistSummaryComponent implements OnInit {
         this.applicantForms = this.applicationInfo.user_docs;
       });
   }
+  goToLink(url: string) {
+    window.open(url, '_blank');
+  }
   getDocType(id): string {
     return documentTypes[id];
   }

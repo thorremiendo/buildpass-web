@@ -11,6 +11,7 @@ import { documentStatus } from '../../core/enums/document-status.enum';
 import { AuthService, UserService } from 'src/app/core';
 import { ProjectDetailsComponent } from 'src/app/evaluator-dashboard/project-details/project-details.component';
 import { FormDetailsComponent } from 'src/app/evaluator-dashboard/form-details/form-details.component';
+import { applicationStatus } from '../../core/enums/application-status.enum';
 
 @Component({
   selector: 'app-view-application',
@@ -71,6 +72,9 @@ export class ViewApplicationComponent implements OnInit {
   }
   getDocStatus(id): string {
     return documentStatus[id];
+  }
+  getApplicationStatus(id): string {
+    return applicationStatus[id];
   }
 
   openFormDialog(element): void {
