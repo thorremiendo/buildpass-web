@@ -39,7 +39,7 @@ export class FormDetailsComponent implements OnInit {
     console.log("Current user", this.user);
     this.applicationId = this.data.route.snapshot.params.id;
     console.log(this.applicationId);
-
+    console.log(this.data)
     this.permitDetails = this.fb.group({
       form_remarks: new FormControl(''),
       is_compliant: new FormControl(''),
@@ -53,9 +53,9 @@ export class FormDetailsComponent implements OnInit {
       remarks: this.permitDetails.value.form_remarks,
       receiving_status_id: this.permitDetails.value.is_compliant,
     };
-    console.log(uploadDocumentData, this.data.form.document_id);
+    console.log(uploadDocumentData, this.data.form.id);
     this.newApplicationService
-      .updateUserDocs(uploadDocumentData, this.data.form.document_id)
+      .updateUserDocs(uploadDocumentData, this.data.form.id)
       .subscribe((res) => {
         Swal.fire('Success!', `Review saved!`, 'success').then((result) => {});
       });
