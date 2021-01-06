@@ -107,6 +107,6 @@ export class OtherRequirementsComponent implements OnInit {
     }
   }
   callNext() {
-    this.router.navigateByUrl('/dashboard/new/summary');
+    this.router.navigate(['/dashboard/new/summary', this.applicationId]);
   }
 }

@@ -232,7 +232,7 @@ const routes: Routes = [
                 },
               },
               {
-                path: 'summary',
+                path: 'summary/:id',
                 component: ChecklistSummaryComponent,
                 data: {
                   title: 'Checklist',
