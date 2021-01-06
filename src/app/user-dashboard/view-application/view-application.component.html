@@ -135,10 +135,10 @@
                 mat-cell
                 *matCellDef="let element"
                 [style.color]="
-                  element.receiving_status_id == 1 ? 'green' : 'red'
+                  element.document_status_id == 1 ? 'green' : element.document_status_id == 0 ? 'maroon' : 'red'
                 "
               >
-                {{ getDocStatus(element.receiving_status_id) }}
+                {{ getDocStatus(element.document_status_id) }}
               </td>
             </ng-container>
             <!-- Remarks Column -->

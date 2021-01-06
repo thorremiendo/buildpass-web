@@ -108,7 +108,7 @@
       <div *ngIf="evaluatorDetails.office_id == '4'">
         <app-cbao-evaluator></app-cbao-evaluator>
       </div>
-      <div *ngIf="evaluatorDetails.office_id == '1'">
+      <div *ngIf="evaluatorDetails.office_id == '1' && applicationDetails.application_status_id == '2'">
         <app-cpdo-evaluator></app-cpdo-evaluator>
       </div>
       <div *ngIf="evaluatorDetails.office_id == '2'">

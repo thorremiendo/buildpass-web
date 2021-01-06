@@ -33,6 +33,11 @@ export class NewApplicationService {
 
     return this.api.post(url, body);
   }
+  updateDocumentFile(body, id){
+    const url = `/userdocs/${id}/update`;
+
+    return this.api.post(url, body);
+  }
 
   updateUserDocs(body, id) {
     const url = `/userdocs/${id}/revision`;
