@@ -5,6 +5,9 @@
         <strong>Application Forms</strong>
       </h4>
     </div>
+    <button mat-stroked-button color="accent" (click)="openBldgPermitDialog()">
+      Release Building Permit
+    </button>
     <div>
       <table mat-table [dataSource]="dataSource">
         <!--- Note that these columns can be defined in any order.
@@ -63,7 +66,9 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
       <div class="d-flex justify-content-between mt-5">
-        <button mat-raised-button color="warn" (click)="nonCompliant()">Non Compliant</button>
+        <button mat-raised-button color="warn" (click)="nonCompliant()">
+          Non Compliant
+        </button>
         <button mat-raised-button color="primary" (click)="forwardToCpdo()">
           Forward to CPDO
         </button>

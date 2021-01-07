@@ -64,6 +64,7 @@ import { EvaluatorEditProfileComponent } from './evaluator-edit-profile/evaluato
 import { ZoningCertificateComponent } from './zoning-certificate/zoning-certificate.component';
 import { FireClearanceComponent } from './fire-clearance/fire-clearance.component';
 import { WwwmsCertificateComponent } from './wwwms-certificate/wwwms-certificate.component';
+import { ReleaseBldgPermitComponent } from './release-bldg-permit/release-bldg-permit.component';
 
 
 
@@ -89,7 +90,7 @@ import { WwwmsCertificateComponent } from './wwwms-certificate/wwwms-certificate
     BfpEvaluatorComponent,
     ProjectDetailsComponent,
     FormDetailsComponent,
-    EvaluatorsSummaryComponent, EvaluatorIdentificationComponent, EvaluatorEditProfileComponent, ZoningCertificateComponent, FireClearanceComponent, WwwmsCertificateComponent],
+    EvaluatorsSummaryComponent, EvaluatorIdentificationComponent, EvaluatorEditProfileComponent, ZoningCertificateComponent, FireClearanceComponent, WwwmsCertificateComponent, ReleaseBldgPermitComponent],
 
   imports: [
     CommonModule,

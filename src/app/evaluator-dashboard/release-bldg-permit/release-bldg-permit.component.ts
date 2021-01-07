@@ -13,12 +13,12 @@ import { UserService } from 'src/app/core/services/user.service';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 
 @Component({
-  selector: 'app-fire-clearance',
-  templateUrl: './fire-clearance.component.html',
-  styleUrls: ['./fire-clearance.component.scss'],
+  selector: 'app-release-bldg-permit',
+  templateUrl: './release-bldg-permit.component.html',
+  styleUrls: ['./release-bldg-permit.component.scss'],
 })
-export class FireClearanceComponent implements OnInit {
-  public fireClearanceFile: File;
+export class ReleaseBldgPermitComponent implements OnInit {
+  public bldgPermit: File;
   public formData = {};
   public userId;
   public applicationId;
@@ -30,7 +30,7 @@ export class FireClearanceComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<FireClearanceComponent>,
+    public dialogRef: MatDialogRef<ReleaseBldgPermitComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data
   ) {}
@@ -49,35 +49,38 @@ export class FireClearanceComponent implements OnInit {
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
     switch (type) {
-      case 'fireClearanceFile':
-        this.fireClearanceFile = file;
+      case 'bldgPermit':
+        this.bldgPermit = file;
         break;
     }
   }
   onRemove(type) {
     switch (type) {
-      case 'fireClearanceFile':
-        this.fireClearanceFile = null;
+      case 'bldgPermit':
+        this.bldgPermit = null;
         break;
     }
   }
   callSave() {
-    const uploadDocumentData = {
-      application_id: this.applicationId,
-      user_id: this.userId,
-      document_id: 45,
-      document_status_id: 1,
-    };
-    if (this.fireClearanceFile) {
-      uploadDocumentData['document_path'] = this.fireClearanceFile;
-    }
-    this.newApplicationService
-      .submitDocument(uploadDocumentData)
-      .subscribe((res) => {
-        Swal.fire('Success!', `File uploaded!`, 'success').then((result) => {
-          this.onNoClick();
-        });
-      });
+    // const uploadDocumentData = {
+    //   application_id: this.applicationId,
+    //   user_id: this.userId,
+    //   document_id: 44,
+    //   document_status_id: 1,
+    // };
+    // if (this.bldgPermit) {
+    //   uploadDocumentData['document_path'] = this.bldgPermit;
+    // }
+    // this.newApplicationService
+    //   .submitDocument(uploadDocumentData)
+    //   .subscribe((res) => {
+    //     Swal.fire('Success!', `File uploaded!`, 'success').then((result) => {
+    //       this.onNoClick();
+    //     });
+    //   });
+    Swal.fire('Success!', `Building Permit Released!`, 'success').then((result) => {
+      this.onNoClick();
+    });
   }
   onNoClick(): void {
     this.dialogRef.close();
