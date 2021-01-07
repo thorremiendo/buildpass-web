@@ -55,26 +55,69 @@
   </div>
 </div>
 <div class="mt-3" *ngIf="!user.employee_detail">
-  <mat-expansion-panel
-    (opened)="panelOpenState = true"
-    (closed)="panelOpenState = false"
+  <div
+    *ngIf="
+      data.form.document_status_id == 2 || data.form.document_status_id == 0
+    "
   >
-    <mat-expansion-panel-header>
-      <mat-panel-title
-        ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
-          >announcement</mat-icon
-        >Remarks</mat-panel-title
+    <p style="font-size: 12px">
+      <strong
+        >Note: This is a non-compliant document, please review remarks and
+        upload the revised file.</strong
       >
-    </mat-expansion-panel-header>
-    <p>{{ data.form.document_revision[0] ? data.form.document_revision[0].remarks : "No Remarks" }}</p>
-  </mat-expansion-panel>
+    </p>
+
+    <mat-expansion-panel
+      (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title
+          ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
+            >announcement</mat-icon
+          >Remarks</mat-panel-title
+        >
+      </mat-expansion-panel-header>
+      <p>
+        {{
+          data.form.document_revision[0]
+            ? data.form.document_revision[0].remarks
+            : "No Remarks"
+        }}
+      </p>
+    </mat-expansion-panel>
+    <ngx-dropzone
+      (change)="onSelect($event, 'selectedForm')"
+      [multiple]="false"
+      class="mt-3"
+    >
+      <ngx-dropzone-label>Click here to upload new file! </ngx-dropzone-label>
+      <ngx-dropzone-preview
+        *ngIf="selectedForm"
+        [removable]="true"
+        (removed)="onRemove('selectedForm')"
+        class="mx-auto"
+      >
+        <ngx-dropzone-label
+          >{{ selectedForm.name }} ({{ selectedForm.type }})</ngx-dropzone-label
+        >
+      </ngx-dropzone-preview>
+    </ngx-dropzone>
+  </div>
 </div>
 <div *ngIf="!user.employee_detail">
   <div class="d-flex justify-content-between align-items-center mt-5">
     <button mat-raised-button color="accent" (click)="onNoClick()">
       Close
     </button>
-    <button mat-raised-button color="primary" (click)="callUpdate()">
+    <button
+      *ngIf="
+        data.form.document_status_id == 2 || data.form.document_status_id == 0
+      "
+      mat-raised-button
+      color="primary"
+      (click)="callUpdate()"
+    >
       Update
     </button>
   </div>

@@ -4,11 +4,11 @@
             <mat-form-field appearance="outline">
                 <mat-label>Employee Number</mat-label>
                 <input type="text" matInput formControlName="employee_number" required />
-                <mat-error *ngIf="
+                <!-- <mat-error *ngIf="
               (evaluatorEmployeeFormControl.employee_number.touched || _submitted) &&
               evaluatorEmployeeFormControl.employee_number.errors?.required">
                     Employee Number is Required
-                </mat-error>
+                </mat-error> -->
             </mat-form-field>
         </div>
     </div>
@@ -29,11 +29,11 @@
                 </mat-select>
                
     
-                <mat-error *ngIf="
+                <!-- <mat-error *ngIf="
                 (evaluatorEmployeeFormControl.office.touched || _submitted) &&
                 evaluatorEmployeeFormControl.office.errors?.required">
                     Office is Required
-                </mat-error>
+                </mat-error> -->
             </mat-form-field>
         </div>
     </div>
@@ -53,13 +53,13 @@
                       {{position}}
                     </mat-option>
                 </mat-autocomplete>
-               
+<!--                
                 <mat-error *ngIf="
                   (evaluatorEmployeeFormControl.position.touched || _submitted) &&
                   evaluatorEmployeeFormControl.position.errors?.required
                 ">
                     Position is required
-                </mat-error>
+                </mat-error> -->
             </mat-form-field>
         </div>
 
@@ -71,12 +71,12 @@
                 <mat-label>Contact Number</mat-label>
                 <input type="tel" matInput formControlName="contact_number" [maxLength]="maxLength"
                     placeholder="Ex. 09123456789" #contact required />
-                <mat-error *ngIf="
+                <!-- <mat-error *ngIf="
                   (evaluatorEmployeeFormControl.contact_number.touched || _submitted) &&
                   evaluatorEmployeeFormControl.contact_number.errors?.required
                 ">
                     Contact Number is required
-                </mat-error>
+                </mat-error> -->
                 <mat-hint align="end">{{ contact.value.length }} / {{ maxLength }}</mat-hint>
             </mat-form-field>
         </div>

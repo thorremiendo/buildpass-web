@@ -10,6 +10,7 @@ import { FormDetailsComponent } from '../form-details/form-details.component';
 import { documentTypes } from '../../core/enums/document-type.enum';
 import { documentStatus } from '../../core/enums/document-status.enum';
 import { UserService } from 'src/app/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cbao-evaluator',
@@ -41,7 +42,15 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.dataSource = result.data;
         this.fetchEvaluatorDetails();
       });
+    this.fetchApplicationInfo();
     this.changeDetectorRefs.detectChanges();
+  }
+  fetchApplicationInfo() {
+    this.applicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((res) => {
+        console.log('Application Info:', res);
+      });
   }
   fetchEvaluatorDetails() {
     this.userService.cast.subscribe((userSubject) => {
@@ -74,5 +83,20 @@ export class CbaoEvaluatorComponent implements OnInit {
       console.log('The dialog was closed');
       this.ngOnInit();
     });
+  }
+  forwardToCpdo() {
+    const body = {
+      application_status_id: 2,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire(
+          'Success!',
+          `Forwarded to CPDO!`,
+          'success'
+        ).then((result) => {});
+        this.fetchApplicationInfo();
+      });
   }
 }

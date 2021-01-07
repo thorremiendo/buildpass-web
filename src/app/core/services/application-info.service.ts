@@ -47,4 +47,8 @@ export class ApplicationInfoService {
       })
     );
   }
+  updateApplicationStatus(body, id) {
+    const url = `/application/${id}/updateStatus`;
+    return this.api.post(url, body);
+  }
 }

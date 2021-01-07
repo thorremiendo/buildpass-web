@@ -56,7 +56,15 @@
           </div>
         </div>
         <div class="col-md-4">
-          <div class="col"></div>
+          <div class="col">
+            <h5 style="color: #7b7b7b">Application Status:</h5>
+            <h5>
+              <strong
+                >&nbsp;
+                {{ getApplicationStatus(applicationDetails.application_status_id) }}
+              </strong>
+            </h5>
+          </div>
           <div class="col">
             <h5 style="color: #7b7b7b">Application Type:</h5>
             <h5>
@@ -100,7 +108,7 @@
       <div *ngIf="evaluatorDetails.office_id == '4'">
         <app-cbao-evaluator></app-cbao-evaluator>
       </div>
-      <div *ngIf="evaluatorDetails.office_id == '1'">
+      <div *ngIf="evaluatorDetails.office_id == '1' && applicationDetails.application_status_id == '2'">
         <app-cpdo-evaluator></app-cpdo-evaluator>
       </div>
       <div *ngIf="evaluatorDetails.office_id == '2'">

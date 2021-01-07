@@ -23,7 +23,7 @@ export class CpdoEvaluatorComponent implements OnInit {
   public forms;
   public applicationId;
   public evaluatorDetails;
-  public isLoading: boolean = true
+  public isLoading: boolean = true;
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
   constructor(
@@ -55,7 +55,14 @@ export class CpdoEvaluatorComponent implements OnInit {
   }
   generateCpdoForms() {
     const CPDO_FORMS = this.forms.filter(
-      (obj) => obj.document_id == 1 || obj.document_id == 12
+      (obj) =>
+        obj.document_id == 1 ||
+        obj.document_id == 28 ||
+        obj.document_id == 26 ||
+        obj.document_id == 27 ||
+        obj.document_id == 23 ||
+        obj.document_id == 24 ||
+        obj.document_id == 27
     );
     this.dataSource = CPDO_FORMS;
   }
