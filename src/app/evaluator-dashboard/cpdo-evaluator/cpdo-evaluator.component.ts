@@ -10,6 +10,9 @@ import { FormDetailsComponent } from '../form-details/form-details.component';
 import { documentTypes } from '../../core/enums/document-type.enum';
 import { documentStatus } from '../../core/enums/document-status.enum';
 import { UserService } from 'src/app/core';
+import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
+import { ZoningCertificateComponent } from '../zoning-certificate/zoning-certificate.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cpdo-evaluator',
@@ -45,6 +48,7 @@ export class CpdoEvaluatorComponent implements OnInit {
       });
     this.changeDetectorRefs.detectChanges();
   }
+
   fetchEvaluatorDetails() {
     this.userService.cast.subscribe((userSubject) => {
       this.user = userSubject;
@@ -62,7 +66,8 @@ export class CpdoEvaluatorComponent implements OnInit {
         obj.document_id == 27 ||
         obj.document_id == 23 ||
         obj.document_id == 24 ||
-        obj.document_id == 27
+        obj.document_id == 27 ||
+        obj.document_id == 43
     );
     this.dataSource = CPDO_FORMS;
   }
@@ -89,5 +94,50 @@ export class CpdoEvaluatorComponent implements OnInit {
       console.log('The dialog was closed');
       this.ngOnInit();
     });
+  }
+  openZoningDialog() {
+    const dialogRef = this.dialog.open(ZoningCertificateComponent, {
+      width: '1500px',
+      height: '2000px',
+      data: {
+        evaluator: this.evaluatorDetails,
+        form: this.forms,
+        route: this.route,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      this.ngOnInit();
+    });
+  }
+  nonCompliant() {
+    const body = {
+      application_status_id: 1,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire(
+          'Success!',
+          `Notified Applicant for Non-Compliance!`,
+          'success'
+        ).then((result) => {});
+      });
+  }
+  forward() {
+    const body = {
+      application_status_id: 3,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire(
+          'Success!',
+          `Forwarded to CBAO, CEPMO, BFP!`,
+          'success'
+        ).then((result) => {});
+        this.ngOnInit();
+      });
   }
 }

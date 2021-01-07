@@ -61,7 +61,9 @@
             <h5>
               <strong
                 >&nbsp;
-                {{ getApplicationStatus(applicationDetails.application_status_id) }}
+                {{
+                  getApplicationStatus(applicationDetails.application_status_id)
+                }}
               </strong>
             </h5>
           </div>
@@ -97,26 +99,31 @@
     </mat-card-content>
   </mat-card>
 </div>
-<div class="app-forms" *ngIf="!isLoading">
-  <mat-card>
-    <mat-card-content>
-      <div>
-        <h4 style="color: #400c06" class="mb-4">
-          <strong>Application Forms</strong>
-        </h4>
-      </div>
-      <div *ngIf="evaluatorDetails.office_id == '4'">
-        <app-cbao-evaluator></app-cbao-evaluator>
-      </div>
-      <div *ngIf="evaluatorDetails.office_id == '1' && applicationDetails.application_status_id == '2'">
-        <app-cpdo-evaluator></app-cpdo-evaluator>
-      </div>
-      <div *ngIf="evaluatorDetails.office_id == '2'">
-        <app-cepmo-evaluator></app-cepmo-evaluator>
-      </div>
-      <div *ngIf="evaluatorDetails.office_id == '3'">
-        <app-bfp-evaluator></app-bfp-evaluator>
-      </div>
-    </mat-card-content>
-  </mat-card>
+<div *ngIf="evaluatorDetails.office_id == '4'">
+  <app-cbao-evaluator></app-cbao-evaluator>
+</div>
+<div
+  *ngIf="
+    evaluatorDetails.office_id == '1' &&
+    (applicationDetails.application_status_id == '2' ||
+      applicationDetails.application_status_id == '3')
+  "
+>
+  <app-cpdo-evaluator></app-cpdo-evaluator>
+</div>
+<div
+  *ngIf="
+    evaluatorDetails.office_id == '2' &&
+    applicationDetails.application_status_id == '3'
+  "
+>
+  <app-cepmo-evaluator></app-cepmo-evaluator>
+</div>
+<div
+  *ngIf="
+    evaluatorDetails.office_id == '3' &&
+    applicationDetails.application_status_id == '3'
+  "
+>
+  <app-bfp-evaluator></app-bfp-evaluator>
 </div>

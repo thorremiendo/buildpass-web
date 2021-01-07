@@ -190,7 +190,7 @@ export class AuthService {
     return firebase.auth().signOut().then(() => {
       localStorage.removeItem('user');
       this.isAuthenticatedSubject.next(false);
-      this.router.navigate(['']);
+      this.router.navigateByUrl('/user/sign-in');
     });
   }
 }

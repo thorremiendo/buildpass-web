@@ -84,6 +84,21 @@ export class CbaoEvaluatorComponent implements OnInit {
       this.ngOnInit();
     });
   }
+  nonCompliant() {
+    const body = {
+      application_status_id: 1,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire(
+          'Success!',
+          `Notified Applicant for Non-Compliance!`,
+          'success'
+        ).then((result) => {});
+        this.fetchApplicationInfo();
+      });
+  }
   forwardToCpdo() {
     const body = {
       application_status_id: 2,
