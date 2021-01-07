@@ -19,6 +19,7 @@ export class FeedComponent implements OnInit, OnDestroy {
       .getFeedItems()
       .subscribe((feed: Feed) => {
         this.feeds.push(feed);
+        console.log(feed);
       });
   }
 
