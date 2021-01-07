@@ -12,16 +12,22 @@ export class FeedService {
   private pusherClient: Pusher;
 
   constructor() {
-    this.pusherClient = new Pusher("f2c77cb9c939a5f82f91", { cluster: 'ap1' });
+    this.pusherClient = new Pusher("a6ade48d9acbba1dd2e7", { cluster: 'ap1' });
 
     const channel = this.pusherClient.subscribe('realtime-feeds');
 
     channel.bind(
-      'posts',
+      'App\\Events\\PermitStatusChanged',
       (data: { title: string; body: string; time: string }) => {
         this.subject.next(new Feed(data.title, data.body, new Date(data.time)));
       }
     );
+
+  //   channel.bind('App\\Events\\PermitStatusChanged', function(data) {
+  //     // this is called when the event notification is received...
+  //     console.log("Success")
+  //     console.log(data);
+  // });
   }
 
   getFeedItems(): Observable<Feed> {
