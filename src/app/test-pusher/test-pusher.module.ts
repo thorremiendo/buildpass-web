@@ -8,6 +8,9 @@ import { FeedFormComponent } from './feed-form/feed-form.component';
 import { DashboardPusherComponent } from './dashboard-pusher/dashboard-pusher.component';
 import { TestPusherRouting } from './test-pusher-routing.module';
 
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+ 
 
 
 @NgModule({
@@ -23,6 +26,9 @@ import { TestPusherRouting } from './test-pusher-routing.module';
     HttpClientModule,
     FormsModule,
     TestPusherRouting,
+
+    MatCardModule,
+    MatButtonModule,
   ]
 })
 export class TestPusherModule { }

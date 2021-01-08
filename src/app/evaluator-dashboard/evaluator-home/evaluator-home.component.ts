@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterModule, Routes, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
 import {single} from './data'
 import { AuthService } from 'src/app/core/services/auth.service';
+import { FeedService } from '../../core';
+import { Feed } from '../../core';
+import { Subscription } from 'rxjs';
 
 const googleLogoURL =
   'https://raw.githubusercontent.com/fireflysemantics/logo/master/Google.svg';
@@ -34,11 +37,16 @@ export class EvaluatorHomeComponent implements OnInit {
   navLinks: any[];
   activeLinkIndex = -1;
 
+  public feeds: Feed[] = [];
+
+  private feedSubscription: Subscription;
+
   constructor(
     private _router: Router,
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
-    private authService: AuthService
+    private authService: AuthService,
+    private feedService: FeedService,
   ) {
     Object.assign(this, { single });
 
@@ -59,6 +67,13 @@ export class EvaluatorHomeComponent implements OnInit {
         index: 1,
       },
     ];
+
+    this.feedSubscription = feedService
+    .getFeedItems()
+    .subscribe((feed: Feed) => {
+      this.feeds.push(feed);
+      console.log(feed);
+    });
   }
 
   ngOnInit(): void {
@@ -88,5 +103,8 @@ export class EvaluatorHomeComponent implements OnInit {
   }
   handleView(){
     this._router.navigateByUrl('evaluator/application')
+  }
+  ngOnDestroy() {
+    this.feedSubscription.unsubscribe();
   }
 }
