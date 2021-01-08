@@ -57,14 +57,22 @@
                 class="_illustration"
               />
             </div>
-            <p>You don't have any notifications..</p>
-            <p>You don't have any notifications..</p>
-            <p>You don't have any notifications..</p>
-            <p>You don't have any notifications..</p>
-            <p>You don't have any notifications..</p>
-            <p>You don't have any notifications..</p>
-            <p>You don't have any notifications..</p>
-            <p>You don't have any notifications..</p>
+            <div *ngFor="let feed of feeds">
+              <div class="d-flex justify-content-around w-100 m-0">
+                <a routerLink="" 
+                  ><p style="color: rgb(90, 108, 116); font-size: 12px">
+                    Nov-21-2020 3:43PM
+                  </p></a
+                >
+  
+                <a routerLink="" (click)="handleView()"
+                  ><p style="color: rgb(90, 108, 116)">
+                    {{feed.application_number}} {{feed.status}}
+                  </p></a
+                >
+              </div>
+              <hr />
+            </div>
           </div>
         </mat-card-content>
       </mat-card>
