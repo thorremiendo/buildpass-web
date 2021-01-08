@@ -81,10 +81,11 @@
           </div>
         </div>
       </div>
-      <div class="text-right">
+      <div class="mt-5">
         <button mat-raised-button color="primary" (click)="openProjectDialog()">
           Project Details
         </button>
+        <button mat-raised-button class="ml-2" color="accent" (click)="openFeesDialog()">View Fees</button>
       </div>
     </mat-card-content>
   </mat-card>
@@ -135,7 +136,11 @@
                 mat-cell
                 *matCellDef="let element"
                 [style.color]="
-                  element.document_status_id == 1 ? 'green' : element.document_status_id == 0 ? 'maroon' : 'red'
+                  element.document_status_id == 1
+                    ? 'green'
+                    : element.document_status_id == 0
+                    ? 'maroon'
+                    : 'red'
                 "
               >
                 {{ getDocStatus(element.document_status_id) }}
@@ -170,7 +175,9 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
           <div class="text-right mt-5">
-            <button mat-raised-button color="warn" (click)="onSave()">Save</button>
+            <button mat-raised-button color="warn" (click)="onSave()">
+              Save
+            </button>
           </div>
         </div>
       </div>
