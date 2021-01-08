@@ -62,6 +62,12 @@ import { ProjectDetailsComponent } from './project-details/project-details.compo
 import { FormDetailsComponent } from './form-details/form-details.component';
 import { EvaluatorIdentificationComponent } from './evaluator-identification/evaluator-identification.component';
 import { EvaluatorEditProfileComponent } from './evaluator-edit-profile/evaluator-edit-profile.component';
+import { ZoningCertificateComponent } from './zoning-certificate/zoning-certificate.component';
+import { FireClearanceComponent } from './fire-clearance/fire-clearance.component';
+import { WwwmsCertificateComponent } from './wwwms-certificate/wwwms-certificate.component';
+import { ReleaseBldgPermitComponent } from './release-bldg-permit/release-bldg-permit.component';
+import { FeesDialogComponent } from './fees-dialog/fees-dialog.component';
+import { ViewFeesComponent } from './view-fees/view-fees.component';
 
 
 
@@ -87,7 +93,7 @@ import { EvaluatorEditProfileComponent } from './evaluator-edit-profile/evaluato
     BfpEvaluatorComponent,
     ProjectDetailsComponent,
     FormDetailsComponent,
-    EvaluatorsSummaryComponent, EvaluatorIdentificationComponent, EvaluatorEditProfileComponent],
+    EvaluatorsSummaryComponent, EvaluatorIdentificationComponent, EvaluatorEditProfileComponent, ZoningCertificateComponent, FireClearanceComponent, WwwmsCertificateComponent, ReleaseBldgPermitComponent, FeesDialogComponent, ViewFeesComponent],
 
   imports: [
     CommonModule,

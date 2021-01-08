@@ -61,7 +61,9 @@
             <h5>
               <strong
                 >&nbsp;
-                {{ getApplicationStatus(applicationDetails.application_status_id) }}
+                {{
+                  getApplicationStatus(applicationDetails.application_status_id)
+                }}
               </strong>
             </h5>
           </div>
@@ -79,7 +81,7 @@
           </div>
         </div>
       </div>
-      <div class="text-right">
+      <div class="text-right mt-5">
         <button mat-raised-button color="primary" (click)="openProjectDialog()">
           Project Details
         </button>
@@ -91,32 +93,104 @@
   <mat-card>
     <mat-card-content>
       <h4 style="color: #12632a" class="mb-4">
-        <strong>Application Timeline</strong>
+        <strong>Application Fees</strong>
         <hr />
       </h4>
+      <div>
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          class="full-width"
+          #itemsTable
+        >
+          <ng-container matColumnDef="number">
+            <th mat-header-cell *matHeaderCellDef>No.</th>
+            <td mat-cell *matCellDef="let item; let i = index">{{ i + 1 }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Description</th>
+            <td mat-cell *matCellDef="let item">{{ item.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef>Amount</th>
+            <td mat-cell *matCellDef="let item">Php {{ item.amount }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="office">
+            <th mat-header-cell *matHeaderCellDef>Issued By</th>
+            <td mat-cell *matCellDef="let item">
+              {{ getOfficeType(item.office_id) }}
+            </td>
+          </ng-container>
+          <!-- Action Column -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let item; let i = index">
+              <button mat-button color="accent" (click)="onRemove(item.id)">
+                Remove
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+          <tr mat-row *matRowDef="let items; columns: columnsToDisplay"></tr>
+        </table>
+
+        <div class="text-center" *ngIf="dataSource.length === 0">
+          <div class="mt-3">
+            <h3>No items</h3>
+            <button
+              mat-raised-button
+              color="primary"
+              type="button"
+              (click)="showAddItem()"
+            >
+              Add One Row
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="dataSource.length >= 1" class="text-center mt-5">
+          <button
+            mat-raised-button
+            color="primary"
+            type="button"
+            (click)="showAddItem()"
+          >
+            Add Another Item
+          </button>
+        </div>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>
-<div class="app-forms" *ngIf="!isLoading">
-  <mat-card>
-    <mat-card-content>
-      <div>
-        <h4 style="color: #400c06" class="mb-4">
-          <strong>Application Forms</strong>
-        </h4>
-      </div>
-      <div *ngIf="evaluatorDetails.office_id == '4'">
-        <app-cbao-evaluator></app-cbao-evaluator>
-      </div>
-      <div *ngIf="evaluatorDetails.office_id == '1' && applicationDetails.application_status_id == '2'">
-        <app-cpdo-evaluator></app-cpdo-evaluator>
-      </div>
-      <div *ngIf="evaluatorDetails.office_id == '2'">
-        <app-cepmo-evaluator></app-cepmo-evaluator>
-      </div>
-      <div *ngIf="evaluatorDetails.office_id == '3'">
-        <app-bfp-evaluator></app-bfp-evaluator>
-      </div>
-    </mat-card-content>
-  </mat-card>
+<div *ngIf="evaluatorDetails.office_id == '4'">
+  <app-cbao-evaluator></app-cbao-evaluator>
+</div>
+<div
+  *ngIf="
+    evaluatorDetails.office_id == '1' &&
+    (applicationDetails.application_status_id == '2' ||
+      applicationDetails.application_status_id == '3')
+  "
+>
+  <app-cpdo-evaluator></app-cpdo-evaluator>
+</div>
+<div
+  *ngIf="
+    evaluatorDetails.office_id == '2' &&
+    applicationDetails.application_status_id == '3'
+  "
+>
+  <app-cepmo-evaluator></app-cepmo-evaluator>
+</div>
+<div
+  *ngIf="
+    evaluatorDetails.office_id == '3' &&
+    applicationDetails.application_status_id == '3'
+  "
+>
+  <app-bfp-evaluator></app-bfp-evaluator>
 </div>

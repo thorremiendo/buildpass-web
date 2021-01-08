@@ -11,6 +11,7 @@ import { documentTypes } from '../../core/enums/document-type.enum';
 import { documentStatus } from '../../core/enums/document-status.enum';
 import { UserService } from 'src/app/core';
 import Swal from 'sweetalert2';
+import { ReleaseBldgPermitComponent } from '../release-bldg-permit/release-bldg-permit.component';
 
 @Component({
   selector: 'app-cbao-evaluator',
@@ -22,6 +23,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   public user;
   public dataSource;
   public applicationId;
+  public applicationInfo;
   public evaluatorDetails;
   public isLoading: boolean = true;
   public pdfSrc =
@@ -50,6 +52,7 @@ export class CbaoEvaluatorComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         console.log('Application Info:', res);
+        this.applicationInfo = res.data
       });
   }
   fetchEvaluatorDetails() {
@@ -84,6 +87,21 @@ export class CbaoEvaluatorComponent implements OnInit {
       this.ngOnInit();
     });
   }
+  nonCompliant() {
+    const body = {
+      application_status_id: 1,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire(
+          'Success!',
+          `Notified Applicant for Non-Compliance!`,
+          'success'
+        ).then((result) => {});
+        this.fetchApplicationInfo();
+      });
+  }
   forwardToCpdo() {
     const body = {
       application_status_id: 2,
@@ -98,5 +116,21 @@ export class CbaoEvaluatorComponent implements OnInit {
         ).then((result) => {});
         this.fetchApplicationInfo();
       });
+  }
+  openBldgPermitDialog() {
+    const dialogRef = this.dialog.open(ReleaseBldgPermitComponent, {
+      width: '1500px',
+      height: '2000px',
+      data: {
+        evaluator: this.evaluatorDetails,
+        form: this.applicationInfo,
+        route: this.route,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      this.ngOnInit();
+    });
   }
 }

@@ -38,6 +38,11 @@ export class NewApplicationService {
 
     return this.api.post(url, body);
   }
+  fetchUserInfo(id){
+    const url = `/user/${id}/applicationid`;
+
+    return this.api.get(url);
+  }
 
   updateUserDocs(body, id) {
     const url = `/userdocs/${id}/revision`;

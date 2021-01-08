@@ -40,5 +40,8 @@ export enum documentTypes {
   "Barangay Clearance" = 39,
   "Environmental Compliance Certificate of Building for Critical/Hazardous Projects or for a floor area of 10,000 sq.m" = 40,
   "Clearance from other government agencies, pursuant to No. 12 (B) of Section 302 of the IRR of the National Building Code (PD 1096) (if applicable)" = 41,
-  "Certificate of Construction Safety Health Program (CSHP) from DOLE" = 42
+  "Certificate of Construction Safety Health Program (CSHP) from DOLE" = 42,
+  "Certificate of Zoning Compliance from CPDO" = 43,
+  "WWMS BP Certificate" = 44,
+  "Fire Safety Evaluation Clearance" = 45
 }

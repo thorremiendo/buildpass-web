@@ -1,12 +1,34 @@
-table {
+.container {
+    width: 100%;
+    ._app-details {
+      width: 60%;
+    }
+    ._app-timeline {
+      width: 40%;
+    }
+  }
+  .app-forms {
     width: 100%;
   }
+  .avatar-container {
+    border-right: 2px solid grey;
+    .avatar {
+      img {
+        width: 80px;
+        height: auto;
+        object-fit: cover;
+      }
+    }
+  }
   
-  .mat-column-index {
+  table {
+    width: 100%;
+  }
+  .mat-column-number {
     word-wrap: break-word !important;
     white-space: unset !important;
-    flex: 0 0 5% !important;
-    width: 5% !important;
+    flex: 0 0 10% !important;
+    width: 10% !important;
     overflow-wrap: break-word;
     word-wrap: break-word;
   
@@ -17,11 +39,11 @@ table {
     -webkit-hyphens: auto;
     hyphens: auto;
   }
-  .mat-column-name {
+  .mat-column-description {
     word-wrap: break-word !important;
     white-space: unset !important;
-    flex: 0 0 50% !important;
-    width: 50% !important;
+    flex: 0 0 60% !important;
+    width: 60% !important;
     overflow-wrap: break-word;
     word-wrap: break-word;
   
@@ -32,11 +54,11 @@ table {
     -webkit-hyphens: auto;
     hyphens: auto;
   }
-  .mat-column-status {
+  .mat-column-amount {
     word-wrap: break-word !important;
     white-space: unset !important;
-    flex: 0 0 20% !important;
-    width: 20% !important;
+    flex: 0 0 15% !important;
+    width: 15% !important;
     overflow-wrap: break-word;
     word-wrap: break-word;
   
@@ -47,11 +69,12 @@ table {
     -webkit-hyphens: auto;
     hyphens: auto;
   }
-  .mat-column-remarks {
+  
+  .mat-column-office {
     word-wrap: break-word !important;
     white-space: unset !important;
-    flex: 0 0 20% !important;
-    width: 20% !important;
+    flex: 0 0 10% !important;
+    width: 10% !important;
     overflow-wrap: break-word;
     word-wrap: break-word;
   
@@ -62,19 +85,5 @@ table {
     -webkit-hyphens: auto;
     hyphens: auto;
   }
-  .mat-column-action {
-    word-wrap: break-word !important;
-    white-space: unset !important;
-    flex: 0 0 5% !important;
-    width: 5% !important;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
   
-    word-break: break-word;
-  
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-  }
   
