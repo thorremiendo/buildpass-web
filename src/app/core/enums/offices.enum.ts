@@ -1,7 +1,7 @@
 export enum officeTypes {
-    "CBAO" = 4,
-    "CPDO" = 1,
-    "CEPMO" = 2,
-    "BFP" = 3,
-    "Assessors" = 5
+    "City Buildings and Architecture Office" = 4,
+    "City Planning and Development Office" = 1,
+    "City Environment and Parks Management Office" = 2,
+    "Bureau of Fire Protection" = 3,
+    "Assessors Office" = 5
 }

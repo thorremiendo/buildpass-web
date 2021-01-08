@@ -214,7 +214,7 @@ export class OtherPermitsComponent implements OnInit {
         'dashboard/new/initial-forms/civil-engineer-affidavit'
       );
     } else {
-      this.router.navigateByUrl('dashboard/new/documentary-requirements');
+      this.router.navigateByUrl('dashboard/new/summary');
     }
   }
 }

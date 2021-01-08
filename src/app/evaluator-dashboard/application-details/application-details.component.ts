@@ -24,8 +24,8 @@ export class ApplicationDetailsComponent implements OnInit {
   columnsToDisplay: string[] = [
     'number',
     'description',
-    'amount',
     'office',
+    'amount',
     'action',
   ];
   public dataSource;
@@ -68,7 +68,7 @@ export class ApplicationDetailsComponent implements OnInit {
         this.fetchApplicationFees();
       });
   }
-  
+
   fetchApplicationFees() {
     const id = this.applicationId;
     this.applicationFeeService.fetchFees(id).subscribe((res) => {

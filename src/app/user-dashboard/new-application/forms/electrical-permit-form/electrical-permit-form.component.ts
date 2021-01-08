@@ -79,9 +79,16 @@ export class ElectricalPermitFormComponent implements OnInit {
           'success'
         ).then((result) => {
           this.isLoading = false;
-          this.router.navigateByUrl(
-            'dashboard/new/initial-forms/excavation-permit'
-          );
+          if (
+            this.applicationInfo.construction_status == '2' ||
+            this.applicationInfo.construction_status == '3'
+          ) {
+            this.router.navigateByUrl(
+              'dashboard/new/initial-forms/civil-engineer-affidavit'
+            );
+          } else {
+            this.router.navigateByUrl('dashboard/new/documentary-requirements');
+          }
         });
       });
   }

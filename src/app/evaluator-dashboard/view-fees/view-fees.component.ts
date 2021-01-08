@@ -11,7 +11,7 @@ import { officeTypes } from 'src/app/core/enums/offices.enum';
   styleUrls: ['./view-fees.component.scss'],
 })
 export class ViewFeesComponent implements OnInit {
-  columnsToDisplay: string[] = ['number', 'description', 'amount', 'office'];
+  columnsToDisplay: string[] = ['number', 'description', 'office', 'amount'];
   public dataSource;
   constructor(
     public dialogRef: MatDialogRef<ViewFeesComponent>,
@@ -25,5 +25,8 @@ export class ViewFeesComponent implements OnInit {
   }
   getOfficeType(id): string {
     return officeTypes[id];
+  }
+  onClose(): void {
+    this.dialogRef.close();
   }
 }

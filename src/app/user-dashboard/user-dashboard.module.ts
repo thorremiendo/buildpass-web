@@ -66,6 +66,7 @@ import { FencingPermitComponent } from './new-application/forms/fencing-permit/f
 import { OtherPermitsComponent } from './new-application/other-permits/other-permits.component';
 import { ViewApplicationComponent } from './view-application/view-application.component';
 import { UserApplicationsTableComponent } from './user-applications-table/user-applications-table.component';
+import {MatStepperModule} from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -135,7 +136,8 @@ import { UserApplicationsTableComponent } from './user-applications-table/user-a
     }),
     MatAutocompleteModule,
     MatCheckboxModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatStepperModule
   ],
 })
 export class UserModule {}
