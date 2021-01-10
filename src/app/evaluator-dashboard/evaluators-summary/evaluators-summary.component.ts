@@ -55,6 +55,30 @@ export class EvaluatorsSummaryComponent implements OnInit {
   onSubmit(){
     this._registerAccountEvaluatorFormService.submitRegisterAccountInfo(this.user).subscribe((res) => {
       this._authService.SendVerificationMail();
+      
+    this._localStorageService.remove('evaluator-registration-first-name');
+    this._localStorageService.remove('evaluator-registration-middle-name');
+    this._localStorageService.remove('evaluator-registration-last-name');
+    this._localStorageService.remove('evaluator-registration-suffix-name');
+    this._localStorageService.remove('evaluator-registration-birth-date');
+    this._localStorageService.remove('evaluator-registration-marital-status');
+    this._localStorageService.remove('evaluator-registration-gender');
+    this._localStorageService.remove('evaluator-registration-home-address');
+    this._localStorageService.remove('evaluator-registration-barangay');
+    this._localStorageService.remove('evaluator-registration-employee-number');
+    this._localStorageService.remove('evaluator-registration-office');
+    this._localStorageService.remove('evaluator-registration-position');
+    this._localStorageService.remove('evaluator-registration-contact-number');
+    this._localStorageService.remove('evaluator-registration-contact-number');
+    this._localStorageService.remove('evaluator-registration-id-type');
+    this._localStorageService.remove('evaluator-registration-id-number');
+    this._localStorageService.remove('evaluator-registration-firebase-uid');
+    this._localStorageService.remove('evaluator-registration-email-address');
+    this._localStorageService.remove('evaluator-registration-email-verified');
+    this._localStorageService.remove('evaluator-registration-is-evaluator');
+    this._localStorageService.remove('evaluator-registration-photo');
+    this._localStorageService.remove('evaluator-registration-id')
+
     }, (err => {
       console.log(err);
     }));
