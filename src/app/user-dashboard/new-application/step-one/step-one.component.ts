@@ -45,7 +45,11 @@ export class StepOneComponent implements OnInit {
     };
     this.newApplicationFormService.setApplicationInfo(body)
     // this.router.navigateByUrl('/dashboard/new/initial-forms/zoning-clearance')
-    this.router.navigateByUrl('/dashboard/new/step-two/lot-owner')
+    if(value.application_type == 1){
+      this.router.navigateByUrl('/dashboard/new/step-two/lot-owner')
+    } else {
+      this.router.navigateByUrl('/dashboard/new/fencing-permit')
+    }
 
   }
 }
