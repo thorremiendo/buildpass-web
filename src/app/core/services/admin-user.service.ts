@@ -2,8 +2,8 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { Observable } from 'rxjs';
 import { map} from 'rxjs/operators';
-import { UserCredentialAdapter } from '../../core/adapters';
-import { AdminUserParamBuilder } from './../http-builder';
+import { UserCredentialAdapter } from '../adapters';
+import { AdminUserParamBuilder } from '../http-builder';
 import { AdminUserParams } from '../models';
 import { ApiService } from './api.service';
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { RegisterAccountEvaluatorFormService } from '../../core/services/register-account-evaluator-form.service';
 import { Router } from '@angular/router';
-import { AuthService} from '../../core/services/auth.service'
-import { AngularFirestore, AngularFirestoreDocument, } from '@angular/fire/firestore';
+import { AuthService} from '../../core/services/auth.service';
+import { LocalStorageService } from '../../core/services/local-storage.service';
+import { RegisterAccountEvaluatorFormService } from '../../core/services/register-account-evaluator-form.service';
 
 @Component({
   selector: 'app-evaluators-summary',
@@ -10,50 +10,65 @@ import { AngularFirestore, AngularFirestoreDocument, } from '@angular/fire/fires
   styleUrls: ['./evaluators-summary.component.scss']
 })
 export class EvaluatorsSummaryComponent implements OnInit {
-  public userDetails;
+  public user = {
+    first_name: this._localStorageService.get('evaluator-registration-first-name'),
+    middle_name: this._localStorageService.get('evaluator-registration-middle-name'),
+    last_name: this._localStorageService.get('evaluator-registration-last-name'),
+    suffix_name: this._localStorageService.get('evaluator-registration-suffix-name'),
+    birthdate: this.dateToString(this._localStorageService.get('evaluator-registration-birth-date')),
+    marital_status_id: this._localStorageService.get('evaluator-registration-marital-status'),
+    gender: this._localStorageService.get('evaluator-registration-gender'),
+    home_address: this._localStorageService.get('evaluator-registration-home-address'),
+    barangay: this._localStorageService.get('evaluator-registration-barangay'),
+    employee_no: this._localStorageService.get('evaluator-registration-employee-number'),
+    department: this._localStorageService.get('evaluator-registration-office'),
+    position: this._localStorageService.get('evaluator-registration-position'),
+    contact_number: this._localStorageService.get('evaluator-registration-contact-number'),
+    mobile_no: this._localStorageService.get('evaluator-registration-contact-number'),
+    id_type: this._localStorageService.get('evaluator-registration-id-type'),
+    id_number: this._localStorageService.get('evaluator-registration-id-number'),
+    firebase_uid: this._localStorageService.get('evaluator-registration-firebase-uid'),
+    email_address: this._localStorageService.get('evaluator-registration-email-address'),
+    emailVerified: this._localStorageService.get('evaluator-registration-email-verified'),
+    is_evaluator: this._localStorageService.get('evaluator-registration-is-evaluator'),
+    photo_path: 'test',
+    id_photo_path: this._localStorageService.get('evaluator-registration-id')
+  }
+
+  get profilePhoto(): string | ArrayBuffer {
+    const photo = this._localStorageService.get('evaluator-registration-photo');
+    return photo ? photo : "https://baguio-visita.s3-ap-southeast-1.amazonaws.com/default-avatar.png";
+  }
+
+  get idPhoto(): string | ArrayBuffer {
+    const id = this._localStorageService.get('evaluator-registration-id');
+    return id ? id : "https://baguio-visita.s3-ap-southeast-1.amazonaws.com/default-avatar.png";
+  }
 
   constructor(
     private _router: Router,
-    private _afs: AngularFirestore,
     private _authService: AuthService,
     private _registerAccountEvaluatorFormService: RegisterAccountEvaluatorFormService,
-  ) { }
+    private _localStorageService: LocalStorageService
+  ) {}
 
   onSubmit(){
-    
-    this.SetUserDataFire();
-    this._registerAccountEvaluatorFormService.setRegisterAccountInfo(this.userDetails)
-    
-    this._registerAccountEvaluatorFormService.submitRegisterAccountInfo(this.userDetails).subscribe((res) => {
+    this._registerAccountEvaluatorFormService.submitRegisterAccountInfo(this.user).subscribe((res) => {
       this._authService.SendVerificationMail();
     }, (err => {
       console.log(err);
-      console.log(this.userDetails)
-     
-    
     }));
-   
-
   }
 
-  SetUserDataFire() {
-    const userRef: AngularFirestoreDocument<any> = this._afs.doc(
-      `users/${this.userDetails.firebase_uid}`
-    );
-    const userData = {
-     department: this.userDetails.office,
-     position: this.userDetails.position,
-    };
-    return userRef.set(userData, {
-      merge: true,
-    });
-
-    
+  dateToString(dateObject){
+    if(dateObject != null){
+      const birthdate = new Date(dateObject);
+      let dd = birthdate.getDate();
+      let mm = birthdate.getMonth() + 1;
+      let yyyy = birthdate.getFullYear();
+      return `${yyyy}-${mm}-${dd}`;
+    }
   }
-
-  ngOnInit(): void {
-    this._registerAccountEvaluatorFormService.cast.subscribe(registerAccountEvaluatorSubject => this.userDetails = registerAccountEvaluatorSubject)
-   
-  }
-
+  
+  ngOnInit(): void {}
 }
