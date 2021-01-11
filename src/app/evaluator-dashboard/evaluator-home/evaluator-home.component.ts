@@ -2,11 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RouterModule, Routes, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
-import {single} from './data'
+import { single } from './data';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FeedService } from '../../core';
 import { Feed } from '../../core';
 import { Subscription } from 'rxjs';
+import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
+
 
 const googleLogoURL =
   'https://raw.githubusercontent.com/fireflysemantics/logo/master/Google.svg';
@@ -18,10 +20,26 @@ const googleLogoURL =
 })
 export class EvaluatorHomeComponent implements OnInit {
   public user;
-  public evaluatorDetails
-  public department = "cbao"
-  //piechart data
-  single: any[];
+  public applications;
+  public evaluatorDetails;
+  public chartData: any[] = [
+    {
+      name: 'Pending',
+      value: 0,
+    },
+    {
+      name: 'In Process',
+      value: 1,
+    },
+    {
+      name: 'Flagged',
+      value: 0,
+    },
+    {
+      name: 'Completed',
+      value: 0,
+    },
+  ];
   view: any[] = [700, 400];
   public date = new Date();
   //piechart options
@@ -31,7 +49,7 @@ export class EvaluatorHomeComponent implements OnInit {
   isDoughnut: boolean = true;
   //piechart color
   colorScheme = {
-    domain: ['#540b0e', '#9e2a2b', '#335c67', '#F9C232']
+    domain: ['#540b0e', '#9e2a2b', '#335c67', '#F9C232'],
   };
   //card navigation
   navLinks: any[];
@@ -47,8 +65,8 @@ export class EvaluatorHomeComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private authService: AuthService,
     private feedService: FeedService,
+    public applicationInfoService: ApplicationInfoService
   ) {
-    Object.assign(this, { single });
 
     this.matIconRegistry.addSvgIcon(
       'logo',
@@ -69,11 +87,11 @@ export class EvaluatorHomeComponent implements OnInit {
     ];
 
     this.feedSubscription = feedService
-    .getFeedItems()
-    .subscribe((feed: Feed) => {
-      this.feeds.push(feed);
-      console.log(feed);
-    });
+      .getFeedItems()
+      .subscribe((feed: Feed) => {
+        this.feeds.push(feed);
+        console.log(feed);
+      });
   }
 
   ngOnInit(): void {
@@ -82,13 +100,10 @@ export class EvaluatorHomeComponent implements OnInit {
         this.navLinks.find((tab) => tab.link === '.' + this._router.url)
       );
     });
-    // this.authService.currentUser.subscribe((currentUser) => {
-    //   this.user = currentUser;
-    //   this.authService.getFireBaseData(this.user.user.uid).subscribe(result =>{
-    //     this.evaluatorDetails = result.data();
-    //     console.log(this.evaluatorDetails)
-    //   })
-    // });
+    this.applicationInfoService.fetchApplications().subscribe(res => {
+      this.applications = res.data
+      console.log(this.applications)
+    })
   }
   onSelect(data): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));
@@ -101,8 +116,8 @@ export class EvaluatorHomeComponent implements OnInit {
   onDeactivate(data): void {
     console.log('Deactivate', JSON.parse(JSON.stringify(data)));
   }
-  handleView(){
-    this._router.navigateByUrl('evaluator/application')
+  handleView() {
+    this._router.navigateByUrl('evaluator/application');
   }
   ngOnDestroy() {
     this.feedSubscription.unsubscribe();

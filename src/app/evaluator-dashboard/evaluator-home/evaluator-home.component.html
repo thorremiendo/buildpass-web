@@ -5,12 +5,12 @@
         <mat-card>
           <mat-card-title class="m-3">Applications</mat-card-title>
           <hr class="m-0" />
-          <p class="ml-3 mt-3">as of {{ date }}</p>
+          <p class="ml-3 mt-3">as of {{ date | date: "MMMM dd, yyyy" }}</p>
           <div class="piechart justify-content-center">
             <ngx-charts-advanced-pie-chart
               [view]="view"
               [scheme]="colorScheme"
-              [results]="single"
+              [results]="chartData"
               [gradient]="gradient"
               (select)="onSelect($event)"
               (activate)="onActivate($event)"
@@ -44,19 +44,6 @@
               <hr />
             </div>
            
-            <div class="d-flex justify-content-around w-100 m-0" *ngIf="department=='cpdo'">
-              <a routerLink="" (click)="handleView()"
-                ><p style="color: rgb(90, 108, 116); font-size: 12px">
-                  Nov-21-2020 3:43PM
-                </p></a
-              >
-
-              <a routerLink="" (click)="handleView()"
-                ><p style="color: rgb(90, 108, 116)">
-                  A2020-1 for Document Processing
-                </p></a
-              >
-            </div>
             
           </mat-card-content>
         </mat-card>

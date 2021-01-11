@@ -193,4 +193,11 @@ export class AuthService {
       this.router.navigateByUrl('/user/sign-in');
     });
   }
+  evaluatorSignOut(){
+    return firebase.auth().signOut().then(() => {
+      localStorage.removeItem('user');
+      this.isAuthenticatedSubject.next(false);
+      this.router.navigateByUrl('/evaluator/sign-in');
+    });
+  }
 }

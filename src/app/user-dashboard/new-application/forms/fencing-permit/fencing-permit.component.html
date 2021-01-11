@@ -68,231 +68,235 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Step 2</ng-template>
-      <hr />
-      <div class="mb-4">
-        <div class="d-flex justify-content-between">
-          <h5>Duly notarized authorization to process and receive approved permit or special power of the attorney (for representative/s)</h5>
-          <mat-icon *ngIf="topographicMap" style="color: green"
-            >check_circle</mat-icon
-          >
-        </div>
-        <ngx-dropzone
-          (change)="onSelect($event, 'topographicMap')"
-          [multiple]="false"
+    <hr />
+    <div class="mb-4">
+      <div class="d-flex justify-content-between">
+        <h5>
+          Duly notarized authorization to process and receive approved permit or
+          special power of the attorney (for representative/s)
+        </h5>
+        <mat-icon *ngIf="topographicMap" style="color: green"
+          >check_circle</mat-icon
         >
-          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-          <ngx-dropzone-preview
-            *ngIf="topographicMap"
-            [removable]="true"
-            (removed)="onRemove('topographicMap')"
-            class="mx-auto"
-          >
-            <ngx-dropzone-label
-              >{{ topographicMap.name }} ({{
-                topographicMap.type
-              }})</ngx-dropzone-label
-            >
-          </ngx-dropzone-preview>
-        </ngx-dropzone>
       </div>
-      <div class="mb-4">
-        <div class="d-flex justify-content-between">
-          <h5>
-            Certified True Copy of the Title (updated not more than 6 months)
-          </h5>
-          <mat-icon *ngIf="excavationPlan" style="color: green"
-            >check_circle</mat-icon
-          >
-        </div>
-        <ngx-dropzone
-          (change)="onSelect($event, 'excavationPlan')"
-          [multiple]="false"
+      <ngx-dropzone
+        (change)="onSelect($event, 'topographicMap')"
+        [multiple]="false"
+      >
+        <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+        <ngx-dropzone-preview
+          *ngIf="topographicMap"
+          [removable]="true"
+          (removed)="onRemove('topographicMap')"
+          class="mx-auto"
         >
-          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-          <ngx-dropzone-preview
-            *ngIf="excavationPlan"
-            [removable]="true"
-            (removed)="onRemove('excavationPlan')"
-            class="mx-auto"
+          <ngx-dropzone-label
+            >{{ topographicMap.name }} ({{
+              topographicMap.type
+            }})</ngx-dropzone-label
           >
-            <ngx-dropzone-label
-              >{{ excavationPlan.name }} ({{
-                excavationPlan.type
-              }})</ngx-dropzone-label
-            >
-          </ngx-dropzone-preview>
-        </ngx-dropzone>
-      </div>
-      <div class="mb-4">
-        <div class="d-flex justify-content-between">
-          <h5>
-            Surveyed Plan signed and sealed by Geodetic Engineer
-          </h5>
-          <mat-icon *ngIf="vicinityMap" style="color: green"
-            >check_circle</mat-icon
-          >
-        </div>
-        <ngx-dropzone
-          (change)="onSelect($event, 'vicinityMap')"
-          [multiple]="false"
+        </ngx-dropzone-preview>
+      </ngx-dropzone>
+    </div>
+    <div class="mb-4">
+      <div class="d-flex justify-content-between">
+        <h5>
+          Certified True Copy of the Title (updated not more than 6 months)
+        </h5>
+        <mat-icon *ngIf="excavationPlan" style="color: green"
+          >check_circle</mat-icon
         >
-          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-          <ngx-dropzone-preview
-            *ngIf="vicinityMap"
-            [removable]="true"
-            (removed)="onRemove('vicinityMap')"
-            class="mx-auto"
-          >
-            <ngx-dropzone-label
-              >{{ vicinityMap.name }} ({{
-                vicinityMap.type
-              }})</ngx-dropzone-label
-            >
-          </ngx-dropzone-preview>
-        </ngx-dropzone>
       </div>
-      <div class="mb-4">
-        <div class="d-flex justify-content-between">
-          <h5>
-            Contract of Lease, or Certified Copy of Authority to Construct on the subject property
-          </h5>
-          <mat-icon *ngIf="retainingWalls" style="color: green"
-            >check_circle</mat-icon
-          >
-        </div>
-        <ngx-dropzone
-          (change)="onSelect($event, 'retainingWalls')"
-          [multiple]="false"
+      <ngx-dropzone
+        (change)="onSelect($event, 'excavationPlan')"
+        [multiple]="false"
+      >
+        <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+        <ngx-dropzone-preview
+          *ngIf="excavationPlan"
+          [removable]="true"
+          (removed)="onRemove('excavationPlan')"
+          class="mx-auto"
         >
-          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-          <ngx-dropzone-preview
-            *ngIf="retainingWalls"
-            [removable]="true"
-            (removed)="onRemove('retainingWalls')"
-            class="mx-auto"
+          <ngx-dropzone-label
+            >{{ excavationPlan.name }} ({{
+              excavationPlan.type
+            }})</ngx-dropzone-label
           >
-            <ngx-dropzone-label
-              >{{ retainingWalls.name }} ({{
-                retainingWalls.type
-              }})</ngx-dropzone-label
-            >
-          </ngx-dropzone-preview>
-        </ngx-dropzone>
+        </ngx-dropzone-preview>
+      </ngx-dropzone>
+    </div>
+    <div class="mb-4">
+      <div class="d-flex justify-content-between">
+        <h5>Surveyed Plan signed and sealed by Geodetic Engineer</h5>
+        <mat-icon *ngIf="vicinityMap" style="color: green"
+          >check_circle</mat-icon
+        >
       </div>
+      <ngx-dropzone
+        (change)="onSelect($event, 'vicinityMap')"
+        [multiple]="false"
+      >
+        <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+        <ngx-dropzone-preview
+          *ngIf="vicinityMap"
+          [removable]="true"
+          (removed)="onRemove('vicinityMap')"
+          class="mx-auto"
+        >
+          <ngx-dropzone-label
+            >{{ vicinityMap.name }} ({{ vicinityMap.type }})</ngx-dropzone-label
+          >
+        </ngx-dropzone-preview>
+      </ngx-dropzone>
+    </div>
+    <div class="mb-4">
+      <div class="d-flex justify-content-between">
+        <h5>
+          Contract of Lease, or Certified Copy of Authority to Construct on the
+          subject property
+        </h5>
+        <mat-icon *ngIf="retainingWalls" style="color: green"
+          >check_circle</mat-icon
+        >
+      </div>
+      <ngx-dropzone
+        (change)="onSelect($event, 'retainingWalls')"
+        [multiple]="false"
+      >
+        <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+        <ngx-dropzone-preview
+          *ngIf="retainingWalls"
+          [removable]="true"
+          (removed)="onRemove('retainingWalls')"
+          class="mx-auto"
+        >
+          <ngx-dropzone-label
+            >{{ retainingWalls.name }} ({{
+              retainingWalls.type
+            }})</ngx-dropzone-label
+          >
+        </ngx-dropzone-preview>
+      </ngx-dropzone>
+    </div>
+    <div class="d-flex justify-content-between">
       <button mat-raised-button matStepperPrevious>Back</button>
       <button mat-raised-button color="primary" matStepperNext>Next</button>
+    </div>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Step 3</ng-template>
-     <div class="mb-4">
-        <div class="d-flex justify-content-between">
-          <h5>
-            Conditional Deed of Sale, or Absolute Deed of Sale
-          </h5>
-          <mat-icon *ngIf="excavationSections" style="color: green"
-            >check_circle</mat-icon
-          >
-        </div>
-        <ngx-dropzone
-          (change)="onSelect($event, 'excavationSections')"
-          [multiple]="false"
+    <div class="mb-4">
+      <div class="d-flex justify-content-between">
+        <h5>Conditional Deed of Sale, or Absolute Deed of Sale</h5>
+        <mat-icon *ngIf="excavationSections" style="color: green"
+          >check_circle</mat-icon
         >
-          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-          <ngx-dropzone-preview
-            *ngIf="excavationSections"
-            [removable]="true"
-            (removed)="onRemove('excavationSections')"
-            class="mx-auto"
-          >
-            <ngx-dropzone-label
-              >{{ excavationSections.name }} ({{
-                excavationSections.type
-              }})</ngx-dropzone-label
-            >
-          </ngx-dropzone-preview>
-        </ngx-dropzone>
       </div>
-      <div class="mb-4">
-        <div class="d-flex justify-content-between">
-          <h5>
-            Tax Declaration with documentary stamp from City Assessor's Office
-          </h5>
-          <mat-icon *ngIf="soilProtection" style="color: green"
-            >check_circle</mat-icon
-          >
-        </div>
-        <ngx-dropzone
-          (change)="onSelect($event, 'soilProtection')"
-          [multiple]="false"
+      <ngx-dropzone
+        (change)="onSelect($event, 'excavationSections')"
+        [multiple]="false"
+      >
+        <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+        <ngx-dropzone-preview
+          *ngIf="excavationSections"
+          [removable]="true"
+          (removed)="onRemove('excavationSections')"
+          class="mx-auto"
         >
-          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-          <ngx-dropzone-preview
-            *ngIf="soilProtection"
-            [removable]="true"
-            (removed)="onRemove('soilProtection')"
-            class="mx-auto"
+          <ngx-dropzone-label
+            >{{ excavationSections.name }} ({{
+              excavationSections.type
+            }})</ngx-dropzone-label
           >
-            <ngx-dropzone-label
-              >{{ soilProtection.name }} ({{
-                soilProtection.type
-              }})</ngx-dropzone-label
-            >
-          </ngx-dropzone-preview>
-        </ngx-dropzone>
-      </div>
-      <div class="mb-4">
-        <div class="d-flex justify-content-between">
-          <h5>Photocopy of latest quarter of the real property tax receipy or Certifcate of Non-tax Delinquency with Documentary Stamp at City Treasurer's Office</h5>
-          <mat-icon *ngIf="structuralPlan" style="color: green"
-            >check_circle</mat-icon
-          >
-        </div>
-        <ngx-dropzone
-          (change)="onSelect($event, 'structuralPlan')"
-          [multiple]="false"
+        </ngx-dropzone-preview>
+      </ngx-dropzone>
+    </div>
+    <div class="mb-4">
+      <div class="d-flex justify-content-between">
+        <h5>
+          Tax Declaration with documentary stamp from City Assessor's Office
+        </h5>
+        <mat-icon *ngIf="soilProtection" style="color: green"
+          >check_circle</mat-icon
         >
-          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-          <ngx-dropzone-preview
-            *ngIf="structuralPlan"
-            [removable]="true"
-            (removed)="onRemove('structuralPlan')"
-            class="mx-auto"
-          >
-            <ngx-dropzone-label
-              >{{ structuralPlan.name }} ({{
-                structuralPlan.type
-              }})</ngx-dropzone-label
-            >
-          </ngx-dropzone-preview>
-        </ngx-dropzone>
       </div>
-      <div class="mb-4">
-        <div class="d-flex justify-content-between">
-          <h5>Fencing Specifications</h5>
-          <mat-icon *ngIf="drainagePlan" style="color: green"
-            >check_circle</mat-icon
-          >
-        </div>
-        <ngx-dropzone
-          (change)="onSelect($event, 'drainagePlan')"
-          [multiple]="false"
+      <ngx-dropzone
+        (change)="onSelect($event, 'soilProtection')"
+        [multiple]="false"
+      >
+        <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+        <ngx-dropzone-preview
+          *ngIf="soilProtection"
+          [removable]="true"
+          (removed)="onRemove('soilProtection')"
+          class="mx-auto"
         >
-          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-          <ngx-dropzone-preview
-            *ngIf="drainagePlan"
-            [removable]="true"
-            (removed)="onRemove('drainagePlan')"
-            class="mx-auto"
+          <ngx-dropzone-label
+            >{{ soilProtection.name }} ({{
+              soilProtection.type
+            }})</ngx-dropzone-label
           >
-            <ngx-dropzone-label
-              >{{ drainagePlan.name }} ({{
-                drainagePlan.type
-              }})</ngx-dropzone-label
-            >
-          </ngx-dropzone-preview>
-        </ngx-dropzone>
+        </ngx-dropzone-preview>
+      </ngx-dropzone>
+    </div>
+    <div class="mb-4">
+      <div class="d-flex justify-content-between">
+        <h5>
+          Photocopy of latest quarter of the real property tax receipy or
+          Certifcate of Non-tax Delinquency with Documentary Stamp at City
+          Treasurer's Office
+        </h5>
+        <mat-icon *ngIf="structuralPlan" style="color: green"
+          >check_circle</mat-icon
+        >
       </div>
-    <div class="text-right">
+      <ngx-dropzone
+        (change)="onSelect($event, 'structuralPlan')"
+        [multiple]="false"
+      >
+        <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+        <ngx-dropzone-preview
+          *ngIf="structuralPlan"
+          [removable]="true"
+          (removed)="onRemove('structuralPlan')"
+          class="mx-auto"
+        >
+          <ngx-dropzone-label
+            >{{ structuralPlan.name }} ({{
+              structuralPlan.type
+            }})</ngx-dropzone-label
+          >
+        </ngx-dropzone-preview>
+      </ngx-dropzone>
+    </div>
+    <div class="mb-4">
+      <div class="d-flex justify-content-between">
+        <h5>Fencing Specifications</h5>
+        <mat-icon *ngIf="drainagePlan" style="color: green"
+          >check_circle</mat-icon
+        >
+      </div>
+      <ngx-dropzone
+        (change)="onSelect($event, 'drainagePlan')"
+        [multiple]="false"
+      >
+        <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+        <ngx-dropzone-preview
+          *ngIf="drainagePlan"
+          [removable]="true"
+          (removed)="onRemove('drainagePlan')"
+          class="mx-auto"
+        >
+          <ngx-dropzone-label
+            >{{ drainagePlan.name }} ({{
+              drainagePlan.type
+            }})</ngx-dropzone-label
+          >
+        </ngx-dropzone-preview>
+      </ngx-dropzone>
+    </div>
+    <div class="d-flex justify-content-between">
       <button mat-raised-button matStepperPrevious>Back</button>
       <button mat-raised-button color="primary" matStepperNext>Next</button>
     </div>
@@ -318,16 +322,17 @@
           class="mx-auto"
         >
           <ngx-dropzone-label
-            >{{ sitePicture.name }} ({{
-              sitePicture.type
-            }})</ngx-dropzone-label
+            >{{ sitePicture.name }} ({{ sitePicture.type }})</ngx-dropzone-label
           >
         </ngx-dropzone-preview>
       </ngx-dropzone>
     </div>
     <div class="mb-4">
       <div class="d-flex justify-content-between">
-        <h5>Vicinity map / location plan within a half-ilometer radius showing prominent landmarks or major thoroughfares for easy reference</h5>
+        <h5>
+          Vicinity map / location plan within a half-ilometer radius showing
+          prominent landmarks or major thoroughfares for easy reference
+        </h5>
         <mat-icon *ngIf="constructionTarp" style="color: green"
           >check_circle</mat-icon
         >
@@ -353,7 +358,10 @@
     </div>
     <div class="mb-4">
       <div class="d-flex justify-content-between">
-        <h5>Site Development Plan showing the lot boundaries and the location of proposed fence </h5>
+        <h5>
+          Site Development Plan showing the lot boundaries and the location of
+          proposed fence
+        </h5>
         <mat-icon *ngIf="structuralAnalysis" style="color: green"
           >check_circle</mat-icon
         >
@@ -406,16 +414,12 @@
     <div class="mb-4">
       <div class="d-flex justify-content-between">
         <h5>
-          Elevation Plans of fence from corner to corner with complete dimensions
+          Elevation Plans of fence from corner to corner with complete
+          dimensions
         </h5>
-        <mat-icon *ngIf="chspDole" style="color: green"
-          >check_circle</mat-icon
-        >
+        <mat-icon *ngIf="chspDole" style="color: green">check_circle</mat-icon>
       </div>
-      <ngx-dropzone
-        (change)="onSelect($event, 'chspDole')"
-        [multiple]="false"
-      >
+      <ngx-dropzone (change)="onSelect($event, 'chspDole')" [multiple]="false">
         <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
         <ngx-dropzone-preview
           *ngIf="chspDole"
@@ -432,16 +436,12 @@
     <div class="mb-4">
       <div class="d-flex justify-content-between">
         <h5>
-          Clear latest picture of site (Taken at least a week before application)
+          Clear latest picture of site (Taken at least a week before
+          application)
         </h5>
-        <mat-icon *ngIf="dumpSite" style="color: green"
-          >check_circle</mat-icon
-        >
+        <mat-icon *ngIf="dumpSite" style="color: green">check_circle</mat-icon>
       </div>
-      <ngx-dropzone
-        (change)="onSelect($event, 'dumpSite')"
-        [multiple]="false"
-      >
+      <ngx-dropzone (change)="onSelect($event, 'dumpSite')" [multiple]="false">
         <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
         <ngx-dropzone-preview
           *ngIf="dumpSite"
@@ -450,9 +450,7 @@
           class="mx-auto"
         >
           <ngx-dropzone-label
-            >{{ dumpSite.name }} ({{
-              dumpSite.type
-            }})</ngx-dropzone-label
+            >{{ dumpSite.name }} ({{ dumpSite.type }})</ngx-dropzone-label
           >
         </ngx-dropzone-preview>
       </ngx-dropzone>
@@ -460,7 +458,9 @@
     <div class="mb-4">
       <div class="d-flex justify-content-between">
         <h5>
-          Photocopy of updated Professional Tax Receipt and Professional Identification Card (PRC ID) of all professional signatories in the application forms and plans (duly signed and sealed)
+          Photocopy of updated Professional Tax Receipt and Professional
+          Identification Card (PRC ID) of all professional signatories in the
+          application forms and plans (duly signed and sealed)
         </h5>
         <mat-icon *ngIf="letterOfApplicant" style="color: green"
           >check_circle</mat-icon
@@ -487,9 +487,7 @@
     </div>
     <div class="mb-4">
       <div class="d-flex justify-content-between">
-        <h5>
-          Construction Tarpaulin
-        </h5>
+        <h5>Construction Tarpaulin</h5>
         <mat-icon *ngIf="letterOfApplicant" style="color: green"
           >check_circle</mat-icon
         >
@@ -513,7 +511,7 @@
         </ngx-dropzone-preview>
       </ngx-dropzone>
     </div>
-    <div class="text-right">
+    <div class="d-flex justify-content-between w-100">
       <button mat-raised-button matStepperPrevious>Back</button>
       <button mat-raised-button color="primary" matStepperNext>Next</button>
     </div>
