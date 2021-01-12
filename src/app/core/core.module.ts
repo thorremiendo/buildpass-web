@@ -4,22 +4,27 @@ import { NewApplicationFormService } from './services/new-application-form-servi
 import { UserGuardService } from './guard/user-guard.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AdminUserParamBuilder } from './http-builder';
+import { DateAgoPipe } from './pipes/date-ago.pipe';
 
 
 
 @NgModule({
   declarations: [
-
-  ],
+],
   imports: [
     CommonModule
   ],
+  
   providers: [
     // Services
    NewApplicationFormService,
    UserGuardService,
    AdminUserParamBuilder,
   ],
+
+ 
+
+  
  
 })
 export class CoreModule { }

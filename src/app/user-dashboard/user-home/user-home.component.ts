@@ -16,6 +16,7 @@ export class UserHomeComponent implements OnInit {
   public channel: Channel;
   public feeds: Feed[] = [];
 
+
   private feedSubscription: Subscription;
   private subject: Subject<Feed> = new Subject<Feed>();
 
@@ -40,6 +41,7 @@ export class UserHomeComponent implements OnInit {
 
   ngOnInit(): void {
      this.pusherSubscribe()
+
     
   }
 
@@ -47,9 +49,10 @@ export class UserHomeComponent implements OnInit {
     this.channel =this.feedService.pusher.subscribe(this.channelName);
     console.log(this.channelName)
     this.channel.bind('App\\Events\\PermitStatusChanged',
-    (data: { application_number: string; status: string; message:string }) => {
-      this.subject.next(new Feed(data.application_number, data.status, data.message));
+    (data: { application_number: string; status: string; message:string, currentTime: string }) => {
+      this.subject.next(new Feed(data.application_number, data.status, data.message, new Date(data.currentTime)));
       console.log(data);
+      console.log(data.currentTime);
       
     }
   );
@@ -57,6 +60,10 @@ export class UserHomeComponent implements OnInit {
 
   getFeedItems(): Observable<Feed> {
     return this.subject.asObservable();
+  }
+
+  removeItem(i: number): void {
+    this.feeds.splice(i, 1);
   }
 
  

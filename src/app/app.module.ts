@@ -57,6 +57,8 @@ import { AdminModule } from './admin/admin.module';
 import { SharedModule } from './shared/shared.module';
 
 import { TestPusherModule } from './test-pusher/test-pusher.module';
+//import { DateAgoPipe } from './core/pipes/date-ago.pipe';
+
 
 
 
@@ -81,6 +83,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AppComponent,
     TestComponentComponent,
     TestNotificationComponent,
+    //DateAgoPipe,
+    
   ],
   imports: [
     NgbModule,
@@ -127,6 +131,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     CoreModule,
 
     TestPusherModule,
+    
     
   ],
   providers: [ MessagingService,AsyncPipe,

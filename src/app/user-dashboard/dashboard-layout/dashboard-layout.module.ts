@@ -38,6 +38,9 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatRadioModule} from '@angular/material/radio';
+import { DateAgoPipe } from '../../core'
+
+
 
 @NgModule({
   declarations: [DashboardComponent, 
@@ -48,6 +51,10 @@ import {MatRadioModule} from '@angular/material/radio';
      CommonFieldsPersonalInfoComponent,
      CommonFieldsAddressInfoComponent,
      CommonFieldsRepresentativeComponent,
+     DateAgoPipe,
+  
+  
+
      
     ],
      

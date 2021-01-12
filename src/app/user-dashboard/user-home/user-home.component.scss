@@ -48,8 +48,15 @@ mat-card {
       margin-bottom: 0;
     }
   }
-  ._notifications {
+  ._notificationBox {
     overflow: auto;
     max-height: 180px;
   }
+  ._notifications :hover {
+    opacity: 0.6;
+
+    cursor: pointer;
+  }
 }
+
+
