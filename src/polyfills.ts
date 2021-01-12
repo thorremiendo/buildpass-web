@@ -62,6 +62,11 @@ import '@angular/localize/init';
 import 'zone.js/dist/zone';  // Included with Angular CLI.
 (window as any).global = window;
 
+declare global {
+    interface Window {
+        AdobeDC: any;
+    }
+}
 
 /***************************************************************************************************
  * APPLICATION IMPORTS

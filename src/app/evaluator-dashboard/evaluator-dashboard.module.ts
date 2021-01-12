@@ -68,6 +68,10 @@ import { WwwmsCertificateComponent } from './wwwms-certificate/wwwms-certificate
 import { ReleaseBldgPermitComponent } from './release-bldg-permit/release-bldg-permit.component';
 import { FeesDialogComponent } from './fees-dialog/fees-dialog.component';
 import { ViewFeesComponent } from './view-fees/view-fees.component';
+import { CbaoFeesTableComponent } from './cbao-fees-table/cbao-fees-table.component';
+import { CpdoFeesTableComponent } from './cpdo-fees-table/cpdo-fees-table.component';
+import { BfpFeesTableComponent } from './bfp-fees-table/bfp-fees-table.component';
+import { CepmoFeesTableComponent } from './cepmo-fees-table/cepmo-fees-table.component';
 
 
 
@@ -95,7 +99,7 @@ import { ViewFeesComponent } from './view-fees/view-fees.component';
     BfpEvaluatorComponent,
     ProjectDetailsComponent,
     FormDetailsComponent,
-    EvaluatorsSummaryComponent, EvaluatorIdentificationComponent, EvaluatorEditProfileComponent, ZoningCertificateComponent, FireClearanceComponent, WwwmsCertificateComponent, ReleaseBldgPermitComponent, FeesDialogComponent, ViewFeesComponent],
+    EvaluatorsSummaryComponent, EvaluatorIdentificationComponent, EvaluatorEditProfileComponent, ZoningCertificateComponent, FireClearanceComponent, WwwmsCertificateComponent, ReleaseBldgPermitComponent, FeesDialogComponent, ViewFeesComponent, CbaoFeesTableComponent, CpdoFeesTableComponent, BfpFeesTableComponent, CepmoFeesTableComponent],
 
   imports: [
     CommonModule,

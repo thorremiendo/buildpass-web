@@ -61,6 +61,7 @@ export class ViewApplicationComponent implements OnInit {
           width: '1000px',
           data: {
             fees: res.data,
+            applicationId: this.applicationId
           },
         });
         dialogRef.afterClosed().subscribe((result) => {
@@ -106,7 +107,9 @@ export class ViewApplicationComponent implements OnInit {
           'Success!',
           `Forwarded to CBAO for Evaluation!`,
           'success'
-        ).then((result) => {});
+        ).then((result) => {
+          window.location.reload();
+        });
       });
   }
 

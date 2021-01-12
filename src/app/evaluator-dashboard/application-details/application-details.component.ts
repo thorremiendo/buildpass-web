@@ -28,6 +28,7 @@ export class ApplicationDetailsComponent implements OnInit {
     'amount',
     'action',
   ];
+  panelOpenState = false;
   public dataSource;
   public isLoading = true;
   public applicationId;

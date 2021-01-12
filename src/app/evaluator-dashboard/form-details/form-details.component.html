@@ -1,26 +1,10 @@
-<ngx-extended-pdf-viewer
-  [src]="data.form.document_path"
-  [showToolbar]="true"
-  [showSidebarButton]="false"
-  [showFindButton]="false"
-  [showPagingButtons]="false"
-  [showZoomButtons]="true"
-  [showPresentationModeButton]="true"
-  [showOpenFileButton]="false"
-  [showPrintButton]="false"
-  [showDownloadButton]="true"
-  [showBookmarkButton]="false"
-  [showSecondaryToolbarButton]="true"
-  [showRotateButton]="false"
-  [showHandToolButton]="false"
-  [showScrollingButton]="false"
-  [showSpreadButton]="false"
-  [showPropertiesButton]="false"
-  [useBrowserLocale]="true"
-  height="1000px"
-  zoom="80%"
->
-</ngx-extended-pdf-viewer>
+<div class="container">
+  <div id="pdf-div" class="pdf-view"></div>
+  <!-- <custom-rhp-component *ngIf='annotationManager'
+      [annotationManager]='annotationManager'>
+  </custom-rhp-component> -->
+</div>
+<button (click)="saveForm()">Save Form</button>
 <div [formGroup]="permitDetails" *ngIf="user.employee_detail">
   <div class="row">
     <div class="col-md-12">

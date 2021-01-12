@@ -10,16 +10,9 @@
   "
 >
   <div *ngIf="!_isLoading">
-    <div
-      class="col text-center p-3"
-      *ngIf="evaluatorDetails == null"
-    >
+    <div class="col text-center p-3" *ngIf="evaluatorDetails == null">
       <div class="mb-3">
-        <img
-          style="width: 70px"
-          src="../../../../assets/images/avatar.png"
-          alt="user"
-        />
+        <img [src]="userInfo.id_photo_path" alt="user" class="avatar" />
       </div>
       <h3 style="color: #400c06">
         {{ userInfo.first_name }} {{ userInfo.last_name }}
@@ -27,16 +20,9 @@
       <p style="color: #400c06">{{ userInfo.email }}</p>
       <p style="color: #400c06">Applicant</p>
     </div>
-    <div
-      class="col text-center p-3"
-      *ngIf="hasEvaluatorDetails"
-    >
+    <div class="col text-center p-3" *ngIf="hasEvaluatorDetails">
       <div class="mb-3">
-        <img
-          style="width: 70px"
-          src="../../../../assets/images/avatar.png"
-          alt="user"
-        />
+        <img [src]="userInfo.id_photo_path" alt="user" class="avatar" />
       </div>
       <h3 style="color: #400c06">
         {{ userInfo.first_name }} {{ userInfo.last_name }}
@@ -46,7 +32,6 @@
         {{ officeString }}
       </h4>
     </div>
-    
   </div>
 
   <!-- User profile text-->
@@ -63,7 +48,6 @@
         <button mat-menu-item>
             <mat-icon>notifications_off</mat-icon> Disable notifications
         </button> -->
-  
   </mat-menu>
 </div>
 
@@ -140,8 +124,6 @@
       >
       <mat-icon class="dd-icon">keyboard_arrow_down</mat-icon>
     </a>
-    
-    
 
     <mat-nav-list class="sub-item" *ngIf="menuitem.type === 'sub'">
       <mat-list-item

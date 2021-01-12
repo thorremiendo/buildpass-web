@@ -9,7 +9,7 @@ export var single = [
     },
     {
       "name": "Flagged",
-      "value": 0
+      "value": 1
     },
       {
       "name": "Completed",

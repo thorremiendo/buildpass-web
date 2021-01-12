@@ -26,6 +26,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   public applicationInfo;
   public evaluatorDetails;
   public isLoading: boolean = true;
+  public compliantStatus;
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
   constructor(
@@ -47,12 +48,13 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.fetchApplicationInfo();
     this.changeDetectorRefs.detectChanges();
   }
+
   fetchApplicationInfo() {
     this.applicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         console.log('Application Info:', res);
-        this.applicationInfo = res.data
+        this.applicationInfo = res.data;
       });
   }
   fetchEvaluatorDetails() {
@@ -89,14 +91,14 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
   nonCompliant() {
     const body = {
-      application_status_id: 1,
+      application_status_id: 5,
     };
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
         Swal.fire(
           'Success!',
-          `Notified Applicant for Non-Compliance!`,
+          `Notified Applicant for Revision!`,
           'success'
         ).then((result) => {});
         this.fetchApplicationInfo();
@@ -109,11 +111,11 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
-        Swal.fire(
-          'Success!',
-          `Forwarded to CPDO!`,
-          'success'
-        ).then((result) => {});
+        Swal.fire('Success!', `Forwarded to CPDO!`, 'success').then(
+          (result) => {
+            window.location.reload();
+          }
+        );
         this.fetchApplicationInfo();
       });
   }
