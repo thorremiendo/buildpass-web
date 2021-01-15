@@ -100,7 +100,9 @@ export class CbaoEvaluatorComponent implements OnInit {
           'Success!',
           `Notified Applicant for Revision!`,
           'success'
-        ).then((result) => {});
+        ).then((result) => {
+          window.location.reload();
+        });
         this.fetchApplicationInfo();
       });
   }

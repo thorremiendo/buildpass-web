@@ -10,12 +10,16 @@ written permission of Adobe.
 */
 
 import { Injectable } from '@angular/core';
+import Swal from 'sweetalert2';
+import { NewApplicationService } from 'src/app/core/services/new-application.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ViewSDKClient {
+  public formId;
   public url;
+  constructor(public newApplicationService: NewApplicationService) {}
   readyPromise: Promise<any> = new Promise((resolve) => {
     if (window.AdobeDC) {
       resolve();
@@ -55,12 +59,12 @@ export class ViewSDKClient {
             url: this.url,
 
             // If the file URL requires some additional headers, then it can be passed as follows:-
-            // headers: [
-            //     {
-            //         key: 'Access-Control-Allow-Origin',
-            //         value: '*',
-            //     }
-            // ]
+            headers: [
+              {
+                key: 'Access-Control-Allow-Origin',
+                value: '*',
+              },
+            ],
           },
         },
         /* Pass meta data of file */
@@ -109,49 +113,43 @@ export class ViewSDKClient {
   }
 
   registerSaveApiHandler() {
-    // /* Define Save API Handler */
-    // const saveApiHandler = (metaData: any, content: any, options: any) => {
-    //   console.log(metaData, content, options);
-    //   return new Promise((resolve) => {
-    //     /* Dummy implementation of Save API, replace with your business logic */
-    //     setTimeout(() => {
-    //       const response = {
-    //         code: window.AdobeDC.View.Enum.ApiResponseCode.SUCCESS,
-    //         data: {
-    //           metaData: Object.assign(metaData, {
-    //             updatedAt: new Date().getTime(),
-    //           }),
-    //         },
-    //       };
-    //       resolve(response);
-    //     }, 2000);
-    //   });
-    // };
+    console.log('save api clicked');
+    const saveApiHandler = (metaData: any, content: any, options: any) => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          const response = {
+            code: window.AdobeDC.View.Enum.ApiResponseCode.SUCCESS,
+            data: {
+              metaData: Object.assign(metaData, {
+                updatedAt: new Date().getTime(),
+              }),
+            },
+          };
+          resolve(response);
+          var blob = new Blob([content]);
+          console.log('blob', blob);
+          const uploadDocumentData = {
+            document_status_id: 0,
+            document_path: blob,
+          };
+          this.newApplicationService
+            .updateDocumentFile(uploadDocumentData, this.formId)
+            .subscribe((res) => {
+              console.log(res);
+              Swal.fire('Success!', `File Updated!`, 'success').then(
+                (result) => {
+                  console.log('Uploaded!!');
+                }
+              );
+            });
+        }, 2000);
+      });
+    };
 
     this.adobeDCView.registerCallback(
       window.AdobeDC.View.Enum.CallbackType.SAVE_API,
-      function (metaData, content, options) {
-        console.log(metaData);
-        console.log(content);
-        var meta = {
-          contentType: 'application/pdf',
-        };
-        console.log("save to aws")
-        return new Promise(function (resolve, reject) {
-          /* Dummy implementation of Save API, replace with your business logic */
-          setTimeout(function () {
-            var response = {
-              code: window.AdobeDC.View.Enum.ApiResponseCode.SUCCESS,
-              data: {
-                metaData: Object.assign(metaData, {
-                  updatedAt: new Date().getTime(),
-                }),
-              },
-            };
-            resolve(response);
-          }, 2000);
-        });
-      }
+      saveApiHandler,
+      {}
     );
   }
 
