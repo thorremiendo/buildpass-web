@@ -7,7 +7,9 @@
       the right.
     </p>
     <ngx-extended-pdf-viewer
-      [src]="'../../../../assets/forms/Application_Form_for_Certificate_of_Zoning_Compliance.pdf'"
+      [src]="
+        '../../../../assets/forms/Application_Form_for_Certificate_of_Zoning_Compliance.pdf'
+      "
       [showToolbar]="true"
       [showSidebarButton]="false"
       [showFindButton]="false"
@@ -50,8 +52,16 @@
         >
       </ngx-dropzone-preview>
     </ngx-dropzone>
-    <div class="mt-5 mb-3 text-right">
-      <button mat-raised-button color="primary" (click)="callNext()">
+    <div class="d-flex justify-content-between mt-5 mb-3">
+      <button mat-raised-button color="accent" (click)="callSaveAsDraft()">
+        Save as Draft
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="callNext()"
+        [disabled]="!zoningClearanceForm"
+      >
         Next
       </button>
     </div>

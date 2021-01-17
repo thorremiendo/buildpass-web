@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
+import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { UserService } from 'src/app/core/services/user.service';
@@ -25,8 +26,9 @@ export class ZoningClearanceFormComponent implements OnInit {
   constructor(
     private router: Router,
     private newApplicationService: NewApplicationService,
-    private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private applicationService: ApplicationInfoService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -34,8 +36,19 @@ export class ZoningClearanceFormComponent implements OnInit {
     console.log(this.user);
     this.newApplicationService.applicationId
       .asObservable()
-      .subscribe((applicationId) => (this.applicationId = applicationId));
-    console.log('application id:', this.applicationId);
+      .subscribe((applicationId) => {
+        this.applicationId = applicationId;
+        if (!this.applicationId) {
+          this.applicationId = localStorage.getItem('app_id');
+          this.fetchApplicationInfo();
+        } else {
+          localStorage.setItem('app_id', this.applicationId);
+          console.log('local app id', localStorage.getItem('app_id'));
+          this.fetchApplicationInfo();
+        }
+      });
+  }
+  fetchApplicationInfo() {
     this.newApplicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
@@ -43,7 +56,6 @@ export class ZoningClearanceFormComponent implements OnInit {
         this.mergeFormData();
       });
   }
-
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
     switch (type) {
@@ -58,6 +70,21 @@ export class ZoningClearanceFormComponent implements OnInit {
         this.zoningClearanceForm = null;
         break;
     }
+  }
+  callSaveAsDraft() {
+    console.log('route', this.router.url);
+    const body = {
+      application_status_id: 6,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire('Success!', `Application Saved as Draft!`, 'success').then(
+          (result) => {
+            this.router.navigateByUrl('/dashboard');
+          }
+        );
+      });
   }
   callNext() {
     console.log(this.formData);

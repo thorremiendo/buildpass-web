@@ -261,7 +261,18 @@
           </button>
         </div>
         <div>
-          <button mat-raised-button color="primary" (click)="callNext()">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="callNext()"
+            [disabled]="
+              !filingFeeReceipt ||
+              !taxDeclaration ||
+              !realPropertyTaxReceipt ||
+              !siteLatestPicture ||
+              !trueCopyTitle
+            "
+          >
             Next
           </button>
         </div>
@@ -275,9 +286,6 @@
       </div> -->
   </div>
   <div *ngIf="isLoading">
-    <mat-progress-spinner
-      class="example-margin"
-    >
-    </mat-progress-spinner>
+    <mat-progress-spinner class="example-margin"> </mat-progress-spinner>
   </div>
 </div>

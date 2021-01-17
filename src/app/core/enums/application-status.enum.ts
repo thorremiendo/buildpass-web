@@ -4,5 +4,6 @@ export enum applicationStatus {
     "Forwarded to CPDO" = 2,
     "Forwarded to CEPMO, BFP and CBAO" = 3,
     "For Releasing" = 4,
-    "For Revision by Applicant" = 5
+    "For Revision by Applicant" = 5,
+    "Incomplete Applicaiton" = 6
 }
