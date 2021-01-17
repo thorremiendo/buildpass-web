@@ -122,7 +122,9 @@ export class CpdoEvaluatorComponent implements OnInit {
           'Success!',
           `Notified Applicant for Non-Compliance!`,
           'success'
-        ).then((result) => {});
+        ).then((result) => {
+          window.location.reload();
+        });
       });
   }
   forward() {
@@ -132,11 +134,11 @@ export class CpdoEvaluatorComponent implements OnInit {
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
-        Swal.fire(
-          'Success!',
-          `Forwarded to CBAO, CEPMO, BFP!`,
-          'success'
-        ).then((result) => {});
+        Swal.fire('Success!', `Forwarded to CBAO, CEPMO, BFP!`, 'success').then(
+          (result) => {
+            window.location.reload();
+          }
+        );
         this.ngOnInit();
       });
   }

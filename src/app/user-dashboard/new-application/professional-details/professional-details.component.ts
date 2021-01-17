@@ -32,8 +32,19 @@ export class ProfessionalDetailsComponent implements OnInit {
     console.log(this.user);
     this.newApplicationService.applicationId
       .asObservable()
-      .subscribe((applicationId) => (this.applicationId = applicationId));
-    console.log('application id:', this.applicationId);
+      .subscribe((applicationId) => {
+        this.applicationId = applicationId;
+        if (!this.applicationId) {
+          this.applicationId = localStorage.getItem('app_id');
+          this.fetchApplicationInfo();
+        } else {
+          localStorage.setItem('app_id', this.applicationId);
+          console.log('local app id', localStorage.getItem('app_id'));
+          this.fetchApplicationInfo();
+        }
+      });
+  }
+  fetchApplicationInfo() {
     this.newApplicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
@@ -57,8 +68,8 @@ export class ProfessionalDetailsComponent implements OnInit {
     this.newApplicationService
       .submitDocument(uploadDocumentData)
       .subscribe((res) => {
+        this.isLoading = false;
         Swal.fire('Success!', `Uploaded!`, 'success').then((result) => {
-          this.isLoading = false;
           this.ngOnInit();
         });
       });

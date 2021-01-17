@@ -86,7 +86,7 @@ export class FormDetailsComponent implements OnInit {
             printWithAnnotations: true /* Default value is false */,
           };
           this.annotationManager.setConfig(customFlags);
-          this.viewSDKClient.registerSaveApiHandler();
+          this.viewSDKClient.registerSaveApiHandler("update");
         });
       });
     });

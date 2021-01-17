@@ -1,5 +1,8 @@
 <div class="container">
-  <div class="row mx-5">
+  <div class="d-flex justify-content-center mt-5" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div class="row mx-5" *ngIf="!isLoading">
     <div class="d-flex justify-content-between w-100">
       <div>
         <h2>Building Permit Application</h2>
@@ -401,9 +404,7 @@
             class="mx-auto"
           >
             <ngx-dropzone-label
-              >{{ dumpSite.name }} ({{
-                dumpSite.type
-              }})</ngx-dropzone-label
+              >{{ dumpSite.name }} ({{ dumpSite.type }})</ngx-dropzone-label
             >
           </ngx-dropzone-preview>
         </ngx-dropzone>

@@ -1,4 +1,7 @@
-<mat-card style="width: 100%">
+<div class="d-flex justify-content-center mt-5" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>
+<mat-card style="width: 100%" *ngIf="!isLoading">
   <mat-card-title class="p-3">Building Permit Form</mat-card-title>
   <hr />
   <mat-card-content>
@@ -7,7 +10,9 @@
       the right.
     </p>
     <ngx-extended-pdf-viewer
-      [src]="'../../../../assets/forms/Unified_Application_for_Building_Permit.pdf'"
+      [src]="
+        '../../../../assets/forms/Unified_Application_for_Building_Permit.pdf'
+      "
       [showToolbar]="true"
       [showSidebarButton]="false"
       [showFindButton]="false"
@@ -28,7 +33,6 @@
       height="500px"
       zoom="80%"
       [(formData)]="formData"
-
     >
     </ngx-extended-pdf-viewer>
     <p class="ml-2 mt-4">2. Upload the form.</p>
@@ -52,7 +56,12 @@
       </ngx-dropzone-preview>
     </ngx-dropzone>
     <div class="mt-5 mb-3 text-right">
-      <button mat-raised-button color="primary" (click)="callNext()" [disabled]="!buildingPermitForm">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="callNext()"
+        [disabled]="!buildingPermitForm"
+      >
         Next
       </button>
     </div>

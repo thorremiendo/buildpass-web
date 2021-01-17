@@ -1,4 +1,7 @@
-<mat-card style="width: 100%">
+<div class="d-flex justify-content-center mt-5" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>
+<mat-card style="width: 100%" *ngIf="!isLoading">
   <mat-card-title class="p-3">Sanitary Permit Form</mat-card-title>
   <hr />
   <mat-card-content>

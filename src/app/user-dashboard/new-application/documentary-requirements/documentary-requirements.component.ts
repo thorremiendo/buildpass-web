@@ -76,8 +76,8 @@ export class DocumentaryRequirementsComponent implements OnInit {
     this.newApplicationService
       .submitDocument(uploadDocumentData)
       .subscribe((res) => {
+        this.isLoading = false;
         Swal.fire('Success!', `Uploaded!`, 'success').then((result) => {
-          this.isLoading = false;
           this.ngOnInit();
         });
       });

@@ -19,6 +19,8 @@ import { NewApplicationService } from 'src/app/core/services/new-application.ser
 export class ViewSDKClient {
   public formId;
   public url;
+  public userId;
+  public applicationId;
   constructor(public newApplicationService: NewApplicationService) {}
   readyPromise: Promise<any> = new Promise((resolve) => {
     if (window.AdobeDC) {
@@ -112,8 +114,7 @@ export class ViewSDKClient {
     );
   }
 
-  registerSaveApiHandler() {
-    console.log('save api clicked');
+  registerSaveApiHandler(condition) {
     const saveApiHandler = (metaData: any, content: any, options: any) => {
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -127,21 +128,71 @@ export class ViewSDKClient {
           };
           resolve(response);
           var blob = new Blob([content]);
-          console.log('blob', blob);
-          const uploadDocumentData = {
-            document_status_id: 0,
-            document_path: blob,
-          };
-          this.newApplicationService
-            .updateDocumentFile(uploadDocumentData, this.formId)
-            .subscribe((res) => {
-              console.log(res);
-              Swal.fire('Success!', `File Updated!`, 'success').then(
-                (result) => {
+          if (condition == 'update') {
+            const uploadDocumentData = {
+              document_status_id: 0,
+              document_path: blob,
+            };
+            this.newApplicationService
+              .updateDocumentFile(uploadDocumentData, this.formId)
+              .subscribe((res) => {
+                console.log(res);
+                Swal.fire('Success!', ``, 'success').then((result) => {
                   console.log('Uploaded!!');
-                }
-              );
-            });
+                });
+              });
+          } else if (condition == 'bldgPermit') {
+            const uploadDocumentData = {
+              application_id: this.applicationId,
+              user_id: this.userId,
+              document_id: 44,
+              document_status_id: 1,
+              document_path: blob,
+            };
+            this.newApplicationService
+              .submitDocument(uploadDocumentData)
+              .subscribe((res) => {
+                Swal.fire('Success!', `File uploaded!`, 'success').then(
+                  (result) => {
+                    window.location.reload();
+                  }
+                );
+              });
+          } else if (condition == 'zoningPermit') {
+            const uploadDocumentData = {
+              application_id: this.applicationId,
+              user_id: this.userId,
+              document_id: 43,
+              document_status_id: 1,
+              document_path: blob,
+            };
+            this.newApplicationService
+              .submitDocument(uploadDocumentData)
+              .subscribe((res) => {
+                Swal.fire('Success!', `File uploaded!`, 'success').then(
+                  (result) => {
+                    window.location.reload();
+                  }
+                );
+              });
+          } else if (condition == 'firePermit') {
+            const uploadDocumentData = {
+              application_id: this.applicationId,
+              user_id: this.userId,
+              document_id: 45,
+              document_status_id: 1,
+              document_path: blob,
+            };
+            this.newApplicationService
+              .submitDocument(uploadDocumentData)
+              .subscribe((res) => {
+                Swal.fire('Success!', `File uploaded!`, 'success').then(
+                  (result) => {
+                    window.location.reload();
+                  }
+                );
+              });
+          }
         }, 2000);
       });
     };
@@ -151,6 +202,8 @@ export class ViewSDKClient {
       saveApiHandler,
       {}
     );
+
+    console.log('save api clicked');
   }
 
   registerEventsHandler() {

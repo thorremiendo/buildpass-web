@@ -101,12 +101,12 @@ export class ZoningClearanceFormComponent implements OnInit {
     this.newApplicationService
       .submitDocument(uploadDocumentData)
       .subscribe((res) => {
+        this.isLoading = false;
         Swal.fire(
           'Success!',
           `${this.userDocument.name} uploaded!`,
           'success'
         ).then((result) => {
-          this.isLoading = false;
           this.router.navigateByUrl(
             'dashboard/new/initial-forms/building-permit'
           );
