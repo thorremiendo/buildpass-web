@@ -1,7 +1,9 @@
 <div class="container">
   <div class="row">
     <div class="col-md-6 col-12 p-5" [formGroup]="permitStepOneForm">
-      <h2 class="mb-5">Hi, Thor! Let's get started with your application.</h2>
+      <h2 class="mb-5">
+        Hi, {{ userInfo.first_name }} Let's get started with your application.
+      </h2>
       <p style="color: #767676"><strong>STEP 1</strong></p>
       <div>
         <h4>What type of permit do you want to apply?</h4>
