@@ -1,32 +1,23 @@
-<mat-card class="card-container">
-    <div class="row">
-        <div class="col-md-10" style="padding-right: 0 !important;">
-            <nav mat-tab-nav-bar mat-stretch-tabs>
-                <a
-                  mat-tab-link
-                  *ngFor="let link of navLinks"
-                  [routerLink]="link.link"
-                  routerLinkActive
-                  #rla="routerLinkActive"
-                  [active]="rla.isActive"
-                >
-                  {{ link.label }}
-                </a>
-            </nav>
-              <router-outlet></router-outlet>
-        </div>
-        <div class="col-md-2">
-            <div class="row justify-content-center">
-                <div class="box ">
-                    <!-- <a class="not-active circle" routerLink="personal-info" routerLinkActive="glow"></a>
-                    <a class="not-active circle" routerLink="employee-info" routerLinkActive="glow"></a> -->
-                 </div>
-
-            </div>
-        
-        
-     </div>
+<mat-card class="card-container container-fluid">
+  <div class="row">
+    <div class="col-md-10">
+      <nav mat-tab-nav-bar mat-stretch-tabs>
+        <a
+          mat-tab-link
+          *ngFor="let link of navLinks"
+          [routerLink]="link.link"
+          routerLinkActive
+          #rla="routerLinkActive"
+          [active]="rla.isActive"
+        >
+          {{ link.label }}
+        </a>
+      </nav>
+      <router-outlet></router-outlet>
     </div>
+    <div class="col-md-2 box">
+    </div>
+  </div>
  </mat-card>
  
  

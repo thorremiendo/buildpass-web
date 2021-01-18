@@ -1,87 +1,119 @@
-<div class="row mx-3 mt-4">
-    <div class="col-md-6 text-left">
-        <h3> Full Name: </h3>  
+<div class="row mx-3 pt-5 pb-2">
+    <div class="col-12 col-md-4 left-col">
+        <div class="row py-2">
+            <div class="col-12 font-weight-bold">
+                <div>{{user.employee_no}}</div>  
+            </div>
+            <div class="col-12">
+                <img [src]="profilePhoto" alt="" class="user-avatar" />
+            </div>
+            <div class="col-12 font-weight-bold pb-2">
+                <div>{{user.first_name}} {{user.middle_name}} {{user.last_name}} {{user.suffix_name}}</div>  
+            </div>
+            <div class="col-12">
+                <div>{{user.position}}</div>  
+            </div>
+            <div class="col-12">
+                <div>{{user.department ? user.department.toUpperCase() : ''}}</div>  
+            </div>
+        </div>
     </div>
-    <div class="col-md-6 text-right">
-        <h3> {{this.userDetails.first_name}} {{this.userDetails.middle_name}} {{this.userDetails.last_name}} </h3>  
+    <div class="col-12 col-md-8 right-col">
+        <div class="row mx-3">
+            <div class="col-md-6 text-left">
+                <div> Birth Date </div>  
+            </div>
+            <div class="col-md-6 text-right">
+                <div> {{user.birthdate}}  </div>  
+            </div>
+        </div>
+        <div class="row mx-3">
+            <div class="col-md-5 text-left">
+                <div> Marital Status </div>  
+            </div>
+            <div class="col-md-7 text-right">
+                <div> 
+                    {{user.marital_status_id === '1' ? 'Single' : ''}} 
+                    {{user.marital_status_id === '2' ? 'Married' : ''}} 
+                    {{user.marital_status_id === '3' ? 'Divorced' : ''}} 
+                    {{user.marital_status_id === '4' ? 'Widowed' : ''}} 
+                </div>  
+            </div>
+        </div>
+        <div class="row mx-3">
+            <div class="col-md-5 text-left">
+                <div> Gender </div>  
+            </div>
+            <div class="col-md-7 text-right">
+                <div> {{user.gender}} </div>  
+            </div>
+        </div>
+        <div class="row mx-3">
+            <div class="col-md-5 text-left">
+                <div> Home Address </div>  
+            </div>
+            <div class="col-md-7 text-right">
+                <div> {{user.home_address}} {{user.barangay}} </div>  
+            </div>
+        </div>
+        <div class="row mx-3">
+            <div class="col-md-6 text-left">
+                <div> Email Address </div>  
+            </div>
+            <div class="col-md-6 text-right">
+                <div> {{user.email_address}}  </div>  
+            </div>
+        </div>
+        <div class="row mx-3">
+            <div class="col-md-6 text-left">
+                <div> Contact Number </div>  
+            </div>
+            <div class="col-md-6 text-right">
+                <div> {{user.contact_number}}  </div>  
+            </div>
+        </div>
+        <div class="row mx-3">
+            <div class="col-md-6 text-left">
+                <div> ID Type </div>  
+            </div>
+            <div class="col-md-6 text-right">
+                <div>
+                    {{user.id_type === '1' ? 'Passport' : ''}}
+                    {{user.id_type === '2' ? "Driver's License" : ''}}
+                    {{user.id_type === '3' ? 'PRCID' : ''}}
+                    {{user.id_type === '4' ? 'School Id' : ''}}
+                    {{user.id_type === '5' ? 'SSS/UMID ID' : ''}}
+                    {{user.id_type === '6' ? "Senior Citizen's ID" : ''}}
+                    {{user.id_type === '7' ? "Parent or Legal Guardian's ID" : ''}}
+                    {{user.id_type === '8' ? 'Others' : ''}}
+                </div>  
+            </div>
+        </div>
+        <div class="row mx-3">
+            <div class="col-md-6 text-left">
+                <div> ID Number </div>  
+            </div>
+            <div class="col-md-6 text-right">
+                <div> {{user.id_number}}  </div>  
+            </div>
+        </div>
+        <div class="row mx-3 pt-3 pb-2">
+            <div class="col-12">
+                <div> ID Photo </div>  
+            </div>
+            <div class="col-12">
+                <img [src]="idPhoto" alt="" class="id-photo" />
+            </div>
+        </div>
     </div>
 </div>
-<mat-divider class="mx-5"></mat-divider>
-<div class="row mx-3 mt-3">
-    <div class="col-md-6 text-left">
-        <h3> Employee Number: </h3>  
-    </div>
-    <div class="col-md-6 text-right">
-        <h3> {{this.userDetails.employee_no}} </h3>  
+<div class="row justify-content-center pt-3 pb-5">
+    <div class="col-md-3">
+        <button mat-stroked-button (click)= "onSubmit()">
+            Confirm
+        </button>
     </div>
 </div>
-<mat-divider class="mx-5"></mat-divider>
-<div class="row mx-3 mt-3">
-    <div class="col-md-6 text-left">
-        <h3> Department: </h3>  
-    </div>
-    <div class="col-md-6 text-right">
-        <h3> {{this.userDetails.office}} </h3>  
-    </div>
-</div>
-<mat-divider class="mx-5"></mat-divider>
-<div class="row mx-3 mt-3">
-    <div class="col-md-6 text-left">
-        <h3> Position: </h3>  
-    </div>
-    <div class="col-md-6 text-right">
-        <h3> {{this.userDetails.position}} </h3>  
-    </div>
-</div>
-<mat-divider class="mx-5"></mat-divider>
-<div class="row mx-3 mt-3">
-    <div class="col-md-6 text-left">
-        <h3> Home address: </h3>  
-    </div>
-    <div class="col-md-6 text-right">
-        <h3> {{this.userDetails.home_address}} {{this.userDetails.barangay}} </h3>  
-    </div>
-</div>
-<mat-divider class="mx-5"></mat-divider>
-<div class="row mx-3 mt-3">
-    <div class="col-md-6 text-left">
-        <h3> BirthDate: </h3>  
-    </div>
-    <div class="col-md-6 text-right">
-        <h3> {{this.userDetails.birthdate}}  </h3>  
-    </div>
-</div>
-<mat-divider class="mx-5"></mat-divider>
-<div class="row mx-3 mt-3">
-    <div class="col-md-6 text-left">
-        <h3> Email Address: </h3>  
-    </div>
-    <div class="col-md-6 text-right">
-        <h3> {{this.userDetails.email_address}}  </h3>  
-    </div>
-</div>
-<mat-divider class="mx-5"></mat-divider>
-<div class="row mx-3 mt-3">
-    <div class="col-md-6 text-left">
-        <h3> Contact Number: </h3>  
-    </div>
-    <div class="col-md-6 text-right">
-        <h3> {{this.userDetails.contact_number}}  </h3>  
-    </div>
-</div>
-<mat-divider class="mx-5"></mat-divider>
-
-<div class="row justify-content-center py-3">
-    <div class="col-md-3 col-3 text-right mb-3">
-      <button
-        style="background-color: maroon; color: white"
-        mat-stroked-button
-        (click)= "onSubmit()"
-      >
-        Proceed
-      </button>
-    </div>
-  </div>
 
 
 

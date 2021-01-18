@@ -1,162 +1,154 @@
 <form [formGroup]="_evaluatorPersonalInfoForm" (ngSubmit)="onSubmit()">
-    <div class="row justify-content-center my-5 mx-3">
-      <div class="col-md-3">
-        <mat-form-field appearance="outline">
-          <mat-label>First Name</mat-label>
-          <input type="text" matInput formControlName="first_name" required />
-          <mat-error
-            *ngIf="
-              (evaluatorPersonalInfoFormControl.first_name.touched || _submitted) &&
-              evaluatorPersonalInfoFormControl.first_name.errors?.required"
-          >
-            First Name is Required
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="col-md-3">
-        <mat-form-field appearance="outline">
-          <mat-label>Middle Name</mat-label>
-          <input type="text" matInput formControlName="middle_name" />
-        </mat-form-field>
-      </div>
-      <div class="col-md-3">
-        <mat-form-field appearance="outline">
-          <mat-label>Last name</mat-label>
-          <input type="text" matInput formControlName="last_name" required />
-          <mat-error
-            *ngIf="
-              (evaluatorPersonalInfoFormControl.last_name.touched || _submitted) &&
-              evaluatorPersonalInfoFormControl.last_name.errors?.required
-            "
-          >
-            Last Name is Required
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="col-md-3">
-        <mat-form-field appearance="outline">
-          <mat-label>Suffix</mat-label>
-          <mat-select formControlName="suffix_name">
-            <mat-option value=" "></mat-option>
-            <mat-option value="Jr">Jr</mat-option>
-            <mat-option value="Sr">Sr</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
-
-    <div class="row justify-content-center my-5 mx-3">
-      <div class="col-md-4">
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Birthday</mat-label>
-          <input
-            matInput
-            [matDatepicker]="picker"
-            formControlName="birthdate"
-            placeholder="click the calendar icon"
-            readonly
-            required
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker touchUi #picker></mat-datepicker>
-          <mat-error
-            *ngIf="
-              (evaluatorPersonalInfoFormControl.birthdate.touched || _submitted) &&
-              evaluatorPersonalInfoFormControl.birthdate.errors?.required
-            "
-          >
-            Birthdate is required
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="col-md-4">
-        <mat-form-field appearance="outline">
-          <mat-label>Marital Status</mat-label>
-          <mat-select formControlName="marital_status" required>
-            <mat-option value=1>Single</mat-option>
-            <mat-option value=2>Married</mat-option>
-            <mat-option value=3>Divorce</mat-option>
-            <mat-option value=4>Widowed</mat-option>
-          </mat-select>
-          <mat-error
-            *ngIf="
-              (evaluatorPersonalInfoFormControl.marital_status.touched || _submitted) &&
-              evaluatorPersonalInfoFormControl.marital_status.errors?.required
-            "
-          >
-            Marital Status is required
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="col-md-4">
-        <mat-form-field appearance="outline">
-            <mat-label>Gender</mat-label>
-            <mat-select formControlName="gender">
-              <mat-option value="M">Male</mat-option>
-              <mat-option value="F">Female</mat-option>
-            </mat-select>
-          </mat-form-field>
+  <div class="row justify-content-center pt-5 pb-2 px-3">
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input type="text" matInput formControlName="first_name" required (input)="persist('evaluator-registration-first-name', $event.target.value)" /> 
         <mat-error
           *ngIf="
-            (evaluatorPersonalInfoFormControl.gender.touched || _submitted) &&
-            evaluatorPersonalInfoFormControl.gender.errors?.required
+            (evaluatorPersonalInfoFormControl.first_name.touched || _submitted) &&
+            evaluatorPersonalInfoFormControl.first_name.errors?.required"
+        >
+          First Name is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Middle Name</mat-label>
+        <input type="text" matInput formControlName="middle_name" (input)="persist('evaluator-registration-middle-name', $event.target.value)" />
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Last name</mat-label>
+        <input type="text" matInput formControlName="last_name" required (input)="persist('evaluator-registration-last-name', $event.target.value)" />
+        <mat-error
+          *ngIf="
+            (evaluatorPersonalInfoFormControl.last_name.touched || _submitted) &&
+            evaluatorPersonalInfoFormControl.last_name.errors?.required
           "
         >
-          Gender is required
+          Last Name is Required
         </mat-error>
-      </div>
+      </mat-form-field>
     </div>
-
-    <div class="row justify-content-center my-5 mx-3">
-        <div class="col-md-6">
-            <mat-form-field appearance="outline">
-              <mat-label>House No., Bldg, Street</mat-label>
-              <input type="text" matInput formControlName="home_address" required />
-              <mat-error
-                *ngIf="
-                  (evaluatorPersonalInfoFormControl.home_address.touched || _submitted) &&
-                  evaluatorPersonalInfoFormControl.home_address.errors?.required
-                "
-              >
-                Home Address is required
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-md-6">
-            <mat-form-field appearance="outline">
-              <mat-label>Barangay</mat-label>
-              <input type="text" placeholder="Select Barangay" aria-label="Barangay" matInput formControlName="barangay"
-                [matAutocomplete]="auto" required>
-              <mat-icon matSuffix>arrow_drop_down</mat-icon>
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let barangays of _filteredBarangayOptions | async" [value]="barangays.name">
-                  {{barangays.name}}
-                </mat-option>
-              </mat-autocomplete>
-              <mat-error *ngIf="
-                (evaluatorPersonalInfoFormControl.barangay.touched || _submitted) &&
-                evaluatorPersonalInfoFormControl.barangay.errors?.required
-              ">
-                Barangay is required
-              </mat-error>
-            </mat-form-field>
-          </div>
-         
-
-     
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Suffix</mat-label>
+        <mat-select formControlName="suffix_name" (selectionChange)="persist('evaluator-registration-suffix-name', $event.value)">
+          <mat-option value=" "></mat-option>
+          <mat-option value="Jr">Jr</mat-option>
+          <mat-option value="Sr">Sr</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
-    <div class="row justify-content-center py-3">
-      <div class="col-md-3 col-3 text-right mb-3">
-        <button
-          style="background-color: maroon; color: white"
-          mat-stroked-button
-          type="submit"
+  </div>
+  <div class="row justify-content-center py-2 px-3">
+    <div class="col-md-4">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Birthday</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="birthdate"
+          placeholder="click the calendar icon"
+          readonly
+          required
+          (dateInput)="persist('evaluator-registration-birth-date', $event.target.value)"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker touchUi #picker></mat-datepicker>
+        <mat-error
+          *ngIf="
+            (evaluatorPersonalInfoFormControl.birthdate.touched || _submitted) &&
+            evaluatorPersonalInfoFormControl.birthdate.errors?.required
+          "
         >
-          Proceed
-        </button>
-      </div>
+          Birthdate is required
+        </mat-error>
+      </mat-form-field>
     </div>
-  </form>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+        <mat-label>Marital Status</mat-label>
+        <mat-select formControlName="marital_status" required (selectionChange)="persist('evaluator-registration-marital-status', $event.value)">
+          <mat-option value=1>Single</mat-option>
+          <mat-option value=2>Married</mat-option>
+          <mat-option value=3>Divorced</mat-option>
+          <mat-option value=4>Widowed</mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="
+            (evaluatorPersonalInfoFormControl.marital_status.touched || _submitted) &&
+            evaluatorPersonalInfoFormControl.marital_status.errors?.required
+          "
+        >
+          Marital Status is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+          <mat-label>Gender</mat-label>
+          <mat-select formControlName="gender" (selectionChange)="persist('evaluator-registration-gender', $event.value)">
+            <mat-option value="M">Male</mat-option>
+            <mat-option value="F">Female</mat-option>
+          </mat-select>
+        </mat-form-field>
+      <mat-error
+        *ngIf="
+          (evaluatorPersonalInfoFormControl.gender.touched || _submitted) &&
+          evaluatorPersonalInfoFormControl.gender.errors?.required
+        "
+      >
+        Gender is required
+      </mat-error>
+    </div>
+  </div>
+  <div class="row justify-content-center py-2 px-3">
+    <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>House No., Bldg, Street</mat-label>
+          <input type="text" matInput formControlName="home_address" required (input)="persist('evaluator-registration-home-address', $event.target.value)" />
+          <mat-error
+            *ngIf="
+              (evaluatorPersonalInfoFormControl.home_address.touched || _submitted) &&
+              evaluatorPersonalInfoFormControl.home_address.errors?.required
+            "
+          >
+            Home Address is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Barangay</mat-label>
+          <input type="text" placeholder="Select Barangay" aria-label="Barangay" matInput formControlName="barangay"
+            [matAutocomplete]="auto" required>
+          <mat-icon matSuffix>arrow_drop_down</mat-icon>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="persist('evaluator-registration-barangay', $event.option.value)">
+            <mat-option *ngFor="let barangays of _filteredBarangayOptions | async" [value]="barangays.name">
+              {{barangays.name}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="
+            (evaluatorPersonalInfoFormControl.barangay.touched || _submitted) &&
+            evaluatorPersonalInfoFormControl.barangay.errors?.required
+          ">
+            Barangay is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+  </div>
+  <div class="row justify-content-center pt-3 pb-5">
+    <div class="col-md-3">
+      <button mat-stroked-button type="submit">
+        Proceed
+      </button>
+    </div>
+  </div>
+</form>

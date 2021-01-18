@@ -1,41 +1,36 @@
 .card-container {
-    max-width: 1000px;
-    height: 600px;
-    justify-content: center;
-    text-align: center;
-    margin: auto;
-    margin-top: 50px;
-    padding-right: 0 !important;
-    
-    border-radius: 15px;
-  }
-
-.box{
-    height: 600px;
-    width: 100%;
-    background-color: maroon;
-      
-  }
-
-  .not-active { 
-    pointer-events: none; 
-    cursor: default; 
-} 
-.circle{
-    background-color: green;
-    border-radius: 100%;
+  height: auto;
+  max-width: 1000px;
+  justify-content: center;
+  text-align: center;
+  margin: 100px auto;
+  padding-right: 0 !important;
+  border-radius: 15px;
+  overflow: hidden;
 }
 
-.glow{
-    background-color: green;
-    border-radius: 100%;
-    width: 100px;
-    height: 100px;
+.box {
+  border-radius: 0;
+  background-color: maroon;
+}
+
+::ng-deep .mat-tab-link {
+  //pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .card-container > .row > .col-md-10 {
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .card-container {
+    padding: 20px;
+    margin: 0;
   }
 
-.not-active { 
-    pointer-events: none; 
-    cursor: default; 
-  } 
-  
-
+  .box {
+    display: none;
+  }
+}
