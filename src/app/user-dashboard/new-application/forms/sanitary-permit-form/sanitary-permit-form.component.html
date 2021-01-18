@@ -53,7 +53,10 @@
         >
       </ngx-dropzone-preview>
     </ngx-dropzone>
-    <div class="mt-5 mb-3 text-right">
+    <div class="d-flex justify-content-between mt-5 mb-3">
+      <button mat-raised-button color="accent" (click)="callSaveAsDraft()">
+        Save as Draft
+      </button>
       <button
         mat-raised-button
         color="primary"

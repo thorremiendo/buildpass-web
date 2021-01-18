@@ -72,19 +72,29 @@ export class ZoningClearanceFormComponent implements OnInit {
     }
   }
   callSaveAsDraft() {
-    console.log('route', this.router.url);
     const body = {
       application_status_id: 6,
     };
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
-        Swal.fire('Success!', `Application Saved as Draft!`, 'success').then(
-          (result) => {
-            this.router.navigateByUrl('/dashboard');
-          }
-        );
+        this.saveRoute();
       });
+  }
+  saveRoute() {
+    const body = {
+      user_id: this.user.id,
+      application_id: this.applicationId,
+      url: this.router.url,
+    };
+    this.newApplicationService.saveAsDraft(body).subscribe((res) => {
+      console.log(res);
+      Swal.fire('Success!', `Application Saved as Draft!`, 'success').then(
+        (result) => {
+          this.router.navigateByUrl('/dashboard');
+        }
+      );
+    });
   }
   callNext() {
     console.log(this.formData);
