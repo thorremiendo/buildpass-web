@@ -1,26 +1,10 @@
-<ngx-extended-pdf-viewer
-  [src]="data.form.document_path"
-  [showToolbar]="true"
-  [showSidebarButton]="false"
-  [showFindButton]="false"
-  [showPagingButtons]="false"
-  [showZoomButtons]="true"
-  [showPresentationModeButton]="true"
-  [showOpenFileButton]="false"
-  [showPrintButton]="false"
-  [showDownloadButton]="true"
-  [showBookmarkButton]="false"
-  [showSecondaryToolbarButton]="true"
-  [showRotateButton]="false"
-  [showHandToolButton]="false"
-  [showScrollingButton]="false"
-  [showSpreadButton]="false"
-  [showPropertiesButton]="false"
-  [useBrowserLocale]="true"
-  height="1000px"
-  zoom="80%"
->
-</ngx-extended-pdf-viewer>
+<div class="container">
+  <div id="pdf-div" class="pdf-view"></div>
+  <!-- <custom-rhp-component *ngIf='annotationManager'
+      [annotationManager]='annotationManager'>
+  </custom-rhp-component> -->
+</div>
+
 <div [formGroup]="permitDetails" *ngIf="user.employee_detail">
   <div class="row">
     <div class="col-md-12">
@@ -80,13 +64,15 @@
       </mat-expansion-panel-header>
       <p>
         {{
-          data.form.document_revision[0]
-            ? data.form.document_revision[0].remarks
+          data.form.document_revision[data.form.document_revision.length - 1]
+            ? data.form.document_revision[
+                data.form.document_revision.length - 1
+              ].remarks
             : "No Remarks"
         }}
       </p>
     </mat-expansion-panel>
-    <ngx-dropzone
+    <!-- <ngx-dropzone
       (change)="onSelect($event, 'selectedForm')"
       [multiple]="false"
       class="mt-3"
@@ -102,7 +88,7 @@
           >{{ selectedForm.name }} ({{ selectedForm.type }})</ngx-dropzone-label
         >
       </ngx-dropzone-preview>
-    </ngx-dropzone>
+    </ngx-dropzone> -->
   </div>
 </div>
 <div *ngIf="!user.employee_detail">
@@ -110,7 +96,7 @@
     <button mat-raised-button color="accent" (click)="onNoClick()">
       Close
     </button>
-    <button
+    <!-- <button
       *ngIf="
         data.form.document_status_id == 2 || data.form.document_status_id == 0
       "
@@ -119,6 +105,6 @@
       (click)="callUpdate()"
     >
       Update
-    </button>
+    </button> -->
   </div>
 </div>

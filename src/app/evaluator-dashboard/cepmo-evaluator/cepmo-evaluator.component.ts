@@ -62,7 +62,8 @@ export class CepmoEvaluatorComponent implements OnInit {
         obj.document_id == 28 ||
         obj.document_id == 34 ||
         obj.document_id == 35 ||
-        obj.document_id == 36
+        obj.document_id == 36 ||
+        obj.document_id == 44
     );
     this.dataSource = CEPMO_FORMS;
   }
@@ -106,6 +107,25 @@ export class CepmoEvaluatorComponent implements OnInit {
       this.ngOnInit();
     });
   }
-
-  compliant() {}
+  nonCompliant() {
+    const body = {
+      application_status_id: 1,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire(
+          'Success!',
+          `Notified Applicant for Non-Compliance!`,
+          'success'
+        ).then((result) => {});
+      });
+  }
+  compliant() {
+    Swal.fire(
+      'Success!',
+      `Forwarded to CBAO for Releasing!`,
+      'success'
+    ).then((result) => {});
+  }
 }

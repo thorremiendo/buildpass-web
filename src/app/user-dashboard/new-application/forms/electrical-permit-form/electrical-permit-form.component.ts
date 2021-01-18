@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
+import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { UserService } from 'src/app/core/services/user.service';
@@ -27,7 +28,8 @@ export class ElectricalPermitFormComponent implements OnInit {
     private router: Router,
     private newApplicationService: NewApplicationService,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private applicationService: ApplicationInfoService
   ) {}
 
   ngOnInit(): void {
@@ -35,14 +37,50 @@ export class ElectricalPermitFormComponent implements OnInit {
     console.log(this.user);
     this.newApplicationService.applicationId
       .asObservable()
-      .subscribe((applicationId) => (this.applicationId = applicationId));
-    console.log('application id:', this.applicationId);
+      .subscribe((applicationId) => {
+        this.applicationId = applicationId;
+        if (!this.applicationId) {
+          this.applicationId = localStorage.getItem('app_id');
+          this.fetchApplicationInfo();
+        } else {
+          localStorage.setItem('app_id', this.applicationId);
+          console.log('local app id', localStorage.getItem('app_id'));
+          this.fetchApplicationInfo();
+        }
+      });
+  }
+  fetchApplicationInfo() {
     this.newApplicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationInfo = result.data;
         this.mergeFormData();
       });
+  }
+  callSaveAsDraft() {
+    const body = {
+      application_status_id: 6,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        this.saveRoute();
+      });
+  }
+  saveRoute() {
+    const body = {
+      user_id: this.user.id,
+      application_id: this.applicationId,
+      url: this.router.url,
+    };
+    this.newApplicationService.saveAsDraft(body).subscribe((res) => {
+      console.log(res);
+      Swal.fire('Success!', `Application Saved as Draft!`, 'success').then(
+        (result) => {
+          this.router.navigateByUrl('/dashboard');
+        }
+      );
+    });
   }
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
@@ -73,15 +111,22 @@ export class ElectricalPermitFormComponent implements OnInit {
     this.newApplicationService
       .submitDocument(uploadDocumentData)
       .subscribe((res) => {
+        this.isLoading = false;
         Swal.fire(
           'Success!',
           `${this.userDocument.name} uploaded!`,
           'success'
         ).then((result) => {
-          this.isLoading = false;
-          this.router.navigateByUrl(
-            'dashboard/new/initial-forms/excavation-permit'
-          );
+          if (
+            this.applicationInfo.construction_status == '2' ||
+            this.applicationInfo.construction_status == '3'
+          ) {
+            this.router.navigateByUrl(
+              'dashboard/new/initial-forms/civil-engineer-affidavit'
+            );
+          } else {
+            this.router.navigateByUrl('dashboard/new/documentary-requirements');
+          }
         });
       });
   }

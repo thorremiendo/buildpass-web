@@ -46,6 +46,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import {MatStepperModule} from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
     MatAutocompleteModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
+    MatStepperModule,
     NgxMapboxGLModule.withConfig({
       accessToken: environment.mapbox.accessToken,
       geocoderAccessToken: environment.mapbox.accessToken,

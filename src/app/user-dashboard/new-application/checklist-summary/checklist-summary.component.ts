@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
+import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { UserService } from 'src/app/core/services/user.service';
@@ -25,7 +26,8 @@ export class ChecklistSummaryComponent implements OnInit {
     private newApplicationService: NewApplicationService,
     private authService: AuthService,
     private userService: UserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private applicationService: ApplicationInfoService
   ) {}
 
   ngOnInit(): void {
@@ -51,6 +53,14 @@ export class ChecklistSummaryComponent implements OnInit {
     return documentTypes[id];
   }
   submit() {
-    this.router.navigateByUrl('dashboard/new/success');
+    const body = {
+      application_status_id: 1,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        console.log("Update", res);
+        this.router.navigateByUrl('dashboard/new/success');
+      });
   }
 }

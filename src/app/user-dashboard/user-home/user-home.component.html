@@ -51,10 +51,28 @@
         <hr class="m-0" />
         <mat-card-content>
           <div class="_notifications">
-            <img
-              src="../../../assets/illustrations/notification-mail.png"
-            />
-            <p>You don't have any notifications...</p>
+            <div class="d-flex justify-content-center w-100 m-0">
+              <img
+                src="../../../assets/illustrations/notification-mail.png"
+                class="_illustration"
+              />
+            </div>
+            <div *ngFor="let feed of feeds">
+              <div class="d-flex justify-content-around w-100 m-0">
+                <a routerLink="" 
+                  ><p style="color: rgb(90, 108, 116); font-size: 12px">
+                    Nov-21-2020 3:43PM
+                  </p></a
+                >
+  
+                <a routerLink="" (click)="handleView()"
+                  ><p style="color: rgb(90, 108, 116)">
+                    {{feed.application_number}} {{feed.status}}
+                  </p></a
+                >
+              </div>
+              <hr />
+            </div>
           </div>
         </mat-card-content>
       </mat-card>

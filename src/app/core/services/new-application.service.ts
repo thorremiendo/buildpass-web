@@ -33,12 +33,30 @@ export class NewApplicationService {
 
     return this.api.post(url, body);
   }
-  updateDocumentFile(body, id){
+  saveAsDraft(body) {
+    const url = `/user/lastroute`;
+
+    return this.api.post(url, body);
+  }
+
+  fetchDraftDetails(id, application_id) {
+    const url = `/user/${id}/${application_id}/lastroute`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+
+  updateDocumentFile(body, id) {
     const url = `/userdocs/${id}/update`;
 
     return this.api.post(url, body);
   }
-  fetchUserInfo(id){
+  fetchUserInfo(id) {
     const url = `/user/${id}/applicationid`;
 
     return this.api.get(url);

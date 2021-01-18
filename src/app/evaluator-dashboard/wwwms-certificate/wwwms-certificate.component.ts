@@ -65,7 +65,7 @@ export class WwwmsCertificateComponent implements OnInit {
     const uploadDocumentData = {
       application_id: this.applicationId,
       user_id: this.userId,
-      document_id: 43,
+      document_id: 44,
       document_status_id: 1,
     };
     if (this.wwmsCertificateFile) {

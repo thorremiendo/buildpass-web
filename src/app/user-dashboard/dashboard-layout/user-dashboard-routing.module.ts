@@ -259,6 +259,10 @@ const routes: Routes = [
                   ],
                 },
               },
+              {
+                path: 'fencing-permit',
+                component: FencingPermitComponent,
+              }
             ],
           },
         ],

@@ -12,27 +12,38 @@ import {
 import { ProjectDetailsComponent } from '../project-details/project-details.component';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { UserService } from 'src/app/core/services/user.service';
-
+import { FeesDialogComponent } from '../fees-dialog/fees-dialog.component';
+import { ApplicationFeesService } from 'src/app/core/services/application-fees.service';
+import { officeTypes } from 'src/app/core/enums/offices.enum';
 @Component({
   selector: 'app-application-details',
   templateUrl: './application-details.component.html',
   styleUrls: ['./application-details.component.scss'],
 })
 export class ApplicationDetailsComponent implements OnInit {
+  columnsToDisplay: string[] = [
+    'number',
+    'description',
+    'office',
+    'amount',
+    'action',
+  ];
+  panelOpenState = false;
+  public dataSource;
   public isLoading = true;
   public applicationId;
   public evaluatorDetails;
   public user;
   public pdfSrc;
   public applicationDetails;
-  public applicationDate;
   constructor(
     private router: Router,
     private applicationService: ApplicationInfoService,
     public dialog: MatDialog,
     public route: ActivatedRoute,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private applicationFeeService: ApplicationFeesService
   ) {}
   openProjectDialog(): void {
     const dialogRef = this.dialog.open(ProjectDetailsComponent, {
@@ -54,9 +65,40 @@ export class ApplicationDetailsComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
-        console.log(this.applicationDate);
         this.fetchEvaluatorDetails();
+        this.fetchApplicationFees();
       });
+  }
+
+  fetchApplicationFees() {
+    const id = this.applicationId;
+    this.applicationFeeService.fetchFees(id).subscribe((res) => {
+      this.dataSource = res.data;
+      console.log('datasource', this.dataSource);
+    });
+  }
+  getOfficeType(id): string {
+    return officeTypes[id];
+  }
+  showAddItem() {
+    const dialogRef = this.dialog.open(FeesDialogComponent, {
+      width: '800px',
+      data: {
+        dataSource: this.dataSource,
+        route: this.route,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      this.ngOnInit();
+    });
+  }
+  onRemove(id) {
+    this.applicationFeeService.deleteFee(id).subscribe((res) => {
+      console.log(res);
+    });
+    this.ngOnInit();
   }
 
   fetchEvaluatorDetails() {

@@ -1,7 +1,9 @@
 export enum applicationStatus {
-    "For Compliance by Applicant" = 0,
+    "CBAO Receiving" = 0,
     "CBAO Evaluation" = 1,
     "Forwarded to CPDO" = 2,
     "Forwarded to CEPMO, BFP and CBAO" = 3,
     "For Releasing" = 4,
+    "For Revision by Applicant" = 5,
+    "Incomplete Applicaiton" = 6
 }
