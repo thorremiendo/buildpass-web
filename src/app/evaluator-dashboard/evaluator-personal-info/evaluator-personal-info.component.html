@@ -131,7 +131,7 @@
             [matAutocomplete]="auto" required>
           <mat-icon matSuffix>arrow_drop_down</mat-icon>
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="persist('evaluator-registration-barangay', $event.option.value)">
-            <mat-option *ngFor="let barangays of _filteredBarangayOptions | async" [value]="barangays.name">
+            <mat-option *ngFor="let barangays of _filteredBarangayOptions | async" [value]="barangays.id">
               {{barangays.name}}
             </mat-option>
           </mat-autocomplete>

@@ -39,6 +39,7 @@ export class EvaluatorPersonalInfoComponent implements OnInit {
         startWith(''),
         map(barangay => barangay ? this.filter(barangay) : this.barangay.slice())
       );
+      console.log(this._filteredBarangayOptions);
     });
 
     this._registerAccountEvaluatorFormService.cast.subscribe(registerAccountEvaluatorSubject => this.userDetails = registerAccountEvaluatorSubject);
