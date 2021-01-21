@@ -62,7 +62,7 @@ export class EvaluatorsSummaryComponent implements OnInit {
     const idBlock = idURL.split(";");
     const idContentType = idBlock[0].split(":")[1];
     const idRealData = idBlock[1].split(",")[1];
-    const idBlob = this.b64toBlob(photoRealData, photoContentType);
+    const idBlob = this.b64toBlob(idContentType, idRealData);
 
     this.user.id_photo_path = new File([idBlob], 'photo');
 
