@@ -45,7 +45,7 @@
     <div class="col-md-5">
       <mat-card>
         <mat-card-header>
-          <mat-card-title class="m-3">Notifications</mat-card-title>
+          <mat-card-title>Notifications</mat-card-title>
           <button mat-button color="primary">View All</button>
         </mat-card-header>
         <hr class="m-0" />
@@ -57,14 +57,22 @@
                 class="_illustration"
               />
             </div>
-            <p>You don't have any notifications..</p>
-            <p>You don't have any notifications..</p>
-            <p>You don't have any notifications..</p>
-            <p>You don't have any notifications..</p>
-            <p>You don't have any notifications..</p>
-            <p>You don't have any notifications..</p>
-            <p>You don't have any notifications..</p>
-            <p>You don't have any notifications..</p>
+            <div *ngFor="let feed of feeds">
+              <div class="d-flex justify-content-around w-100 m-0">
+                <a routerLink="" 
+                  ><p style="color: rgb(90, 108, 116); font-size: 12px">
+                    Nov-21-2020 3:43PM
+                  </p></a
+                >
+  
+                <a routerLink="" (click)="handleView()"
+                  ><p style="color: rgb(90, 108, 116)">
+                    {{feed.application_number}} {{feed.status}}
+                  </p></a
+                >
+              </div>
+              <hr />
+            </div>
           </div>
         </mat-card-content>
       </mat-card>
@@ -73,7 +81,7 @@
     <div class="col-md-7">
       <mat-card>
         <mat-card-header>
-          <mat-card-title class="m-3">Reminders</mat-card-title>
+          <mat-card-title>Reminders</mat-card-title>
           <button mat-button color="primary">View All</button>
         </mat-card-header>
         <hr class="m-0" />
@@ -91,13 +99,13 @@
           >
             <div class="carousel-inner text-white" role="listbox">
               <div class="carousel-item active text-center p-4">
-                <p class="p-5">Some reminders here.</p>
+                <p>Check out our construction permit online application guidelines <a href="#">here</a>.</p>
               </div>
               <div class="carousel-item text-center p-4">
-                <p class="p-5">Another reminder here.</p>
+                <p>Make sure all forms are correctly and completely filled-out.</p>
               </div>
               <div class="carousel-item text-center p-4">
-                <p class="p-5">Another another reminder.</p>
+                <p>Don’t forget to bring your proof of payment, original signed and sealed documents upon claiming your Building Permit.</p>
               </div>
             </div>
             <a
@@ -148,7 +156,7 @@
           Can my Building Permit Application progress if my Land Title is
           211?</strong
         ><br />
-        A: No, Land titles that are indicated as 211 are invalidated, and are
+        No, Land titles that are indicated as 211 are invalidated, and are
         considered as public land.
         <br />
         <br />
@@ -157,7 +165,7 @@
           is within an easement/Road Right of Way, can I be issued a building
           permit/Occupancy Certificate?
         </strong>
-        <br />A: No, unless the minimum easement of THREE (3.00) meters will be
+        <br />No, unless the minimum easement of THREE (3.00) meters will be
         respected, or the minimum required setbacks under the code are met.
         <br /><br />
         <strong
@@ -165,7 +173,7 @@
           “Adverse Claim”, can my Building Permit application prosper?</strong
         >
         <br />
-        A: No, however, it is recommended that these annotations should be
+        No, however, it is recommended that these annotations should be
         resolved first prior to application.
         <br />
         <br />
@@ -174,7 +182,7 @@
           corporation?</strong
         >
         <br />
-        A: Attach original copy of Secretary Certificate and/or Articles of
+        Attach original copy of Secretary Certificate and/or Articles of
         Incorporation
         <br />
         <br />
@@ -184,7 +192,7 @@
           building permit application?</strong
         >
         <br />
-        A: You will need to submit a duly notarized Authorization/Non-Objection
+        You will need to submit a duly notarized Authorization/Non-Objection
         or Consent from the co-owners
         <br />
         <br />
@@ -193,7 +201,7 @@
           >Follow-up question, what if the co-owner is abroad? How can he/she
           sign the Authorization/Non-Objection, or Consent?
         </strong>
-        <br />A: If that is the case, he/she must provide you with that written
+        <br />If that is the case, he/she must provide you with that written
         consent or authorization duly Authenticated/Apostille by their
         consulate.
         <br />
@@ -204,28 +212,28 @@
           is/are already deceased. What document do I need to support my
           Building permit application?</strong
         ><br />
-        A: To support your application, you will need to submit original copy of
+        To support your application, you will need to submit original copy of
         the Extra Judicial Settlement.
         <br />
         <br />
         <strong>
-          Q: I would like to build on our titled property, however, indicated in
+          I would like to build on our titled property, however, indicated in
           the title are fraction of shares for each co-owner. What do I need to
           do?
         </strong>
         <br />
-        A: You need to identify your fraction of share on a survey plan. This
+        You need to identify your fraction of share on a survey plan. This
         survey plan will be your supporting document for your application. You
         will also need to attach a duly notarized written consent from the
         co-owners.
         <br />
 
         <br /><strong>
-          Q: My property is situated in the NIPAS Zone. What clearance do I need
+          My property is situated in the NIPAS Zone. What clearance do I need
           to secure?</strong
         >
         <br />
-        A: You have to apply for an Environmental Compliance Certificate from
+        You have to apply for an Environmental Compliance Certificate from
         MGB-DENR.
         <br />
 
@@ -234,7 +242,7 @@
           >Our property is located near an air strip. What clearance do I need
           to submit to support my application?
         </strong>
-        <br />A: You need to apply and secure first a CAAP clearance.
+        <br />You need to apply and secure first a CAAP clearance.
         <br />
         <br />
         <strong
@@ -242,7 +250,7 @@
           support my application?</strong
         >
         <br />
-        A: You need to submit Consent from the Bank, or with your loan provider.
+        You need to submit Consent from the Bank, or with your loan provider.
         (eg: Pagibig)
       </p>
     </mat-expansion-panel>
@@ -264,17 +272,17 @@
           allowed to introduce three or four firewalls on its sides?</strong
         >
         <br />
-        A: No, Only TWO (2) Firewalls are allowed, and it should not be located
+        No, Only TWO (2) Firewalls are allowed, and it should not be located
         or constructed on the front side of the structure.
         <br /><br />
         <strong
-          >Q: My property is classified as interior lot, however the existing
+          >My property is classified as interior lot, however the existing
           alley/access way leading to my property is tight and is not passable
           by vehicular means (4-wheel vehicles), do I still need to provide a
           garage or a parking space?</strong
         >
         <br />
-        A: For residential use: No need to provide For Commercial use: Yes, at
+        For residential use: No need to provide For Commercial use: Yes, at
         least within a 200-meter distance.
       </p>
     </mat-expansion-panel>
@@ -296,7 +304,7 @@
           included in the issued Building Permit. What are the requirements so
           that my application will be complete and complying?</strong
         >
-        <br />A: The requirements are:
+        <br />The requirements are:
         <br />
         - Amended Structural plans conforming to the actual number of storeys
         <br />

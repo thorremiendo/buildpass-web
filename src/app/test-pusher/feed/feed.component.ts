@@ -22,8 +22,10 @@ export class FeedComponent implements OnInit, OnDestroy {
         console.log(feed);
       });
   }
-
+  
   ngOnInit() {}
+
+  
 
   ngOnDestroy() {
     this.feedSubscription.unsubscribe();

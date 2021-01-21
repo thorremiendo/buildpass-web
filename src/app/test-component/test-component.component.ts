@@ -19,10 +19,10 @@ export class TestComponentComponent implements OnInit {
     this._registerAccountFormService.cast.subscribe(registerAccountSubject => this.userDetails = registerAccountSubject)
     console.log(this.userDetails);
   }
-  
+
 
   logOut(){
-    this._authService.SignOut();
+    // this._authService.SignOut();
   }
 
 }

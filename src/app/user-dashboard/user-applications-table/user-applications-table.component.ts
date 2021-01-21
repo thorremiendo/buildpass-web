@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/core';
 import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
+import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { applicationStatus } from '../../core/enums/application-status.enum';
 
 @Component({
@@ -19,7 +20,11 @@ export class UserApplicationsTableComponent implements OnInit {
   ];
   public user;
   public applicationInfoData;
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private newApplicationService: NewApplicationService
+  ) {}
 
   ngOnInit(): void {
     this.userService.cast.subscribe((userSubject) => {
@@ -31,6 +36,19 @@ export class UserApplicationsTableComponent implements OnInit {
           console.log(this.applicationInfoData);
         });
     });
+  }
+
+  continueApplication(id, application_id) {
+    this.newApplicationService
+      .fetchDraftDetails(id, application_id)
+      .subscribe((res) => {
+        console.log(res.data);
+        localStorage.setItem(
+          'app_id',
+          res.data[res.data.length - 1].application_id
+        );
+        this.router.navigateByUrl(res.data[res.data.length - 1].url);
+      });
   }
   getApplicationStatus(id): string {
     return applicationStatus[id];

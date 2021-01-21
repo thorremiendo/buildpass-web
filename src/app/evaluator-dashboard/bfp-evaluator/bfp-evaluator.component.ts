@@ -61,7 +61,8 @@ export class BfpEvaluatorComponent implements OnInit {
         obj.document_id == 28 ||
         obj.document_id == 32 ||
         obj.document_id == 33 ||
-        obj.document_id == 43
+        obj.document_id == 43 ||
+        obj.document_id == 45
     );
     this.dataSource = BFP_FORMS;
   }
@@ -105,6 +106,26 @@ export class BfpEvaluatorComponent implements OnInit {
       this.ngOnInit();
     });
   }
+  nonCompliant() {
+    const body = {
+      application_status_id: 1,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire(
+          'Success!',
+          `Notified Applicant for Non-Compliance!`,
+          'success'
+        ).then((result) => {});
+      });
+  }
 
-  compliant() {}
+  compliant() {
+    Swal.fire(
+      'Success!',
+      `Forwarded to CBAO for Releasing!`,
+      'success'
+    ).then((result) => {});
+  }
 }

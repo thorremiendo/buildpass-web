@@ -1,4 +1,7 @@
-<div class="container" >
+<div class="container">
+  <div class="d-flex justify-content-center mt-5" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
   <div class="row mx-5" *ngIf="!isLoading">
     <div class="d-flex justify-content-between w-100">
       <div>
@@ -109,9 +112,8 @@
       </div>
       <div class="d-flex justify-content-between mb-4">
         <div>
-          <button mat-button>
-            <mat-icon>chevron_left</mat-icon>
-            Back
+          <button mat-raised-button color="accent" (click)="callSaveAsDraft()">
+            Save as Draft
           </button>
         </div>
         <div>

@@ -34,6 +34,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatTableModule } from '@angular/material/table';
@@ -64,6 +65,13 @@ import { EvaluatorEditProfileComponent } from './evaluator-edit-profile/evaluato
 import { ZoningCertificateComponent } from './zoning-certificate/zoning-certificate.component';
 import { FireClearanceComponent } from './fire-clearance/fire-clearance.component';
 import { WwwmsCertificateComponent } from './wwwms-certificate/wwwms-certificate.component';
+import { ReleaseBldgPermitComponent } from './release-bldg-permit/release-bldg-permit.component';
+import { FeesDialogComponent } from './fees-dialog/fees-dialog.component';
+import { ViewFeesComponent } from './view-fees/view-fees.component';
+import { CbaoFeesTableComponent } from './cbao-fees-table/cbao-fees-table.component';
+import { CpdoFeesTableComponent } from './cpdo-fees-table/cpdo-fees-table.component';
+import { BfpFeesTableComponent } from './bfp-fees-table/bfp-fees-table.component';
+import { CepmoFeesTableComponent } from './cepmo-fees-table/cepmo-fees-table.component';
 
 
 
@@ -89,7 +97,7 @@ import { WwwmsCertificateComponent } from './wwwms-certificate/wwwms-certificate
     BfpEvaluatorComponent,
     ProjectDetailsComponent,
     FormDetailsComponent,
-    EvaluatorsSummaryComponent, EvaluatorIdentificationComponent, EvaluatorEditProfileComponent, ZoningCertificateComponent, FireClearanceComponent, WwwmsCertificateComponent],
+    EvaluatorsSummaryComponent, EvaluatorIdentificationComponent, EvaluatorEditProfileComponent, ZoningCertificateComponent, FireClearanceComponent, WwwmsCertificateComponent, ReleaseBldgPermitComponent, FeesDialogComponent, ViewFeesComponent, CbaoFeesTableComponent, CpdoFeesTableComponent, BfpFeesTableComponent, CepmoFeesTableComponent],
 
   imports: [
     CommonModule,

@@ -13,6 +13,8 @@ import { ProjectDetailsComponent } from 'src/app/evaluator-dashboard/project-det
 import { FormDetailsComponent } from 'src/app/evaluator-dashboard/form-details/form-details.component';
 import { applicationStatus } from '../../core/enums/application-status.enum';
 import Swal from 'sweetalert2';
+import { ViewFeesComponent } from 'src/app/evaluator-dashboard/view-fees/view-fees.component';
+import { ApplicationFeesService } from 'src/app/core/services/application-fees.service';
 
 @Component({
   selector: 'app-view-application',
@@ -36,7 +38,8 @@ export class ViewApplicationComponent implements OnInit {
     public dialog: MatDialog,
     public route: ActivatedRoute,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private applicationFeeService: ApplicationFeesService
   ) {}
   openProjectDialog(): void {
     const dialogRef = this.dialog.open(ProjectDetailsComponent, {
@@ -49,6 +52,22 @@ export class ViewApplicationComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
     });
+  }
+  openFeesDialog() {
+    this.applicationFeeService
+      .fetchFees(this.applicationId)
+      .subscribe((res) => {
+        const dialogRef = this.dialog.open(ViewFeesComponent, {
+          width: '1000px',
+          data: {
+            fees: res.data,
+            applicationId: this.applicationId
+          },
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          console.log('The dialog was closed');
+        });
+      });
   }
 
   ngOnInit(): void {
@@ -88,7 +107,9 @@ export class ViewApplicationComponent implements OnInit {
           'Success!',
           `Forwarded to CBAO for Evaluation!`,
           'success'
-        ).then((result) => {});
+        ).then((result) => {
+          window.location.reload();
+        });
       });
   }
 

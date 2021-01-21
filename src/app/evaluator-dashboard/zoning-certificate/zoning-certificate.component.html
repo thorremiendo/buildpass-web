@@ -6,7 +6,7 @@
           <strong>Certificate of Zoning Compliance</strong>
         </h4>
       </div>
-      <ngx-extended-pdf-viewer
+      <!-- <ngx-extended-pdf-viewer
         [src]="
           '../../../../assets/forms/Certificate of Zoning Compliance Form-BLANK FORM.doc.pdf'
         "
@@ -50,10 +50,18 @@
             }})</ngx-dropzone-label
           >
         </ngx-dropzone-preview>
-      </ngx-dropzone>
-      <button class="text-right mt-3" mat-raised-button color="primary" (click)="callSave()">
+      </ngx-dropzone> -->
+      <div class="container">
+        <div id="pdf-div" class="pdf-view"></div>
+      </div>
+      <!-- <button
+        class="text-right mt-3"
+        mat-raised-button
+        color="primary"
+        (click)="callSave()"
+      >
         Save
-      </button>
+      </button> -->
     </mat-card-content>
   </mat-card>
 </div>

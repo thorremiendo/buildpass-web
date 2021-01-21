@@ -58,7 +58,7 @@ import { UserEditProfileComponent } from './user-edit-profile/user-edit-profile.
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from '../../environments/environment';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AdditionalPermitsComponent } from './new-application/additional-permits/additional-permits.component';
 import { ExcavationPermitComponent } from './new-application/forms/excavation-permit/excavation-permit.component';
 import { DemolitionPermitComponent } from './new-application/forms/demolition-permit/demolition-permit.component';
@@ -66,6 +66,8 @@ import { FencingPermitComponent } from './new-application/forms/fencing-permit/f
 import { OtherPermitsComponent } from './new-application/other-permits/other-permits.component';
 import { ViewApplicationComponent } from './view-application/view-application.component';
 import { UserApplicationsTableComponent } from './user-applications-table/user-applications-table.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -98,7 +100,7 @@ import { UserApplicationsTableComponent } from './user-applications-table/user-a
     FencingPermitComponent,
     OtherPermitsComponent,
     ViewApplicationComponent,
-    UserApplicationsTableComponent
+    UserApplicationsTableComponent,
   ],
   imports: [
     CommonModule,
@@ -135,7 +137,9 @@ import { UserApplicationsTableComponent } from './user-applications-table/user-a
     }),
     MatAutocompleteModule,
     MatCheckboxModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatStepperModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class UserModule {}
