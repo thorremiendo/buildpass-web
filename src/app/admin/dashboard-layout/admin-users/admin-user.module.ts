@@ -16,13 +16,17 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { AdminUsersFiltersComponent } from './admin-users-filters/admin-users-filters.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatInputModule } from '@angular/material/input';
-import { AdminUsersTableComponent } from './admin-users-table/admin-users-table.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
 import { AdminUserInfoComponent } from '../../admin-user-info/admin-user-info.component';
+import { AdminUsersCreateComponent } from './admin-users-create/admin-users-create.component';
+import { AdminUsersViewComponent } from './admin-users-view/admin-users-view.component';
 
 
 @NgModule({
@@ -30,8 +34,9 @@ import { AdminUserInfoComponent } from '../../admin-user-info/admin-user-info.co
     UsersComponent,
     AdminUsersListComponent,
     AdminUsersFiltersComponent,
-    AdminUsersTableComponent,
     AdminUserInfoComponent,
+    AdminUsersCreateComponent,
+    AdminUsersViewComponent,
   ],
   imports: [
     CommonModule,
@@ -52,7 +57,10 @@ import { AdminUserInfoComponent } from '../../admin-user-info/admin-user-info.co
     FlexLayoutModule,
     FormsModule,
     MatProgressBarModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatSelectModule
   ],
 
 })

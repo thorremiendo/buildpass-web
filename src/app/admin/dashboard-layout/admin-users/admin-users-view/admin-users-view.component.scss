@@ -1,11 +1,6 @@
-.edit-profile {
-    > .col-md-3 {
-        padding-right: 0;
-    }
-
-    > .col-md-9 {
-        padding-left: 0;
-    }
+.modal-container {
+    position: relative;
+    padding-top: 30px;
 }
 
 button {
@@ -98,4 +93,15 @@ button {
             display: block;
         }
     }
+}
+
+.close-button {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.approve-button {
+    width: auto;
 }
