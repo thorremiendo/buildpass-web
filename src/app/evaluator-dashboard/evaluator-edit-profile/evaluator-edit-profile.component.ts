@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { UserService } from '../../core/services/user.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -18,15 +18,13 @@ export class EvaluatorEditProfileComponent implements OnInit {
   public isUpdating: boolean = false;
   public userInfo;
 
+  _evaluatorEditProfileForm: FormGroup;
   _barangay: Barangay[];
   _office:string[] = Object.keys(Office).map(key => Office[key]).filter(k => !(parseInt(k) >= 0));
   _position:string[] = Object.keys(Position).map(key => Position[key]).filter(k => !(parseInt(k) >= 0));
   _filteredBarangayOptions: Observable<Barangay[]>;
   _filteredOfficeOptions: Observable<string[]>;
   _filteredPositionOptions: Observable<string[]>;
-
-  _evaluatorEditProfileForm: FormGroup;
-
   _displayPhoto: string | ArrayBuffer = '';
   _displayIdPhoto: string | ArrayBuffer = '';
   _submitted = false;
@@ -58,8 +56,8 @@ export class EvaluatorEditProfileComponent implements OnInit {
       birthdate:[this.userInfo.birthdate, Validators.required],
       marital_status:[this.userInfo.marital_status_id, Validators.required],
       gender:[this.userInfo.gender, Validators.required],
-      home_address: [this.userInfo.home_address, Validators.required],
-      barangay: [this.userInfo.barangay_id, Validators.required],
+      home_address:[this.userInfo.home_address, Validators.required],
+      barangay:[this.userInfo.barangay_id, Validators.required],
       employee_no:[this.userInfo.employee_detail.employee_no, Validators.required],
       office:[this.userInfo.employee_detail.office_id, Validators.required],
       position:[this.userInfo.employee_detail.position, Validators.required],
@@ -67,43 +65,6 @@ export class EvaluatorEditProfileComponent implements OnInit {
       id_number:[this.userInfo.id_number, Validators.required],
       id_type:[this.userInfo.id_type, Validators.required],
     });
-  }
-
-  onSubmit() {
-    this._submitted = true;
-
-    if (this._evaluatorEditProfileForm.valid) {
-      this.isUpdating = true;
-      
-      const user = {
-        first_name: this._evaluatorEditProfileForm.value.first_name,
-        middle_name: this._evaluatorEditProfileForm.value.middle_name,
-        last_name: this._evaluatorEditProfileForm.value.last_name,
-        suffix_name: this._evaluatorEditProfileForm.value.suffix_name,
-        birthdate: this._evaluatorEditProfileForm.value.birthdate,
-        marital_status_id: this._evaluatorEditProfileForm.value.marital_status,
-        gender: this._evaluatorEditProfileForm.value.gender,
-        home_address: this._evaluatorEditProfileForm.value.home_address,
-        barangay: this._evaluatorEditProfileForm.value.barangay_id,
-        employee_no: this._evaluatorEditProfileForm.value.employee_no,
-        office_id: this._evaluatorEditProfileForm.value.office,
-        position: this._evaluatorEditProfileForm.value.position, 
-        contact_number: this._evaluatorEditProfileForm.value.contact_number,
-        id_number: this._evaluatorEditProfileForm.value.id_number,
-        id_type: this._evaluatorEditProfileForm.value.id_type
-      };
-
-      console.log(user);
-      
-      this._userService.setUserInfo(user);
-      this._userService
-        .updateUserInfo(user, this.userInfo.id)
-        .subscribe((result) => {
-          this.isUpdating = false;
-          console.log(result);
-        });
-      this.isUpdating = false;
-    }
   }
 
   openFileChooser() {
@@ -121,7 +82,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
     this.readSelectedPhotoInfo();
   }
 
-  handleIDFileChangeEvent($event) {
+  handleIDFileChange($event) {
     this.selectedFile = $event.target.files[0];
     this.readSelectedIdInfo();
   }
@@ -147,39 +108,56 @@ export class EvaluatorEditProfileComponent implements OnInit {
   }
 
   filterBarangays(value: string): Barangay[] {
-    const filterValue = value.toLowerCase();
-    return this._barangay.filter(option => option.name.toLowerCase().includes(filterValue));
+    return this._barangay.filter(option => option.name.toLowerCase().includes(value));
   }
 
   filterOffice(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this._office.filter(option=> option.toLowerCase().includes(filterValue));
+    return this._office.filter(option=> option.toLowerCase().includes(value));
   }
 
   filterPosition(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this._position.filter(option=> option.toLowerCase().includes(filterValue));
+    return this._position.filter(option=> option.toLowerCase().includes(value));
   }
 
-  displayBarangayName(value: string) {
-    return 'test';
+  displayBarangayName(value: number) {
+    if (value != null) {
+      return this._barangay[value-1].name;
+    }
+  }
+
+  displayOfficeName(value: number) {
+    if (value != null) {
+      return this._office[value];
+    }
+  }
+
+  dateToString(dateObject){
+    if(dateObject != null){
+      const birthdate = new Date(dateObject);
+      let dd = birthdate.getDate();
+      let mm = birthdate.getMonth() + 1;
+      let yyyy = birthdate.getFullYear();
+      return `${yyyy}-${mm}-${dd}`;
+    }
   }
   
   ngOnInit(): void {
-    this._barangayService.getBarangayInfo().subscribe(data => {
-      this._barangay = data;
-      this._filteredBarangayOptions = this.evaluatorEditProfileFormControl.barangay.valueChanges
-      .pipe(
-        startWith(''),
-        map(barangay => barangay ? this.filterBarangays(barangay) : this._barangay.slice())
-      );
-    });
-
     this._userService.cast.subscribe(data => {
       if (Object.keys(data).length != 0) {
         this.userInfo = data;
         this.userInfo.marital_status_id = String(this.userInfo.marital_status_id);
+        //this.userInfo.barangay_id = String(this.userInfo.barangay_id);
+
         this.createForm();
+
+        this._barangayService.getBarangayInfo().subscribe(data => {
+          this._barangay = data;
+          this._filteredBarangayOptions = this.evaluatorEditProfileFormControl.barangay.valueChanges
+          .pipe(
+            startWith(''),
+            map(barangay => barangay ? this.filterBarangays(barangay) : this._barangay.slice())
+          );
+        });
 
         this._filteredOfficeOptions = this.evaluatorEditProfileFormControl.office.valueChanges.pipe(
           startWith(''),
@@ -192,6 +170,41 @@ export class EvaluatorEditProfileComponent implements OnInit {
         );    
       }
     });
+  }
+
+  onSubmit() {
+    this._submitted = true;
+
+    if (this._evaluatorEditProfileForm.valid) {
+      this.isUpdating = true;
+      
+      const user = {
+        first_name: this._evaluatorEditProfileForm.value.first_name,
+        middle_name: this._evaluatorEditProfileForm.value.middle_name,
+        last_name: this._evaluatorEditProfileForm.value.last_name,
+        suffix_name: this._evaluatorEditProfileForm.value.suffix_name,
+        birthdate: this.dateToString(this._evaluatorEditProfileForm.value.birthdate),
+        marital_status_id: this._evaluatorEditProfileForm.value.marital_status,
+        gender: this._evaluatorEditProfileForm.value.gender,
+        home_address: this._evaluatorEditProfileForm.value.home_address,
+        barangay: this._evaluatorEditProfileForm.value.barangay_id,
+        employee_no: this._evaluatorEditProfileForm.value.employee_no,
+        office_id: this._evaluatorEditProfileForm.value.office,
+        position: this._evaluatorEditProfileForm.value.position, 
+        contact_number: this._evaluatorEditProfileForm.value.contact_number,
+        id_number: this._evaluatorEditProfileForm.value.id_number,
+        id_type: this._evaluatorEditProfileForm.value.id_type,
+        photo_path: this.selectedPhoto ? this.selectedPhoto : null,
+        id_photo_path: this.selectedFile ? this.selectedFile : null
+      };
+      
+      this._userService
+        .updateUserInfo(user, this.userInfo.id)
+        .subscribe((result) => {
+          this.isUpdating = false;
+          console.log(result);
+        });
+    }
   }
 }
 

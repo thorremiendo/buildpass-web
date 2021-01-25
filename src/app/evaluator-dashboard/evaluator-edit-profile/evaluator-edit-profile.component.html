@@ -6,16 +6,20 @@
 </div>
 <div class="row edit-profile">
   <div class="col-12 col-md-3">
-    <div>
-      <div class="avatar-block">
-        <img [src]="displayProfilePhoto" alt="" class="user-avatar" />
-        <button
-          class="btn btn-dark btn-sm edit-button"
-          type="button"
-          (click)="openFileChooser()"
-        >
-          <i class="fa fa-edit"></i>
-        </button>
+    <div *ngIf="this.userInfo">
+      <div class="user-avatar-container">
+        <div class="user-avatar">
+          <img [src]="displayProfilePhoto" alt="" />
+        </div>
+        <div class="edit-avatar">
+          <button
+            class="btn btn-dark btn-sm"
+            type="button"
+            (click)="openFileChooser()"
+          >
+            <i class="fa fa-edit"></i>
+          </button>
+        </div>
       </div>
       <div class="avatar-label">Profile Picture</div>
       <input
@@ -28,7 +32,7 @@
     </div>
   </div>
   <div class="col-12 col-md-9">
-    <mat-card>
+    <mat-card *ngIf="_evaluatorEditProfileForm">
       <mat-card-content>
         <form [formGroup]="_evaluatorEditProfileForm" (ngSubmit)="onSubmit()">
           <div class="row">
@@ -41,8 +45,7 @@
                 <input type="text" matInput formControlName="first_name" required />
                 <mat-error
                   *ngIf="
-                    (evaluatorEditProfileFormControl.first_name.touched ||
-                      _submitted) &&
+                    (evaluatorEditProfileFormControl.first_name.touched || _submitted) &&
                     evaluatorEditProfileFormControl.first_name.errors?.required
                   "
                 >
@@ -117,8 +120,7 @@
                 </mat-select>
                 <mat-error
                   *ngIf="
-                    (evaluatorEditProfileFormControl.marital_status.touched ||
-                      _submitted) &&
+                    (evaluatorEditProfileFormControl.marital_status.touched || _submitted) &&
                     evaluatorEditProfileFormControl.marital_status.errors?.required
                   "
                 >
@@ -152,8 +154,7 @@
                 <input type="text" matInput formControlName="home_address" required />
                 <mat-error
                   *ngIf="
-                    (evaluatorEditProfileFormControl.home_address.touched ||
-                      _submitted) &&
+                    (evaluatorEditProfileFormControl.home_address.touched || _submitted) &&
                     evaluatorEditProfileFormControl.home_address.errors?.required
                   "
                 >
@@ -162,12 +163,12 @@
               </mat-form-field>
             </div>
             <div class="col-md-6">
-              <mat-form-field appearance="outline">
+              <mat-form-field appearance="outline" *ngIf="this._barangay">
                 <mat-label>Barangay</mat-label>
                 <input type="text" placeholder="Select Barangay" aria-label="Barangay" matInput formControlName="barangay"
                   [matAutocomplete]="auto_barangay" required>
                 <mat-icon matSuffix>arrow_drop_down</mat-icon>
-                <mat-autocomplete #auto_barangay="matAutocomplete">
+                <mat-autocomplete #auto_barangay="matAutocomplete" [displayWith]="displayBarangayName.bind(this)" >
                   <mat-option *ngFor="let barangays of _filteredBarangayOptions | async" [value]="barangays.id">
                     {{barangays.name}}
                   </mat-option>
@@ -192,8 +193,7 @@
                 <input type="text" matInput formControlName="employee_no" required />
                 <mat-error
                   *ngIf="
-                    (evaluatorEditProfileFormControl.employee_no.touched ||
-                      _submitted) &&
+                    (evaluatorEditProfileFormControl.employee_no.touched || _submitted) &&
                     evaluatorEditProfileFormControl.employee_no.errors?.required
                   "
                 >
@@ -211,8 +211,8 @@
                     [matAutocomplete]="auto_office" 
                     required />
                 <mat-icon matSuffix>arrow_drop_down</mat-icon>
-                <mat-autocomplete #auto_office="matAutocomplete">
-                    <mat-option *ngFor="let office of _filteredOfficeOptions | async" [value]="office">
+                <mat-autocomplete #auto_office="matAutocomplete" [displayWith]="displayOfficeName.bind(this)">
+                    <mat-option *ngFor="let office of _filteredOfficeOptions | async; let i = index;" [value]="i">
                       {{office}}
                     </mat-option>
                 </mat-autocomplete>  
@@ -264,8 +264,7 @@
                 />
                 <mat-error
                   *ngIf="
-                    (evaluatorEditProfileFormControl.contact_number.touched ||
-                      _submitted) &&
+                    (evaluatorEditProfileFormControl.contact_number.touched || _submitted) &&
                     evaluatorEditProfileFormControl.contact_number.errors?.required
                   "
                 >
@@ -283,7 +282,7 @@
               Identification
             </div>
             <div class="col-md-6">
-                <mat-card class="id-upload" (click)="openIdChooser()">
+                <mat-card class="id-upload" (click)="openIdChooser()" *ngIf="this.userInfo">
                   <p>UPLOAD PHOTO</p>
                   <div>
                     <img [src]="displayIDPhoto" alt="" />
@@ -293,7 +292,7 @@
                     class="sr-only"
                     id="id-photo"
                     accept="image/*"
-                    (change)="handleIDFileChangeEvent($event)"
+                    (change)="handleIDFileChange($event)"
                   />
                 </mat-card>
             </div>
@@ -315,8 +314,7 @@
                     </mat-select>
                     <mat-error
                       *ngIf="
-                        (evaluatorEditProfileFormControl.id_type.touched ||
-                          _submitted) &&
+                        (evaluatorEditProfileFormControl.id_type.touched || _submitted) &&
                         evaluatorEditProfileFormControl.id_type.errors?.required
                       "
                     >
@@ -332,8 +330,7 @@
                     <input matInput type="text" formControlName="id_number" required />
                     <mat-error
                       *ngIf="
-                        (evaluatorEditProfileFormControl.id_number.touched ||
-                          _submitted) &&
+                        (evaluatorEditProfileFormControl.id_number.touched || _submitted) &&
                         evaluatorEditProfileFormControl.id_number.errors?.required
                       "
                     >
