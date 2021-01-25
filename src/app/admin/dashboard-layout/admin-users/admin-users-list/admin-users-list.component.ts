@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { AdminUserParams, AdminUserService, UserModel, UserCredential } from 'src/app/core';
-import { Router } from '@angular/router';
-
+import { AdminUserService } from 'src/app/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { AdminUsersCreateComponent } from '../admin-users-create/admin-users-create.component';
+import { AdminUsersViewComponent } from '../admin-users-view/admin-users-view.component';
 
 @Component({
   selector: 'app-admin-users-list',
@@ -11,31 +10,44 @@ import { Router } from '@angular/router';
   styleUrls: ['./admin-users-list.component.scss']
 })
 export class AdminUsersListComponent implements OnInit {
-
   public dataSource : any[] = [];
+  public displayedColumns: string[] = [
+    'id',
+    'full_name',  
+    'employee_number',
+    'position',
+    'office',
+    'is_admin',
+    'action',
+  ];
 
   constructor(
     private _adminUserservice : AdminUserService,
-    private _router: Router
-    ){
+    private matDialog: MatDialog
+  ) {}
+  
+  ngOnInit() {
     this._adminUserservice.getData().subscribe(data => {
       this.dataSource = data;
-    
-      console.log(data);
     })
   }
-  
 
-  ngOnInit(){}
-
-  openUser(uid) {
-    console.log("clicked");
-    this._router.navigate(["/admin/dashboard/users", uid]);
+  createUser() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.id = "create-user";
+    dialogConfig.height = "90%";
+    dialogConfig.width = "1000px";
+    const modalDialog = this.matDialog.open(AdminUsersCreateComponent, dialogConfig);
   }
 
-  
-
- 
-  
-
+  editUser(uid) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.id = "create-user";
+    dialogConfig.height = "90%";
+    dialogConfig.width = "1000px";
+    dialogConfig.data = {uid: uid}
+    const modalDialog = this.matDialog.open(AdminUsersViewComponent, dialogConfig);
+  }
 }
