@@ -7,6 +7,7 @@ import { NewApplicationService } from 'src/app/core/services/new-application.ser
 import { UserService } from 'src/app/core/services/user.service';
 import { userDocuments } from 'src/app/core/variables/documents';
 import Swal from 'sweetalert2';
+import * as NumberToWords from 'number-to-words';
 
 @Component({
   selector: 'app-zoning-clearance-form',
@@ -240,6 +241,7 @@ export class ZoningClearanceFormComponent implements OnInit {
       project_province: 'Benguet',
       project_city: 'Baguio City',
       project_zipcode: '2600',
+      untitled34: NumberToWords.toWords(projectDetails.project_cost_cap),
       // rep_full_name: `${repDetails.first_name} ${repDetails.last_name}`,
       // project_location: `${projectDetails.house_number}, ${projectDetails.street_name}, ${projectDetails.barangay}`,
     };

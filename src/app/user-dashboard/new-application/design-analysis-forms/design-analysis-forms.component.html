@@ -109,7 +109,10 @@
           </ngx-dropzone-preview>
         </ngx-dropzone>
       </div>
-      <div class="mb-4">
+      <div
+        class="mb-4"
+        *ngIf="applicationInfo.project_detail.number_of_storey >= 3"
+      >
         <div class="d-flex justify-content-between">
           <h5>
             Soil Analysis for Residential Buildings with 3 storeys or more

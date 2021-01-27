@@ -24,7 +24,6 @@ export class DesignAnalysisFormsComponent implements OnInit {
   public userDetails;
   public applicationId;
   public isLoading: boolean = true;
-
   constructor(
     private newApplicationService: NewApplicationService,
     private router: Router,
