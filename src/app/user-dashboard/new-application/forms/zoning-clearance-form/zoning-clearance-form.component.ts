@@ -241,7 +241,7 @@ export class ZoningClearanceFormComponent implements OnInit {
       project_province: 'Benguet',
       project_city: 'Baguio City',
       project_zipcode: '2600',
-      untitled34: NumberToWords.toWords(projectDetails.project_cost_cap),
+      untitled34: projectDetails.project_cost_cap == 'undefined' ? '0' : NumberToWords.toWords(projectDetails.project_cost_cap),
       // rep_full_name: `${repDetails.first_name} ${repDetails.last_name}`,
       // project_location: `${projectDetails.house_number}, ${projectDetails.street_name}, ${projectDetails.barangay}`,
     };
