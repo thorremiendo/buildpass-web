@@ -47,6 +47,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import {MatStepperModule} from '@angular/material/stepper';
+import { FileUploadComponent } from './forms/file-upload/file-upload.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import {MatStepperModule} from '@angular/material/stepper';
     DemolitionPermitComponent,
     FencingPermitComponent,
     OtherPermitsComponent,
+    FileUploadComponent,
   ],
 
   imports: [

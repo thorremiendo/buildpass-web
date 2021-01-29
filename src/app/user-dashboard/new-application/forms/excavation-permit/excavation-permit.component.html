@@ -1,82 +1,85 @@
-<div class="container">
-  <mat-card style="width: 100%">
-    <mat-card-content>
-      <div>
-        <h4>Do you need an excavation permit?</h4>
-        <mat-radio-group
-          aria-label="Select an option"
-          [(ngModel)]="selectedOption"
-        >
-          <mat-radio-button value="Yes">&nbsp;Yes</mat-radio-button><br />
-          <mat-radio-button value="No">&nbsp;No</mat-radio-button>
-        </mat-radio-group>
-      </div>
-      <div *ngIf="selectedOption == 'Yes'">
-        <p class="ml-2">
-          1. After filling out the form, please click the download/save button
-          on the right.
-        </p>
-        <ngx-extended-pdf-viewer
-          [src]="
-            '../../../../assets/forms/Excavation_and_Ground_Preparation_Permit.pdf'
-          "
-          [showToolbar]="true"
-          [showSidebarButton]="false"
-          [showFindButton]="false"
-          [showPagingButtons]="false"
-          [showZoomButtons]="true"
-          [showPresentationModeButton]="true"
-          [showOpenFileButton]="false"
-          [showPrintButton]="false"
-          [showDownloadButton]="true"
-          [showBookmarkButton]="false"
-          [showSecondaryToolbarButton]="true"
-          [showRotateButton]="false"
-          [showHandToolButton]="false"
-          [showScrollingButton]="false"
-          [showSpreadButton]="false"
-          [showPropertiesButton]="false"
-          [useBrowserLocale]="true"
-          height="1000px"
-          zoom="80%"
-          [(formData)]="formData"
-        >
-        </ngx-extended-pdf-viewer>
-        <p class="ml-2 mt-4">2. Upload the form.</p>
-        <ngx-dropzone
-          (change)="onSelect($event, 'excavationPermit')"
-          [multiple]="false"
-          class="mt-3"
-        >
-          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-          <ngx-dropzone-preview
-            *ngIf="excavationPermit"
-            [removable]="true"
-            (removed)="onRemove('excavationPermit')"
-            class="mx-auto"
-          >
-            <ngx-dropzone-label
-              >{{ excavationPermit.name }} ({{
-                excavationPermit.type
-              }})</ngx-dropzone-label
+<h3>Excavation Permit Application</h3>
+<mat-horizontal-stepper linear #stepper>
+  <mat-step>
+    <ng-template matStepLabel>Step 1</ng-template>
+    <div class="container">
+      <mat-card style="width: 100%">
+        <mat-card-content>
+          <div>
+            <p class="ml-2">
+              1. After filling out the form, please click the download/save button on the right.
+            </p>
+            <ngx-extended-pdf-viewer
+              [src]="'../../../../assets/forms/excavation_permit.pdf'"
+              [showToolbar]="true"
+              [showSidebarButton]="false"
+              [showFindButton]="false"
+              [showPagingButtons]="false"
+              [showZoomButtons]="true"
+              [showPresentationModeButton]="true"
+              [showOpenFileButton]="false"
+              [showPrintButton]="false"
+              [showDownloadButton]="true"
+              [showBookmarkButton]="false"
+              [showSecondaryToolbarButton]="true"
+              [showRotateButton]="false"
+              [showHandToolButton]="false"
+              [showScrollingButton]="false"
+              [showSpreadButton]="false"
+              [showPropertiesButton]="false"
+              [useBrowserLocale]="true"
+              height="1000px"
+              zoom="80%"
+              [(formData)]="formData"
             >
-          </ngx-dropzone-preview>
-        </ngx-dropzone>
-      </div>
+            </ngx-extended-pdf-viewer>
+            
+            <p class="ml-2 mt-4">
+              2. Upload the form.
+            </p>
+            <ngx-dropzone
+              (change)="onSelect($event, 'excavationPermit')"
+              [multiple]="false"
+              class="mt-3"
+            >
+              <ngx-dropzone-label>
+                Click here to upload file!
+              </ngx-dropzone-label>
+              <ngx-dropzone-preview
+                *ngIf="excavationPermit"
+                [removable]="true"
+                (removed)="onRemove('excavationPermit')"
+                class="mx-auto"
+              >
+                <ngx-dropzone-label>
+                  {{ excavationPermit.name }}
+                  ({{ excavationPermit.type }})
+                </ngx-dropzone-label>
+              </ngx-dropzone-preview>
+            </ngx-dropzone>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="text-right">
+      <button mat-raised-button matStepperNext color="primary">Next</button>
+    </div>
+  </mat-step>
 
-      <div class="d-flex justify-content-between mt-5 mb-3">
-        <button mat-raised-button color="accent" (click)="callSaveAsDraft()">
-          Save as Draft
-        </button>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="callNext()"
-          [disabled]="!selectedOption"
-        >
-          Next
-        </button>
+  <mat-step *ngFor="let fieldSet of fieldSets; let i = index">
+    <ng-template matStepLabel>Step {{i+2}}</ng-template>
+    <div *ngFor="let field of fieldSet">
+      <div class="mb-4">
+        <app-file-upload 
+          (emitFile)="onSelect($event, field.type)"
+          (removeFile)="onRemove(field.type)"
+          description="{{field.description}}"
+        ></app-file-upload>
       </div>
-    </mat-card-content>
-  </mat-card>
-</div>
+    </div>
+    <div class="d-flex justify-content-between">
+      <button mat-raised-button matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary" matStepperNext>Next</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

@@ -53,10 +53,23 @@ export class StepOneComponent implements OnInit {
     };
     this.newApplicationFormService.setApplicationInfo(body);
     // this.router.navigateByUrl('/dashboard/new/initial-forms/zoning-clearance')
-    if (value.application_type == 1) {
-      this.router.navigateByUrl('/dashboard/new/step-two/lot-owner');
-    } else {
-      this.router.navigateByUrl('/dashboard/new/fencing-permit');
+
+    switch(value.application_type) {
+      case '1': 
+        this.router.navigateByUrl('/dashboard/new/step-two/lot-owner');
+        break;
+      case '2':
+        // occupancy permit
+        break;
+      case '3':
+        this.router.navigateByUrl('/dashboard/new/excavation-permit');
+        break;
+      case '4':
+        this.router.navigateByUrl('/dashboard/new/fencing-permit');
+        break;
+      case '5':
+        this.router.navigateByUrl('/dashboard/new/demolition-permit');
+        break;
     }
   }
 }

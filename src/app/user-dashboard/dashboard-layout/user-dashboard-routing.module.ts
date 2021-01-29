@@ -260,8 +260,16 @@ const routes: Routes = [
                 },
               },
               {
+                path: 'excavation-permit',
+                component: ExcavationPermitComponent,
+              },
+              {
                 path: 'fencing-permit',
                 component: FencingPermitComponent,
+              },
+              {
+                path: 'demolition-permit',
+                component: DemolitionPermitComponent,
               }
             ],
           },

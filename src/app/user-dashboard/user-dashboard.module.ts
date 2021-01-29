@@ -68,6 +68,7 @@ import { ViewApplicationComponent } from './view-application/view-application.co
 import { UserApplicationsTableComponent } from './user-applications-table/user-applications-table.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FileUploadComponent } from './new-application/forms/file-upload/file-upload.component';
 
 @NgModule({
   declarations: [
@@ -101,6 +102,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     OtherPermitsComponent,
     ViewApplicationComponent,
     UserApplicationsTableComponent,
+    FileUploadComponent
   ],
   imports: [
     CommonModule,
