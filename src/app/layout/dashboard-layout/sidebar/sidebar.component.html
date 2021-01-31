@@ -12,7 +12,7 @@
   <div *ngIf="!_isLoading">
     <div class="col text-center p-3" *ngIf="evaluatorDetails == null">
       <div class="mb-3">
-        <img [src]="userInfo.id_photo_path" alt="user" class="avatar" />
+        <img [src]="userInfo.photo_path" alt="user" class="avatar" />
       </div>
       <h3 style="color: #400c06">
         {{ userInfo.first_name }} {{ userInfo.last_name }}
@@ -22,7 +22,7 @@
     </div>
     <div class="col text-center p-3" *ngIf="hasEvaluatorDetails">
       <div class="mb-3">
-        <img [src]="userInfo.id_photo_path" alt="user" class="avatar" />
+        <img [src]="userInfo.photo_path" alt="user" class="avatar" />
       </div>
       <h3 style="color: #400c06">
         {{ userInfo.first_name }} {{ userInfo.last_name }}
