@@ -52,17 +52,30 @@ export class ChecklistSummaryComponent implements OnInit {
   getDocType(id): string {
     return documentTypes[id];
   }
-  handleSubmit() {
+  submit() {
     const body = {
       application_status_id: 1,
     };
-    this.applicationService
-      .updateApplicationStatus(body, this.applicationId)
-      .subscribe((res) => {
-        this.router.navigateByUrl('dashboard/new/success');
-      });
+    Swal.fire({
+      title: 'Do you need an Excavation Permit?',
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: `Yes`,
+      denyButtonText: `No`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.router.navigateByUrl('dashboard/new/step-one');
+      } else if (result.isDenied) {
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.router.navigateByUrl('dashboard/new/success');
+          });
+      }
+    });
   }
-  handleRedirect() {
-    this.router.navigateByUrl('dashboard/new/step-one');
-  }
+  // handleRedirect() {
+  //   this.router.navigateByUrl('dashboard/new/step-one');
+  // }
 }

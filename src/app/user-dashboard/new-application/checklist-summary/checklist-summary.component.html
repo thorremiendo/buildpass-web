@@ -33,20 +33,7 @@
         </ul>
       </div>
       <div class="text-right my-4">
-        <button
-          mat-raised-button
-          color="primary"
-          [swal]="{
-            title: 'Do you need an Excavation Permit?',
-            confirmButtonText: 'Yes',
-            showDenyButton: true,
-            denyButtonText: 'No',
-            showCancelButton: false
-          }"
-          (confirm)="handleRedirect()"
-          (deny)="handleSubmit()"
-          (dismiss)="handleSubmit()"
-        >
+        <button mat-raised-button color="primary" (click)="submit()">
           Save
         </button>
       </div>
