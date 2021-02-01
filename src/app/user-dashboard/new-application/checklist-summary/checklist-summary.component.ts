@@ -65,7 +65,7 @@ export class ChecklistSummaryComponent implements OnInit {
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        this.router.navigateByUrl('dashboard/new/step-one');
+        this.router.navigateByUrl('dashboard/new/excavation-permit');
       } else if (result.isDenied) {
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)
