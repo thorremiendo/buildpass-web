@@ -1,7 +1,8 @@
 import firebase from 'firebase/app';
 import { Injectable, NgZone } from '@angular/core';
-//import { User } from '../models/user.model';
+import { User } from '../models/user.model';
 //import { auth } from 'firebase/app';
+import { JwtService } from './jwt.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import {
   AngularFirestore,
@@ -30,7 +31,8 @@ export class AuthService {
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
     public ngZone: NgZone, // NgZone service to remove outside scope warning
-    public userService: UserService
+    public userService: UserService,
+    public jwtService: JwtService,
   ) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
@@ -49,12 +51,25 @@ export class AuthService {
     });
   }
 
+  login(user,token: string,) 
+  {
+    this.currentUserSubject.next(user);
+    this.userService.setUserInfo(user);
+    this.jwtService.saveToken(token);
+    this.isAuthenticatedSubject.next(true);
+  }
+
+  saveToken(token: string) {
+    this.jwtService.saveToken(token);
+  }
+
   updateUserInfo(user) {
     this.userService.getUserInfo(user.uid).subscribe((data) => {
       this.userService.setUserInfo(data);
       console.log('get user from api' + data);
     });
   }
+ 
 
   SignIn(value) {
     return new Promise<any>((resolve, reject) => {

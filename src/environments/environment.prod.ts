@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  api_url: `http://ocpas-api.test/api`,
   firebase: {    
     apiKey: "AIzaSyA2KX_f0SKSYcJhqdDGdBK5yfnlxYYWuHU",
     authDomain: "baguio-ocpas.firebaseapp.com",
@@ -14,5 +15,5 @@ export const environment = {
   mapbox: {
     accessToken: 'pk.eyJ1IjoidGhvcnJlbWllbmRvIiwiYSI6ImNraGs1MnF4MDFsZG4yeW53M3U3ZjJ4ZTMifQ.a5GU9EWk45shfNxhK07G-w'
   }
-  
+
 };
