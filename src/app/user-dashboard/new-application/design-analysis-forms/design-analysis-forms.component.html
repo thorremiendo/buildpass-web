@@ -54,7 +54,10 @@
           </ngx-dropzone-preview>
         </ngx-dropzone>
       </div>
-      <div class="mb-4">
+      <div
+        class="mb-4"
+        *ngIf="applicationInfo.project_detail.total_floor_area >= 20"
+      >
         <div class="d-flex justify-content-between">
           <h5>
             Structural Design and Analysis for Buildings with floor area of
