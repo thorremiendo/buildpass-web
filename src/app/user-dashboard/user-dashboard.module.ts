@@ -21,7 +21,7 @@ import { StepOneComponent } from './new-application/step-one/step-one.component'
 import { InitialFormsComponent } from './new-application/initial-forms/initial-forms.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CoreModule } from '../core/core.module';
-
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { BuildingPermitFormsComponent } from './new-application/building-permit-forms/building-permit-forms.component';
 import { DesignAnalysisFormsComponent } from './new-application/design-analysis-forms/design-analysis-forms.component';
 import { ProfessionalDetailsComponent } from './new-application/professional-details/professional-details.component';
@@ -142,6 +142,7 @@ import { FileUploadComponent } from './new-application/forms/file-upload/file-up
     MatProgressBarModule,
     MatStepperModule,
     MatProgressSpinnerModule,
+    SweetAlert2Module.forRoot()
   ],
 })
 export class UserModule {}

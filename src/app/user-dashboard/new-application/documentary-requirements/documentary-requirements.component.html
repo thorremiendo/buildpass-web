@@ -43,7 +43,6 @@
         <ngx-dropzone
           (change)="onSelect($event, 'authorizationLetter')"
           [multiple]="false"
-          *ngIf="!authorizationLetter"
         >
           <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
           <ngx-dropzone-preview

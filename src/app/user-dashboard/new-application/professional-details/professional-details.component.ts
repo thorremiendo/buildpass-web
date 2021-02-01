@@ -17,6 +17,8 @@ export class ProfessionalDetailsComponent implements OnInit {
   public civilEngineerDetails: File;
   public architectDetails: File;
   public sanitaryEngineerDetails: File;
+  public mechanicalEngineer: File;
+  public electricalEngineer: File;
   public user;
   public userDetails;
   public applicationId;
@@ -122,6 +124,12 @@ export class ProfessionalDetailsComponent implements OnInit {
           sanitaryEngineerDetails
         );
         break;
+      case 'mechanicalEngineer':
+        this.mechanicalEngineer = file;
+        break;
+      case 'electricalEngineer':
+        this.electricalEngineer = file;
+        break;
     }
   }
   onRemove(type) {
@@ -134,6 +142,12 @@ export class ProfessionalDetailsComponent implements OnInit {
         break;
       case 'sanitaryEngineerDetails':
         this.sanitaryEngineerDetails = null;
+        break;
+      case 'mechanicalEngineer':
+        this.mechanicalEngineer = null;
+        break;
+      case 'electricalEngineer':
+        this.electricalEngineer = null;
         break;
     }
   }

@@ -144,6 +144,6 @@ export class OtherRequirementsComponent implements OnInit {
     }
   }
   callNext() {
-    this.router.navigateByUrl('/dashboard/new/initial-forms/excavation-permit');
+    this.router.navigate(['dashboard/new/summary', this.applicationId]);
   }
 }

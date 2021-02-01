@@ -52,15 +52,17 @@ export class ChecklistSummaryComponent implements OnInit {
   getDocType(id): string {
     return documentTypes[id];
   }
-  submit() {
+  handleSubmit() {
     const body = {
       application_status_id: 1,
     };
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
-        console.log("Update", res);
         this.router.navigateByUrl('dashboard/new/success');
       });
+  }
+  handleRedirect() {
+    this.router.navigateByUrl('dashboard/new/step-one');
   }
 }

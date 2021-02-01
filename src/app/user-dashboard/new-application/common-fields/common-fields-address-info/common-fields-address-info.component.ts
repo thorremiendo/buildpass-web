@@ -47,6 +47,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   public projectDetailsForm: FormGroup;
   _submitted = false;
   public barangay: Barangay[];
+  public permitTypeId;
 
   get projectDetailsFormControl() {
     return this.projectDetailsForm.controls;
@@ -97,10 +98,9 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       );
     this.newApplicationFormService.newApplicationSubject
       .asObservable()
-      .subscribe(
-        (newApplicationSubject) =>
-          (this.applicationDetails = newApplicationSubject)
-      );
+      .subscribe((newApplicationSubject) => {
+        this.applicationDetails = newApplicationSubject;
+      });
     this.createForm();
 
     this.projectDetailsForm.patchValue({
