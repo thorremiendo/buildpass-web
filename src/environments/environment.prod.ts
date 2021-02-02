@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  api_url: `http://ocpas-api.test/api`,
   firebase: {    
     apiKey: "AIzaSyA2KX_f0SKSYcJhqdDGdBK5yfnlxYYWuHU",
     authDomain: "baguio-ocpas.firebaseapp.com",
