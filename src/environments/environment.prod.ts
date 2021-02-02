@@ -13,6 +13,8 @@ export const environment = {
 
   mapbox: {
     accessToken: 'pk.eyJ1IjoidGhvcnJlbWllbmRvIiwiYSI6ImNraGs1MnF4MDFsZG4yeW53M3U3ZjJ4ZTMifQ.a5GU9EWk45shfNxhK07G-w'
-  }
+  },
+  adobe_key: '46ddf9af80f5465c8f59e080868ef747',
+
   
 };
