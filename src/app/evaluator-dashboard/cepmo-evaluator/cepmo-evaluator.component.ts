@@ -48,12 +48,10 @@ export class CepmoEvaluatorComponent implements OnInit {
     this.changeDetectorRefs.detectChanges();
   }
   fetchEvaluatorDetails() {
-    this.userService.cast.subscribe((userSubject) => {
-      this.user = userSubject;
-      this.evaluatorDetails = this.user.employee_detail;
-      console.log('Evaluator Details', this.evaluatorDetails);
-      this.isLoading = false;
-    });
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.evaluatorDetails = this.user.employee_detail;
+    console.log('Evaluator Details', this.evaluatorDetails);
+    this.isLoading = false;
   }
   generateCepmoForms() {
     const CEPMO_FORMS = this.forms.filter(

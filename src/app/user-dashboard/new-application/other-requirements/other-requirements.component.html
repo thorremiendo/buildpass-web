@@ -30,7 +30,33 @@
       <hr />
       <div class="mb-4">
         <div class="d-flex justify-content-between">
-          <h5>Barangay Clearance</h5>
+          <h5>Notice of Construction</h5>
+          <mat-icon *ngIf="noticeOfConstruction" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'noticeOfConstruction')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="noticeOfConstruction"
+            [removable]="true"
+            (removed)="onRemove('noticeOfConstruction')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ noticeOfConstruction.name }} ({{
+                noticeOfConstruction.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4">
+        <div class="d-flex justify-content-between">
+          <h5>Barangay Certificate</h5>
           <mat-icon *ngIf="barangayClearance" style="color: green"
             >check_circle</mat-icon
           >

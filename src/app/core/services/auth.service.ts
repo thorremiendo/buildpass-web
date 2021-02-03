@@ -32,7 +32,7 @@ export class AuthService {
     public router: Router,
     public ngZone: NgZone, // NgZone service to remove outside scope warning
     public userService: UserService,
-    public jwtService: JwtService,
+    public jwtService: JwtService
   ) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
@@ -51,8 +51,7 @@ export class AuthService {
     });
   }
 
-  login(user,token: string,) 
-  {
+  login(user, token: string) {
     this.currentUserSubject.next(user);
     this.userService.setUserInfo(user);
     this.jwtService.saveToken(token);
@@ -69,7 +68,6 @@ export class AuthService {
       console.log('get user from api' + data);
     });
   }
- 
 
   SignIn(value) {
     return new Promise<any>((resolve, reject) => {
@@ -205,7 +203,7 @@ export class AuthService {
       .auth()
       .signOut()
       .then(() => {
-        localStorage.removeItem('user');
+        localStorage.removeItem('currentUser');
         this.isAuthenticatedSubject.next(false);
         this.router.navigateByUrl('/evaluator/sign-in');
       });

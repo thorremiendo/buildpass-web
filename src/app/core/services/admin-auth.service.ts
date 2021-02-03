@@ -30,6 +30,7 @@ export class AdminAuthService {
         map((res) => {
           const user = res.data.user;
           this.authService.login(user, res.data.token);
+          localStorage.setItem('currentUser', JSON.stringify(user));
           return res.data;
         })
       );

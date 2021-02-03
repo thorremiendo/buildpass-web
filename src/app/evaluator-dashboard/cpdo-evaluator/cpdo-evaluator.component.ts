@@ -50,12 +50,10 @@ export class CpdoEvaluatorComponent implements OnInit {
   }
 
   fetchEvaluatorDetails() {
-    this.userService.cast.subscribe((userSubject) => {
-      this.user = userSubject;
-      this.evaluatorDetails = this.user.employee_detail;
-      console.log('Evaluator Details', this.evaluatorDetails);
-      this.isLoading = false;
-    });
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.evaluatorDetails = this.user.employee_detail;
+    console.log('Evaluator Details', this.evaluatorDetails);
+    this.isLoading = false;
   }
   generateCpdoForms() {
     const CPDO_FORMS = this.forms.filter(

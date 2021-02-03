@@ -36,6 +36,7 @@ export class ApplicationDetailsComponent implements OnInit {
   public user;
   public pdfSrc;
   public applicationDetails;
+  public evaluatorRole;
   constructor(
     private router: Router,
     private applicationService: ApplicationInfoService,
@@ -102,12 +103,10 @@ export class ApplicationDetailsComponent implements OnInit {
   }
 
   fetchEvaluatorDetails() {
-    this.userService.cast.subscribe((userSubject) => {
-      this.user = userSubject;
-      this.evaluatorDetails = this.user.employee_detail;
-      console.log('Evaluator Details', this.evaluatorDetails);
-      this.isLoading = false;
-    });
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.evaluatorDetails = this.user.employee_detail;
+    this.isLoading = false;
+    console.log('evaluator details', this.evaluatorDetails);
   }
   getApplicationStatus(id): string {
     return applicationStatus[id];

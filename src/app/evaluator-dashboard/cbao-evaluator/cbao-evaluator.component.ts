@@ -58,12 +58,10 @@ export class CbaoEvaluatorComponent implements OnInit {
       });
   }
   fetchEvaluatorDetails() {
-    this.userService.cast.subscribe((userSubject) => {
-      this.user = userSubject;
-      this.evaluatorDetails = this.user.employee_detail;
-      console.log('Evaluator Details', this.evaluatorDetails);
-      this.isLoading = false;
-    });
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.evaluatorDetails = this.user.employee_detail;
+    console.log('Evaluator Details', this.evaluatorDetails);
+    this.isLoading = false;
   }
   getDocType(id): string {
     return documentTypes[id];

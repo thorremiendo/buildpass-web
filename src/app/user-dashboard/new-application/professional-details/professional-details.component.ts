@@ -126,9 +126,13 @@ export class ProfessionalDetailsComponent implements OnInit {
         break;
       case 'mechanicalEngineer':
         this.mechanicalEngineer = file;
+        const mechanicalEngineer = userDocuments[46];
+        this.handleUpload(this.mechanicalEngineer, mechanicalEngineer);
         break;
       case 'electricalEngineer':
         this.electricalEngineer = file;
+        const electricalEngineer = userDocuments[45];
+        this.handleUpload(this.electricalEngineer, electricalEngineer);
         break;
     }
   }

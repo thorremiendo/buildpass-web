@@ -261,13 +261,13 @@ export class ZoningClearanceFormComponent implements OnInit {
     };
     if (repDetails) {
       this.formData['rep_first_name'] = repDetails.first_name
-        ? repDetails.first_name
+        ? repDetails.first_name.toUpperCase()
         : '';
       this.formData['rep_last_name'] = repDetails.last_name
-        ? repDetails.last_name
+        ? repDetails.last_name.toUpperCase()
         : '';
       this.formData['rep_middle_name'] = repDetails.middle_name
-        ? repDetails.middle_name
+        ? repDetails.middle_name.toUpperCase()
         : '';
       this.formData['rep_suffix_name'] = repDetails.suffix_name
         ? repDetails.suffix_name
@@ -276,10 +276,10 @@ export class ZoningClearanceFormComponent implements OnInit {
         ? repDetails.house_number
         : '';
       this.formData['rep_street_name'] = repDetails.street_name
-        ? repDetails.street_name
+        ? repDetails.street_name.toUpperCase()
         : '';
       this.formData['rep_barangay'] = repDetails.barangay
-        ? repDetails.barangay
+        ? repDetails.barangay.toUpperCase()
         : '';
       this.formData['rep_contact_number'] = repDetails.contact_number
         ? repDetails.contact_number

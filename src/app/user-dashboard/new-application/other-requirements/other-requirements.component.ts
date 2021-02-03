@@ -17,6 +17,7 @@ export class OtherRequirementsComponent implements OnInit {
   public governmentClearance: File;
   public chspCertificate: File;
   public barangayClearance: File;
+  public noticeOfConstruction: File;
   public user;
   public applicationId;
   public isLoading: boolean = true;
@@ -125,6 +126,11 @@ export class OtherRequirementsComponent implements OnInit {
         const chspCertificate = userDocuments[41];
         this.handleUpload(this.chspCertificate, chspCertificate);
         break;
+      case 'noticeOfConstruction':
+        this.noticeOfConstruction = file;
+        const noticeOfConstruction = userDocuments[47];
+        this.handleUpload(this.noticeOfConstruction, noticeOfConstruction);
+        break;
     }
   }
   onRemove(type) {
@@ -140,6 +146,9 @@ export class OtherRequirementsComponent implements OnInit {
         break;
       case 'chspCertificate':
         this.chspCertificate = null;
+        break;
+      case 'noticeOfConstruction':
+        this.noticeOfConstruction = null;
         break;
     }
   }

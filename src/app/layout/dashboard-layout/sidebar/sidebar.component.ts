@@ -31,8 +31,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   public userInfo;
   public evaluatorDetails;
+  public employeeDetails;
   public officeString: string;
-  public hasEvaluatorDetails: boolean = false;
 
   itemSelect: number[] = [];
   parentIndex = 0;
@@ -76,17 +76,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._userService.cast.subscribe((userSubject) => {
       this.userInfo = userSubject;
-      debugger
-      this.evaluatorDetails = this.userInfo.employee_detail;
-      if (this.evaluatorDetails != null) {
-        let office_id = this.evaluatorDetails.office_id;
-        this.hasEvaluatorDetails = true;
-
+      if (localStorage.getItem('currentUser')) {
+        this.evaluatorDetails = JSON.parse(localStorage.getItem('currentUser'));
+        this.employeeDetails = this.evaluatorDetails.employee_detail;
+        let office_id = this.employeeDetails.office_id;
         this.officeToString(office_id);
       }
       this._isLoading = false;
       console.log('User info ' + this.userInfo);
-      console.log('Evaluator Info ' + this.evaluatorDetails);
+      console.log('Evaluator Info ' + this.employeeDetails);
     });
 
     this._messagingService.requestPermission();
@@ -103,7 +101,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    if (this.evaluatorDetails == null) {
+    if (this.employeeDetails == null) {
       this._authService.userSignOut();
     } else this._authService.evaluatorSignOut();
   }
