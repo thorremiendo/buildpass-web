@@ -45,14 +45,12 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { MessagingService } from './core/services/messaging.service';
 import { AsyncPipe } from '../../node_modules/@angular/common';
 
 
 import { LandingModule } from './landing/landing.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { EvaluatorModule } from './evaluator-dashboard/evaluator-dashboard.module';
-import { TestNotificationComponent } from './test-notification/test-notification.component';
 import { AdminModule } from './admin/admin.module';
 import { SharedModule } from './shared/shared.module';
 
@@ -80,7 +78,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   declarations: [
     AppComponent,
     TestComponentComponent,
-    TestNotificationComponent,
+   
   ],
   imports: [
     NgbModule,
@@ -129,7 +127,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     TestPusherModule,
     
   ],
-  providers: [ MessagingService,AsyncPipe,
+  providers: [ 
     {
       
       provide: PERFECT_SCROLLBAR_CONFIG,
