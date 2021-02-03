@@ -54,7 +54,12 @@ export class FormDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
+    this.userService.cast.subscribe((userSubject) => {
+      this.user = userSubject;
+      if (localStorage.getItem('currentUser')) {
+        this.user = JSON.parse(localStorage.getItem('currentUser'));
+      }
+    });
     console.log('Current user', this.user);
     this.applicationId = this.data.route.snapshot.params.id;
     console.log(this.applicationId);
@@ -86,7 +91,7 @@ export class FormDetailsComponent implements OnInit {
             printWithAnnotations: true /* Default value is false */,
           };
           this.annotationManager.setConfig(customFlags);
-          this.viewSDKClient.registerSaveApiHandler("update");
+          this.viewSDKClient.registerSaveApiHandler('update');
         });
       });
     });

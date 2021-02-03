@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
+import { applicationStatus } from '../../core/enums/application-status.enum';
 
 @Component({
   selector: 'app-table-view',
@@ -14,6 +15,7 @@ export class TableViewComponent implements OnInit {
     'applicantFullName',
     'applicationDate',
     'permitType',
+    'applicationStatus',
     'action',
   ];
   constructor(
@@ -26,8 +28,10 @@ export class TableViewComponent implements OnInit {
       this.dataSource = result.data;
     });
   }
+  getApplicationStatus(id): string {
+    return applicationStatus[id];
+  }
   goToApplicationInfo(id) {
-    this.router.navigate(["evaluator/application", id]);
-
+    this.router.navigate(['evaluator/application', id]);
   }
 }
