@@ -152,6 +152,7 @@ export class FormDetailsComponent implements OnInit {
   }
   onNoClick(): void {
     this.dialogRef.close();
+    window.location.reload();
   }
   callUpdate() {
     const uploadDocumentData = {

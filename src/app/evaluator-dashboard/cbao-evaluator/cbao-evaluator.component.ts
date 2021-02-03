@@ -43,6 +43,7 @@ export class CbaoEvaluatorComponent implements OnInit {
       .fetchUserDocs(this.applicationId)
       .subscribe((result) => {
         this.dataSource = result.data;
+        console.log('User Docs', this.dataSource);
         this.fetchEvaluatorDetails();
       });
     this.fetchApplicationInfo();
@@ -105,6 +106,7 @@ export class CbaoEvaluatorComponent implements OnInit {
       });
   }
   forwardToCpdo() {
+    //call notification forward to cpdo
     const body = {
       application_status_id: 2,
     };

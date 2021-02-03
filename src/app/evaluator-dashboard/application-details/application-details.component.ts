@@ -105,6 +105,7 @@ export class ApplicationDetailsComponent implements OnInit {
   fetchEvaluatorDetails() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.evaluatorDetails = this.user.employee_detail;
+    this.evaluatorRole = this.user.user_roles[0].role[0];
     this.isLoading = false;
     console.log('evaluator details', this.evaluatorDetails);
   }
