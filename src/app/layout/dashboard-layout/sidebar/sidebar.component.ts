@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 import { Menu, MenuItems } from '../../../shared/menu-items/menu-items';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { User } from 'src/app/core/models/user.model';
-import { MessagingService } from 'src/app/core/services/messaging.service';
 import { UserService } from '../../../core/services/user.service';
 import { stringify } from 'querystring';
 
@@ -62,7 +61,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     public menuItems: MenuItems,
     private router: Router,
     private _authService: AuthService,
-    private _messagingService: MessagingService,
     private _userService: UserService
   ) {
     //this.userInfo = JSON.parse(localStorage.getItem('user'));
@@ -87,8 +85,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       console.log('Evaluator Info ' + this.employeeDetails);
     });
 
-    this._messagingService.requestPermission();
-    this._messagingService.receiveMessage();
+
   }
   ngOnDestroy(): void {
     // tslint:disable-next-line: deprecation
