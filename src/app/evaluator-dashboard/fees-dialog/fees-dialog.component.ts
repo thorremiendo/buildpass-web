@@ -36,10 +36,8 @@ export class FeesDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.cast.subscribe((userSubject) => {
-      this.user = userSubject;
-      this.evaluatorDetails = this.user.employee_detail;
-    });
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.evaluatorDetails = this.user.employee_detail;
     console.log('Current user', this.user);
     this.applicationId = this.data.route.snapshot.params.id;
     console.log(this.applicationId);
@@ -60,6 +58,7 @@ export class FeesDialogComponent implements OnInit {
       name: value.description,
       amount: value.amount,
       office_id: this.evaluatorDetails.office_id,
+      evaluator_user_id: this.evaluatorDetails.id,
     };
     this.applicationFeeService.addFee(newItem).subscribe((res) => {
       console.log(res);
