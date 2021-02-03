@@ -24,6 +24,7 @@ export class ZoningClearanceFormComponent implements OnInit {
   public isLoading: boolean = true;
   public applicationId;
   public applicationInfo;
+  public projectCostCap;
   constructor(
     private router: Router,
     private newApplicationService: NewApplicationService,
@@ -54,8 +55,14 @@ export class ZoningClearanceFormComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationInfo = result.data;
+        this.transformCostCap();
         this.mergeFormData();
       });
+  }
+  transformCostCap() {
+    this.projectCostCap = parseFloat(
+      this.applicationInfo.project_detail.project_cost_cap
+    ).toLocaleString();
   }
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
@@ -134,19 +141,19 @@ export class ZoningClearanceFormComponent implements OnInit {
       applicant_first_name:
         applicantDetails.first_name == 'undefined'
           ? ''
-          : applicantDetails.first_name,
+          : applicantDetails.first_name.toUpperCase(),
       applicant_last_name:
         applicantDetails.last_name == 'undefined'
           ? ''
-          : applicantDetails.last_name,
+          : applicantDetails.last_name.toUpperCase(),
       applicant_middle_name:
         applicantDetails.middle_name == 'undefined'
           ? ''
-          : applicantDetails.middle_name,
+          : applicantDetails.middle_name.toUpperCase(),
       applicant_suffix_name:
         applicantDetails.suffix_name == 'na'
           ? ' '
-          : applicantDetails.suffix_name,
+          : applicantDetails.suffix_name.toUpperCase(),
       applicant_tin_number:
         applicantDetails.tin_number == 'undefined'
           ? ''
@@ -158,11 +165,11 @@ export class ZoningClearanceFormComponent implements OnInit {
       applicant_email_address:
         applicantDetails.email_address == 'undefined'
           ? ''
-          : applicantDetails.email_address,
+          : applicantDetails.email_address.toUpperCase(),
       applicant_house_number:
         applicantDetails.house_number == 'undefined'
           ? ''
-          : applicantDetails.house_number,
+          : applicantDetails.house_number.toUpperCase(),
       applicant_unit_number:
         applicantDetails.unit_number == 'undefined'
           ? ''
@@ -174,11 +181,11 @@ export class ZoningClearanceFormComponent implements OnInit {
       applicant_street_name:
         applicantDetails.street_name == 'undefined'
           ? ''
-          : applicantDetails.street_name,
+          : applicantDetails.street_name.toUpperCase(),
       applicant_barangay:
         applicantDetails.barangay == 'undefined'
           ? ''
-          : applicantDetails.barangay,
+          : applicantDetails.barangay.toUpperCase(),
       applicant_province: 'Benguet',
       applicant_city: 'Baguio City',
       appicant_zipcode: '2600',
@@ -197,13 +204,15 @@ export class ZoningClearanceFormComponent implements OnInit {
       project_street_name:
         projectDetails.street_name == 'undefined'
           ? ''
-          : projectDetails.street_name,
+          : projectDetails.street_name.toUpperCase(),
       project_number_of_units:
         projectDetails.number_of_units == 'undefined'
           ? ''
           : projectDetails.number_of_units,
       project_barangay:
-        projectDetails.barangay == 'undefined' ? '' : projectDetails.barangay,
+        projectDetails.barangay == 'undefined'
+          ? ''
+          : projectDetails.barangay.toUpperCase(),
       project_number_of_basement:
         projectDetails.number_of_basement == 'undefined'
           ? ''
@@ -222,14 +231,12 @@ export class ZoningClearanceFormComponent implements OnInit {
         projectDetails.number_of_storey == 'undefined'
           ? ''
           : projectDetails.number_of_storey,
-          untitled26:
+      untitled26:
         projectDetails.project_title == 'undefined'
           ? ''
-          : projectDetails.project_title,
+          : projectDetails.project_title.toUpperCase(),
       project_cost_cap:
-        projectDetails.project_cost_cap == 'undefined'
-          ? ''
-          : projectDetails.project_cost_cap,
+        this.projectCostCap == 'undefined' ? '' : this.projectCostCap,
       project_tct_number:
         projectDetails.tct_number == 'undefined'
           ? ''
@@ -244,11 +251,11 @@ export class ZoningClearanceFormComponent implements OnInit {
       untitled34:
         projectDetails.project_cost_cap == 'undefined'
           ? 0
-          : NumberToWords.toWords(
+          : `${NumberToWords.toWords(
               projectDetails.project_cost_cap == 'undefined'
                 ? 0
                 : projectDetails.project_cost_cap
-            ),
+            ).toUpperCase()} PESOS`,
       // rep_full_name: `${repDetails.first_name} ${repDetails.last_name}`,
       // project_location: `${projectDetails.house_number}, ${projectDetails.street_name}, ${projectDetails.barangay}`,
     };
