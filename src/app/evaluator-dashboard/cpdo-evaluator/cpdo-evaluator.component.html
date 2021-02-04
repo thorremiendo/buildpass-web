@@ -9,7 +9,7 @@
       mat-stroked-button
       color="accent"
       (click)="openZoningDialog()"
-      *ngIf="evaluatorRole.code == 'CPDO-COD'"
+      *ngIf="evaluatorRole.code == 'CPDO-COD' && applicationDetails.application_status_id == '10'"
     >
       Generate Zoning Compliance Form
     </button>
@@ -81,7 +81,7 @@
         <button
           mat-raised-button
           color="primary"
-          (click)="forward()"
+          (click)="forwardForApproval()"
           *ngIf="evaluatorRole.code == 'CPDO-ZI'"
         >
           For Approval of Clearance
