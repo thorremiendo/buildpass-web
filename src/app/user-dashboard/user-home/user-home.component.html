@@ -46,33 +46,31 @@
       <mat-card>
         <mat-card-header>
           <mat-card-title class="m-3">Notifications</mat-card-title>
-          <button mat-button color="primary">View All {{feeds.length}}</button>
+          <button mat-button color="primary">
+            View All {{ feeds.length }}
+          </button>
         </mat-card-header>
         <hr class="m-0" />
         <mat-card-content>
-          <div class="_notificationBox" >
-            <div class="d-flex justify-content-center w-100 m-0" >
+          <div class="_notificationBox">
+            <!-- <div class="d-flex justify-content-center w-100 m-0" >
               <img
                 src="../../../assets/illustrations/notification-mail.png"
                 class="_illustration"
               />
-            </div>
+            </div> -->
             <div *ngFor="let feed of feeds; let i = index">
               <div class="_notifications" (click)="removeItem(i)">
-                <div class="d-flex justify-content-around w-100 m-0 ">
-                    <p style="color: rgb(90, 108, 116); font-size: 12px">
-                      {{feed.currentTime | dateAgo}} 
-                     
-                    </p>
-                    <p style="color: rgb(90, 108, 116)">
-                      {{feed.application_number}} {{feed.status}}
-                    </p>
-                  
+                <div class="d-flex justify-content-around w-100 m-0">
+                  <p style="color: rgb(90, 108, 116); font-size: 12px">
+                    {{ feed.currentTime | dateAgo }}
+                  </p>
+                  <p style="color: rgb(90, 108, 116)">
+                    {{ feed.application_number }} {{ feed.status }}
+                  </p>
                 </div>
                 <hr />
-
               </div>
-             
             </div>
           </div>
         </mat-card-content>
@@ -100,13 +98,21 @@
           >
             <div class="carousel-inner text-white" role="listbox">
               <div class="carousel-item active text-center p-4">
-                <p>Check out our construction permit online application guidelines <a href="#">here</a>.</p>
+                <p>
+                  Check out our construction permit online application
+                  guidelines <a href="#">here</a>.
+                </p>
               </div>
               <div class="carousel-item text-center p-4">
-                <p>Make sure all forms are correctly and completely filled-out.</p>
+                <p>
+                  Make sure all forms are correctly and completely filled-out.
+                </p>
               </div>
               <div class="carousel-item text-center p-4">
-                <p>Don’t forget to bring your proof of payment, original signed and sealed documents upon claiming your Building Permit.</p>
+                <p>
+                  Don’t forget to bring your proof of payment, original signed
+                  and sealed documents upon claiming your Building Permit.
+                </p>
               </div>
             </div>
             <a
@@ -174,8 +180,8 @@
           “Adverse Claim”, can my Building Permit application prosper?</strong
         >
         <br />
-        No, however, it is recommended that these annotations should be
-        resolved first prior to application.
+        No, however, it is recommended that these annotations should be resolved
+        first prior to application.
         <br />
         <br />
         <strong
@@ -193,8 +199,8 @@
           building permit application?</strong
         >
         <br />
-        You will need to submit a duly notarized Authorization/Non-Objection
-        or Consent from the co-owners
+        You will need to submit a duly notarized Authorization/Non-Objection or
+        Consent from the co-owners
         <br />
         <br />
 
@@ -230,8 +236,8 @@
         <br />
 
         <br /><strong>
-          My property is situated in the NIPAS Zone. What clearance do I need
-          to secure?</strong
+          My property is situated in the NIPAS Zone. What clearance do I need to
+          secure?</strong
         >
         <br />
         You have to apply for an Environmental Compliance Certificate from
@@ -273,8 +279,8 @@
           allowed to introduce three or four firewalls on its sides?</strong
         >
         <br />
-        No, Only TWO (2) Firewalls are allowed, and it should not be located
-        or constructed on the front side of the structure.
+        No, Only TWO (2) Firewalls are allowed, and it should not be located or
+        constructed on the front side of the structure.
         <br /><br />
         <strong
           >My property is classified as interior lot, however the existing
