@@ -30,6 +30,9 @@ mat-card {
       font-size: 18px;
     }
   }
+  ._notificationBox {
+    overflow: auto;
+    max-height: 180px;
 
   mat-card-content {
     height: 80%;
@@ -70,8 +73,14 @@ mat-card {
       margin: 0 auto;
     }
   }
+  ._notifications :hover {
+    opacity: 0.6;
+
+    cursor: pointer;
+  }
 }
 
-.mat-expansion-panel {
-  margin-bottom: 5px;
+  .mat-expansion-panel {
+    margin-bottom: 5px;
+  }
 }

@@ -45,33 +45,34 @@
     <div class="col-md-5">
       <mat-card>
         <mat-card-header>
-          <mat-card-title>Notifications</mat-card-title>
-          <button mat-button color="primary">View All</button>
+          <mat-card-title class="m-3">Notifications</mat-card-title>
+          <button mat-button color="primary">View All {{feeds.length}}</button>
         </mat-card-header>
         <hr class="m-0" />
         <mat-card-content>
-          <div class="_notifications">
-            <div class="d-flex justify-content-center w-100 m-0">
+          <div class="_notificationBox" >
+            <div class="d-flex justify-content-center w-100 m-0" >
               <img
                 src="../../../assets/illustrations/notification-mail.png"
                 class="_illustration"
               />
             </div>
-            <div *ngFor="let feed of feeds">
-              <div class="d-flex justify-content-around w-100 m-0">
-                <a routerLink="" 
-                  ><p style="color: rgb(90, 108, 116); font-size: 12px">
-                    Nov-21-2020 3:43PM
-                  </p></a
-                >
-  
-                <a routerLink="" (click)="handleView()"
-                  ><p style="color: rgb(90, 108, 116)">
-                    {{feed.application_number}} {{feed.status}}
-                  </p></a
-                >
+            <div *ngFor="let feed of feeds; let i = index">
+              <div class="_notifications" (click)="removeItem(i)">
+                <div class="d-flex justify-content-around w-100 m-0 ">
+                    <p style="color: rgb(90, 108, 116); font-size: 12px">
+                      {{feed.currentTime | dateAgo}} 
+                     
+                    </p>
+                    <p style="color: rgb(90, 108, 116)">
+                      {{feed.application_number}} {{feed.status}}
+                    </p>
+                  
+                </div>
+                <hr />
+
               </div>
-              <hr />
+             
             </div>
           </div>
         </mat-card-content>
