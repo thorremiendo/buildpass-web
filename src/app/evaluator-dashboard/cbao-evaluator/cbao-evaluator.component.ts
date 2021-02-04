@@ -27,6 +27,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   public evaluatorDetails;
   public isLoading: boolean = true;
   public compliantStatus;
+  public evaluatorRole;
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
   constructor(
@@ -61,6 +62,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   fetchEvaluatorDetails() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.evaluatorDetails = this.user.employee_detail;
+    this.evaluatorRole = this.user.user_roles[0].role[0];
     console.log('Evaluator Details', this.evaluatorDetails);
     this.isLoading = false;
   }
@@ -120,6 +122,36 @@ export class CbaoEvaluatorComponent implements OnInit {
           }
         );
         this.fetchApplicationInfo();
+      });
+  }
+  notifyBo() {
+    const body = {
+      application_status_id: 4,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire(
+          'Success!',
+          `Forwarded to Building Official!`,
+          'success'
+        ).then((result) => {
+          window.location.reload();
+        });
+      });
+  }
+  notify() {
+    const body = {
+      application_status_id: 11,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire('Success!', `Building Permit Released!`, 'success').then(
+          (result) => {
+            window.location.reload();
+          }
+        );
       });
   }
   openBldgPermitDialog() {

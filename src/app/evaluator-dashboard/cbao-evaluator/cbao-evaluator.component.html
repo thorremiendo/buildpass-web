@@ -9,7 +9,7 @@
       mat-stroked-button
       color="primary"
       (click)="openBldgPermitDialog()"
-      *ngIf="applicationInfo.application_status_id == 3"
+      *ngIf="evaluatorRole.code == 'CBAO-BO'"
     >
       Release Building Permit
     </button>
@@ -88,8 +88,29 @@
         <button mat-raised-button color="warn" (click)="nonCompliant()">
           Return to Applicant
         </button>
-        <button mat-raised-button color="primary" (click)="forwardToCpdo()">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="forwardToCpdo()"
+          *ngIf="applicationInfo.application_status_id == '1'"
+        >
           Forward to CPDO
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="notify()"
+          *ngIf="evaluatorRole.code == 'CBAO-BO'"
+        >
+          Release Building Permit
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="notifyBo()"
+          *ngIf="evaluatorRole.code == 'CBAO-DC'"
+        >
+          Forward to Building Official
         </button>
       </div>
     </div>
