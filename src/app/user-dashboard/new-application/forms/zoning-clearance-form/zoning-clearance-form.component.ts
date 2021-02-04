@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
+import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { userDocuments } from 'src/app/core/variables/documents';
 import Swal from 'sweetalert2';
+import * as NumberToWords from 'number-to-words';
 
 @Component({
   selector: 'app-zoning-clearance-form',
@@ -22,11 +24,13 @@ export class ZoningClearanceFormComponent implements OnInit {
   public isLoading: boolean = true;
   public applicationId;
   public applicationInfo;
+  public projectCostCap;
   constructor(
     private router: Router,
     private newApplicationService: NewApplicationService,
-    private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private applicationService: ApplicationInfoService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -34,16 +38,32 @@ export class ZoningClearanceFormComponent implements OnInit {
     console.log(this.user);
     this.newApplicationService.applicationId
       .asObservable()
-      .subscribe((applicationId) => (this.applicationId = applicationId));
-    console.log('application id:', this.applicationId);
+      .subscribe((applicationId) => {
+        this.applicationId = applicationId;
+        if (!this.applicationId) {
+          this.applicationId = localStorage.getItem('app_id');
+          this.fetchApplicationInfo();
+        } else {
+          localStorage.setItem('app_id', this.applicationId);
+          console.log('local app id', localStorage.getItem('app_id'));
+          this.fetchApplicationInfo();
+        }
+      });
+  }
+  fetchApplicationInfo() {
     this.newApplicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationInfo = result.data;
+        this.transformCostCap();
         this.mergeFormData();
       });
   }
-
+  transformCostCap() {
+    this.projectCostCap = parseFloat(
+      this.applicationInfo.project_detail.project_cost_cap
+    ).toLocaleString();
+  }
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
     switch (type) {
@@ -58,6 +78,31 @@ export class ZoningClearanceFormComponent implements OnInit {
         this.zoningClearanceForm = null;
         break;
     }
+  }
+  callSaveAsDraft() {
+    const body = {
+      application_status_id: 6,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        this.saveRoute();
+      });
+  }
+  saveRoute() {
+    const body = {
+      user_id: this.user.id,
+      application_id: this.applicationId,
+      url: this.router.url,
+    };
+    this.newApplicationService.saveAsDraft(body).subscribe((res) => {
+      console.log(res);
+      Swal.fire('Success!', `Application Saved as Draft!`, 'success').then(
+        (result) => {
+          this.router.navigateByUrl('/dashboard');
+        }
+      );
+    });
   }
   callNext() {
     console.log(this.formData);
@@ -74,12 +119,12 @@ export class ZoningClearanceFormComponent implements OnInit {
     this.newApplicationService
       .submitDocument(uploadDocumentData)
       .subscribe((res) => {
+        this.isLoading = false;
         Swal.fire(
           'Success!',
           `${this.userDocument.name} uploaded!`,
           'success'
         ).then((result) => {
-          this.isLoading = false;
           this.router.navigateByUrl(
             'dashboard/new/initial-forms/building-permit'
           );
@@ -96,19 +141,19 @@ export class ZoningClearanceFormComponent implements OnInit {
       applicant_first_name:
         applicantDetails.first_name == 'undefined'
           ? ''
-          : applicantDetails.first_name,
+          : applicantDetails.first_name.toUpperCase(),
       applicant_last_name:
         applicantDetails.last_name == 'undefined'
           ? ''
-          : applicantDetails.last_name,
+          : applicantDetails.last_name.toUpperCase(),
       applicant_middle_name:
         applicantDetails.middle_name == 'undefined'
           ? ''
-          : applicantDetails.middle_name,
+          : applicantDetails.middle_name.toUpperCase(),
       applicant_suffix_name:
         applicantDetails.suffix_name == 'na'
           ? ' '
-          : applicantDetails.suffix_name,
+          : applicantDetails.suffix_name.toUpperCase(),
       applicant_tin_number:
         applicantDetails.tin_number == 'undefined'
           ? ''
@@ -120,11 +165,11 @@ export class ZoningClearanceFormComponent implements OnInit {
       applicant_email_address:
         applicantDetails.email_address == 'undefined'
           ? ''
-          : applicantDetails.email_address,
+          : applicantDetails.email_address.toUpperCase(),
       applicant_house_number:
         applicantDetails.house_number == 'undefined'
           ? ''
-          : applicantDetails.house_number,
+          : applicantDetails.house_number.toUpperCase(),
       applicant_unit_number:
         applicantDetails.unit_number == 'undefined'
           ? ''
@@ -136,11 +181,11 @@ export class ZoningClearanceFormComponent implements OnInit {
       applicant_street_name:
         applicantDetails.street_name == 'undefined'
           ? ''
-          : applicantDetails.street_name,
+          : applicantDetails.street_name.toUpperCase(),
       applicant_barangay:
         applicantDetails.barangay == 'undefined'
           ? ''
-          : applicantDetails.barangay,
+          : applicantDetails.barangay.toUpperCase(),
       applicant_province: 'Benguet',
       applicant_city: 'Baguio City',
       appicant_zipcode: '2600',
@@ -159,13 +204,15 @@ export class ZoningClearanceFormComponent implements OnInit {
       project_street_name:
         projectDetails.street_name == 'undefined'
           ? ''
-          : projectDetails.street_name,
+          : projectDetails.street_name.toUpperCase(),
       project_number_of_units:
         projectDetails.number_of_units == 'undefined'
           ? ''
           : projectDetails.number_of_units,
       project_barangay:
-        projectDetails.barangay == 'undefined' ? '' : projectDetails.barangay,
+        projectDetails.barangay == 'undefined'
+          ? ''
+          : projectDetails.barangay.toUpperCase(),
       project_number_of_basement:
         projectDetails.number_of_basement == 'undefined'
           ? ''
@@ -184,14 +231,12 @@ export class ZoningClearanceFormComponent implements OnInit {
         projectDetails.number_of_storey == 'undefined'
           ? ''
           : projectDetails.number_of_storey,
-      project_title:
+      untitled26:
         projectDetails.project_title == 'undefined'
           ? ''
-          : projectDetails.project_title,
+          : projectDetails.project_title.toUpperCase(),
       project_cost_cap:
-        projectDetails.project_cost_cap == 'undefined'
-          ? ''
-          : projectDetails.project_cost_cap,
+        this.projectCostCap == 'undefined' ? '' : this.projectCostCap,
       project_tct_number:
         projectDetails.tct_number == 'undefined'
           ? ''
@@ -203,18 +248,26 @@ export class ZoningClearanceFormComponent implements OnInit {
       project_province: 'Benguet',
       project_city: 'Baguio City',
       project_zipcode: '2600',
+      untitled34:
+        projectDetails.project_cost_cap == 'undefined'
+          ? 0
+          : `${NumberToWords.toWords(
+              projectDetails.project_cost_cap == 'undefined'
+                ? 0
+                : projectDetails.project_cost_cap
+            ).toUpperCase()} PESOS`,
       // rep_full_name: `${repDetails.first_name} ${repDetails.last_name}`,
       // project_location: `${projectDetails.house_number}, ${projectDetails.street_name}, ${projectDetails.barangay}`,
     };
     if (repDetails) {
       this.formData['rep_first_name'] = repDetails.first_name
-        ? repDetails.first_name
+        ? repDetails.first_name.toUpperCase()
         : '';
       this.formData['rep_last_name'] = repDetails.last_name
-        ? repDetails.last_name
+        ? repDetails.last_name.toUpperCase()
         : '';
       this.formData['rep_middle_name'] = repDetails.middle_name
-        ? repDetails.middle_name
+        ? repDetails.middle_name.toUpperCase()
         : '';
       this.formData['rep_suffix_name'] = repDetails.suffix_name
         ? repDetails.suffix_name
@@ -223,10 +276,10 @@ export class ZoningClearanceFormComponent implements OnInit {
         ? repDetails.house_number
         : '';
       this.formData['rep_street_name'] = repDetails.street_name
-        ? repDetails.street_name
+        ? repDetails.street_name.toUpperCase()
         : '';
       this.formData['rep_barangay'] = repDetails.barangay
-        ? repDetails.barangay
+        ? repDetails.barangay.toUpperCase()
         : '';
       this.formData['rep_contact_number'] = repDetails.contact_number
         ? repDetails.contact_number

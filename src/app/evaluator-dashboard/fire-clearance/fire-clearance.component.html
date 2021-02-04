@@ -6,7 +6,7 @@
           <strong>Fire Safety Evaluation Clearance</strong>
         </h4>
       </div>
-      <ngx-extended-pdf-viewer
+      <!-- <ngx-extended-pdf-viewer
         [src]="'../../../../assets/forms/fsec.pdf'"
         [showToolbar]="true"
         [showSidebarButton]="false"
@@ -48,11 +48,9 @@
             }})</ngx-dropzone-label
           >
         </ngx-dropzone-preview>
-      </ngx-dropzone>
-      <div class="text-right mt-5">
-        <button mat-raised-button color="primary" (click)="callSave()">
-          Save
-        </button>
+      </ngx-dropzone> -->
+      <div class="container">
+        <div id="pdf-div" class="pdf-view"></div>
       </div>
     </mat-card-content>
   </mat-card>

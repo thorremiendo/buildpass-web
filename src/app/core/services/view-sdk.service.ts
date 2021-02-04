@@ -10,12 +10,18 @@ written permission of Adobe.
 */
 
 import { Injectable } from '@angular/core';
-
+import Swal from 'sweetalert2';
+import { NewApplicationService } from 'src/app/core/services/new-application.service';
+import * as keys from 'src/environments/environment.prod';
 @Injectable({
   providedIn: 'root',
 })
 export class ViewSDKClient {
+  public formId;
   public url;
+  public userId;
+  public applicationId;
+  constructor(public newApplicationService: NewApplicationService) {}
   readyPromise: Promise<any> = new Promise((resolve) => {
     if (window.AdobeDC) {
       resolve();
@@ -36,6 +42,7 @@ export class ViewSDKClient {
     const config: any = {
       /* Pass your registered client id */
       clientId: '8c0cd670273d451cbc9b351b11d22318',
+      // clientId: '46ddf9af80f5465c8f59e080868ef747',
     };
     if (divId) {
       /* Optional only for Light Box embed mode */
@@ -55,12 +62,12 @@ export class ViewSDKClient {
             url: this.url,
 
             // If the file URL requires some additional headers, then it can be passed as follows:-
-            // headers: [
-            //     {
-            //         key: 'Access-Control-Allow-Origin',
-            //         value: '*',
-            //     }
-            // ]
+            headers: [
+              {
+                key: 'Access-Control-Allow-Origin',
+                value: '*',
+              },
+            ],
           },
         },
         /* Pass meta data of file */
@@ -86,6 +93,8 @@ export class ViewSDKClient {
     this.adobeDCView = new window.AdobeDC.View({
       /* Pass your registered client id */
       clientId: '8c0cd670273d451cbc9b351b11d22318',
+      // clientId: '46ddf9af80f5465c8f59e080868ef747',
+
       /* Pass the div id in which PDF should be rendered */
       divId,
     });
@@ -108,51 +117,96 @@ export class ViewSDKClient {
     );
   }
 
-  registerSaveApiHandler() {
-    // /* Define Save API Handler */
-    // const saveApiHandler = (metaData: any, content: any, options: any) => {
-    //   console.log(metaData, content, options);
-    //   return new Promise((resolve) => {
-    //     /* Dummy implementation of Save API, replace with your business logic */
-    //     setTimeout(() => {
-    //       const response = {
-    //         code: window.AdobeDC.View.Enum.ApiResponseCode.SUCCESS,
-    //         data: {
-    //           metaData: Object.assign(metaData, {
-    //             updatedAt: new Date().getTime(),
-    //           }),
-    //         },
-    //       };
-    //       resolve(response);
-    //     }, 2000);
-    //   });
-    // };
+  registerSaveApiHandler(condition) {
+    const saveApiHandler = (metaData: any, content: any, options: any) => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          const response = {
+            code: window.AdobeDC.View.Enum.ApiResponseCode.SUCCESS,
+            data: {
+              metaData: Object.assign(metaData, {
+                updatedAt: new Date().getTime(),
+              }),
+            },
+          };
+          resolve(response);
+          var blob = new Blob([content]);
+          if (condition == 'update') {
+            const uploadDocumentData = {
+              document_status_id: 0,
+              document_path: blob,
+            };
+            this.newApplicationService
+              .updateDocumentFile(uploadDocumentData, this.formId)
+              .subscribe((res) => {
+                console.log(res);
+                Swal.fire('Success!', ``, 'success').then((result) => {
+                  console.log('Uploaded!!');
+                });
+              });
+          } else if (condition == 'bldgPermit') {
+            const uploadDocumentData = {
+              application_id: this.applicationId,
+              user_id: this.userId,
+              document_id: 44,
+              document_status_id: 1,
+              document_path: blob,
+            };
+            this.newApplicationService
+              .submitDocument(uploadDocumentData)
+              .subscribe((res) => {
+                Swal.fire('Success!', `File uploaded!`, 'success').then(
+                  (result) => {
+                    window.location.reload();
+                  }
+                );
+              });
+          } else if (condition == 'zoningPermit') {
+            const uploadDocumentData = {
+              application_id: this.applicationId,
+              user_id: this.userId,
+              document_id: 43,
+              document_status_id: 1,
+              document_path: blob,
+            };
+            this.newApplicationService
+              .submitDocument(uploadDocumentData)
+              .subscribe((res) => {
+                Swal.fire('Success!', `File uploaded!`, 'success').then(
+                  (result) => {
+                    window.location.reload();
+                  }
+                );
+              });
+          } else if (condition == 'firePermit') {
+            const uploadDocumentData = {
+              application_id: this.applicationId,
+              user_id: this.userId,
+              document_id: 45,
+              document_status_id: 1,
+              document_path: blob,
+            };
+            this.newApplicationService
+              .submitDocument(uploadDocumentData)
+              .subscribe((res) => {
+                Swal.fire('Success!', `File uploaded!`, 'success').then(
+                  (result) => {
+                    window.location.reload();
+                  }
+                );
+              });
+          }
+        }, 2000);
+      });
+    };
 
     this.adobeDCView.registerCallback(
       window.AdobeDC.View.Enum.CallbackType.SAVE_API,
-      function (metaData, content, options) {
-        console.log(metaData);
-        console.log(content);
-        var meta = {
-          contentType: 'application/pdf',
-        };
-        console.log("save to aws")
-        return new Promise(function (resolve, reject) {
-          /* Dummy implementation of Save API, replace with your business logic */
-          setTimeout(function () {
-            var response = {
-              code: window.AdobeDC.View.Enum.ApiResponseCode.SUCCESS,
-              data: {
-                metaData: Object.assign(metaData, {
-                  updatedAt: new Date().getTime(),
-                }),
-              },
-            };
-            resolve(response);
-          }, 2000);
-        });
-      }
+      saveApiHandler,
+      {}
     );
+
+    console.log('save api clicked');
   }
 
   registerEventsHandler() {

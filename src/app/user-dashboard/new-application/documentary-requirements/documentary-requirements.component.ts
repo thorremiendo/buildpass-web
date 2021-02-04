@@ -6,6 +6,7 @@ import { NewApplicationFormService } from 'src/app/core/services/new-application
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import Swal from 'sweetalert2';
 import { userDocuments } from 'src/app/core/variables/documents';
+import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 
 @Component({
   selector: 'app-documentary-requirements',
@@ -32,7 +33,8 @@ export class DocumentaryRequirementsComponent implements OnInit {
     private router: Router,
     private newApplicationService: NewApplicationService,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private applicationService: ApplicationInfoService
   ) {}
 
   ngOnInit(): void {
@@ -40,8 +42,19 @@ export class DocumentaryRequirementsComponent implements OnInit {
     console.log(this.user);
     this.newApplicationService.applicationId
       .asObservable()
-      .subscribe((applicationId) => (this.applicationId = applicationId));
-    console.log('application id:', this.applicationId);
+      .subscribe((applicationId) => {
+        this.applicationId = applicationId;
+        if (!this.applicationId) {
+          this.applicationId = localStorage.getItem('app_id');
+          this.fetchApplicationInfo();
+        } else {
+          localStorage.setItem('app_id', this.applicationId);
+          console.log('local app id', localStorage.getItem('app_id'));
+          this.fetchApplicationInfo();
+        }
+      });
+  }
+  fetchApplicationInfo() {
     this.newApplicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
@@ -49,7 +62,31 @@ export class DocumentaryRequirementsComponent implements OnInit {
         this.isLoading = false;
       });
   }
-
+  callSaveAsDraft() {
+    const body = {
+      application_status_id: 6,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        this.saveRoute();
+      });
+  }
+  saveRoute() {
+    const body = {
+      user_id: this.user.id,
+      application_id: this.applicationId,
+      url: this.router.url,
+    };
+    this.newApplicationService.saveAsDraft(body).subscribe((res) => {
+      console.log(res);
+      Swal.fire('Success!', `Application Saved as Draft!`, 'success').then(
+        (result) => {
+          this.router.navigateByUrl('/dashboard');
+        }
+      );
+    });
+  }
   handleUpload(file, documentInfo) {
     this.isLoading = true;
     const uploadDocumentData = {
@@ -65,8 +102,8 @@ export class DocumentaryRequirementsComponent implements OnInit {
     this.newApplicationService
       .submitDocument(uploadDocumentData)
       .subscribe((res) => {
+        this.isLoading = false;
         Swal.fire('Success!', `Uploaded!`, 'success').then((result) => {
-          this.isLoading = false;
           this.ngOnInit();
         });
       });

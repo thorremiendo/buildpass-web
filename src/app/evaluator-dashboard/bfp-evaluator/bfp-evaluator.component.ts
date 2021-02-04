@@ -48,12 +48,10 @@ export class BfpEvaluatorComponent implements OnInit {
     this.changeDetectorRefs.detectChanges();
   }
   fetchEvaluatorDetails() {
-    this.userService.cast.subscribe((userSubject) => {
-      this.user = userSubject;
-      this.evaluatorDetails = this.user.employee_detail;
-      console.log('Evaluator Details', this.evaluatorDetails);
-      this.isLoading = false;
-    });
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.evaluatorDetails = this.user.employee_detail;
+    console.log('Evaluator Details', this.evaluatorDetails);
+    this.isLoading = false;
   }
   generateBfpForms() {
     const BFP_FORMS = this.forms.filter(
@@ -85,7 +83,7 @@ export class BfpEvaluatorComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
-      this.ngOnInit();
+      window.location.reload();
     });
   }
 
@@ -103,12 +101,12 @@ export class BfpEvaluatorComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
-      this.ngOnInit();
+      window.location.reload();
     });
   }
   nonCompliant() {
     const body = {
-      application_status_id: 1,
+      application_status_id: 5,
     };
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)

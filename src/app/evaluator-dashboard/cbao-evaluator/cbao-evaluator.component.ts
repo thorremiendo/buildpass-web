@@ -43,6 +43,7 @@ export class CbaoEvaluatorComponent implements OnInit {
       .fetchUserDocs(this.applicationId)
       .subscribe((result) => {
         this.dataSource = result.data;
+        console.log('User Docs', this.dataSource);
         this.fetchEvaluatorDetails();
       });
     this.fetchApplicationInfo();
@@ -58,12 +59,10 @@ export class CbaoEvaluatorComponent implements OnInit {
       });
   }
   fetchEvaluatorDetails() {
-    this.userService.cast.subscribe((userSubject) => {
-      this.user = userSubject;
-      this.evaluatorDetails = this.user.employee_detail;
-      console.log('Evaluator Details', this.evaluatorDetails);
-      this.isLoading = false;
-    });
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.evaluatorDetails = this.user.employee_detail;
+    console.log('Evaluator Details', this.evaluatorDetails);
+    this.isLoading = false;
   }
   getDocType(id): string {
     return documentTypes[id];
@@ -100,11 +99,14 @@ export class CbaoEvaluatorComponent implements OnInit {
           'Success!',
           `Notified Applicant for Revision!`,
           'success'
-        ).then((result) => {});
+        ).then((result) => {
+          window.location.reload();
+        });
         this.fetchApplicationInfo();
       });
   }
   forwardToCpdo() {
+    //call notification forward to cpdo
     const body = {
       application_status_id: 2,
     };

@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/core';
 import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
 
 @Component({
@@ -20,18 +21,25 @@ export class StepOneComponent implements OnInit {
   public constructionStatus;
   public registeredOwner;
   public permitStepOneForm: FormGroup;
+  public userInfo;
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private router: Router,
-    private newApplicationFormService: NewApplicationFormService) {}
+    private newApplicationFormService: NewApplicationFormService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
+    this.userService.cast.subscribe((userSubject) => {
+      this.userInfo = userSubject;
+      console.log(this.userInfo);
+    });
     this.permitStepOneForm = this.fb.group({
       application_type: new FormControl('', Validators.required),
       is_representative: new FormControl('', Validators.required),
       is_lot_owner: new FormControl('', Validators.required),
       construction_status: new FormControl('', Validators.required),
-      registered_owner: new FormControl('', Validators.required)
+      registered_owner: new FormControl('', Validators.required),
     });
   }
   callNext() {
@@ -41,15 +49,27 @@ export class StepOneComponent implements OnInit {
       is_representative: value.is_representative,
       is_lot_owner: value.is_lot_owner,
       construction_status: value.construction_status,
-      registered_owner: value.registered_owner ? value.registered_owner : 0
+      registered_owner: value.registered_owner ? value.registered_owner : 0,
     };
-    this.newApplicationFormService.setApplicationInfo(body)
+    this.newApplicationFormService.setApplicationInfo(body);
     // this.router.navigateByUrl('/dashboard/new/initial-forms/zoning-clearance')
-    if(value.application_type == 1){
-      this.router.navigateByUrl('/dashboard/new/step-two/lot-owner')
-    } else {
-      this.router.navigateByUrl('/dashboard/new/fencing-permit')
-    }
 
+    switch(value.application_type) {
+      case '1': 
+        this.router.navigateByUrl('/dashboard/new/step-two/lot-owner');
+        break;
+      case '2':
+        // occupancy permit
+        break;
+      case '3':
+        this.router.navigateByUrl('/dashboard/new/excavation-permit');
+        break;
+      case '4':
+        this.router.navigateByUrl('/dashboard/new/fencing-permit');
+        break;
+      case '5':
+        this.router.navigateByUrl('/dashboard/new/demolition-permit');
+        break;
+    }
   }
 }

@@ -40,6 +40,7 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
   _submitted = false;
   public maxLength: number = 11;
 
+
   get representativeDetailsFormControl() {
     return this.representativeDetailsForm.controls;
   }

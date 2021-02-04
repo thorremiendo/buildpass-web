@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
+import { ViewSDKClient } from 'src/app/core/services/view-sdk.service';
 
 @Component({
   selector: 'app-release-bldg-permit',
@@ -23,6 +24,14 @@ export class ReleaseBldgPermitComponent implements OnInit {
   public userId;
   public applicationId;
   public userInfo;
+  //adobe sdk
+  previewFilePromise: any;
+  annotationManager: any;
+  viewerConfig = {
+    /* Enable commenting APIs */
+    enableAnnotationAPIs: true /* Default value is false */,
+    includePDFAnnotations: true,
+  };
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -32,7 +41,8 @@ export class ReleaseBldgPermitComponent implements OnInit {
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<ReleaseBldgPermitComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data
+    public data,
+    private viewSDKClient: ViewSDKClient
   ) {}
 
   ngOnInit(): void {
@@ -43,8 +53,37 @@ export class ReleaseBldgPermitComponent implements OnInit {
       .subscribe((res) => {
         this.userInfo = res.data[0];
         this.userId = this.userInfo.user_detail.id;
+        (this.viewSDKClient.userId = this.userId),
+          (this.viewSDKClient.applicationId = this.applicationId);
         console.log(this.userId);
       });
+  }
+  //adobe sdk functions
+  ngAfterViewInit() {
+    this.viewSDKClient.url =
+      'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/bldg-permit-certificate.pdf';
+    this.viewSDKClient.ready().then(() => {
+      /* Invoke the file preview and get the Promise object */
+      this.previewFilePromise = this.viewSDKClient.previewFile(
+        'pdf-div',
+        this.viewerConfig
+      );
+      /* Use the annotation manager interface to invoke the commenting APIs */
+      this.previewFilePromise.then((adobeViewer: any) => {
+        adobeViewer.getAnnotationManager().then((annotManager: any) => {
+          this.annotationManager = annotManager;
+          /* Set UI configurations */
+          const customFlags = {
+            /* showToolbar: false,   /* Default value is true */
+            showCommentsPanel: false /* Default value is true */,
+            downloadWithAnnotations: true /* Default value is false */,
+            printWithAnnotations: true /* Default value is false */,
+          };
+          this.annotationManager.setConfig(customFlags);
+          this.viewSDKClient.registerSaveApiHandler('bldgPermit');
+        });
+      });
+    });
   }
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
@@ -60,27 +99,6 @@ export class ReleaseBldgPermitComponent implements OnInit {
         this.bldgPermit = null;
         break;
     }
-  }
-  callSave() {
-    // const uploadDocumentData = {
-    //   application_id: this.applicationId,
-    //   user_id: this.userId,
-    //   document_id: 44,
-    //   document_status_id: 1,
-    // };
-    // if (this.bldgPermit) {
-    //   uploadDocumentData['document_path'] = this.bldgPermit;
-    // }
-    // this.newApplicationService
-    //   .submitDocument(uploadDocumentData)
-    //   .subscribe((res) => {
-    //     Swal.fire('Success!', `File uploaded!`, 'success').then((result) => {
-    //       this.onNoClick();
-    //     });
-    //   });
-    Swal.fire('Success!', `Building Permit Released!`, 'success').then((result) => {
-      this.onNoClick();
-    });
   }
   onNoClick(): void {
     this.dialogRef.close();

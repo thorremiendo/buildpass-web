@@ -1,213 +1,219 @@
 <div class="container">
-    <div class="row mx-5" *ngIf="!isLoading">
-      <div class="d-flex justify-content-between w-100">
-        <div>
-          <h2>Building Permit Application</h2>
-          <p>
-            Click <a href="" target="_blank">here</a> to view all required forms
-            for Building Permit Application.
-          </p>
-          <hr />
+  <div class="d-flex justify-content-center mt-5" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div class="row mx-5" *ngIf="!isLoading">
+    <div class="d-flex justify-content-between w-100">
+      <div>
+        <h2>Building Permit Application</h2>
+        <p>
+          Click <a href="" target="_blank">here</a> to view all required forms
+          for Building Permit Application.
+        </p>
+        <hr />
         <p class="pt-5">Please upload the necessary files.</p>
-
+      </div>
+      <div>
+        <img
+          src="../../../../assets/illustrations/design-analaysis.png"
+          class="illustration"
+        />
+      </div>
+    </div>
+    <div class="content px-5 w-100">
+      <div class="d-flex align-items-center mt-3">
+        <mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
+          >import_contacts</mat-icon
+        >
+        <h3 class="mt-2">Plans/Designs/Specifications and Cost Estimate</h3>
+      </div>
+      <hr />
+      <div class="mb-4">
+        <div class="d-flex justify-content-between">
+          <h5>Building Plans (to be signed by applicant/owner)</h5>
+          <mat-icon *ngIf="buildingPlans" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'buildingPlans')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="buildingPlans"
+            [removable]="true"
+            (removed)="onRemove('buildingPlans')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ buildingPlans.name }} ({{
+                buildingPlans.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div
+        class="mb-4"
+        *ngIf="applicationInfo.project_detail.total_floor_area >= 20"
+      >
+        <div class="d-flex justify-content-between">
+          <h5>
+            Structural Design and Analysis for Buildings with floor area of
+            20.00 sq.m. or more
+          </h5>
+          <mat-icon *ngIf="structuralDesign" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'structuralDesign')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="structuralDesign"
+            [removable]="true"
+            (removed)="onRemove('structuralDesign')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ structuralDesign.name }} ({{
+                structuralDesign.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4">
+        <div class="d-flex justify-content-between">
+          <h5>Electrical Design Analysis</h5>
+          <mat-icon *ngIf="electricalDesign" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'electricalDesign')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="electricalDesign"
+            [removable]="true"
+            (removed)="onRemove('electricalDesign')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ electricalDesign.name }} ({{
+                electricalDesign.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div
+        class="mb-4"
+        *ngIf="applicationInfo.project_detail.number_of_storey >= 3"
+      >
+        <div class="d-flex justify-content-between">
+          <h5>
+            Soil Analysis for Residential Buildings with 3 storeys or more
+            (Signed and Sealed)
+          </h5>
+          <mat-icon *ngIf="soilAnalysis" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'soilAnalysis')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="soilAnalysis"
+            [removable]="true"
+            (removed)="onRemove('soilAnalysis')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ soilAnalysis.name }} ({{
+                soilAnalysis.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4">
+        <div class="d-flex justify-content-between">
+          <h5>Building Specification (Signed and Sealed)</h5>
+          <mat-icon *ngIf="buildingSpecification" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'buildingSpecification')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="buildingSpecification"
+            [removable]="true"
+            (removed)="onRemove('buildingSpecification')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ buildingSpecification.name }} ({{
+                buildingSpecification.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4">
+        <div class="d-flex justify-content-between">
+          <h5>Bill of Materials (Signed and Sealed)</h5>
+          <mat-icon *ngIf="billOfMaterials" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'billOfMaterials')"
+          [multiple]="false"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="billOfMaterials"
+            [removable]="true"
+            (removed)="onRemove('billOfMaterials')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ billOfMaterials.name }} ({{
+                billOfMaterials.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="d-flex justify-content-between mb-4">
+        <div>
+          <button mat-raised-button color="accent" (click)="callSaveAsDraft()">
+            Save as Draft
+          </button>
         </div>
         <div>
-          <img
-            src="../../../../assets/illustrations/design-analaysis.png"
-            class="illustration"
-          />
+          <button mat-raised-button color="primary" (click)="callNext()">
+            Next
+          </button>
         </div>
       </div>
-      <div class="content px-5 w-100">
-        <div class="d-flex align-items-center mt-3">
-          <mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
-            >import_contacts</mat-icon
-          >
-          <h3 class="mt-2">Plans/Designs/Specifications and Cost Estimate</h3>
-        </div>
-        <hr>
-        <div class="mb-4">
-          <div class="d-flex justify-content-between">
-            <h5>Building Plans (to be signed by applicant/owner)</h5>
-            <mat-icon *ngIf="buildingPlans" style="color: green"
-              >check_circle</mat-icon
-            >
-          </div>
-          <ngx-dropzone
-            (change)="onSelect($event, 'buildingPlans')"
-            [multiple]="false"
-          >
-            <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-            <ngx-dropzone-preview
-              *ngIf="buildingPlans"
-              [removable]="true"
-              (removed)="onRemove('buildingPlans')"
-              class="mx-auto"
-            >
-              <ngx-dropzone-label
-                >{{ buildingPlans.name }} ({{
-                  buildingPlans.type
-                }})</ngx-dropzone-label
-              >
-            </ngx-dropzone-preview>
-          </ngx-dropzone>
-        </div>
-        <div class="mb-4">
-          <div class="d-flex justify-content-between">
-            <h5>Structural Design and Analysis for Buildings with floor area of 20.00 sq.m. or more</h5>
-            <mat-icon *ngIf="structuralDesign" style="color: green"
-              >check_circle</mat-icon
-            >
-          </div>
-          <ngx-dropzone
-            (change)="onSelect($event, 'structuralDesign')"
-            [multiple]="false"
-          >
-            <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-            <ngx-dropzone-preview
-              *ngIf="structuralDesign"
-              [removable]="true"
-              (removed)="onRemove('structuralDesign')"
-              class="mx-auto"
-            >
-              <ngx-dropzone-label
-                >{{ structuralDesign.name }} ({{
-                  structuralDesign.type
-                }})</ngx-dropzone-label
-              >
-            </ngx-dropzone-preview>
-          </ngx-dropzone>
-        </div>
-        <div class="mb-4">
-          <div class="d-flex justify-content-between">
-            <h5>
-                Electrical Design Analysis 
-            </h5>
-            <mat-icon *ngIf="electricalDesign" style="color: green"
-              >check_circle</mat-icon
-            >
-          </div>
-          <ngx-dropzone
-            (change)="onSelect($event, 'electricalDesign')"
-            [multiple]="false"
-          >
-            <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-            <ngx-dropzone-preview
-              *ngIf="electricalDesign"
-              [removable]="true"
-              (removed)="onRemove('electricalDesign')"
-              class="mx-auto"
-            >
-              <ngx-dropzone-label
-                >{{ electricalDesign.name }} ({{
-                  electricalDesign.type
-                }})</ngx-dropzone-label
-              >
-            </ngx-dropzone-preview>
-          </ngx-dropzone>
-        </div>
-        <div class="mb-4">
-          <div class="d-flex justify-content-between">
-            <h5>
-                Soil Analysis for Residential Buildings with 3 storeys or more (Signed and Sealed)
-            </h5>
-            <mat-icon *ngIf="soilAnalysis" style="color: green"
-              >check_circle</mat-icon
-            >
-          </div>
-          <ngx-dropzone
-            (change)="onSelect($event, 'soilAnalysis')"
-            [multiple]="false"
-          >
-            <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-            <ngx-dropzone-preview
-              *ngIf="soilAnalysis"
-              [removable]="true"
-              (removed)="onRemove('soilAnalysis')"
-              class="mx-auto"
-            >
-              <ngx-dropzone-label
-                >{{ soilAnalysis.name }} ({{
-                  soilAnalysis.type
-                }})</ngx-dropzone-label
-              >
-            </ngx-dropzone-preview>
-          </ngx-dropzone>
-        </div>
-        <div class="mb-4">
-          <div class="d-flex justify-content-between">
-            <h5>
-              Building Specification (Signed and Sealed)
-            </h5>
-            <mat-icon *ngIf="buildingSpecification" style="color: green"
-              >check_circle</mat-icon
-            >
-          </div>
-          <ngx-dropzone
-            (change)="onSelect($event, 'buildingSpecification')"
-            [multiple]="false"
-          >
-            <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-            <ngx-dropzone-preview
-              *ngIf="buildingSpecification"
-              [removable]="true"
-              (removed)="onRemove('buildingSpecification')"
-              class="mx-auto"
-            >
-              <ngx-dropzone-label
-                >{{ buildingSpecification.name }} ({{
-                  buildingSpecification.type
-                }})</ngx-dropzone-label
-              >
-            </ngx-dropzone-preview>
-          </ngx-dropzone>
-        </div>
-        <div class="mb-4">
-          <div class="d-flex justify-content-between">
-            <h5>
-              Bill of Materials (Signed and Sealed)
-            </h5>
-            <mat-icon *ngIf="billOfMaterials" style="color: green"
-              >check_circle</mat-icon
-            >
-          </div>
-          <ngx-dropzone
-            (change)="onSelect($event, 'billOfMaterials')"
-            [multiple]="false"
-          >
-            <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-            <ngx-dropzone-preview
-              *ngIf="billOfMaterials"
-              [removable]="true"
-              (removed)="onRemove('billOfMaterials')"
-              class="mx-auto"
-            >
-              <ngx-dropzone-label
-                >{{ billOfMaterials.name }} ({{
-                  billOfMaterials.type
-                }})</ngx-dropzone-label
-              >
-            </ngx-dropzone-preview>
-          </ngx-dropzone>
-        </div>
-        <div class="d-flex justify-content-between mb-4">
-          <div>
-            <button mat-button>
-              <mat-icon>chevron_left</mat-icon>
-              Back
-            </button>
-          </div>
-          <div>
-            <button mat-raised-button color="primary" (click)="callNext()">Next</button>
-          </div>
-        </div>
-      </div>
-      <!-- <div class="content-background col-md-6">
+    </div>
+    <!-- <div class="content-background col-md-6">
         <img
           class="img-fluid mt-5"
           src="../../../assets/illustrations/construction.png"
         />
       </div> -->
-    </div>
   </div>
-  
+</div>

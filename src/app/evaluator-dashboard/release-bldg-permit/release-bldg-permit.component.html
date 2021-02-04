@@ -1,12 +1,12 @@
 <div>
-    <mat-card>
-      <mat-card-content>
-        <div>
-          <h4 style="color: #400c06" class="mb-4">
-            <strong>Releasing of Building Permit</strong>
-          </h4>
-        </div>
-        <ngx-extended-pdf-viewer
+  <mat-card>
+    <mat-card-content>
+      <div>
+        <h4 style="color: #400c06" class="mb-4">
+          <strong>Releasing of Building Permit</strong>
+        </h4>
+      </div>
+      <!-- <ngx-extended-pdf-viewer
           [src]="'../../../../assets/forms/bldg-permit-certificate.pdf'"
           [showToolbar]="true"
           [showSidebarButton]="false"
@@ -48,13 +48,16 @@
               }})</ngx-dropzone-label
             >
           </ngx-dropzone-preview>
-        </ngx-dropzone>
-        <div class="text-right mt-5">
-          <button mat-raised-button color="primary" (click)="callSave()">
-            Save
-          </button>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  
+        </ngx-dropzone> -->
+      <div class="container">
+        <div id="pdf-div" class="pdf-view"></div>
+      </div>
+
+      <!-- <div class="text-right mt-5">
+        <button mat-raised-button color="primary" (click)="callSave()">
+          Save
+        </button>
+      </div> -->
+    </mat-card-content>
+  </mat-card>
+</div>

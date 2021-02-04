@@ -10,9 +10,9 @@
   "
 >
   <div *ngIf="!_isLoading">
-    <div class="col text-center p-3" *ngIf="evaluatorDetails == null">
+    <div class="col text-center p-3" *ngIf="employeeDetails == null">
       <div class="mb-3">
-        <img [src]="userInfo.id_photo_path" alt="user" class="avatar" />
+        <img [src]="userInfo.photo_path" alt="user" class="avatar" />
       </div>
       <h3 style="color: #400c06">
         {{ userInfo.first_name }} {{ userInfo.last_name }}
@@ -20,14 +20,16 @@
       <p style="color: #400c06">{{ userInfo.email }}</p>
       <p style="color: #400c06">Applicant</p>
     </div>
-    <div class="col text-center p-3" *ngIf="hasEvaluatorDetails">
+    <div class="col text-center p-3" *ngIf="employeeDetails">
       <div class="mb-3">
-        <img [src]="userInfo.id_photo_path" alt="user" class="avatar" />
+        <img [src]="evaluatorDetails.photo_path" alt="user" class="avatar" />
       </div>
       <h3 style="color: #400c06">
-        {{ userInfo.first_name }} {{ userInfo.last_name }}
+        {{ evaluatorDetails.first_name }} {{ evaluatorDetails.last_name }}
       </h3>
-      <h4 style="color: #400c06">{{ evaluatorDetails.position }}</h4>
+      <h4 style="color: #400c06">
+        {{ evaluatorDetails.employee_detail.position }}
+      </h4>
       <h4 style="color: #400c06">
         {{ officeString }}
       </h4>

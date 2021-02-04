@@ -11,11 +11,8 @@ import { Router } from '@angular/router';
 import { Menu, MenuItems } from '../../../shared/menu-items/menu-items';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { User } from 'src/app/core/models/user.model';
-import { MessagingService } from 'src/app/core/services/messaging.service';
 import { UserService } from '../../../core/services/user.service';
 import { stringify } from 'querystring';
-
-
 
 @Component({
   selector: 'app-dashboard-sidebar',
@@ -33,14 +30,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   public userInfo;
   public evaluatorDetails;
+  public employeeDetails;
   public officeString: string;
-  public hasEvaluatorDetails:boolean= false;
 
-  
   itemSelect: number[] = [];
   parentIndex = 0;
   childIndex = 0;
-  _isLoading:boolean = true;
+  _isLoading: boolean = true;
 
   setClickedRow(i: number, j: number) {
     this.parentIndex = i;
@@ -65,11 +61,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
     public menuItems: MenuItems,
     private router: Router,
     private _authService: AuthService,
-    private _messagingService: MessagingService,
-    private _userService: UserService,
+    private _userService: UserService
   ) {
     //this.userInfo = JSON.parse(localStorage.getItem('user'));
-   
+
     this.mobileQuery = media.matchMedia('(min-width: 768px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     // tslint:disable-next-line: deprecation
@@ -77,25 +72,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this._userService.cast.subscribe(userSubject => {
+    this._userService.cast.subscribe((userSubject) => {
       this.userInfo = userSubject;
-      this.evaluatorDetails = this.userInfo.employee_detail;
-      if(this.evaluatorDetails != null){
-        let office_id = this.evaluatorDetails.office_id
-        this.hasEvaluatorDetails = true;
-
-        
+      if (localStorage.getItem('currentUser')) {
+        this.evaluatorDetails = JSON.parse(localStorage.getItem('currentUser'));
+        this.employeeDetails = this.evaluatorDetails.employee_detail;
+        let office_id = this.employeeDetails.office_id;
         this.officeToString(office_id);
       }
       this._isLoading = false;
-      console.log("User info " + this.userInfo);
-      console.log("Evaluator Info " + this.evaluatorDetails);
-    })
-   
-  
-   
-    this._messagingService.requestPermission()
-    this._messagingService.receiveMessage()
+      console.log('User info ' + this.userInfo);
+      console.log('Evaluator Info ' + this.employeeDetails);
+    });
+
+
   }
   ngOnDestroy(): void {
     // tslint:disable-next-line: deprecation
@@ -108,37 +98,35 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this._authService.SignOut();
-
+    if (this.employeeDetails == null) {
+      this._authService.userSignOut();
+    } else this._authService.evaluatorSignOut();
   }
 
-  officeToString(officeID){
+  officeToString(officeID) {
     console.log(officeID);
 
-    switch(officeID){
-
+    switch (officeID) {
       case 1:
-        this.officeString = "City Planning and Development Office";
+        this.officeString = 'City Planning and Development Office';
         console.log(this.officeString);
         break;
       case 2:
-        this.officeString = "City Environment and Park Office";
+        this.officeString = 'City Environment and Park Office';
         console.log(this.officeString);
         break;
       case 3:
-        this.officeString = "Bureau of Fire Protection";
+        this.officeString = 'Bureau of Fire Protection';
         console.log(this.officeString);
         break;
       case 4:
-        this.officeString = "City Buildings and Architecture Office";
+        this.officeString = 'City Buildings and Architecture Office';
         console.log(this.officeString);
         break;
-     case 5:
-        this.officeString = "Assessors Office";
+      case 5:
+        this.officeString = 'Assessors Office';
         console.log(this.officeString);
         break;
-
-
     }
   }
 }

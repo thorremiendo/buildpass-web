@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
-import { AuthService } from 'src/app/core/services/auth.service';
+import { Router } from '@angular/router';
 import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
-import { NewApplicationService } from 'src/app/core/services/new-application.service';
-import { UserService } from 'src/app/core/services/user.service';
-import { userDocuments } from 'src/app/core/variables/documents';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-excavation-permit',
@@ -15,35 +10,152 @@ import Swal from 'sweetalert2';
 })
 export class ExcavationPermitComponent implements OnInit {
   public user;
-  public userDetails;
-  public formData = {};
-  public mergedFormData;
-  public userDocument = userDocuments[4];
-  public isLoading: boolean = true;
-  public applicationId;
+  public formData;
   public applicationInfo;
-  public selectedOption;
+  public applicationId;
   public excavationPermit: File;
+  public representativeAuthorization: File;
+  public landTitle: File;
+  public surveyPlan: File;
+  public topographicMap: File;
+  public leaseContract: File;
+  public deedOfSale: File;
+  public taxDeclaration: File;
+  public propertyTaxReceipt: File;
+  public professionalTaxReceipt: File;
+  public vicinityMap: File;
+  public sitePhoto: File;
+  public constructionTarp: File;
+  public excavationPlan: File;
+  public excavationSequence: File;
+  public excavationSections: File;
+  public soilProtection: File;
+  public retainingWall: File;
+  public drainagePlan: File;
+  public structuralAnalysis: File;
+  public excavationMethodology: File;
+  public safetyCertificate: File;
+  public notificationLetter: File;
+  public dumpSite: File;
+  public isLoading: boolean = true;
+
+  public fieldSets = [
+    [
+      {
+        type: 'representativeAuthorization',
+        description: 'Duly notarized authorization to process and receive approved permit or special power of the attorney (for representative/s)'
+      },
+      {
+        type: 'landTitle',
+        description: 'Certified True Copy of the Title (updated not more than 6 months)'
+      },
+      {
+        type: 'surveyPlan',
+        description: 'Surveyed Plan signed and sealed by Geodetic Engineer'
+      },
+      {
+        type: 'leaseContract',
+        description: 'Contract of Lease, or Certified Copy of Authority to Construct on the subject property'
+      },
+    ],
+    [
+      {
+        type: 'deedOfSale',
+        description: 'Conditional Deed of Sale, or Absolute Deed of Sale'
+      },
+      {
+        type: 'taxDeclaration',
+        description: 'Tax Declaration with documentary stamp from City Assessor\'s Office'
+      },
+      {
+        type: 'propertyTaxReceipt',
+        description: 'Photocopy of latest quarter of the real property tax receipy or Certifcate of Non-tax Delinquency with Documentary Stamp at City Treasurer\'s Office'
+      },
+      {
+        type: 'professionalTaxReceipt',
+        description: 'Photocopy of updated Professional Tax Receipt and Professional Identification Card (PRC ID) of all professional signatories in the application forms and plans (duly signed and sealed)'
+      },
+    ],
+    [
+      {
+        type: 'vicinityMap',
+        description: 'Vicinity map / location plan within a half-ilometer radius showing prominent landmarks or major thoroughfares for easy reference'
+      },
+      {
+        type: 'landTitle',
+        description: 'Certified True Copy of the Title (updated not more than 6 months)'
+      },
+      {
+        type: 'sitePhoto',
+        description: 'Clear latest picture of site (Taken at least a week before application)'
+      },
+      {
+        type: 'constructionTarp',
+        description: 'Construction Tarpaulin'
+      },
+    ],
+    [
+      {
+        type: 'excavationPlan',
+        description: 'Excavation Plan showing the lot boundaries, the area to be excavated and locations of retaining walls'
+      },
+      {
+        type: 'excavationSequence',
+        description: 'Plan showing the sequence of excavation and construction of retaining walls'
+      },
+      {
+        type: 'excavationSections',
+        description: 'Excavation sections (at least two sections) with volume computation of soil to be excavated'
+      },
+      {
+        type: 'soilProtection',
+        description: 'Plan, details and installation procedure of temporary soil protection'
+      },
+      {
+        type: 'retainingWall',
+        description: 'Structural Plan and Section Details of retaining wall'
+      }
+    ],
+    [
+      {
+        type: 'drainagePlan',
+        description: 'Drainage Plan during excavation'
+      },
+      {
+        type: 'structuralAnalysis',
+        description: 'Structural Analysis of Retaining Walls'
+      },
+      {
+        type: 'excavationMethodology',
+        description: 'Excavation Methodology/Statement'
+      },
+      {
+        type: 'safetyCertificate',
+        description: 'Certificate of Construction Safety Health Program (CSHP) from DOLE'
+      },
+      {
+        type: 'notificationLetter',
+        description: 'Letter of applicant notifying the adjacent property owner/s that an excavation is to be made and also showing how the adjoining property is to be protected. The said letter should be sent to the concerned party/parties not less than ten (10) days before such excavation is to be made (With signature of adjacent property owners)'
+      },
+      {
+        type: 'dumpSite',
+        description: 'Picture and location of dump site with consent from the lot owner (With lot ownership documents - Title)'
+      }
+    ],
+  ];
+
   constructor(
-    private router: Router,
-    private newApplicationService: NewApplicationService,
-    private authService: AuthService,
-    private userService: UserService
+    private newApplicationService: NewApplicationFormService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
-    console.log(this.user);
-    this.newApplicationService.applicationId
+    this.newApplicationService.newApplicationSubject
       .asObservable()
-      .subscribe((applicationId) => (this.applicationId = applicationId));
-    console.log('application id:', this.applicationId);
-    this.newApplicationService
-      .fetchApplicationInfo(this.applicationId)
-      .subscribe((result) => {
-        this.applicationInfo = result.data;
-        this.mergeFormData();
-      });
+      .subscribe(
+        (newApplicationSubject) =>
+          (this.applicationInfo = newApplicationSubject)
+      );
   }
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
@@ -51,195 +163,156 @@ export class ExcavationPermitComponent implements OnInit {
       case 'excavationPermit':
         this.excavationPermit = file;
         break;
+      case 'representativeAuthorization':
+        this.representativeAuthorization = file;
+        break;
+      case 'landTitle':
+        this.landTitle = file;
+        break;
+      case 'surveyPlan':
+        this.surveyPlan = file;
+        break;
+      case 'topographicMap':
+        this.topographicMap = file;
+        break;
+      case 'leaseContract':
+        this.leaseContract = file;
+        break;
+      case 'deedOfSale':
+        this.deedOfSale = file;
+        break;
+      case 'taxDeclaration':
+        this.taxDeclaration = file;
+        break;
+      case 'propertyTaxReceipt':
+        this.propertyTaxReceipt = file;
+        break;
+      case 'professionalTaxReceipt':
+        this.professionalTaxReceipt = file;
+        break;
+      case 'vicinityMap':
+        this.vicinityMap = file;
+        break;
+      case 'sitePhoto':
+        this.sitePhoto = file;
+        break;
+      case 'constructionTarp':
+        this.constructionTarp = file;
+        break;
+      case 'excavationPlan':
+        this.excavationPlan = file;
+        break;
+      case 'excavationSequence':
+        this.excavationSequence = file;
+        break;
+      case 'excavationSections':
+        this.excavationSections = file;
+        break;
+      case 'soilProtection':
+        this.soilProtection = file;
+        break;
+      case 'retainingWall':
+        this.retainingWall = file;
+        break;
+      case 'drainagePlan':
+        this.drainagePlan = file;  
+        break;
+      case 'structuralAnalysis':
+        this.structuralAnalysis = file;
+        break;
+      case 'excavationMethodology':
+        this.excavationMethodology = file;
+        break;
+      case 'safetyCertificate':
+        this.safetyCertificate = file;
+        break;
+      case 'notificationLetter':
+        this.notificationLetter = file;  
+        break;
+      case 'dumpSite':
+        this.dumpSite = file;
+        break;
     }
   }
+
   onRemove(type) {
     switch (type) {
       case 'excavationPermit':
         this.excavationPermit = null;
         break;
+      case 'representativeAuthorization':
+        this.representativeAuthorization = null;
+        break;
+      case 'landTitle':
+        this.landTitle = null;
+        break;
+      case 'surveyPlan':
+        this.surveyPlan = null;
+        break;
+      case 'topographicMap':
+        this.topographicMap = null;
+        break;
+      case 'leaseContract':
+        this.leaseContract = null;
+        break;
+      case 'deedOfSale':
+        this.deedOfSale = null;
+        break;
+      case 'taxDeclaration':
+        this.taxDeclaration = null;
+        break;
+      case 'propertyTaxReceipt':
+        this.propertyTaxReceipt = null;
+        break;
+      case 'professionalTaxReceipt':
+        this.professionalTaxReceipt = null;
+        break;
+      case 'vicinityMap':
+        this.vicinityMap = null;
+        break;
+      case 'sitePhoto':
+        this.sitePhoto = null;
+        break;
+      case 'constructionTarp':
+        this.constructionTarp = null;
+        break;
+      case 'excavationPlan':
+        this.excavationPlan = null;
+        break;
+      case 'excavationSequence':
+        this.excavationSequence = null;
+        break;
+      case 'excavationSections':
+        this.excavationSections = null;
+        break;
+      case 'soilProtection':
+        this.soilProtection = null;
+        break;
+      case 'retainingWall':
+        this.retainingWall = null;
+        break;
+      case 'drainagePlan':
+        this.drainagePlan = null;  
+        break;
+      case 'structuralAnalysis':
+        this.structuralAnalysis = null;
+        break;
+      case 'excavationMethodology':
+        this.excavationMethodology = null;
+        break;
+      case 'safetyCertificate':
+        this.safetyCertificate = null;
+        break;
+      case 'notificationLetter':
+        this.notificationLetter = null;  
+        break;
+      case 'dumpSite':
+        this.dumpSite = null;
+        break;
     }
   }
 
-  callNext() {
-    this.isLoading = true;
-    if (this.selectedOption == 'Yes') {
-      const uploadDocumentData = {
-        application_id: this.applicationId,
-        user_id: this.user.id,
-        document_id: this.userDocument.id,
-        document_status: this.userDocument.status,
-      };
-      if (this.excavationPermit) {
-        uploadDocumentData['document_path'] = this.excavationPermit;
-      }
-      this.newApplicationService
-        .submitDocument(uploadDocumentData)
-        .subscribe((res) => {
-          Swal.fire(
-            'Success!',
-            `${this.userDocument.name} uploaded!`,
-            'success'
-          ).then((result) => {
-            this.isLoading = false;
-            this.router.navigateByUrl('dashboard/new/other-permits');
-          });
-        });
-    } else {
-      this.router.navigate(['dashboard/new/summary', this.applicationId]);
-    }
-  }
-
-  mergeFormData() {
-    const applicantDetails = this.applicationInfo.applicant_detail;
-    const projectDetails = this.applicationInfo.project_detail;
-    const repDetails = this.applicationInfo.representative_detail;
-
-    this.formData = {
-      applicant_first_name:
-        applicantDetails.first_name == 'undefined'
-          ? ''
-          : applicantDetails.first_name,
-      applicant_last_name:
-        applicantDetails.last_name == 'undefined'
-          ? ''
-          : applicantDetails.last_name,
-      applicant_middle_name:
-        applicantDetails.middle_name == 'undefined'
-          ? ''
-          : applicantDetails.middle_name,
-      applicant_suffix_name:
-        applicantDetails.suffix_name == 'na'
-          ? ' '
-          : applicantDetails.suffix_name,
-      applicant_tin_number:
-        applicantDetails.tin_number == 'undefined'
-          ? ''
-          : applicantDetails.tin_number,
-      applicant_contact_number:
-        applicantDetails.contact_number == 'undefined'
-          ? ''
-          : applicantDetails.contact_number,
-      applicant_email_address:
-        applicantDetails.email_address == 'undefined'
-          ? ''
-          : applicantDetails.email_address,
-      applicant_house_number:
-        applicantDetails.house_number == 'undefined'
-          ? ''
-          : applicantDetails.house_number,
-      applicant_unit_number:
-        applicantDetails.unit_number == 'undefined'
-          ? ''
-          : applicantDetails.unit_number,
-      applicant_floor_number:
-        applicantDetails.floor_number == 'undefined'
-          ? ''
-          : applicantDetails.floor_number,
-      applicant_street_name:
-        applicantDetails.street_name == 'undefined'
-          ? ''
-          : applicantDetails.street_name,
-      applicant_barangay:
-        applicantDetails.barangay == 'undefined'
-          ? ''
-          : applicantDetails.barangay,
-      applicant_province: 'Benguet',
-      applicant_city: 'Baguio City',
-      appicant_zipcode: '2600',
-      project_house_number:
-        projectDetails.house_number == 'undefined'
-          ? ''
-          : projectDetails.house_number,
-      project_lot_number:
-        projectDetails.lot_number == 'undefined'
-          ? ''
-          : projectDetails.lot_number,
-      project_block_number:
-        projectDetails.block_number == 'undefined'
-          ? ''
-          : projectDetails.lot_number,
-      project_street_name:
-        projectDetails.street_name == 'undefined'
-          ? ''
-          : projectDetails.street_name,
-      project_number_of_units:
-        projectDetails.number_of_units == 'undefined'
-          ? ''
-          : projectDetails.number_of_units,
-      project_barangay:
-        projectDetails.barangay == 'undefined' ? '' : projectDetails.barangay,
-      project_number_of_basement:
-        projectDetails.number_of_basement == 'undefined'
-          ? ''
-          : projectDetails.number_of_basement,
-      project_lot_area:
-        projectDetails.lot_area == 'undefined' ? '' : projectDetails.lot_area,
-      project_total_floor_area:
-        projectDetails.total_floor_area == 'undefined'
-          ? ''
-          : projectDetails.total_floor_area,
-      project_units:
-        projectDetails.number_of_units == 'undefined'
-          ? ''
-          : projectDetails.number_of_units,
-      project_number_of_storey:
-        projectDetails.number_of_storey == 'undefined'
-          ? ''
-          : projectDetails.number_of_storey,
-      project_title:
-        projectDetails.project_title == 'undefined'
-          ? ''
-          : projectDetails.project_title,
-      project_cost_cap:
-        projectDetails.project_cost_cap == 'undefined'
-          ? ''
-          : projectDetails.project_cost_cap,
-      project_tct_number:
-        projectDetails.tct_number == 'undefined'
-          ? ''
-          : projectDetails.tct_number,
-      project_tax_dec_number:
-        projectDetails.tax_dec_number == 'undefined'
-          ? ''
-          : projectDetails.tax_dec_number,
-      project_province: 'Benguet',
-      project_city: 'Baguio City',
-      project_zipcode: '2600',
-      // rep_full_name: `${repDetails.first_name} ${repDetails.last_name}`,
-      // project_location: `${projectDetails.house_number}, ${projectDetails.street_name}, ${projectDetails.barangay}`,
-    };
-    if (repDetails) {
-      this.formData['rep_first_name'] = repDetails.first_name
-        ? repDetails.first_name
-        : '';
-      this.formData['rep_last_name'] = repDetails.last_name
-        ? repDetails.last_name
-        : '';
-      this.formData['rep_middle_name'] = repDetails.middle_name
-        ? repDetails.middle_name
-        : '';
-      this.formData['rep_suffix_name'] = repDetails.suffix_name
-        ? repDetails.suffix_name
-        : '';
-      this.formData['rep_house_number'] = repDetails.house_number
-        ? repDetails.house_number
-        : '';
-      this.formData['rep_street_name'] = repDetails.street_name
-        ? repDetails.street_name
-        : '';
-      this.formData['rep_barangay'] = repDetails.barangay
-        ? repDetails.barangay
-        : '';
-      this.formData['rep_contact_number'] = repDetails.contact_number
-        ? repDetails.contact_number
-        : '';
-      this.formData['rep_province'] = 'Benguet';
-      this.formData['rep_city'] = 'Baguio City';
-      this.formData['rep_zipcode'] = '2600';
-    }
-    console.log(this.applicationInfo);
-    console.log('formData:', this.formData);
-    this.isLoading = false;
+  submitApplication() {
+    
   }
 }

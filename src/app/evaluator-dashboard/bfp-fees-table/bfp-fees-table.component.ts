@@ -77,13 +77,11 @@ export class BfpFeesTableComponent implements OnInit {
   }
 
   fetchEvaluatorDetails() {
-    this.userService.cast.subscribe((userSubject) => {
-      this.user = userSubject;
-      this.evaluatorDetails = this.user.employee_detail;
-      console.log('Evaluator Details', this.evaluatorDetails);
-      if (this.evaluatorDetails !== undefined) {
-        this.fetchApplicationFees();
-      }
-    });
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.evaluatorDetails = this.user.employee_detail;
+    console.log('Evaluator Details', this.evaluatorDetails);
+    if (this.evaluatorDetails !== undefined) {
+      this.fetchApplicationFees();
+    }
   }
 }

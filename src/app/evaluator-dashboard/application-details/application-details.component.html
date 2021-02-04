@@ -41,7 +41,7 @@
           <div class="col">
             <h5 style="color: #7b7b7b">Application Number:</h5>
             <h5>
-              <strong>&nbsp;A2020-{{ applicationDetails.id }}</strong>
+              <strong>{{ applicationDetails.ocpas_code }}</strong>
             </h5>
           </div>
           <div class="col">
@@ -96,93 +96,89 @@
         <strong>Application Fees</strong>
         <hr />
       </h4>
-      <mat-expansion-panel
-        (opened)="panelOpenState = true"
-        (closed)="panelOpenState = false"
-        class="mb-2"
-      >
-        <mat-expansion-panel-header>
-          <mat-panel-title
+      <!-- <mat-card>
+        <mat-card-content>
+          <span
             ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
-              >build</mat-icon
-            >
-            City Buildings and Architecture Office</mat-panel-title
+              >no_encryption_gmailerrorred</mat-icon
+            ><strong>Sorry!</strong> You are not allowed to view this
+            content.</span
           >
-        </mat-expansion-panel-header>
-        <app-cbao-fees-table></app-cbao-fees-table>
-      </mat-expansion-panel>
-      <mat-expansion-panel
-        (opened)="panelOpenState = true"
-        (closed)="panelOpenState = false"
-        class="mb-2"
-      >
-        <mat-expansion-panel-header>
-          <mat-panel-title
-            ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
-              >create</mat-icon
+        </mat-card-content>
+      </mat-card> -->
+      <div>
+        <mat-expansion-panel
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+          class="mb-2"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title
+              ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
+                >build</mat-icon
+              >
+              City Buildings and Architecture Office</mat-panel-title
             >
-            City Planning and Development Office</mat-panel-title
-          >
-        </mat-expansion-panel-header>
-        <app-cpdo-fees-table></app-cpdo-fees-table>
-      </mat-expansion-panel>
-      <mat-expansion-panel
-        (opened)="panelOpenState = true"
-        (closed)="panelOpenState = false"
-        class="mb-2"
-      >
-        <mat-expansion-panel-header>
-          <mat-panel-title
-            ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
-              >local_fire_department</mat-icon
+          </mat-expansion-panel-header>
+          <app-cbao-fees-table></app-cbao-fees-table>
+        </mat-expansion-panel>
+        <mat-expansion-panel
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+          class="mb-2"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title
+              ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
+                >create</mat-icon
+              >
+              City Planning and Development Office</mat-panel-title
             >
-            Bureau of Fire Protection</mat-panel-title
-          >
-        </mat-expansion-panel-header>
-        <app-bfp-fees-table></app-bfp-fees-table>
-      </mat-expansion-panel>
-      <mat-expansion-panel
-        (opened)="panelOpenState = true"
-        (closed)="panelOpenState = false"
-      >
-        <mat-expansion-panel-header>
-          <mat-panel-title
-            ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
-              >grass</mat-icon
+          </mat-expansion-panel-header>
+          <app-cpdo-fees-table></app-cpdo-fees-table>
+        </mat-expansion-panel>
+        <mat-expansion-panel
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+          class="mb-2"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title
+              ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
+                >local_fire_department</mat-icon
+              >
+              Bureau of Fire Protection</mat-panel-title
             >
-            City Environment and Parks Management Office</mat-panel-title
-          >
-        </mat-expansion-panel-header>
-        <app-cepmo-fees-table></app-cepmo-fees-table>
-      </mat-expansion-panel>
+          </mat-expansion-panel-header>
+          <app-bfp-fees-table></app-bfp-fees-table>
+        </mat-expansion-panel>
+        <mat-expansion-panel
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title
+              ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
+                >grass</mat-icon
+              >
+              City Environment and Parks Management Office</mat-panel-title
+            >
+          </mat-expansion-panel-header>
+          <app-cepmo-fees-table></app-cepmo-fees-table>
+        </mat-expansion-panel>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>
 <div *ngIf="evaluatorDetails.office_id == '4'">
   <app-cbao-evaluator></app-cbao-evaluator>
 </div>
-<div
-  *ngIf="
-    evaluatorDetails.office_id == '1' &&
-    (applicationDetails.application_status_id == '2' ||
-      applicationDetails.application_status_id == '3')
-  "
->
+<div *ngIf="evaluatorDetails.office_id == '1'">
   <app-cpdo-evaluator></app-cpdo-evaluator>
 </div>
-<div
-  *ngIf="
-    evaluatorDetails.office_id == '2' &&
-    applicationDetails.application_status_id == '3'
-  "
->
+<div *ngIf="evaluatorDetails.office_id == '2'">
   <app-cepmo-evaluator></app-cepmo-evaluator>
 </div>
-<div
-  *ngIf="
-    evaluatorDetails.office_id == '3' &&
-    applicationDetails.application_status_id == '3'
-  "
->
+<div *ngIf="evaluatorDetails.office_id == '3'">
   <app-bfp-evaluator></app-bfp-evaluator>
 </div>

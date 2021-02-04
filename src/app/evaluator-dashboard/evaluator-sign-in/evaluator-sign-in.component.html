@@ -1,6 +1,6 @@
 <mat-card class="card-container">
   <div class="row">
-      <div class="col-md-5">
+      <!-- <div class="col-md-5">
        <div class="box">
         <div class="row justify-content-md-center" style="margin-top: 200px;">
           <div class="col-md-8 ">
@@ -15,7 +15,7 @@
         </div>
              
       </div>
-      </div>
+      </div> -->
       <div class="col-md-7 px-3 py-3">
         <form [formGroup]= "_evaluatorSignInForm" (ngSubmit)="tryLogin(_evaluatorSignInForm.value)">
           <div class="row justify-content-md-center pt-4">
@@ -26,11 +26,11 @@
           <div class="row justify-content-md-center pt-3">
             <div class="col-md-9">
               <mat-form-field appearance="outline">
-                <mat-label>Email address</mat-label>
+                <mat-label>Username</mat-label>
                 <input
                   matInput
                   placeholder="juanMiguel@gmail.com"
-                  formControlName="email"
+                  formControlName="username"
                   required
                 />
                 <mat-icon matSuffix>email</mat-icon>
@@ -75,7 +75,7 @@
           <div class="row row justify-content-md-center pt-3">
             <p style="font-size: smaller; color: gray">or sign in with</p>
           </div>
-          <div class="row justify-content-md-center">
+          <!-- <div class="row justify-content-md-center">
             <div class="col-md-4 text-center mb-5">
               <button mat-stroked-button (click)="tryGoogle()">
                 <mat-icon
@@ -87,7 +87,7 @@
                 >Google
               </button>
             </div>
-          </div>
+          </div> -->
         </form>
         
       

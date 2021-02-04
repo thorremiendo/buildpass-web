@@ -21,7 +21,7 @@ import { StepOneComponent } from './new-application/step-one/step-one.component'
 import { InitialFormsComponent } from './new-application/initial-forms/initial-forms.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CoreModule } from '../core/core.module';
-
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { BuildingPermitFormsComponent } from './new-application/building-permit-forms/building-permit-forms.component';
 import { DesignAnalysisFormsComponent } from './new-application/design-analysis-forms/design-analysis-forms.component';
 import { ProfessionalDetailsComponent } from './new-application/professional-details/professional-details.component';
@@ -58,7 +58,7 @@ import { UserEditProfileComponent } from './user-edit-profile/user-edit-profile.
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from '../../environments/environment';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AdditionalPermitsComponent } from './new-application/additional-permits/additional-permits.component';
 import { ExcavationPermitComponent } from './new-application/forms/excavation-permit/excavation-permit.component';
 import { DemolitionPermitComponent } from './new-application/forms/demolition-permit/demolition-permit.component';
@@ -67,9 +67,8 @@ import { OtherPermitsComponent } from './new-application/other-permits/other-per
 import { ViewApplicationComponent } from './view-application/view-application.component';
 import { UserApplicationsTableComponent } from './user-applications-table/user-applications-table.component';
 import { MatStepperModule } from '@angular/material/stepper';
-
-
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { FileUploadComponent } from './new-application/forms/file-upload/file-upload.component';
 
 @NgModule({
   declarations: [
@@ -103,8 +102,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     OtherPermitsComponent,
     ViewApplicationComponent,
     UserApplicationsTableComponent,
-
-   
+    FileUploadComponent
   ],
   imports: [
     CommonModule,
@@ -143,6 +141,8 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatCheckboxModule,
     MatProgressBarModule,
     MatStepperModule,
+    MatProgressSpinnerModule,
+    SweetAlert2Module.forRoot()
   ],
 })
 export class UserModule {}

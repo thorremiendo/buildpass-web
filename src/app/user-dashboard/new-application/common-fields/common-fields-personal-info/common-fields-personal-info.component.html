@@ -1,208 +1,236 @@
 <form [formGroup]="_personalInfoFormCommonFields" (ngSubmit)="onSubmit()">
-  <div class="row justify-content-center pt-3 px-3">
-    <div class="col-md-3">
-      <mat-form-field appearance="outline">
-        <mat-label>First Name</mat-label>
-        <input
-          type="text"
-          matInput
-          formControlName="owner_first_name"
-          required
-        />
-        <mat-error
-          *ngIf="
-            (personalInfoFormCommonFieldControl.owner_first_name.touched ||
-              _submitted) &&
-            personalInfoFormCommonFieldControl.owner_first_name.errors?.required
-          "
-        >
-          First Name is Required
-        </mat-error>
-      </mat-form-field>
+  <div class="row pt-3 px-3">
+    <div class="d-flex align-items-center w-100">
+      <h3 class="col-md-2">Basic Info</h3>
+      <hr
+        class="col-md-10"
+        style="padding: 0.5px 0; background-color: #d3d3d3"
+      />
     </div>
-    <div class="col-md-3">
-      <mat-form-field appearance="outline">
-        <mat-label>Middle Name</mat-label>
-        <input type="text" matInput formControlName="owner_middle_name" />
-      </mat-form-field>
-    </div>
-    <div class="col-md-3">
-      <mat-form-field appearance="outline">
-        <mat-label>Last name</mat-label>
-        <input
-          type="text"
-          matInput
-          formControlName="owner_last_name"
-          required
-        />
-        <mat-error
-          *ngIf="
-            (personalInfoFormCommonFieldControl.owner_last_name.touched ||
-              _submitted) &&
-            personalInfoFormCommonFieldControl.owner_last_name.errors?.required
-          "
-        >
-          Last Name is Required
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="col-md-3">
-      <mat-form-field appearance="outline">
-        <mat-label>Suffix</mat-label>
-        <mat-select formControlName="owner_suffix">
-          <mat-option value=""></mat-option>
-          <mat-option value="Jr">Jr</mat-option>
-          <mat-option value="Sr">Sr</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </div>
-  <div class="row justify-content-center px-3">
-    <div class="col-md-3">
-      <mat-form-field appearance="outline">
-        <mat-label>TIN Number</mat-label>
-        <input
-          type="text"
-          matInput
-          formControlName="owner_tin_number"
-          required
-        />
-        <mat-error
-          *ngIf="
-            (personalInfoFormCommonFieldControl.owner_tin_number.touched ||
-              _submitted) &&
-            personalInfoFormCommonFieldControl.owner_tin_number.errors?.required
-          "
-        >
-          TIN Number is Required
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="col-md-3">
-      <mat-form-field appearance="outline">
-        <mat-label>Email Address</mat-label>
-        <input matInput formControlName="owner_email_address" required />
-        <mat-error
-          *ngIf="
-            (personalInfoFormCommonFieldControl.owner_email_address.touched ||
-              _submitted) &&
-            personalInfoFormCommonFieldControl.owner_email_address.errors
-              ?.required
-          "
-        >
-          Email Address is required
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="col-md-3">
-      <mat-form-field appearance="outline">
-        <mat-label>Contact Number</mat-label>
-        <input
-          type="tel"
-          matInput
-          formControlName="owner_contact_number"
-          [maxLength]="maxLength"
-          placeholder="Ex. 09123456789"
-          #contact
-          required
-        />
-        <mat-error
-          *ngIf="
-            (personalInfoFormCommonFieldControl.owner_contact_number.touched ||
-              _submitted) &&
-            personalInfoFormCommonFieldControl.owner_contact_number.errors
-              ?.required
-          "
-        >
-          Contact Number is required
-        </mat-error>
-        <mat-hint align="end"
-          >{{ contact.value.length }} / {{ maxLength }}</mat-hint
-        >
-      </mat-form-field>
-    </div>
-    <div class="col-md-3">
-      <mat-form-field appearance="outline">
-        <mat-label>House Number</mat-label>
-        <input
-          type="text"
-          matInput
-          formControlName="owner_house_number"
-        />
-      </mat-form-field>
-    </div>
-  </div>
-  <div class="row justify-content-center px-3">
-    <div class="col-md-3">
-      <mat-form-field appearance="outline">
-        <mat-label>Unit Number</mat-label>
-        <input matInput formControlName="owner_unit_number" />
-      </mat-form-field>
-    </div>
-    <div class="col-md-3">
-      <mat-form-field appearance="outline">
-        <mat-label>Floor Number</mat-label>
-        <input matInput formControlName="owner_floor_number" />
-      </mat-form-field>
-    </div>
-    <div class="col-md-3">
-      <mat-form-field appearance="outline">
-        <mat-label>Street Name</mat-label>
-        <input matInput formControlName="owner_street" />
-        <mat-error
-          *ngIf="
-            (personalInfoFormCommonFieldControl.owner_street.touched ||
-              _submitted) &&
-            personalInfoFormCommonFieldControl.owner_street.errors?.required
-          "
-        >
-          Street is required
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="col-md-3">
-      <mat-form-field appearance="outline">
-        <mat-label>Barangay</mat-label>
-        <input
-          type="text"
-          placeholder="Select Barangay"
-          aria-label="Barangay"
-          matInput
-          formControlName="owner_barangay"
-          [matAutocomplete]="auto"
-          required
-        />
-        <mat-icon matSuffix>arrow_drop_down</mat-icon>
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option
-            *ngFor="let barangays of _filteredBarangayOptions | async"
-            [value]="barangays.name"
+    <div class="row w-100">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="owner_first_name"
+            required
+          />
+          <mat-error
+            *ngIf="
+              (personalInfoFormCommonFieldControl.owner_first_name.touched ||
+                _submitted) &&
+              personalInfoFormCommonFieldControl.owner_first_name.errors
+                ?.required
+            "
           >
-            {{ barangays.name }}
-          </mat-option>
-        </mat-autocomplete>
-        <mat-error
-          *ngIf="
-            (personalInfoFormCommonFieldControl.owner_barangay.touched ||
-              _submitted) &&
-            personalInfoFormCommonFieldControl.owner_barangay.errors?.required
-          "
-        >
-          Barangay is Required
-        </mat-error>
-      </mat-form-field>
+            First Name is Required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Middle Name</mat-label>
+          <input type="text" matInput formControlName="owner_middle_name" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row w-100">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Last name</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="owner_last_name"
+            required
+          />
+          <mat-error
+            *ngIf="
+              (personalInfoFormCommonFieldControl.owner_last_name.touched ||
+                _submitted) &&
+              personalInfoFormCommonFieldControl.owner_last_name.errors
+                ?.required
+            "
+          >
+            Last Name is Required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Suffix</mat-label>
+          <mat-select formControlName="owner_suffix">
+            <mat-option value=""></mat-option>
+            <mat-option value="Jr">Jr</mat-option>
+            <mat-option value="Sr">Sr</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row w-100">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>TIN Number</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="owner_tin_number"
+            required
+          />
+          <mat-error
+            *ngIf="
+              (personalInfoFormCommonFieldControl.owner_tin_number.touched ||
+                _submitted) &&
+              personalInfoFormCommonFieldControl.owner_tin_number.errors
+                ?.required
+            "
+          >
+            TIN Number is Required
+          </mat-error>
+        </mat-form-field>
+      </div>
     </div>
   </div>
-  <div class="row justify-content-center py-3">
-    <div class="col-md-3 col-3 text-right mb-3">
-      <button
-        style="background-color: maroon; color: white"
-        mat-stroked-button
-        type="submit"
-        [disabled]="!_personalInfoFormCommonFields.valid"
-      >
-        Proceed
-      </button>
+  <div class="row px-3">
+    <div class="d-flex align-items-center w-100">
+      <h3 class="col-md-2">Contact Info</h3>
+      <hr
+        class="col-md-10"
+        style="padding: 0.5px 0; background-color: #d3d3d3"
+      />
+    </div>
+    <div class="row w-100">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Email Address</mat-label>
+          <input matInput formControlName="owner_email_address" required />
+          <mat-error
+            *ngIf="
+              (personalInfoFormCommonFieldControl.owner_email_address.touched ||
+                _submitted) &&
+              personalInfoFormCommonFieldControl.owner_email_address.errors
+                ?.required
+            "
+          >
+            Email Address is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Contact Number</mat-label>
+          <input
+            type="tel"
+            matInput
+            formControlName="owner_contact_number"
+            [maxLength]="maxLength"
+            placeholder="Ex. 09123456789"
+            #contact
+            required
+          />
+          <mat-error
+            *ngIf="
+              (personalInfoFormCommonFieldControl.owner_contact_number
+                .touched ||
+                _submitted) &&
+              personalInfoFormCommonFieldControl.owner_contact_number.errors
+                ?.required
+            "
+          >
+            Contact Number is required
+          </mat-error>
+          <mat-hint align="end"
+            >{{ contact.value.length }} / {{ maxLength }}</mat-hint
+          >
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="row px-3">
+    <div class="d-flex align-items-center w-100">
+      <h3 class="col-md-2">Address</h3>
+      <hr
+        class="col-md-10"
+        style="padding: 0.5px 0; background-color: #d3d3d3"
+      />
+    </div>
+    <div class="row w-100">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>House Number</mat-label>
+          <input type="text" matInput formControlName="owner_house_number" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Unit Number</mat-label>
+          <input matInput formControlName="owner_unit_number" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row w-100">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Floor Number</mat-label>
+          <input matInput formControlName="owner_floor_number" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Street Name</mat-label>
+          <input matInput formControlName="owner_street" />
+          <mat-error
+            *ngIf="
+              (personalInfoFormCommonFieldControl.owner_street.touched ||
+                _submitted) &&
+              personalInfoFormCommonFieldControl.owner_street.errors?.required
+            "
+          >
+            Street is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row w-100">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Barangay</mat-label>
+          <input
+            type="text"
+            placeholder="Select Barangay"
+            aria-label="Barangay"
+            matInput
+            formControlName="owner_barangay"
+            [matAutocomplete]="auto"
+            required
+          />
+          <mat-icon matSuffix>arrow_drop_down</mat-icon>
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let barangays of _filteredBarangayOptions | async"
+              [value]="barangays.name"
+            >
+              {{ barangays.name }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error
+            *ngIf="
+              (personalInfoFormCommonFieldControl.owner_barangay.touched ||
+                _submitted) &&
+              personalInfoFormCommonFieldControl.owner_barangay.errors?.required
+            "
+          >
+            Barangay is Required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="row flex-row-reverse">
+    <div class="m-4">
+      <button mat-raised-button color="primary" type="submit">Proceed</button>
     </div>
   </div>
 </form>

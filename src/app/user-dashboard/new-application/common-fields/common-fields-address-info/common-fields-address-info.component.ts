@@ -47,6 +47,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   public projectDetailsForm: FormGroup;
   _submitted = false;
   public barangay: Barangay[];
+  public permitTypeId;
 
   get projectDetailsFormControl() {
     return this.projectDetailsForm.controls;
@@ -97,10 +98,9 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       );
     this.newApplicationFormService.newApplicationSubject
       .asObservable()
-      .subscribe(
-        (newApplicationSubject) =>
-          (this.applicationDetails = newApplicationSubject)
-      );
+      .subscribe((newApplicationSubject) => {
+        this.applicationDetails = newApplicationSubject;
+      });
     this.createForm();
 
     this.projectDetailsForm.patchValue({
@@ -238,20 +238,30 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       applicant_barangay: this.ownerDetails.owner_barangay,
       ...this.projectDetails,
     };
-    if (this.ownerDetails.is_representative == '2') {
-      this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
-        Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
-          (result) => {
+    if (!this.projectDetailsForm.valid) {
+      Swal.fire(
+        'Notice!',
+        'Please fill out all required fields!',
+        'info'
+      ).then((result) => {});
+    } else {
+      if (this.ownerDetails.is_representative == '2') {
+        this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
+          Swal.fire(
+            'Success!',
+            'Application Details Submitted!',
+            'success'
+          ).then((result) => {
             this.isLoading = false;
             this._router.navigateByUrl(
               '/dashboard/new/initial-forms/zoning-clearance'
             );
-          }
-        );
-      });
-    } else {
-      this.newApplicationFormService.setCommonFields(body);
-      this._router.navigateByUrl('/dashboard/new/step-two/representative');
+          });
+        });
+      } else {
+        this.newApplicationFormService.setCommonFields(body);
+        this._router.navigateByUrl('/dashboard/new/step-two/representative');
+      }
     }
   }
 }

@@ -1,0 +1,27 @@
+<div class="file-upload">
+    <div class="d-flex justify-content-between">
+        <h5> {{fileDescription}} </h5>
+        <mat-icon *ngIf="file" style="color: green">
+            check_circle
+        </mat-icon>
+    </div>
+    <ngx-dropzone
+        (change)="onSelect($event)"
+        [multiple]="false"
+    >
+        <ngx-dropzone-label>
+            Click here to upload file!
+        </ngx-dropzone-label>
+        <ngx-dropzone-preview
+            *ngIf="file"
+            [removable]="true"
+            (removed)="onRemove()"
+            class="mx-auto"
+        >
+            <ngx-dropzone-label>
+                {{ file.name }} 
+                ({{ file.type }})
+            </ngx-dropzone-label>
+        </ngx-dropzone-preview>
+    </ngx-dropzone>
+</div>

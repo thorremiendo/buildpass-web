@@ -26,6 +26,7 @@ export class CpdoEvaluatorComponent implements OnInit {
   public forms;
   public applicationId;
   public evaluatorDetails;
+  public evaluatorRole;
   public isLoading: boolean = true;
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
@@ -50,12 +51,11 @@ export class CpdoEvaluatorComponent implements OnInit {
   }
 
   fetchEvaluatorDetails() {
-    this.userService.cast.subscribe((userSubject) => {
-      this.user = userSubject;
-      this.evaluatorDetails = this.user.employee_detail;
-      console.log('Evaluator Details', this.evaluatorDetails);
-      this.isLoading = false;
-    });
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.evaluatorDetails = this.user.employee_detail;
+    this.evaluatorRole = this.user.user_roles[0].role[0];
+    console.log('Evaluator Role', this.evaluatorRole);
+    this.isLoading = false;
   }
   generateCpdoForms() {
     const CPDO_FORMS = this.forms.filter(
@@ -122,7 +122,9 @@ export class CpdoEvaluatorComponent implements OnInit {
           'Success!',
           `Notified Applicant for Non-Compliance!`,
           'success'
-        ).then((result) => {});
+        ).then((result) => {
+          window.location.reload();
+        });
       });
   }
   forward() {
@@ -132,11 +134,11 @@ export class CpdoEvaluatorComponent implements OnInit {
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
-        Swal.fire(
-          'Success!',
-          `Forwarded to CBAO, CEPMO, BFP!`,
-          'success'
-        ).then((result) => {});
+        Swal.fire('Success!', `Forwarded to CBAO, CEPMO, BFP!`, 'success').then(
+          (result) => {
+            window.location.reload();
+          }
+        );
         this.ngOnInit();
       });
   }

@@ -43,8 +43,17 @@
               mat-button
               color="accent"
               (click)="viewApplication(element.id)"
+              *ngIf="element.application_status_id !== 6"
             >
               View
+            </button>
+            <button
+              mat-button
+              color="accent"
+              (click)="continueApplication(element.user_id, element.id)"
+              *ngIf="element.application_status_id == 6"
+            >
+              Proceed
             </button>
           </td>
         </ng-container>

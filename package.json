@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "aws-deploy": "aws s3 sync dist/ocpas-web/ s3://ocpas-test-s3"
   },
   "private": true,
   "dependencies": {
@@ -44,12 +45,13 @@
     "ngx-extended-pdf-viewer": "^7.1.0",
     "ngx-mapbox-gl": "^4.8.1",
     "ngx-perfect-scrollbar": "^10.0.1",
+    "number-to-words": "^1.2.4",
     "pusher-js": "^7.0.2",
     "quill": "^1.3.7",
     "rxjs": "^6.6.3",
     "rxjs-compat": "^6.6.3",
-    "sweetalert2": "^10.10.1",
     "time-ago-pipe": "^1.3.2",
+    "sweetalert2": "^10.14.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },

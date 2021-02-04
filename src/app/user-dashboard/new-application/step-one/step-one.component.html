@@ -1,7 +1,9 @@
 <div class="container">
   <div class="row">
     <div class="col-md-6 col-12 p-5" [formGroup]="permitStepOneForm">
-      <h2 class="mb-5">Hi, Thor! Let's get started with your application.</h2>
+      <h2 class="mb-5">
+        Hi, {{ userInfo.first_name }} Let's get started with your application.
+      </h2>
       <p style="color: #767676"><strong>STEP 1</strong></p>
       <div>
         <h4>What type of permit do you want to apply?</h4>
@@ -33,7 +35,10 @@
         </mat-form-field>
       </div>
       <div *ngIf="isRepresentative" class="mt-4">
-        <h4>Right Over Land:</h4>
+        <h4 *ngIf="isRepresentative == 1; else owner">
+          What is the applicant's right over the land?
+        </h4>
+        <ng-template #owner><h4>Right over land:</h4></ng-template>
         <mat-form-field appearance="outline">
           <mat-label>Choose</mat-label>
           <mat-select [(value)]="isLotOwner" formControlName="is_lot_owner">
@@ -43,7 +48,12 @@
         </mat-form-field>
       </div>
       <div *ngIf="isLotOwner && isLotOwner !== '2'" class="mt-4">
-        <h4>Are you the registered owner of the lot?:</h4>
+        <h4 *ngIf="isRepresentative == 1; else isRegisteredOwner">
+          Is the applicant the registered owner of the lot?
+        </h4>
+        <ng-template #isRegisteredOwner>
+          <h4>Are you the registered owner of the lot?:</h4>
+        </ng-template>
         <mat-form-field appearance="outline">
           <mat-label>Choose</mat-label>
           <mat-select

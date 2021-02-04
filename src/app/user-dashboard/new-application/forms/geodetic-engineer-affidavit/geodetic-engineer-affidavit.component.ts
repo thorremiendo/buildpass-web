@@ -76,7 +76,7 @@ export class GeodeticEngineerAffidavitComponent implements OnInit {
           'success'
         ).then((result) => {
           this.isLoading = false;
-          this.router.navigateByUrl('dashboard/new/documentary-requirements');
+          this.router.navigate(['dashboard/new/summary', this.applicationId]);
         });
       });
   }

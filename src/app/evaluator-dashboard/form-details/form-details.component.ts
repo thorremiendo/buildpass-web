@@ -54,7 +54,12 @@ export class FormDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
+    this.userService.cast.subscribe((userSubject) => {
+      this.user = userSubject;
+      if (localStorage.getItem('currentUser')) {
+        this.user = JSON.parse(localStorage.getItem('currentUser'));
+      }
+    });
     console.log('Current user', this.user);
     this.applicationId = this.data.route.snapshot.params.id;
     console.log(this.applicationId);
@@ -63,11 +68,11 @@ export class FormDetailsComponent implements OnInit {
       form_remarks: new FormControl(''),
       is_compliant: new FormControl(''),
     });
+    this.viewSDKClient.formId = this.data.form.id;
   }
   //adobe sdk functions
   ngAfterViewInit() {
-    //for development only, cors-anywhere
-    this.viewSDKClient.url = `https://cors-anywhere.herokuapp.com/${this.data.form.document_path}`;
+    this.viewSDKClient.url = this.data.form.document_path;
     this.viewSDKClient.ready().then(() => {
       /* Invoke the file preview and get the Promise object */
       this.previewFilePromise = this.viewSDKClient.previewFile(
@@ -86,6 +91,7 @@ export class FormDetailsComponent implements OnInit {
             printWithAnnotations: true /* Default value is false */,
           };
           this.annotationManager.setConfig(customFlags);
+          this.viewSDKClient.registerSaveApiHandler('update');
         });
       });
     });
@@ -103,9 +109,7 @@ export class FormDetailsComponent implements OnInit {
         console.log(error);
       });
   }
-  saveForm() {
-    this.viewSDKClient.registerSaveApiHandler();
-  }
+
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
     switch (type) {
@@ -148,6 +152,7 @@ export class FormDetailsComponent implements OnInit {
   }
   onNoClick(): void {
     this.dialogRef.close();
+    window.location.reload();
   }
   callUpdate() {
     const uploadDocumentData = {

@@ -6,6 +6,7 @@ import { RegisterAccountFormService } from 'src/app/core/services/register-accou
 import { BarangayService } from 'src/app/core/services/barangay.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 export interface Barangay {
   id: number;
@@ -174,6 +175,18 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
 
     this.newApplicationFormService.setCommonFields(this.userDetails);
     console.log(this.userDetails);
-    this._router.navigateByUrl('/dashboard/new/step-two/project-site');
+    if (!this._personalInfoFormCommonFields.valid) {
+      Swal.fire(
+        'Notice!',
+        `Please fill out all required fields!`,
+        'info'
+      ).then((result) => {});
+    } else {
+      Swal.fire('Success!', ``, 'success').then(
+        (result) => {
+          this._router.navigateByUrl('/dashboard/new/step-two/project-site');
+        }
+      );
+    }
   }
 }

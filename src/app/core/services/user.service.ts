@@ -9,8 +9,8 @@ import * as Rx from 'rxjs/Rx';
   providedIn: 'root',
 })
 export class UserService {
-  private userSubject: BehaviorSubject<UserModel> = new BehaviorSubject<UserModel>(
-    {} as UserModel
+  private userSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
+    {} as any
   );
 
   cast = this.userSubject.asObservable();
@@ -65,7 +65,7 @@ export class UserService {
         return data;
       }),
       catchError((error) => {
-        console.log(error)
+        console.log(error);
         return throwError('Something went wrong.');
       })
     );
