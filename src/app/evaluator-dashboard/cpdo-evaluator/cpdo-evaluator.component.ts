@@ -26,6 +26,7 @@ export class CpdoEvaluatorComponent implements OnInit {
   public forms;
   public applicationId;
   public evaluatorDetails;
+  public evaluatorRole;
   public isLoading: boolean = true;
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
@@ -52,7 +53,8 @@ export class CpdoEvaluatorComponent implements OnInit {
   fetchEvaluatorDetails() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.evaluatorDetails = this.user.employee_detail;
-    console.log('Evaluator Details', this.evaluatorDetails);
+    this.evaluatorRole = this.user.user_roles[0].role[0];
+    console.log('Evaluator Role', this.evaluatorRole);
     this.isLoading = false;
   }
   generateCpdoForms() {

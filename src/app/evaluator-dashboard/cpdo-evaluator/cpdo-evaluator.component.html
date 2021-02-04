@@ -5,7 +5,12 @@
         <strong>Application Forms</strong>
       </h4>
     </div>
-    <button mat-stroked-button color="accent" (click)="openZoningDialog()">
+    <button
+      mat-stroked-button
+      color="accent"
+      (click)="openZoningDialog()"
+      *ngIf="evaluatorRole.code == 'CPDO-COD'"
+    >
       Generate Zoning Compliance Form
     </button>
     <div>
@@ -65,8 +70,21 @@
         <button mat-raised-button color="warn" (click)="nonCompliant()">
           Return to Applicant
         </button>
-        <button mat-raised-button color="primary" (click)="forward()">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="forward()"
+          *ngIf="evaluatorRole.code == 'CPDO-COD'"
+        >
           Forward
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="forward()"
+          *ngIf="evaluatorRole.code == 'CPDO-ZI'"
+        >
+          For Approval of Clearance
         </button>
       </div>
     </div>
