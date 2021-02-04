@@ -4,7 +4,7 @@
 
 .carousel {
   margin-top: 1em;
-  
+
   .carousel-control-next,
   .carousel-control-prev {
     filter: invert(100%);
@@ -30,55 +30,58 @@ mat-card {
       font-size: 18px;
     }
   }
+  ._illustration {
+    max-width: 150px;
+  }
   ._notificationBox {
     overflow: auto;
     max-height: 180px;
 
-  mat-card-content {
-    height: 80%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    mat-card-content {
+      height: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-    .carousel {
-      height: 100%;
-
-      .carousel-inner {
+      .carousel {
         height: 100%;
 
-        .carousel-item {
+        .carousel-inner {
           height: 100%;
-          display: flex;
-          align-items: center;
 
-          &:not(.active) {
-            display: none;
-          }
+          .carousel-item {
+            height: 100%;
+            display: flex;
+            align-items: center;
 
-          p {
-            width: 70%;
-            margin: 0 auto;
-            color: black;
-            font-size: 20px;
-            line-height: 1.5;
+            &:not(.active) {
+              display: none;
+            }
+
+            p {
+              width: 70%;
+              margin: 0 auto;
+              color: black;
+              font-size: 20px;
+              line-height: 1.5;
+            }
           }
         }
       }
-    }
 
-    img {
-      width: 150px;
-      height: auto;
-      display: block;
-      margin: 0 auto;
+      img {
+        width: 150px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+      }
+    }
+    ._notifications :hover {
+      opacity: 0.6;
+
+      cursor: pointer;
     }
   }
-  ._notifications :hover {
-    opacity: 0.6;
-
-    cursor: pointer;
-  }
-}
 
   .mat-expansion-panel {
     margin-bottom: 5px;
