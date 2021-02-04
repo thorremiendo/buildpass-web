@@ -156,6 +156,7 @@ export class CpdoEvaluatorComponent implements OnInit {
   forward() {
     const body = {
       application_status_id: 3,
+      cpdo_status_id: 1,
     };
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)

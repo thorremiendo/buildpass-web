@@ -46,3 +46,4 @@ testem.log
 .DS_Store
 Thumbs.db
 src/environments/environment.ts
+src/app/core/services/view-sdk.service.ts
