@@ -27,6 +27,7 @@ export class CpdoEvaluatorComponent implements OnInit {
   public applicationId;
   public evaluatorDetails;
   public evaluatorRole;
+  public applicationDetails;
   public isLoading: boolean = true;
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
@@ -46,8 +47,16 @@ export class CpdoEvaluatorComponent implements OnInit {
         this.forms = result.data;
         this.generateCpdoForms();
         this.fetchEvaluatorDetails();
+        this.fetchApplicationDetails();
       });
     this.changeDetectorRefs.detectChanges();
+  }
+  fetchApplicationDetails() {
+    this.applicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((res) => {
+        this.applicationDetails = res.data;
+      });
   }
 
   fetchEvaluatorDetails() {
@@ -113,7 +122,7 @@ export class CpdoEvaluatorComponent implements OnInit {
   }
   nonCompliant() {
     const body = {
-      application_status_id: 1,
+      application_status_id: 5,
     };
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
@@ -127,18 +136,38 @@ export class CpdoEvaluatorComponent implements OnInit {
         });
       });
   }
-  forward() {
+  forwardForApproval() {
     const body = {
-      application_status_id: 3,
+      application_status_id: 10,
     };
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
-        Swal.fire('Success!', `Forwarded to CBAO, CEPMO, BFP!`, 'success').then(
-          (result) => {
-            window.location.reload();
-          }
-        );
+        Swal.fire(
+          'Success!',
+          `Forwarded to CPDO Coordinator for Approval of Clearance!`,
+          'success'
+        ).then((result) => {
+          window.location.reload();
+        });
+        this.ngOnInit();
+      });
+  }
+  forward() {
+    const body = {
+      application_status_id: 3,
+      cpdo_status_id: 1,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire(
+          'Success!',
+          `Forwarded to BFP, CEPMO, CBAO for Evaluation!`,
+          'success'
+        ).then((result) => {
+          window.location.reload();
+        });
         this.ngOnInit();
       });
   }
