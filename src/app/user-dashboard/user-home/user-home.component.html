@@ -53,12 +53,16 @@
         <hr class="m-0" />
         <mat-card-content>
           <div class="_notificationBox">
-            <!-- <div class="d-flex justify-content-center w-100 m-0" >
+            <div
+              class="col w-100 m-0"
+              *ngIf="feeds.length == 0"
+            >
               <img
                 src="../../../assets/illustrations/notification-mail.png"
                 class="_illustration"
               />
-            </div> -->
+              <h4>You don't have any notifications.</h4>
+            </div>
             <div *ngFor="let feed of feeds; let i = index">
               <div class="_notifications" (click)="removeItem(i)">
                 <div class="d-flex justify-content-around w-100 m-0">
