@@ -145,9 +145,23 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
       Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
         (result) => {
           this.isLoading = false;
-          this._router.navigateByUrl(
-            '/dashboard/new/initial-forms/zoning-clearance'
-          );
+          switch(this.applicationDetails.application_type) {
+            case '1':
+              this._router.navigateByUrl('/dashboard/new/initial-forms/zoning-clearance');
+              break;
+            case '2':
+              // occupancy permit
+              break;
+            case '3':
+              this._router.navigateByUrl('/dashboard/new/excavation-permit');
+              break; 
+            case '4':
+              this._router.navigateByUrl('/dashboard/new/fencing-permit');
+              break;
+            case '5':
+              this._router.navigateByUrl('/dashboard/new/demolition-permit');
+              break; 
+          }
         }
       );
     });

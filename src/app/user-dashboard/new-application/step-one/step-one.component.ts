@@ -42,6 +42,7 @@ export class StepOneComponent implements OnInit {
       registered_owner: new FormControl('', Validators.required),
     });
   }
+  
   callNext() {
     const value = this.permitStepOneForm.value;
     const body = {
@@ -52,24 +53,6 @@ export class StepOneComponent implements OnInit {
       registered_owner: value.registered_owner ? value.registered_owner : 0,
     };
     this.newApplicationFormService.setApplicationInfo(body);
-    // this.router.navigateByUrl('/dashboard/new/initial-forms/zoning-clearance')
-
-    switch(value.application_type) {
-      case '1': 
-        this.router.navigateByUrl('/dashboard/new/step-two/lot-owner');
-        break;
-      case '2':
-        // occupancy permit
-        break;
-      case '3':
-        this.router.navigateByUrl('/dashboard/new/excavation-permit');
-        break;
-      case '4':
-        this.router.navigateByUrl('/dashboard/new/fencing-permit');
-        break;
-      case '5':
-        this.router.navigateByUrl('/dashboard/new/demolition-permit');
-        break;
-    }
+    this.router.navigateByUrl('/dashboard/new/step-two/lot-owner');
   }
 }

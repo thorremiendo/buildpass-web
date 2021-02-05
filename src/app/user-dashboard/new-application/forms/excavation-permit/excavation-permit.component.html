@@ -78,8 +78,11 @@
       </div>
     </div>
     <div class="d-flex justify-content-between">
-      <button mat-raised-button matStepperPrevious>Back</button>
-      <button mat-raised-button color="primary" matStepperNext>Next</button>
+      <button mat-raised-button (click)="callSaveAsDraft()">Save As Draft</button>
+      <button mat-raised-button color="primary" matStepperNext *ngIf="i != fieldSets.length-1; else submit_button;">Next</button>
+      <ng-template #submit_button>   
+        <button mat-raised-button (click)="submitApplication()">Submit</button>
+      </ng-template>
     </div>
   </mat-step>
 </mat-horizontal-stepper>
