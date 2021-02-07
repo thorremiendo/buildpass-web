@@ -1,3 +1,4 @@
+import { NewApplicationService } from './../../core/services/new-application.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {
   MatDialog,
@@ -35,7 +36,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private changeDetectorRefs: ChangeDetectorRef,
-    private userService: UserService
+    private newApplicationService: NewApplicationService
   ) {}
 
   ngOnInit(): void {
@@ -46,7 +47,9 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.dataSource = result.data;
         console.log('User Docs', this.dataSource);
         this.fetchEvaluatorDetails();
-        this.checkForms();
+        this.checkFormsCompliant();
+        this.checkFormsReviewed();
+        this.isLoading = false;
       });
     this.fetchApplicationInfo();
     this.changeDetectorRefs.detectChanges();
@@ -65,7 +68,6 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
     console.log('Evaluator Details', this.evaluatorDetails);
-    this.isLoading = false;
   }
 
   getDocType(id): string {
@@ -93,50 +95,81 @@ export class CbaoEvaluatorComponent implements OnInit {
     });
   }
 
-  checkForms() {
+  checkFormsCompliant() {
     const isReviewed = this.dataSource.every(
       (form) => form.document_status_id == 1
     );
     return isReviewed;
   }
-  nonCompliant() {
-    //callNotifcation for noncompliance
-    const body = {
-      application_status_id: 5,
-    };
-    this.applicationService
-      .updateApplicationStatus(body, this.applicationId)
-      .subscribe((res) => {
-        Swal.fire(
-          'Success!',
-          `Notified Applicant for Revision!`,
-          'success'
-        ).then((result) => {
-          window.location.reload();
-        });
-        this.fetchApplicationInfo();
-      });
+  checkFormsReviewed() {
+    const isReviewed = this.dataSource.every(
+      (form) => form.document_status_id == 1 || form.document_status_id == 2
+    );
+    return isReviewed;
   }
-  forwardToCpdo() {
-    //call notification forward to cpdo
-    if (this.checkForms()) {
+  nonCompliant() {
+    if (this.checkFormsReviewed()) {
       const body = {
-        application_status_id: 2,
+        application_status_id: 5,
       };
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
         .subscribe((res) => {
-          Swal.fire('Success!', `Forwarded to CPDO!`, 'success').then(
-            (result) => {
-              window.location.reload();
-            }
-          );
+          Swal.fire(
+            'Success!',
+            `Notified Applicant for Revision!`,
+            'success'
+          ).then((result) => {
+            window.location.reload();
+          });
           this.fetchApplicationInfo();
         });
     } else {
       Swal.fire(
         'Notice!',
-        `Please review all documents!`,
+        `Please review all documents first!`,
+        'info'
+      ).then((result) => {});
+    }
+  }
+  updateFormStatus() {
+    const forReview = this.dataSource.forEach((element) => {
+      let body = {
+        document_status_id: 0,
+      };
+      this.newApplicationService
+        .updateDocumentFile(body, element.id)
+        .subscribe((res) => {
+          this.updateApplicationStatus();
+        });
+    });
+
+    return forReview;
+  }
+  updateApplicationStatus() {
+    const body = {
+      application_status_id: 2,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire('Success!', `Forwarded to CPDO!`, 'success').then(
+          (result) => {
+            window.location.reload();
+          }
+        );
+        this.fetchApplicationInfo();
+      });
+  }
+  forwardToCpdo() {
+    this.isLoading = true;
+    if (this.checkFormsCompliant()) {
+      this.updateFormStatus();
+      this.isLoading = false;
+    } else {
+      Swal.fire(
+        'Notice!',
+        `Please review all documents first!`,
         'info'
       ).then((result) => {});
     }
