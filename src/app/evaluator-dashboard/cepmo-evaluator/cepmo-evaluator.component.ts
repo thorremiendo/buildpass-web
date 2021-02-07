@@ -28,6 +28,8 @@ export class CepmoEvaluatorComponent implements OnInit {
   public applicationId;
   public evaluatorDetails;
   public isLoading: boolean = true;
+  public evaluatorRole;
+
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
@@ -50,6 +52,7 @@ export class CepmoEvaluatorComponent implements OnInit {
   fetchEvaluatorDetails() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.evaluatorDetails = this.user.employee_detail;
+    this.evaluatorRole = this.user.user_roles[0].role[0];
     console.log('Evaluator Details', this.evaluatorDetails);
     this.isLoading = false;
   }

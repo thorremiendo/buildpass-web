@@ -5,7 +5,12 @@
         <strong>Application Forms</strong>
       </h4>
     </div>
-    <button mat-stroked-button color="accent" (click)="openWwmsDialog()">
+    <button
+      mat-stroked-button
+      color="accent"
+      (click)="openWwmsDialog()"
+      *ngIf="evaluatorRole.code == 'CEPMO-DV'"
+    >
       Generate WWMS BP Certificate
     </button>
     <div>

@@ -26,8 +26,8 @@ export class CbaoEvaluatorComponent implements OnInit {
   public applicationInfo;
   public evaluatorDetails;
   public isLoading: boolean = true;
-  public compliantStatus;
   public evaluatorRole;
+
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
   constructor(
@@ -46,6 +46,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.dataSource = result.data;
         console.log('User Docs', this.dataSource);
         this.fetchEvaluatorDetails();
+        this.checkForms();
       });
     this.fetchApplicationInfo();
     this.changeDetectorRefs.detectChanges();
@@ -66,6 +67,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     console.log('Evaluator Details', this.evaluatorDetails);
     this.isLoading = false;
   }
+
   getDocType(id): string {
     return documentTypes[id];
   }
@@ -90,6 +92,13 @@ export class CbaoEvaluatorComponent implements OnInit {
       this.ngOnInit();
     });
   }
+
+  checkForms() {
+    const isReviewed = this.dataSource.every(
+      (form) => form.document_status_id == 1
+    );
+    return isReviewed;
+  }
   nonCompliant() {
     //callNotifcation for noncompliance
     const body = {
@@ -110,19 +119,27 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
   forwardToCpdo() {
     //call notification forward to cpdo
-    const body = {
-      application_status_id: 2,
-    };
-    this.applicationService
-      .updateApplicationStatus(body, this.applicationId)
-      .subscribe((res) => {
-        Swal.fire('Success!', `Forwarded to CPDO!`, 'success').then(
-          (result) => {
-            window.location.reload();
-          }
-        );
-        this.fetchApplicationInfo();
-      });
+    if (this.checkForms()) {
+      const body = {
+        application_status_id: 2,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          Swal.fire('Success!', `Forwarded to CPDO!`, 'success').then(
+            (result) => {
+              window.location.reload();
+            }
+          );
+          this.fetchApplicationInfo();
+        });
+    } else {
+      Swal.fire(
+        'Notice!',
+        `Please review all documents!`,
+        'info'
+      ).then((result) => {});
+    }
   }
   notifyBo() {
     const body = {
