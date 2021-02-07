@@ -167,16 +167,16 @@ export class CbaoEvaluatorComponent implements OnInit {
       this.updateFormStatus();
       this.isLoading = false;
     } else {
-      Swal.fire(
-        'Notice!',
-        `Please review all documents first!`,
-        'info'
-      ).then((result) => {});
+      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+        (result) => {
+          this.isLoading = false;
+        }
+      );
     }
   }
   notifyBo() {
     const body = {
-      application_status_id: 4,
+      application_status_id: 13,
     };
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
@@ -190,7 +190,39 @@ export class CbaoEvaluatorComponent implements OnInit {
         });
       });
   }
-  notify() {
+  forPayment() {
+    const body = {
+      application_status_id: 8,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire(
+          'Success!',
+          `Building Permit Application Approved! Notified Applicant for Payment`,
+          'success'
+        ).then((result) => {
+          window.location.reload();
+        });
+      });
+  }
+  forReleasing() {
+    const body = {
+      application_status_id: 4,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire(
+          'Success!',
+          `Building Permit is now ready for release!`,
+          'success'
+        ).then((result) => {
+          window.location.reload();
+        });
+      });
+  }
+  handleRelease() {
     const body = {
       application_status_id: 11,
     };

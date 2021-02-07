@@ -129,7 +129,7 @@ export class BuildingPermitFormComponent implements OnInit {
     const repDetails = this.applicationInfo.representative_detail;
 
     this.formData = {
-      applicant_full_name: `${applicantDetails.first_name} ${applicantDetails.last_name}`,
+      applicant_full_name: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       applicant_first_name:
         applicantDetails.first_name == 'undefined'
           ? 'N/A'

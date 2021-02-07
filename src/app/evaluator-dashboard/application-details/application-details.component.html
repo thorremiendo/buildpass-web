@@ -58,7 +58,11 @@
         <div class="col-md-4">
           <div class="col">
             <h5 style="color: #7b7b7b">Application Status:</h5>
-            <h5>
+            <h5
+              [style.color]="
+                applicationDetails.application_status_id == 11 ? 'green' : 'red'
+              "
+            >
               <strong
                 >&nbsp;
                 {{
