@@ -40,7 +40,6 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
   _submitted = false;
   public maxLength: number = 11;
 
-
   get representativeDetailsFormControl() {
     return this.representativeDetailsForm.controls;
   }
@@ -145,22 +144,24 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
       Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
         (result) => {
           this.isLoading = false;
-          switch(this.applicationDetails.application_type) {
+          switch (this.applicationDetails.permit_type_id) {
             case '1':
-              this._router.navigateByUrl('/dashboard/new/initial-forms/zoning-clearance');
+              this._router.navigateByUrl(
+                '/dashboard/new/initial-forms/zoning-clearance'
+              );
               break;
             case '2':
               // occupancy permit
               break;
             case '3':
               this._router.navigateByUrl('/dashboard/new/excavation-permit');
-              break; 
+              break;
             case '4':
               this._router.navigateByUrl('/dashboard/new/fencing-permit');
               break;
             case '5':
               this._router.navigateByUrl('/dashboard/new/demolition-permit');
-              break; 
+              break;
           }
         }
       );

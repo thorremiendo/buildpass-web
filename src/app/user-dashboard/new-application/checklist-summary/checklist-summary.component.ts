@@ -46,7 +46,7 @@ export class ChecklistSummaryComponent implements OnInit {
         this.applicationInfo = result.data;
         this.applicantCompleteName = `${this.applicationInfo.applicant_detail.first_name} ${this.applicationInfo.applicant_detail.last_name}`;
         this.applicantForms = this.applicationInfo.user_docs;
-        switch(this.applicationInfo.permit_type_id) {
+        switch (this.applicationInfo.permit_type_id) {
           case 1:
             this.permitType = 'Building Permit';
             break;
@@ -86,11 +86,7 @@ export class ChecklistSummaryComponent implements OnInit {
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
-          this.applicationService
-            .updateApplicationStatus(body, this.applicationId)
-            .subscribe((res) => {
-              this.router.navigateByUrl('dashboard/new/success');
-            });
+          //TODO: change status if application needs excavation
           this.router.navigateByUrl('dashboard/new/excavation-permit');
         } else if (result.isDenied) {
           this.applicationService
@@ -101,11 +97,7 @@ export class ChecklistSummaryComponent implements OnInit {
         }
       });
     } else {
-      this.applicationService
-        .updateApplicationStatus(body, this.applicationId)
-        .subscribe((res) => {
-          this.router.navigateByUrl('dashboard/new/success');
-        });
+      this.router.navigateByUrl('dashboard');
     }
   }
   // handleRedirect() {
