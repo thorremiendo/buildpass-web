@@ -6,8 +6,9 @@ import { single } from './data';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FeedService } from '../../core';
 import { Feed } from '../../core';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject, Observable } from 'rxjs';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
+import { Channel } from "pusher-js";
 
 
 const googleLogoURL =
@@ -22,6 +23,13 @@ export class EvaluatorHomeComponent implements OnInit {
   public user;
   public applications;
   public evaluatorDetails;
+  public channelName;
+  public channel: Channel;
+  private feedSubscription: Subscription;
+  public feeds: Feed[] = [];
+  private subject: Subject<Feed> = new Subject<Feed>();
+
+
   public chartData: any[] = [
     {
       name: 'Pending',
@@ -55,9 +63,7 @@ export class EvaluatorHomeComponent implements OnInit {
   navLinks: any[];
   activeLinkIndex = -1;
 
-  public feeds: Feed[] = [];
-
-  private feedSubscription: Subscription;
+  
 
   constructor(
     private _router: Router,
@@ -95,6 +101,7 @@ export class EvaluatorHomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.pusherSubscribe();
     this._router.events.subscribe((res) => {
       this.activeLinkIndex = this.navLinks.indexOf(
         this.navLinks.find((tab) => tab.link === '.' + this._router.url)
@@ -104,6 +111,19 @@ export class EvaluatorHomeComponent implements OnInit {
       this.applications = res.data
       console.log(this.applications)
     })
+  }
+
+  pusherSubscribe(){
+    this.channel =this.feedService.pusher.subscribe(this.channelName);
+    console.log(this.channelName)
+    this.channel.bind('App\\Events\\PermitStatusChanged',
+    (data: { application_number: string; status: string; message:string, currentTime: string }) => {
+      this.subject.next(new Feed(data.application_number, data.status, data.message, new Date(data.currentTime)));
+      console.log(data);
+      console.log(data.currentTime);
+      
+    }
+  );
   }
   onSelect(data): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));
