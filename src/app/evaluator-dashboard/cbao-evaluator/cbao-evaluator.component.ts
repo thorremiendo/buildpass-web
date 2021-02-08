@@ -1,3 +1,4 @@
+import { NewApplicationService } from './../../core/services/new-application.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {
   MatDialog,
@@ -26,8 +27,8 @@ export class CbaoEvaluatorComponent implements OnInit {
   public applicationInfo;
   public evaluatorDetails;
   public isLoading: boolean = true;
-  public compliantStatus;
   public evaluatorRole;
+
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
   constructor(
@@ -35,7 +36,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private changeDetectorRefs: ChangeDetectorRef,
-    private userService: UserService
+    private newApplicationService: NewApplicationService
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +47,9 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.dataSource = result.data;
         console.log('User Docs', this.dataSource);
         this.fetchEvaluatorDetails();
+        this.checkFormsCompliant();
+        this.checkFormsReviewed();
+        this.isLoading = false;
       });
     this.fetchApplicationInfo();
     this.changeDetectorRefs.detectChanges();
@@ -64,8 +68,8 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
     console.log('Evaluator Details', this.evaluatorDetails);
-    this.isLoading = false;
   }
+
   getDocType(id): string {
     return documentTypes[id];
   }
@@ -90,26 +94,59 @@ export class CbaoEvaluatorComponent implements OnInit {
       this.ngOnInit();
     });
   }
-  nonCompliant() {
-    //callNotifcation for noncompliance
-    const body = {
-      application_status_id: 5,
-    };
-    this.applicationService
-      .updateApplicationStatus(body, this.applicationId)
-      .subscribe((res) => {
-        Swal.fire(
-          'Success!',
-          `Notified Applicant for Revision!`,
-          'success'
-        ).then((result) => {
-          window.location.reload();
-        });
-        this.fetchApplicationInfo();
-      });
+
+  checkFormsCompliant() {
+    const isReviewed = this.dataSource.every(
+      (form) => form.document_status_id == 1
+    );
+    return isReviewed;
   }
-  forwardToCpdo() {
-    //call notification forward to cpdo
+  checkFormsReviewed() {
+    const isReviewed = this.dataSource.every(
+      (form) => form.document_status_id == 1 || form.document_status_id == 2
+    );
+    return isReviewed;
+  }
+  nonCompliant() {
+    if (this.checkFormsReviewed()) {
+      const body = {
+        application_status_id: 5,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          Swal.fire(
+            'Success!',
+            `Notified Applicant for Revision!`,
+            'success'
+          ).then((result) => {
+            window.location.reload();
+          });
+          this.fetchApplicationInfo();
+        });
+    } else {
+      Swal.fire(
+        'Notice!',
+        `Please review all documents first!`,
+        'info'
+      ).then((result) => {});
+    }
+  }
+  updateFormStatus() {
+    const forReview = this.dataSource.forEach((element) => {
+      let body = {
+        document_status_id: 0,
+      };
+      this.newApplicationService
+        .updateDocumentFile(body, element.id)
+        .subscribe((res) => {
+          this.updateApplicationStatus();
+        });
+    });
+
+    return forReview;
+  }
+  updateApplicationStatus() {
     const body = {
       application_status_id: 2,
     };
@@ -124,9 +161,22 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.fetchApplicationInfo();
       });
   }
+  forwardToCpdo() {
+    this.isLoading = true;
+    if (this.checkFormsCompliant()) {
+      this.updateFormStatus();
+      this.isLoading = false;
+    } else {
+      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+        (result) => {
+          this.isLoading = false;
+        }
+      );
+    }
+  }
   notifyBo() {
     const body = {
-      application_status_id: 4,
+      application_status_id: 13,
     };
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
@@ -140,7 +190,39 @@ export class CbaoEvaluatorComponent implements OnInit {
         });
       });
   }
-  notify() {
+  forPayment() {
+    const body = {
+      application_status_id: 8,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire(
+          'Success!',
+          `Building Permit Application Approved! Notified Applicant for Payment`,
+          'success'
+        ).then((result) => {
+          window.location.reload();
+        });
+      });
+  }
+  forReleasing() {
+    const body = {
+      application_status_id: 4,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire(
+          'Success!',
+          `Building Permit is now ready for release!`,
+          'success'
+        ).then((result) => {
+          window.location.reload();
+        });
+      });
+  }
+  handleRelease() {
     const body = {
       application_status_id: 11,
     };

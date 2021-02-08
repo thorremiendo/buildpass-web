@@ -102,5 +102,6 @@ export class ReleaseBldgPermitComponent implements OnInit {
   }
   onNoClick(): void {
     this.dialogRef.close();
+    window.location.reload();
   }
 }

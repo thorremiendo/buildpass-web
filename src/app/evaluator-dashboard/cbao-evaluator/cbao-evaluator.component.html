@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf="!isLoading">
   <mat-card-content>
     <div>
       <h4 style="color: #400c06" class="mb-4">
@@ -85,33 +85,62 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
       <div class="d-flex justify-content-between mt-5">
-        <button mat-raised-button color="warn" (click)="nonCompliant()">
-          Return to Applicant
-        </button>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="forwardToCpdo()"
-          *ngIf="applicationInfo.application_status_id == '1'"
-        >
-          Forward to CPDO
-        </button>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="notify()"
-          *ngIf="evaluatorRole.code == 'CBAO-BO'"
-        >
-          Release Building Permit
-        </button>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="notifyBo()"
-          *ngIf="evaluatorRole.code == 'CBAO-DC'"
-        >
-          Forward to Building Official
-        </button>
+        <div *ngIf="applicationInfo.application_status_id !== 11">
+          <button mat-raised-button color="warn" (click)="nonCompliant()">
+            Return to Applicant
+          </button>
+        </div>
+        <div>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="forwardToCpdo()"
+            *ngIf="
+              applicationInfo.application_status_id == 1 &&
+              evaluatorRole.code == 'CBAO-REC'
+            "
+          >
+            Forward to CPDO
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="forPayment()"
+            *ngIf="evaluatorRole.code == 'CBAO-BO'"
+          >
+            Approve Building Permit
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="notifyBo()"
+            *ngIf="evaluatorRole.code == 'CBAO-DC'"
+          >
+            Forward to Building Official
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="forReleasing()"
+            *ngIf="
+              evaluatorRole.code == 'CBAO-REL' &&
+              applicationInfo.application_status_id == '8'
+            "
+          >
+            For Releasing
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="handleRelease()"
+            *ngIf="
+              evaluatorRole.code == 'CBAO-REL' &&
+              applicationInfo.application_status_id == '4'
+            "
+          >
+            Release Permit
+          </button>
+        </div>
       </div>
     </div>
   </mat-card-content>
