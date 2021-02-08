@@ -148,7 +148,7 @@ export class ViewSDKClient {
             const uploadDocumentData = {
               application_id: this.applicationId,
               user_id: this.userId,
-              document_id: 44,
+              document_id: 50,
               document_status_id: 1,
               document_path: blob,
             };

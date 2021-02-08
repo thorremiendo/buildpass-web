@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Data } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { applicationStatus } from '../../core/enums/application-status.enum';
 import Swal from 'sweetalert2';
@@ -37,6 +37,7 @@ export class ApplicationDetailsComponent implements OnInit {
   public pdfSrc;
   public applicationDetails;
   public evaluatorRole;
+  public userDocuments;
   constructor(
     private router: Router,
     private applicationService: ApplicationInfoService,
@@ -69,6 +70,41 @@ export class ApplicationDetailsComponent implements OnInit {
         this.fetchEvaluatorDetails();
         this.fetchApplicationFees();
       });
+    this.fetchUserDocs();
+  }
+  fetchUserDocs() {
+    this.isLoading = true;
+    this.applicationService
+      .fetchUserDocs(this.applicationId)
+      .subscribe((res) => {
+        this.userDocuments = res.data;
+        if (this.applicationDetails.application_status_id == 3) {
+          this.checkFormsCompliant();
+        }
+      });
+  }
+  checkFormsCompliant() {
+    const isReviewed = this.userDocuments.every(
+      (form) => form.document_status_id == 1
+    );
+    if (isReviewed) {
+      const body = {
+        application_status_id: 12,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          Swal.fire(
+            'Info!',
+            `All documents are compliant!
+            Notified Division Chief for Evaluation!`,
+            'info'
+          ).then((result) => {
+            this.isLoading = false;
+            window.location.reload();
+          });
+        });
+    }
   }
 
   fetchApplicationFees() {

@@ -21,6 +21,8 @@ export class ChecklistSummaryComponent implements OnInit {
   public applicationId;
   public applicantCompleteName;
   public applicantForms;
+  public permitType;
+
   constructor(
     private router: Router,
     private newApplicationService: NewApplicationService,
@@ -44,6 +46,23 @@ export class ChecklistSummaryComponent implements OnInit {
         this.applicationInfo = result.data;
         this.applicantCompleteName = `${this.applicationInfo.applicant_detail.first_name} ${this.applicationInfo.applicant_detail.last_name}`;
         this.applicantForms = this.applicationInfo.user_docs;
+        switch (this.applicationInfo.permit_type_id) {
+          case 1:
+            this.permitType = 'Building Permit';
+            break;
+          case 2:
+            this.permitType = 'Occupancy Permit';
+            break;
+          case 3:
+            this.permitType = 'Excavation Permit';
+            break;
+          case 4:
+            this.permitType = 'Fencing Permit';
+            break;
+          case 5:
+            this.permitType = 'Demolition Permit';
+            break;
+        }
       });
   }
   goToLink(url: string) {
@@ -56,29 +75,30 @@ export class ChecklistSummaryComponent implements OnInit {
     const body = {
       application_status_id: 1,
     };
-    Swal.fire({
-      title: 'Do you need an Excavation Permit?',
-      showDenyButton: true,
-      showCancelButton: true,
-      confirmButtonText: `Yes`,
-      denyButtonText: `No`,
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.router.navigateByUrl('dashboard/new/success');
-          });
-        this.router.navigateByUrl('dashboard/new/excavation-permit');
-      } else if (result.isDenied) {
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.router.navigateByUrl('dashboard/new/success');
-          });
-      }
-    });
+
+    if (this.applicationInfo.permit_type_id == '1') {
+      Swal.fire({
+        title: 'Do you need an Excavation Permit?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: `Yes`,
+        denyButtonText: `No`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          //TODO: change status if application needs excavation
+          this.router.navigateByUrl('dashboard/new/excavation-permit');
+        } else if (result.isDenied) {
+          this.applicationService
+            .updateApplicationStatus(body, this.applicationId)
+            .subscribe((res) => {
+              this.router.navigateByUrl('dashboard/new/success');
+            });
+        }
+      });
+    } else {
+      this.router.navigateByUrl('dashboard');
+    }
   }
   // handleRedirect() {
   //   this.router.navigateByUrl('dashboard/new/step-one');

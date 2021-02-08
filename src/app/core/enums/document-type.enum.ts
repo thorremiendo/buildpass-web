@@ -48,4 +48,5 @@ export enum documentTypes {
   'Mechanical Engineer' = 47,
   'Notice of Construction' = 48,
   'Residential Checklist (BFP)' = 49,
+  'Building Permit' = 50,
 }

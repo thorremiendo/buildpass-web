@@ -190,7 +190,7 @@ export const userDocuments = [
   {
     id: 43,
     category: 5,
-    name: 'Certificate of Zoning Compliance from CPDO',
+    name: 'Certificate of Zoning Compliance from  CPDO',
     status: 0,
   },
   { id: 44, category: 5, name: 'WWMS BP Certificate', status: 0 },
@@ -199,4 +199,11 @@ export const userDocuments = [
   { id: 47, category: 5, name: 'Mechanical Engineer', status: 0 },
   { id: 48, category: 5, name: 'Notice of Construction', status: 0 },
   { id: 49, category: 5, name: 'Residential Checklist (BFP)', status: 0 },
+  { id: 50, category: 0, name: 'Fencing Specifications', status: 0 },
+  { id: 51, category: 0, name: 'Site Development Plan showing the lot boundaries and the location of proposed fence', status: 0 },
+  { id: 52, category: 0, name: 'Section and details of fence, footings, columns and beams', status: 0 },
+  { id: 53, category: 0, name: 'Elevation Plans of fence from corner to corner with complete dimensions', status: 0 },
+  { id: 54, category: 0, name: 'Demolition methodology/statement', status: 0 },
+  { id: 55, category: 0, name: 'Plans of demolition procedure/sequence – minimum A3 size', status: 0 },
+  { id: 56, category: 0, name: 'Clear latest picture of building to be demolished (Taken at least a week before application)', status: 0 },
 ];
