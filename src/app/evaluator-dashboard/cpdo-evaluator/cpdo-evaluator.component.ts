@@ -48,6 +48,8 @@ export class CpdoEvaluatorComponent implements OnInit {
         this.generateCpdoForms();
         this.fetchEvaluatorDetails();
         this.fetchApplicationDetails();
+        this.checkFormsCompliant();
+        this.checkFormsReviewed();
       });
     this.changeDetectorRefs.detectChanges();
   }
@@ -121,39 +123,82 @@ export class CpdoEvaluatorComponent implements OnInit {
     });
   }
   nonCompliant() {
-    const body = {
-      application_status_id: 5,
-    };
-    this.applicationService
-      .updateApplicationStatus(body, this.applicationId)
-      .subscribe((res) => {
-        Swal.fire(
-          'Success!',
-          `Notified Applicant for Non-Compliance!`,
-          'success'
-        ).then((result) => {
-          window.location.reload();
+    if (this.checkFormsReviewed()) {
+      const body = {
+        application_status_id: 5,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          Swal.fire(
+            'Success!',
+            `Notified Applicant for Revision!`,
+            'success'
+          ).then((result) => {
+            window.location.reload();
+          });
+          this.fetchApplicationDetails();
         });
-      });
+    } else {
+      Swal.fire(
+        'Notice!',
+        `Please review all documents first!`,
+        'info'
+      ).then((result) => {});
+    }
+  }
+  checkFormsReviewed() {
+    const isReviewed = this.dataSource.every(
+      (form) => form.document_status_id == 1 || form.document_status_id == 2
+    );
+    return isReviewed;
   }
   forwardForApproval() {
-    const body = {
-      application_status_id: 10,
-    };
-    this.applicationService
-      .updateApplicationStatus(body, this.applicationId)
-      .subscribe((res) => {
-        Swal.fire(
-          'Success!',
-          `Forwarded to CPDO Coordinator for Approval of Clearance!`,
-          'success'
-        ).then((result) => {
-          window.location.reload();
+    this.isLoading = true;
+    if (this.checkFormsCompliant()) {
+      const body = {
+        application_status_id: 10,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          Swal.fire(
+            'Success!',
+            `Forwarded to CPDO Coordinator for Approval of Clearance!`,
+            'success'
+          ).then((result) => {
+            window.location.reload();
+          });
+          this.ngOnInit();
         });
-        this.ngOnInit();
-      });
+    } else {
+      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+        (result) => {
+          this.isLoading = false;
+        }
+      );
+    }
   }
-  forward() {
+  handleApprove() {
+    this.isLoading = true;
+    if (this.checkFormsCompliant()) {
+      this.approveZoning();
+    } else {
+      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+        (result) => {
+          this.isLoading = false;
+        }
+      );
+    }
+  }
+  checkFormsCompliant() {
+    const isReviewed = this.dataSource.every(
+      (form) => form.document_status_id == 1
+    );
+    return isReviewed;
+  }
+
+  approveZoning() {
     const body = {
       application_status_id: 3,
       cpdo_status_id: 1,
@@ -161,13 +206,12 @@ export class CpdoEvaluatorComponent implements OnInit {
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
-        Swal.fire(
-          'Success!',
-          `Forwarded to BFP, CEPMO, CBAO for Evaluation!`,
-          'success'
-        ).then((result) => {
-          window.location.reload();
-        });
+        this.isLoading = false;
+        Swal.fire('Success!', `Zoning Certificate Approved!`, 'success').then(
+          (result) => {
+            window.location.reload();
+          }
+        );
         this.ngOnInit();
       });
   }
