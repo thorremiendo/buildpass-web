@@ -153,11 +153,6 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
-        Swal.fire('Success!', `Forwarded to CPDO!`, 'success').then(
-          (result) => {
-            window.location.reload();
-          }
-        );
         this.fetchApplicationInfo();
       });
   }
@@ -165,7 +160,10 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.isLoading = true;
     if (this.checkFormsCompliant()) {
       this.updateFormStatus();
-      this.isLoading = false;
+      Swal.fire('Success!', `Forwarded to CPDO!`, 'success').then((result) => {
+        this.isLoading = false;
+        window.location.reload();
+      });
     } else {
       Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
         (result) => {
