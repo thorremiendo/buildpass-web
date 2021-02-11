@@ -30,7 +30,6 @@ export class UserHomeComponent implements OnInit {
     {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.channelName = `applicant-${this.user.uid}`;
-    //this.channelName = "realtime-feeds" 
    
     this.feedSubscription = this.getFeedItems()
       .subscribe((feed: Feed) => {
