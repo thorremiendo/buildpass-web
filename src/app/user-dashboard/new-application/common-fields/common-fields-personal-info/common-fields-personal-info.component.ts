@@ -182,11 +182,9 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
         'info'
       ).then((result) => {});
     } else {
-      Swal.fire('Success!', ``, 'success').then(
-        (result) => {
-          this._router.navigateByUrl('/dashboard/new/step-two/project-site');
-        }
-      );
+      Swal.fire('Success!', ``, 'success').then((result) => {
+        this._router.navigateByUrl('/dashboard/new/step-two/project-site');
+      });
     }
   }
 }
