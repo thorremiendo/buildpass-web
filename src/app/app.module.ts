@@ -26,7 +26,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatListModule } from '@angular/material/list';
 
 import { TestComponentComponent } from './test-component/test-component.component';
- 
+
 import { LayoutModule } from './layout/layout.module';
 import { UserModule } from './user-dashboard/user-dashboard.module';
 import {
@@ -47,7 +47,6 @@ import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AsyncPipe } from '../../node_modules/@angular/common';
 
-
 import { LandingModule } from './landing/landing.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { EvaluatorModule } from './evaluator-dashboard/evaluator-dashboard.module';
@@ -56,9 +55,6 @@ import { SharedModule } from './shared/shared.module';
 
 import { TestPusherModule } from './test-pusher/test-pusher.module';
 //import { DateAgoPipe } from './core/pipes/date-ago.pipe';
-
-
-
 
 declare module '@angular/core' {
   interface ModuleWithProviders<T = any> {
@@ -77,11 +73,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    TestComponentComponent,
-   
-  ],
+  declarations: [AppComponent, TestComponentComponent],
   imports: [
     NgbModule,
     BrowserModule,
@@ -115,7 +107,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
-    
+
     AdminModule,
     EvaluatorModule,
     LayoutModule,
@@ -127,18 +119,12 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     CoreModule,
 
     TestPusherModule,
-    
-    
   ],
-  providers: [ 
+  providers: [
     {
-      
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
-     
     },
-
-
   ],
   bootstrap: [AppComponent],
 })

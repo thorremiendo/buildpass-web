@@ -7,12 +7,14 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Amount</mat-label>
-      <input type="text" matInput formControlName="amount" />
+      <input type="number" matInput formControlName="amount" />
     </mat-form-field>
   </div>
   <div>
     <button mat-raised-button (click)="onNoClick()">Close</button>
     &nbsp;
-    <button mat-raised-button color="primary" (click)="onSubmit()">Submit</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">
+      Submit
+    </button>
   </div>
 </div>
