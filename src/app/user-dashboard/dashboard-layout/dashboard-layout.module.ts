@@ -38,7 +38,7 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatRadioModule} from '@angular/material/radio';
-import { DateAgoPipe } from '../../core'
+//import { DateAgoPipe } from '../../core'
 
 
 
@@ -51,7 +51,7 @@ import { DateAgoPipe } from '../../core'
      CommonFieldsPersonalInfoComponent,
      CommonFieldsAddressInfoComponent,
      CommonFieldsRepresentativeComponent,
-     DateAgoPipe,
+     //DateAgoPipe,
   
   
 

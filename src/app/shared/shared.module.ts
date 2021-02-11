@@ -6,6 +6,7 @@ import { AccordionLinkDirective } from './accordion/accordionlink.directive';
 import { FormsModule } from '@angular/forms';
 import { MenuItems } from './menu-items/menu-items';
 import { LoaderComponent } from './loader/loader.component';
+import { DateAgoPipe } from '../core'
 
 
 
@@ -14,7 +15,11 @@ import { LoaderComponent } from './loader/loader.component';
     AccordionAnchorDirective,
     AccordionDirective,
     AccordionLinkDirective,
-    LoaderComponent
+    LoaderComponent,
+    DateAgoPipe
+  
+    
+
   ],
   imports: [
     CommonModule,
@@ -24,10 +29,14 @@ import { LoaderComponent } from './loader/loader.component';
     AccordionAnchorDirective,
     AccordionDirective,
     AccordionLinkDirective,
-    LoaderComponent
+    LoaderComponent,
+    DateAgoPipe,
+  
+   
   ],
   providers: [
-    MenuItems
+    MenuItems,
+    
   ]
 })
 export class SharedModule { }

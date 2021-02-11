@@ -94,13 +94,11 @@ export class EvaluatorHomeComponent implements OnInit {
       },
     ];
 
-    this.feedSubscription = feedService
-      .getFeedItems()
+    this.feedSubscription = this.getFeedItems()
       .subscribe((feed: Feed) => {
         this.feeds.push(feed);
         console.log(feed);
       });
-
   }
 
   ngOnInit(): void {
@@ -120,11 +118,12 @@ export class EvaluatorHomeComponent implements OnInit {
   pusherSubscribe(){
     this.channel =this.feedService.pusher.subscribe(this.channelName);
     console.log(this.channelName)
-    this.channel.bind('App\\Events\\PermitStatusChanged',
+    this.channel.bind('App\\Events\\EvaluatorStatusChanged',
     (data: { application_number: string; status: string; message:string, currentTime: string }) => {
       this.subject.next(new Feed(data.application_number, data.status, data.message, new Date(data.currentTime)));
-      console.log(data);
+      //console.log(data);
       console.log(data.currentTime);
+      
       
     });
   }
@@ -133,6 +132,10 @@ export class EvaluatorHomeComponent implements OnInit {
     this.channel.unbind();
     this.feedService.pusher.unsubscribe(this.channelName);
     this.feedSubscription.unsubscribe();
+  }
+
+  getFeedItems(): Observable<Feed> {
+    return this.subject.asObservable();
   }
 
   onSelect(data): void {
