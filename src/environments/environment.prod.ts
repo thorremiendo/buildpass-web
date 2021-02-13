@@ -18,4 +18,8 @@ export const environment = {
       'pk.eyJ1IjoidGhvcnJlbWllbmRvIiwiYSI6ImNraGs1MnF4MDFsZG4yeW53M3U3ZjJ4ZTMifQ.a5GU9EWk45shfNxhK07G-w',
   },
   adobe_key: '46ddf9af80f5465c8f59e080868ef747',
+  pusher: {
+    key:'a6ade48d9acbba1dd2e7',
+    cluster:'ap1'
+  }
 };

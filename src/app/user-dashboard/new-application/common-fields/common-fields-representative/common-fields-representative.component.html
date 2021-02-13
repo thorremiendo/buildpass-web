@@ -86,6 +86,16 @@
         >
           Email Address is Required
         </mat-error>
+        <mat-error
+          *ngIf="
+            (representativeDetailsFormControl.representative_email_address.touched ||
+              _submitted) &&
+            representativeDetailsFormControl.representative_email_address.errors
+              ?.pattern
+          "
+        >
+            Email must be a valid email address
+        </mat-error>
       </mat-form-field>
     </div>
     <div class="col-md-3">
@@ -138,6 +148,16 @@
           "
         >
           Contact Number is Required
+        </mat-error>
+        <mat-error
+          *ngIf="
+            (representativeDetailsFormControl.representative_contact_no.touched ||
+              _submitted) &&
+            representativeDetailsFormControl.representative_contact_no.errors
+              ?.pattern
+          "
+        >
+           Contact Number must be start with '09', should be numerical and fixed length of 11
         </mat-error>
         <mat-hint align="end"
           >{{ contact.value.length }} / {{ maxLength }}</mat-hint

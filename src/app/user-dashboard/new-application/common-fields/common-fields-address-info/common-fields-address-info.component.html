@@ -155,19 +155,27 @@
   </div>
   <div class="row justify-content-center px-3">
     <div class="col-md-3">
+      
       <mat-form-field appearance="outline">
-        <mat-label>Project Cost Capitalization/Total Estimated Cost</mat-label>
-        <input type="text" matInput formControlName="project_cost" required />
+        <mat-label>Project Cost</mat-label>
+        <input style="text-align: right;" 
+          type="text" 
+          matInput
+          localeCurrencyInput 
+          [allowNegative]="false"
+          [currencyCode]="'₱'"
+          formControlName="project_cost" 
+          required />
         <mat-error
           *ngIf="
             (projectDetailsFormControl.project_cost.touched || _submitted) &&
             projectDetailsFormControl.project_cost.errors?.required
           "
         >
-          Project Cost Capitalization/Total Estimated Cost is Required
+          Required
         </mat-error>
       </mat-form-field>
-    </div>
+    </div> 
     <div class="col-md-3">
       <mat-form-field appearance="outline">
         <mat-label>TCT Number</mat-label>

@@ -121,7 +121,7 @@ export class EvaluatorHomeComponent implements OnInit {
     this.channel.bind('App\\Events\\EvaluatorStatusChanged',
     (data: { application_number: string; status: string; message:string, currentTime: string }) => {
       this.subject.next(new Feed(data.application_number, data.status, data.message, new Date(data.currentTime)));
-      //console.log(data);
+      console.log(data);
       console.log(data.currentTime);
       
       
@@ -132,6 +132,10 @@ export class EvaluatorHomeComponent implements OnInit {
     this.channel.unbind();
     this.feedService.pusher.unsubscribe(this.channelName);
     this.feedSubscription.unsubscribe();
+  }
+
+  getNotificationTable(){
+    
   }
 
   getFeedItems(): Observable<Feed> {
