@@ -111,11 +111,8 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
       representative_house_number: ['', Validators.required],
       representative_street_name: [''],
       representative_barangay: ['', Validators.required],
-      representative_email_address: ['', Validators.required],
-      representative_contact_no: [
-        '',
-        [Validators.required, Validators.maxLength(11)],
-      ],
+      representative_contact_no: ['',[Validators.required, Validators.maxLength(11), Validators.pattern("(09)[0-9 ]{9}")]],
+      representative_email_address: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
     });
   }
   createprojectDetails() {

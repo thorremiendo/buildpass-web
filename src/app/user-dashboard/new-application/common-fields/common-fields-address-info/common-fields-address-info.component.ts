@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { CurrencyPipe } from '@angular/common';
 
 //map
 import { environment } from '../../../../../environments/environment';
@@ -38,6 +39,7 @@ export interface Barangay {
   styleUrls: ['./common-fields-address-info.component.scss'],
 })
 export class CommonFieldsAddressInfoComponent implements OnInit {
+  public maxLength:number = 2;
   public projectDetails;
   public ownerDetails;
   public applicationDetails;
@@ -69,7 +71,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     private newApplicationSerivce: NewApplicationService,
     private barangayService: BarangayService,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private currencyPipe: CurrencyPipe,
   ) {
     this.createForm();
     this.barangayService.getBarangayInfo().subscribe((data) => {
@@ -115,12 +118,14 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_storeys: this.projectDetails.project_storeys,
       project_title: this.projectDetails.project_title,
       project_cost: this.projectDetails.project_cost,
+      project_cost_cent: "00",
       project_tct_number: this.projectDetails.project_tct_number,
       project_td_number: this.projectDetails.project_td_number,
       project_basement: this.projectDetails.project_basement,
       project_house_number: this.projectDetails.project_house_number,
     });
 
+    
     //map
     mapboxgl.accessToken = environment.mapbox.accessToken;
     this.map = new Map({
@@ -177,6 +182,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_storeys: ['', Validators.required],
       project_title: ['', Validators.required],
       project_cost: ['', Validators.required],
+      project_cost_cent: ['',],
       project_tct_number: ['', Validators.required],
       project_td_number: ['', Validators.required],
       project_basement: [''],

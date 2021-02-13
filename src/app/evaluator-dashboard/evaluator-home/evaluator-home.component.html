@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-8">
+    <!-- <div class="col-md-6">
       <div class="d-flex w-100">
         <mat-card>
           <mat-card-title class="m-3">Applications</mat-card-title>
@@ -20,8 +20,8 @@
           </div>
         </mat-card>
       </div>
-    </div>
-    <div class="col-md-4">
+    </div> -->
+    <div class="col-md-12">
       <mat-card>
         <mat-card-header>
           <mat-card-title class="m-3">Notifications</mat-card-title>
@@ -52,6 +52,9 @@
                   </p>
                   <p style="color: rgb(90, 108, 116)">
                     {{ feed.application_number }} {{ feed.status }}
+                  </p>
+                  <p style="color: rgb(90, 108, 116)">
+                    {{ feed.message }} 
                   </p>
                 </div>
                 <hr />
