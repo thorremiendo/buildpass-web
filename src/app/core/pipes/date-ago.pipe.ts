@@ -47,11 +47,11 @@ export class DateAgoPipe implements PipeTransform, OnDestroy {
     if (delta < 10) {
       result = 'Just Now';
     } else if (delta < 3600) { // sent in last hour
-      result = Math.floor(delta / 60) + ' minutes ago';
+      result = Math.floor(delta / 60) + ' min ago';
     } else if (delta < 86400) { // sent on last day
-      result = Math.floor(delta / 3600) + ' hours ago';
+      result = Math.floor(delta / 3600) + ' hr ago';
     } else { // sent more than one day ago
-      result = Math.floor(delta / 86400) + ' days ago';
+      result = Math.floor(delta / 86400) + ' day ago';
     }
 
 

@@ -27,6 +27,19 @@ export class ApplicationFeesService {
       })
     );
   }
+
+  fetchAllFees() {
+    const url = `/fee`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        console.log('Fee Types:', data);
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
   fetchFeesByOffice(application_id, office_id) {
     const url = `/fee/${application_id}/office/${office_id}`;
     return this.api.get(url).pipe(

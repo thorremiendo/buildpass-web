@@ -1,7 +1,7 @@
 import '../../../polyfills';
 
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserHomeComponent } from '../user-home/user-home.component';
 import { UserDashboardRoutingModule } from './user-dashboard-routing.module';
@@ -38,7 +38,8 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatRadioModule} from '@angular/material/radio';
-import { DateAgoPipe } from '../../core'
+import { LocaleCurrencyInputModule} from 'locale-currency-input';
+
 
 
 
@@ -51,7 +52,7 @@ import { DateAgoPipe } from '../../core'
      CommonFieldsPersonalInfoComponent,
      CommonFieldsAddressInfoComponent,
      CommonFieldsRepresentativeComponent,
-     DateAgoPipe,
+
   
   
 
@@ -86,7 +87,13 @@ import { DateAgoPipe } from '../../core'
     }),
     MatAutocompleteModule,
     MatCheckboxModule,
-    MatRadioModule
+    MatRadioModule,
+    LocaleCurrencyInputModule
+  ],
+
+  providers:[
+    CurrencyPipe
+
   ]
 })
 export class UserDashboardModule { }

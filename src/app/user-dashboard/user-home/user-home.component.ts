@@ -30,7 +30,6 @@ export class UserHomeComponent implements OnInit {
     {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.channelName = `applicant-${this.user.uid}`;
-    //this.channelName = "realtime-feeds" 
    
     this.feedSubscription = this.getFeedItems()
       .subscribe((feed: Feed) => {
@@ -48,7 +47,7 @@ export class UserHomeComponent implements OnInit {
   pusherSubscribe(){
     this.channel =this.feedService.pusher.subscribe(this.channelName);
     console.log(this.channelName)
-    this.channel.bind('App\\Events\\PermitStatusChanged',
+    this.channel.bind('App\\Events\\ApplicantStatusChanged',
     (data: { application_number: string; status: string; message:string, currentTime: string }) => {
       this.subject.next(new Feed(data.application_number, data.status, data.message, new Date(data.currentTime)));
       console.log(data);

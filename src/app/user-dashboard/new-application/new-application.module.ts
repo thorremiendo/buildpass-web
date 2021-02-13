@@ -105,5 +105,6 @@ import { FileUploadComponent } from './forms/file-upload/file-upload.component';
       geocoderAccessToken: environment.mapbox.accessToken,
     })
   ],
+
 })
 export class NewApplicationModule {}
