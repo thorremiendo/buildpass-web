@@ -5,7 +5,7 @@
   </div>
 </div>
 <div class="row edit-profile">
-  <div class="col-12 col-md-3">
+  <div class="col-12 col-lg-3">
     <div *ngIf="this.userInfo">
       <div class="user-avatar-container">
         <div class="user-avatar">
@@ -31,7 +31,7 @@
       />
     </div>
   </div>
-  <div class="col-12 col-md-9">
+  <div class="col-12 col-lg-9">
     <mat-card *ngIf="_evaluatorEditProfileForm">
       <mat-card-content>
         <form [formGroup]="_evaluatorEditProfileForm" (ngSubmit)="onSubmit()">
@@ -282,19 +282,16 @@
               Identification
             </div>
             <div class="col-md-6">
-                <mat-card class="id-upload" (click)="openIdChooser()" *ngIf="this.userInfo">
-                  <p>UPLOAD PHOTO</p>
-                  <div>
-                    <img [src]="displayIDPhoto" alt="" />
-                  </div>
-                  <input
-                    type="file"
-                    class="sr-only"
-                    id="id-photo"
-                    accept="image/*"
-                    (change)="handleIDFileChange($event)"
-                  />
-                </mat-card>
+                <div class="id-upload" (click)="openIdChooser()" *ngIf="this.userInfo">
+                  <img [src]="displayIDPhoto" alt="" />
+                </div>
+                <input
+                  type="file"
+                  class="sr-only"
+                  id="id-photo"
+                  accept="image/*"
+                  (change)="handleIDFileChange($event)"
+                />
             </div>
             <div class="col-md-6">
               <div class="row">
