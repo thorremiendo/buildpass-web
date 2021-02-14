@@ -60,7 +60,12 @@ export class CpdoEvaluatorComponent implements OnInit {
         this.applicationDetails = res.data;
       });
   }
-
+  checkFormNonCompliant() {
+    const isNonCompliant = this.dataSource.find(
+      (form) => form.document_status_id == 2
+    );
+    return isNonCompliant;
+  }
   fetchEvaluatorDetails() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.evaluatorDetails = this.user.employee_detail;

@@ -87,6 +87,7 @@ export class FeesDialogComponent implements OnInit {
       amount: value.amount,
       office_id: this.evaluatorDetails.office_id,
       evaluator_user_id: this.evaluatorDetails.id,
+      action_id: 1,
     };
     this.applicationFeeService.addFee(newItem).subscribe((res) => {
       console.log(res);

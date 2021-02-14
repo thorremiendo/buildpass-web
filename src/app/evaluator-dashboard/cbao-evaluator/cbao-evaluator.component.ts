@@ -146,11 +146,10 @@ export class CbaoEvaluatorComponent implements OnInit {
       };
       this.newApplicationService
         .updateDocumentFile(body, element.id)
-        .subscribe((res) => {
-          this.updateApplicationStatus();
-        });
+        .subscribe((res) => {});
     });
-
+    this.updateApplicationStatus();
+    console.log(forReview);
     return forReview;
   }
   updateApplicationStatus() {
@@ -161,16 +160,18 @@ export class CbaoEvaluatorComponent implements OnInit {
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
         this.fetchApplicationInfo();
+        Swal.fire('Success!', `Forwarded to CPDO!`, 'success').then(
+          (result) => {
+            this.isLoading = false;
+            window.location.reload();
+          }
+        );
       });
   }
   forwardToCpdo() {
     this.isLoading = true;
     if (this.checkFormsCompliant()) {
       this.updateFormStatus();
-      Swal.fire('Success!', `Forwarded to CPDO!`, 'success').then((result) => {
-        this.isLoading = false;
-        window.location.reload();
-      });
     } else {
       Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
         (result) => {
