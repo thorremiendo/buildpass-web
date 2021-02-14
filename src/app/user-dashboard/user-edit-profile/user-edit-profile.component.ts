@@ -1,237 +1,188 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl,
-} from '@angular/forms';
-import { AuthService } from '../../core/services/auth.service';
-import { Router } from '@angular/router';
-
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { UserService } from '../../core/services/user.service';
-import { User } from 'src/app/core/models/user.model';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { BarangayService } from '../../core/services/barangay.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-user-edit-profile',
   templateUrl: './user-edit-profile.component.html',
-  styleUrls: ['./user-edit-profile.component.scss'],
+  styleUrls: ['./user-edit-profile.component.scss']
 })
 export class UserEditProfileComponent implements OnInit {
-  public photo: string = '';
-  public idFile: FormControl = new FormControl('');
   public selectedFile: File = null;
   public selectedPhoto: File = null;
-  public photoUploaded: boolean = false;
   public maxLength: number = 11;
   public isUpdating: boolean = false;
   public userInfo;
-  public user;
-  public updateUserDetails;
 
-  _birthdateString: string;
-
-  _editProfileForm: FormGroup;
-  _identificationForm: FormGroup;
-
+  _userEditProfileForm: FormGroup;
+  _barangay: Barangay[];
+  _filteredBarangayOptions: Observable<Barangay[]>;
   _displayPhoto: string | ArrayBuffer = '';
   _displayIdPhoto: string | ArrayBuffer = '';
   _submitted = false;
-
-  private onTouched: () => void;
 
   get displayProfilePhoto(): string | ArrayBuffer {
     return this._displayPhoto ? this._displayPhoto : this.userInfo.photo_path;
   }
 
   get displayIDPhoto(): string | ArrayBuffer {
-    return this._displayIdPhoto
-      ? this._displayIdPhoto
-      : this.userInfo.id_photo_path;
+    return this._displayIdPhoto ? this._displayIdPhoto : this.userInfo.id_photo_path;
   }
 
-  get editProfileFormControl() {
-    return this._editProfileForm.controls;
+  get userEditProfileFormControl() {
+    return this._userEditProfileForm.controls;
   }
 
   constructor(
     private _fb: FormBuilder,
-    private _router: Router,
-    private _userService: UserService
-  ) {
-    this.createForm();
-  }
+    private _userService: UserService,
+    private _barangayService: BarangayService
+  ) {}
 
   createForm() {
-    this._editProfileForm = this._fb.group({
-      first_name: ['', Validators.required],
-      middle_name: [''],
-      last_name: ['', Validators.required],
-      suffix_name: [''],
-      birthdate: ['', Validators.required],
-      gender: ['', Validators.required],
-      marital_status_id: ['', Validators.required],
-
-      home_address: ['', Validators.required],
-      barangay: ['', Validators.required],
-      contact_number: ['', [Validators.required, Validators.maxLength(11)]],
-
-      id_number: ['', Validators.required],
-      id_type: ['', Validators.required],
+    this._userEditProfileForm = this._fb.group({
+      first_name:[this.userInfo.first_name, Validators.required],
+      middle_name:[this.userInfo.middle_name],
+      last_name:[this.userInfo.last_name, Validators.required],
+      suffix_name:[this.userInfo.suffix_name],
+      birthdate:[new Date(this.userInfo.birthdate), Validators.required],
+      marital_status:[this.userInfo.marital_status_id, Validators.required],
+      gender:[this.userInfo.gender, Validators.required],
+      home_address:[this.userInfo.home_address, Validators.required],
+      barangay:[this.userInfo.barangay, Validators.required],
+      contact_number:[this.userInfo.contact_number, [Validators.required, Validators.maxLength(11),]],
+      id_number:[this.userInfo.id_number, Validators.required],
+      id_type:[this.userInfo.id_type, Validators.required],
     });
   }
 
-  createUserDetails() {
-    console.log(this.selectedFile);
-    console.log(this.selectedPhoto);
-
-    this.updateUserDetails = {
-      first_name: this._editProfileForm.value.first_name,
-      middle_name: this._editProfileForm.value.middle_name,
-      last_name: this._editProfileForm.value.last_name,
-      suffix_name: this._editProfileForm.value.suffix_name,
-      birthdate: this._editProfileForm.value.birthdate,
-      gender: this._editProfileForm.value.gender,
-      marital_status_id: this._editProfileForm.value.marital_status_id,
-
-      home_address: this._editProfileForm.value.home_address,
-      //"barangay":this._editProfileForm.value.barangay,
-      contact_number: this._editProfileForm.value.contact_number,
-
-      id_number: this._editProfileForm.value.id_number,
-      id_type: this._editProfileForm.value.id_type,
-    };
-
-    if (this.selectedPhoto) {
-      this.updateUserDetails['photo_path'] = this.selectedPhoto;
-    }
-    if (this.selectedFile) {
-      this.updateUserDetails['id_photo_path'] = this.selectedFile;
-    }
-  }
-
-  onSubmit() {
-    this._submitted = true;
-    console.log('date' + this._editProfileForm.value.birthdate);
-    if (this.editProfileFormControl.onTouched) {
-    }
-
-    if (this._editProfileForm.valid) {
-      this.isUpdating = true;
-      this.createUserDetails();
-      this._userService.setUserInfo(this.updateUserDetails);
-      this._userService
-        .updateUserInfo(this.updateUserDetails, this.userInfo.id)
-        .subscribe((result) => {
-          this.isUpdating = false;
-          console.log(result);
-          console.log(this.updateUserDetails);
-        });
-      this.isUpdating = false;
-    }
-  }
-
   openFileChooser() {
-    const element: HTMLElement = document.getElementById(
-      'photo'
-    ) as HTMLElement;
-
+    const element: HTMLElement = document.getElementById('photo') as HTMLElement;
     element.click();
   }
 
   openIdChooser() {
-    const element: HTMLElement = document.getElementById(
-      'idCard'
-    ) as HTMLElement;
-
+    const element: HTMLElement = document.getElementById('id-photo') as HTMLElement;
     element.click();
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  doBlur() {
-    this.onTouched();
   }
 
   handlePhotoFileChange($event) {
     this.selectedPhoto = $event.target.files[0];
-    this.readSelectedInfo();
+    this.readSelectedPhotoInfo();
   }
 
-  handleFileChangeEvent($event) {
+  handleIDFileChange($event) {
     this.selectedFile = $event.target.files[0];
     this.readSelectedIdInfo();
   }
 
-  readSelectedInfo() {
+  readSelectedPhotoInfo() {
     if (this.selectedPhoto) {
       let reader = new FileReader();
-
       reader.onload = (res) => {
-        console.log(res);
-
         this._displayPhoto = reader.result;
       };
-
-      reader.readAsDataURL(this.selectedPhoto); // convert to base64 string
+      reader.readAsDataURL(this.selectedPhoto);
     }
   }
 
   readSelectedIdInfo() {
     if (this.selectedFile) {
       let reader = new FileReader();
-
       reader.onload = (res) => {
         this._displayIdPhoto = reader.result;
       };
-
-      reader.readAsDataURL(this.selectedFile); // convert to base64 string
+      reader.readAsDataURL(this.selectedFile);
     }
   }
 
-  getUserInfo() {
-    this._userService.getUserInfo(this.user.uid).subscribe((data) => {
-      this._userService.setUserInfo(data);
-      console.log('ger user' + data);
-    });
+  filterBarangays(value: string): Barangay[] {
+    return this._barangay.filter(option => option.name.toLowerCase().includes(value));
   }
 
-  checkValue(type: string, event: MatDatepickerInputEvent<Date>) {
-    let dd = event.value.getDate();
-    let mm = event.value.getMonth() + 1;
-    let yyyy = event.value.getFullYear();
-    let birthdateString = `${yyyy}-${mm}-${dd}`;
-    this._editProfileForm.value.birthdate = birthdateString;
-    console.log(this._editProfileForm.value.birthdate);
+  displayBarangayName(value: number) {
+    if (value != null) {
+      return this._barangay[value-1].name;
+    }
   }
 
+  dateToString(dateObject){
+    if(dateObject != null){
+      const birthdate = new Date(dateObject);
+      let dd = birthdate.getDate();
+      let mm = birthdate.getMonth() + 1;
+      let yyyy = birthdate.getFullYear();
+      return `${yyyy}-${mm}-${dd}`;
+    }
+  }
+  
   ngOnInit(): void {
-    this._userService.cast.subscribe(
-      (userSubject) => (this.userInfo = userSubject)
-    );
-    this.createForm();
-    this._editProfileForm.patchValue({
-      first_name: this.userInfo.first_name,
-      last_name: this.userInfo.last_name,
-      middle_name: this.userInfo.middle_name,
+    this._userService.cast.subscribe((userSubject) => {
+      this.userInfo = userSubject;
+      this.userInfo.marital_status_id = String(this.userInfo.marital_status_id);
 
-      suffix_name: this.userInfo.suffix_name,
-      birthdate: this.userInfo.birthdate,
-      gender: this.userInfo.gender,
-      marital_status_id: this.userInfo.marital_status_id,
+      this.createForm();
 
-      home_address: this.userInfo.home_address,
-      barangay: this.userInfo.barangay,
-      contact_number: this.userInfo.contact_number,
-
-      id_number: this.userInfo.id_number,
-      id_type: this.userInfo.id_type,
+      this._barangayService.getBarangayInfo().subscribe(data => {
+        this._barangay = data;
+        this._filteredBarangayOptions = this.userEditProfileFormControl.barangay.valueChanges
+        .pipe(
+          startWith(''),
+          map(barangay => barangay ? this.filterBarangays(barangay) : this._barangay.slice())
+        );
+      });
     });
-
-    this.user = JSON.parse(localStorage.getItem('user'));
-    this.getUserInfo();
-    console.log(this.user);
   }
+
+  onSubmit() {
+    this._submitted = true;
+
+    if (this._userEditProfileForm.valid) {
+      this.isUpdating = true;
+      
+      const user = {
+        first_name: this._userEditProfileForm.value.first_name,
+        middle_name: this._userEditProfileForm.value.middle_name,
+        last_name: this._userEditProfileForm.value.last_name,
+        suffix_name: this._userEditProfileForm.value.suffix_name,
+        birthdate: this.dateToString(this._userEditProfileForm.value.birthdate),
+        marital_status_id: this._userEditProfileForm.value.marital_status,
+        gender: this._userEditProfileForm.value.gender,
+        home_address: this._userEditProfileForm.value.home_address,
+        barangay: this._userEditProfileForm.value.barangay,
+        contact_number: this._userEditProfileForm.value.contact_number,
+        id_number: this._userEditProfileForm.value.id_number,
+        id_type: this._userEditProfileForm.value.id_type,
+        photo_path: this.selectedPhoto ? this.selectedPhoto : null,
+        id_photo_path: this.selectedFile ? this.selectedFile : null
+      };
+      
+      this._userService
+        .updateUserInfo(user, this.userInfo.id)
+        .subscribe((result) => {
+          Swal.fire('Success!', `Updated profile information.`, 'success').then(
+            (result) => {
+              window.location.reload();
+            }
+          );
+        });
+    }
+  }
+}
+
+export interface Barangay {
+  id: number
+  b_id: number,
+  name:string,
+  locality_id: number;
+  province_id: number; 
+  zip_code: number;
+  region_id: number;
+  country_id: number; 
+  created_at: string,
+  updated_at: string;
 }
