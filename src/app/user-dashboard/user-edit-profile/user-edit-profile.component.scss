@@ -1,74 +1,103 @@
-.user-avatar {
-    max-width: 150px !important;
-    max-height: 200px !important;
-    border-radius: 50%;
+.edit-profile {
+    > .col-md-3 {
+        padding-right: 0;
+    }
+
+    > .col-md-9 {
+        padding-left: 0;
+    }
 }
 
-.avatar-block {
-    padding-top: 1em;
-    padding-bottom: 1em;
+button {
+    background-color: maroon;
+    color: #ffffff;
+}
+
+.horizontal-line {
+    background-color: maroon;
+}
+
+.section-header {
+    font-size: 18px;
+    font-weight: 500;
+    padding-bottom: 10px;
+    margin: 10px 0 20px;
+    border-bottom: 1px solid maroon;
+}
+
+.user-avatar-container {
     position: relative;
 
-    .edit-button {
-        border-radius: 100%;;
+    .user-avatar {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 30px auto 20px;
+
+        img {
+            display: block;
+            height: 100%;
+            width: auto;
+            margin: 0 auto;
+        }
+    }
+
+    .edit-avatar {
         width: 40px;
         height: 40px;
+        opacity: .8; 
         position: absolute;
-        bottom: 1em;
+        top: 0;
+        bottom: 0;
+        left: 0;
         right: 0;
-        opacity: .8;
+        margin: auto;
+
+        button {
+            border-radius: 100%;
+            margin-top: 75px;
+            margin-left: 75px;
+        }
     }
 }
 
-.avatar-position{
-    margin-left: 500px;
-   
-}
-
-.idHolder{
-    max-width: 250px !important;
-    max-height: 300px !important;
-}
-
-
-.triggerUpload {
-    background-color: maroon;
-    border: none;
-    color: white;
-    padding: 16px 32px;
+.avatar-label {
     text-align: center;
-    font-size: 16px;
-    margin: 4px 2px;
-    opacity: 1;
-    transition: 0.3s;
-    position: relative;
-  }
-  
-  .hideText {
-      display: none;
-      position: absolute;
-      margin-left: auto;
-      margin-right: auto;
-      left: 0;
-      right: 0;
-      top: 40%;
-      text-align: center;
-      font-weight: 900;
-      color:maroon;
-      background-color: white;
-      width:120px;
-      height: 30px;
-      border-radius: 10px;
-      opacity: 1;
-  }
+    font-weight: 500;
+}
 
-  .triggerUpload:hover {
-      opacity: 0.4;
-      cursor: pointer;
-      
-      
+.id-upload {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin: 0 auto;
+    cursor: pointer;
+    
+    img {
+        position: absolute;
+        display: block;
+        height: 100%;
+        width: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 100;
     }
 
-  .triggerUpload:hover .hideText {
-    display: block;
-  }
+    &::after {
+        content: 'Upload Photo of ID';
+        position: absolute;
+        color: dimgray;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    &:hover {
+        border: 2px solid #000;
+    }
+}

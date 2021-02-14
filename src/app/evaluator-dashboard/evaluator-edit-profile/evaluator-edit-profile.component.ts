@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { UserService } from '../../core/services/user.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { BarangayService } from '../../core/services/barangay.service';
 import { Position, Office } from '../../core/enums/department.enum';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-evaluator-edit-profile',
@@ -53,11 +54,11 @@ export class EvaluatorEditProfileComponent implements OnInit {
       middle_name:[this.userInfo.middle_name],
       last_name:[this.userInfo.last_name, Validators.required],
       suffix_name:[this.userInfo.suffix_name],
-      birthdate:[this.userInfo.birthdate, Validators.required],
+      birthdate:[new Date(this.userInfo.birthdate), Validators.required],
       marital_status:[this.userInfo.marital_status_id, Validators.required],
       gender:[this.userInfo.gender, Validators.required],
       home_address:[this.userInfo.home_address, Validators.required],
-      barangay:[this.userInfo.barangay_id, Validators.required],
+      barangay:[this.userInfo.barangay, Validators.required],
       employee_no:[this.userInfo.employee_detail.employee_no, Validators.required],
       office:[this.userInfo.employee_detail.office_id, Validators.required],
       position:[this.userInfo.employee_detail.position, Validators.required],
@@ -142,34 +143,30 @@ export class EvaluatorEditProfileComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this._userService.cast.subscribe(data => {
-      if (Object.keys(data).length != 0) {
-        this.userInfo = data;
-        this.userInfo.marital_status_id = String(this.userInfo.marital_status_id);
-        //this.userInfo.barangay_id = String(this.userInfo.barangay_id);
+    this.userInfo = JSON.parse(localStorage.getItem('currentUser'));
+    this.userInfo.marital_status_id = String(this.userInfo.marital_status_id);
+    this.userInfo.employee_detail.office_id = String(this.userInfo.employee_detail.office_id);
 
-        this.createForm();
+    this.createForm();
 
-        this._barangayService.getBarangayInfo().subscribe(data => {
-          this._barangay = data;
-          this._filteredBarangayOptions = this.evaluatorEditProfileFormControl.barangay.valueChanges
-          .pipe(
-            startWith(''),
-            map(barangay => barangay ? this.filterBarangays(barangay) : this._barangay.slice())
-          );
-        });
-
-        this._filteredOfficeOptions = this.evaluatorEditProfileFormControl.office.valueChanges.pipe(
-          startWith(''),
-          map(value => this.filterOffice(value))
-        );
-        
-        this._filteredPositionOptions = this.evaluatorEditProfileFormControl.position.valueChanges.pipe(
-          startWith(''),
-          map(value => this.filterPosition(value))
-        );    
-      }
+    this._barangayService.getBarangayInfo().subscribe(data => {
+      this._barangay = data;
+      this._filteredBarangayOptions = this.evaluatorEditProfileFormControl.barangay.valueChanges
+      .pipe(
+        startWith(''),
+        map(barangay => barangay ? this.filterBarangays(barangay) : this._barangay.slice())
+      );
     });
+
+    this._filteredOfficeOptions = this.evaluatorEditProfileFormControl.office.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterOffice(value))
+    );
+    
+    this._filteredPositionOptions = this.evaluatorEditProfileFormControl.position.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterPosition(value))
+    );
   }
 
   onSubmit() {
@@ -187,7 +184,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
         marital_status_id: this._evaluatorEditProfileForm.value.marital_status,
         gender: this._evaluatorEditProfileForm.value.gender,
         home_address: this._evaluatorEditProfileForm.value.home_address,
-        barangay: this._evaluatorEditProfileForm.value.barangay_id,
+        barangay: this._evaluatorEditProfileForm.value.barangay,
         employee_no: this._evaluatorEditProfileForm.value.employee_no,
         office_id: this._evaluatorEditProfileForm.value.office,
         position: this._evaluatorEditProfileForm.value.position, 
@@ -202,7 +199,24 @@ export class EvaluatorEditProfileComponent implements OnInit {
         .updateUserInfo(user, this.userInfo.id)
         .subscribe((result) => {
           this.isUpdating = false;
-          console.log(result);
+          const user = JSON.parse(localStorage.getItem('currentUser'));
+          const update = {
+            ...user,
+            ...result['data'],
+            employee_detail: {
+              ...user.employee_detail,
+              employee_no: this._evaluatorEditProfileForm.value.employee_no,
+              office_id: this._evaluatorEditProfileForm.value.office,
+              position: this._evaluatorEditProfileForm.value.position
+            }
+          };
+          localStorage.setItem('currentUser', JSON.stringify(update));
+          
+          Swal.fire('Success!', `Updated profile information.`, 'success').then(
+            (result) => {
+              window.location.reload();
+            }
+          );
         });
     }
   }
