@@ -39,7 +39,7 @@ export interface Barangay {
   styleUrls: ['./common-fields-address-info.component.scss'],
 })
 export class CommonFieldsAddressInfoComponent implements OnInit {
-  public maxLength:number = 2;
+  public maxLength: number = 2;
   public projectDetails;
   public ownerDetails;
   public applicationDetails;
@@ -72,7 +72,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     private barangayService: BarangayService,
     private authService: AuthService,
     private userService: UserService,
-    private currencyPipe: CurrencyPipe,
+    private currencyPipe: CurrencyPipe
   ) {
     this.createForm();
     this.barangayService.getBarangayInfo().subscribe((data) => {
@@ -96,9 +96,10 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     );
     this.newApplicationFormService.commonFieldsSubject
       .asObservable()
-      .subscribe(
-        (commonFieldsSubject) => (this.ownerDetails = commonFieldsSubject)
-      );
+      .subscribe((commonFieldsSubject) => {
+        this.ownerDetails = commonFieldsSubject;
+        debugger;
+      });
     this.newApplicationFormService.newApplicationSubject
       .asObservable()
       .subscribe((newApplicationSubject) => {
@@ -122,9 +123,9 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_td_number: this.projectDetails.project_td_number,
       project_basement: this.projectDetails.project_basement,
       project_house_number: this.projectDetails.project_house_number,
+      project_landmark: this.projectDetails.project_landmark,
     });
 
-    
     //map
     mapboxgl.accessToken = environment.mapbox.accessToken;
     this.map = new Map({
@@ -184,6 +185,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_tct_number: ['', Validators.required],
       project_td_number: ['', Validators.required],
       project_basement: [''],
+      project_landmark: [''],
     });
   }
 
@@ -213,6 +215,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_cost_cap: this.projectDetailsForm.value.project_cost,
       project_tct_number: this.projectDetailsForm.value.project_tct_number,
       project_tax_dec_number: this.projectDetailsForm.value.project_td_number,
+      project_landmark: this.projectDetailsForm.value.project_landmark,
     };
   }
 
@@ -229,7 +232,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       construction_status_id: this.applicationDetails.construction_status,
       is_registered_owner: this.applicationDetails.registered_owner,
       applicant_first_name: this.ownerDetails.owner_first_name,
-      appicant_middle_name: this.ownerDetails.owner_middle_name,
+      applicant_middle_name: this.ownerDetails.owner_middle_name,
       applicant_last_name: this.ownerDetails.owner_last_name,
       applicant_suffix_name: this.ownerDetails.owner_suffix,
       applicant_tin_number: this.ownerDetails.owner_tin_number,
@@ -242,6 +245,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       applicant_barangay: this.ownerDetails.owner_barangay,
       ...this.projectDetails,
     };
+    debugger;
     if (!this.projectDetailsForm.valid) {
       Swal.fire(
         'Notice!',
@@ -257,22 +261,24 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
             'success'
           ).then((result) => {
             this.isLoading = false;
-            switch(this.applicationDetails.application_type) {
+            switch (this.applicationDetails.application_type) {
               case '1':
-                this._router.navigateByUrl('/dashboard/new/initial-forms/zoning-clearance');
+                this._router.navigateByUrl(
+                  '/dashboard/new/initial-forms/zoning-clearance'
+                );
                 break;
               case '2':
                 // occupancy permit
                 break;
               case '3':
                 this._router.navigateByUrl('/dashboard/new/excavation-permit');
-                break; 
+                break;
               case '4':
                 this._router.navigateByUrl('/dashboard/new/fencing-permit');
                 break;
               case '5':
                 this._router.navigateByUrl('/dashboard/new/demolition-permit');
-                break; 
+                break;
             }
           });
         });

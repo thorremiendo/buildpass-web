@@ -1,3 +1,4 @@
+import { NoticeOfConstructionComponent } from './new-application/forms/notice-of-construction/notice-of-construction.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserHomeComponent } from './user-home/user-home.component';
@@ -102,7 +103,8 @@ import { FileUploadComponent } from './new-application/forms/file-upload/file-up
     OtherPermitsComponent,
     ViewApplicationComponent,
     UserApplicationsTableComponent,
-    FileUploadComponent
+    FileUploadComponent,
+    NoticeOfConstructionComponent,
   ],
   imports: [
     CommonModule,
@@ -142,7 +144,7 @@ import { FileUploadComponent } from './new-application/forms/file-upload/file-up
     MatProgressBarModule,
     MatStepperModule,
     MatProgressSpinnerModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
   ],
 })
 export class UserModule {}

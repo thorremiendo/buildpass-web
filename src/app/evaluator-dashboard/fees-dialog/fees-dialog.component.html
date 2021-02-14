@@ -1,9 +1,24 @@
 <div [formGroup]="feesDetails">
   <h3 class="mb-3">Add New Item</h3>
   <div>
-    <mat-form-field>
-      <mat-label>Type of Fee</mat-label>
-      <input type="text" matInput formControlName="description" />
+    <mat-form-field class="example-full-width">
+      <mat-label>Number</mat-label>
+      <input
+        type="text"
+        placeholder="Pick one"
+        aria-label="Number"
+        matInput
+        [formControl]="typeOfFee"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option
+          *ngFor="let option of filteredOptions | async"
+          [value]="option.name"
+        >
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Amount</mat-label>

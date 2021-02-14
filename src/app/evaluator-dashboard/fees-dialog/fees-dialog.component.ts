@@ -5,23 +5,30 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Data } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { ApplicationFeesService } from 'src/app/core/services/application-fees.service';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+
 @Component({
   selector: 'app-fees-dialog',
   templateUrl: './fees-dialog.component.html',
   styleUrls: ['./fees-dialog.component.scss'],
 })
 export class FeesDialogComponent implements OnInit {
+  public typeOfFee = new FormControl();
   public user;
   public userDetails;
   public applicationId;
   public feesDetails: FormGroup;
   public evaluatorDetails;
+  public fees;
+  filteredOptions: Observable<string[]>;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -46,10 +53,31 @@ export class FeesDialogComponent implements OnInit {
       description: new FormControl(''),
       amount: new FormControl(''),
     });
+    this.fetchFeeTypes();
+  }
+  filterFees() {
+    this.filteredOptions = this.typeOfFee.valueChanges.pipe(
+      startWith(''),
+      map((value: string) => this._filter(value))
+    );
+  }
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.fees.filter(
+      (option) => option.name.toLowerCase().indexOf(filterValue) === 0
+    );
   }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  fetchFeeTypes() {
+    this.applicationFeeService.fetchAllFees().subscribe((res) => {
+      this.fees = res.data;
+      this.filterFees();
+    });
   }
   onSubmit() {
     const value = this.feesDetails.value;

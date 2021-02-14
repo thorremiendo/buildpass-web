@@ -44,10 +44,11 @@ import { FencingPermitComponent } from './forms/fencing-permit/fencing-permit.co
 import { OtherPermitsComponent } from './other-permits/other-permits.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
-import {MatStepperModule} from '@angular/material/stepper';
+import { MatStepperModule } from '@angular/material/stepper';
 import { FileUploadComponent } from './forms/file-upload/file-upload.component';
+import { NoticeOfConstructionComponent } from './forms/notice-of-construction/notice-of-construction.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { FileUploadComponent } from './forms/file-upload/file-upload.component';
     FencingPermitComponent,
     OtherPermitsComponent,
     FileUploadComponent,
+    NoticeOfConstructionComponent,
   ],
 
   imports: [
@@ -103,8 +105,7 @@ import { FileUploadComponent } from './forms/file-upload/file-upload.component';
     NgxMapboxGLModule.withConfig({
       accessToken: environment.mapbox.accessToken,
       geocoderAccessToken: environment.mapbox.accessToken,
-    })
+    }),
   ],
-
 })
 export class NewApplicationModule {}

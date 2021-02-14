@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-   api_url: `http://ocpas-api.test/api`,
-  //api_url: `http://localhost:8000/api`,
+  //  api_url: `http://ocpas-api.test/api`,
+  api_url: `http://localhost:8000/api`,
   firebase: {
     apiKey: 'AIzaSyA2KX_f0SKSYcJhqdDGdBK5yfnlxYYWuHU',
     authDomain: 'baguio-ocpas.firebaseapp.com',
@@ -22,9 +22,9 @@ export const environment = {
   },
   adobe_key: '8c0cd670273d451cbc9b351b11d22318',
   pusher: {
-    key:'a6ade48d9acbba1dd2e7',
-    cluster:'ap1'
-  }
+    key: 'a6ade48d9acbba1dd2e7',
+    cluster: 'ap1',
+  },
 };
 
 /*
