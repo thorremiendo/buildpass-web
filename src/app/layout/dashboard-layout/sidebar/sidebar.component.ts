@@ -84,8 +84,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
       console.log('User info ' + this.userInfo);
       console.log('Evaluator Info ' + this.employeeDetails);
     });
-
-
   }
   ngOnDestroy(): void {
     // tslint:disable-next-line: deprecation

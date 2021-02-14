@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-8">
+    <!-- <div class="col-md-6">
       <div class="d-flex w-100">
         <mat-card>
           <mat-card-title class="m-3">Applications</mat-card-title>
@@ -20,34 +20,49 @@
           </div>
         </mat-card>
       </div>
-    </div>
-    <div class="col-md-4">
-      <div class="d-flex w-100">
-        <mat-card>
+    </div> -->
+    <div class="col-md-12">
+      <mat-card>
+        <mat-card-header>
           <mat-card-title class="m-3">Notifications</mat-card-title>
-          <hr class="m-0" />
-          <mat-card-content>
-            <div *ngFor="let feed of feeds">
-              <div class="d-flex justify-content-around w-100 m-0">
-                <a routerLink="" (click)="handleView()"
-                  ><p style="color: rgb(90, 108, 116); font-size: 12px">
-                    {{feed.current_time}}
-                  </p></a
-                >
-  
-                <a routerLink="" (click)="handleView()"
-                  ><p style="color: rgb(90, 108, 116)">
-                    {{feed.application_number}} {{feed.status}}
-                  </p></a
-                >
-              </div>
-              <hr />
+          <button mat-button color="primary">
+            View All {{ feeds.length }}
+          </button>
+        </mat-card-header>
+        <hr class="m-0" />
+        <mat-card-content>
+          <div class="_notificationBox">
+            <div
+              class="col w-100 m-0"
+              *ngIf="feeds.length == 0"
+            >
+              <img
+                src="../../../assets/illustrations/notification-mail.png"
+                class="_illustration"
+              />
+              <h4>You don't have any notifications.</h4>
             </div>
-           
-            
-          </mat-card-content>
-        </mat-card>
-      </div>
+            <div *ngFor="let feed of feeds; let i = index">
+              <div class="_notifications" (click)="removeItem(i)">
+                <div class="d-flex justify-content-around w-100 m-0">
+                  <p style="color: rgb(90, 108, 116); font-size: 12px">
+                    {{ feed.currentTime | dateAgo }}
+                    <!-- //{{ feed.currentTime }} -->
+
+                  </p>
+                  <p style="color: rgb(90, 108, 116)">
+                    {{ feed.application_number }} {{ feed.status }}
+                  </p>
+                  <p style="color: rgb(90, 108, 116)">
+                    {{ feed.message }} 
+                  </p>
+                </div>
+                <hr />
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
   </div>
   <div class="row">

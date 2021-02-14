@@ -64,7 +64,6 @@ export class EvaluatorHomeComponent implements OnInit {
   activeLinkIndex = -1;
 
   
-
   constructor(
     private _router: Router,
     private matIconRegistry: MatIconRegistry,
@@ -72,7 +71,11 @@ export class EvaluatorHomeComponent implements OnInit {
     private authService: AuthService,
     private feedService: FeedService,
     public applicationInfoService: ApplicationInfoService
-  ) {
+  ) 
+  {
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.channelName = `evaluator-${this.user.user_notif.notif[0]?.channel}`;
+    console.log(this.channelName);
 
     this.matIconRegistry.addSvgIcon(
       'logo',
@@ -92,8 +95,7 @@ export class EvaluatorHomeComponent implements OnInit {
       },
     ];
 
-    this.feedSubscription = feedService
-      .getFeedItems()
+    this.feedSubscription = this.getFeedItems()
       .subscribe((feed: Feed) => {
         this.feeds.push(feed);
         console.log(feed);
@@ -116,15 +118,30 @@ export class EvaluatorHomeComponent implements OnInit {
   pusherSubscribe(){
     this.channel =this.feedService.pusher.subscribe(this.channelName);
     console.log(this.channelName)
-    this.channel.bind('App\\Events\\PermitStatusChanged',
+    this.channel.bind('App\\Events\\EvaluatorStatusChanged',
     (data: { application_number: string; status: string; message:string, currentTime: string }) => {
       this.subject.next(new Feed(data.application_number, data.status, data.message, new Date(data.currentTime)));
       console.log(data);
       console.log(data.currentTime);
       
-    }
-  );
+      
+    });
   }
+
+  pusherUnsubscribe() {
+    this.channel.unbind();
+    this.feedService.pusher.unsubscribe(this.channelName);
+    this.feedSubscription.unsubscribe();
+  }
+
+  getNotificationTable(){
+    
+  }
+
+  getFeedItems(): Observable<Feed> {
+    return this.subject.asObservable();
+  }
+
   onSelect(data): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));
   }
@@ -140,6 +157,6 @@ export class EvaluatorHomeComponent implements OnInit {
     this._router.navigateByUrl('evaluator/application');
   }
   ngOnDestroy() {
-    this.feedSubscription.unsubscribe();
+    this.pusherUnsubscribe();
   }
 }

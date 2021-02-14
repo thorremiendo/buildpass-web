@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { CurrencyPipe } from '@angular/common';
 
 //map
 import { environment } from '../../../../../environments/environment';
@@ -38,6 +39,7 @@ export interface Barangay {
   styleUrls: ['./common-fields-address-info.component.scss'],
 })
 export class CommonFieldsAddressInfoComponent implements OnInit {
+  public maxLength:number = 2;
   public projectDetails;
   public ownerDetails;
   public applicationDetails;
@@ -69,7 +71,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     private newApplicationSerivce: NewApplicationService,
     private barangayService: BarangayService,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private currencyPipe: CurrencyPipe,
   ) {
     this.createForm();
     this.barangayService.getBarangayInfo().subscribe((data) => {
@@ -121,6 +124,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_house_number: this.projectDetails.project_house_number,
     });
 
+    
     //map
     mapboxgl.accessToken = environment.mapbox.accessToken;
     this.map = new Map({

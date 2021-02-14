@@ -1,3 +1,94 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins/breakpoints";
+
+.carousel {
+  margin-top: 1em;
+
+  .carousel-control-next,
+  .carousel-control-prev {
+    filter: invert(100%);
+  }
+}
+
+._notifications {
+  overflow: auto;
+  margin: 0 auto;
+}
+
+mat-card {
+  height: 100%;
+
+  mat-card-header {
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+
+    mat-card-title {
+      font-size: 18px;
+    }
+  }
+  ._illustration {
+    max-width: 150px;
+  }
+  ._notificationBox {
+    overflow: auto;
+    max-height: 180px;
+
+    mat-card-content {
+      height: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .carousel {
+        height: 100%;
+
+        .carousel-inner {
+          height: 100%;
+
+          .carousel-item {
+            height: 100%;
+            display: flex;
+            align-items: center;
+
+            &:not(.active) {
+              display: none;
+            }
+
+            p {
+              width: 70%;
+              margin: 0 auto;
+              color: black;
+              font-size: 20px;
+              line-height: 1.5;
+            }
+          }
+        }
+      }
+
+      img {
+        width: 150px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+      }
+    }
+    ._notifications :hover {
+      opacity: 0.6;
+
+      cursor: pointer;
+    }
+  }
+
+  .mat-expansion-panel {
+    margin-bottom: 5px;
+  }
+}
+
+
 .card-container {
     max-width: 100%;
     height: auto;
