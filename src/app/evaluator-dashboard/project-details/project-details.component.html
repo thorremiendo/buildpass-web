@@ -198,7 +198,18 @@
               </h5>
             </div>
           </div>
-          <div class="col-md-3"></div>
+          <div class="col-md-3">
+            <div class="d-flex">
+              <h5>Landmark:</h5>
+              <h5 style="color: maroon">
+                &nbsp;{{
+                  data.projectDetails.landmark == "undefined"
+                    ? "N/A"
+                    : data.projectDetails.landmark
+                }}
+              </h5>
+            </div>
+          </div>
           <hr />
         </div>
         <hr />

@@ -84,7 +84,6 @@ export class ChecklistSummaryComponent implements OnInit {
         confirmButtonText: `Yes`,
         denyButtonText: `No`,
       }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
           //TODO: change status if application needs excavation
           this.router.navigateByUrl('dashboard/new/excavation-permit');

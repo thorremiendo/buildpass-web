@@ -92,6 +92,7 @@
         </div>
         <div>
           <button
+            [disabled]="checkFormNonCompliant()"
             mat-raised-button
             color="primary"
             (click)="forwardToCpdo()"

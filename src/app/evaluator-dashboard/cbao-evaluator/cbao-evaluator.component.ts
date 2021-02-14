@@ -96,10 +96,17 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   checkFormsCompliant() {
-    const isReviewed = this.dataSource.every(
+    const isCompliant = this.dataSource.every(
       (form) => form.document_status_id == 1
     );
-    return isReviewed;
+    return isCompliant;
+  }
+
+  checkFormNonCompliant() {
+    const isNonCompliant = this.dataSource.find(
+      (form) => form.document_status_id == 2
+    );
+    return isNonCompliant;
   }
   checkFormsReviewed() {
     const isReviewed = this.dataSource.every(

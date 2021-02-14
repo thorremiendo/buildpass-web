@@ -8,9 +8,7 @@ import { FeedService } from '../../core';
 import { Feed } from '../../core';
 import { Subscription, Subject, Observable } from 'rxjs';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
-import { Channel } from "pusher-js";
-
-
+import { Channel } from 'pusher-js';
 
 const googleLogoURL =
   'https://raw.githubusercontent.com/fireflysemantics/logo/master/Google.svg';
@@ -62,7 +60,7 @@ export class EvaluatorHomeComponent implements OnInit {
   public feeds: Feed[] = [];
 
   private feedSubscription: Subscription;
-  private subject: Subject<Feed> = new Subject<Feed>()
+  private subject: Subject<Feed> = new Subject<Feed>();
   constructor(
     private _router: Router,
     private matIconRegistry: MatIconRegistry,
@@ -70,10 +68,9 @@ export class EvaluatorHomeComponent implements OnInit {
     private authService: AuthService,
     private feedService: FeedService,
     public applicationInfoService: ApplicationInfoService
-  ) 
-  {
+  ) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
-    this.channelName = `evaluator-${this.user.user_notif.notif[0]?.channel}`;
+    this.channelName = `evaluator-${this.user.employee_detail.user_notif.channel}`;
     console.log(this.channelName);
 
     this.matIconRegistry.addSvgIcon(
@@ -94,11 +91,10 @@ export class EvaluatorHomeComponent implements OnInit {
       },
     ];
 
-    this.feedSubscription = this.getFeedItems()
-      .subscribe((feed: Feed) => {
-        this.feeds.push(feed);
-        console.log(feed);
-      });
+    this.feedSubscription = this.getFeedItems().subscribe((feed: Feed) => {
+      this.feeds.push(feed);
+      console.log(feed);
+    });
   }
 
   ngOnInit(): void {
@@ -109,23 +105,35 @@ export class EvaluatorHomeComponent implements OnInit {
         this.navLinks.find((tab) => tab.link === '.' + this._router.url)
       );
     });
-    this.applicationInfoService.fetchApplications().subscribe(res => {
-      this.applications = res.data
-      console.log(this.applications)
-    })
+    this.applicationInfoService.fetchApplications().subscribe((res) => {
+      this.applications = res.data;
+      console.log(this.applications);
+    });
   }
 
-  pusherSubscribe(){
-    this.channel =this.feedService.pusher.subscribe(this.channelName);
-    console.log(this.channelName)
-    this.channel.bind('App\\Events\\EvaluatorStatusChanged',
-    (data: { application_number: string; status: string; message:string, currentTime: string }) => {
-      this.subject.next(new Feed(data.application_number, data.status, data.message, new Date(data.currentTime)));
-      console.log(data);
-      console.log(data.currentTime);
-      
-      
-    });
+  pusherSubscribe() {
+    this.channel = this.feedService.pusher.subscribe(this.channelName);
+    console.log(this.channelName);
+    this.channel.bind(
+      'App\\Events\\EvaluatorStatusChanged',
+      (data: {
+        application_number: string;
+        status: string;
+        message: string;
+        currentTime: string;
+      }) => {
+        this.subject.next(
+          new Feed(
+            data.application_number,
+            data.status,
+            data.message,
+            new Date(data.currentTime)
+          )
+        );
+        console.log(data);
+        console.log(data.currentTime);
+      }
+    );
   }
 
   pusherUnsubscribe() {
@@ -134,9 +142,7 @@ export class EvaluatorHomeComponent implements OnInit {
     this.feedSubscription.unsubscribe();
   }
 
-  getNotificationTable(){
-    
-  }
+  getNotificationTable() {}
 
   getFeedItems(): Observable<Feed> {
     return this.subject.asObservable();

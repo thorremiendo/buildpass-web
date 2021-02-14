@@ -239,7 +239,9 @@ export class ZoningClearanceFormComponent implements OnInit {
           ? 'N/A'
           : projectDetails.project_title.toUpperCase(),
       project_cost_cap:
-        this.projectCostCap == 'undefined' ? 'N/A' : this.projectCostCap,
+        this.projectCostCap == 'undefined'
+          ? 'N/A'
+          : `${this.projectCostCap}.00`,
       project_tct_number:
         projectDetails.tct_number == 'undefined'
           ? 'N/A'
