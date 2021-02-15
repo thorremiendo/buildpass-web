@@ -76,7 +76,15 @@
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
-            <button mat-button color="accent" (click)="openFormDialog(element)">
+            <button
+              mat-button
+              color="accent"
+              (click)="openFormDialog(element)"
+              [disabled]="
+                evaluatorRole.code == 'CBAO-REC' &&
+                applicationInfo.application_status_id !== 1
+              "
+            >
               View
             </button>
           </td>
@@ -86,12 +94,21 @@
       </table>
       <div class="d-flex justify-content-between mt-5">
         <div *ngIf="applicationInfo.application_status_id !== 11">
-          <button mat-raised-button color="warn" (click)="nonCompliant()">
+          <button
+            mat-raised-button
+            color="warn"
+            (click)="nonCompliant()"
+            [disabled]="
+              evaluatorRole.code == 'CBAO-REC' &&
+              applicationInfo.application_status_id !== 1
+            "
+          >
             Return to Applicant
           </button>
         </div>
         <div>
           <button
+            [disabled]="checkFormNonCompliant()"
             mat-raised-button
             color="primary"
             (click)="forwardToCpdo()"

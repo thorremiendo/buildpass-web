@@ -4,6 +4,7 @@ import { UserService } from 'src/app/core';
 import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { applicationStatus } from '../../core/enums/application-status.enum';
+import { applicationTypes } from '../../core/enums/application-type.enum';
 
 @Component({
   selector: 'app-user-applications-table',
@@ -52,6 +53,9 @@ export class UserApplicationsTableComponent implements OnInit {
   }
   getApplicationStatus(id): string {
     return applicationStatus[id];
+  }
+  getPermitType(id): string {
+    return applicationTypes[id];
   }
   viewApplication(id) {
     this.router.navigate(['dashboard/applications/view', id]);

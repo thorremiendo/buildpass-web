@@ -93,7 +93,7 @@
     </mat-card-content>
   </mat-card>
 </div>
-<div class="app-timeline">
+<div class="app-timeline" *ngIf="!isLoading">
   <mat-card>
     <mat-card-content>
       <h4 style="color: #12632a" class="mb-4">
@@ -174,15 +174,17 @@
     </mat-card-content>
   </mat-card>
 </div>
-<div *ngIf="evaluatorDetails.office_id == '4'">
-  <app-cbao-evaluator></app-cbao-evaluator>
-</div>
-<div *ngIf="evaluatorDetails.office_id == '1'">
-  <app-cpdo-evaluator></app-cpdo-evaluator>
-</div>
-<div *ngIf="evaluatorDetails.office_id == '2'">
-  <app-cepmo-evaluator></app-cepmo-evaluator>
-</div>
-<div *ngIf="evaluatorDetails.office_id == '3'">
-  <app-bfp-evaluator></app-bfp-evaluator>
+<div *ngIf="!isLoading">
+  <div *ngIf="evaluatorDetails.office_id == '4'">
+    <app-cbao-evaluator></app-cbao-evaluator>
+  </div>
+  <div *ngIf="evaluatorDetails.office_id == '1'">
+    <app-cpdo-evaluator></app-cpdo-evaluator>
+  </div>
+  <div *ngIf="evaluatorDetails.office_id == '2'">
+    <app-cepmo-evaluator></app-cepmo-evaluator>
+  </div>
+  <div *ngIf="evaluatorDetails.office_id == '3'">
+    <app-bfp-evaluator></app-bfp-evaluator>
+  </div>
 </div>

@@ -96,10 +96,17 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   checkFormsCompliant() {
-    const isReviewed = this.dataSource.every(
+    const isCompliant = this.dataSource.every(
       (form) => form.document_status_id == 1
     );
-    return isReviewed;
+    return isCompliant;
+  }
+
+  checkFormNonCompliant() {
+    const isNonCompliant = this.dataSource.find(
+      (form) => form.document_status_id == 2
+    );
+    return isNonCompliant;
   }
   checkFormsReviewed() {
     const isReviewed = this.dataSource.every(
@@ -139,11 +146,10 @@ export class CbaoEvaluatorComponent implements OnInit {
       };
       this.newApplicationService
         .updateDocumentFile(body, element.id)
-        .subscribe((res) => {
-          this.updateApplicationStatus();
-        });
+        .subscribe((res) => {});
     });
-
+    this.updateApplicationStatus();
+    console.log(forReview);
     return forReview;
   }
   updateApplicationStatus() {
@@ -154,16 +160,18 @@ export class CbaoEvaluatorComponent implements OnInit {
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
         this.fetchApplicationInfo();
+        Swal.fire('Success!', `Forwarded to CPDO!`, 'success').then(
+          (result) => {
+            this.isLoading = false;
+            window.location.reload();
+          }
+        );
       });
   }
   forwardToCpdo() {
     this.isLoading = true;
     if (this.checkFormsCompliant()) {
       this.updateFormStatus();
-      Swal.fire('Success!', `Forwarded to CPDO!`, 'success').then((result) => {
-        this.isLoading = false;
-        window.location.reload();
-      });
     } else {
       Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
         (result) => {

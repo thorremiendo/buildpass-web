@@ -74,8 +74,7 @@ export class EvaluatorHomeComponent implements OnInit {
     private authService: AuthService,
     private feedService: FeedService,
     public applicationInfoService: ApplicationInfoService
-  ) 
-  {
+  ) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.channelName = `evaluator-${this.user.employee_detail.user_notif.channel}`;
     console.log(this.channelName);
@@ -113,23 +112,35 @@ export class EvaluatorHomeComponent implements OnInit {
         this.navLinks.find((tab) => tab.link === '.' + this._router.url)
       );
     });
-    this.applicationInfoService.fetchApplications().subscribe(res => {
-      this.applications = res.data
-      console.log(this.applications)
-    })
+    this.applicationInfoService.fetchApplications().subscribe((res) => {
+      this.applications = res.data;
+      console.log(this.applications);
+    });
   }
 
-  pusherSubscribe(){
-    this.channel =this.feedService.pusher.subscribe(this.channelName);
-    console.log(this.channelName)
-    this.channel.bind('App\\Events\\EvaluatorStatusChanged',
-    (data: { application_number: string; status: string; message:string, currentTime: string }) => {
-      this.subject.next(new Feed(data.application_number, data.status, data.message, new Date(data.currentTime)));
-      console.log(data);
-      console.log(data.currentTime);
-      
-      
-    });
+  pusherSubscribe() {
+    this.channel = this.feedService.pusher.subscribe(this.channelName);
+    console.log(this.channelName);
+    this.channel.bind(
+      'App\\Events\\EvaluatorStatusChanged',
+      (data: {
+        application_number: string;
+        status: string;
+        message: string;
+        currentTime: string;
+      }) => {
+        this.subject.next(
+          new Feed(
+            data.application_number,
+            data.status,
+            data.message,
+            new Date(data.currentTime)
+          )
+        );
+        console.log(data);
+        console.log(data.currentTime);
+      }
+    );
   }
 
   pusherUnsubscribe() {

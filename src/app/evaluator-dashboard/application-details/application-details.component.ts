@@ -69,8 +69,9 @@ export class ApplicationDetailsComponent implements OnInit {
         this.applicationDetails = result.data;
         this.fetchEvaluatorDetails();
         this.fetchApplicationFees();
+        this.fetchUserDocs();
+        this.isLoading = false;
       });
-    this.fetchUserDocs();
   }
   fetchUserDocs() {
     this.isLoading = true;

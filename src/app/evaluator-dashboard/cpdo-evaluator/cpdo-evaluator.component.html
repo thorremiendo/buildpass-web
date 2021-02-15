@@ -14,7 +14,7 @@
         applicationDetails.application_status_id == '10'
       "
     >
-      Generate Zoning Compliance Form
+      Upload Zoning Compliance Form
     </button>
     <div>
       <table mat-table [dataSource]="dataSource">
@@ -86,6 +86,7 @@
           color="primary"
           (click)="forwardForApproval()"
           *ngIf="evaluatorRole.code == 'CPDO-ZI'"
+          [disabled]="checkFormNonCompliant()"
         >
           For Approval of Clearance
         </button>

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { EvaluatorRoutingModule } from './evaluator-routing.module';
 import { EvaluatorHomeComponent } from './evaluator-home/evaluator-home.component';
 import { NewTasksComponent } from './new-tasks/new-tasks.component';
@@ -33,8 +33,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
-
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatTableModule } from '@angular/material/table';
@@ -52,12 +50,12 @@ import { EvaluatorPersonalInfoComponent } from './evaluator-personal-info/evalua
 import { EvaluatorEmployeeInfoComponent } from './evaluator-employee-info/evaluator-employee-info.component';
 import { EvaluatorsSummaryComponent } from './evaluators-summary/evaluators-summary.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { CbaoEvaluatorComponent } from './cbao-evaluator/cbao-evaluator.component';
 import { CpdoEvaluatorComponent } from './cpdo-evaluator/cpdo-evaluator.component';
 import { CepmoEvaluatorComponent } from './cepmo-evaluator/cepmo-evaluator.component';
 import { BfpEvaluatorComponent } from './bfp-evaluator/bfp-evaluator.component';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { ProjectDetailsComponent } from './project-details/project-details.component';
 import { FormDetailsComponent } from './form-details/form-details.component';
 import { EvaluatorIdentificationComponent } from './evaluator-identification/evaluator-identification.component';
@@ -72,26 +70,22 @@ import { CbaoFeesTableComponent } from './cbao-fees-table/cbao-fees-table.compon
 import { CpdoFeesTableComponent } from './cpdo-fees-table/cpdo-fees-table.component';
 import { BfpFeesTableComponent } from './bfp-fees-table/bfp-fees-table.component';
 import { CepmoFeesTableComponent } from './cepmo-fees-table/cepmo-fees-table.component';
-
-
-
-
+import { LocaleCurrencyInputModule } from 'locale-currency-input';
 
 @NgModule({
-  declarations: 
-  [
+  declarations: [
     EvaluatorHomeComponent,
-    NewTasksComponent, 
-    OpenedTasksComponent, 
-    ClosedTasksComponent, 
-    TableViewComponent, 
-    CalendarViewComponent, 
-    ApplicationDetailsComponent, 
-    EvaluatorRegistrationComponent, 
-    EvaluatorSignInComponent, 
-    EvaluatorSignUpComponent, 
-    EvaluatorPersonalInfoComponent, 
-    EvaluatorEmployeeInfoComponent, 
+    NewTasksComponent,
+    OpenedTasksComponent,
+    ClosedTasksComponent,
+    TableViewComponent,
+    CalendarViewComponent,
+    ApplicationDetailsComponent,
+    EvaluatorRegistrationComponent,
+    EvaluatorSignInComponent,
+    EvaluatorSignUpComponent,
+    EvaluatorPersonalInfoComponent,
+    EvaluatorEmployeeInfoComponent,
     EvaluatorsSummaryComponent,
     CbaoEvaluatorComponent,
     CpdoEvaluatorComponent,
@@ -99,7 +93,20 @@ import { CepmoFeesTableComponent } from './cepmo-fees-table/cepmo-fees-table.com
     BfpEvaluatorComponent,
     ProjectDetailsComponent,
     FormDetailsComponent,
-    EvaluatorsSummaryComponent, EvaluatorIdentificationComponent, EvaluatorEditProfileComponent, ZoningCertificateComponent, FireClearanceComponent, WwwmsCertificateComponent, ReleaseBldgPermitComponent, FeesDialogComponent, ViewFeesComponent, CbaoFeesTableComponent, CpdoFeesTableComponent, BfpFeesTableComponent, CepmoFeesTableComponent],
+    EvaluatorsSummaryComponent,
+    EvaluatorIdentificationComponent,
+    EvaluatorEditProfileComponent,
+    ZoningCertificateComponent,
+    FireClearanceComponent,
+    WwwmsCertificateComponent,
+    ReleaseBldgPermitComponent,
+    FeesDialogComponent,
+    ViewFeesComponent,
+    CbaoFeesTableComponent,
+    CpdoFeesTableComponent,
+    BfpFeesTableComponent,
+    CepmoFeesTableComponent,
+  ],
 
   imports: [
     CommonModule,
@@ -114,7 +121,7 @@ import { CepmoFeesTableComponent } from './cepmo-fees-table/cepmo-fees-table.com
     CoreModule,
     ReactiveFormsModule,
     NgxDropzoneModule,
-
+    LocaleCurrencyInputModule,
     MatNativeDateModule,
     MatButtonToggleModule,
     MatSelectModule,
@@ -142,8 +149,7 @@ import { CepmoFeesTableComponent } from './cepmo-fees-table/cepmo-fees-table.com
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
-    MatDialogModule
-    
-  ]
+    MatDialogModule,
+  ],
 })
-export class EvaluatorModule { }
+export class EvaluatorModule {}
