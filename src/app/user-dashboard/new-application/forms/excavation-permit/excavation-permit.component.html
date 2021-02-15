@@ -37,26 +37,11 @@
             <p class="ml-2 mt-4">
               2. Upload the form.
             </p>
-            <ngx-dropzone
-              (change)="onSelect($event, 'excavationPermit')"
-              [multiple]="false"
-              class="mt-3"
-            >
-              <ngx-dropzone-label>
-                Click here to upload file!
-              </ngx-dropzone-label>
-              <ngx-dropzone-preview
-                *ngIf="excavationPermit"
-                [removable]="true"
-                (removed)="onRemove('excavationPermit')"
-                class="mx-auto"
-              >
-                <ngx-dropzone-label>
-                  {{ excavationPermit.name }}
-                  ({{ excavationPermit.type }})
-                </ngx-dropzone-label>
-              </ngx-dropzone-preview>
-            </ngx-dropzone>
+            <app-file-upload 
+              (emitFile)="onSelect($event, 'excavationPermit')"
+              (removeFile)="onRemove('excavationPermit')"
+              description="Excavation Permit"
+            ></app-file-upload>
           </div>
         </mat-card-content>
       </mat-card>
