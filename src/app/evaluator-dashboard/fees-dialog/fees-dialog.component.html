@@ -2,10 +2,10 @@
   <h3 class="mb-3">Add New Item</h3>
   <div>
     <mat-form-field class="example-full-width">
-      <mat-label>Number</mat-label>
+      <mat-label>Description</mat-label>
       <input
         type="text"
-        placeholder="Pick one"
+        placeholder="Choose a Fee"
         aria-label="Number"
         matInput
         [formControl]="typeOfFee"
@@ -22,7 +22,14 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Amount</mat-label>
-      <input type="number" matInput formControlName="amount" />
+      <input
+        type="text"
+        localeCurrencyInput
+        [allowNegative]="false"
+        [currencyCode]="'₱'"
+        matInput
+        formControlName="amount"
+      />
     </mat-form-field>
   </div>
   <div>

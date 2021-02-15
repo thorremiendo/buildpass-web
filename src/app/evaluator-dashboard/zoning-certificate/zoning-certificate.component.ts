@@ -78,7 +78,7 @@ export class ZoningCertificateComponent implements OnInit {
       document_id: this.userDocument.id,
       document_status: 1,
     };
-    debugger;
+
     if (this.zoningComplianceForm) {
       uploadDocumentData['document_path'] = this.zoningComplianceForm;
     }

@@ -13,6 +13,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { ApplicationFeesService } from 'src/app/core/services/application-fees.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-fees-dialog',
@@ -83,12 +84,14 @@ export class FeesDialogComponent implements OnInit {
     const value = this.feesDetails.value;
     const newItem = {
       application_id: this.applicationId,
-      name: value.description,
+      name: this.typeOfFee.value,
       amount: value.amount,
       office_id: this.evaluatorDetails.office_id,
       evaluator_user_id: this.evaluatorDetails.id,
       action_id: 1,
+      fee_id: 0,
     };
+
     this.applicationFeeService.addFee(newItem).subscribe((res) => {
       console.log(res);
       this.onNoClick();

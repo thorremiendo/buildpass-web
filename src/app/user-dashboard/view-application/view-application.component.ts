@@ -61,7 +61,7 @@ export class ViewApplicationComponent implements OnInit {
           width: '1000px',
           data: {
             fees: res.data,
-            applicationId: this.applicationId
+            applicationId: this.applicationId,
           },
         });
         dialogRef.afterClosed().subscribe((result) => {
@@ -95,6 +95,13 @@ export class ViewApplicationComponent implements OnInit {
   }
   getApplicationStatus(id): string {
     return applicationStatus[id];
+  }
+
+  checkFormsReviewed() {
+    const isReviewed = this.dataSource.every(
+      (form) => form.document_status_id !== 1 || form.document_status_id !== 2
+    );
+    return isReviewed;
   }
   onSave() {
     const body = {

@@ -98,7 +98,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       .asObservable()
       .subscribe((commonFieldsSubject) => {
         this.ownerDetails = commonFieldsSubject;
-        debugger;
+
       });
     this.newApplicationFormService.newApplicationSubject
       .asObservable()
@@ -245,7 +245,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       applicant_barangay: this.ownerDetails.owner_barangay,
       ...this.projectDetails,
     };
-    debugger;
+
     if (!this.projectDetailsForm.valid) {
       Swal.fire(
         'Notice!',

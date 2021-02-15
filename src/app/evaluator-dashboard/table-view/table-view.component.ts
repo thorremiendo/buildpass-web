@@ -40,7 +40,7 @@ export class TableViewComponent implements OnInit {
     this.isLoading = false;
     console.log('evaluator details', this.evaluatorDetails);
     this.checkIfCpdo();
-    debugger;
+
   }
   checkIfCpdo() {
     if (this.evaluatorDetails.office_id == 1) {
