@@ -6,9 +6,10 @@ import { single } from './data';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FeedService } from '../../core';
 import { Feed } from '../../core';
-import { Subscription, Subject, Observable } from 'rxjs';
+import { Subscription, Subject, Observable, throwError } from 'rxjs';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { Channel } from "pusher-js";
+import { map, catchError } from 'rxjs/operators';
 
 
 const googleLogoURL =
@@ -27,7 +28,9 @@ export class EvaluatorHomeComponent implements OnInit {
   public channel: Channel;
   private feedSubscription: Subscription;
   public feeds: Feed[] = [];
+  public notifTable: any[];
   private subject: Subject<Feed> = new Subject<Feed>();
+  private channleType:string="evaluator"
 
 
   public chartData: any[] = [
@@ -74,7 +77,7 @@ export class EvaluatorHomeComponent implements OnInit {
   ) 
   {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
-    this.channelName = `evaluator-${this.user.user_notif.notif[0]?.channel}`;
+    this.channelName = `evaluator-${this.user.employee_detail.user_notif.channel}`;
     console.log(this.channelName);
 
     this.matIconRegistry.addSvgIcon(
@@ -98,12 +101,13 @@ export class EvaluatorHomeComponent implements OnInit {
     this.feedSubscription = this.getFeedItems()
       .subscribe((feed: Feed) => {
         this.feeds.push(feed);
-        console.log(feed);
+        console.log("feed"+feed);
       });
   }
 
   ngOnInit(): void {
     this.pusherSubscribe();
+    this.getNotificationTable();
     this._router.events.subscribe((res) => {
       this.activeLinkIndex = this.navLinks.indexOf(
         this.navLinks.find((tab) => tab.link === '.' + this._router.url)
@@ -135,8 +139,17 @@ export class EvaluatorHomeComponent implements OnInit {
   }
 
   getNotificationTable(){
+    this.feedService.getNotifTable(this.user.employee_detail.user_notif.channel,this.channleType).subscribe(
+      (data => {
+        this.feeds = data.data;
+       
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
     
-  }
+  } 
 
   getFeedItems(): Observable<Feed> {
     return this.subject.asObservable();

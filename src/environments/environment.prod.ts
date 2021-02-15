@@ -3,14 +3,13 @@ export const environment = {
   api_url: `http://ocpasapitest-env.eba-rycu4cp5.ap-southeast-1.elasticbeanstalk.com/api`,
 
   firebase: {
-    apiKey: 'AIzaSyA2KX_f0SKSYcJhqdDGdBK5yfnlxYYWuHU',
-    authDomain: 'baguio-ocpas.firebaseapp.com',
-    databaseURL: 'https://baguio-ocpas.firebaseio.com',
-    projectId: 'baguio-ocpas',
-    storageBucket: 'baguio-ocpas.appspot.com',
-    messagingSenderId: '555420675385',
-    appId: '1:555420675385:web:9c6c47107f6b9695fa8ce8',
-    measurementId: 'G-CC0KM4S06Z',
+    apiKey: "AIzaSyCTCQAnOkASHslp8No3KbiiPuwMaJPixjM",
+    authDomain: "ocpas-staging.firebaseapp.com",
+    projectId: "ocpas-staging",
+    storageBucket: "ocpas-staging.appspot.com",
+    messagingSenderId: "707588667518",
+    appId: "1:707588667518:web:fe86b240301f7700b1802f",
+    measurementId: "G-39X06XCXLX"
   },
 
   mapbox: {
@@ -19,7 +18,7 @@ export const environment = {
   },
   adobe_key: '46ddf9af80f5465c8f59e080868ef747',
   pusher: {
-    key:'a6ade48d9acbba1dd2e7',
+    key:'649842d6880039c817ef',
     cluster:'ap1'
   }
 };
