@@ -7,12 +7,9 @@ import { BarangayService } from 'src/app/core/services/barangay.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import Swal from 'sweetalert2';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { CurrencyPipe } from '@angular/common';
 
 //map
 import { environment } from '../../../../../environments/environment';
-import { ChangeDetectorRef } from '@angular/core';
 import { Map } from 'mapbox-gl/dist/mapbox-gl';
 import * as mapboxgl from 'mapbox-gl/dist/mapbox-gl';
 import { Marker } from 'mapbox-gl/dist/mapbox-gl';
