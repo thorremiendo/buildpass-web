@@ -6,32 +6,6 @@
           <strong>Certificate of Zoning Compliance</strong>
         </h4>
       </div>
-      <!-- <ngx-extended-pdf-viewer
-        [src]="
-          '../../../../assets/forms/Certificate of Zoning Compliance Form-BLANK FORM.doc.pdf'
-        "
-        [showToolbar]="true"
-        [showSidebarButton]="false"
-        [showFindButton]="false"
-        [showPagingButtons]="false"
-        [showZoomButtons]="true"
-        [showPresentationModeButton]="true"
-        [showOpenFileButton]="false"
-        [showPrintButton]="false"
-        [showDownloadButton]="true"
-        [showBookmarkButton]="false"
-        [showSecondaryToolbarButton]="true"
-        [showRotateButton]="false"
-        [showHandToolButton]="false"
-        [showScrollingButton]="false"
-        [showSpreadButton]="false"
-        [showPropertiesButton]="false"
-        [useBrowserLocale]="true"
-        height="1000px"
-        zoom="80%"
-        [(formData)]="formData"
-      >
-      </ngx-extended-pdf-viewer>
       <ngx-dropzone
         (change)="onSelect($event, 'zoningComplianceForm')"
         [multiple]="false"
@@ -50,18 +24,25 @@
             }})</ngx-dropzone-label
           >
         </ngx-dropzone-preview>
-      </ngx-dropzone> -->
-      <div class="container">
-        <div id="pdf-div" class="pdf-view"></div>
+      </ngx-dropzone>
+      <div class="d-flex justify-content-between">
+        <button
+          class="text-right mt-3"
+          mat-raised-button
+          color="primary"
+          (click)="callSave()"
+        >
+          Save
+        </button>
+        <button
+          class="text-right mt-3"
+          mat-raised-button
+          color="accent"
+          (click)="onNoClick()"
+        >
+          Close
+        </button>
       </div>
-      <!-- <button
-        class="text-right mt-3"
-        mat-raised-button
-        color="primary"
-        (click)="callSave()"
-      >
-        Save
-      </button> -->
     </mat-card-content>
   </mat-card>
 </div>

@@ -194,6 +194,7 @@ export class AuthService {
       .signOut()
       .then(() => {
         localStorage.removeItem('user');
+        localStorage.removeItem('app_id');
         this.isAuthenticatedSubject.next(false);
         this.router.navigateByUrl('/user/sign-in');
       });
@@ -204,6 +205,7 @@ export class AuthService {
       .signOut()
       .then(() => {
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('app_id');
         this.isAuthenticatedSubject.next(false);
         this.router.navigateByUrl('/evaluator/sign-in');
       });

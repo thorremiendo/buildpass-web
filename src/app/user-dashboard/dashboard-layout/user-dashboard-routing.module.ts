@@ -1,3 +1,4 @@
+import { NoticeOfConstructionComponent } from './../new-application/forms/notice-of-construction/notice-of-construction.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { UserGuardService } from 'src/app/core/guard/user-guard.service';
@@ -124,6 +125,10 @@ const routes: Routes = [
                   {
                     path: 'sanitary-permit',
                     component: SanitaryPermitFormComponent,
+                  },
+                  {
+                    path: 'notice-of-construction',
+                    component: NoticeOfConstructionComponent,
                   },
                   {
                     path: 'electrical-permit',
@@ -270,7 +275,7 @@ const routes: Routes = [
               {
                 path: 'demolition-permit',
                 component: DemolitionPermitComponent,
-              }
+              },
             ],
           },
         ],

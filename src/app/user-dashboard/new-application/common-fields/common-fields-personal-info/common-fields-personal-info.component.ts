@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { EmailValidator, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  EmailValidator,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
 import { RegisterAccountFormService } from 'src/app/core/services/register-account-form.service';
 import { BarangayService } from 'src/app/core/services/barangay.service';
@@ -76,6 +81,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
 
     this._personalInfoFormCommonFields.patchValue({
       owner_first_name: this.userDetails.owner_first_name,
+      owner_middle_name: this.userDetails.owner_middle_name,
       owner_last_name: this.userDetails.owner_last_name,
       owner_email_address: this.userDetails.owner_email_address,
       owner_suffix: this.userDetails.owner_suffix,
@@ -108,8 +114,21 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
       owner_last_name: ['', Validators.required],
       owner_suffix: [''],
       owner_tin_number: ['', Validators.required],
-      owner_contact_number: ['',[Validators.required, Validators.maxLength(11), Validators.pattern("(09)[0-9 ]{9}")]],
-      owner_email_address: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+      owner_contact_number: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(11),
+          Validators.pattern('(09)[0-9 ]{9}'),
+        ],
+      ],
+      owner_email_address: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+        ],
+      ],
       owner_house_number: [''],
       owner_unit_number: [''],
       owner_floor_number: [''],

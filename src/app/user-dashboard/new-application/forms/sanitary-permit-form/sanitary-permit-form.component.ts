@@ -120,7 +120,7 @@ export class SanitaryPermitFormComponent implements OnInit {
         ).then((result) => {
           this.isLoading = false;
           this.router.navigateByUrl(
-            'dashboard/new/initial-forms/electrical-permit'
+            'dashboard/new/initial-forms/notice-of-construction'
           );
         });
       });

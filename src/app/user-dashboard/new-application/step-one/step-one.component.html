@@ -5,13 +5,14 @@
         Hi, {{ userInfo.first_name }} Let's get started with your application.
       </h2>
       <p style="color: #767676"><strong>STEP 1</strong></p>
-      <div>
+      <div *ngIf="!isExcavation">
         <h4>What type of permit do you want to apply?</h4>
         <mat-form-field appearance="outline">
           <mat-label>Application Type</mat-label>
           <mat-select
             [(value)]="selectedPermitType"
             formControlName="application_type"
+            selected="1"
           >
             <mat-option value="1">Building Permit</mat-option>
             <mat-option value="2">Occupancy Permit</mat-option>
@@ -20,6 +21,12 @@
             <mat-option value="5">Demolition Permit</mat-option>
           </mat-select>
         </mat-form-field>
+      </div>
+      <div *ngIf="isExcavation">
+        <h3>Excavation Permit for</h3>
+        <h4>
+          <strong>{{ applicationInfo.ocpas_code }}</strong>
+        </h4>
       </div>
       <div *ngIf="selectedPermitType" class="mt-4">
         <h4>Applicant Type:</h4>

@@ -155,17 +155,18 @@
   </div>
   <div class="row justify-content-center px-3">
     <div class="col-md-3">
-      
       <mat-form-field appearance="outline">
         <mat-label>Project Cost</mat-label>
-        <input style="text-align: right;" 
-          type="text" 
+        <input
+          style="text-align: right"
+          type="text"
           matInput
-          localeCurrencyInput 
+          localeCurrencyInput
           [allowNegative]="false"
           [currencyCode]="'₱'"
-          formControlName="project_cost" 
-          required />
+          formControlName="project_cost"
+          required
+        />
         <mat-error
           *ngIf="
             (projectDetailsFormControl.project_cost.touched || _submitted) &&
@@ -175,7 +176,7 @@
           Required
         </mat-error>
       </mat-form-field>
-    </div> 
+    </div>
     <div class="col-md-3">
       <mat-form-field appearance="outline">
         <mat-label>TCT Number</mat-label>
@@ -219,7 +220,7 @@
     <div class="col-md-3">
       <mat-form-field appearance="outline">
         <mat-label>Landmark</mat-label>
-        <input type="text" matInput />
+        <input type="text" matInput formControlName="project_landmark" />
       </mat-form-field>
     </div>
   </div>
@@ -229,13 +230,7 @@
   </div>
   <div class="row flex-row-reverse">
     <div class="m-4">
-      <button
-        mat-raised-button
-        color="primary"
-        type="submit"
-      >
-        Proceed
-      </button>
+      <button mat-raised-button color="primary" type="submit">Proceed</button>
     </div>
   </div>
 </form>
