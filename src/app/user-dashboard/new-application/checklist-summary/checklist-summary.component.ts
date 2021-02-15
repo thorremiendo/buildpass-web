@@ -22,6 +22,7 @@ export class ChecklistSummaryComponent implements OnInit {
   public applicantCompleteName;
   public applicantForms;
   public permitType;
+  public isExcavation;
 
   constructor(
     private router: Router,
@@ -36,14 +37,11 @@ export class ChecklistSummaryComponent implements OnInit {
     this.applicationId = this.route.snapshot.params.id;
     this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
     console.log(this.user);
-    // this.newApplicationService.applicationId
-    //   .asObservable()
-    //   .subscribe((applicationId) => (this.applicationId = applicationId));
-    // console.log('application id:', this.applicationId);
     this.newApplicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationInfo = result.data;
+
         this.applicantCompleteName = `${this.applicationInfo.applicant_detail.first_name} ${this.applicationInfo.applicant_detail.last_name}`;
         this.applicantForms = this.applicationInfo.user_docs;
         switch (this.applicationInfo.permit_type_id) {
@@ -85,8 +83,14 @@ export class ChecklistSummaryComponent implements OnInit {
         denyButtonText: `No`,
       }).then((result) => {
         if (result.isConfirmed) {
-          //TODO: change status if application needs excavation
-          this.router.navigateByUrl('dashboard/new/excavation-permit');
+          const data = {
+            is_excavation: 1,
+          };
+          this.applicationService
+            .updateApplicationStatus(data, this.applicationId)
+            .subscribe((res) => {
+              this.router.navigateByUrl('dashboard/new/step-one');
+            });
         } else if (result.isDenied) {
           this.applicationService
             .updateApplicationStatus(body, this.applicationId)

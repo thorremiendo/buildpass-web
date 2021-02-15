@@ -50,7 +50,9 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   _submitted = false;
   public barangay: Barangay[];
   public permitTypeId;
-
+  public isExcavation;
+  public applicationId;
+  public applicationInfo;
   get projectDetailsFormControl() {
     return this.projectDetailsForm.controls;
   }
@@ -70,9 +72,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     private newApplicationFormService: NewApplicationFormService,
     private newApplicationSerivce: NewApplicationService,
     private barangayService: BarangayService,
-    private authService: AuthService,
-    private userService: UserService,
-    private currencyPipe: CurrencyPipe
+    private userService: UserService
   ) {
     this.createForm();
     this.barangayService.getBarangayInfo().subscribe((data) => {
@@ -88,6 +88,10 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.applicationId = localStorage.getItem('app_id');
+    if (this.applicationId) {
+      this.fetchApplicationInfo();
+    }
     this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
     console.log(this.user);
 
@@ -98,7 +102,6 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       .asObservable()
       .subscribe((commonFieldsSubject) => {
         this.ownerDetails = commonFieldsSubject;
-        debugger;
       });
     this.newApplicationFormService.newApplicationSubject
       .asObservable()
@@ -154,6 +157,17 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     this.marker.on('dragend', this.onDragEnd);
 
     this.isLoading = false;
+  }
+  fetchApplicationInfo() {
+    this.newApplicationSerivce
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((result) => {
+        this.applicationInfo = result.data;
+        console.log('app ifo', this.applicationInfo);
+        if (this.applicationInfo.is_excavation == 1) {
+          this.isExcavation = true;
+        }
+      });
   }
 
   onDragEnd() {
@@ -245,7 +259,9 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       applicant_barangay: this.ownerDetails.owner_barangay,
       ...this.projectDetails,
     };
-    debugger;
+    if (this.isExcavation) {
+      body['main_permit_id'] = this.applicationInfo.id;
+    }
     if (!this.projectDetailsForm.valid) {
       Swal.fire(
         'Notice!',
