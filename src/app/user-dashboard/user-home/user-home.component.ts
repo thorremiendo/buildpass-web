@@ -12,8 +12,10 @@ import { Channel } from "pusher-js";
 })
 export class UserHomeComponent implements OnInit {
   public user;
-  public channelName;
+  private channelName:string;
+  private channelType:string="applicant"
   public channel: Channel;
+
   public feeds: Feed[] = [];
 
 
@@ -39,8 +41,8 @@ export class UserHomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-     this.pusherSubscribe()
-
+    this.getNotificationTable();
+    this.pusherSubscribe();
     
   }
 
@@ -57,6 +59,14 @@ export class UserHomeComponent implements OnInit {
   );
   }
 
+  getNotificationTable(){
+    this.feedService.getNotifTable(this.user?.uid,this.channelType).subscribe( data =>{
+      this.feeds = data.data;
+
+    })
+    
+  } 
+
   getFeedItems(): Observable<Feed> {
     return this.subject.asObservable();
   }
@@ -65,15 +75,13 @@ export class UserHomeComponent implements OnInit {
     this.feeds.splice(i, 1);
   }
 
- 
-
   pusherUnsubscribe() {
     this.channel.unbind();
     this.feedService.pusher.unsubscribe(this.channelName);
     this.feedSubscription.unsubscribe();
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy(): void {    
     this.pusherUnsubscribe();
   }
 

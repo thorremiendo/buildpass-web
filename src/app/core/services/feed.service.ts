@@ -34,8 +34,8 @@ export class FeedService {
     return this.subject.asObservable();
   }
 
-  getNotifTable(channel){
-    const url =`/${channel}/channel`;
+  getNotifTable(channel,channelType){
+    const url =`/notification/${channel}/${channelType}`;
 
     return this._api.get(url).pipe(
       map((data: any) => {

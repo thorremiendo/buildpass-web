@@ -1,22 +1,13 @@
 <mat-card class="card-container">
-  <div class="row">
-      <!-- <div class="col-md-5">
+  <div class="row py-5">
+      <div class="col-md-3">
        <div class="box">
         <div class="row justify-content-md-center" style="margin-top: 200px;">
-          <div class="col-md-8 ">
-           <h3 style="color: white;">Don' t have an account yet</h3>
-           <button style="background-color:maroon; color: white; border-color: white;" 
-                   mat-stroked-button
-                   (click)="signUp()">
-                   
-            SIGN UP
-          </button>
-          </div>
         </div>
              
       </div>
-      </div> -->
-      <div class="col-md-7 px-3 py-3">
+      </div>
+      <div class="col-md-9 px-3 py-5">
         <form [formGroup]= "_evaluatorSignInForm" (ngSubmit)="tryLogin(_evaluatorSignInForm.value)">
           <div class="row justify-content-md-center pt-4">
             <div class="col-md-9">
@@ -37,7 +28,7 @@
               </mat-form-field>
             </div>
           </div>
-          <div class="row justify-content-md-center pt-1">
+          <div class="row justify-content-md-center py-1">
             <div class="col-md-9">
               <mat-form-field appearance="outline">
                 <mat-label>Enter your password</mat-label>
@@ -65,17 +56,17 @@
             </div>
           </div>
           <div class="row justify-content-md-center py-3">
-            <div class="col-md-4 text-center">
+            <div class="col-md-3 text-center">
               <button style="background-color: maroon; color: white" mat-stroked-button>
                 Sign in
               </button>
             </div>
           </div>
           <hr />
-          <div class="row row justify-content-md-center pt-3">
+          <!-- <div class="row row justify-content-md-center pt-3">
             <p style="font-size: smaller; color: gray">or sign in with</p>
           </div>
-          <!-- <div class="row justify-content-md-center">
+           <div class="row justify-content-md-center">
             <div class="col-md-4 text-center mb-5">
               <button mat-stroked-button (click)="tryGoogle()">
                 <mat-icon
@@ -87,7 +78,7 @@
                 >Google
               </button>
             </div>
-          </div> -->
+          </div> --> 
         </form>
         
       

@@ -6,9 +6,11 @@ import { single } from './data';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FeedService } from '../../core';
 import { Feed } from '../../core';
-import { Subscription, Subject, Observable } from 'rxjs';
+import { Subscription, Subject, Observable, throwError } from 'rxjs';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
-import { Channel } from 'pusher-js';
+import { Channel } from "pusher-js";
+import { map, catchError } from 'rxjs/operators';
+
 
 const googleLogoURL =
   'https://raw.githubusercontent.com/fireflysemantics/logo/master/Google.svg';
@@ -22,6 +24,15 @@ export class EvaluatorHomeComponent implements OnInit {
   public user;
   public applications;
   public evaluatorDetails;
+  public channelName;
+  public channel: Channel;
+  private feedSubscription: Subscription;
+  public feeds: Feed[] = [];
+  public notifTable: any[];
+  private subject: Subject<Feed> = new Subject<Feed>();
+  private channleType:string="evaluator"
+
+
   public chartData: any[] = [
     {
       name: 'Pending',
@@ -55,12 +66,7 @@ export class EvaluatorHomeComponent implements OnInit {
   navLinks: any[];
   activeLinkIndex = -1;
 
-  public channelName;
-  public channel: Channel;
-  public feeds: Feed[] = [];
-
-  private feedSubscription: Subscription;
-  private subject: Subject<Feed> = new Subject<Feed>();
+  
   constructor(
     private _router: Router,
     private matIconRegistry: MatIconRegistry,
@@ -91,15 +97,16 @@ export class EvaluatorHomeComponent implements OnInit {
       },
     ];
 
-    this.feedSubscription = this.getFeedItems().subscribe((feed: Feed) => {
-      this.feeds.push(feed);
-      console.log(feed);
-    });
+    this.feedSubscription = this.getFeedItems()
+      .subscribe((feed: Feed) => {
+        this.feeds.push(feed);
+        console.log("feed"+feed);
+      });
   }
 
   ngOnInit(): void {
     this.pusherSubscribe();
-
+    this.getNotificationTable();
     this._router.events.subscribe((res) => {
       this.activeLinkIndex = this.navLinks.indexOf(
         this.navLinks.find((tab) => tab.link === '.' + this._router.url)
@@ -142,7 +149,18 @@ export class EvaluatorHomeComponent implements OnInit {
     this.feedSubscription.unsubscribe();
   }
 
-  getNotificationTable() {}
+  getNotificationTable(){
+    this.feedService.getNotifTable(this.user.employee_detail.user_notif.channel,this.channleType).subscribe(
+      (data => {
+        this.feeds = data.data;
+       
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+    
+  } 
 
   getFeedItems(): Observable<Feed> {
     return this.subject.asObservable();
