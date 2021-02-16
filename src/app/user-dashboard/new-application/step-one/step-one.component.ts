@@ -26,6 +26,7 @@ export class StepOneComponent implements OnInit {
   public applicationId;
   public applicationInfo;
   public isExcavation;
+  public useExistingInfo;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -58,11 +59,15 @@ export class StepOneComponent implements OnInit {
       .subscribe((result) => {
         this.applicationInfo = result.data;
         console.log('app ifo', this.applicationInfo);
+
         if (this.applicationInfo.is_excavation == 1) {
           this.isExcavation = true;
           this.selectedPermitType = '3';
         }
       });
+  }
+  callProceed() {
+    this.router.navigateByUrl('/dashboard/new/step-two/lot-owner');
   }
 
   callNext() {

@@ -27,71 +27,86 @@
         <h4>
           <strong>{{ applicationInfo.ocpas_code }}</strong>
         </h4>
+        <div class="mt-4">
+          <h4>Use Existing Information?</h4>
+          <mat-form-field appearance="outline">
+            <mat-label>Choose</mat-label>
+            <mat-select [(value)]="useExistingInfo" selected="1">
+              <mat-option value="1">Yes</mat-option>
+              <mat-option value="2">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
-      <div *ngIf="selectedPermitType" class="mt-4">
-        <h4>Applicant Type:</h4>
-        <mat-form-field appearance="outline">
-          <mat-label>Choose</mat-label>
-          <mat-select
-            [(value)]="isRepresentative"
-            formControlName="is_representative"
-          >
-            <mat-option value="2">Owner</mat-option>
-            <mat-option value="1">Representative</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div *ngIf="isRepresentative" class="mt-4">
-        <h4 *ngIf="isRepresentative == 1; else owner">
-          What is the applicant's right over the land?
-        </h4>
-        <ng-template #owner><h4>Right over land:</h4></ng-template>
-        <mat-form-field appearance="outline">
-          <mat-label>Choose</mat-label>
-          <mat-select [(value)]="isLotOwner" formControlName="is_lot_owner">
-            <mat-option value="1">Owner</mat-option>
-            <mat-option value="2">Lessee</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div *ngIf="isLotOwner && isLotOwner !== '2'" class="mt-4">
-        <h4 *ngIf="isRepresentative == 1; else isRegisteredOwner">
-          Is the applicant the registered owner of the lot?
-        </h4>
-        <ng-template #isRegisteredOwner>
-          <h4>Are you the registered owner of the lot?:</h4>
-        </ng-template>
-        <mat-form-field appearance="outline">
-          <mat-label>Choose</mat-label>
-          <mat-select
-            [(value)]="registeredOwner"
-            formControlName="registered_owner"
-          >
-            <mat-option value="1">Yes</mat-option>
-            <mat-option value="2">No</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div *ngIf="isLotOwner" class="mt-4">
-        <h4>Construction Status:</h4>
-        <mat-form-field appearance="outline">
-          <mat-label>Choose</mat-label>
-          <mat-select
-            [(value)]="constructionStatus"
-            formControlName="construction_status"
-          >
-            <mat-option value="1">New</mat-option>
-            <mat-option value="2">On-Going</mat-option>
-            <mat-option value="3">As built</mat-option>
-          </mat-select>
-        </mat-form-field>
+      <div *ngIf="useExistingInfo == '2' || selectedPermitType !== '3'">
+        <div *ngIf="selectedPermitType">
+          <h4>Applicant Type:</h4>
+          <mat-form-field appearance="outline">
+            <mat-label>Choose</mat-label>
+            <mat-select
+              [(value)]="isRepresentative"
+              formControlName="is_representative"
+            >
+              <mat-option value="2">Owner</mat-option>
+              <mat-option value="1">Representative</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf="isRepresentative" class="mt-4">
+          <h4 *ngIf="isRepresentative == 1; else owner">
+            What is the applicant's right over the land?
+          </h4>
+          <ng-template #owner><h4>Right over land:</h4></ng-template>
+          <mat-form-field appearance="outline">
+            <mat-label>Choose</mat-label>
+            <mat-select [(value)]="isLotOwner" formControlName="is_lot_owner">
+              <mat-option value="1">Owner</mat-option>
+              <mat-option value="2">Lessee</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf="isLotOwner && isLotOwner !== '2'" class="mt-4">
+          <h4 *ngIf="isRepresentative == 1; else isRegisteredOwner">
+            Is the applicant the registered owner of the lot?
+          </h4>
+          <ng-template #isRegisteredOwner>
+            <h4>Are you the registered owner of the lot?:</h4>
+          </ng-template>
+          <mat-form-field appearance="outline">
+            <mat-label>Choose</mat-label>
+            <mat-select
+              [(value)]="registeredOwner"
+              formControlName="registered_owner"
+            >
+              <mat-option value="1">Yes</mat-option>
+              <mat-option value="2">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf="isLotOwner" class="mt-4">
+          <h4>Construction Status:</h4>
+          <mat-form-field appearance="outline">
+            <mat-label>Choose</mat-label>
+            <mat-select
+              [(value)]="constructionStatus"
+              formControlName="construction_status"
+            >
+              <mat-option value="1">New</mat-option>
+              <mat-option value="2">On-Going</mat-option>
+              <mat-option value="3">As built</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
 
       <!-- <div *ngIf="constructionStatus" class="map-container mt-4">
         <h4>Site Location:</h4>
         <app-map></app-map>
       </div> -->
-      <div class="mt-3 text-right">
+      <div
+        class="mt-3 text-right"
+        *ngIf="useExistingInfo == '2' || selectedPermitType !== '3'"
+      >
         <button
           mat-raised-button
           color="primary"
@@ -99,6 +114,11 @@
           [disabled]="!constructionStatus"
         >
           Next
+        </button>
+      </div>
+      <div class="mt-3 text-right" *ngIf="useExistingInfo == '1'">
+        <button mat-raised-button color="primary" (click)="callProceed()">
+          Proceed
         </button>
       </div>
     </div>

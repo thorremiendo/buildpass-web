@@ -212,22 +212,22 @@ export class CbaoEvaluatorComponent implements OnInit {
         });
       });
   }
-  forReleasing() {
-    const body = {
-      application_status_id: 4,
-    };
-    this.applicationService
-      .updateApplicationStatus(body, this.applicationId)
-      .subscribe((res) => {
-        Swal.fire(
-          'Success!',
-          `Building Permit is now ready for release!`,
-          'success'
-        ).then((result) => {
-          window.location.reload();
-        });
-      });
-  }
+  // forReleasing() {
+  //   const body = {
+  //     application_status_id: 4,
+  //   };
+  //   this.applicationService
+  //     .updateApplicationStatus(body, this.applicationId)
+  //     .subscribe((res) => {
+  //       Swal.fire(
+  //         'Success!',
+  //         `Building Permit is now ready for release!`,
+  //         'success'
+  //       ).then((result) => {
+  //         window.location.reload();
+  //       });
+  //     });
+  // }
   handleRelease() {
     const body = {
       application_status_id: 11,

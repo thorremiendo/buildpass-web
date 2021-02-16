@@ -18,7 +18,7 @@ export class NewApplicationFormService {
   }
   setCommonFields(commonFieldsInfo) {
     this.commonFieldsSubject.next(commonFieldsInfo);
-    localStorage.setItem('applicationDetails', JSON.stringify(commonFieldsInfo));
+    // localStorage.setItem('applicationDetails', JSON.stringify(commonFieldsInfo));
   }
   setAdditionalPermits(additionalPermits) {
     this.additionalPermitsSubject.next(additionalPermits);
