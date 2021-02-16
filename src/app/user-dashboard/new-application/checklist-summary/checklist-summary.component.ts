@@ -71,7 +71,7 @@ export class ChecklistSummaryComponent implements OnInit {
   }
   submit() {
     const body = {
-      application_status_id: 1,
+      application_status_id: 7,
     };
 
     if (this.applicationInfo.permit_type_id == '1') {
@@ -99,6 +99,8 @@ export class ChecklistSummaryComponent implements OnInit {
             });
         }
       });
+    } else if (this.applicationInfo.permit_type_id == '3') {
+      this.router.navigateByUrl('dashboard/new/success');
     } else {
       this.router.navigateByUrl('dashboard');
     }

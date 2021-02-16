@@ -49,4 +49,11 @@ export enum documentTypes {
   'Notice of Construction' = 48,
   'Residential Checklist (BFP)' = 49,
   'Building Permit' = 50,
+  'Fencing Specifications' = 51,
+  'Site Development Plan showing the lot boundaries and the location of proposed fence' = 52,
+  'Section and details of fence, footings, columns and beams' = 53,
+  'Elevation Plans of fence from corner to corner with complete dimensions' = 54,
+  'Demolition methodology/statement' = 55,
+  'Plans of demolition procedure/sequence – minimum A3 size' = 56,
+  'Clear latest picture of building to be demolished (Taken at least a week before application)' = 57,
 }
