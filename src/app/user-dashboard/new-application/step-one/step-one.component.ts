@@ -1,3 +1,4 @@
+import { ExcavationPermitService } from './../../../core/services/excavation-permit.service';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -26,12 +27,14 @@ export class StepOneComponent implements OnInit {
   public applicationId;
   public applicationInfo;
   public isExcavation;
+  public useExistingInfo;
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private newApplicationFormService: NewApplicationFormService,
     private userService: UserService,
-    private newApplicationService: NewApplicationService
+    private newApplicationService: NewApplicationService,
+    public excavationService: ExcavationPermitService
   ) {}
 
   ngOnInit(): void {
@@ -58,11 +61,22 @@ export class StepOneComponent implements OnInit {
       .subscribe((result) => {
         this.applicationInfo = result.data;
         console.log('app ifo', this.applicationInfo);
+        localStorage.setItem(
+          'applicationDetails',
+          JSON.stringify(this.applicationInfo)
+        );
         if (this.applicationInfo.is_excavation == 1) {
           this.isExcavation = true;
           this.selectedPermitType = '3';
         }
       });
+  }
+  //button for excavation from BP
+  callProceed() {
+    if (this.useExistingInfo == '1') {
+      this.excavationService.setUseExistingInfo(this.useExistingInfo);
+    }
+    this.router.navigateByUrl('/dashboard/new/step-two/lot-owner');
   }
 
   callNext() {
@@ -74,8 +88,8 @@ export class StepOneComponent implements OnInit {
       construction_status: value.construction_status,
       registered_owner: value.registered_owner ? value.registered_owner : 0,
     };
-
     this.newApplicationFormService.setApplicationInfo(body);
+
     this.router.navigateByUrl('/dashboard/new/step-two/lot-owner');
   }
 }

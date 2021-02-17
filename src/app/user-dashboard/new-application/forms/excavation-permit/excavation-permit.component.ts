@@ -434,7 +434,7 @@ export class ExcavationPermitComponent implements OnInit {
                 `${docType.description} uploaded!`,
                 'success'
               ).then((result) => {});
-            });
+          });
 
           breakFlag = true;
           return false;
@@ -448,5 +448,6 @@ export class ExcavationPermitComponent implements OnInit {
 
   submitApplication() {
     this.router.navigate(['dashboard/new/summary', this.applicationId]);
+    localStorage.removeItem('app_id');
   }
 }
