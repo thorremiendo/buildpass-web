@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ExcavationPermitService } from 'src/app/core/services/excavation-permit.service';
 import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 
@@ -12,17 +13,28 @@ export class CommonFieldsComponent implements OnInit {
   public applicationInfo;
   navLinks: any[];
   activeLinkIndex = -1;
-  public applicationId;
+
+  public useExistingInfo;
   constructor(
     private _router: Router,
     private newApplicationFormService: NewApplicationFormService,
-    private newApplicationService: NewApplicationService
+    private newApplicationService: NewApplicationService,
+    private excavationService: ExcavationPermitService
   ) {}
 
   ngOnInit(): void {
-    this.applicationId = localStorage.getItem('app_id');
-    if (this.applicationId) {
-      this.fetchApplicationInfo();
+    this.excavationService.useExistingInfoSubject
+      .asObservable()
+      .subscribe(
+        (useExistingInfoSubject) =>
+          (this.useExistingInfo = useExistingInfoSubject)
+      );
+
+    if (this.useExistingInfo == '1') {
+      this.applicationInfo = JSON.parse(
+        localStorage.getItem('applicationDetails')
+      );
+      this.filterTabs();
     } else {
       this.newApplicationFormService.newApplicationSubject
         .asObservable()
@@ -72,18 +84,5 @@ export class CommonFieldsComponent implements OnInit {
         },
       ];
     }
-  }
-
-  fetchApplicationInfo() {
-    this.newApplicationService
-      .fetchApplicationInfo(this.applicationId)
-      .subscribe((result) => {
-        this.applicationInfo = result.data;
-        localStorage.setItem(
-          'applicationDetails',
-          JSON.stringify(this.applicationInfo)
-        );
-        this.filterTabs();
-      });
   }
 }

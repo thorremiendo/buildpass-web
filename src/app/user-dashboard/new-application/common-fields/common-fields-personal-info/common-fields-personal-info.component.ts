@@ -12,6 +12,7 @@ import { BarangayService } from 'src/app/core/services/barangay.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { ExcavationPermitService } from 'src/app/core/services/excavation-permit.service';
 
 export interface Barangay {
   id: number;
@@ -38,6 +39,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
   public additionalPermits;
   public barangay: Barangay[];
   public isLoading: boolean = true;
+  public useExistingInfo;
   _personalInfoFormCommonFields: FormGroup;
   _submitted = false;
 
@@ -51,7 +53,8 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     private _router: Router,
     private _registerAccountFormService: RegisterAccountFormService,
     private newApplicationFormService: NewApplicationFormService,
-    private barangayService: BarangayService
+    private barangayService: BarangayService,
+    private excavationService: ExcavationPermitService
   ) {
     this.createForm();
     this.barangayService.getBarangayInfo().subscribe((data) => {
@@ -67,14 +70,23 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.createForm();
+
     this._registerAccountFormService.cast.subscribe(
       (registerAccountSubject) => (this.userDetails = registerAccountSubject)
     );
-    this.applicationDetails = JSON.parse(
-      localStorage.getItem('applicationDetails')
-    );
-    this.createForm();
-    if (this.applicationDetails) {
+    this.excavationService.useExistingInfoSubject
+      .asObservable()
+      .subscribe(
+        (useExistingInfoSubject) =>
+          (this.useExistingInfo = useExistingInfoSubject)
+      );
+
+    if (this.useExistingInfo == '1') {
+      this.applicationDetails = JSON.parse(
+        localStorage.getItem('applicationDetails')
+      );
+
       this._personalInfoFormCommonFields.patchValue({
         owner_first_name:
           this.applicationDetails.applicant_detail.first_name == 'undefined'
@@ -133,6 +145,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
           (newApplicationSubject) =>
             (this.applicationDetails = newApplicationSubject)
         );
+      debugger;
     }
 
     console.log(this.applicationDetails);

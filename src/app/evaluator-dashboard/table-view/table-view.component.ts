@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { applicationStatus } from '../../core/enums/application-status.enum';
-
+import { applicationTypes } from '../../core/enums/application-type.enum';
 @Component({
   selector: 'app-table-view',
   templateUrl: './table-view.component.html',
@@ -17,6 +17,7 @@ export class TableViewComponent implements OnInit {
   displayedColumns: string[] = [
     'applicationNo',
     'applicantFullName',
+    'code',
     'applicationDate',
     'permitType',
     'applicationStatus',
@@ -40,7 +41,6 @@ export class TableViewComponent implements OnInit {
     this.isLoading = false;
     console.log('evaluator details', this.evaluatorDetails);
     this.checkIfCpdo();
-
   }
   checkIfCpdo() {
     if (this.evaluatorDetails.office_id == 1) {
@@ -66,6 +66,9 @@ export class TableViewComponent implements OnInit {
   }
   getApplicationStatus(id): string {
     return applicationStatus[id];
+  }
+  getApplicationType(id): string {
+    return applicationTypes[id];
   }
   goToApplicationInfo(id) {
     this.router.navigate(['evaluator/application', id]);

@@ -8,9 +8,8 @@ import { FeedService } from '../../core';
 import { Feed } from '../../core';
 import { Subscription, Subject, Observable, throwError } from 'rxjs';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
-import { Channel } from "pusher-js";
+import { Channel } from 'pusher-js';
 import { map, catchError } from 'rxjs/operators';
-
 
 const googleLogoURL =
   'https://raw.githubusercontent.com/fireflysemantics/logo/master/Google.svg';
@@ -30,8 +29,7 @@ export class EvaluatorHomeComponent implements OnInit {
   public feeds: Feed[] = [];
   public notifTable: any[];
   private subject: Subject<Feed> = new Subject<Feed>();
-  private channleType:string="evaluator"
-
+  private channleType: string = 'evaluator';
 
   public chartData: any[] = [
     {
@@ -66,7 +64,6 @@ export class EvaluatorHomeComponent implements OnInit {
   navLinks: any[];
   activeLinkIndex = -1;
 
-  
   constructor(
     private _router: Router,
     private matIconRegistry: MatIconRegistry,
@@ -97,11 +94,10 @@ export class EvaluatorHomeComponent implements OnInit {
       },
     ];
 
-    this.feedSubscription = this.getFeedItems()
-      .subscribe((feed: Feed) => {
-        this.feeds.push(feed);
-        console.log("feed"+feed);
-      });
+    this.feedSubscription = this.getFeedItems().subscribe((feed: Feed) => {
+      this.feeds.push(feed);
+      console.log('feed' + feed);
+    });
   }
 
   ngOnInit(): void {
@@ -149,18 +145,21 @@ export class EvaluatorHomeComponent implements OnInit {
     this.feedSubscription.unsubscribe();
   }
 
-  getNotificationTable(){
-    this.feedService.getNotifTable(this.user.employee_detail.user_notif.channel,this.channleType).subscribe(
-      (data => {
-        this.feeds = data.data;
-       
-      }),
-      catchError((error) => {
-        return throwError('Something went wrong.');
-      })
-    );
-    
-  } 
+  getNotificationTable() {
+    this.feedService
+      .getNotifTable(
+        this.user.employee_detail.user_notif.channel,
+        this.channleType
+      )
+      .subscribe(
+        (data) => {
+          this.feeds = data.data;
+        },
+        catchError((error) => {
+          return throwError('Something went wrong.');
+        })
+      );
+  }
 
   getFeedItems(): Observable<Feed> {
     return this.subject.asObservable();

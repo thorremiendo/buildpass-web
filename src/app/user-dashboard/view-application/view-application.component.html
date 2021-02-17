@@ -187,7 +187,12 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
           <div class="text-right mt-5">
-            <button mat-raised-button color="warn" (click)="onSave()">
+            <button
+              mat-raised-button
+              color="warn"
+              (click)="onSave()"
+              [disabled]="applicationDetails.application_status_id !== 5"
+            >
               Save
             </button>
           </div>
