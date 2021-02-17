@@ -16,6 +16,7 @@ import { Marker } from 'mapbox-gl/dist/mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { UserService } from 'src/app/core/services/user.service';
+import { ExcavationPermitService } from 'src/app/core/services/excavation-permit.service';
 
 export interface Barangay {
   id: number;
@@ -48,9 +49,10 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   public barangay: Barangay[];
   public permitTypeId;
   public isExcavation;
-  public applicationId;
   public applicationDetailsFromService;
   public isRepresentative;
+  public useExistingInfo;
+
   get projectDetailsFormControl() {
     return this.projectDetailsForm.controls;
   }
@@ -70,7 +72,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     private newApplicationFormService: NewApplicationFormService,
     private newApplicationSerivce: NewApplicationService,
     private barangayService: BarangayService,
-    private userService: UserService
+    private userService: UserService,
+    private excavationService: ExcavationPermitService
   ) {
     this.createForm();
     this.barangayService.getBarangayInfo().subscribe((data) => {
@@ -88,13 +91,16 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
-    console.log(this.user);
-    this.applicationId = localStorage.getItem('app_id');
-    this.applicationDetails = JSON.parse(
-      localStorage.getItem('applicationDetails')
-    );
-
-    if (this.applicationDetails) {
+    this.excavationService.useExistingInfoSubject
+      .asObservable()
+      .subscribe(
+        (useExistingInfoSubject) =>
+          (this.useExistingInfo = useExistingInfoSubject)
+      );
+    if (this.useExistingInfo == '1') {
+      this.applicationDetails = JSON.parse(
+        localStorage.getItem('applicationDetails')
+      );
       if (this.applicationDetails.is_excavation == 1) {
         this.isExcavation = true;
         this.isRepresentative = this.applicationDetails.is_representative;
@@ -167,7 +173,6 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
             : this.applicationDetails.project_detail.landmark,
       });
     } else {
-
       this._registerAccountFormService.cast.subscribe(
         (registerAccountSubject) =>
           (this.projectDetails = registerAccountSubject)
@@ -215,17 +220,6 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
 
     this.isLoading = false;
   }
-  // fetchApplicationInfo() {
-  //   this.newApplicationSerivce
-  //     .fetchApplicationInfo(this.applicationId)
-  //     .subscribe((result) => {
-  //       this.applicationDetailsFromService = result.data;
-  //       console.log('app ifo', this.applicationDetailsFromService);
-  //       if (this.applicationDetailsFromService.is_excavation == 1) {
-  //         this.isExcavation = true;
-  //       }
-  //     });
-  // }
 
   onDragEnd() {
     console.log('marker dragged');

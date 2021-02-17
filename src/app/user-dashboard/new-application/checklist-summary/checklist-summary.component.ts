@@ -95,6 +95,7 @@ export class ChecklistSummaryComponent implements OnInit {
           this.applicationService
             .updateApplicationStatus(body, this.applicationId)
             .subscribe((res) => {
+              localStorage.removeItem('applicationDetails');
               this.router.navigateByUrl('dashboard/new/success');
             });
         }
