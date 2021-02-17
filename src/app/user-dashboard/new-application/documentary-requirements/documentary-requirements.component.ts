@@ -129,7 +129,7 @@ export class DocumentaryRequirementsComponent implements OnInit {
         break;
       case 'realPropertyTaxReceipt':
         this.realPropertyTaxReceipt = file;
-        const realPropertyTaxReceipt = userDocuments[24];
+        const realPropertyTaxReceipt = userDocuments[23];
         this.handleUpload(this.realPropertyTaxReceipt, realPropertyTaxReceipt);
         break;
       case 'siteLatestPicture':
