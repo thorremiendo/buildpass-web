@@ -11,6 +11,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 const routes: Routes = [
   {
@@ -41,7 +42,6 @@ const routes: Routes = [
         path: 'sign-in',
         component: SignInComponent,
       },
-
       {
         path: 'sign-up',
         component: SignUpComponent,
@@ -55,6 +55,10 @@ const routes: Routes = [
   {
     path: 'forgot-password',
     component: ForgotPasswordComponent,
+  },
+  {
+    path: 'registration',
+    component: RegistrationComponent,
   },
 ];
 
