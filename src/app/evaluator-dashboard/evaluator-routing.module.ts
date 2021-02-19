@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PersonalInfoComponent } from '../registration/personal-info/personal-info.component';
 import { DashboardComponent } from './dashboard-layout/dashboard/dashboard.component';
 import { EvaluatorEmployeeInfoComponent } from './evaluator-employee-info/evaluator-employee-info.component';
 import { EvaluatorPersonalInfoComponent } from './evaluator-personal-info/evaluator-personal-info.component';

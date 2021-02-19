@@ -61,7 +61,7 @@ export class SignUpComponent implements OnInit {
         this.SetUserDataFire(value);
         this.createUserDetails(value);
         this._registerAccountFormService.setRegisterAccountInfo(this.userDetails);
-        this._router.navigateByUrl('registration/personal-info');
+        this._router.navigateByUrl('registration');
       }) 
       .catch((error) => {
         window.alert(error.message);
