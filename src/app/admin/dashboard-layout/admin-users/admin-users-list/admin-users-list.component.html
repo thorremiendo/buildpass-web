@@ -51,4 +51,20 @@
     </div>    
   </mat-card-content>
 </mat-card>
+<mat-card>
   
+  <div class="row py-3 px-3">
+    <div class="col-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Input</mat-label>
+        <input matInput #ocpasCode>
+      </mat-form-field>
+    </div>
+    <div class="col-9">
+      <button mat-stroked-button class="create-button ml-2 " (click)="approveFillingFee(ocpasCode.value)">Approve Filling Fee</button>
+    <button mat-stroked-button class="create-button ml-2" (click)="approvePermitFee(ocpasCode.value)">Approve Permit Fees</button>
+    </div>
+   
+   </div>
+   <p>{{message | json}}</p>
+</mat-card>
