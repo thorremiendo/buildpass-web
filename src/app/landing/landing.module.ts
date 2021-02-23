@@ -13,6 +13,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { LandingRoutingModule } from './landing-routing.module';
 import { NavigationComponent } from './navigation/navigation.component';
@@ -28,9 +32,11 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignInUpComponent } from './sign-in-up/sign-in-up.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { DataPrivacyComponent } from './data-privacy/data-privacy.component';
 
 @NgModule({
-  declarations: [LandingComponent, NavigationComponent, AboutComponent, BannerComponent, ServicesComponent, NewsComponent, ContactComponent, FooterComponent, SignInComponent, SignUpComponent, SignInUpComponent, VerifyEmailComponent, ForgotPasswordComponent],
+  declarations: [LandingComponent, NavigationComponent, AboutComponent, BannerComponent, ServicesComponent, NewsComponent, ContactComponent, FooterComponent, SignInComponent, SignUpComponent, SignInUpComponent, VerifyEmailComponent, ForgotPasswordComponent, RegistrationComponent, DataPrivacyComponent],
   imports: [
     CommonModule,
     LayoutModule,
@@ -46,7 +52,11 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     MatInputModule,
     MatCardModule,
     MatTabsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatDialogModule
   ],
   exports: [
     NavigationComponent,
