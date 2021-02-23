@@ -17,6 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { LandingRoutingModule } from './landing-routing.module';
 import { NavigationComponent } from './navigation/navigation.component';
@@ -56,7 +57,8 @@ import { DataPrivacyComponent } from './data-privacy/data-privacy.component';
     MatSelectModule,
     MatAutocompleteModule,
     MatDatepickerModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressSpinnerModule,
   ],
   exports: [
     NavigationComponent,

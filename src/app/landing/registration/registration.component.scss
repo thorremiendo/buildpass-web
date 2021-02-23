@@ -123,3 +123,22 @@ button {
     margin-top: 3px;
     padding: 0 12px;
 }
+
+.spinner {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    background-color: rgba(238, 238, 238, 0.5);
+
+    ::ng-deep .mat-spinner {
+        top: 50%;
+        left: 45%;
+        
+        circle {
+            stroke: maroon;
+        }
+    }
+}
