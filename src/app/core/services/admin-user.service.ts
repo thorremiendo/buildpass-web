@@ -15,6 +15,7 @@ export class AdminUserService {
     private apiService: ApiService,
     private adminUserHttpBuilder: AdminUserParamBuilder,
     private userAdapter: UserCredentialAdapter,
+   
   ) {}
 
   getUsers(params: AdminUserParams = {}): Observable<any> {
@@ -48,10 +49,35 @@ export class AdminUserService {
   
 
   }
+  
 
   approveEmployee(uid) {
     const url = `/admin/${uid}/approve`;
 
     return this.apiService.post(url,uid);
+  }
+
+  approveFillingFee(ocpasCode){
+    const url = `/treasury/${ocpasCode}/updatePayment`;
+    const body = {
+      payment_processing_status_id: "2",
+      official_receipt_number:"1111111"
+    }
+
+    return this.apiService.post(url,body);
+
+
+  }
+
+  approvePermitFee(ocpasCode){
+    const url = `/treasury/${ocpasCode}/updatePayment`;
+    const body = {
+      payment_realeasing_status_id: "2",
+      official_receipt_number:"22222"
+    }
+
+    return this.apiService.post(url,body);
+
+
   }
 }

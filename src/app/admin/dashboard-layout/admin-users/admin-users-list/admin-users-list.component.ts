@@ -11,6 +11,7 @@ import { AdminUsersViewComponent } from '../admin-users-view/admin-users-view.co
 })
 export class AdminUsersListComponent implements OnInit {
   public dataSource : any[] = [];
+  public message:String;
   public displayedColumns: string[] = [
     'id',
     'full_name',  
@@ -49,5 +50,22 @@ export class AdminUsersListComponent implements OnInit {
     dialogConfig.width = "1000px";
     dialogConfig.data = {uid: uid}
     const modalDialog = this.matDialog.open(AdminUsersViewComponent, dialogConfig);
+  }
+
+  approveFillingFee(value){
+    this._adminUserservice.approveFillingFee(value).subscribe(res =>{
+      console.log(res)
+      this.message = res;
+    });
+
+
+  }
+
+  approvePermitFee(value){
+    this._adminUserservice.approveFillingFee(value).subscribe(res =>{
+      
+      this.message = res.message;
+    });
+
   }
 }
