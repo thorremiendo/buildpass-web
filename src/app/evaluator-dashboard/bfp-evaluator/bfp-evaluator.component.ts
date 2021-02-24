@@ -48,6 +48,7 @@ export class BfpEvaluatorComponent implements OnInit {
     this.changeDetectorRefs.detectChanges();
   }
   checkFormsCompliant() {
+    this.generateBfpForms();
     const isCompliant = this.dataSource.every(
       (form) => form.document_status_id == 1
     );
@@ -111,25 +112,61 @@ export class BfpEvaluatorComponent implements OnInit {
     });
   }
   nonCompliant() {
-    const body = {
-      application_status_id: 5,
-    };
-    this.applicationService
-      .updateApplicationStatus(body, this.applicationId)
-      .subscribe((res) => {
-        Swal.fire(
-          'Success!',
-          `Notified Applicant for Non-Compliance!`,
-          'success'
-        ).then((result) => {});
-      });
+    if (this.checkFormsReviewed()) {
+      const body = {
+        parallel_bfp_status_id: 2,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          Swal.fire('Success!', `Updated BFP Status!`, 'success').then(
+            (result) => {
+              window.location.reload();
+            }
+          );
+        });
+    } else {
+      Swal.fire(
+        'Notice!',
+        `Please review all documents first!`,
+        'info'
+      ).then((result) => {});
+    }
+  }
+  checkFormsReviewed() {
+    const isReviewed = this.dataSource.every(
+      (form) => form.document_status_id == 1 || form.document_status_id == 2
+    );
+    return isReviewed;
   }
 
   compliant() {
-    Swal.fire(
-      'Success!',
-      `Forwarded to CBAO for Releasing!`,
-      'success'
-    ).then((result) => {});
+    if (this.checkFireSecUploaded()) {
+      debugger;
+      const body = {
+        parallel_bfp_status_id: 1,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          Swal.fire('Success!', `Updated BFP Status!`, 'success').then(
+            (result) => {
+              window.location.reload();
+            }
+          );
+        });
+    } else {
+      Swal.fire(
+        'Warning!',
+        `Please Upload FSEC Clearance!`,
+        'warning'
+      ).then((result) => {});
+    }
+  }
+
+  checkFireSecUploaded() {
+    this.generateBfpForms();
+    const find = this.dataSource.find((form) => form.document_id == 45);
+    return find;
   }
 }

@@ -50,18 +50,19 @@ export class NewApplicationService {
       })
     );
   }
-
+  //attributes of user doc
   updateDocumentFile(body, id) {
     const url = `/userdocs/${id}/update`;
 
     return this.api.post(url, body);
   }
+
   fetchUserInfo(id) {
     const url = `/user/${id}/applicationid`;
 
     return this.api.get(url);
   }
-
+  //replace user document
   updateUserDocs(body, id) {
     const url = `/userdocs/${id}/revision`;
     return this.api.post(url, body);

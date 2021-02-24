@@ -32,7 +32,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatTableModule } from '@angular/material/table';
@@ -145,6 +145,7 @@ import { LocaleCurrencyInputModule } from 'locale-currency-input';
     MatAutocompleteModule,
     MatExpansionModule,
     NgxExtendedPdfViewerModule,
+    MatProgressSpinnerModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,

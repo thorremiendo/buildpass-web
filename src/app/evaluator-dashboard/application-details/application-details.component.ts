@@ -82,15 +82,27 @@ export class ApplicationDetailsComponent implements OnInit {
       .subscribe((res) => {
         this.userDocuments = res.data;
         if (this.applicationDetails.application_status_id == 3) {
-          this.checkFormsCompliant();
+          if (this.checkFormsCompliant()) {
+            this.checkAllDepartmentStatus();
+          }
         }
       });
   }
+
   checkFormsCompliant() {
-    const isReviewed = this.userDocuments.every(
+    const isCompliant = this.userDocuments.every(
       (form) => form.document_status_id == 1
     );
-    if (isReviewed) {
+    return isCompliant;
+  }
+  checkAllDepartmentStatus() {
+    this.isLoading = true;
+    const app = this.applicationDetails;
+    if (
+      app.parallel_bfp_status_id == 1 &&
+      app.parallel_cbao_status_id == 1 &&
+      app.parallel_cepmo_status_id == 1
+    ) {
       const body = {
         application_status_id: 12,
       };
@@ -98,13 +110,12 @@ export class ApplicationDetailsComponent implements OnInit {
         .updateApplicationStatus(body, this.applicationId)
         .subscribe((res) => {
           Swal.fire(
-            'Info!',
-            `All documents are compliant!
-            Notified Division Chief for Evaluation!`,
-            'info'
+            'All documents are compliant!!',
+            `Notified Division Chief for Evaluation!`,
+            'success'
           ).then((result) => {
             this.isLoading = false;
-            window.location.reload();
+            this.ngOnInit();
           });
         });
     }

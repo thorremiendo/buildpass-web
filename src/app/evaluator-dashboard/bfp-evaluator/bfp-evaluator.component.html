@@ -5,7 +5,13 @@
         <strong>Application Forms</strong>
       </h4>
     </div>
-    <button mat-stroked-button color="accent" (click)="openFsecDialog()">
+    <button
+      mat-stroked-button
+      color="accent"
+      (click)="openFsecDialog()"
+      *ngIf="!checkFireSecUploaded()"
+      [disabled]="!checkFormsCompliant()"
+    >
       Generate Fire Safety Evaluation Clearance
     </button>
     <div>
@@ -60,7 +66,12 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
       <div class="d-flex justify-content-between mt-5">
-        <button mat-raised-button color="warn" (click)="nonCompliant()">
+        <button
+          mat-raised-button
+          color="warn"
+          (click)="nonCompliant()"
+          [disabled]="checkFormsCompliant()"
+        >
           Return to Applicant
         </button>
         <button
@@ -69,7 +80,7 @@
           [disabled]="!checkFormsCompliant()"
           (click)="compliant()"
         >
-          Compliant
+          Done
         </button>
       </div>
     </div>
