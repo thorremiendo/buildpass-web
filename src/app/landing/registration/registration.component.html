@@ -7,6 +7,9 @@
         <mat-card-subtitle>* Please fill all required fields.</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
+        <div class="spinner" *ngIf="isUpdating">
+            <mat-spinner></mat-spinner>
+        </div>
         <form [formGroup]="_registrationForm" (ngSubmit)="onSubmit()">
         <div class="row">
             <div class="col-12">
