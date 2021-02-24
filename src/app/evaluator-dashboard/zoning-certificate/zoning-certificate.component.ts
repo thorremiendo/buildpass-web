@@ -76,7 +76,7 @@ export class ZoningCertificateComponent implements OnInit {
       application_id: this.applicationId,
       user_id: this.userId,
       document_id: this.userDocument.id,
-      document_status: 1,
+      document_status_id: 1,
     };
 
     if (this.zoningComplianceForm) {
@@ -89,7 +89,9 @@ export class ZoningCertificateComponent implements OnInit {
           'Success!',
           `${this.userDocument.name} uploaded!`,
           'success'
-        ).then((result) => {});
+        ).then((result) => {
+          this.onNoClick();
+        });
       });
   }
 }

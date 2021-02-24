@@ -63,7 +63,12 @@
         <button mat-raised-button color="warn" (click)="nonCompliant()">
           Return to Applicant
         </button>
-        <button mat-raised-button color="primary" (click)="compliant()">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="!checkFormsCompliant()"
+          (click)="compliant()"
+        >
           Compliant
         </button>
       </div>

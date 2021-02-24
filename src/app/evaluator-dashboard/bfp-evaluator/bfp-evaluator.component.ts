@@ -47,6 +47,12 @@ export class BfpEvaluatorComponent implements OnInit {
       });
     this.changeDetectorRefs.detectChanges();
   }
+  checkFormsCompliant() {
+    const isCompliant = this.dataSource.every(
+      (form) => form.document_status_id == 1
+    );
+    return isCompliant;
+  }
   fetchEvaluatorDetails() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.evaluatorDetails = this.user.employee_detail;

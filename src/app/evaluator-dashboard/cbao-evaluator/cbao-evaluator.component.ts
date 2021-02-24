@@ -140,6 +140,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     }
   }
   updateFormStatus() {
+    this.isLoading = true;
     const forReview = this.dataSource.forEach((element) => {
       let body = {
         document_status_id: 0,
@@ -180,7 +181,7 @@ export class CbaoEvaluatorComponent implements OnInit {
       );
     }
   }
-  notifyBo() {
+  notifyBuildingOfficial() {
     const body = {
       application_status_id: 13,
     };
@@ -212,22 +213,20 @@ export class CbaoEvaluatorComponent implements OnInit {
         });
       });
   }
-  // forReleasing() {
-  //   const body = {
-  //     application_status_id: 4,
-  //   };
-  //   this.applicationService
-  //     .updateApplicationStatus(body, this.applicationId)
-  //     .subscribe((res) => {
-  //       Swal.fire(
-  //         'Success!',
-  //         `Building Permit is now ready for release!`,
-  //         'success'
-  //       ).then((result) => {
-  //         window.location.reload();
-  //       });
-  //     });
-  // }
+  handleDepartmentStatus() {
+    const body = {
+      parallel_cbao_status_id: 1,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire('Success!', `CBAO Evaluation Done!`, 'success').then(
+          (result) => {
+            window.location.reload();
+          }
+        );
+      });
+  }
   handleRelease() {
     const body = {
       application_status_id: 11,

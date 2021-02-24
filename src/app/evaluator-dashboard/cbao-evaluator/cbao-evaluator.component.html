@@ -130,7 +130,7 @@
           <button
             mat-raised-button
             color="primary"
-            (click)="notifyBo()"
+            (click)="notifyBuildingOfficial()"
             *ngIf="evaluatorRole.code == 'CBAO-DC'"
           >
             Forward to Building Official
@@ -156,6 +156,14 @@
             "
           >
             Release Permit
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="handleDepartmentStatus()"
+            *ngIf="applicationInfo.application_status_id == '3'"
+          >
+            CBAO Done
           </button>
         </div>
       </div>

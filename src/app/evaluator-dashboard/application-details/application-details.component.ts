@@ -15,6 +15,8 @@ import { UserService } from 'src/app/core/services/user.service';
 import { FeesDialogComponent } from '../fees-dialog/fees-dialog.component';
 import { ApplicationFeesService } from 'src/app/core/services/application-fees.service';
 import { officeTypes } from 'src/app/core/enums/offices.enum';
+import { departmentStatus } from 'src/app/core/enums/department-status.enum';
+
 @Component({
   selector: 'app-application-details',
   templateUrl: './application-details.component.html',
@@ -117,6 +119,9 @@ export class ApplicationDetailsComponent implements OnInit {
   }
   getOfficeType(id): string {
     return officeTypes[id];
+  }
+  getDepartmentStatus(id): string {
+    return departmentStatus[id];
   }
   showAddItem() {
     const dialogRef = this.dialog.open(FeesDialogComponent, {
