@@ -119,31 +119,21 @@ export class CbaoEvaluatorComponent implements OnInit {
     );
     return isReviewed;
   }
+
   nonCompliant() {
     if (this.checkFormsReviewed()) {
-      if (this.checkFormsCompliant()) {
-        Swal.fire(
-          'Unable to return to applicant',
-          `All forms are compliant!`,
-          'warning'
-        ).then((result) => {});
-      } else {
-        const body = {
-          application_status_id: 5,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            Swal.fire(
-              'Success!',
-              `Notified Applicant for Revision!`,
-              'success'
-            ).then((result) => {
+      const body = {
+        parallel_cbao_status_id: 2,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          Swal.fire('Success!', `Updated CBAO Status!`, 'success').then(
+            (result) => {
               window.location.reload();
-            });
-            this.fetchApplicationInfo();
-          });
-      }
+            }
+          );
+        });
     } else {
       Swal.fire(
         'Notice!',
@@ -152,6 +142,7 @@ export class CbaoEvaluatorComponent implements OnInit {
       ).then((result) => {});
     }
   }
+
   updateFormStatus() {
     this.isLoading = true;
     const forReview = this.dataSource.forEach((element) => {
