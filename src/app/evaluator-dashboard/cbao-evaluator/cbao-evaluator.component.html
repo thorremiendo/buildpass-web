@@ -126,7 +126,12 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
       <div class="d-flex justify-content-between mt-5">
-        <div *ngIf="applicationInfo.application_status_id !== 11">
+        <div
+          *ngIf="
+            applicationInfo.application_status_id !== 11 &&
+            !checkFormsCompliant()
+          "
+        >
           <button
             mat-raised-button
             color="warn"

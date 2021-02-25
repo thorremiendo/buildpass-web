@@ -81,6 +81,7 @@ export class ApplicationDetailsComponent implements OnInit {
         this.fetchUserDocs();
         this.isLoading = false;
       });
+    this.isLoading = false;
   }
   fetchUserDocs() {
     this.isLoading = true;
@@ -111,6 +112,7 @@ export class ApplicationDetailsComponent implements OnInit {
           }
         }
       });
+    this.isLoading = false;
   }
 
   checkFormsCompliant() {
@@ -143,6 +145,7 @@ export class ApplicationDetailsComponent implements OnInit {
           });
         });
     }
+    this.isLoading = false;
   }
 
   fetchApplicationFees() {

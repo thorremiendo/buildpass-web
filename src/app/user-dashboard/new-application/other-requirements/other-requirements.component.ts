@@ -104,7 +104,7 @@ export class OtherRequirementsComponent implements OnInit {
     switch (type) {
       case 'barangayClearance':
         this.barangayClearance = file;
-        const barangayClearance = userDocuments[20];
+        const barangayClearance = userDocuments[38];
         this.handleUpload(this.barangayClearance, barangayClearance);
         break;
       case 'environmentalCompliance':

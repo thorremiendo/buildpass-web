@@ -13,6 +13,7 @@
         evaluatorRole.code == 'CPDO-COD' &&
         applicationDetails.application_status_id == '10'
       "
+      [disabled]="checkCertificateUploaded()"
     >
       Upload Zoning Compliance Form
     </button>
@@ -75,6 +76,7 @@
           color="warn"
           [disabled]="applicationDetails.application_status_id == 3"
           (click)="nonCompliant()"
+          *ngIf="!checkFormsCompliant()"
         >
           Return to Applicant
         </button>

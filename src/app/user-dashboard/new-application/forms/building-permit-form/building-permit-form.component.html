@@ -35,11 +35,13 @@
       [(formData)]="formData"
     >
     </ngx-extended-pdf-viewer>
-    <p class="ml-2 mt-4">2. Please Upload the Notarized Form.</p>
+    <p class="mt-4">2. Please Upload the Notarized Form.</p>
+    <p style="font-size: 14px; color: maroon">You can only upload PDF files.</p>
     <ngx-dropzone
       (change)="onSelect($event, 'buildingPermitForm')"
       [multiple]="false"
       class="mt-3"
+      accept="application/pdf"
     >
       <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
       <ngx-dropzone-preview

@@ -354,11 +354,11 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       body['permit_type_id'] = this.applicationDetails.permit_type_id;
     }
     if (!this.projectDetailsForm.valid) {
-      Swal.fire(
-        'Notice!',
-        'Please fill out all required fields!',
-        'info'
-      ).then((result) => {});
+      Swal.fire('Notice!', 'Please fill out all required fields!', 'info').then(
+        (result) => {
+          this.isLoading = false;
+        }
+      );
     } else {
       if (this.isRepresentative == '2') {
         this.newApplicationSerivce.submitApplication(body).subscribe((res) => {

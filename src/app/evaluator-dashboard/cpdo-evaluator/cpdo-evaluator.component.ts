@@ -97,21 +97,28 @@ export class CpdoEvaluatorComponent implements OnInit {
   }
 
   openFormDialog(element): void {
-    console.log(element);
-    const dialogRef = this.dialog.open(FormDetailsComponent, {
-      width: '1500px',
-      height: '2000px',
-      data: {
-        evaluator: this.evaluatorDetails,
-        form: element,
-        route: this.route,
-      },
-    });
+    if (
+      this.applicationDetails.application_status_id == 10 &&
+      this.evaluatorRole.code !== 'CPDO-COD'
+    ) {
+      Swal.fire('Info!', `Action not allowed!`, 'info').then((result) => {});
+    } else {
+      console.log(element);
+      const dialogRef = this.dialog.open(FormDetailsComponent, {
+        width: '1500px',
+        height: '2000px',
+        data: {
+          evaluator: this.evaluatorDetails,
+          form: element,
+          route: this.route,
+        },
+      });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-      this.ngOnInit();
-    });
+      dialogRef.afterClosed().subscribe((result) => {
+        console.log('The dialog was closed');
+        this.ngOnInit();
+      });
+    }
   }
   openZoningDialog() {
     const dialogRef = this.dialog.open(ZoningCertificateComponent, {
@@ -133,6 +140,7 @@ export class CpdoEvaluatorComponent implements OnInit {
     if (this.checkFormsReviewed()) {
       const body = {
         application_status_id: 5,
+        cpdo_status_id: 2,
       };
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
@@ -199,11 +207,13 @@ export class CpdoEvaluatorComponent implements OnInit {
         );
       }
     } else {
-      Swal.fire('Notice!', `Please Upload Zoning Clearance Certificate!`, 'warning').then(
-        (result) => {
-          this.isLoading = false;
-        }
-      );
+      Swal.fire(
+        'Notice!',
+        `Please Upload Zoning Clearance Certificate!`,
+        'warning'
+      ).then((result) => {
+        this.isLoading = false;
+      });
     }
   }
 
@@ -220,7 +230,7 @@ export class CpdoEvaluatorComponent implements OnInit {
 
   updateFormStatus() {
     this.isLoading = true;
-    const forReview = this.dataSource.forEach((element) => {
+    const forReview = this.forms.forEach((element) => {
       if (element.document_id !== 43) {
         let body = {
           document_status_id: 0,
