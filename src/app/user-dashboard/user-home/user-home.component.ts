@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router'
 import { FeedService } from '../../core';
 import { Feed, UserService } from '../../core';
 import { Subscription, Subject, Observable } from 'rxjs';
@@ -28,6 +29,7 @@ export class UserHomeComponent implements OnInit {
   constructor(
     private feedService: FeedService,
     private userService: UserService,
+    private _router: Router,
     ) 
     {
     this.user = JSON.parse(localStorage.getItem('user'));
@@ -50,8 +52,8 @@ export class UserHomeComponent implements OnInit {
     this.channel =this.feedService.pusher.subscribe(this.channelName);
     console.log(this.channelName)
     this.channel.bind('App\\Events\\ApplicantStatusChanged',
-    (data: { application_number: string; status: string; message:string, currentTime: string }) => {
-      this.subject.next(new Feed(data.application_number, data.status, data.message, new Date(data.currentTime)));
+    (data: { application_id: number; application_number: string; status: string; message:string, currentTime: string }) => {
+      this.subject.next(new Feed(data.application_id,data.application_number, data.status, data.message, new Date(data.currentTime)));
       console.log(data);
       console.log(data.currentTime);
       
@@ -66,6 +68,10 @@ export class UserHomeComponent implements OnInit {
     })
     
   } 
+
+  openApplication(id){
+    this._router.navigate(['dashboard/applications/view', id]);
+  }
 
   getFeedItems(): Observable<Feed> {
     return this.subject.asObservable();

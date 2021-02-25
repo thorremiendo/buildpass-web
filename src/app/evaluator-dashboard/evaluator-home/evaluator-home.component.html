@@ -112,18 +112,24 @@
               <h4>You don't have any notifications.</h4>
             </div>
             <div *ngFor="let feed of feeds; let i = index">
-              <div class="_notifications" (click)="openApplication(feed.id)">
+              <div class="_notifications" (click)="openApplication(feed.application_id)">
                 <div class="d-flex justify-content-around w-100 m-0">
-                  <p style="color: rgb(90, 108, 116); font-size: 12px">
-                    {{ feed.currentTime | dateAgo }}
-
-                  </p>
+                  <div class="col">
+                    <p style="color: rgb(90, 108, 116); font-size: 12px">
+                      {{ feed.currentTime | dateAgo }}
+                    </p>
+                  </div>
+                 <div class="col">
                   <p style="color: rgb(90, 108, 116)">
-                    {{ feed.application_number }} {{ feed.status }}
+                    {{ feed.application_number }} <br> {{ feed.status }}
                   </p>
+                 </div>
+                <div class="col">
                   <p style="color: rgb(90, 108, 116)">
                     {{ feed.message }} 
                   </p>
+                </div>
+                 
                 </div>
                 <hr />
               </div>

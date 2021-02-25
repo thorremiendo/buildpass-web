@@ -61,7 +61,7 @@
               <h4>You don't have any notifications.</h4>
             </div>
             <div *ngFor="let feed of feeds; let i = index">
-              <div class="_notifications" (click)="removeItem(i)">
+              <div class="_notifications" (click)="openApplication(feed.application_id)">
                 <div class="d-flex justify-content-around w-100 m-0">
                   <p style="color: rgb(90, 108, 116); font-size: 12px">
                     {{ feed.currentTime | dateAgo }}

@@ -133,6 +133,7 @@ export class EvaluatorHomeComponent implements OnInit {
     this.channel.bind(
       'App\\Events\\EvaluatorStatusChanged',
       (data: {
+        application_id: number;
         application_number: string;
         status: string;
         message: string;
@@ -140,6 +141,7 @@ export class EvaluatorHomeComponent implements OnInit {
       }) => {
         this.subject.next(
           new Feed(
+            data.application_id,
             data.application_number,
             data.status,
             data.message,

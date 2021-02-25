@@ -13,9 +13,10 @@ import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import * as keys from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
-})
+}) 
 export class ViewSDKClient {
   public formId;
   public url;
@@ -41,8 +42,8 @@ export class ViewSDKClient {
   previewFile(divId: string, viewerConfig: any) {
     const config: any = {
       /* Pass your registered client id */
-      clientId: '8c0cd670273d451cbc9b351b11d22318',
-      // clientId: '46ddf9af80f5465c8f59e080868ef747',
+      //clientId: '8c0cd670273d451cbc9b351b11d22318',
+      clientId: environment.adobe_key,
     };
     if (divId) {
       /* Optional only for Light Box embed mode */
