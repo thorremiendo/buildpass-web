@@ -1,26 +1,95 @@
 <div class="container">
   <div class="row">
-    <!-- <div class="col-md-6">
+    <div class="col-md-3">
+      <mat-card class="totalCard">
+        <mat-card-content>
+          <p>
+            <span style="font-size: 3em; color:maroon">40</span>
+          </p>
+          <p>
+            <span style="font-size: 1em; color:gray">Building Permit</span>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-3">
+      <mat-card class="totalCard">
+        <mat-card-content>
+          <p>
+            <span style="font-size: 3em; color:maroon">10</span>
+          </p>
+          <p>
+            <span style="font-size: 1em; color:gray">Excavation Permit</span>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-3">
+      <mat-card class="totalCard">
+        <mat-card-content>
+          <p>
+            <span style="font-size: 3em; color:maroon">15</span>
+          </p>
+          <p>
+            <span style="font-size: 1em; color:gray">Other Permit</span>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-3">
+      <mat-card class="totalCard">
+        <mat-card-content>
+          <p>
+            <span style="font-size: 3em; color:maroon">65</span>
+          </p>
+          <p>
+            <span style="font-size: 1em; color:gray">Total</span>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-7">
       <div class="d-flex w-100">
-        <mat-card>
-          <mat-card-title class="m-3">Applications</mat-card-title>
-          <hr class="m-0" />
+        <mat-card style="height: 500">
+          <!-- <mat-card-title class="m-0">Applications</mat-card-title>
+          <hr class="m-0" /> -->
           <p class="ml-3 mt-3">as of {{ date | date: "MMMM dd, yyyy" }}</p>
-          <div class="piechart justify-content-center">
-            <ngx-charts-advanced-pie-chart
-              [view]="view"
-              [scheme]="colorScheme"
-              [results]="chartData"
-              [gradient]="gradient"
-              (select)="onSelect($event)"
-              (activate)="onActivate($event)"
-              (deactivate)="onDeactivate($event)"
-            >
-            </ngx-charts-advanced-pie-chart>
+          <div class="m-3" style="display: block;">
+            <canvas baseChart 
+              [datasets]="barChartData"
+              [labels]="barChartLabels"
+              [options]="barChartOptions"
+              [plugins]="barChartPlugins"
+              [legend]="barChartLegend"
+              [chartType]="barChartType"
+              colours="{
+                fillColor: 'rgb(128,0,0)',
+                strokeColor: 'rgb(128,0,0)',
+                highlightFill: 'rgb(128,0,0)',
+                highlightStroke: 'rgb(128,0,0)'
+                }">
+            </canvas>
           </div>
         </mat-card>
       </div>
-    </div> -->
+    </div>
+    <div class="col-md-5">
+      <div class="d-flex w-100 ">
+        <mat-card style="height:500">
+          <div class="m-0 pt-5" style="display: block;">
+            <canvas baseChart 
+            [data]="doughnutChartData"
+            [labels]="doughnutChartLabels"
+            [chartType]="doughnutChartType">
+          </canvas>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-md-12">
       <mat-card>
         <mat-card-header>
@@ -43,7 +112,7 @@
               <h4>You don't have any notifications.</h4>
             </div>
             <div *ngFor="let feed of feeds; let i = index">
-              <div class="_notifications" (click)="removeItem(i)">
+              <div class="_notifications" (click)="openApplication(feed.id)">
                 <div class="d-flex justify-content-around w-100 m-0">
                   <p style="color: rgb(90, 108, 116); font-size: 12px">
                     {{ feed.currentTime | dateAgo }}
@@ -63,6 +132,7 @@
         </mat-card-content>
       </mat-card>
     </div>
+
   </div>
   <div class="row">
     <div class="col-md-12">
