@@ -27,6 +27,7 @@ export class BfpEvaluatorComponent implements OnInit {
   public forms;
   public applicationId;
   public evaluatorDetails;
+  public applicationDetails;
   public isLoading: boolean = true;
   constructor(
     private applicationService: ApplicationInfoService,
@@ -37,13 +38,16 @@ export class BfpEvaluatorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.applicationId = this.route.snapshot.params.id;
+    this.fetchApplicationDetails();
     this.applicationService
       .fetchUserDocs(this.applicationId)
       .subscribe((result) => {
         this.forms = result.data;
         this.generateBfpForms();
         this.fetchEvaluatorDetails();
+        this.isLoading = false;
       });
     this.changeDetectorRefs.detectChanges();
   }
@@ -59,6 +63,14 @@ export class BfpEvaluatorComponent implements OnInit {
     this.evaluatorDetails = this.user.employee_detail;
     console.log('Evaluator Details', this.evaluatorDetails);
     this.isLoading = false;
+  }
+  fetchApplicationDetails() {
+    this.applicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((res) => {
+        console.log('Application Info:', res);
+        this.applicationDetails = res.data;
+      });
   }
   generateBfpForms() {
     const BFP_FORMS = this.forms.filter(

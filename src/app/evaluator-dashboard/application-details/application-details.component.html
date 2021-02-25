@@ -115,7 +115,27 @@
               View Timeline</mat-panel-title
             >
           </mat-expansion-panel-header>
-          <div>
+          <div *ngIf="applicationTimeline">
+            <section
+              *ngFor="let item of applicationTimeline"
+              class="timeline-area"
+            >
+              <div class="timeline">
+                <h4>
+                  {{ item.name }}
+                </h4>
+                <h5 style="color: green">
+                  <strong>
+                    {{ item.status }}
+                  </strong>
+                </h5>
+                <h6>
+                  {{ item.created_at | date: "MMMM dd, yyyy" }}
+                </h6>
+              </div>
+            </section>
+          </div>
+          <!-- <div>
             <section class="timeline-area">
               <div class="timeline">
                 <h4>City Building and Architecture Office</h4>
@@ -181,7 +201,7 @@
                 <h6>Date Time</h6>
               </div>
             </section>
-          </div>
+          </div> -->
         </mat-expansion-panel>
       </div>
     </mat-card-content>

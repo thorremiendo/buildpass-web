@@ -40,6 +40,7 @@ export class ApplicationDetailsComponent implements OnInit {
   public applicationDetails;
   public evaluatorRole;
   public userDocuments;
+  public applicationTimeline;
   constructor(
     private router: Router,
     private applicationService: ApplicationInfoService,
@@ -66,6 +67,12 @@ export class ApplicationDetailsComponent implements OnInit {
     this.isLoading = true;
     this.applicationId = this.route.snapshot.params.id;
     this.applicationService
+      .fetchApplicationTmeline(this.applicationId)
+      .subscribe((res) => {
+        this.applicationTimeline = res.data;
+        console.log('timeline', this.applicationTimeline);
+      });
+    this.applicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
@@ -84,6 +91,23 @@ export class ApplicationDetailsComponent implements OnInit {
         if (this.applicationDetails.application_status_id == 3) {
           if (this.checkFormsCompliant()) {
             this.checkAllDepartmentStatus();
+          } else if (this.checkAllDepartmentStatusReview()) {
+            if (this.checkDepartmentNonCompliant()) {
+              const body = {
+                application_status_id: 5,
+              };
+              this.applicationService
+                .updateApplicationStatus(body, this.applicationId)
+                .subscribe((res) => {
+                  Swal.fire(
+                    'Notice',
+                    `Returned to Appicant for Revision!`,
+                    'warning'
+                  ).then((result) => {});
+                  window.location.reload();
+                  this.isLoading = false;
+                });
+            }
           }
         }
       });
@@ -164,5 +188,41 @@ export class ApplicationDetailsComponent implements OnInit {
   }
   getApplicationStatus(id): string {
     return applicationStatus[id];
+  }
+
+  checkAllDepartmentStatusReview() {
+    //checks if all departments are done with review
+    const app = this.applicationDetails;
+    const status = [
+      {
+        id: app.parallel_cepmo_status_id,
+      },
+      {
+        id: app.parallel_bfp_status_id,
+      },
+      {
+        id: app.parallel_cbao_status_id,
+      },
+    ];
+    const isReviewed = status.every((dep) => dep.id == 1 || dep.id == 2);
+    console.log('every', isReviewed);
+    return isReviewed;
+  }
+  checkDepartmentNonCompliant() {
+    //checks if one department status is noncompoliant
+    const app = this.applicationDetails;
+    const status = [
+      {
+        id: app.parallel_cepmo_status_id,
+      },
+      {
+        id: app.parallel_bfp_status_id,
+      },
+      {
+        id: app.parallel_cbao_status_id,
+      },
+    ];
+    const isNonCompliant = status.find((dep) => dep.id == 2);
+    return isNonCompliant;
   }
 }
