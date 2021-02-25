@@ -74,6 +74,7 @@
           (click)="hide = !hide"
           [attr.aria-label]="'Hide password'"
           [attr.aria-pressed]="hide"
+          type="button"
         >
           <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
@@ -112,6 +113,7 @@
           (click)="hide = !hide"
           [attr.aria-label]="'Hide password'"
           [attr.aria-pressed]="hide"
+          type="button"
         >
           <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
@@ -145,7 +147,7 @@
   <div class="row justify-content-center pt-2 pb-5">
     <div class="col-md-4 google-login">
       <p>or sign up with</p>
-      <button mat-stroked-button (click)="tryGoogle()">
+      <button mat-stroked-button (click)="tryGoogle()" type="button">
         <mat-icon matPrefix svgIcon="logo"></mat-icon>
         Google
       </button>
