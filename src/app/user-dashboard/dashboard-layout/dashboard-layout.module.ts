@@ -38,7 +38,9 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatRadioModule} from '@angular/material/radio';
+import { MatBadgeModule } from '@angular/material/badge';
 import { LocaleCurrencyInputModule} from 'locale-currency-input';
+
 
 
 
@@ -88,6 +90,7 @@ import { LocaleCurrencyInputModule} from 'locale-currency-input';
     MatAutocompleteModule,
     MatCheckboxModule,
     MatRadioModule,
+    MatBadgeModule,
     LocaleCurrencyInputModule
   ],
 

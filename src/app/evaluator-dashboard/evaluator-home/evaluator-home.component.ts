@@ -11,6 +11,10 @@ import { ApplicationInfoService } from 'src/app/core/services/application-info.s
 import { Channel } from 'pusher-js';
 import { map, catchError } from 'rxjs/operators';
 
+import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
+import { Label, ThemeService, MultiDataSet } from 'ng2-charts';
+
+
 const googleLogoURL =
   'https://raw.githubusercontent.com/fireflysemantics/logo/master/Google.svg';
 
@@ -30,37 +34,44 @@ export class EvaluatorHomeComponent implements OnInit {
   public notifTable: any[];
   private subject: Subject<Feed> = new Subject<Feed>();
   private channleType: string = 'evaluator';
-
-  public chartData: any[] = [
-    {
-      name: 'Pending',
-      value: 0,
-    },
-    {
-      name: 'In Process',
-      value: 1,
-    },
-    {
-      name: 'Flagged',
-      value: 0,
-    },
-    {
-      name: 'Completed',
-      value: 0,
-    },
-  ];
-  view: any[] = [700, 400];
   public date = new Date();
-  //piechart options
-  gradient: boolean = true;
-  showLegend: boolean = true;
-  showLabels: boolean = true;
-  isDoughnut: boolean = true;
-  //piechart color
-  colorScheme = {
-    domain: ['#540b0e', '#9e2a2b', '#335c67', '#F9C232'],
+
+  public barChartOptions: ChartOptions = {
+    responsive: true,
+    scales: {
+      xAxes: [{
+          gridLines: {
+              display:false
+          }
+      }],
+      yAxes: [{
+          gridLines: {
+              display:false
+          }   
+      }]
+  }
+
+
   };
-  //card navigation
+  public barChartLabels: Label[] = ['2020', '2021', '2022', '2023', '2024'];
+  public barChartType: ChartType = 'bar';
+  public barChartLegend = true;
+  public barChartPlugins = [];
+
+  public barChartData: ChartDataSets[] = [
+    { data: [65, 59, 80, 81, 56], label: 'Building Permit' },
+    { data: [28, 48, 40, 19, 86], label: 'Other Permit' }
+  ];
+
+  doughnutChartLabels: Label[] = ['New Task', 'Opened Task', 'Close Task'];
+  doughnutChartData: MultiDataSet = [
+    [55, 25, 20]
+  ];
+  doughnutChartType: ChartType = 'doughnut';
+
+
+ 
+  
   navLinks: any[];
   activeLinkIndex = -1;
 
@@ -70,7 +81,9 @@ export class EvaluatorHomeComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private authService: AuthService,
     private feedService: FeedService,
-    public applicationInfoService: ApplicationInfoService
+    public applicationInfoService: ApplicationInfoService,
+    private _themeService: ThemeService
+    
   ) {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.channelName = `evaluator-${this.user.employee_detail.user_notif.channel}`;
@@ -146,7 +159,7 @@ export class EvaluatorHomeComponent implements OnInit {
   }
 
   getNotificationTable() {
-    this.feedService
+    this.feedService 
       .getNotifTable(
         this.user.employee_detail.user_notif.channel,
         this.channleType
@@ -154,6 +167,7 @@ export class EvaluatorHomeComponent implements OnInit {
       .subscribe(
         (data) => {
           this.feeds = data.data;
+          console.log(JSON.stringify(data))
         },
         catchError((error) => {
           return throwError('Something went wrong.');
@@ -164,6 +178,21 @@ export class EvaluatorHomeComponent implements OnInit {
   getFeedItems(): Observable<Feed> {
     return this.subject.asObservable();
   }
+
+  openApplication(id){
+    this._router.navigate(['dashboard/applications/view', id]);
+  }
+
+//   public chartColors() {
+//     return [{
+//       //backgroundColor: this.alert.severityColor,
+//       borderColor: 'rgba(225,10,24,0.2)',
+//       pointBackgroundColor: 'rgba(225,10,24,0.2)',
+//       pointBorderColor: '#fff',
+//       pointHoverBackgroundColor: '#fff',
+//       pointHoverBorderColor: 'rgba(225,10,24,0.2)'
+//   }]
+// }
 
   onSelect(data): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));
