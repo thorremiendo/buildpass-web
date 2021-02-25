@@ -72,7 +72,7 @@ export class AdminUserService {
   approvePermitFee(ocpasCode){
     const url = `/treasury/${ocpasCode}/updatePayment`;
     const body = {
-      payment_realeasing_status_id: "2",
+      payment_releasing_status_id: "2",
       official_receipt_number:"22222"
     }
 

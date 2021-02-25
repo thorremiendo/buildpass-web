@@ -70,22 +70,31 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
       <div class="d-flex justify-content-between mt-5">
-        <button mat-raised-button color="warn" (click)="nonCompliant()">
+        <button
+          mat-raised-button
+          color="warn"
+          [disabled]="applicationDetails.application_status_id == 3"
+          (click)="nonCompliant()"
+        >
           Return to Applicant
         </button>
         <button
           mat-raised-button
+          [disabled]="applicationDetails.application_status_id == 3"
           color="primary"
           (click)="handleApprove()"
           *ngIf="evaluatorRole.code == 'CPDO-COD'"
         >
-          Approve
+          Forward
         </button>
         <button
           mat-raised-button
           color="primary"
           (click)="forwardForApproval()"
-          *ngIf="evaluatorRole.code == 'CPDO-ZI'"
+          *ngIf="
+            evaluatorRole.code == 'CPDO-ZI' &&
+            applicationDetails.application_status_id !== 10
+          "
           [disabled]="checkFormNonCompliant()"
         >
           For Approval of Clearance

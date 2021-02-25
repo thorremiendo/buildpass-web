@@ -10,6 +10,7 @@
       color="primary"
       (click)="openBldgPermitDialog()"
       *ngIf="evaluatorRole.code == 'CBAO-BO'"
+      [disabled]="checkBuildingPermitUploaded()"
     >
       Release Building Permit
     </button>
@@ -80,10 +81,42 @@
               mat-button
               color="accent"
               (click)="openFormDialog(element)"
-              [disabled]="
-                evaluatorRole.code == 'CBAO-REC' &&
-                applicationInfo.application_status_id !== 1
+              [disabled]="applicationInfo.application_status_id !== 1"
+              *ngIf="evaluatorRole.code == 'CBAO-REC'"
+            >
+              View
+            </button>
+            <button
+              mat-button
+              color="accent"
+              (click)="openFormDialog(element)"
+              [disabled]="applicationInfo.application_status_id !== 3"
+              *ngIf="
+                evaluatorRole.code == 'CBAO-LG' ||
+                evaluatorRole.code == 'CBAO-ARCH' ||
+                evaluatorRole.code == 'CBAO-STR' ||
+                evaluatorRole.code == 'CBAO-SAN' ||
+                evaluatorRole.code == 'CBAO-ELEC' ||
+                evaluatorRole.code == 'CBAO-MEC'
               "
+            >
+              View
+            </button>
+            <button
+              mat-button
+              color="accent"
+              (click)="openFormDialog(element)"
+              [disabled]="applicationInfo.application_status_id !== 12"
+              *ngIf="evaluatorRole.code == 'CBAO-DC'"
+            >
+              View
+            </button>
+            <button
+              mat-button
+              color="accent"
+              (click)="openFormDialog(element)"
+              [disabled]="applicationInfo.application_status_id !== 13"
+              *ngIf="evaluatorRole.code == 'CBAO-BO'"
             >
               View
             </button>
@@ -124,14 +157,19 @@
             color="primary"
             (click)="forPayment()"
             *ngIf="evaluatorRole.code == 'CBAO-BO'"
+            [disabled]="
+              !checkBuildingPermitUploaded() ||
+              applicationInfo.application_status_id !== 13
+            "
           >
-            Approve Building Permit
+            Forward for Payment
           </button>
           <button
             mat-raised-button
             color="primary"
-            (click)="notifyBo()"
+            (click)="notifyBuildingOfficial()"
             *ngIf="evaluatorRole.code == 'CBAO-DC'"
+            [disabled]="applicationInfo.application_status_id !== 12"
           >
             Forward to Building Official
           </button>
@@ -157,8 +195,20 @@
           >
             Release Permit
           </button>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="handleDepartmentStatus()"
+            *ngIf="applicationInfo.application_status_id == '3'"
+            [disabled]="checkFormNonCompliant()"
+          >
+            CBAO Done
+          </button>
         </div>
       </div>
     </div>
   </mat-card-content>
 </mat-card>
+<div class="spinner" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>

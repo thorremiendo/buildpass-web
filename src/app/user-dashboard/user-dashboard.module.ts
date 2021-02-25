@@ -43,6 +43,7 @@ import { CivilEngineerAffidavitComponent } from './new-application/forms/civil-e
 import { GeodeticEngineerAffidavitComponent } from './new-application/forms/geodetic-engineer-affidavit/geodetic-engineer-affidavit.component';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -127,6 +128,7 @@ import { FileUploadComponent } from './new-application/forms/file-upload/file-up
     MatButtonModule,
     NgxDropzoneModule,
     CoreModule,
+    MatBadgeModule,
     MatIconModule,
     MatCardModule,
     MatTableModule,

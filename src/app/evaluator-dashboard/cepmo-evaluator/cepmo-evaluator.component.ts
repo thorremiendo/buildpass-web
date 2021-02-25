@@ -109,24 +109,67 @@ export class CepmoEvaluatorComponent implements OnInit {
     });
   }
   nonCompliant() {
-    const body = {
-      application_status_id: 1,
-    };
-    this.applicationService
-      .updateApplicationStatus(body, this.applicationId)
-      .subscribe((res) => {
-        Swal.fire(
-          'Success!',
-          `Notified Applicant for Non-Compliance!`,
-          'success'
-        ).then((result) => {});
-      });
+    if (this.checkFormsReviewed()) {
+      const body = {
+        parallel_cepmo_status_id: 2,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          Swal.fire('Success!', `Updated CEPMO Status!`, 'success').then(
+            (result) => {
+              window.location.reload();
+            }
+          );
+        });
+    } else {
+      Swal.fire(
+        'Notice!',
+        `Please review all documents first!`,
+        'info'
+      ).then((result) => {});
+    }
+  }
+
+  checkFormsReviewed() {
+    const isReviewed = this.dataSource.every(
+      (form) => form.document_status_id == 1 || form.document_status_id == 2
+    );
+    return isReviewed;
+  }
+
+  checkFormsCompliant() {
+    this.generateCepmoForms;
+    const isCompliant = this.dataSource.every(
+      (form) => form.document_status_id == 1
+    );
+    return isCompliant;
   }
   compliant() {
-    Swal.fire(
-      'Success!',
-      `Forwarded to CBAO for Releasing!`,
-      'success'
-    ).then((result) => {});
+    if (this.checkWwmsUploaded()) {
+      const body = {
+        parallel_cepmo_status_id: 1,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          Swal.fire('Success!', `Updated CEPMO Status!`, 'success').then(
+            (result) => {
+              window.location.reload();
+            }
+          );
+        });
+    } else {
+      Swal.fire(
+        'Warning!',
+        `Please Upload WWMS BP Certificate!`,
+        'warning'
+      ).then((result) => {});
+    }
+  }
+  checkWwmsUploaded() {
+    this.generateCepmoForms();
+    const find = this.dataSource.find((form) => form.document_id == 44);
+    return find;
   }
 }

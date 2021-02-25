@@ -35,6 +35,18 @@ export class ApplicationInfoService {
       })
     );
   }
+  fetchApplicationTmeline(id) {
+    const url = `/application/${id}/timeline`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        console.log('AppTimeline Result:', data);
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
   fetchUserDocs(id) {
     const url = `/userdocs/${id}`;
     return this.api.get(url).pipe(

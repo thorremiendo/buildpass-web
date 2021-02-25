@@ -15,6 +15,8 @@ import { UserService } from 'src/app/core/services/user.service';
 import { FeesDialogComponent } from '../fees-dialog/fees-dialog.component';
 import { ApplicationFeesService } from 'src/app/core/services/application-fees.service';
 import { officeTypes } from 'src/app/core/enums/offices.enum';
+import { departmentStatus } from 'src/app/core/enums/department-status.enum';
+
 @Component({
   selector: 'app-application-details',
   templateUrl: './application-details.component.html',
@@ -38,6 +40,7 @@ export class ApplicationDetailsComponent implements OnInit {
   public applicationDetails;
   public evaluatorRole;
   public userDocuments;
+  public applicationTimeline;
   constructor(
     private router: Router,
     private applicationService: ApplicationInfoService,
@@ -64,6 +67,12 @@ export class ApplicationDetailsComponent implements OnInit {
     this.isLoading = true;
     this.applicationId = this.route.snapshot.params.id;
     this.applicationService
+      .fetchApplicationTmeline(this.applicationId)
+      .subscribe((res) => {
+        this.applicationTimeline = res.data;
+        console.log('timeline', this.applicationTimeline);
+      });
+    this.applicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
@@ -80,15 +89,44 @@ export class ApplicationDetailsComponent implements OnInit {
       .subscribe((res) => {
         this.userDocuments = res.data;
         if (this.applicationDetails.application_status_id == 3) {
-          this.checkFormsCompliant();
+          if (this.checkFormsCompliant()) {
+            this.checkAllDepartmentStatus();
+          } else if (this.checkAllDepartmentStatusReview()) {
+            if (this.checkDepartmentNonCompliant()) {
+              const body = {
+                application_status_id: 5,
+              };
+              this.applicationService
+                .updateApplicationStatus(body, this.applicationId)
+                .subscribe((res) => {
+                  Swal.fire(
+                    'Notice',
+                    `Returned to Appicant for Revision!`,
+                    'warning'
+                  ).then((result) => {});
+                  window.location.reload();
+                  this.isLoading = false;
+                });
+            }
+          }
         }
       });
   }
+
   checkFormsCompliant() {
-    const isReviewed = this.userDocuments.every(
+    const isCompliant = this.userDocuments.every(
       (form) => form.document_status_id == 1
     );
-    if (isReviewed) {
+    return isCompliant;
+  }
+  checkAllDepartmentStatus() {
+    this.isLoading = true;
+    const app = this.applicationDetails;
+    if (
+      app.parallel_bfp_status_id == 1 &&
+      app.parallel_cbao_status_id == 1 &&
+      app.parallel_cepmo_status_id == 1
+    ) {
       const body = {
         application_status_id: 12,
       };
@@ -96,13 +134,12 @@ export class ApplicationDetailsComponent implements OnInit {
         .updateApplicationStatus(body, this.applicationId)
         .subscribe((res) => {
           Swal.fire(
-            'Info!',
-            `All documents are compliant!
-            Notified Division Chief for Evaluation!`,
-            'info'
+            'All documents are compliant!!',
+            `Notified Division Chief for Evaluation!`,
+            'success'
           ).then((result) => {
             this.isLoading = false;
-            window.location.reload();
+            this.ngOnInit();
           });
         });
     }
@@ -117,6 +154,9 @@ export class ApplicationDetailsComponent implements OnInit {
   }
   getOfficeType(id): string {
     return officeTypes[id];
+  }
+  getDepartmentStatus(id): string {
+    return departmentStatus[id];
   }
   showAddItem() {
     const dialogRef = this.dialog.open(FeesDialogComponent, {
@@ -148,5 +188,41 @@ export class ApplicationDetailsComponent implements OnInit {
   }
   getApplicationStatus(id): string {
     return applicationStatus[id];
+  }
+
+  checkAllDepartmentStatusReview() {
+    //checks if all departments are done with review
+    const app = this.applicationDetails;
+    const status = [
+      {
+        id: app.parallel_cepmo_status_id,
+      },
+      {
+        id: app.parallel_bfp_status_id,
+      },
+      {
+        id: app.parallel_cbao_status_id,
+      },
+    ];
+    const isReviewed = status.every((dep) => dep.id == 1 || dep.id == 2);
+    console.log('every', isReviewed);
+    return isReviewed;
+  }
+  checkDepartmentNonCompliant() {
+    //checks if one department status is noncompoliant
+    const app = this.applicationDetails;
+    const status = [
+      {
+        id: app.parallel_cepmo_status_id,
+      },
+      {
+        id: app.parallel_bfp_status_id,
+      },
+      {
+        id: app.parallel_cbao_status_id,
+      },
+    ];
+    const isNonCompliant = status.find((dep) => dep.id == 2);
+    return isNonCompliant;
   }
 }

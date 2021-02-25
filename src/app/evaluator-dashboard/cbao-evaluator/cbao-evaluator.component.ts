@@ -63,6 +63,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.applicationInfo = res.data;
       });
   }
+
   fetchEvaluatorDetails() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.evaluatorDetails = this.user.employee_detail;
@@ -101,6 +102,10 @@ export class CbaoEvaluatorComponent implements OnInit {
     );
     return isCompliant;
   }
+  checkBuildingPermitUploaded() {
+    const find = this.dataSource.find((form) => form.document_id == 50);
+    return find;
+  }
 
   checkFormNonCompliant() {
     const isNonCompliant = this.dataSource.find(
@@ -114,22 +119,20 @@ export class CbaoEvaluatorComponent implements OnInit {
     );
     return isReviewed;
   }
+
   nonCompliant() {
     if (this.checkFormsReviewed()) {
       const body = {
-        application_status_id: 5,
+        parallel_cbao_status_id: 2,
       };
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
         .subscribe((res) => {
-          Swal.fire(
-            'Success!',
-            `Notified Applicant for Revision!`,
-            'success'
-          ).then((result) => {
-            window.location.reload();
-          });
-          this.fetchApplicationInfo();
+          Swal.fire('Success!', `Updated CBAO Status!`, 'success').then(
+            (result) => {
+              window.location.reload();
+            }
+          );
         });
     } else {
       Swal.fire(
@@ -139,7 +142,9 @@ export class CbaoEvaluatorComponent implements OnInit {
       ).then((result) => {});
     }
   }
+
   updateFormStatus() {
+    this.isLoading = true;
     const forReview = this.dataSource.forEach((element) => {
       let body = {
         document_status_id: 0,
@@ -180,54 +185,81 @@ export class CbaoEvaluatorComponent implements OnInit {
       );
     }
   }
-  notifyBo() {
-    const body = {
-      application_status_id: 13,
-    };
-    this.applicationService
-      .updateApplicationStatus(body, this.applicationId)
-      .subscribe((res) => {
-        Swal.fire(
-          'Success!',
-          `Forwarded to Building Official!`,
-          'success'
-        ).then((result) => {
-          window.location.reload();
+  notifyBuildingOfficial() {
+    this.isLoading = true;
+    if (this.checkFormsCompliant()) {
+      const body = {
+        application_status_id: 13,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          Swal.fire(
+            'Success!',
+            `Forwarded to Building Official!`,
+            'success'
+          ).then((result) => {
+            window.location.reload();
+          });
         });
-      });
+    } else {
+      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+        (result) => {
+          this.isLoading = false;
+        }
+      );
+    }
   }
   forPayment() {
-    const body = {
-      application_status_id: 8,
-    };
-    this.applicationService
-      .updateApplicationStatus(body, this.applicationId)
-      .subscribe((res) => {
-        Swal.fire(
-          'Success!',
-          `Building Permit Application Approved! Notified Applicant for Payment`,
-          'success'
-        ).then((result) => {
-          window.location.reload();
+    this.isLoading = true;
+    if (this.checkFormsCompliant) {
+      const body = {
+        application_status_id: 8,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          Swal.fire(
+            'Success!',
+            `Building Permit Application Approved! Notified Applicant for Payment`,
+            'success'
+          ).then((result) => {
+            this.isLoading = false;
+            window.location.reload();
+          });
         });
+    } else {
+      Swal.fire(
+        'Warning!',
+        `Please review all documents first!`,
+        'warning'
+      ).then((result) => {
+        this.isLoading = false;
       });
+    }
   }
-  // forReleasing() {
-  //   const body = {
-  //     application_status_id: 4,
-  //   };
-  //   this.applicationService
-  //     .updateApplicationStatus(body, this.applicationId)
-  //     .subscribe((res) => {
-  //       Swal.fire(
-  //         'Success!',
-  //         `Building Permit is now ready for release!`,
-  //         'success'
-  //       ).then((result) => {
-  //         window.location.reload();
-  //       });
-  //     });
-  // }
+  handleDepartmentStatus() {
+    if (this.checkFormsCompliant()) {
+      const body = {
+        parallel_cbao_status_id: 1,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          Swal.fire('Success!', `CBAO Evaluation Done!`, 'success').then(
+            (result) => {
+              window.location.reload();
+            }
+          );
+        });
+    } else {
+      Swal.fire(
+        'Warning!',
+        `Please Review All Documents!`,
+        'warning'
+      ).then((result) => {});
+    }
+  }
   handleRelease() {
     const body = {
       application_status_id: 11,

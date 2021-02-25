@@ -97,27 +97,115 @@ export class ViewApplicationComponent implements OnInit {
     return applicationStatus[id];
   }
 
-  checkFormsReviewed() {
-    const isReviewed = this.dataSource.every(
-      (form) => form.document_status_id !== 1 || form.document_status_id !== 2
+  checkFormNonCompliant() {
+    const isNonCompliant = this.dataSource.find(
+      (form) => form.document_status_id == 2
     );
-    return isReviewed;
+    return isNonCompliant;
   }
   onSave() {
-    const body = {
-      application_status_id: 1,
-    };
+    this.isLoading = true;
+    if (!this.checkFormNonCompliant()) {
+      if (this.checkDepartmentNonCompliant()) {
+        const body = {
+          application_status_id: 3,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.updateDepartmentStatus();
+          });
+      } else {
+        const body = {
+          application_status_id: 1,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Forwarded to CBAO for Evaluation!`,
+              'success'
+            ).then((result) => {
+              this.isLoading = false;
+              window.location.reload();
+            });
+          });
+      }
+    } else {
+      Swal.fire(
+        'Warning!',
+        `Please check non-compliant douments!`,
+        'warning'
+      ).then((result) => {
+        this.isLoading = false;
+      });
+    }
+  }
+  updateDepartmentStatus() {
+    const app = this.applicationDetails;
+    const status = [
+      {
+        parallel_cepmo_status_id: app.parallel_cepmo_status_id,
+      },
+      {
+        parallel_bfp_status_id: app.parallel_bfp_status_id,
+      },
+      {
+        parallel_cbao_status_id: app.parallel_cbao_status_id,
+      },
+    ];
+    const isNonCompliant = status.forEach((dep) => {
+      if (dep.parallel_cepmo_status_id == 2) {
+        const body = {
+          parallel_cepmo_status_id: 0,
+        };
+        this.updateApplication(body);
+      } else if (dep.parallel_bfp_status_id == 2) {
+        const body = {
+          parallel_bfp_status_id: 0,
+        };
+        this.updateApplication(body);
+      } else if (dep.parallel_cbao_status_id == 2) {
+        const body = {
+          parallel_cbao_status_id: 0,
+        };
+        this.updateApplication(body);
+      }
+    });
+    return isNonCompliant;
+  }
+
+  updateApplication(body) {
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
-        Swal.fire(
-          'Success!',
-          `Forwarded to CBAO for Evaluation!`,
-          'success'
-        ).then((result) => {
-          window.location.reload();
-        });
+        console.log(res);
+        Swal.fire('Success!', `Forwarded for Re-Evaluation!`, 'success').then(
+          (result) => {
+            this.isLoading = false;
+            window.location.reload();
+          }
+        );
       });
+  }
+
+  checkDepartmentNonCompliant() {
+    //checks if one department status is noncompoliant
+    const app = this.applicationDetails;
+    const status = [
+      {
+        id: app.parallel_cepmo_status_id,
+      },
+      {
+        id: app.parallel_bfp_status_id,
+      },
+      {
+        id: app.parallel_cbao_status_id,
+      },
+    ];
+    const isNonCompliant = status.find((dep) => dep.id == 2);
+    return isNonCompliant;
   }
 
   openFormDialog(element): void {

@@ -32,7 +32,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatBadgeModule } from '@angular/material/badge';
 
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatTableModule } from '@angular/material/table';
@@ -71,6 +73,8 @@ import { CpdoFeesTableComponent } from './cpdo-fees-table/cpdo-fees-table.compon
 import { BfpFeesTableComponent } from './bfp-fees-table/bfp-fees-table.component';
 import { CepmoFeesTableComponent } from './cepmo-fees-table/cepmo-fees-table.component';
 import { LocaleCurrencyInputModule } from 'locale-currency-input';
+
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -144,12 +148,17 @@ import { LocaleCurrencyInputModule } from 'locale-currency-input';
     MatGridListModule,
     MatAutocompleteModule,
     MatExpansionModule,
+    MatBadgeModule,
+
     NgxExtendedPdfViewerModule,
+    MatProgressSpinnerModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
     MatDialogModule,
+
+    ChartsModule,
   ],
 })
 export class EvaluatorModule {}
