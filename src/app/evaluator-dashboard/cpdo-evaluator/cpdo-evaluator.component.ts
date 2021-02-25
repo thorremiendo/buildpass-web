@@ -13,6 +13,7 @@ import { UserService } from 'src/app/core';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { ZoningCertificateComponent } from '../zoning-certificate/zoning-certificate.component';
 import Swal from 'sweetalert2';
+import { NewApplicationService } from 'src/app/core/services/new-application.service';
 
 @Component({
   selector: 'app-cpdo-evaluator',
@@ -36,7 +37,8 @@ export class CpdoEvaluatorComponent implements OnInit {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private changeDetectorRefs: ChangeDetectorRef,
-    private userService: UserService
+    private userService: UserService,
+    private newApplicationService: NewApplicationService
   ) {}
 
   ngOnInit(): void {
@@ -186,15 +188,28 @@ export class CpdoEvaluatorComponent implements OnInit {
   }
   handleApprove() {
     this.isLoading = true;
-    if (this.checkFormsCompliant()) {
-      this.approveZoning();
+    if (this.checkCertificateUploaded()) {
+      if (this.checkFormsCompliant()) {
+        this.approveZoning();
+      } else {
+        Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+          (result) => {
+            this.isLoading = false;
+          }
+        );
+      }
     } else {
-      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+      Swal.fire('Notice!', `Please Upload Zoning Clearance Certificate!`, 'warning').then(
         (result) => {
           this.isLoading = false;
         }
       );
     }
+  }
+
+  checkCertificateUploaded() {
+    const find = this.dataSource.find((form) => form.document_id == 43);
+    return find;
   }
   checkFormsCompliant() {
     const isReviewed = this.dataSource.every(
@@ -203,7 +218,24 @@ export class CpdoEvaluatorComponent implements OnInit {
     return isReviewed;
   }
 
-  approveZoning() {
+  updateFormStatus() {
+    this.isLoading = true;
+    const forReview = this.dataSource.forEach((element) => {
+      if (element.document_id !== 43) {
+        let body = {
+          document_status_id: 0,
+        };
+        this.newApplicationService
+          .updateDocumentFile(body, element.id)
+          .subscribe((res) => {});
+      }
+    });
+    this.updateApplicationStatus();
+    console.log(forReview);
+    return forReview;
+  }
+
+  updateApplicationStatus() {
     const body = {
       application_status_id: 3,
       cpdo_status_id: 1,
@@ -212,12 +244,25 @@ export class CpdoEvaluatorComponent implements OnInit {
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
         this.isLoading = false;
-        Swal.fire('Success!', `Zoning Certificate Approved!`, 'success').then(
+        Swal.fire('Success!', `Notified BFP, CEPMO, CBAO!`, 'success').then(
           (result) => {
             window.location.reload();
           }
         );
         this.ngOnInit();
       });
+  }
+
+  approveZoning() {
+    this.isLoading = true;
+    if (this.checkFormsCompliant()) {
+      this.updateFormStatus();
+    } else {
+      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+        (result) => {
+          this.isLoading = false;
+        }
+      );
+    }
   }
 }

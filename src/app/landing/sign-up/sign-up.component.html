@@ -126,10 +126,10 @@
         <mat-error
           *ngIf="
             signupFormControl.confirmPassword.touched &&
-            signupFormControl.confirmPassword.errors?.invalidconfirmPassword
+            signupFormControl.confirmPassword.errors?.passwordMismatch
           "
         >
-          Password doest not match
+          Confirm Password does not match
         </mat-error>
       </mat-form-field>
     </div>

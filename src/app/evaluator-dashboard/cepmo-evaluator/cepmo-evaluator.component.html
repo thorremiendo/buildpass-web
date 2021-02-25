@@ -10,6 +10,7 @@
       color="accent"
       (click)="openWwmsDialog()"
       *ngIf="evaluatorRole.code == 'CEPMO-DV'"
+      [disabled]="checkWwmsUploaded()"
     >
       Generate WWMS BP Certificate
     </button>
@@ -65,11 +66,21 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
       <div class="d-flex justify-content-between mt-5">
-        <button mat-raised-button color="warn" (click)="nonCompliant()">
+        <button
+          mat-raised-button
+          color="warn"
+          (click)="nonCompliant()"
+          [disabled]="checkFormsCompliant"
+        >
           Return to Applicant
         </button>
-        <button mat-raised-button color="primary" (click)="compliant()">
-          Compliant
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="compliant()"
+          [disabled]="!checkFormsCompliant()"
+        >
+          Done
         </button>
       </div>
     </div>

@@ -33,13 +33,17 @@
       <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Block Number</mat-label>
-          <input type="text" matInput formControlName="project_block_number" />
+          <input
+            type="number"
+            matInput
+            formControlName="project_block_number"
+          />
         </mat-form-field>
       </div>
       <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Unit Number</mat-label>
-          <input type="text" matInput formControlName="project_unit_number" />
+          <input type="number" matInput formControlName="project_unit_number" />
         </mat-form-field>
       </div>
     </div>
@@ -86,11 +90,12 @@
         <mat-form-field appearance="outline">
           <mat-label>Lot Area (square meters)</mat-label>
           <input
-            type="text"
+            type="number"
             matInput
             formControlName="project_lot_area"
             required
           />
+          <p matSuffix>sqm</p>
           <mat-error
             *ngIf="
               (projectDetailsFormControl.project_lot_area.touched ||
@@ -106,7 +111,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Total Floor Area (square meters)/Building Area</mat-label>
           <input
-            type="text"
+            type="number"
             matInput
             formControlName="project_floor_area"
             required
@@ -228,15 +233,14 @@
         </mat-form-field>
       </div>
     </div>
-
-    <div class="row flex-row-reverse">
-      <div class="m-4">
-        <button mat-raised-button color="primary" type="submit">Proceed</button>
-      </div>
-    </div>
   </div>
   <div class="col-md-12">
     <p>Project Location</p>
     <div class="map" id="map" class="match-parent" style="height: 400px"></div>
+  </div>
+  <div class="row flex-row-reverse">
+    <div class="m-4">
+      <button mat-raised-button color="primary" type="submit">Proceed</button>
+    </div>
   </div>
 </form>
