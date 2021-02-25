@@ -12,6 +12,9 @@
         </p>
         <hr />
         <p class="pt-5">Please upload the necessary files.</p>
+        <p style="font-size: 14px; color: maroon; font-weight: bold;">
+          You can only upload PDF files.
+        </p>
       </div>
       <div>
         <img
@@ -38,6 +41,7 @@
         <ngx-dropzone
           (change)="onSelect($event, 'buildingPlans')"
           [multiple]="false"
+          accept="application/pdf"
         >
           <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
           <ngx-dropzone-preview
@@ -70,6 +74,7 @@
         <ngx-dropzone
           (change)="onSelect($event, 'structuralDesign')"
           [multiple]="false"
+          accept="application/pdf"
         >
           <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
           <ngx-dropzone-preview
@@ -96,6 +101,7 @@
         <ngx-dropzone
           (change)="onSelect($event, 'electricalDesign')"
           [multiple]="false"
+          accept="application/pdf"
         >
           <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
           <ngx-dropzone-preview
@@ -128,6 +134,7 @@
         <ngx-dropzone
           (change)="onSelect($event, 'soilAnalysis')"
           [multiple]="false"
+          accept="application/pdf"
         >
           <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
           <ngx-dropzone-preview
@@ -154,6 +161,7 @@
         <ngx-dropzone
           (change)="onSelect($event, 'buildingSpecification')"
           [multiple]="false"
+          accept="application/pdf"
         >
           <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
           <ngx-dropzone-preview
@@ -180,6 +188,7 @@
         <ngx-dropzone
           (change)="onSelect($event, 'billOfMaterials')"
           [multiple]="false"
+          accept="application/pdf"
         >
           <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
           <ngx-dropzone-preview

@@ -115,6 +115,22 @@ export class ViewApplicationComponent implements OnInit {
           .subscribe((res) => {
             this.updateDepartmentStatus();
           });
+      } else if (this.applicationDetails.cpdo_status_id == 2) {
+        const body = {
+          application_status_id: 2,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Forwarded to CPDO for Evaluation!`,
+              'success'
+            ).then((result) => {
+              this.isLoading = false;
+              window.location.reload();
+            });
+          });
       } else {
         const body = {
           application_status_id: 1,

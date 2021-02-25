@@ -12,6 +12,9 @@
         </p>
         <hr />
         <p class="pt-5">Please upload the necessary files.</p>
+        <p style="font-size: 14px; color: maroon; font-weight: bold">
+          You can only upload PDF files.
+        </p>
       </div>
       <div>
         <img
@@ -39,6 +42,7 @@
         <ngx-dropzone
           (change)="onSelect($event, 'barangayClearance')"
           [multiple]="false"
+          accept="application/pdf"
         >
           <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
           <ngx-dropzone-preview
@@ -71,6 +75,7 @@
         <ngx-dropzone
           (change)="onSelect($event, 'environmentalCompliance')"
           [multiple]="false"
+          accept="application/pdf"
         >
           <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
           <ngx-dropzone-preview
@@ -101,6 +106,7 @@
         <ngx-dropzone
           (change)="onSelect($event, 'governmentClearance')"
           [multiple]="false"
+          accept="application/pdf"
         >
           <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
           <ngx-dropzone-preview
@@ -129,6 +135,7 @@
         <ngx-dropzone
           (change)="onSelect($event, 'chspCertificate')"
           [multiple]="false"
+          accept="application/pdf"
         >
           <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
           <ngx-dropzone-preview

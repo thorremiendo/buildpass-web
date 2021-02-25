@@ -122,18 +122,35 @@ export class CbaoEvaluatorComponent implements OnInit {
 
   nonCompliant() {
     if (this.checkFormsReviewed()) {
-      const body = {
-        parallel_cbao_status_id: 2,
-      };
-      this.applicationService
-        .updateApplicationStatus(body, this.applicationId)
-        .subscribe((res) => {
-          Swal.fire('Success!', `Updated CBAO Status!`, 'success').then(
-            (result) => {
+      if (this.applicationInfo.application_status_id == 3) {
+        const body = {
+          parallel_cbao_status_id: 2,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire('Success!', `Updated CBAO Status!`, 'success').then(
+              (result) => {
+                window.location.reload();
+              }
+            );
+          });
+      } else {
+        const body = {
+          application_status_id: 5,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Notified Applicant for Revision!`,
+              'success'
+            ).then((result) => {
               window.location.reload();
-            }
-          );
-        });
+            });
+          });
+      }
     } else {
       Swal.fire(
         'Notice!',
@@ -145,7 +162,18 @@ export class CbaoEvaluatorComponent implements OnInit {
 
   updateFormStatus() {
     this.isLoading = true;
-    const forReview = this.dataSource.forEach((element) => {
+    const CPDO_FORMS = this.dataSource.filter(
+      (obj) =>
+        obj.document_id == 1 ||
+        obj.document_id == 28 ||
+        obj.document_id == 26 ||
+        obj.document_id == 27 ||
+        obj.document_id == 23 ||
+        obj.document_id == 24 ||
+        obj.document_id == 27 ||
+        obj.document_id == 43
+    );
+    const forReview = CPDO_FORMS.forEach((element) => {
       let body = {
         document_status_id: 0,
       };
@@ -248,16 +276,17 @@ export class CbaoEvaluatorComponent implements OnInit {
         .subscribe((res) => {
           Swal.fire('Success!', `CBAO Evaluation Done!`, 'success').then(
             (result) => {
+              this.isLoading = false;
               window.location.reload();
             }
           );
         });
     } else {
-      Swal.fire(
-        'Warning!',
-        `Please Review All Documents!`,
-        'warning'
-      ).then((result) => {});
+      Swal.fire('Warning!', `Please Review All Documents!`, 'warning').then(
+        (result) => {
+          this.isLoading = false;
+        }
+      );
     }
   }
   handleRelease() {
