@@ -15,22 +15,25 @@
       </div>
     </div>
     <div class="col-12 m-0 p-0">
-      <div>
-        <ul>
-          <li
-            class="d-flex justify-content-between"
-            *ngFor="let element of applicantForms; let i = index"
-          >
-            {{ i + 1 }}. {{ getDocType(element.document_id) }}
-            <button
-              mat-button
-              color="primary"
-              (click)="goToLink(element.document_path)"
+      <div *ngFor="let category of sortedForms">
+        <div *ngIf="category.data.length > 0">
+          <div class="mb-2">{{category.label}}</div>
+          <ul>
+            <li
+              class="d-flex justify-content-between"
+              *ngFor="let element of category.data; let i = index"
             >
-              <u>View</u>
-            </button>
-          </li>
-        </ul>
+              {{ i + 1 }}. {{ getDocType(element.document_id) }}
+              <button
+                mat-button
+                color="primary"
+                (click)="goToLink(element.document_path)"
+              >
+                <u>View</u>
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="text-right my-4">
         <button mat-raised-button color="primary" (click)="submit()">
