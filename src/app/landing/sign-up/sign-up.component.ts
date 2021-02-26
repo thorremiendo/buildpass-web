@@ -89,7 +89,7 @@ export class SignUpComponent implements OnInit {
           this.SetUserDataFireGoogle(this.fireBaseUser);
           this.createUserDetailsGoogle(this.fireBaseUser);
           this._registerAccountFormService.setRegisterAccountInfo(this.userDetails);
-          this._router.navigateByUrl('registration/personal-info');
+          this._router.navigateByUrl('registration');
         }
         
       });
