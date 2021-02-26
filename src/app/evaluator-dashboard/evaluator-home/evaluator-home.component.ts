@@ -182,7 +182,7 @@ export class EvaluatorHomeComponent implements OnInit {
   }
 
   openApplication(id){
-    this._router.navigate(['dashboard/applications/view', id]);
+    this._router.navigate(['evaluator/application', id]);
   }
 
 //   public chartColors() {
