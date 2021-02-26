@@ -145,7 +145,6 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
           (newApplicationSubject) =>
             (this.applicationDetails = newApplicationSubject)
         );
-      debugger;
     }
 
     console.log(this.applicationDetails);

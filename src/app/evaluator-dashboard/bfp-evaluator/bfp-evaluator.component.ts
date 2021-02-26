@@ -154,7 +154,6 @@ export class BfpEvaluatorComponent implements OnInit {
 
   compliant() {
     if (this.checkFireSecUploaded()) {
-      debugger;
       const body = {
         parallel_bfp_status_id: 1,
       };
