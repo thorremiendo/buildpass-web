@@ -231,7 +231,7 @@ export class CpdoEvaluatorComponent implements OnInit {
   updateFormStatus() {
     this.isLoading = true;
     const forReview = this.forms.forEach((element) => {
-      if (element.document_id !== 43) {
+      if (element.document_id !== 43 || element.document_id !== 41) {
         let body = {
           document_status_id: 0,
         };
