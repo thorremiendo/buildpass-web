@@ -185,6 +185,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     console.log(forReview);
     return forReview;
   }
+
   updateApplicationStatus() {
     const body = {
       application_status_id: 2,
