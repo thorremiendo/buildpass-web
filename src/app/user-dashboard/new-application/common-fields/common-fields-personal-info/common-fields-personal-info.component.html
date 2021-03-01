@@ -105,7 +105,7 @@
       <div class="col-md-6">
         <mat-form-field appearance="outline">
           <mat-label>Email Address</mat-label>
-          <input matInput formControlName="owner_email_address" required >
+          <input matInput formControlName="owner_email_address" required />
           <mat-error
             *ngIf="
               (personalInfoFormCommonFieldControl.owner_email_address.touched ||
@@ -117,15 +117,15 @@
             Email Address is required
           </mat-error>
           <mat-error
-          *ngIf="
-            (personalInfoFormCommonFieldControl.owner_email_address.touched ||
-              _submitted) &&
-            personalInfoFormCommonFieldControl.owner_email_address.errors
-              ?.pattern
-          "
-        >
+            *ngIf="
+              (personalInfoFormCommonFieldControl.owner_email_address.touched ||
+                _submitted) &&
+              personalInfoFormCommonFieldControl.owner_email_address.errors
+                ?.pattern
+            "
+          >
             Email must be a valid email address
-        </mat-error>
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="col-md-6">
@@ -149,19 +149,20 @@
                 ?.required
             "
           >
-            Contact Number is required 
+            Contact Number is required
           </mat-error>
           <mat-error
-          *ngIf="
-            (personalInfoFormCommonFieldControl.owner_contact_number
-              .touched ||
-              _submitted) &&
-            personalInfoFormCommonFieldControl.owner_contact_number.errors
-              ?.pattern
-          "
-        >
-          Contact Number must be start with '09', should be numerical and fixed length of 11
-        </mat-error>
+            *ngIf="
+              (personalInfoFormCommonFieldControl.owner_contact_number
+                .touched ||
+                _submitted) &&
+              personalInfoFormCommonFieldControl.owner_contact_number.errors
+                ?.pattern
+            "
+          >
+            Contact Number must be start with '09', should be numerical and
+            fixed length of 11
+          </mat-error>
           <mat-hint align="end"
             >{{ contact.value.length }} / {{ maxLength }}</mat-hint
           >

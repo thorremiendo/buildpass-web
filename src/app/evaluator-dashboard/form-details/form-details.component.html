@@ -7,7 +7,7 @@
 
 <div [formGroup]="permitDetails" *ngIf="user.employee_detail">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 mt-5">
       <mat-form-field appearance="fill">
         <mat-label>Review</mat-label>
         <mat-select formControlName="is_compliant">
@@ -15,7 +15,10 @@
           <mat-option value="2"> Non-Compliant </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field class="example-full-width mt-3">
+      <mat-form-field
+        class="example-full-width mt-3"
+        *ngIf="this.permitDetails.value.is_compliant == '2'"
+      >
         <mat-label>Leave a comment</mat-label>
         <textarea
           matInput

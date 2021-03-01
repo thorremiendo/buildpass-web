@@ -203,7 +203,6 @@ export class CbaoEvaluatorComponent implements OnInit {
       });
   }
   forwardToCpdo() {
-    this.isLoading = true;
     if (this.checkFormsCompliant()) {
       this.updateFormStatus();
     } else {
