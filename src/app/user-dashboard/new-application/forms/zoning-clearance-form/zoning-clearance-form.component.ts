@@ -201,7 +201,7 @@ export class ZoningClearanceFormComponent implements OnInit {
       project_block_number:
         projectDetails.block_number == 'undefined'
           ? 'N/A'
-          : projectDetails.lot_number,
+          : projectDetails.block_number,
       project_street_name:
         projectDetails.street_name == 'undefined'
           ? 'N/A'
