@@ -145,6 +145,38 @@ export class ViewApplicationComponent implements OnInit {
               window.location.reload();
             });
           });
+      } else if (this.applicationDetails.dc_status_id == 2) {
+        const body = {
+          application_status_id: 12,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Forwarded to Division Chief for Re-Evaluation!`,
+              'success'
+            ).then((result) => {
+              this.isLoading = false;
+              window.location.reload();
+            });
+          });
+      } else if (this.applicationDetails.bo_status_id == 2) {
+        const body = {
+          application_status_id: 13,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Forwarded to Building Official for Re-Evaluation!`,
+              'success'
+            ).then((result) => {
+              this.isLoading = false;
+              window.location.reload();
+            });
+          });
       } else {
         const body = {
           application_status_id: 1,

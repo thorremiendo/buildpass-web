@@ -123,7 +123,7 @@ export class CpdoEvaluatorComponent implements OnInit {
   openZoningDialog() {
     const dialogRef = this.dialog.open(ZoningCertificateComponent, {
       width: '1500px',
-      height: '2000px',
+      height: '400px',
       data: {
         evaluator: this.evaluatorDetails,
         form: this.forms,
@@ -168,7 +168,7 @@ export class CpdoEvaluatorComponent implements OnInit {
     );
     return isReviewed;
   }
-  forwardForApproval() {
+  forwardToCpdoCoordinator() {
     this.isLoading = true;
     if (this.checkFormsCompliant()) {
       const body = {
@@ -231,7 +231,7 @@ export class CpdoEvaluatorComponent implements OnInit {
   updateFormStatus() {
     this.isLoading = true;
     const forReview = this.forms.forEach((element) => {
-      if (element.document_id !== 43 || element.document_id !== 41) {
+      if (element.document_id !== 43 && element.document_id !== 1) {
         let body = {
           document_status_id: 0,
         };

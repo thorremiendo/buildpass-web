@@ -43,7 +43,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   public applicationDetails;
   public user;
   public userDetails;
-  public isLoading: boolean = true;
+  public isLoading: boolean = false;
   public projectDetailsForm: FormGroup;
   _submitted = false;
   public barangay: Barangay[];
@@ -75,7 +75,6 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     private userService: UserService,
     private excavationService: ExcavationPermitService
   ) {
-    this.createForm();
     this.barangayService.getBarangayInfo().subscribe((data) => {
       this.barangay = data;
 
@@ -90,6 +89,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.initializeMap();
     this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
     this.excavationService.useExistingInfoSubject
       .asObservable()
@@ -97,81 +97,20 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
         (useExistingInfoSubject) =>
           (this.useExistingInfo = useExistingInfoSubject)
       );
+    //CHECK IF APPLICANT WILL USE EXISTING INFO
     if (this.useExistingInfo == '1') {
       this.applicationDetails = JSON.parse(
         localStorage.getItem('applicationDetails')
       );
+      //CHECK IF APPLICATION IS EXCAVATTION
       if (this.applicationDetails.is_excavation == 1) {
         this.isExcavation = true;
         this.isRepresentative = this.applicationDetails.is_representative;
         this.permitTypeId = '3';
       }
-      this.projectDetailsForm.patchValue({
-        project_lot_number:
-          this.applicationDetails.project_detail.lot_number == 'undefined'
-            ? ''
-            : this.applicationDetails.project_detail.lot_number,
-        project_block_number:
-          this.applicationDetails.project_detail.block_number == 'undefined'
-            ? ''
-            : this.applicationDetails.project_detail.block_number,
-        project_unit_number:
-          this.applicationDetails.project_detail.unit_number == 0
-            ? ''
-            : this.applicationDetails.project_detail.unit_number,
-        project_street:
-          this.applicationDetails.project_detail.street_name == 'undefined'
-            ? ''
-            : this.applicationDetails.project_detail.street_name,
-        project_barangay:
-          this.applicationDetails.project_detail.barangay == 'undefined'
-            ? ''
-            : this.applicationDetails.project_detail.barangay,
-        project_lot_area:
-          this.applicationDetails.project_detail.lot_area == 'undefined'
-            ? ''
-            : this.applicationDetails.project_detail.lot_area,
-        project_floor_area:
-          this.applicationDetails.project_detail.total_floor_area == 'undefined'
-            ? ''
-            : this.applicationDetails.project_detail.total_floor_area,
-        project_units:
-          this.applicationDetails.project_detail.number_of_units == 0
-            ? ''
-            : this.applicationDetails.project_detail.number_of_units,
-        project_storeys:
-          this.applicationDetails.project_detail.number_of_storey == 'undefined'
-            ? 0
-            : this.applicationDetails.project_detail.number_of_storey,
-        project_title:
-          this.applicationDetails.project_detail.project_title == 'undefined'
-            ? ''
-            : this.applicationDetails.project_detail.project_title,
-        project_cost:
-          this.applicationDetails.project_detail.project_cost_cap == 'undefined'
-            ? ''
-            : this.applicationDetails.project_detail.project_cost_cap,
-        project_tct_number:
-          this.applicationDetails.project_detail.tct_number == 'undefined'
-            ? ''
-            : this.applicationDetails.project_detail.tct_number,
-        project_td_number:
-          this.applicationDetails.project_detail.tax_dec_number == 'undefined'
-            ? ''
-            : this.applicationDetails.project_detail.tax_dec_number,
-        project_basement:
-          this.applicationDetails.project_detail.project_basement == 'undefined'
-            ? ''
-            : this.applicationDetails.project_detail.project_basement,
-        project_house_number:
-          this.applicationDetails.project_detail.number_of_basement == 0
-            ? ''
-            : this.applicationDetails.project_detail.number_of_basement,
-        project_landmark:
-          this.applicationDetails.project_detail.landmark == 'undefined'
-            ? ''
-            : this.applicationDetails.project_detail.landmark,
-      });
+      //PATCH EXISTING DETAILS TO FORM
+      this.patchExistingDetails();
+      this.isLoading = false;
     } else {
       this._registerAccountFormService.cast.subscribe(
         (registerAccountSubject) =>
@@ -189,9 +128,23 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
           this.applicationDetailsFromService = newApplicationSubject;
           this.permitTypeId = this.applicationDetailsFromService.application_type;
         });
+      this.isLoading = false;
     }
+  }
 
-    //map
+  onDragEnd() {
+    console.log('marker dragged');
+  }
+
+  private _filter(value: string): Barangay[] {
+    const filterValue = value.toLowerCase();
+
+    return this.barangay.filter((option) =>
+      option.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  initializeMap() {
     mapboxgl.accessToken = environment.mapbox.accessToken;
     this.map = new Map({
       container: 'map',
@@ -217,20 +170,6 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       })
     );
     this.marker.on('dragend', this.onDragEnd);
-
-    this.isLoading = false;
-  }
-
-  onDragEnd() {
-    console.log('marker dragged');
-  }
-
-  private _filter(value: string): Barangay[] {
-    const filterValue = value.toLowerCase();
-
-    return this.barangay.filter((option) =>
-      option.name.toLowerCase().includes(filterValue)
-    );
   }
 
   createForm() {
@@ -251,6 +190,75 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_td_number: ['', Validators.required],
       project_basement: [''],
       project_landmark: [''],
+    });
+  }
+
+  patchExistingDetails() {
+    this.projectDetailsForm.patchValue({
+      project_lot_number:
+        this.applicationDetails.project_detail.lot_number == 'undefined'
+          ? ''
+          : this.applicationDetails.project_detail.lot_number,
+      project_block_number:
+        this.applicationDetails.project_detail.block_number == 'undefined'
+          ? ''
+          : this.applicationDetails.project_detail.block_number,
+      project_unit_number:
+        this.applicationDetails.project_detail.unit_number == 0
+          ? ''
+          : this.applicationDetails.project_detail.unit_number,
+      project_street:
+        this.applicationDetails.project_detail.street_name == 'undefined'
+          ? ''
+          : this.applicationDetails.project_detail.street_name,
+      project_barangay:
+        this.applicationDetails.project_detail.barangay == 'undefined'
+          ? ''
+          : this.applicationDetails.project_detail.barangay,
+      project_lot_area:
+        this.applicationDetails.project_detail.lot_area == 'undefined'
+          ? ''
+          : this.applicationDetails.project_detail.lot_area,
+      project_floor_area:
+        this.applicationDetails.project_detail.total_floor_area == 'undefined'
+          ? ''
+          : this.applicationDetails.project_detail.total_floor_area,
+      project_units:
+        this.applicationDetails.project_detail.number_of_units == 0
+          ? ''
+          : this.applicationDetails.project_detail.number_of_units,
+      project_storeys:
+        this.applicationDetails.project_detail.number_of_storey == 'undefined'
+          ? 0
+          : this.applicationDetails.project_detail.number_of_storey,
+      project_title:
+        this.applicationDetails.project_detail.project_title == 'undefined'
+          ? ''
+          : this.applicationDetails.project_detail.project_title,
+      project_cost:
+        this.applicationDetails.project_detail.project_cost_cap == 'undefined'
+          ? ''
+          : this.applicationDetails.project_detail.project_cost_cap,
+      project_tct_number:
+        this.applicationDetails.project_detail.tct_number == 'undefined'
+          ? ''
+          : this.applicationDetails.project_detail.tct_number,
+      project_td_number:
+        this.applicationDetails.project_detail.tax_dec_number == 'undefined'
+          ? ''
+          : this.applicationDetails.project_detail.tax_dec_number,
+      project_basement:
+        this.applicationDetails.project_detail.project_basement == 'undefined'
+          ? ''
+          : this.applicationDetails.project_detail.project_basement,
+      project_house_number:
+        this.applicationDetails.project_detail.number_of_basement == 0
+          ? ''
+          : this.applicationDetails.project_detail.number_of_basement,
+      project_landmark:
+        this.applicationDetails.project_detail.landmark == 'undefined'
+          ? ''
+          : this.applicationDetails.project_detail.landmark,
     });
   }
 
