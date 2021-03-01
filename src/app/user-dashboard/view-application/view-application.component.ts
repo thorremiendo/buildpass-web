@@ -22,6 +22,8 @@ import { ApplicationFeesService } from 'src/app/core/services/application-fees.s
   styleUrls: ['./view-application.component.scss'],
 })
 export class ViewApplicationComponent implements OnInit {
+  panelOpenState = false;
+
   public isLoading = true;
   public applicationId;
   public evaluatorDetails;
@@ -30,6 +32,8 @@ export class ViewApplicationComponent implements OnInit {
   public applicationDetails;
   public applicationDate;
   public dataSource;
+  public applicationTimeline;
+
   displayedColumns: string[] = ['index', 'name', 'status', 'remarks', 'action'];
 
   constructor(
@@ -84,6 +88,16 @@ export class ViewApplicationComponent implements OnInit {
             this.dataSource = result.data;
             this.isLoading = false;
           });
+        this.getApplicationTimeline();
+      });
+  }
+
+  getApplicationTimeline() {
+    this.applicationService
+      .fetchApplicationTmeline(this.applicationId)
+      .subscribe((res) => {
+        this.applicationTimeline = res.data;
+        console.log('timeline', this.applicationTimeline);
       });
   }
 

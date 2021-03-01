@@ -104,6 +104,42 @@
         <strong>Application Timeline</strong>
         <hr />
       </h4>
+      <div>
+        <mat-expansion-panel
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+          class="mb-2"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title
+              ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
+                >timeline</mat-icon
+              >
+              View Timeline</mat-panel-title
+            >
+          </mat-expansion-panel-header>
+          <div *ngIf="applicationTimeline">
+            <section
+              *ngFor="let item of applicationTimeline"
+              class="timeline-area"
+            >
+              <div class="timeline">
+                <h4>
+                  {{ item.name }}
+                </h4>
+                <h5 style="color: green">
+                  <strong>
+                    {{ item.status }}
+                  </strong>
+                </h5>
+                <h6>
+                  {{ item.created_at | date: "MMMM dd, yyyy" }}
+                </h6>
+              </div>
+            </section>
+          </div>
+        </mat-expansion-panel>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>
