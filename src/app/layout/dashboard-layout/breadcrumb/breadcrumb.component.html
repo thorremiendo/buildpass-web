@@ -3,7 +3,8 @@
 <div
   class="page-breadcrumb col p-t-20 p-b-20 p-l-30 p-r-30 shadow p-3 mb-3 bg-white rounded"
 >
-  <div fxLayout="col">
+<div class="row">
+  <div class="col-9">
     <div
       fxFlex.gt-sm="60"
       fxFlex.gt-xs="60"
@@ -27,4 +28,10 @@
       </div>
     </div>
   </div>
+  <div class="col-3 text-right pr-5" >
+    <mat-icon (click)="openNotif();"matBadge="{{feeds.length}}" matBadgeColor="warn">notifications_none</mat-icon>
+  </div>
+
+</div>
+  
 </div>

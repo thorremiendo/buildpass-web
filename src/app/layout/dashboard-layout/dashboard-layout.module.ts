@@ -15,12 +15,16 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { MatListModule } from '@angular/material/list';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import {MatCardModule} from '@angular/material/card';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatDialogModule } from '@angular/material/dialog';
+import { NotificationComponent } from './notification/notification.component';
+
 
 
 @NgModule({
   declarations: [
     SidebarComponent, 
-    DashboardLayoutComponent, BreadcrumbComponent,
+    DashboardLayoutComponent, BreadcrumbComponent, NotificationComponent,
   ],
   imports: [
     CommonModule,
@@ -35,7 +39,9 @@ import {MatCardModule} from '@angular/material/card';
     PerfectScrollbarModule,
     CdkAccordionModule,
     RouterModule,
-    MatCardModule
+    MatCardModule,
+    MatBadgeModule,
+    MatDialogModule
   
   ],
   exports: [

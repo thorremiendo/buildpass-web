@@ -43,7 +43,7 @@ export class UserHomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getNotificationTable();
+    //this.getNotificationTable();
     this.pusherSubscribe();
     
   }
@@ -61,13 +61,13 @@ export class UserHomeComponent implements OnInit {
   );
   }
 
-  getNotificationTable(){
-    this.feedService.getNotifTable(this.user?.uid,this.channelType).subscribe( data =>{
-      this.feeds = data.data;
+  // getNotificationTable(){
+  //   this.feedService.getNotifTable(this.user?.uid,this.channelType).subscribe( data =>{
+  //     this.feeds = data.data;
 
-    })
+  //   })
     
-  } 
+  // } 
 
   openApplication(id){
     this._router.navigate(['dashboard/applications/view', id]);
@@ -86,6 +86,7 @@ export class UserHomeComponent implements OnInit {
     this.feedService.pusher.unsubscribe(this.channelName);
     this.feedSubscription.unsubscribe();
   }
+  
 
   ngOnDestroy(): void {    
     this.pusherUnsubscribe();
