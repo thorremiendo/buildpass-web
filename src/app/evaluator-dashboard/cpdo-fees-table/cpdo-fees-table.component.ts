@@ -16,7 +16,7 @@ export class CpdoFeesTableComponent implements OnInit {
   columnsToDisplay: string[] = [
     'number',
     'description',
-    // 'office',
+    'evaluator',
     'amount',
     'action',
   ];

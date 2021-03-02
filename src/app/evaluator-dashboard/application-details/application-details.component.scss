@@ -71,3 +71,17 @@
     top: 10px;
   }
 }
+
+.card {
+  margin-bottom: 30px;
+  border: none;
+
+  .card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #e6e6f2;
+  }
+
+  .text-dark {
+    color: #3d405c !important;
+  }
+}

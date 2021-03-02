@@ -16,7 +16,7 @@ export class BfpFeesTableComponent implements OnInit {
   columnsToDisplay: string[] = [
     'number',
     'description',
-    // 'office',
+    'evaluator',
     'amount',
     'action',
   ];

@@ -1,5 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   MatDialog,
   MatDialogRef,
@@ -28,8 +33,11 @@ export class FeesDialogComponent implements OnInit {
   public feesDetails: FormGroup;
   public evaluatorDetails;
   public fees;
+  public isLoading: boolean = true;
   filteredOptions: Observable<string[]>;
-
+  get feesDetailsControl() {
+    return this.feesDetails.controls;
+  }
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -44,6 +52,7 @@ export class FeesDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.evaluatorDetails = this.user.employee_detail;
     console.log('Current user', this.user);
@@ -51,8 +60,8 @@ export class FeesDialogComponent implements OnInit {
     console.log(this.applicationId);
     console.log(this.data);
     this.feesDetails = this.fb.group({
-      description: new FormControl(''),
-      amount: new FormControl(''),
+      description: new FormControl('', [Validators.required]),
+      amount: new FormControl('', [Validators.required]),
     });
     this.fetchFeeTypes();
   }
@@ -61,6 +70,7 @@ export class FeesDialogComponent implements OnInit {
       startWith(''),
       map((value: string) => this._filter(value))
     );
+    this.isLoading = false;
   }
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -81,19 +91,22 @@ export class FeesDialogComponent implements OnInit {
     });
   }
   onSubmit() {
+    this.isLoading = true;
     const value = this.feesDetails.value;
     const newItem = {
       application_id: this.applicationId,
       name: this.typeOfFee.value,
       amount: value.amount,
       office_id: this.evaluatorDetails.office_id,
-      evaluator_user_id: this.evaluatorDetails.id,
+      evaluator_user_id: this.evaluatorDetails.user_id,
       action_id: 1,
       fee_id: 0,
     };
 
     this.applicationFeeService.addFee(newItem).subscribe((res) => {
       console.log(res);
+      this.isLoading = false;
+
       this.onNoClick();
     });
   }

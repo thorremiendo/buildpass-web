@@ -23,15 +23,8 @@ import { departmentStatus } from 'src/app/core/enums/department-status.enum';
   styleUrls: ['./application-details.component.scss'],
 })
 export class ApplicationDetailsComponent implements OnInit {
-  columnsToDisplay: string[] = [
-    'number',
-    'description',
-    'office',
-    'amount',
-    'action',
-  ];
   panelOpenState = false;
-  public dataSource;
+  public applicationFee;
   public isLoading = true;
   public applicationId;
   public evaluatorDetails;
@@ -151,8 +144,7 @@ export class ApplicationDetailsComponent implements OnInit {
   fetchApplicationFees() {
     const id = this.applicationId;
     this.applicationFeeService.fetchFees(id).subscribe((res) => {
-      this.dataSource = res.data;
-      console.log('datasource', this.dataSource);
+      this.applicationFee = res.data[res.data.length - 1];
     });
   }
   getOfficeType(id): string {
@@ -160,26 +152,6 @@ export class ApplicationDetailsComponent implements OnInit {
   }
   getDepartmentStatus(id): string {
     return departmentStatus[id];
-  }
-  showAddItem() {
-    const dialogRef = this.dialog.open(FeesDialogComponent, {
-      width: '800px',
-      data: {
-        dataSource: this.dataSource,
-        route: this.route,
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-      this.ngOnInit();
-    });
-  }
-  onRemove(id) {
-    this.applicationFeeService.deleteFee(id).subscribe((res) => {
-      console.log(res);
-    });
-    this.ngOnInit();
   }
 
   fetchEvaluatorDetails() {

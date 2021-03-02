@@ -12,10 +12,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DashboardLayoutModule } from '../../layout/dashboard-layout/dashboard-layout.module';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
 import { MatCardModule } from '@angular/material/card';
-import {MatButtonModule} from '@angular/material/button';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatStepperModule} from '@angular/material/stepper';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { StepOneComponent } from '../new-application/step-one/step-one.component';
 import { InitialFormsComponent } from '../new-application/initial-forms/initial-forms.component';
 import { NewApplicationPageComponent } from '../new-application/new-application-page/new-application-page.component';
@@ -33,34 +33,27 @@ import { CommonFieldsComponent } from '../new-application/common-fields/common-f
 import { CommonFieldsPersonalInfoComponent } from '../new-application/common-fields/common-fields-personal-info/common-fields-personal-info.component';
 import { CommonFieldsAddressInfoComponent } from '../new-application/common-fields/common-fields-address-info/common-fields-address-info.component';
 import { CommonFieldsRepresentativeComponent } from '../new-application/common-fields/common-fields-representative/common-fields-representative.component';
-import {environment} from '../../../environments/environment'
+import { environment } from '../../../environments/environment';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatBadgeModule } from '@angular/material/badge';
-import { LocaleCurrencyInputModule} from 'locale-currency-input';
-
-
-
-
+import { LocaleCurrencyInputModule } from 'locale-currency-input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
-  declarations: [DashboardComponent, 
+  declarations: [
+    DashboardComponent,
     UserHomeComponent,
-     NewApplicationPageComponent, 
-     NewApplicationRouterComponent,
-     CommonFieldsComponent,
-     CommonFieldsPersonalInfoComponent,
-     CommonFieldsAddressInfoComponent,
-     CommonFieldsRepresentativeComponent,
+    NewApplicationPageComponent,
+    NewApplicationRouterComponent,
+    CommonFieldsComponent,
+    CommonFieldsPersonalInfoComponent,
+    CommonFieldsAddressInfoComponent,
+    CommonFieldsRepresentativeComponent,
+  ],
 
-  
-  
-
-     
-    ],
-     
   imports: [
     CommonModule,
     UserDashboardRoutingModule,
@@ -82,21 +75,19 @@ import { LocaleCurrencyInputModule} from 'locale-currency-input';
     MatSelectModule,
     MatDatepickerModule,
     MatInputModule,
-    MatNativeDateModule, 
+    MatNativeDateModule,
     MatRippleModule,
     NgxMapboxGLModule.withConfig({
-      accessToken: environment.mapbox.accessToken
+      accessToken: environment.mapbox.accessToken,
     }),
     MatAutocompleteModule,
     MatCheckboxModule,
     MatRadioModule,
     MatBadgeModule,
-    LocaleCurrencyInputModule
+    LocaleCurrencyInputModule,
+    MatProgressSpinnerModule,
   ],
 
-  providers:[
-    CurrencyPipe
-
-  ]
+  providers: [CurrencyPipe],
 })
-export class UserDashboardModule { }
+export class UserDashboardModule {}

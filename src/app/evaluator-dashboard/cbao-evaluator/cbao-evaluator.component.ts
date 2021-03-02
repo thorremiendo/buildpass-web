@@ -68,7 +68,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
-    console.log('Evaluator Details', this.evaluatorDetails);
+    console.log('Evaluator Details', this.evaluatorRole);
   }
 
   getDocType(id): string {
@@ -135,9 +135,26 @@ export class CbaoEvaluatorComponent implements OnInit {
               }
             );
           });
-      } else {
+      } else if (this.evaluatorRole.code == 'CBAO-DC') {
         const body = {
           application_status_id: 5,
+          dc_status_id: 2,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Notified Applicant for Revision!`,
+              'success'
+            ).then((result) => {
+              window.location.reload();
+            });
+          });
+      } else if (this.evaluatorRole.code == 'CBAO-BO') {
+        const body = {
+          application_status_id: 5,
+          bo_status_id: 2,
         };
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)
@@ -185,6 +202,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     console.log(forReview);
     return forReview;
   }
+
   updateApplicationStatus() {
     const body = {
       application_status_id: 2,
@@ -202,7 +220,6 @@ export class CbaoEvaluatorComponent implements OnInit {
       });
   }
   forwardToCpdo() {
-    this.isLoading = true;
     if (this.checkFormsCompliant()) {
       this.updateFormStatus();
     } else {
@@ -218,6 +235,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     if (this.checkFormsCompliant()) {
       const body = {
         application_status_id: 13,
+        dc_status_id: 1,
       };
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
@@ -243,6 +261,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     if (this.checkFormsCompliant) {
       const body = {
         application_status_id: 8,
+        bo_status_id: 1,
       };
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)

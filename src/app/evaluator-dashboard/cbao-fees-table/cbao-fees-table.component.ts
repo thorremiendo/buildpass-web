@@ -25,6 +25,7 @@ export class CbaoFeesTableComponent implements OnInit {
   public evaluatorDetails;
   public applicationDetails;
   public user;
+  public isLoading: boolean = true;
   constructor(
     private applicationService: ApplicationInfoService,
     public dialog: MatDialog,
@@ -51,6 +52,8 @@ export class CbaoFeesTableComponent implements OnInit {
       .subscribe((res) => {
         this.cbaoFees = res.data;
         console.log('cbaoFees', this.cbaoFees);
+
+        this.isLoading = false;
       });
   }
   getOfficeType(id): string {

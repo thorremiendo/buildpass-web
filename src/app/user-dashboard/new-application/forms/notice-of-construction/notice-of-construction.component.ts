@@ -150,6 +150,10 @@ export class NoticeOfConstructionComponent implements OnInit {
         projectDetails.tct_number == 'undefined'
           ? 'N/A'
           : projectDetails.tct_number.toUpperCase(),
+      project_name:
+        projectDetails.project_title == 'undefined'
+          ? 'N/A'
+          : projectDetails.project_title.toUpperCase(),
     };
     console.log(this.applicationInfo);
     console.log('formData:', this.formData);

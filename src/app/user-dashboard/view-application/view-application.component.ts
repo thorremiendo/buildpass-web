@@ -22,6 +22,8 @@ import { ApplicationFeesService } from 'src/app/core/services/application-fees.s
   styleUrls: ['./view-application.component.scss'],
 })
 export class ViewApplicationComponent implements OnInit {
+  panelOpenState = false;
+
   public isLoading = true;
   public applicationId;
   public evaluatorDetails;
@@ -30,6 +32,8 @@ export class ViewApplicationComponent implements OnInit {
   public applicationDetails;
   public applicationDate;
   public dataSource;
+  public applicationTimeline;
+
   displayedColumns: string[] = ['index', 'name', 'status', 'remarks', 'action'];
 
   constructor(
@@ -84,6 +88,16 @@ export class ViewApplicationComponent implements OnInit {
             this.dataSource = result.data;
             this.isLoading = false;
           });
+        this.getApplicationTimeline();
+      });
+  }
+
+  getApplicationTimeline() {
+    this.applicationService
+      .fetchApplicationTmeline(this.applicationId)
+      .subscribe((res) => {
+        this.applicationTimeline = res.data;
+        console.log('timeline', this.applicationTimeline);
       });
   }
 
@@ -125,6 +139,38 @@ export class ViewApplicationComponent implements OnInit {
             Swal.fire(
               'Success!',
               `Forwarded to CPDO for Evaluation!`,
+              'success'
+            ).then((result) => {
+              this.isLoading = false;
+              window.location.reload();
+            });
+          });
+      } else if (this.applicationDetails.dc_status_id == 2) {
+        const body = {
+          application_status_id: 12,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Forwarded to Division Chief for Re-Evaluation!`,
+              'success'
+            ).then((result) => {
+              this.isLoading = false;
+              window.location.reload();
+            });
+          });
+      } else if (this.applicationDetails.bo_status_id == 2) {
+        const body = {
+          application_status_id: 13,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Forwarded to Building Official for Re-Evaluation!`,
               'success'
             ).then((result) => {
               this.isLoading = false;

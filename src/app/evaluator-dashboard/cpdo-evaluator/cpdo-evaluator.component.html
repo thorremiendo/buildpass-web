@@ -92,7 +92,7 @@
         <button
           mat-raised-button
           color="primary"
-          (click)="forwardForApproval()"
+          (click)="forwardToCpdoCoordinator()"
           *ngIf="
             evaluatorRole.code == 'CPDO-ZI' &&
             applicationDetails.application_status_id !== 10

@@ -11,6 +11,7 @@
         [formControl]="typeOfFee"
         [matAutocomplete]="auto"
       />
+
       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
         <mat-option
           *ngFor="let option of filteredOptions | async"
@@ -29,13 +30,22 @@
         [currencyCode]="'₱'"
         matInput
         formControlName="amount"
+        required
       />
+      <mat-error *ngIf="feesDetailsControl.amount.errors?.required">
+        Amount is Required
+      </mat-error>
     </mat-form-field>
   </div>
   <div>
     <button mat-raised-button (click)="onNoClick()">Close</button>
     &nbsp;
-    <button mat-raised-button color="primary" (click)="onSubmit()">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="onSubmit()"
+      [disabled]="isLoading"
+    >
       Submit
     </button>
   </div>
