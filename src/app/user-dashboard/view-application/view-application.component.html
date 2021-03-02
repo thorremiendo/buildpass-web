@@ -1,0 +1,239 @@
+<div class="app-details" *ngIf="!isLoading">
+  <mat-card>
+    <mat-card-content>
+      <div class="d-flex justify-content-between">
+        <div>
+          <h4 style="color: #313131" class="mb-4">
+            <strong>Application Details</strong>
+          </h4>
+        </div>
+      </div>
+      <div class="row mb-1">
+        <div class="avatar-container col-md-4 text-center">
+          <div>
+            <h5>
+              <strong
+                >&nbsp;{{
+                  applicationDetails.applicant_detail.first_name
+                }}&nbsp;{{
+                  applicationDetails.applicant_detail.last_name
+                }}</strong
+              >
+            </h5>
+          </div>
+          <div>
+            <h5 style="color: #7b7b7b">
+              {{ applicationDetails.applicant_detail.email_address }}
+            </h5>
+          </div>
+          <div>
+            <h5 style="color: #7b7b7b">
+              {{ applicationDetails.applicant_detail.contact_number }}
+            </h5>
+          </div>
+          <div>
+            <h5 style="color: #7b7b7b">
+              {{ applicationDetails.applicant_detail.barangay }}
+            </h5>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="col">
+            <h5 style="color: #7b7b7b">Application Number:</h5>
+            <h5>
+              <strong>{{ applicationDetails.ocpas_code }}</strong>
+            </h5>
+          </div>
+          <div class="col">
+            <h5 style="color: #7b7b7b">Application Date:</h5>
+            <h5>
+              <strong
+                >&nbsp;{{
+                  applicationDetails.created_at | date: "MMMM dd, yyyy"
+                }}</strong
+              >
+            </h5>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="col">
+            <h5 style="color: #7b7b7b">Application Status:</h5>
+            <h5>
+              <strong
+                >&nbsp;
+                {{
+                  getApplicationStatus(applicationDetails.application_status_id)
+                }}
+              </strong>
+            </h5>
+          </div>
+          <div class="col">
+            <h5 style="color: #7b7b7b">Application Type:</h5>
+            <h5>
+              <strong
+                >&nbsp;{{
+                  applicationDetails.permit_type_id == "1"
+                    ? "Building Permit"
+                    : "Occupancy Permit"
+                }}</strong
+              >
+            </h5>
+          </div>
+        </div>
+      </div>
+      <div class="mt-5">
+        <button mat-raised-button color="primary" (click)="openProjectDialog()">
+          Project Details
+        </button>
+        <button
+          mat-raised-button
+          class="ml-2"
+          color="accent"
+          (click)="openFeesDialog()"
+        >
+          View Fees
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div class="app-timeline">
+  <mat-card>
+    <mat-card-content>
+      <h4 style="color: #313131" class="mb-4">
+        <strong>Application Timeline</strong>
+        <hr />
+      </h4>
+      <div>
+        <mat-expansion-panel
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+          class="mb-2"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title
+              ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
+                >timeline</mat-icon
+              >
+              View Timeline</mat-panel-title
+            >
+          </mat-expansion-panel-header>
+          <div *ngIf="applicationTimeline">
+            <section
+              *ngFor="let item of applicationTimeline"
+              class="timeline-area"
+            >
+              <div class="timeline">
+                <h4>
+                  {{ item.name }}
+                </h4>
+                <h5 style="color: green">
+                  <strong>
+                    {{ item.status }}
+                  </strong>
+                </h5>
+                <h6>
+                  {{ item.created_at | date: "MMMM dd, yyyy" }}
+                </h6>
+              </div>
+            </section>
+          </div>
+        </mat-expansion-panel>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div class="app-forms" *ngIf="!isLoading">
+  <mat-card>
+    <mat-card-content>
+      <div>
+        <h4 style="color: #313131" class="mb-4">
+          <strong>Application Forms</strong>
+        </h4>
+      </div>
+      <div>
+        <div>
+          <table mat-table [dataSource]="dataSource">
+            <!--- Note that these columns can be defined in any order.
+                          The actual rendered columns are set as a property on the row definition" -->
+            <ng-container matColumnDef="index">
+              <th mat-header-cell *matHeaderCellDef>No.</th>
+              <td mat-cell *matCellDef="let element; let i = index">
+                {{ i + 1 }}
+              </td>
+            </ng-container>
+            <!--  Name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>
+                Documentary Requirements
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ getDocType(element.document_id) }}
+              </td>
+            </ng-container>
+
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                [style.color]="
+                  element.document_status_id == 1
+                    ? 'green'
+                    : element.document_status_id == 0
+                    ? 'black'
+                    : 'red'
+                "
+              >
+                {{ getDocStatus(element.document_status_id) }}
+              </td>
+            </ng-container>
+            <!-- Remarks Column -->
+            <ng-container matColumnDef="remarks">
+              <th mat-header-cell *matHeaderCellDef>Remarks</th>
+              <td mat-cell *matCellDef="let element">
+                {{
+                  element.document_revision[
+                    element.document_revision.length - 1
+                  ]
+                    ? element.document_revision[
+                        element.document_revision.length - 1
+                      ].remarks
+                    : ""
+                }}
+              </td>
+            </ng-container>
+
+            <!-- Action Column -->
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>Action</th>
+              <td mat-cell *matCellDef="let element">
+                <button
+                  [disabled]="element.document_status_id !== 2"
+                  mat-button
+                  color="accent"
+                  (click)="openFormDialog(element)"
+                >
+                  View
+                </button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+          <div class="text-right mt-5">
+            <button
+              mat-raised-button
+              color="warn"
+              (click)="onSave()"
+              [disabled]="applicationDetails.application_status_id !== 5"
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

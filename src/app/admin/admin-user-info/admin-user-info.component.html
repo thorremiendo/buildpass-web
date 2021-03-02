@@ -1,0 +1,130 @@
+<div *ngIf ="!isLoading">
+    <div class="avatar-upload text-center">
+        <div class="text-center avatar-block d-inline-block">
+          <img [src]="userInfo.photo_path" alt="" class="user-avatar" />
+        
+        </div>
+        <p>
+          <small class="font-weight-bold">Profile Picture</small>
+        </p>
+      </div>
+    <mat-card >
+        <mat-card-header>
+            <mat-card-title>Personla Info</mat-card-title>
+          </mat-card-header>
+        <mat-card-content>
+            <div class="row mx-3 mt-4">
+                <div class="col-md-6 text-left">
+                    <h3> Full Name: </h3>  
+                </div>
+                <div class="col-md-6 text-right">
+                    <h3> {{userInfo.first_name}} {{userInfo.middle_name}} {{userInfo.last_name}} </h3>  
+                </div>
+            </div>
+            <div class="row mx-3 mt-3">
+                <div class="col-md-6 text-left">
+                    <h3> Home address: </h3>  
+                </div>
+                <div class="col-md-6 text-right">
+                    <h3> {{userInfo.home_address}} {{userInfo.barangay}} </h3>  
+                </div>
+            </div>
+            <div class="row mx-3 mt-3">
+                <div class="col-md-6 text-left">
+                    <h3> BirthDate: </h3>  
+                </div>
+                <div class="col-md-6 text-right">
+                    <h3> {{userInfo.birthdate}}  </h3>  
+                </div>
+            </div>
+            <div class="row mx-3 mt-3">
+                <div class="col-md-6 text-left">
+                    <h3> Email Address: </h3>  
+                </div>
+                <div class="col-md-6 text-right">
+                    <h3> {{userInfo.email_address}}  </h3>  
+                </div>
+            </div>
+            <div class="row mx-3 mt-3">
+                <div class="col-md-6 text-left">
+                    <h3> Contact Number: </h3>  
+                </div>
+                <div class="col-md-6 text-right">
+                    <h3> {{userInfo.contact_number}}  </h3>  
+                </div>
+            </div>
+    
+        </mat-card-content>
+       
+      </mat-card>
+    
+      <mat-card >
+        <mat-card-header>
+            <mat-card-title>Employee Info</mat-card-title>
+          </mat-card-header>
+        <mat-card-content>
+            <div class="row mx-3 mt-3">
+                <div class="col-md-6 text-left">
+                    <h3> Employee_number: </h3>  
+                </div>
+                <div class="col-md-6 text-right">
+                    <h3> {{userInfo.employee_detail.employee_no}} </h3>  
+                </div>
+            </div>
+            <div class="row mx-3 mt-3">
+                <div class="col-md-6 text-left">
+                    <h3> Department: </h3>  
+                </div>
+                <div class="col-md-6 text-right">
+                    <h3> {{ userInfo.employee_detail.office_id == 1 ? "City Planning and Development Office"
+                        : userInfo.employee_detail.office_id == 2 ? "City Environment and Park Office"
+                        : userInfo.employee_detail.office_id == 3 ? "Bureau of Fire Protection"
+                        : userInfo.employee_detail.office_id == 4 ? "City Buildings and Architecture Office"
+                        : "Assessors Office" }} </h3>  
+                </div>
+            </div>
+            <div class="row mx-3 mt-3">
+                <div class="col-md-6 text-left">
+                    <h3> Position: </h3>  
+                </div>
+                <div class="col-md-6 text-right">
+                    <h3> {{userInfo.employee_detail.position}} </h3>  
+                </div>
+            </div>
+            <div class="row mx-3 mt-3">
+                <div class="col-md-6 text-left">
+                    <h3> Evaluator </h3>  
+                </div>
+                <div class="col-md-6 text-right">
+                    <h3> {{userInfo.employee_detail.is_enabled == 1 ? "Approved" : "To Verify"}}</h3>  
+                </div>
+            </div>
+           
+        </mat-card-content>
+       
+      </mat-card>
+      <div class="d-flex flex-row-reverse" style="margin-right: 20px">
+        <div class="col-md-2 text-right mt-5 mb-5">
+          <button
+            style="background-color: maroon; color: white"
+            mat-stroked-button
+            (click) = 'approve(userInfo.id)'
+        
+          >
+            Approve
+          </button>
+        </div>
+      </div>
+      <div class="row justify-content-center mx-5" *ngIf="isUpdating">
+        <div class="col-md-10">
+          <mat-progress-bar class="pb-3" mode="indeterminate"></mat-progress-bar>
+        </div>
+        
+    </div>
+    
+    
+      
+    
+      
+
+</div>

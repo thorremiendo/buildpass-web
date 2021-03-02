@@ -1,0 +1,27 @@
+.services {
+    max-width: 1000px;
+
+    .page-header {
+        margin-top: 50px;
+        font-size: 25px;
+        font-weight: 700;
+        color: #000000;
+        text-align: right;
+        margin-right: 50px;
+    }
+
+    .page-content {
+        margin-top: 50px;
+        font-size: 17px;
+        color: #000000;
+        padding-bottom: 30px;
+    }
+
+    @media (max-width: 767.5px) {
+        max-width: 90%;
+
+        .page-header {
+            text-align: left;
+        }
+    }
+}

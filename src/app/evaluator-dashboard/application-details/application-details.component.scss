@@ -1,0 +1,87 @@
+.container {
+  width: 100%;
+  ._app-details {
+    width: 60%;
+  }
+  ._app-timeline {
+    width: 40%;
+  }
+}
+.app-forms {
+  width: 100%;
+}
+.avatar-container {
+  border-right: 2px solid grey;
+  .avatar {
+    img {
+      width: 80px;
+      height: auto;
+      object-fit: cover;
+    }
+  }
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  top: 35%;
+  position: relative;
+  margin: 100px auto;
+}
+
+.timeline-area {
+  margin: 10px auto;
+  width: 360px;
+  border-left: 2px solid #ccc;
+  padding: 0 20px 0 30px;
+
+  div {
+    background-color: rgb(248, 248, 248);
+    border-radius: 10px;
+    padding: 10px 25px;
+    font-size: 16px;
+    line-height: 1.7;
+    position: relative;
+    height: 110px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  div:before {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: maroon;
+    border: 3px solid #ddd;
+    position: absolute;
+    top: 10px;
+    left: -40px;
+  }
+
+  div:after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: transparent #ddd transparent transparent;
+    border-width: 8px;
+    position: absolute;
+    left: -17px;
+    top: 10px;
+  }
+}
+
+.card {
+  margin-bottom: 30px;
+  border: none;
+
+  .card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #e6e6f2;
+  }
+
+  .text-dark {
+    color: #3d405c !important;
+  }
+}

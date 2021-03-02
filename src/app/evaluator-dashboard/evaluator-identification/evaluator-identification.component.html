@@ -1,0 +1,95 @@
+<form [formGroup]="_evaluatorIdentificationForm" (ngSubmit)="onSubmit()">
+  <div class="row px-3">
+    <div class="col-md-4 offset-md-4 ">
+      <div class="photo-container"></div> 
+    </div>
+  </div>
+  <div class="row px-3">
+    <div class="col-md-5">
+      <div class="avatar-upload text-center pt-5">
+        <div class="text-center avatar-block d-inline-block mt-3">
+          <img [src]="profilePhoto" alt="" class="user-avatar" />
+          <button
+            class="btn btn-dark btn-sm edit-button"
+            type="button"
+            (click)="openFileChooser()"
+          >
+            <i class="fa fa-edit"></i>
+          </button>
+        </div>
+        <p class="mt-2">
+          Profile Picture
+        </p>
+        <input
+          type="file"
+          class="sr-only"
+          id="photo"
+          accept="image/*"
+          (change)="handlePhotoChange($event)"
+        />
+      </div>
+    </div>
+    <div class="col-md-7">
+      <div class="row justify-content-center pt-5 pb-2">
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label for="id-type">ID Type</mat-label>
+            <mat-select formControlName="id_type" required (selectionChange)="persist('evaluator-registration-id-type', $event.value)">
+              <mat-option value="1">Passport</mat-option>
+              <mat-option value="2">Driver's License</mat-option>
+              <mat-option value="3">PRCID</mat-option>
+              <mat-option value="4">School ID</mat-option>
+              <mat-option value="5">SSS/UMID ID</mat-option>
+              <mat-option value="6">Senior Citizen's ID</mat-option>
+              <mat-option value="7">PWD ID</mat-option>
+              <mat-option value="8">Parent or Legal Guardian's ID</mat-option>
+              <mat-option value="9">Others</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center py-2">
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label>ID Number</mat-label>
+            <input matInput type="text" formControlName="id_number" required (input)="persist('evaluator-registration-id-number', $event.target.value)" />
+            <mat-error
+              *ngIf="
+                (evaluatorIdentificationFormControl.id_number.touched || _submitted) &&
+                evaluatorIdentificationFormControl.id_number.errors?.required"
+            >
+              ID Number is Required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center py-2">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="id-file">ID Photo</label>
+            <ngx-dropzone (change)="handleFileChange($event)">
+              <ngx-dropzone-label>
+                Click here to upload file!
+              </ngx-dropzone-label>
+              <ngx-dropzone-preview *ngIf="selectedFile">
+                <ngx-dropzone-label>
+                  <img [src]="idPhoto" alt="" class="id-photo" />
+                </ngx-dropzone-label>
+              </ngx-dropzone-preview>
+            </ngx-dropzone>
+            <span><strong>Note:</strong></span> Please upload a valid ID with a recent photo.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-center pt-3 pb-5">
+    <div class="col-md-3">
+      <button mat-stroked-button type="submit" [disabled]="
+        !_evaluatorIdentificationForm.valid || !selectedFile || !selectedPhoto
+      ">
+        Proceed
+      </button>
+    </div>
+  </div>
+</form>

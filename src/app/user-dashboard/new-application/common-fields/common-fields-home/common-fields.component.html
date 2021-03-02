@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-md-3">
+    <h3 style="color: #28344B;">Common Information</h3>
+  </div>
+  <div class="col-md-9">
+    <hr style="height: 3px;"/>
+  </div>
+</div>
+<div class="col-md-12">
+  <p>Please fill out all required information to autofill your forms.</p>
+</div>
+<mat-card>
+  <nav mat-tab-nav-bar mat-stretch-tabs>
+    <a
+      mat-tab-link
+      *ngFor="let link of navLinks"
+      [routerLink]="link.link"
+      routerLinkActive
+      #rla="routerLinkActive"
+      [active]="rla.isActive"
+      [disabled]='!rla.isActive'
+    >
+      {{ link.label }}
+    </a>
+  </nav>
+  <router-outlet></router-outlet>
+</mat-card>
+
+<!-- <button mat-raised-button color="primary" (click)="callNext()">Next</button> -->

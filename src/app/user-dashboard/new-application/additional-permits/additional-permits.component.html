@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h4 style="color: gray">ACCESSORY PERMITS</h4>
+      <h4>Please select additional permits (if needed):</h4>
+      <div class="ml-5" *ngFor="let additionalPermit of additionalPermits">
+        <input
+          type="checkbox"
+          name="{{ additionalPermit.id }}"
+          [value]="additionalPermit.id"
+          (change)="getPermitId($event, additionalPermit.id)"
+        />&nbsp;{{ additionalPermit.name }}
+      </div>
+      <div class="mt-5 text-right">
+        <button mat-raised-button color="primary" (click)="handleProceed()">Proceed</button>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="d-flex justify-content-center">
+        <img
+          class="new-illustration"
+          src="../../../assets/illustrations/folder.png"
+        />
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<h3>Fencing Permit Application</h3>
+<mat-horizontal-stepper linear #stepper>
+  <mat-step>
+    <ng-template matStepLabel>Step 1</ng-template>
+    <div class="container">
+      <mat-card style="width: 100%">
+        <mat-card-content>
+          <div>
+            <p class="ml-2">
+              1. After filling out the form, please click the download/save button on the right.
+            </p>
+            <ngx-extended-pdf-viewer
+              [src]="'../../../../assets/forms/fencing_permit.pdf'"
+              [showToolbar]="true"
+              [showSidebarButton]="false"
+              [showFindButton]="false"
+              [showPagingButtons]="false"
+              [showZoomButtons]="true"
+              [showPresentationModeButton]="true"
+              [showOpenFileButton]="false"
+              [showPrintButton]="false"
+              [showDownloadButton]="true"
+              [showBookmarkButton]="false"
+              [showSecondaryToolbarButton]="true"
+              [showRotateButton]="false"
+              [showHandToolButton]="false"
+              [showScrollingButton]="false"
+              [showSpreadButton]="false"
+              [showPropertiesButton]="false"
+              [useBrowserLocale]="true"
+              height="1000px"
+              zoom="80%"
+              [(formData)]="formData"
+            >
+            </ngx-extended-pdf-viewer>
+            
+            <p class="ml-2 mt-4">
+              2. Upload the form.
+            </p>
+            <app-file-upload 
+              (emitFile)="onSelect($event, 'fencingPermit')"
+              (removeFile)="onRemove('fencingPermit')"
+              description="Fencing Permit"
+            ></app-file-upload>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="text-right">
+      <button mat-raised-button matStepperNext color="primary">Next</button>
+    </div>
+  </mat-step>
+
+  <mat-step *ngFor="let fieldSet of fieldSets; let i = index">
+    <ng-template matStepLabel>Step {{i+2}}</ng-template>
+    <div *ngFor="let field of fieldSet">
+      <div class="mb-4">
+        <app-file-upload 
+          (emitFile)="onSelect($event, field.type)"
+          (removeFile)="onRemove(field.type)"
+          description="{{field.description}}"
+        ></app-file-upload>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between">
+      <button mat-raised-button (click)="callSaveAsDraft()">Save As Draft</button>
+      <button mat-raised-button color="primary" matStepperNext *ngIf="i != fieldSets.length-1; else submit_button;">Next</button>
+      <ng-template #submit_button>   
+        <button mat-raised-button (click)="submitApplication()">Submit</button>
+      </ng-template>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

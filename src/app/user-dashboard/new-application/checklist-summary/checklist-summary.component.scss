@@ -1,0 +1,15 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins/breakpoints";
+
+
+.container {
+  h4 {
+    color:maroon;
+    font-weight: 600;
+  }
+}
+.illustration{
+  width: 200px;
+  height: auto;
+}

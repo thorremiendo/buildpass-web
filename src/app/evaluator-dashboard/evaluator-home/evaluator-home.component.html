@@ -1,0 +1,162 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <mat-card class="totalCard">
+        <mat-card-content>
+          <p>
+            <span style="font-size: 3em; color:maroon">40</span>
+          </p>
+          <p>
+            <span style="font-size: 1em; color:gray">Building Permit</span>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-3">
+      <mat-card class="totalCard">
+        <mat-card-content>
+          <p>
+            <span style="font-size: 3em; color:maroon">10</span>
+          </p>
+          <p>
+            <span style="font-size: 1em; color:gray">Excavation Permit</span>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-3">
+      <mat-card class="totalCard">
+        <mat-card-content>
+          <p>
+            <span style="font-size: 3em; color:maroon">15</span>
+          </p>
+          <p>
+            <span style="font-size: 1em; color:gray">Other Permit</span>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-3">
+      <mat-card class="totalCard">
+        <mat-card-content>
+          <p>
+            <span style="font-size: 3em; color:maroon">65</span>
+          </p>
+          <p>
+            <span style="font-size: 1em; color:gray">Total</span>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-7">
+      <div class="d-flex w-100">
+        <mat-card style="height: 500">
+          <!-- <mat-card-title class="m-0">Applications</mat-card-title>
+          <hr class="m-0" /> -->
+          <p class="ml-3 mt-3">as of {{ date | date: "MMMM dd, yyyy" }}</p>
+          <div class="m-3" style="display: block;">
+            <canvas baseChart 
+              [datasets]="barChartData"
+              [labels]="barChartLabels"
+              [options]="barChartOptions"
+              [plugins]="barChartPlugins"
+              [legend]="barChartLegend"
+              [chartType]="barChartType"
+              colours="{
+                fillColor: 'rgb(128,0,0)',
+                strokeColor: 'rgb(128,0,0)',
+                highlightFill: 'rgb(128,0,0)',
+                highlightStroke: 'rgb(128,0,0)'
+                }">
+            </canvas>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="d-flex w-100 ">
+        <mat-card style="height:500">
+          <div class="m-0 pt-5" style="display: block;">
+            <canvas baseChart 
+            [data]="doughnutChartData"
+            [labels]="doughnutChartLabels"
+            [chartType]="doughnutChartType">
+          </canvas>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title class="m-3">Notifications</mat-card-title>
+          <button mat-button color="primary">
+            View All {{ feeds.length }}
+          </button>
+        </mat-card-header>
+        <hr class="m-0" />
+        <mat-card-content>
+          <div class="_notificationBox">
+            <div
+              class="col w-100 m-0"
+              *ngIf="feeds.length == 0"
+            >
+              <img
+                src="../../../assets/illustrations/notification-mail.png"
+                class="_illustration"
+              />
+              <h4>You don't have any notifications.</h4>
+            </div>
+            <div *ngFor="let feed of feeds; let i = index">
+              <div class="_notifications" (click)="openApplication(feed.application_id)">
+                <div class="d-flex justify-content-around w-100 m-0">
+                  <div class="col">
+                    <p style="color: rgb(90, 108, 116); font-size: 12px">
+                      {{ feed.currentTime | dateAgo }}
+                    </p>
+                  </div>
+                 <div class="col">
+                  <p style="color: rgb(90, 108, 116)">
+                    {{ feed.application_number }} <br> {{ feed.status }}
+                  </p>
+                 </div>
+                <div class="col">
+                  <p style="color: rgb(90, 108, 116)">
+                    {{ feed.message }} 
+                  </p>
+                </div>
+                 
+                </div>
+                <hr />
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <mat-card class="card-container mt-5">
+        <nav mat-tab-nav-bar mat-stretch-tabs>
+          <a
+            mat-tab-link
+            *ngFor="let link of navLinks"
+            [routerLink]="link.link"
+            routerLinkActive
+            #rla="routerLinkActive"
+            [active]="rla.isActive"
+          >
+            {{ link.label }}
+          </a>
+        </nav>
+        <router-outlet></router-outlet>
+      </mat-card>
+    </div>
+  </div>
+</div>

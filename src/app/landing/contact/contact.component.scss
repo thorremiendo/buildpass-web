@@ -1,0 +1,59 @@
+.contact {
+    max-width: 1000px;
+
+    .page-header {
+        margin-top: 100px;
+        font-size: 25px;
+        font-weight: 700;
+        color: #000000;
+    }
+
+    .page-content {
+        margin-top: 20px;
+        font-size: 17px;
+        color: #000000;
+        padding-bottom: 30px;
+
+        > div {
+            padding: 5px;
+            font-size: 15px;
+
+            > div {
+                display: inline-block;
+                width: 150px;
+                font-weight: 700;
+                padding-right: 20px;
+            }
+        }
+    }
+
+    .cbao-cartoon {
+        img {
+            max-width: 500px;
+            margin-bottom: 50px;
+        }
+    }
+
+    @media (max-width: 767.5px) {
+        max-width: 90%;
+
+        .page-header {
+            text-align: left;
+            margin-top: 50px;
+        }
+
+        .cbao-cartoon img {
+            max-width: 280px;
+            margin: 0 auto;
+            display: block;
+        }
+    }
+
+    @media (max-width: 488.5px) {
+        .page-content {
+            > div > div {
+                display: block;
+            }
+        }
+    }
+}

@@ -1,0 +1,217 @@
+<form [formGroup]="representativeDetailsForm" (ngSubmit)="onSubmit()">
+  <div class="row justify-content-center pt-3 px-3">
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Fist Name</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="representative_first_name"
+          required
+        />
+        <mat-error
+          *ngIf="
+            (representativeDetailsFormControl.representative_first_name
+              .touched ||
+              _submitted) &&
+            representativeDetailsFormControl.representative_first_name.errors
+              ?.required
+          "
+        >
+          Fist Name is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Middle Name</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="representative_middle_name"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="representative_last_name"
+          required
+        />
+        <mat-error
+          *ngIf="
+            (representativeDetailsFormControl.representative_last_name
+              .touched ||
+              _submitted) &&
+            representativeDetailsFormControl.representative_last_name.errors
+              ?.required
+          "
+        >
+          Last Name is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Suffix</mat-label>
+        <mat-select formControlName="representative_suffix">
+          <mat-option value=" "></mat-option>
+          <mat-option value="Jr">Jr</mat-option>
+          <mat-option value="Sr">Sr</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row justify-content-center px-3">
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Email Address</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="representative_email_address"
+          required
+        />
+        <mat-error
+          *ngIf="
+            (representativeDetailsFormControl.representative_email_address
+              .touched ||
+              _submitted) &&
+            representativeDetailsFormControl.representative_email_address.errors
+              ?.required
+          "
+        >
+          Email Address is Required
+        </mat-error>
+        <mat-error
+          *ngIf="
+            (representativeDetailsFormControl.representative_email_address.touched ||
+              _submitted) &&
+            representativeDetailsFormControl.representative_email_address.errors
+              ?.pattern
+          "
+        >
+            Email must be a valid email address
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>House Number</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="representative_house_number"
+          required
+        />
+        <mat-error
+          *ngIf="
+            (representativeDetailsFormControl.representative_house_number
+              .touched ||
+              _submitted) &&
+            representativeDetailsFormControl.representative_house_number.errors
+              ?.required
+          "
+        >
+          House Number is Required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Street Name</mat-label>
+        <input matInput formControlName="representative_street_name" />
+      </mat-form-field>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Contact Number</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="representative_contact_no"
+          [maxLength]="maxLength"
+          placeholder="Ex. 09123456789"
+          #contact
+          required
+        />
+        <mat-error
+          *ngIf="
+            (representativeDetailsFormControl.representative_contact_no
+              .touched ||
+              _submitted) &&
+            representativeDetailsFormControl.representative_contact_no.errors
+              ?.required
+          "
+        >
+          Contact Number is Required
+        </mat-error>
+        <mat-error
+          *ngIf="
+            (representativeDetailsFormControl.representative_contact_no.touched ||
+              _submitted) &&
+            representativeDetailsFormControl.representative_contact_no.errors
+              ?.pattern
+          "
+        >
+           Contact Number must be start with '09', should be numerical and fixed length of 11
+        </mat-error>
+        <mat-hint align="end"
+          >{{ contact.value.length }} / {{ maxLength }}</mat-hint
+        >
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row justify-content-center px-3">
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Barangay</mat-label>
+        <input
+          type="text"
+          placeholder="Select Barangay"
+          aria-label="Barangay"
+          matInput
+          formControlName="representative_barangay"
+          [matAutocomplete]="auto"
+          required
+        />
+        <mat-icon matSuffix>arrow_drop_down</mat-icon>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let barangays of _filteredBarangayOptions | async"
+            [value]="barangays.name"
+          >
+            {{ barangays.name }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error
+          *ngIf="
+            (representativeDetailsFormControl.representative_barangay.touched ||
+              _submitted) &&
+            representativeDetailsFormControl.representative_barangay.errors
+              ?.required
+          "
+        >
+          Barangay is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-3"></div>
+    <div class="col-md-3"></div>
+    <div class="col-md-3"></div>
+  </div>
+  <div class="row justify-content-center py-3">
+    <div class="col-md-3 col-3 text-right mb-3">
+      <button
+        style="background-color: maroon; color: white"
+        mat-stroked-button
+        type="submit"
+      >
+        Proceed
+      </button>
+    </div>
+  </div>
+</form>

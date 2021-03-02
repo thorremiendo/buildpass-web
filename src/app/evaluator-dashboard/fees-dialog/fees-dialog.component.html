@@ -1,0 +1,52 @@
+<div [formGroup]="feesDetails">
+  <h3 class="mb-3">Add New Item</h3>
+  <div>
+    <mat-form-field class="example-full-width">
+      <mat-label>Description</mat-label>
+      <input
+        type="text"
+        placeholder="Choose a Fee"
+        aria-label="Number"
+        matInput
+        [formControl]="typeOfFee"
+        [matAutocomplete]="auto"
+      />
+
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option
+          *ngFor="let option of filteredOptions | async"
+          [value]="option.name"
+        >
+          {{ option.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Amount</mat-label>
+      <input
+        type="text"
+        localeCurrencyInput
+        [allowNegative]="false"
+        [currencyCode]="'₱'"
+        matInput
+        formControlName="amount"
+        required
+      />
+      <mat-error *ngIf="feesDetailsControl.amount.errors?.required">
+        Amount is Required
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <button mat-raised-button (click)="onNoClick()">Close</button>
+    &nbsp;
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="onSubmit()"
+      [disabled]="isLoading"
+    >
+      Submit
+    </button>
+  </div>
+</div>

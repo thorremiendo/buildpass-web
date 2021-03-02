@@ -1,0 +1,74 @@
+.user-avatar {
+    max-width: 150px !important;
+    max-height: 200px !important;
+    border-radius: 50%;
+}
+
+.avatar-block {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    position: relative;
+
+    .edit-button {
+        border-radius: 100%;;
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        bottom: 1em;
+        right: 0;
+        opacity: .8;
+    }
+}
+
+.avatar-position{
+    margin-left: 500px;
+   
+}
+
+.idHolder{
+    max-width: 250px !important;
+    max-height: 300px !important;
+}
+
+
+.triggerUpload {
+    background-color: maroon;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    opacity: 1;
+    transition: 0.3s;
+    position: relative;
+  }
+  
+  .hideText {
+      display: none;
+      position: absolute;
+      margin-left: auto;
+      margin-right: auto;
+      left: 0;
+      right: 0;
+      top: 40%;
+      text-align: center;
+      font-weight: 900;
+      color:maroon;
+      background-color: white;
+      width:120px;
+      height: 30px;
+      border-radius: 10px;
+      opacity: 1;
+  }
+
+  .triggerUpload:hover {
+      opacity: 0.4;
+      cursor: pointer;
+      
+      
+    }
+
+  .triggerUpload:hover .hideText {
+    display: block;
+  }

@@ -1,0 +1,58 @@
+<form [formGroup]="_signinForm" (ngSubmit)="tryLogin(_signinForm.value)">
+  <div class="row justify-content-center pt-5">
+    <div class="col-md-8">
+      <mat-form-field appearance="outline">
+        <mat-label>Email address</mat-label>
+        <input
+          matInput
+          placeholder="example@gmail.com"
+          formControlName="email"
+          required
+        />
+        <mat-icon matSuffix>email</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-md-8 password-input">
+      <mat-form-field appearance="outline">
+        <mat-label>Enter your password</mat-label>
+        <input
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          formControlName="password"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+          type="button"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+      </mat-form-field>
+      <a routerLink="/forgot-password">
+        forgot password?
+      </a>
+    </div>
+  </div>
+  <div class="row justify-content-center pt-3 pb-3">
+    <div class="col-md-4 sign-in-button">
+      <button mat-stroked-button>
+        Sign in
+      </button>
+    </div>
+  </div>
+  <hr />
+  <div class="row justify-content-center pt-2 pb-5">
+    <div class="col-md-4 google-login">
+      <p>or sign in with</p>
+      <button mat-stroked-button (click)="tryGoogle()" type="button">
+        <mat-icon matPrefix svgIcon="logo"></mat-icon>
+        Google
+      </button>
+    </div>
+  </div>
+</form>

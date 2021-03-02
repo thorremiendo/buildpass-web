@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row mx-5">
+    <div class="d-flex justify-content-between w-100">
+      <div>
+        <h2>Applicant Name: {{ applicantCompleteName }}</h2>
+        <h3>Permit Category: {{ permitType }}</h3>
+        <hr />
+        <h2 class="pt-5">Uploaded Documents</h2>
+      </div>
+      <div>
+        <img
+          src="../../../../assets/illustrations/requirements.png"
+          class="illustration"
+        />
+      </div>
+    </div>
+    <div class="col-12 m-0 p-0">
+      <div *ngFor="let category of sortedForms">
+        <div *ngIf="category.data.length > 0">
+          <div class="mb-2">{{category.label}}</div>
+          <ul>
+            <li
+              class="d-flex justify-content-between"
+              *ngFor="let element of category.data; let i = index"
+            >
+              {{ i + 1 }}. {{ getDocType(element.document_id) }}
+              <button
+                mat-button
+                color="primary"
+                (click)="goToLink(element.document_path)"
+              >
+                <u>View</u>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="text-right my-4">
+        <button mat-raised-button color="primary" (click)="submit()">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

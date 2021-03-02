@@ -1,0 +1,328 @@
+<div class="container">
+  <!-- <div class="col">
+    <h3><strong>Reminders</strong></h3>
+    <mat-card>
+      <mat-card-content>
+        <div
+          id="carouselContent"
+          class="carousel slide carousel-bg zindex-2 w-100"
+          data-ride="carousel"
+        >
+          <div class="carousel-inner text-white" role="listbox">
+            <div class="carousel-item active text-center p-4">
+              <p class="p-5">Some reminders here.</p>
+            </div>
+            <div class="carousel-item text-center p-4">
+              <p class="p-5">Another reminder here.</p>
+            </div>
+            <div class="carousel-item text-center p-4">
+              <p class="p-5">Thor pogi mo talaga.</p>
+            </div>
+          </div>
+          <a
+            class="carousel-control-prev"
+            href="#carouselContent"
+            role="button"
+            data-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a
+            class="carousel-control-next"
+            href="#carouselContent"
+            role="button"
+            data-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div> -->
+  <div class="row">
+    <div class="col-md-5">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title class="m-3"> <span matBadge="{{ feeds.length }}" matBadgeOverlap="false">Notification</span></mat-card-title>
+        </mat-card-header>
+        <hr class="m-0" />
+        <mat-card-content>
+          <div class="_notificationBox">
+            <div
+              class="col w-100 m-0"
+              *ngIf="feeds.length == 0"
+            >
+              <img
+                src="../../../assets/illustrations/notification-mail.png"
+                class="_illustration"
+              />
+              <h4>You don't have any notifications.</h4>
+            </div>
+            <div *ngFor="let feed of feeds; let i = index">
+              <div class="_notifications" (click)="openApplication(feed.application_id)">
+                <div class="d-flex justify-content-around w-100 m-0">
+                  <p style="color: rgb(90, 108, 116); font-size: 12px">
+                    {{ feed.currentTime | dateAgo }}
+                  </p>
+                  <p style="color: rgb(90, 108, 116)">
+                    {{ feed.application_number }} {{ feed.status }}
+                  </p>
+                </div>
+                <hr />
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-md-7">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Reminders</mat-card-title>
+          <button mat-button color="primary">View All</button>
+        </mat-card-header>
+        <hr class="m-0" />
+        <mat-card-content>
+          <!-- <div class="row ml-3" *ngFor="let reminder of reminders">
+            <mat-icon aria-hidden="false" class="mr-2" style="color: goldenrod"
+              >message</mat-icon
+            >
+            <p>{{ reminder }}</p>
+          </div> -->
+          <div
+            id="carouselContent"
+            class="carousel slide carousel-bg zindex-2 w-100"
+            data-ride="carousel"
+          >
+            <div class="carousel-inner text-white" role="listbox">
+              <div class="carousel-item active text-center p-4">
+                <p>
+                  Check out our construction permit online application
+                  guidelines <a href="#">here</a>.
+                </p>
+              </div>
+              <div class="carousel-item text-center p-4">
+                <p>
+                  Make sure all forms are correctly and completely filled-out.
+                </p>
+              </div>
+              <div class="carousel-item text-center p-4">
+                <p>
+                  Don’t forget to bring your proof of payment, original signed
+                  and sealed documents upon claiming your Building Permit.
+                </p>
+              </div>
+            </div>
+            <a
+              class="carousel-control-prev"
+              href="#carouselContent"
+              role="button"
+              data-slide="prev"
+            >
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a
+              class="carousel-control-next"
+              href="#carouselContent"
+              role="button"
+              data-slide="next"
+            >
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="col mt-5">
+    <h3><strong>Frequently Asked Questions</strong></h3>
+    <mat-expansion-panel
+      (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title
+          ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
+            >rounded_corner</mat-icon
+          >
+          Line and Grade</mat-panel-title
+        >
+      </mat-expansion-panel-header>
+      <p>
+        <strong>
+          Can my Building Permit Application progress if my Land Title is
+          211?</strong
+        ><br />
+        No, Land titles that are indicated as 211 are invalidated, and are
+        considered as public land.
+        <br />
+        <br />
+        <strong
+          >My existing Structure/Building or a portion of it is situated and/or
+          is within an easement/Road Right of Way, can I be issued a building
+          permit/Occupancy Certificate?
+        </strong>
+        <br />No, unless the minimum easement of THREE (3.00) meters will be
+        respected, or the minimum required setbacks under the code are met.
+        <br /><br />
+        <strong
+          >There is an annotation in my Land Title indicating “Lis Pendens” or
+          “Adverse Claim”, can my Building Permit application prosper?</strong
+        >
+        <br />
+        No, however, it is recommended that these annotations should be resolved
+        first prior to application.
+        <br />
+        <br />
+        <strong
+          >What attachments are needed if the property is owned by a
+          corporation?</strong
+        >
+        <br />
+        Attach original copy of Secretary Certificate and/or Articles of
+        Incorporation
+        <br />
+        <br />
+        <strong
+          >I would like to construct a building however the property is owned by
+          several individuals. What document do I need to submit to support my
+          building permit application?</strong
+        >
+        <br />
+        You will need to submit a duly notarized Authorization/Non-Objection or
+        Consent from the co-owners
+        <br />
+        <br />
+
+        <strong
+          >Follow-up question, what if the co-owner is abroad? How can he/she
+          sign the Authorization/Non-Objection, or Consent?
+        </strong>
+        <br />If that is the case, he/she must provide you with that written
+        consent or authorization duly Authenticated/Apostille by their
+        consulate.
+        <br />
+        <br />
+        <strong>
+          My family is planning to construct a building on our titled property,
+          however, my father/mother (or both) whom the property is/are named
+          is/are already deceased. What document do I need to support my
+          Building permit application?</strong
+        ><br />
+        To support your application, you will need to submit original copy of
+        the Extra Judicial Settlement.
+        <br />
+        <br />
+        <strong>
+          I would like to build on our titled property, however, indicated in
+          the title are fraction of shares for each co-owner. What do I need to
+          do?
+        </strong>
+        <br />
+        You need to identify your fraction of share on a survey plan. This
+        survey plan will be your supporting document for your application. You
+        will also need to attach a duly notarized written consent from the
+        co-owners.
+        <br />
+
+        <br /><strong>
+          My property is situated in the NIPAS Zone. What clearance do I need to
+          secure?</strong
+        >
+        <br />
+        You have to apply for an Environmental Compliance Certificate from
+        MGB-DENR.
+        <br />
+
+        <br />
+        <strong
+          >Our property is located near an air strip. What clearance do I need
+          to submit to support my application?
+        </strong>
+        <br />You need to apply and secure first a CAAP clearance.
+        <br />
+        <br />
+        <strong
+          >My property is under mortgage. What document do I need to submit to
+          support my application?</strong
+        >
+        <br />
+        You need to submit Consent from the Bank, or with your loan provider.
+        (eg: Pagibig)
+      </p>
+    </mat-expansion-panel>
+    <mat-expansion-panel
+      (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title
+          ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
+            >architecture</mat-icon
+          >
+          Architectural</mat-panel-title
+        >
+      </mat-expansion-panel-header>
+      <p>
+        <strong
+          >My lot is too small to provide minimum setbacks around it. Is it
+          allowed to introduce three or four firewalls on its sides?</strong
+        >
+        <br />
+        No, Only TWO (2) Firewalls are allowed, and it should not be located or
+        constructed on the front side of the structure.
+        <br /><br />
+        <strong
+          >My property is classified as interior lot, however the existing
+          alley/access way leading to my property is tight and is not passable
+          by vehicular means (4-wheel vehicles), do I still need to provide a
+          garage or a parking space?</strong
+        >
+        <br />
+        For residential use: No need to provide For Commercial use: Yes, at
+        least within a 200-meter distance.
+      </p>
+    </mat-expansion-panel>
+    <mat-expansion-panel
+      (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title
+          ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
+            >roofing</mat-icon
+          >Structural</mat-panel-title
+        >
+      </mat-expansion-panel-header>
+      <p>
+        <strong
+          >I would like to apply for an Occupancy Certificate however, I
+          recently added One (1) or more storey/s on the structure which is not
+          included in the issued Building Permit. What are the requirements so
+          that my application will be complete and complying?</strong
+        >
+        <br />The requirements are:
+        <br />
+        - Amended Structural plans conforming to the actual number of storeys
+        <br />
+        - Structural Design Analysis for the as built structure <br />
+        - In case for a Four (4) storey or more, Structural Review conducted by
+        a Structural Engineer and must be a member of ASEP is required. <br />
+        - Submit Affidavit of a Civil Engineer, certifying that he supervised
+        the construction, and that the structure is in accordance with the
+        Structural Design Analysis.
+      </p>
+    </mat-expansion-panel>
+  </div>
+</div>

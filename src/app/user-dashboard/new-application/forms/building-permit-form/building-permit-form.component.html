@@ -1,0 +1,74 @@
+<div class="d-flex justify-content-center mt-5" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>
+<mat-card style="width: 100%" *ngIf="!isLoading">
+  <mat-card-title class="p-3">Building Permit Form</mat-card-title>
+  <hr />
+  <mat-card-content>
+    <p class="ml-2">
+      1. After filling out the form, please click the download/save button on
+      the right.
+    </p>
+    <ngx-extended-pdf-viewer
+      [src]="
+        '../../../../assets/forms/Unified_Application_for_Building_Permit.pdf'
+      "
+      [showToolbar]="true"
+      [showSidebarButton]="false"
+      [showFindButton]="false"
+      [showPagingButtons]="false"
+      [showZoomButtons]="true"
+      [showPresentationModeButton]="true"
+      [showOpenFileButton]="false"
+      [showPrintButton]="false"
+      [showDownloadButton]="true"
+      [showBookmarkButton]="false"
+      [showSecondaryToolbarButton]="true"
+      [showRotateButton]="false"
+      [showHandToolButton]="false"
+      [showScrollingButton]="false"
+      [showSpreadButton]="false"
+      [showPropertiesButton]="false"
+      [useBrowserLocale]="true"
+      height="500px"
+      zoom="80%"
+      [(formData)]="formData"
+    >
+    </ngx-extended-pdf-viewer>
+    <p class="mt-4">2. Please Upload the Notarized Form.</p>
+    <p style="font-size: 14px; color: maroon">You can only upload PDF files.</p>
+    <ngx-dropzone
+      (change)="onSelect($event, 'buildingPermitForm')"
+      [multiple]="false"
+      class="mt-3"
+      accept="application/pdf"
+    >
+      <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+      <ngx-dropzone-preview
+        *ngIf="buildingPermitForm"
+        [removable]="true"
+        (removed)="onRemove('buildingPermitForm')"
+        class="mx-auto"
+      >
+        <ngx-dropzone-label
+          >{{ buildingPermitForm.name }} ({{
+            buildingPermitForm.type
+          }})</ngx-dropzone-label
+        >
+      </ngx-dropzone-preview>
+    </ngx-dropzone>
+    <div class="d-flex justify-content-between mt-5 mb-3">
+      <!-- <button mat-raised-button color="accent" (click)="callSaveAsDraft()">
+        Save as Draft
+      </button> -->
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="callNext()"
+        [disabled]="!buildingPermitForm"
+      >
+        Next
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

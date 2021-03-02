@@ -1,0 +1,23 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins/breakpoints";
+
+.new-illustration {
+  width: 450px;
+  height: auto;
+}
+
+.map-container {
+  height: 400px;
+}
+
+// .container {
+//   height: 100vh;
+//   .__left {
+//     overflow: scroll;
+//     height: 100vh;
+//   }
+//   .__right {
+//     height: 100vh;
+//   }
+// }
