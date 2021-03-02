@@ -1,0 +1,47 @@
+<div class="justify-content-center">
+    <h2 mat-dialog-title >Notification</h2>
+    <mat-dialog-content class="mat-typography">
+          <hr class="m-0" />
+          <mat-card-content>
+            <div class="_notificationBox">
+              <div
+                class="col w-100 m-0"
+                *ngIf="feeds.length == 0"
+              >
+                <img
+                  src="../../../assets/illustrations/notification-mail.png"
+                  class="_illustration"
+                />
+                <h4>You don't have any notifications.</h4>
+              </div>
+              <div *ngFor="let feed of feeds; let i = index">
+                <div class="_notifications">
+                  <div class="d-flex justify-content-around w-100 m-0">
+                    <div class="col">
+                      <p style="color: rgb(90, 108, 116); font-size: 12px">
+                        {{ feed.currentTime | dateAgo }}
+                      </p>
+                    </div>
+                   <div class="col">
+                    <p style="color: rgb(90, 108, 116)">
+                      {{ feed.application_number }} <br> {{ feed.status }}
+                    </p>
+                   </div>
+                  <div class="col">
+                    <p style="color: rgb(90, 108, 116)">
+                      {{ feed.message }} 
+                    </p>
+                  </div>
+                   
+                  </div>
+                  <hr />
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+      
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Close</button>
+    </mat-dialog-actions>
+  </div>

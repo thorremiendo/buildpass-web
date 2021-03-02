@@ -115,7 +115,7 @@ export class EvaluatorHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.pusherSubscribe();
-    this.getNotificationTable();
+    // this.getNotificationTable();
     this._router.events.subscribe((res) => {
       this.activeLinkIndex = this.navLinks.indexOf(
         this.navLinks.find((tab) => tab.link === '.' + this._router.url)
@@ -160,22 +160,22 @@ export class EvaluatorHomeComponent implements OnInit {
     this.feedSubscription.unsubscribe();
   }
 
-  getNotificationTable() {
-    this.feedService 
-      .getNotifTable(
-        this.user.employee_detail.user_notif.channel,
-        this.channleType
-      )
-      .subscribe(
-        (data) => {
-          this.feeds = data.data;
-          console.log(JSON.stringify(data))
-        },
-        catchError((error) => {
-          return throwError('Something went wrong.');
-        })
-      );
-  }
+  // getNotificationTable() {
+  //   this.feedService 
+  //     .getNotifTable(
+  //       this.user.employee_detail.user_notif.channel,
+  //       this.channleType
+  //     )
+  //     .subscribe(
+  //       (data) => {
+  //         this.feeds = data.data;
+  //         console.log(JSON.stringify(data))
+  //       },
+  //       catchError((error) => {
+  //         return throwError('Something went wrong.');
+  //       })
+  //     );
+  // }
 
   getFeedItems(): Observable<Feed> {
     return this.subject.asObservable();
