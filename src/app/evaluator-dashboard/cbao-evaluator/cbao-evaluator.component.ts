@@ -167,6 +167,21 @@ export class CbaoEvaluatorComponent implements OnInit {
               window.location.reload();
             });
           });
+      } else {
+        const body = {
+          application_status_id: 5,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Notified Applicant for Revision!`,
+              'success'
+            ).then((result) => {
+              window.location.reload();
+            });
+          });
       }
     } else {
       Swal.fire(
@@ -337,5 +352,9 @@ export class CbaoEvaluatorComponent implements OnInit {
       console.log('The dialog was closed');
       this.ngOnInit();
     });
+  }
+
+  openFormRemarks(e) {
+    console.log(e);
   }
 }
