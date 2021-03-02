@@ -138,7 +138,23 @@ export class ViewApplicationComponent implements OnInit {
           .subscribe((res) => {
             Swal.fire(
               'Success!',
-              `Forwarded to CPDO for Evaluation!`,
+              `Forwarded to CPDO Inspector for Evaluation!`,
+              'success'
+            ).then((result) => {
+              this.isLoading = false;
+              window.location.reload();
+            });
+          });
+      } else if (this.applicationDetails.cpdo_cod_status_id == 2) {
+        const body = {
+          application_status_id: 10,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Forwarded to CPDO Coordinator for re-evaluation!`,
               'success'
             ).then((result) => {
               this.isLoading = false;
@@ -186,7 +202,7 @@ export class ViewApplicationComponent implements OnInit {
           .subscribe((res) => {
             Swal.fire(
               'Success!',
-              `Forwarded to CBAO for Evaluation!`,
+              `Forwarded to CBAO Receiving for Evaluation!`,
               'success'
             ).then((result) => {
               this.isLoading = false;
