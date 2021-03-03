@@ -42,43 +42,7 @@
     </mat-card>
   </div> -->
   <div class="row">
-    <div class="col-md-5">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title class="m-3"> <span matBadge="{{ feeds.length }}" matBadgeOverlap="false">Notification</span></mat-card-title>
-        </mat-card-header>
-        <hr class="m-0" />
-        <mat-card-content>
-          <div class="_notificationBox">
-            <div
-              class="col w-100 m-0"
-              *ngIf="feeds.length == 0"
-            >
-              <img
-                src="../../../assets/illustrations/notification-mail.png"
-                class="_illustration"
-              />
-              <h4>You don't have any notifications.</h4>
-            </div>
-            <div *ngFor="let feed of feeds; let i = index">
-              <div class="_notifications" (click)="openApplication(feed.application_id)">
-                <div class="d-flex justify-content-around w-100 m-0">
-                  <p style="color: rgb(90, 108, 116); font-size: 12px">
-                    {{ feed.currentTime | dateAgo }}
-                  </p>
-                  <p style="color: rgb(90, 108, 116)">
-                    {{ feed.application_number }} {{ feed.status }}
-                  </p>
-                </div>
-                <hr />
-              </div>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <div class="col-md-7">
+    <div class="col-md-12">
       <mat-card>
         <mat-card-header>
           <mat-card-title>Reminders</mat-card-title>

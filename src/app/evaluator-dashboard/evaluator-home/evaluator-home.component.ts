@@ -160,23 +160,6 @@ export class EvaluatorHomeComponent implements OnInit {
     this.feedSubscription.unsubscribe();
   }
 
-  // getNotificationTable() {
-  //   this.feedService 
-  //     .getNotifTable(
-  //       this.user.employee_detail.user_notif.channel,
-  //       this.channleType
-  //     )
-  //     .subscribe(
-  //       (data) => {
-  //         this.feeds = data.data;
-  //         console.log(JSON.stringify(data))
-  //       },
-  //       catchError((error) => {
-  //         return throwError('Something went wrong.');
-  //       })
-  //     );
-  // }
-
   getFeedItems(): Observable<Feed> {
     return this.subject.asObservable();
   }
@@ -184,17 +167,6 @@ export class EvaluatorHomeComponent implements OnInit {
   openApplication(id){
     this._router.navigate(['evaluator/application', id]);
   }
-
-//   public chartColors() {
-//     return [{
-//       //backgroundColor: this.alert.severityColor,
-//       borderColor: 'rgba(225,10,24,0.2)',
-//       pointBackgroundColor: 'rgba(225,10,24,0.2)',
-//       pointBorderColor: '#fff',
-//       pointHoverBackgroundColor: '#fff',
-//       pointHoverBorderColor: 'rgba(225,10,24,0.2)'
-//   }]
-// }
 
   onSelect(data): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));
