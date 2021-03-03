@@ -138,22 +138,42 @@ export class CpdoEvaluatorComponent implements OnInit {
   }
   nonCompliant() {
     if (this.checkFormsReviewed()) {
-      const body = {
-        application_status_id: 5,
-        cpdo_status_id: 2,
-      };
-      this.applicationService
-        .updateApplicationStatus(body, this.applicationId)
-        .subscribe((res) => {
-          Swal.fire(
-            'Success!',
-            `Notified Applicant for Revision!`,
-            'success'
-          ).then((result) => {
-            window.location.reload();
+      if (this.evaluatorRole.code == 'CPDO-ZI') {
+        const body = {
+          application_status_id: 5,
+          cpdo_status_id: 2,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Notified Applicant for Revision!`,
+              'success'
+            ).then((result) => {
+              window.location.reload();
+            });
+            this.fetchApplicationDetails();
           });
-          this.fetchApplicationDetails();
-        });
+      } else {
+        //CPDO COORDINATOR
+        const body = {
+          application_status_id: 5,
+          cpdo_cod_status_id: 2,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Notified Applicant for Revision!`,
+              'success'
+            ).then((result) => {
+              window.location.reload();
+            });
+            this.fetchApplicationDetails();
+          });
+      }
     } else {
       Swal.fire(
         'Notice!',
@@ -173,6 +193,7 @@ export class CpdoEvaluatorComponent implements OnInit {
     if (this.checkFormsCompliant()) {
       const body = {
         application_status_id: 10,
+        cpdo_status_id: 1,
       };
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
@@ -248,7 +269,7 @@ export class CpdoEvaluatorComponent implements OnInit {
   updateApplicationStatus() {
     const body = {
       application_status_id: 3,
-      cpdo_status_id: 1,
+      cpdo_cod_status_id: 1,
     };
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
