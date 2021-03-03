@@ -37,7 +37,7 @@
       </mat-error>
     </mat-form-field>
   </div>
-  <div>
+  <div *ngIf="!isLoading">
     <button mat-raised-button (click)="onNoClick()">Close</button>
     &nbsp;
     <button
