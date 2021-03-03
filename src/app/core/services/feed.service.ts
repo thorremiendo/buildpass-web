@@ -8,9 +8,6 @@ import Pusher  from 'pusher-js';
 import { Channel } from 'pusher-js';
 
 
-
-
-
 @Injectable({
   providedIn: 'root',
 })
@@ -34,8 +31,8 @@ export class FeedService {
   {
     const {key, cluster} = environment.pusher;
     this.pusher = new Pusher(key, { cluster });
-    this.checkUser();
-    this.pusherSubscribe();
+    
+    
    // this.getNotifTable();
     
 
@@ -61,6 +58,8 @@ export class FeedService {
       this.pusherBind= 'ApplicantStatusChanged';
    
     }
+
+    this.pusherSubscribe();
   }
 
   pusherSubscribe() {

@@ -4,9 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, } from '@angular/forms';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
-import { AngularFirestore, AngularFirestoreDocument, } from '@angular/fire/firestore';
-import { UserService} from '../../core';
-import { AdminAuthService } from '../../core';
+import { AdminAuthService, FeedService, UserService } from '../../core';
+
 
 const googleLogoURL = 
 "https://raw.githubusercontent.com/fireflysemantics/logo/master/Google.svg";
@@ -33,16 +32,14 @@ export class EvaluatorSignInComponent implements OnInit {
     private _router: Router,
     private _fb: FormBuilder,
     private _route: ActivatedRoute,
-    private _ngZone: NgZone,
-    private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer,
-    private _afs: AngularFirestore,
-    private _userService: UserService,
-    private adminAuth: AdminAuthService,
+    private _matIconRegistry: MatIconRegistry,
+    private _domSanitizer: DomSanitizer,
+    private _adminAuth: AdminAuthService,
+    private _feedService:FeedService,
 
   ) {
-    this.matIconRegistry.addSvgIcon("logo",
-    this.domSanitizer.bypassSecurityTrustResourceUrl(googleLogoURL));
+    this._matIconRegistry.addSvgIcon("logo",
+    this._domSanitizer.bypassSecurityTrustResourceUrl(googleLogoURL));
     
     this.createForm();
   }
@@ -54,92 +51,15 @@ export class EvaluatorSignInComponent implements OnInit {
     });
   }
 
-  // tryLogin(value) {
-  //   this._submitted = true;
-  //   if (this._evaluatorSignInForm.valid) {
-  //     this._authService.SignIn(value)
-  //       .then((result) => {
-  //         this._authService.getFireBaseData(result.user.uid).subscribe(result =>{ 
-  //           const user = result.data();
-  //           console.log(user)
-  //           console.log(user.uid);
-  //         })
-            
-  //         console.log(result);
-  //         this._authService.currentUserSubject.next(result);
-  //         this._ngZone.run(() => {
-  //           if (result.user.emailVerified == true ) {
-  //             this.SetUserDataFire(result.user.uid,result.user.emailVerified);
-  //             this._userService.getUserInfo(result.user.uid).subscribe(data =>{
-  //               this._userService.setUserInfo(data);
-
-  //             })
-  //             this._router.navigateByUrl('/evaluator/home/table');
-  //           }
-  //           else {
-  //             window.alert("Email not yet verified");
-  //           }
-
-  //         });
-  //         // this.SetUserData(result.user);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error.message);
-  //         window.alert(error.message);
-  //       });
-
-  //   }
-
-  // }
-
-  // tryGoogle() {
-  //   this._authService.GoogleAuth()
-  //   .then((result) => {
-  //     console.log(result);
-  //     this._authService.currentUserSubject.next(result);
-  //     this._ngZone.run(() => {
-  //       if (result.additionalUserInfo.isNewUser != true) {
-  //         this.SetUserDataFire(result.user.uid,result.user.emailVerified);
-  //         this._router.navigateByUrl('/evaluator');
-          
-  //       }
-  //       else {
-  //         this._router.navigateByUrl('/evaluator/registration/personal-info');
-  //       }
-
-  //     });
-  //     // this.SetUserData(result.user);
-  //   })
-  //   .catch((error) => {
-  //     console.log(error.message);
-  //     window.alert(error.message);
-  //   });
-  // }
-
-  // SetUserDataFire(user, emailVerified ) {
-  //   const userRef: AngularFirestoreDocument<any> = this._afs.doc(
-  //     `users/${user}`);
-
-  //   console.log(user)
-  //   const userData = {
-  //    emailVerified: emailVerified,
-     
-  //   };
-  //   return userRef.set(userData, {
-  //     merge: true,
-  //   });
-
-  // }
-
-  // signUp(){
-  //   this._router.navigateByUrl("/evaluator/sign-up")
-  // }
-
+  
   tryLogin(value) {
-    this.adminAuth.loginAdmin(value.username, value.password).subscribe(res => {
+    this._submitted = true;
+    this._adminAuth.loginAdmin(value.username, value.password).subscribe(res => {
+      this._feedService.checkUser();
       this._router.navigateByUrl('/evaluator/home/table');
+
       console.log(res);
-      this._submitted = true;
+      
     }, err => {
       console.log(err)
     });

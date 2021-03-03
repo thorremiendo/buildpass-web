@@ -7,6 +7,7 @@ import {
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 import { UserService } from '../../core/services/user.service';
+import { FeedService} from '../../core';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
@@ -28,7 +29,8 @@ export class SignInComponent implements OnInit {
     private _route: ActivatedRoute,
     private _ngZone: NgZone,
     private _afs: AngularFirestore,
-    private _userService: UserService
+    private _userService: UserService,
+    private _feedService: FeedService,
   ) {
     this.createForm();
   }
@@ -56,8 +58,10 @@ export class SignInComponent implements OnInit {
                 .subscribe((data) => {
                   this._userService.setUserInfo(data);
                   console.log('Result data' + data);
+                  this._router.navigate(['dashboard']);
+                  this._feedService.checkUser();
                 });
-              this._router.navigate(['dashboard']);
+             
             } else {
               window.alert('Email not yet verified');
             }
