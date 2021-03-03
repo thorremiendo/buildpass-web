@@ -123,7 +123,7 @@ export class BfpEvaluatorComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
-      window.location.reload();
+      this.ngOnInit();
     });
   }
   nonCompliant() {
