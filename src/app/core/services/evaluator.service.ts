@@ -13,6 +13,5 @@ export class EvaluatorService {
 
   fetchEvaluatorDetails() {
     this.evaluatorDetails = JSON.parse(localStorage.getItem('currentUser'));
-
   }
 }
