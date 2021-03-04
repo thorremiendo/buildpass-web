@@ -1,3 +1,4 @@
+import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks-history-table.component';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {
   MatDialog,
@@ -29,6 +30,7 @@ export class CepmoEvaluatorComponent implements OnInit {
   public evaluatorDetails;
   public isLoading: boolean = true;
   public evaluatorRole;
+  public applicationDetails;
 
   constructor(
     private applicationService: ApplicationInfoService,
@@ -46,8 +48,17 @@ export class CepmoEvaluatorComponent implements OnInit {
         this.forms = result.data;
         this.generateCepmoForms();
         this.fetchEvaluatorDetails();
+        this.fetchApplicationDetails();
       });
     this.changeDetectorRefs.detectChanges();
+  }
+  fetchApplicationDetails() {
+    this.applicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((result) => {
+        this.applicationDetails = result.data;
+        this.isLoading = false;
+      });
   }
   fetchEvaluatorDetails() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
@@ -64,7 +75,9 @@ export class CepmoEvaluatorComponent implements OnInit {
         obj.document_id == 34 ||
         obj.document_id == 35 ||
         obj.document_id == 36 ||
-        obj.document_id == 44
+        obj.document_id == 44 ||
+        obj.document_id == 59 ||
+        obj.document_id == 63
     );
     this.dataSource = CEPMO_FORMS;
   }
@@ -171,5 +184,22 @@ export class CepmoEvaluatorComponent implements OnInit {
     this.generateCepmoForms();
     const find = this.dataSource.find((form) => form.document_id == 44);
     return find;
+  }
+  openRemarksHistory(e) {
+    console.log(e);
+    const dialogRef = this.dialog.open(RemarksHistoryTableComponent, {
+      width: '1000px',
+      height: '800px',
+      data: {
+        evaluator: this.evaluatorDetails,
+        form: e,
+        route: this.route,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      this.ngOnInit();
+    });
   }
 }

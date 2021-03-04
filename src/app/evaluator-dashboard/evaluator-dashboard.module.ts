@@ -75,6 +75,7 @@ import { CepmoFeesTableComponent } from './cepmo-fees-table/cepmo-fees-table.com
 import { LocaleCurrencyInputModule } from 'locale-currency-input';
 
 import { ChartsModule } from 'ng2-charts';
+import { RemarksHistoryTableComponent } from './remarks-history-table/remarks-history-table.component';
 
 @NgModule({
   declarations: [
@@ -110,6 +111,7 @@ import { ChartsModule } from 'ng2-charts';
     CpdoFeesTableComponent,
     BfpFeesTableComponent,
     CepmoFeesTableComponent,
+    RemarksHistoryTableComponent,
   ],
 
   imports: [

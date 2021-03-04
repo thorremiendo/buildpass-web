@@ -1,3 +1,4 @@
+import { BuildingPlansComponent } from './../new-application/building-plans/building-plans.component';
 import { NoticeOfConstructionComponent } from './../new-application/forms/notice-of-construction/notice-of-construction.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -171,6 +172,20 @@ const routes: Routes = [
                 component: DesignAnalysisFormsComponent,
                 data: {
                   title: 'Design Analysis',
+                  urls: [
+                    {
+                      title: 'New Application',
+                      url: '/dashboard/new/step-one',
+                    },
+                    { title: 'Design Analysis' },
+                  ],
+                },
+              },
+              {
+                path: 'building-plans',
+                component: BuildingPlansComponent,
+                data: {
+                  title: 'Building Plans',
                   urls: [
                     {
                       title: 'New Application',

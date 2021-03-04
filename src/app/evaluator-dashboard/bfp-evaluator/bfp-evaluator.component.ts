@@ -1,3 +1,4 @@
+import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks-history-table.component';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {
   MatDialog,
@@ -29,6 +30,7 @@ export class BfpEvaluatorComponent implements OnInit {
   public evaluatorDetails;
   public applicationDetails;
   public isLoading: boolean = true;
+
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
@@ -51,6 +53,7 @@ export class BfpEvaluatorComponent implements OnInit {
       });
     this.changeDetectorRefs.detectChanges();
   }
+
   checkFormsCompliant() {
     this.generateBfpForms();
     const isCompliant = this.dataSource.every(
@@ -82,7 +85,10 @@ export class BfpEvaluatorComponent implements OnInit {
         obj.document_id == 45 ||
         obj.document_id == 29 ||
         obj.document_id == 30 ||
-        obj.document_id == 31
+        obj.document_id == 31 ||
+        obj.document_id == 59 ||
+        obj.document_id == 62 ||
+        obj.document_id == 65
     );
     this.dataSource = BFP_FORMS;
   }
@@ -182,5 +188,23 @@ export class BfpEvaluatorComponent implements OnInit {
     this.generateBfpForms();
     const find = this.dataSource.find((form) => form.document_id == 45);
     return find;
+  }
+
+  openRemarksHistory(e) {
+    console.log(e);
+    const dialogRef = this.dialog.open(RemarksHistoryTableComponent, {
+      width: '1000px',
+      height: '800px',
+      data: {
+        evaluator: this.evaluatorDetails,
+        form: e,
+        route: this.route,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      this.ngOnInit();
+    });
   }
 }

@@ -1,3 +1,4 @@
+import { BuildingPlansComponent } from './new-application/building-plans/building-plans.component';
 import { NoticeOfConstructionComponent } from './new-application/forms/notice-of-construction/notice-of-construction.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -106,6 +107,7 @@ import { FileUploadComponent } from './new-application/forms/file-upload/file-up
     UserApplicationsTableComponent,
     FileUploadComponent,
     NoticeOfConstructionComponent,
+    BuildingPlansComponent,
   ],
   imports: [
     CommonModule,

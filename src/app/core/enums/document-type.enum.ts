@@ -56,4 +56,12 @@ export enum documentTypes {
   'Demolition methodology/statement' = 55,
   'Plans of demolition procedure/sequence – minimum A3 size' = 56,
   'Clear latest picture of building to be demolished (Taken at least a week before application)' = 57,
+  'Letter of Disapproval' = 58,
+  'Site Development Plans' = 59,
+  'Architectural PLans' = 60,
+  'Structural Plans' = 61,
+  'Electrical Plans' = 62,
+  'Sanitary Plans' = 63,
+  'Electronics Plans' = 64,
+  'Mechanical Plan' = 65,
 }

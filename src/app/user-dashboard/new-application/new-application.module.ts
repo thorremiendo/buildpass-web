@@ -49,6 +49,7 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { MatStepperModule } from '@angular/material/stepper';
 import { FileUploadComponent } from './forms/file-upload/file-upload.component';
 import { NoticeOfConstructionComponent } from './forms/notice-of-construction/notice-of-construction.component';
+import { BuildingPlansComponent } from './building-plans/building-plans.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { NoticeOfConstructionComponent } from './forms/notice-of-construction/no
     OtherPermitsComponent,
     FileUploadComponent,
     NoticeOfConstructionComponent,
+    BuildingPlansComponent,
   ],
 
   imports: [

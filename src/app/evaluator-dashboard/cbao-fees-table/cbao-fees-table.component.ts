@@ -26,6 +26,7 @@ export class CbaoFeesTableComponent implements OnInit {
   public applicationDetails;
   public user;
   public isLoading: boolean = true;
+  public evaluatorRole;
   constructor(
     private applicationService: ApplicationInfoService,
     public dialog: MatDialog,
@@ -83,6 +84,7 @@ export class CbaoFeesTableComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.evaluatorDetails = this.user.employee_detail;
     console.log('Evaluator Details', this.evaluatorDetails);
+    this.evaluatorRole = this.user.user_roles[0].role[0];
     if (this.evaluatorDetails !== undefined) {
       this.fetchApplicationFees();
     }

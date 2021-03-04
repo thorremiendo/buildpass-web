@@ -136,6 +136,7 @@ export class FormDetailsComponent implements OnInit {
     const updateFileData = {
       document_status_id: this.permitDetails.value.is_compliant,
     };
+
     this.newApplicationService
       .updateUserDocs(revisionData, id)
       .subscribe((res) => {

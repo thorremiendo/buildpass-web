@@ -1,12 +1,17 @@
 table {
   width: 100%;
+
+  th {
+    background-color: maroon;
+    color: white;
+  }
 }
 
 .mat-column-index {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 5% !important;
-  width: 5% !important;
+  flex: 0 0 15% !important;
+  width: 15% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -17,7 +22,7 @@ table {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
-.mat-column-name {
+.mat-column-remark {
   word-wrap: break-word !important;
   white-space: unset !important;
   flex: 0 0 50% !important;
@@ -32,7 +37,7 @@ table {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
-.mat-column-status {
+.mat-column-evaluator {
   word-wrap: break-word !important;
   white-space: unset !important;
   flex: 0 0 20% !important;
@@ -47,7 +52,7 @@ table {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
-.mat-column-remarks {
+.mat-column-date {
   word-wrap: break-word !important;
   white-space: unset !important;
   flex: 0 0 20% !important;
@@ -61,27 +66,4 @@ table {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
-}
-.mat-column-action {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 5% !important;
-  width: 5% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-
-  word-break: break-word;
-
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-}
-
-button {
-  min-width: 250px;
-}
-
-a:hover {
-  cursor: pointer;
 }

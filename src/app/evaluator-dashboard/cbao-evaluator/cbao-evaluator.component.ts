@@ -1,3 +1,4 @@
+import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks-history-table.component';
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {
@@ -354,7 +355,21 @@ export class CbaoEvaluatorComponent implements OnInit {
     });
   }
 
-  openFormRemarks(e) {
+  openRemarksHistory(e) {
     console.log(e);
+    const dialogRef = this.dialog.open(RemarksHistoryTableComponent, {
+      width: '1000px',
+      height: '800px',
+      data: {
+        evaluator: this.evaluatorDetails,
+        form: e,
+        route: this.route,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      this.ngOnInit();
+    });
   }
 }

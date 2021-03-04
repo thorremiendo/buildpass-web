@@ -154,6 +154,7 @@ export class NoticeOfConstructionComponent implements OnInit {
         projectDetails.project_title == 'undefined'
           ? 'N/A'
           : projectDetails.project_title.toUpperCase(),
+      barangay: projectDetails.barangay.toUpperCase(),
     };
     console.log(this.applicationInfo);
     console.log('formData:', this.formData);

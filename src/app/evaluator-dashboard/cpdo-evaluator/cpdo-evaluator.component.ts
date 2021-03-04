@@ -1,3 +1,4 @@
+import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks-history-table.component';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {
   MatDialog,
@@ -85,7 +86,8 @@ export class CpdoEvaluatorComponent implements OnInit {
         obj.document_id == 23 ||
         obj.document_id == 24 ||
         obj.document_id == 27 ||
-        obj.document_id == 43
+        obj.document_id == 43 ||
+        obj.document_id == 59
     );
     this.dataSource = CPDO_FORMS;
   }
@@ -295,5 +297,22 @@ export class CpdoEvaluatorComponent implements OnInit {
         }
       );
     }
+  }
+  openRemarksHistory(e) {
+    console.log(e);
+    const dialogRef = this.dialog.open(RemarksHistoryTableComponent, {
+      width: '1000px',
+      height: '800px',
+      data: {
+        evaluator: this.evaluatorDetails,
+        form: e,
+        route: this.route,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      this.ngOnInit();
+    });
   }
 }

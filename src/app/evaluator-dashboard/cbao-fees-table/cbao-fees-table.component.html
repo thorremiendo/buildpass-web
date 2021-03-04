@@ -9,7 +9,9 @@
 
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef>Description</th>
-      <td mat-cell *matCellDef="let item">{{ item.name ? item.name : "----------------------" }}</td>
+      <td mat-cell *matCellDef="let item">
+        {{ item.name ? item.name : "----------------------" }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="evaluator">
@@ -55,7 +57,9 @@
         color="primary"
         type="button"
         (click)="showAddItem()"
-        [disabled]="evaluatorDetails.office_id !== 4"
+        [disabled]="
+          evaluatorDetails.office_id !== 4 || evaluatorRole.code == 'CBAO-REC'
+        "
       >
         Add One Row
       </button>
@@ -68,7 +72,9 @@
       color="primary"
       type="button"
       (click)="showAddItem()"
-      [disabled]="evaluatorDetails.office_id !== 4"
+      [disabled]="
+        evaluatorDetails.office_id !== 4 || evaluatorRole.code == 'CBAO-REC'
+      "
     >
       Add Another Item
     </button>

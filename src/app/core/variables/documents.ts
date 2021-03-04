@@ -235,4 +235,52 @@ export const userDocuments = [
       'Clear latest picture of building to be demolished (Taken at least a week before application)',
     status: 0,
   },
+  {
+    id: 58,
+    category: 0,
+    name: 'Letter of Disapproval',
+    status: 0,
+  },
+  {
+    id: 59,
+    category: 0,
+    name: 'Site Development Plans',
+    status: 0,
+  },
+  {
+    id: 60,
+    category: 0,
+    name: 'Architectural PLans',
+    status: 0,
+  },
+  {
+    id: 61,
+    category: 0,
+    name: 'Structural Plans',
+    status: 0,
+  },
+  {
+    id: 62,
+    category: 0,
+    name: 'Electrical Plans',
+    status: 0,
+  },
+  {
+    id: 63,
+    category: 0,
+    name: 'Sanitary Plans',
+    status: 0,
+  },
+  {
+    id: 64,
+    category: 0,
+    name: 'Electronics Plans',
+    status: 0,
+  },
+  {
+    id: 65,
+    category: 0,
+    name: 'Mechanical Plan',
+    status: 0,
+  },
 ];
