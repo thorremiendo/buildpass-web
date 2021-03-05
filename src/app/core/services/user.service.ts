@@ -19,7 +19,7 @@ export class UserService {
 
   constructor(public _api: ApiService) {
     this.userSubject.subscribe((res) => {
-      console.log('This is the result: ', res);
+      //console.log('This is the result: ', res);
     });
   }
 
@@ -33,7 +33,7 @@ export class UserService {
 
   updateUserInfo(body, id): Observable<UserModel> {
     const url = `/user/${id}/update`;
-    console.log(body);
+    //console.log(body);
     return this._api.post(url, body);
   }
 
@@ -44,10 +44,10 @@ export class UserService {
 
   fetchUserInfo(id: string | number): Observable<any> {
     const url = `/user/${id}`;
-    console.log(url);
+    //console.log(url);
     return this._api.get(url).pipe(
       map((data: any) => {
-        console.log('fetchUserInfo Result:', data);
+       // console.log('fetchUserInfo Result:', data);
         return data;
       }),
       catchError((error) => {
@@ -58,14 +58,14 @@ export class UserService {
 
   fetchUserApplications(id: string | number): Observable<any> {
     const url = `/user/${id}/application`;
-    console.log(url);
+   // console.log(url);
     return this._api.get(url).pipe(
       map((data: any) => {
-        console.log('fetchUserApplication Result:', data);
+       // console.log('fetchUserApplication Result:', data);
         return data;
       }),
       catchError((error) => {
-        console.log(error);
+       // console.log(error);
         return throwError('Something went wrong.');
       })
     );

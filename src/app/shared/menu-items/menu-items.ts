@@ -74,18 +74,21 @@ const EVALUATORMENUITEMS = [
     name: 'New Tasks',
     type: 'link',
     icon: 'note_add',
+    badge: [{ type:"warning", value:'5'}]
   },
   {
     state: 'evaluator/opened-tasks',
     name: 'Opened Tasks',
     type: 'link',
     icon: 'pageview',
+    badge: [{ type:"warning", value:'3'}]
   },
   {
     state: 'evaluator/closed-tasks',
     name: 'Closed Tasks',
     type: 'link',
     icon: 'folder',
+    badge: [{ type:"warning", value:'7'}]
   },
   {
     state: 'evaluator/edit-profile',
@@ -98,9 +101,16 @@ const EVALUATORMENUITEMS = [
 const ADMINMENUITEMS = [
   {
     state: 'admin/dashboard/users',
-    name: 'Users',
+    name: 'Evaluator List',
     type: 'link',
-    icon: 'home',
+    icon: 'badge',
+  },
+
+  {
+    state: 'admin/dashboard/analytics',
+    name: 'Analytics',
+    type: 'link',
+    icon: 'analytics',
   },
 ];
 

@@ -35,14 +35,11 @@ export class NotificationComponent implements OnInit {
   
     this.feedSubscription = this._feedService.getFeedItems().subscribe((feed: Feed) => {
       this.feeds.push(feed);
-      console.log('feed' + feed);
-    
     });
    }
 
   ngOnInit(): void {
     this._feedService.getNotifTable().subscribe(data =>{
-      console.log("fethNotifTable"+data);
       this.feeds = data.data;
     })
    
@@ -52,13 +49,10 @@ export class NotificationComponent implements OnInit {
     
     this._router.navigate(['evaluator/application', id])
       .then(() =>{
-
-      })
-    
+      }) 
   }
 
   ngOnDestroy() {
     this.feedSubscription.unsubscribe();
   }
-
 }

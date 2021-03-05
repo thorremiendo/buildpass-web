@@ -24,6 +24,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { AdminUserInfoComponent } from '../../admin-user-info/admin-user-info.component';
 import { AdminUsersCreateComponent } from './admin-users-create/admin-users-create.component';
 import { AdminUsersViewComponent } from './admin-users-view/admin-users-view.component';
@@ -60,7 +62,10 @@ import { AdminUsersViewComponent } from './admin-users-view/admin-users-view.com
     ReactiveFormsModule,
     MatAutocompleteModule,
     MatDatepickerModule,
-    MatSelectModule
+    MatSelectModule,
+
+    Ng2SearchPipeModule,
+    NgxPaginationModule
   ],
 
 })

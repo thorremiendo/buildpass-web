@@ -8,8 +8,6 @@ import {
 } from '@angular/fire/firestore';
 import { UserService } from '../../core/services/user.service';
 import { FeedService} from '../../core';
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sign-in',
@@ -48,7 +46,6 @@ export class SignInComponent implements OnInit {
       this._authService
         .SignIn(value)
         .then((result) => {
-          //console.log(result);
           this._authService.currentUserSubject.next(result);
           this._ngZone.run(() => {
             if (result.user.emailVerified == true) {
@@ -57,19 +54,16 @@ export class SignInComponent implements OnInit {
                 .getUserInfo(result.user.uid)
                 .subscribe((data) => {
                   this._userService.setUserInfo(data);
-                  console.log('Result data' + data);
                   this._router.navigate(['dashboard']);
-                  this._feedService.checkUser();
                 });
              
             } else {
               window.alert('Email not yet verified');
             }
           });
-          // this.SetUserData(result.user);
+        
         })
         .catch((error) => {
-          console.log(error.message);
           window.alert(error.message);
         });
     }
@@ -79,7 +73,6 @@ export class SignInComponent implements OnInit {
     this._authService
       .GoogleAuth()
       .then((result) => {
-        //console.log(result);
         this._authService.currentUserSubject.next(result);
         this._ngZone.run(() => {
           if (result.additionalUserInfo.isNewUser != true) {
@@ -92,10 +85,9 @@ export class SignInComponent implements OnInit {
             this._router.navigateByUrl('registration/personal-info');
           }
         });
-        // this.SetUserData(result.user);
       })
       .catch((error) => {
-        console.log(error.message);
+
         window.alert(error.message);
       });
   }
@@ -105,7 +97,7 @@ export class SignInComponent implements OnInit {
       `users/${user}`
     );
 
-    console.log(user);
+
     const userData = {
       emailVerified: emailVerified,
     };

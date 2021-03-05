@@ -25,22 +25,13 @@ export class EvaluatorSignInComponent implements OnInit {
   _submitted: boolean =false;
   _evaluatorSignInForm: FormGroup;
 
-  
 
   constructor(
-    private _authService: AuthService,
     private _router: Router,
     private _fb: FormBuilder,
-    private _route: ActivatedRoute,
-    private _matIconRegistry: MatIconRegistry,
-    private _domSanitizer: DomSanitizer,
     private _adminAuth: AdminAuthService,
-    private _feedService:FeedService,
-
-  ) {
-    this._matIconRegistry.addSvgIcon("logo",
-    this._domSanitizer.bypassSecurityTrustResourceUrl(googleLogoURL));
-    
+  
+  ){
     this.createForm();
   }
 
@@ -49,19 +40,16 @@ export class EvaluatorSignInComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+
   }
 
-  
   tryLogin(value) {
     this._submitted = true;
     this._adminAuth.loginAdmin(value.username, value.password).subscribe(res => {
-      this._feedService.checkUser();
       this._router.navigateByUrl('/evaluator/home/table');
 
-      console.log(res);
-      
     }, err => {
-      console.log(err)
+      console.log(err);
     });
   }
 

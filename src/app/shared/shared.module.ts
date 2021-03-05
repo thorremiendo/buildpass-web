@@ -10,6 +10,7 @@ import { DateAgoPipe } from '../core'
 
 
 
+
 @NgModule({
   declarations: [
     AccordionAnchorDirective,
@@ -23,7 +24,8 @@ import { DateAgoPipe } from '../core'
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+   
   ],
   exports: [
     AccordionAnchorDirective,

@@ -81,8 +81,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.officeToString(office_id);
       }
       this._isLoading = false;
-      console.log('User info ' + this.userInfo);
-      console.log('Evaluator Info ' + this.employeeDetails);
     });
   }
   ngOnDestroy(): void {
@@ -102,28 +100,23 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   officeToString(officeID) {
-    console.log(officeID);
+    
 
     switch (officeID) {
       case 1:
         this.officeString = 'City Planning and Development Office';
-        console.log(this.officeString);
         break;
       case 2:
         this.officeString = 'City Environment and Park Office';
-        console.log(this.officeString);
         break;
       case 3:
         this.officeString = 'Bureau of Fire Protection';
-        console.log(this.officeString);
         break;
       case 4:
         this.officeString = 'City Buildings and Architecture Office';
-        console.log(this.officeString);
         break;
       case 5:
         this.officeString = 'Assessors Office';
-        console.log(this.officeString);
         break;
     }
   }

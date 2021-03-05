@@ -37,12 +37,10 @@ export class BreadcrumbComponent implements OnInit {
 
     
   ) {
+    this._feedService.checkUser();
     this.feedSubscription = this._feedService.getFeedItems().subscribe((feed: Feed) => {
       this.feeds.push(feed);
-      console.log('feed' + feed);
     
-   
-      
     });
 
     this.router.events
@@ -66,7 +64,6 @@ export class BreadcrumbComponent implements OnInit {
 
   ngOnInit(): void{
     this._feedService.getNotifTable().subscribe(data =>{
-      console.log("fethNotifTable"+data);
       this.feeds = data.data;
     })
    

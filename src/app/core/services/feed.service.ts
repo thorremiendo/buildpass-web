@@ -31,11 +31,7 @@ export class FeedService {
   {
     const {key, cluster} = environment.pusher;
     this.pusher = new Pusher(key, { cluster });
-    
-    
-   // this.getNotifTable();
-    
-
+      
   }
 
   checkUser(){
@@ -60,11 +56,12 @@ export class FeedService {
     }
 
     this.pusherSubscribe();
+    this.getNotifTable();
+
   }
 
   pusherSubscribe() {
     this.channel = this.pusher.subscribe(this.channelName);
-    console.log(this.channelName);
     this.channel.bind(
       `App\\Events\\${this.pusherBind}`,
       (data: {
@@ -83,8 +80,6 @@ export class FeedService {
             new Date(data.currentTime)
           )
         );
-        console.log(data);
-        console.log(data.currentTime);
       }
     );
   }
@@ -100,10 +95,8 @@ export class FeedService {
 
   getNotifTable(){
     const url =`/notification/${this.notifChannel}/${this.channelType}`;
-    console.log(url);
     return this._api.get(url).pipe(
       map((data: any) => {
-        console.log('Notification Data', data);
         return data;
       }),
       catchError((error) => {

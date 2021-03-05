@@ -51,7 +51,9 @@ import { EvaluatorModule } from './evaluator-dashboard/evaluator-dashboard.modul
 import { AdminModule } from './admin/admin.module';
 import { SharedModule } from './shared/shared.module';
 
+
 import { TestPusherModule } from './test-pusher/test-pusher.module';
+import { MaterialModule } from './material-module';
 //import { DateAgoPipe } from './core/pipes/date-ago.pipe';
 
 declare module '@angular/core' {
@@ -115,6 +117,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     CoreModule,
 
     TestPusherModule,
+    MaterialModule,
   ],
   providers: [
     {

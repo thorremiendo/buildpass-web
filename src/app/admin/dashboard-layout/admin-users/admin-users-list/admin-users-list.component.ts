@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AdminUserService } from 'src/app/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatTableDataSource, MatTable } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { AdminUsersCreateComponent } from '../admin-users-create/admin-users-create.component';
 import { AdminUsersViewComponent } from '../admin-users-view/admin-users-view.component';
 
@@ -10,28 +12,42 @@ import { AdminUsersViewComponent } from '../admin-users-view/admin-users-view.co
   styleUrls: ['./admin-users-list.component.scss'],
 })
 export class AdminUsersListComponent implements OnInit {
-  public dataSource: any[] = [];
+  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
+  public dataSource;;
   public message: String;
   public displayedColumns: string[] = [
     'id',
     'full_name',
     'employee_number',
-    'position',
     'office',
     'is_admin',
     'action',
   ];
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
   constructor(
     private _adminUserservice: AdminUserService,
     private matDialog: MatDialog
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this._adminUserservice.getData().subscribe((data) => {
-      this.dataSource = data;
+      this.dataSource = new MatTableDataSource(data);
+
+      this.dataSource.paginator = this.paginator;
     });
   }
+
+//   ngAfterViewInit(): void {
+//     if(this.dataSource != null){
+//       this.dataSource.paginator = this.paginator;
+//     }
+    
+// }
+
+applyFilter(filterValue: string): void {
+  this.dataSource.filter = filterValue.trim().toLowerCase();
+}
 
   createUser() {
     const dialogConfig = new MatDialogConfig();
@@ -57,6 +73,10 @@ export class AdminUsersListComponent implements OnInit {
       dialogConfig
     );
   }
+
+  
+ 
+
 
   approveFillingFee(value) {
     this._adminUserservice.approveFillingFee(value).subscribe((res) => {

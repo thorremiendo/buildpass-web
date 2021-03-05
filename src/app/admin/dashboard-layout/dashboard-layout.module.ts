@@ -10,6 +10,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LayoutModule } from 'src/app/layout/layout.module';
 import { UsersComponent } from './admin-users/users.component';
 import { DashboardLayoutModule } from 'src/app/layout/dashboard-layout/dashboard-layout.module';
+import { AdminAnalyticsModule } from '../admin-analytics/admin-analytics.module';
+
 
 
 
@@ -28,6 +30,7 @@ import { DashboardLayoutModule } from 'src/app/layout/dashboard-layout/dashboard
     DashboardLayoutModule,
     AdminDashboardRoutingModule,
     AdminUsersModule,
+    AdminAnalyticsModule,
   ]
 })
 export class AdminDashboardModule { }
