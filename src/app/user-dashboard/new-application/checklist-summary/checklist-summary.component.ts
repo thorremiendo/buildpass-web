@@ -77,7 +77,8 @@ export class ChecklistSummaryComponent implements OnInit {
             data: [],
           },
           professional: {
-            label: 'Porfessional Details (Professional Tax Receipt and Professional Regulation Commission ID, signed and sealed)',
+            label:
+              'Porfessional Details (Professional Tax Receipt and Professional Regulation Commission ID, signed and sealed)',
             data: [],
           },
           affidavits: {
@@ -92,28 +93,54 @@ export class ChecklistSummaryComponent implements OnInit {
             label: 'Other Requirements',
             data: [],
           },
-        }
-        this.applicantForms.forEach(element => {
-          switch(element.document_id) {
-            case 1: case 21: case 26: case 27: case 23: case 25: case 57:
+        };
+        this.applicantForms.forEach((element) => {
+          switch (element.document_id) {
+            case 1:
+            case 21:
+            case 26:
+            case 27:
+            case 23:
+            case 25:
+            case 57:
               this.sortedForms.documents.data.push(element);
               break;
-            case 2: case 3: case 4:
+            case 2:
+            case 3:
+            case 4:
               this.sortedForms.permits.data.push(element);
               break;
-            case 28: case 29: case 30: case 31: case 32: case 33:
+            case 28:
+            case 29:
+            case 30:
+            case 31:
+            case 32:
+            case 33:
+            case 59:
+            case 61:
+            case 62:
+            case 63:
+            case 64:
               this.sortedForms.plans.data.push(element);
               break;
-            case 34: case 35: case 36:
+            case 34:
+            case 35:
+            case 36:
               this.sortedForms.professional.data.push(element);
               break;
-            case 37: case 38:
+            case 37:
+            case 38:
               this.sortedForms.affidavits.data.push(element);
               break;
-            case 39: case 43: case 44: case 45:
+            case 39:
+            case 43:
+            case 44:
+            case 45:
               this.sortedForms.clearances.data.push(element);
               break;
-            case 40: case 41: case 42:
+            case 40:
+            case 41:
+            case 42:
               this.sortedForms.others.data.push(element);
               break;
           }

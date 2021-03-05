@@ -124,7 +124,14 @@
                 <h4>
                   {{ item.name }}
                 </h4>
-                <h5 style="color: green">
+                <h5>
+                  <!-- [style.color]="
+                  element.document_status_id == 1
+                    ? 'green'
+                    : element.document_status_id == 0
+                    ? 'black'
+                    : 'red'
+                " -->
                   <strong>
                     {{ item.status }}
                   </strong>

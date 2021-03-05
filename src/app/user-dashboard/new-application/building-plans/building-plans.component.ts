@@ -8,17 +8,16 @@ import { userDocuments } from 'src/app/core/variables/documents';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 
 @Component({
-  selector: 'app-design-analysis-forms',
-  templateUrl: './design-analysis-forms.component.html',
-  styleUrls: ['./design-analysis-forms.component.scss'],
+  selector: 'app-building-plans',
+  templateUrl: './building-plans.component.html',
+  styleUrls: ['./building-plans.component.scss'],
 })
-export class DesignAnalysisFormsComponent implements OnInit {
-  public buildingPlans: File;
-  public structuralDesign: File;
-  public electricalDesign: File;
-  public soilAnalysis: File;
-  public buildingSpecification: File;
-  public billOfMaterials: File;
+export class BuildingPlansComponent implements OnInit {
+  public siteDevelopmentPlan: File;
+  public structuralPlan: File;
+  public sanitaryPlan: File;
+  public electricalPlan: File;
+  public electronicsPlan: File;
   public applicationInfo;
   public user;
   public userDetails;
@@ -105,61 +104,53 @@ export class DesignAnalysisFormsComponent implements OnInit {
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
     switch (type) {
-      case 'buildingPlans':
-        this.buildingPlans = file;
-        const buildingPlans = userDocuments[27];
-        this.handleUpload(this.buildingPlans, buildingPlans);
+      case 'siteDevelopmentPlan':
+        this.siteDevelopmentPlan = file;
+        const siteDevelopmentPlan = userDocuments[58];
+        this.handleUpload(this.siteDevelopmentPlan, siteDevelopmentPlan);
         break;
-      case 'structuralDesign':
-        this.structuralDesign = file;
-        const structuralDesign = userDocuments[28];
-        this.handleUpload(this.structuralDesign, structuralDesign);
+      case 'structuralPlan':
+        this.structuralPlan = file;
+        const structuralPlan = userDocuments[60];
+        this.handleUpload(this.structuralPlan, structuralPlan);
         break;
-      case 'electricalDesign':
-        this.electricalDesign = file;
-        const electricalDesign = userDocuments[29];
-        this.handleUpload(this.electricalDesign, electricalDesign);
+      case 'sanitaryPlan':
+        this.sanitaryPlan = file;
+        const sanitaryPlan = userDocuments[62];
+        this.handleUpload(this.sanitaryPlan, sanitaryPlan);
         break;
-      case 'soilAnalysis':
-        this.soilAnalysis = file;
-        const soilAnalysis = userDocuments[30];
-        this.handleUpload(this.soilAnalysis, soilAnalysis);
+      case 'electricalPlan':
+        this.electricalPlan = file;
+        const electricalPlan = userDocuments[61];
+        this.handleUpload(this.electricalPlan, electricalPlan);
         break;
-      case 'buildingSpecification':
-        this.buildingSpecification = file;
-        const buildingSpecification = userDocuments[31];
-        this.handleUpload(this.buildingSpecification, buildingSpecification);
-        break;
-      case 'billOfMaterials':
-        this.billOfMaterials = file;
-        const billOfMaterials = userDocuments[32];
-        this.handleUpload(this.billOfMaterials, billOfMaterials);
+      case 'electronicsPlan':
+        this.electronicsPlan = file;
+        const electronicsPlan = userDocuments[63];
+        this.handleUpload(this.electronicsPlan, electronicsPlan);
         break;
     }
   }
   onRemove(type) {
     switch (type) {
-      case 'buildingPlans':
-        this.buildingPlans = null;
+      case 'siteDevelopmentPlan':
+        this.siteDevelopmentPlan = null;
         break;
-      case 'structuralDesign':
-        this.structuralDesign = null;
+      case 'structuralPlan':
+        this.structuralPlan = null;
         break;
-      case 'electricalDesign':
-        this.electricalDesign = null;
+      case 'sanitaryPlan':
+        this.sanitaryPlan = null;
         break;
-      case 'soilAnalysis':
-        this.soilAnalysis = null;
+      case 'electricalPlan':
+        this.electricalPlan = null;
         break;
-      case 'buildingSpecification':
-        this.buildingSpecification = null;
-        break;
-      case 'billOfMaterials':
-        this.billOfMaterials = null;
+      case 'electronicsPlan':
+        this.electronicsPlan = null;
         break;
     }
   }
   callNext() {
-    this.router.navigateByUrl('/dashboard/new/building-plans');
+    this.router.navigateByUrl('/dashboard/new/professional-details');
   }
 }
