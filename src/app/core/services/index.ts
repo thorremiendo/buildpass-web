@@ -6,3 +6,4 @@ export * from './admin-user.service';
 export * from './feed.service';
 export * from './admin-auth.service';
 export * from './jwt.service';
+export * from './watermark.service';

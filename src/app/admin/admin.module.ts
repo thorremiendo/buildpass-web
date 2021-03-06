@@ -12,9 +12,6 @@ import { UsersComponent } from './dashboard-layout/admin-users/users.component';
 import { AdminUsersModule } from './dashboard-layout/admin-users/admin-user.module';
 import { CoreModule } from '@angular/flex-layout';
 import { AdminDashboardModule } from './dashboard-layout/dashboard-layout.module';
-import { AdminAnalyticsModule } from './admin-analytics/admin-analytics.module';
-
-
 
 
 
@@ -33,7 +30,7 @@ import { AdminAnalyticsModule } from './admin-analytics/admin-analytics.module';
     AdminDashboardRoutingModule,
     AdminUsersModule,
     AdminDashboardModule,
-    AdminAnalyticsModule,
+   
     
     
   ],
