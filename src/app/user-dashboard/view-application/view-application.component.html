@@ -127,13 +127,19 @@
                 <h4>
                   {{ item.name }}
                 </h4>
-                <h5 style="color: green">
+                <h5
+                  [style.color]="
+                    item.status.includes('Returned') ? 'red' : 'green'
+                  "
+                >
                   <strong>
                     {{ item.status }}
                   </strong>
                 </h5>
                 <h6>
-                  {{ item.created_at | date: "MMMM dd, yyyy" }}
+                  {{
+                    item.created_at | date: "MMMM dd, yyyy hh:mm:ss a":"+0800"
+                  }}
                 </h6>
               </div>
             </section>
@@ -193,9 +199,12 @@
             <ng-container matColumnDef="remarks">
               <th mat-header-cell *matHeaderCellDef>Remarks</th>
               <td mat-cell *matCellDef="let element">
-                <a (click)="openRemarksHistory(element)" style="color: orange">
+                <!-- <a (click)="openRemarksHistory(element)" style="color: orange">
                   View
-                </a>
+                </a> -->
+                <mat-icon class="remark" (click)="openRemarksHistory(element)"
+                  >remove_red_eye</mat-icon
+                >
               </td>
             </ng-container>
 
@@ -212,7 +221,7 @@
                   color="accent"
                   (click)="openFormDialog(element)"
                 >
-                  View
+                  <mat-icon class="action">mode_edit</mat-icon>
                 </button>
               </td>
             </ng-container>

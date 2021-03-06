@@ -85,3 +85,15 @@ button {
 a:hover {
   cursor: pointer;
 }
+
+mat-icon:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+.remark {
+  color: maroon;
+}
+
+.action {
+  color: #f9c232;
+}

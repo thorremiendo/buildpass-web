@@ -204,7 +204,8 @@ export class CbaoEvaluatorComponent implements OnInit {
         obj.document_id == 23 ||
         obj.document_id == 24 ||
         obj.document_id == 27 ||
-        obj.document_id == 43
+        obj.document_id == 43 ||
+        obj.document_id == 59
     );
     const forReview = CPDO_FORMS.forEach((element) => {
       let body = {

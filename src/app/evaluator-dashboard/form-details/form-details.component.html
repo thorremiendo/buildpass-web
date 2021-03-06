@@ -65,15 +65,7 @@
           >Remarks</mat-panel-title
         >
       </mat-expansion-panel-header>
-      <p>
-        {{
-          data.form.document_revision[data.form.document_revision.length - 1]
-            ? data.form.document_revision[
-                data.form.document_revision.length - 1
-              ].remarks
-            : "No Remarks"
-        }}
-      </p>
+      <app-remarks-history-table></app-remarks-history-table>
     </mat-expansion-panel>
     <ngx-dropzone
       (change)="onSelect($event, 'selectedForm')"

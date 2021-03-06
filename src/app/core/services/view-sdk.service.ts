@@ -16,7 +16,7 @@ import * as keys from 'src/environments/environment.prod';
 import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
-}) 
+})
 export class ViewSDKClient {
   public formId;
   public url;

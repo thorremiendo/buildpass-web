@@ -69,9 +69,13 @@
         <ng-container matColumnDef="remarks">
           <th mat-header-cell *matHeaderCellDef>Remarks</th>
           <td mat-cell *matCellDef="let element">
-            <a (click)="openRemarksHistory(element)" style="color: orange">
-              View
-            </a>
+            <mat-icon
+              class="remark"
+              (click)="openRemarksHistory(element)"
+              [matBadge]="element.document_revision.length"
+              matBadgeColor="warn"
+              >remove_red_eye</mat-icon
+            >
           </td>
         </ng-container>
 
@@ -80,7 +84,7 @@
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
             <button mat-button color="accent" (click)="openFormDialog(element)">
-              View
+              <mat-icon class="action">mode_edit</mat-icon>
             </button>
           </td>
         </ng-container>
@@ -88,8 +92,8 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
       <button
-        class="mt-2"
-        mat-stroked-button
+        class="mt-2 w-100"
+        mat-raised-button
         color="accent"
         (click)="openFsecDialog()"
         *ngIf="!checkFireSecUploaded()"

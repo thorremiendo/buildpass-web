@@ -124,91 +124,23 @@
                 <h4>
                   {{ item.name }}
                 </h4>
-                <h5>
-                  <!-- [style.color]="
-                  element.document_status_id == 1
-                    ? 'green'
-                    : element.document_status_id == 0
-                    ? 'black'
-                    : 'red'
-                " -->
+                <h5
+                  [style.color]="
+                    item.status.includes('Returned') ? 'red' : 'green'
+                  "
+                >
                   <strong>
                     {{ item.status }}
                   </strong>
                 </h5>
                 <h6>
-                  {{ item.created_at | date: "MMMM dd, yyyy" }}
+                  {{
+                    item.created_at | date: "MMMM dd, yyyy hh:mm:ss a":"+0800"
+                  }}
                 </h6>
               </div>
             </section>
           </div>
-          <!-- <div>
-            <section class="timeline-area">
-              <div class="timeline">
-                <h4>City Building and Architecture Office</h4>
-                <h5
-                  [style.color]="
-                    applicationDetails.parallel_cbao_status_id == 1
-                      ? 'green'
-                      : applicationDetails.parallel_cbao_status_id == 2
-                      ? 'orange'
-                      : 'red'
-                  "
-                >
-                  <strong>
-                    {{
-                      getDepartmentStatus(
-                        applicationDetails.parallel_cbao_status_id
-                      )
-                    }}
-                  </strong>
-                </h5>
-                <h6>Date Time</h6>
-              </div>
-              <div class="timeline">
-                <h4>City Environment and Parks Management Office</h4>
-                <h5
-                  [style.color]="
-                    applicationDetails.parallel_cepmo_status_id == 1
-                      ? 'green'
-                      : applicationDetails.parallel_cepmo_status_id == 2
-                      ? 'orange'
-                      : 'red'
-                  "
-                >
-                  <strong>
-                    {{
-                      getDepartmentStatus(
-                        applicationDetails.parallel_cepmo_status_id
-                      )
-                    }}
-                  </strong>
-                </h5>
-                <h6>Date Time</h6>
-              </div>
-              <div class="timeline">
-                <h4>Bureau of Fire Protection</h4>
-                <h5
-                  [style.color]="
-                    applicationDetails.parallel_bfp_status_id == 1
-                      ? 'green'
-                      : applicationDetails.parallel_bfp_status_id == 2
-                      ? 'orange'
-                      : 'red'
-                  "
-                >
-                  <strong>
-                    {{
-                      getDepartmentStatus(
-                        applicationDetails.parallel_bfp_status_id
-                      )
-                    }}
-                  </strong>
-                </h5>
-                <h6>Date Time</h6>
-              </div>
-            </section>
-          </div> -->
         </mat-expansion-panel>
       </div>
     </mat-card-content>

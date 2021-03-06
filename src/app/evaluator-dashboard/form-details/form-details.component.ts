@@ -130,7 +130,7 @@ export class FormDetailsComponent implements OnInit {
     console.log(this.permitDetails.value);
     const id = this.data.form.id;
     const revisionData = {
-      evaluator_user_id: this.data.evaluator.id,
+      evaluator_user_id: this.data.evaluator.user_id,
       remarks: this.permitDetails.value.form_remarks,
     };
     const updateFileData = {

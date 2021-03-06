@@ -97,8 +97,10 @@ export class ApplicationDetailsComponent implements OnInit {
                     'Notice',
                     `Returned to Appicant for Revision!`,
                     'warning'
-                  ).then((result) => {});
-                  window.location.reload();
+                  ).then((result) => {
+                    this.isLoading = false;
+                    this.ngOnInit();
+                  });
                   this.isLoading = false;
                 });
             }

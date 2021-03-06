@@ -47,7 +47,7 @@ export class RemarksHistoryTableComponent implements OnInit {
   addRemarks() {
     const id = this.data.form.id;
     const revisionData = {
-      evaluator_user_id: this.data.evaluator.id,
+      evaluator_user_id: this.data.evaluator.user_id,
       remarks: this.remarksForm.value.remarks,
     };
     this.newApplicationService
