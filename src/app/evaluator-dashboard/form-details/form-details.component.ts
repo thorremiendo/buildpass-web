@@ -18,6 +18,7 @@ import { NewApplicationService } from 'src/app/core/services/new-application.ser
 import { UserService } from 'src/app/core/services/user.service';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { ViewSDKClient } from 'src/app/core/services/view-sdk.service';
+import { WaterMarkService } from '../../core';
 
 @Component({
   selector: 'app-form-details',
@@ -48,6 +49,7 @@ export class FormDetailsComponent implements OnInit {
     private userService: UserService,
     private fb: FormBuilder,
     private viewSDKClient: ViewSDKClient,
+    private waterMark: WaterMarkService,
     public dialogRef: MatDialogRef<FormDetailsComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data
@@ -60,7 +62,7 @@ export class FormDetailsComponent implements OnInit {
         this.user = JSON.parse(localStorage.getItem('currentUser'));
       }
     });
-    console.log('Current user', this.user);
+    console.log('USER DOCUMENT', this.data);
     this.applicationId = this.data.route.snapshot.params.id;
     console.log(this.applicationId);
     console.log(this.data);
@@ -127,28 +129,20 @@ export class FormDetailsComponent implements OnInit {
   }
 
   callSave() {
-    console.log(this.permitDetails.value);
     const id = this.data.form.id;
     const revisionData = {
       evaluator_user_id: this.data.evaluator.user_id,
       remarks: this.permitDetails.value.form_remarks,
     };
-    const updateFileData = {
-      document_status_id: this.permitDetails.value.is_compliant,
-    };
 
     this.newApplicationService
       .updateUserDocs(revisionData, id)
       .subscribe((res) => {
-        console.log('update', updateFileData, id);
-        this.newApplicationService
-          .updateDocumentFile(updateFileData, id)
-          .subscribe((res) => {
-            console.log(res);
-            Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
-              this.onNoClick();
-            });
-          });
+        if (this.permitDetails.value.is_compliant == 1) {
+          this.compliant(this.data.form.document_path, id);
+        } else if (this.permitDetails.value.is_compliant == 2) {
+          this.noncompliant(this.data.form.document_path, id);
+        }
       });
   }
   onNoClick(): void {
@@ -169,5 +163,38 @@ export class FormDetailsComponent implements OnInit {
           this.onNoClick();
         });
       });
+  }
+
+  compliant(form, id) {
+    this.waterMark.modifyPdf(form, 'compliant').then((blob) => {
+      const updateFileData = {
+        document_status_id: this.permitDetails.value.is_compliant,
+      };
+      this.newApplicationService
+        .updateDocumentFile(updateFileData, id)
+        .subscribe((res) => {
+          console.log(res);
+          Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
+            this.onNoClick();
+          });
+        });
+    });
+  }
+
+  noncompliant(form, id) {
+    this.waterMark.modifyPdf(form, 'non-compliant').then((blob) => {
+      const updateFileData = {
+        document_status_id: this.permitDetails.value.is_compliant,
+        document_path: blob,
+      };
+      this.newApplicationService
+        .updateDocumentFile(updateFileData, id)
+        .subscribe((res) => {
+          console.log(res);
+          Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
+            this.onNoClick();
+          });
+        });
+    });
   }
 }

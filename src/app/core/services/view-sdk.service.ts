@@ -141,7 +141,7 @@ export class ViewSDKClient {
               .updateDocumentFile(uploadDocumentData, this.formId)
               .subscribe((res) => {
                 console.log(res);
-                Swal.fire('Success!', ``, 'success').then((result) => {
+                Swal.fire('Success!', `Review Saved!`, 'success').then((result) => {
                   console.log('Uploaded!!');
                 });
               });
