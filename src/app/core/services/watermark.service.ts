@@ -26,7 +26,7 @@ export class WaterMarkService {
             size: 80,
             font: helveticaFont,
             color: rgb(0, 1, 0),
-            opacity: 0.4,
+            opacity: 0.2,
             rotate: degrees(-45),
           });
           break;
@@ -37,7 +37,7 @@ export class WaterMarkService {
             size: 80,
             font: helveticaFont,
             color: rgb(1, 0, 0),
-            opacity: 0.4,
+            opacity: 0.2,
             rotate: degrees(-45),
           });
           break;

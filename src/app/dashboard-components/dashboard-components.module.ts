@@ -12,13 +12,15 @@ import { ChartsModule } from 'ng2-charts';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
+import { DonutChartComponent } from './donut-chart/donut-chart.component';
 
 
 
 @NgModule({
   declarations: [
     TopCardComponent,
-    BarChartComponent],
+    BarChartComponent,
+    DonutChartComponent],
 
   imports: [
     CommonModule,
@@ -37,6 +39,7 @@ import { BarChartComponent } from './bar-chart/bar-chart.component';
   exports:[
     TopCardComponent,
     BarChartComponent,
+    DonutChartComponent,
 
   ]
    

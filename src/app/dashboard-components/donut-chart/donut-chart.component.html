@@ -1,0 +1,43 @@
+<mat-card class="w-100">
+    <mat-card-content>
+        <mat-card-title>Task</mat-card-title>
+        <mat-card-subtitle>as of {{date | date:"medium"}}</mat-card-subtitle>
+        <div id="donut-chart" class="m-t-40 p-t-30 p-b-20 d-flex flex-column">
+            <apx-chart [series]="DonutChartOptions.series" [chart]="DonutChartOptions.chart"
+                [labels]="DonutChartOptions.labels" [responsive]="DonutChartOptions.responsive"
+                [tooltip]="DonutChartOptions.tooltip" [legend]="DonutChartOptions.legend"
+                [colors]="DonutChartOptions.colors" [dataLabels]="DonutChartOptions.dataLabels"
+                [plotOptions]="DonutChartOptions.plotOptions" [stroke]="DonutChartOptions.stroke">
+            </apx-chart>
+        </div>
+    </mat-card-content>
+    <hr>
+    <mat-card-content>
+        <ul class="list-inline text-center m-t-30 m-b-30">
+            <li>
+                <h6 class="text-muted text-success m-0" >
+                    <i class="fa fa-circle font-10 m-r-10 "  style="color: #955670;"></i><span style="color: #955670;">
+                        New Tasks
+                    </span></h6>
+            </li>
+            <li>
+                <h6 class="text-muted text-success m-0" >
+                    <i class="fa fa-circle font-10 m-r-10 "  style="color:#275070;"></i><span style="color:#275070;">
+                        Opened Tasks
+                    </span></h6>
+            </li>
+            <li>
+                <h6 class="text-muted text-success m-0" >
+                    <i class="fa fa-circle font-10 m-r-10 "  style="color:#EBAAB0;"></i><span style="color:#EBAAB0;">
+                        Closed Tasks
+                    </span></h6>
+            </li>
+            <li>
+                <h6 class="text-muted text-success m-0" >
+                    <i class="fa fa-circle font-10 m-r-10 "  style="color: #F3E1C0;"></i><span style="color: #F3E1C0;">
+                        Applicants
+                    </span></h6>
+            </li>
+        </ul>
+    </mat-card-content>
+</mat-card>

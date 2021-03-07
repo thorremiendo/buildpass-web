@@ -4,22 +4,10 @@
       <mat-card class="totalCard">
         <mat-card-content>
           <p>
-            <span style="font-size: 3em; color:maroon">40</span>
+            <span style="font-size: 3em; color:maroon">3</span>
           </p>
           <p>
-            <span style="font-size: 1em; color:gray">Building Permit</span>
-          </p>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    <div class="col-md-3">
-      <mat-card class="totalCard">
-        <mat-card-content>
-          <p>
-            <span style="font-size: 3em; color:maroon">10</span>
-          </p>
-          <p>
-            <span style="font-size: 1em; color:gray">Excavation Permit</span>
+            <span style="font-size: 1em; color:gray">New Tasks</span>
           </p>
         </mat-card-content>
       </mat-card>
@@ -28,10 +16,10 @@
       <mat-card class="totalCard">
         <mat-card-content>
           <p>
-            <span style="font-size: 3em; color:maroon">15</span>
+            <span style="font-size: 3em; color:maroon">2</span>
           </p>
           <p>
-            <span style="font-size: 1em; color:gray">Other Permit</span>
+            <span style="font-size: 1em; color:gray">Opened Task</span>
           </p>
         </mat-card-content>
       </mat-card>
@@ -40,53 +28,30 @@
       <mat-card class="totalCard">
         <mat-card-content>
           <p>
-            <span style="font-size: 3em; color:maroon">65</span>
+            <span style="font-size: 3em; color:maroon">4</span>
           </p>
           <p>
-            <span style="font-size: 1em; color:gray">Total</span>
+            <span style="font-size: 1em; color:gray">Close Task</span>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-3">
+      <mat-card class="totalCard">
+        <mat-card-content>
+          <p>
+            <span style="font-size: 3em; color:maroon">9</span>
+          </p>
+          <p>
+            <span style="font-size: 1em; color:gray">Applicant</span>
           </p>
         </mat-card-content>
       </mat-card>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-7">
-      <div class="d-flex w-100">
-        <mat-card style="height: 500">
-          <!-- <mat-card-title class="m-0">Applications</mat-card-title>
-          <hr class="m-0" /> -->
-          <p class="ml-3 mt-3">as of {{ date | date: "MMMM dd, yyyy" }}</p>
-          <div class="m-3" style="display: block;">
-            <canvas baseChart 
-              [datasets]="barChartData"
-              [labels]="barChartLabels"
-              [options]="barChartOptions"
-              [plugins]="barChartPlugins"
-              [legend]="barChartLegend"
-              [chartType]="barChartType"
-              colours="{
-                fillColor: 'rgb(128,0,0)',
-                strokeColor: 'rgb(128,0,0)',
-                highlightFill: 'rgb(128,0,0)',
-                highlightStroke: 'rgb(128,0,0)'
-                }">
-            </canvas>
-          </div>
-        </mat-card>
-      </div>
-    </div>
-    <div class="col-md-5">
-      <div class="d-flex w-100 ">
-        <mat-card style="height:500">
-          <div class="m-0 pt-5" style="display: block;">
-            <canvas baseChart 
-            [data]="doughnutChartData"
-            [labels]="doughnutChartLabels"
-            [chartType]="doughnutChartType">
-          </canvas>
-          </div>
-        </mat-card>
-      </div>
+    <div class="col-md-12">
+      <app-donut-chart></app-donut-chart>
     </div>
   </div>
   <div class="row">

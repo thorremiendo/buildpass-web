@@ -23,8 +23,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatListModule } from '@angular/material/list';
 
-import { TestComponentComponent } from './test-component/test-component.component';
-
 import { LayoutModule } from './layout/layout.module';
 import { UserModule } from './user-dashboard/user-dashboard.module';
 import {
@@ -51,8 +49,6 @@ import { EvaluatorModule } from './evaluator-dashboard/evaluator-dashboard.modul
 import { AdminModule } from './admin/admin.module';
 import { SharedModule } from './shared/shared.module';
 
-
-import { TestPusherModule } from './test-pusher/test-pusher.module';
 import { MaterialModule } from './material-module';
 //import { DateAgoPipe } from './core/pipes/date-ago.pipe';
 
@@ -73,7 +69,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
 
 @NgModule({
-  declarations: [AppComponent, TestComponentComponent],
+  declarations: [AppComponent,],
   imports: [
     NgbModule,
     BrowserModule,
@@ -115,8 +111,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       useFactory: momentAdapterFactory,
     }),
     CoreModule,
-
-    TestPusherModule,
     MaterialModule,
   ],
   providers: [

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FeedFormComponent } from './feed-form.component';
+import { DonutChartComponent } from './donut-chart.component';
 
-describe('FeedFormComponent', () => {
-  let component: FeedFormComponent;
-  let fixture: ComponentFixture<FeedFormComponent>;
+describe('DonutChartComponent', () => {
+  let component: DonutChartComponent;
+  let fixture: ComponentFixture<DonutChartComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FeedFormComponent ]
+      declarations: [ DonutChartComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FeedFormComponent);
+    fixture = TestBed.createComponent(DonutChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -76,6 +76,7 @@ import { LocaleCurrencyInputModule } from 'locale-currency-input';
 
 import { ChartsModule } from 'ng2-charts';
 import { RemarksHistoryTableComponent } from './remarks-history-table/remarks-history-table.component';
+import { DashboardComponentsModule } from '../dashboard-components/dashboard-components.module';
 
 @NgModule({
   declarations: [
@@ -151,6 +152,8 @@ import { RemarksHistoryTableComponent } from './remarks-history-table/remarks-hi
     MatAutocompleteModule,
     MatExpansionModule,
     MatBadgeModule,
+
+    DashboardComponentsModule,
 
     NgxExtendedPdfViewerModule,
     MatProgressSpinnerModule,
