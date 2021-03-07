@@ -70,6 +70,7 @@ export class FormDetailsComponent implements OnInit {
       form_remarks: new FormControl(''),
       is_compliant: new FormControl(''),
     });
+    this.viewSDKClient.form = this.data.form;
     this.viewSDKClient.formId = this.data.form.id;
   }
   //adobe sdk functions

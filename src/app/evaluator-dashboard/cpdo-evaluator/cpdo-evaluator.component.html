@@ -72,6 +72,10 @@
       >
         Upload Zoning Compliance Form
       </button>
+      <mat-progress-bar
+        mode="indeterminate"
+        *ngIf="isLoading"
+      ></mat-progress-bar>
       <div class="d-flex justify-content-between mt-5">
         <button
           mat-raised-button

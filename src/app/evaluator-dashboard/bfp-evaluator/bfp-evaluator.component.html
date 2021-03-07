@@ -95,12 +95,26 @@
         class="mt-2 w-100"
         mat-raised-button
         color="accent"
+        *ngIf="!checkChecklistUploaded()"
+        (click)="openChecklistDialog()"
+      >
+        Generate Checklist
+      </button>
+      <button
+        class="mt-2 w-100"
+        mat-raised-button
+        color="accent"
         (click)="openFsecDialog()"
         *ngIf="!checkFireSecUploaded()"
         [disabled]="!checkFormsCompliant()"
       >
         Generate Fire Safety Evaluation Clearance
       </button>
+      <mat-progress-bar
+        mode="indeterminate"
+        *ngIf="isLoading"
+      ></mat-progress-bar>
+
       <div class="d-flex justify-content-between mt-5">
         <div>
           <button

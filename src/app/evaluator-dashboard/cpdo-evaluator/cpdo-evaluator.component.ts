@@ -60,6 +60,7 @@ export class CpdoEvaluatorComponent implements OnInit {
     this.applicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
+        this.isLoading = false;
         this.applicationDetails = res.data;
       });
   }
@@ -139,6 +140,7 @@ export class CpdoEvaluatorComponent implements OnInit {
     });
   }
   nonCompliant() {
+    this.isLoading = true;
     if (this.checkFormsReviewed()) {
       if (this.evaluatorRole.code == 'CPDO-ZI') {
         const body = {
@@ -148,6 +150,7 @@ export class CpdoEvaluatorComponent implements OnInit {
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
+            this.isLoading = false;
             Swal.fire(
               'Success!',
               `Notified Applicant for Revision!`,
@@ -166,6 +169,7 @@ export class CpdoEvaluatorComponent implements OnInit {
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
+            this.isLoading = false;
             Swal.fire(
               'Success!',
               `Notified Applicant for Revision!`,
@@ -177,6 +181,7 @@ export class CpdoEvaluatorComponent implements OnInit {
           });
       }
     } else {
+      this.isLoading = false;
       Swal.fire(
         'Notice!',
         `Please review all documents first!`,
@@ -200,6 +205,7 @@ export class CpdoEvaluatorComponent implements OnInit {
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
         .subscribe((res) => {
+          this.isLoading = false;
           Swal.fire(
             'Success!',
             `Forwarded to CPDO Coordinator for Approval of Clearance!`,

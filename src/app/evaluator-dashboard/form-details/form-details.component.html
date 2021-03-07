@@ -6,7 +6,16 @@
 </div>
 
 <div [formGroup]="permitDetails" *ngIf="user.employee_detail">
-  <div class="row">
+  <div
+    class="row"
+    *ngIf="
+      this.data.form.document_id !== 49 &&
+      this.data.form.document_id !== 44 &&
+      this.data.form.document_id !== 43 &&
+      this.data.form.document_id !== 45 &&
+      this.data.form.document_id !== 50
+    "
+  >
     <div class="col-md-12 mt-5">
       <mat-form-field appearance="fill">
         <mat-label>Review</mat-label>
@@ -28,13 +37,22 @@
       </mat-form-field>
     </div>
   </div>
-  <div class="d-flex justify-content-between align-items-center mb-4">
+  <div class="d-flex justify-content-between align-items-center my-4">
     <div class="text-left">
       <button mat-raised-button color="accent" (click)="onNoClick()">
         Close
       </button>
     </div>
-    <div class="text-right">
+    <div
+      class="text-right"
+      *ngIf="
+        this.data.form.document_id !== 49 &&
+        this.data.form.document_id !== 44 &&
+        this.data.form.document_id !== 43 &&
+        this.data.form.document_id !== 45 &&
+        this.data.form.document_id !== 50
+      "
+    >
       <button mat-raised-button color="primary" (click)="callSave()">
         Save
       </button>

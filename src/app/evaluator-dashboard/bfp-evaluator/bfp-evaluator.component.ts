@@ -1,3 +1,4 @@
+import { BfpResidentialChecklistComponent } from './../bfp-residential-checklist/bfp-residential-checklist.component';
 import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks-history-table.component';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {
@@ -88,7 +89,8 @@ export class BfpEvaluatorComponent implements OnInit {
         obj.document_id == 31 ||
         obj.document_id == 59 ||
         obj.document_id == 62 ||
-        obj.document_id == 65
+        obj.document_id == 65 ||
+        obj.document_id == 49
     );
     this.dataSource = BFP_FORMS;
   }
@@ -100,6 +102,22 @@ export class BfpEvaluatorComponent implements OnInit {
   }
   openFsecDialog() {
     const dialogRef = this.dialog.open(FireClearanceComponent, {
+      width: '1500px',
+      height: '2000px',
+      data: {
+        evaluator: this.evaluatorDetails,
+        form: this.forms,
+        route: this.route,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      window.location.reload();
+    });
+  }
+  openChecklistDialog() {
+    const dialogRef = this.dialog.open(BfpResidentialChecklistComponent, {
       width: '1500px',
       height: '2000px',
       data: {
@@ -133,6 +151,7 @@ export class BfpEvaluatorComponent implements OnInit {
     });
   }
   nonCompliant() {
+    this.isLoading = true;
     if (this.checkFormsReviewed()) {
       const body = {
         parallel_bfp_status_id: 2,
@@ -140,6 +159,7 @@ export class BfpEvaluatorComponent implements OnInit {
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
         .subscribe((res) => {
+          this.isLoading = false;
           Swal.fire('Success!', `Updated BFP Status!`, 'success').then(
             (result) => {
               window.location.reload();
@@ -147,6 +167,7 @@ export class BfpEvaluatorComponent implements OnInit {
           );
         });
     } else {
+      this.isLoading = false;
       Swal.fire(
         'Notice!',
         `Please review all documents first!`,
@@ -162,13 +183,15 @@ export class BfpEvaluatorComponent implements OnInit {
   }
 
   compliant() {
-    if (this.checkFireSecUploaded()) {
+    this.isLoading = true;
+    if (this.checkFireSecUploaded() && this.checkChecklistUploaded()) {
       const body = {
         parallel_bfp_status_id: 1,
       };
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
         .subscribe((res) => {
+          this.isLoading = false;
           Swal.fire('Success!', `Updated BFP Status!`, 'success').then(
             (result) => {
               window.location.reload();
@@ -176,17 +199,22 @@ export class BfpEvaluatorComponent implements OnInit {
           );
         });
     } else {
-      Swal.fire(
-        'Warning!',
-        `Please Upload FSEC Clearance!`,
-        'warning'
-      ).then((result) => {});
+      Swal.fire('Warning!', `Please Upload FSEC & Checklist!`, 'warning').then(
+        (result) => {
+          this.isLoading = false;
+        }
+      );
     }
   }
 
   checkFireSecUploaded() {
     this.generateBfpForms();
     const find = this.dataSource.find((form) => form.document_id == 45);
+    return find;
+  }
+  checkChecklistUploaded() {
+    this.generateBfpForms();
+    const find = this.dataSource.find((form) => form.document_id == 49);
     return find;
   }
 

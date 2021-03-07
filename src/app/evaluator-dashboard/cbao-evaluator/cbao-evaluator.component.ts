@@ -122,6 +122,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   nonCompliant() {
+    this.isLoading = true;
     if (this.checkFormsReviewed()) {
       if (this.applicationInfo.application_status_id == 3) {
         const body = {
@@ -130,6 +131,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
+            this.isLoading = false;
             Swal.fire('Success!', `Updated CBAO Status!`, 'success').then(
               (result) => {
                 window.location.reload();
@@ -144,6 +146,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
+            this.isLoading = false;
             Swal.fire(
               'Success!',
               `Notified Applicant for Revision!`,
@@ -160,6 +163,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
+            this.isLoading = false;
             Swal.fire(
               'Success!',
               `Notified Applicant for Revision!`,
@@ -175,6 +179,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
+            this.isLoading = false;
             Swal.fire(
               'Success!',
               `Notified Applicant for Revision!`,
@@ -185,6 +190,7 @@ export class CbaoEvaluatorComponent implements OnInit {
           });
       }
     } else {
+      this.isLoading = false;
       Swal.fire(
         'Notice!',
         `Please review all documents first!`,

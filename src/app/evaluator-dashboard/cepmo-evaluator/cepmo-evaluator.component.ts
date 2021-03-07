@@ -122,6 +122,7 @@ export class CepmoEvaluatorComponent implements OnInit {
     });
   }
   nonCompliant() {
+    this.isLoading = true;
     if (this.checkFormsReviewed()) {
       const body = {
         parallel_cepmo_status_id: 2,
@@ -129,6 +130,7 @@ export class CepmoEvaluatorComponent implements OnInit {
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
         .subscribe((res) => {
+          this.isLoading = false;
           Swal.fire('Success!', `Updated CEPMO Status!`, 'success').then(
             (result) => {
               window.location.reload();
@@ -136,6 +138,7 @@ export class CepmoEvaluatorComponent implements OnInit {
           );
         });
     } else {
+      this.isLoading = false;
       Swal.fire(
         'Notice!',
         `Please review all documents first!`,
@@ -159,6 +162,7 @@ export class CepmoEvaluatorComponent implements OnInit {
     return isCompliant;
   }
   compliant() {
+    this.isLoading = true;
     if (this.checkWwmsUploaded()) {
       const body = {
         parallel_cepmo_status_id: 1,
@@ -166,6 +170,7 @@ export class CepmoEvaluatorComponent implements OnInit {
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
         .subscribe((res) => {
+          this.isLoading = false;
           Swal.fire('Success!', `Updated CEPMO Status!`, 'success').then(
             (result) => {
               window.location.reload();
@@ -173,6 +178,7 @@ export class CepmoEvaluatorComponent implements OnInit {
           );
         });
     } else {
+      this.isLoading = false;
       Swal.fire(
         'Warning!',
         `Please Upload WWMS BP Certificate!`,

@@ -61,7 +61,7 @@ export class FireClearanceComponent implements OnInit {
   //adobe sdk functions
   ngAfterViewInit() {
     this.viewSDKClient.url =
-      'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/fsec.pdf';
+      'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/fire-clearance.pdf';
     this.viewSDKClient.ready().then(() => {
       /* Invoke the file preview and get the Promise object */
       this.previewFilePromise = this.viewSDKClient.previewFile(

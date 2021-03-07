@@ -22,6 +22,7 @@ export class ViewSDKClient {
   public url;
   public userId;
   public applicationId;
+  public form;
   constructor(public newApplicationService: NewApplicationService) {}
   readyPromise: Promise<any> = new Promise((resolve) => {
     if (window.AdobeDC) {
@@ -133,18 +134,43 @@ export class ViewSDKClient {
           resolve(response);
           var blob = new Blob([content]);
           if (condition == 'update') {
-            const uploadDocumentData = {
-              document_status_id: 0,
-              document_path: blob,
-            };
-            this.newApplicationService
-              .updateDocumentFile(uploadDocumentData, this.formId)
-              .subscribe((res) => {
-                console.log(res);
-                Swal.fire('Success!', `Review Saved!`, 'success').then((result) => {
-                  console.log('Uploaded!!');
+            if (
+              this.form.document_id == 49 ||
+              this.form.document_id == 44 ||
+              this.form.document_id == 43 ||
+              this.form.document_id == 45 ||
+              this.form.document_id == 50
+            ) {
+              const uploadDocumentData = {
+                document_status_id: 1,
+                document_path: blob,
+              };
+              this.newApplicationService
+                .updateDocumentFile(uploadDocumentData, this.formId)
+                .subscribe((res) => {
+                  console.log(res);
+                  Swal.fire('Success!', `Review Saved!`, 'success').then(
+                    (result) => {
+                      console.log('Uploaded!!');
+                    }
+                  );
                 });
-              });
+            } else {
+              const uploadDocumentData = {
+                document_status_id: 0,
+                document_path: blob,
+              };
+              this.newApplicationService
+                .updateDocumentFile(uploadDocumentData, this.formId)
+                .subscribe((res) => {
+                  console.log(res);
+                  Swal.fire('Success!', `Review Saved!`, 'success').then(
+                    (result) => {
+                      console.log('Uploaded!!');
+                    }
+                  );
+                });
+            }
           } else if (condition == 'bldgPermit') {
             const uploadDocumentData = {
               application_id: this.applicationId,
@@ -191,6 +217,40 @@ export class ViewSDKClient {
               .submitDocument(uploadDocumentData)
               .subscribe((res) => {
                 Swal.fire('Success!', `File uploaded!`, 'success').then(
+                  (result) => {
+                    window.location.reload();
+                  }
+                );
+              });
+          } else if (condition == 'bfpChecklist') {
+            const uploadDocumentData = {
+              application_id: this.applicationId,
+              user_id: this.userId,
+              document_id: 49,
+              document_status_id: 1,
+              document_path: blob,
+            };
+            this.newApplicationService
+              .submitDocument(uploadDocumentData)
+              .subscribe((res) => {
+                Swal.fire('Success!', `File Saved!`, 'success').then(
+                  (result) => {
+                    window.location.reload();
+                  }
+                );
+              });
+          } else if (condition == 'wwmsBp') {
+            const uploadDocumentData = {
+              application_id: this.applicationId,
+              user_id: this.userId,
+              document_id: 44,
+              document_status_id: 1,
+              document_path: blob,
+            };
+            this.newApplicationService
+              .submitDocument(uploadDocumentData)
+              .subscribe((res) => {
+                Swal.fire('Success!', `File Saved!`, 'success').then(
                   (result) => {
                     window.location.reload();
                   }

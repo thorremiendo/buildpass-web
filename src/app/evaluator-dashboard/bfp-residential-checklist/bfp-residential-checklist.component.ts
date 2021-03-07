@@ -12,14 +12,12 @@ import { NewApplicationService } from 'src/app/core/services/new-application.ser
 import { UserService } from 'src/app/core/services/user.service';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { ViewSDKClient } from 'src/app/core/services/view-sdk.service';
-
 @Component({
-  selector: 'app-release-bldg-permit',
-  templateUrl: './release-bldg-permit.component.html',
-  styleUrls: ['./release-bldg-permit.component.scss'],
+  selector: 'app-bfp-residential-checklist',
+  templateUrl: './bfp-residential-checklist.component.html',
+  styleUrls: ['./bfp-residential-checklist.component.scss'],
 })
-export class ReleaseBldgPermitComponent implements OnInit {
-  public bldgPermit: File;
+export class BfpResidentialChecklistComponent implements OnInit {
   public formData = {};
   public userId;
   public applicationId;
@@ -39,7 +37,7 @@ export class ReleaseBldgPermitComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<ReleaseBldgPermitComponent>,
+    public dialogRef: MatDialogRef<BfpResidentialChecklistComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data,
     private viewSDKClient: ViewSDKClient
@@ -61,7 +59,7 @@ export class ReleaseBldgPermitComponent implements OnInit {
   //adobe sdk functions
   ngAfterViewInit() {
     this.viewSDKClient.url =
-      'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/bldg-certificate.pdf';
+      'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/Checklist_Residential.pdf';
     this.viewSDKClient.ready().then(() => {
       /* Invoke the file preview and get the Promise object */
       this.previewFilePromise = this.viewSDKClient.previewFile(
@@ -80,28 +78,12 @@ export class ReleaseBldgPermitComponent implements OnInit {
             printWithAnnotations: true /* Default value is false */,
           };
           this.annotationManager.setConfig(customFlags);
-          this.viewSDKClient.registerSaveApiHandler('bldgPermit');
+          this.viewSDKClient.registerSaveApiHandler('bfpChecklist');
         });
       });
     });
   }
-  onSelect($event: NgxDropzoneChangeEvent, type) {
-    const file = $event.addedFiles[0];
-    switch (type) {
-      case 'bldgPermit':
-        this.bldgPermit = file;
-        break;
-    }
-  }
-  onRemove(type) {
-    switch (type) {
-      case 'bldgPermit':
-        this.bldgPermit = null;
-        break;
-    }
-  }
   onNoClick(): void {
     this.dialogRef.close();
-    window.location.reload();
   }
 }

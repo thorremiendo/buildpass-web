@@ -77,6 +77,8 @@ import { LocaleCurrencyInputModule } from 'locale-currency-input';
 import { ChartsModule } from 'ng2-charts';
 import { RemarksHistoryTableComponent } from './remarks-history-table/remarks-history-table.component';
 import { DashboardComponentsModule } from '../dashboard-components/dashboard-components.module';
+import { BfpResidentialChecklistComponent } from './bfp-residential-checklist/bfp-residential-checklist.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -113,6 +115,7 @@ import { DashboardComponentsModule } from '../dashboard-components/dashboard-com
     BfpFeesTableComponent,
     CepmoFeesTableComponent,
     RemarksHistoryTableComponent,
+    BfpResidentialChecklistComponent,
   ],
 
   imports: [
@@ -152,9 +155,8 @@ import { DashboardComponentsModule } from '../dashboard-components/dashboard-com
     MatAutocompleteModule,
     MatExpansionModule,
     MatBadgeModule,
-
+    MatProgressBarModule,
     DashboardComponentsModule,
-
     NgxExtendedPdfViewerModule,
     MatProgressSpinnerModule,
     CalendarModule.forRoot({
