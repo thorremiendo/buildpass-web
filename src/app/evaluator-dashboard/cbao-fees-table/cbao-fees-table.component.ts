@@ -81,7 +81,7 @@ export class CbaoFeesTableComponent implements OnInit {
   }
 
   fetchEvaluatorDetails() {
-    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     console.log('Evaluator Details', this.evaluatorDetails);
     this.evaluatorRole = this.user.user_roles[0].role[0];

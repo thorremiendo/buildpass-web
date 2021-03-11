@@ -53,7 +53,7 @@ export class FeesDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     console.log('Current user', this.user);
     this.applicationId = this.data.route.snapshot.params.id;

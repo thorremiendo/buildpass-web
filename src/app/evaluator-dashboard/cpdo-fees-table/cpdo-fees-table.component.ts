@@ -76,7 +76,7 @@ export class CpdoFeesTableComponent implements OnInit {
   }
 
   fetchEvaluatorDetails() {
-    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     console.log('Evaluator Details', this.evaluatorDetails);
     if (this.evaluatorDetails !== undefined) {

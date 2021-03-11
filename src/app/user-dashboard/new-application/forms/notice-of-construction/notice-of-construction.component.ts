@@ -1,13 +1,12 @@
+import { DataFormBindingService } from './../../../../core/services/data-form-binding.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
-import { AuthService } from 'src/app/core/services/auth.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
-import { UserService } from 'src/app/core/services/user.service';
 import { userDocuments } from 'src/app/core/variables/documents';
 import Swal from 'sweetalert2';
-import * as NumberToWords from 'number-to-words';
+
 @Component({
   selector: 'app-notice-of-construction',
   templateUrl: './notice-of-construction.component.html',
@@ -26,28 +25,18 @@ export class NoticeOfConstructionComponent implements OnInit {
   constructor(
     private router: Router,
     private newApplicationService: NewApplicationService,
-    private authService: AuthService,
-    private userService: UserService,
-    private applicationService: ApplicationInfoService
+    private applicationService: ApplicationInfoService,
+    private dataBindingService: DataFormBindingService
   ) {}
 
   ngOnInit(): void {
-    this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
+    // this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
+    this.user = JSON.parse(localStorage.getItem('user'));
     console.log(this.user);
-    this.newApplicationService.applicationId
-      .asObservable()
-      .subscribe((applicationId) => {
-        this.applicationId = applicationId;
-        if (!this.applicationId) {
-          this.applicationId = localStorage.getItem('app_id');
-          this.fetchApplicationInfo();
-        } else {
-          localStorage.setItem('app_id', this.applicationId);
-          console.log('local app id', localStorage.getItem('app_id'));
-          this.fetchApplicationInfo();
-        }
-      });
+    this.applicationId = JSON.parse(localStorage.getItem('app_id'));
+    this.fetchApplicationInfo();
   }
+
   callSaveAsDraft() {
     const body = {
       application_status_id: 6,

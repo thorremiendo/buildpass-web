@@ -221,7 +221,7 @@ export class ExcavationPermitComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
+    this.user = JSON.parse(localStorage.getItem('user'));
 
     this.newApplicationService.applicationId
       .asObservable()

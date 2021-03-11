@@ -6,10 +6,9 @@ import { AccordionLinkDirective } from './accordion/accordionlink.directive';
 import { FormsModule } from '@angular/forms';
 import { MenuItems } from './menu-items/menu-items';
 import { LoaderComponent } from './loader/loader.component';
-import { DateAgoPipe } from '../core'
-
-
-
+import { DateAgoPipe } from '../core';
+import { ApplicationTimelineComponent } from './application-timeline/application-timeline.component';
+import { ApplicationFeesSummaryComponent } from './application-fees-summary/application-fees-summary.component';
 
 @NgModule({
   declarations: [
@@ -17,28 +16,20 @@ import { DateAgoPipe } from '../core'
     AccordionDirective,
     AccordionLinkDirective,
     LoaderComponent,
-    DateAgoPipe
-  
-    
-
+    DateAgoPipe,
+    ApplicationTimelineComponent,
+    ApplicationFeesSummaryComponent,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-   
-  ],
+  imports: [CommonModule, FormsModule],
   exports: [
     AccordionAnchorDirective,
     AccordionDirective,
     AccordionLinkDirective,
     LoaderComponent,
     DateAgoPipe,
-  
-   
+    ApplicationTimelineComponent,
+    ApplicationFeesSummaryComponent,
   ],
-  providers: [
-    MenuItems,
-    
-  ]
+  providers: [MenuItems],
 })
-export class SharedModule { }
+export class SharedModule {}

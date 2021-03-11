@@ -33,17 +33,13 @@ export class ViewApplicationComponent implements OnInit {
   public applicationDetails;
   public applicationDate;
   public dataSource;
-  public applicationTimeline;
 
   displayedColumns: string[] = ['index', 'name', 'status', 'remarks', 'action'];
 
   constructor(
-    private router: Router,
     private applicationService: ApplicationInfoService,
     public dialog: MatDialog,
     public route: ActivatedRoute,
-    private authService: AuthService,
-    private userService: UserService,
     private applicationFeeService: ApplicationFeesService
   ) {}
   openProjectDialog(): void {
@@ -78,27 +74,24 @@ export class ViewApplicationComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = true;
     this.applicationId = this.route.snapshot.params.id;
+    this.fetchApplicationInfo();
+    this.fetchUserDocs();
+  }
+
+  fetchApplicationInfo() {
     this.applicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
         console.log(this.applicationDetails);
-        this.applicationService
-          .fetchUserDocs(this.applicationId)
-          .subscribe((result) => {
-            this.dataSource = result.data;
-            this.isLoading = false;
-          });
-        this.getApplicationTimeline();
       });
   }
-
-  getApplicationTimeline() {
+  fetchUserDocs() {
     this.applicationService
-      .fetchApplicationTmeline(this.applicationId)
-      .subscribe((res) => {
-        this.applicationTimeline = res.data;
-        console.log('timeline', this.applicationTimeline);
+      .fetchUserDocs(this.applicationId)
+      .subscribe((result) => {
+        this.dataSource = result.data;
+        this.isLoading = false;
       });
   }
 
@@ -164,19 +157,12 @@ export class ViewApplicationComponent implements OnInit {
           });
       } else if (this.applicationDetails.dc_status_id == 2) {
         const body = {
-          application_status_id: 12,
+          application_status_id: 3,
         };
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
-            Swal.fire(
-              'Success!',
-              `Forwarded to Division Chief for Re-Evaluation!`,
-              'success'
-            ).then((result) => {
-              this.isLoading = false;
-              window.location.reload();
-            });
+            this.updateDepartmentStatus();
           });
       } else if (this.applicationDetails.bo_status_id == 2) {
         const body = {
@@ -197,6 +183,7 @@ export class ViewApplicationComponent implements OnInit {
       } else {
         const body = {
           application_status_id: 1,
+          receiving_status_id: 0,
         };
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)

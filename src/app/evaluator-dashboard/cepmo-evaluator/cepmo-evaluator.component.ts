@@ -61,7 +61,7 @@ export class CepmoEvaluatorComponent implements OnInit {
       });
   }
   fetchEvaluatorDetails() {
-    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
     console.log('Evaluator Details', this.evaluatorDetails);
@@ -72,8 +72,6 @@ export class CepmoEvaluatorComponent implements OnInit {
       (obj) =>
         obj.document_id == 43 ||
         obj.document_id == 28 ||
-        obj.document_id == 34 ||
-        obj.document_id == 35 ||
         obj.document_id == 36 ||
         obj.document_id == 44 ||
         obj.document_id == 59 ||

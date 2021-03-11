@@ -90,7 +90,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.initializeMap();
-    this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
+    this.user = JSON.parse(localStorage.getItem('user'));
     this.excavationService.useExistingInfoSubject
       .asObservable()
       .subscribe(

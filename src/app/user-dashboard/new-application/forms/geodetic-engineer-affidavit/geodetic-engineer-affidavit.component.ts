@@ -29,7 +29,8 @@ export class GeodeticEngineerAffidavitComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
+    // this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
+    this.user = JSON.parse(localStorage.getItem('user'));
     console.log(this.user);
     this.newApplicationService.applicationId
       .asObservable()

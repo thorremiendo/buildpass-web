@@ -5,7 +5,12 @@
         <strong>Application Forms</strong>
       </h4>
     </div>
-    <div *ngIf="applicationInfo.application_status_id == 3">
+    <div
+      *ngIf="
+        applicationInfo.application_status_id == 3 ||
+        applicationInfo.application_status_id == 12
+      "
+    >
       <h5>
         <strong> BFP Status: </strong>
         {{
