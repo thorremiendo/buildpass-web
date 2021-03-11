@@ -15,17 +15,19 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { MatListModule } from '@angular/material/list';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatDialogModule } from '@angular/material/dialog';
-import { NotificationComponent } from './notification/notification.component';
+
+import { MaterialModule } from 'src/app/material-module';
+import { DashboardComponentsModule } from 'src/app/dashboard-components/dashboard-components.module';
 
 
 
 @NgModule({
   declarations: [
     SidebarComponent, 
-    DashboardLayoutComponent, BreadcrumbComponent, NotificationComponent,
+    DashboardLayoutComponent, BreadcrumbComponent,
   ],
   imports: [
     CommonModule,
@@ -43,7 +45,10 @@ import { NotificationComponent } from './notification/notification.component';
     MatCardModule,
     MatBadgeModule,
     MatDialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    DashboardComponentsModule,
+
+    MaterialModule,
   
   ],
   exports: [
