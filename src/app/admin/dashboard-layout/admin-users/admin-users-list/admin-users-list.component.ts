@@ -12,9 +12,10 @@ import { AdminUsersViewComponent } from '../admin-users-view/admin-users-view.co
   styleUrls: ['./admin-users-list.component.scss'],
 })
 export class AdminUsersListComponent implements OnInit {
-  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
+ 
   public dataSource;;
   public message: String;
+  public isFetching = true;
   public displayedColumns: string[] = [
     'id',
     'full_name',
@@ -24,6 +25,7 @@ export class AdminUsersListComponent implements OnInit {
     'action',
   ];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
+  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
 
   constructor(
     private _adminUserservice: AdminUserService,
@@ -33,17 +35,10 @@ export class AdminUsersListComponent implements OnInit {
   ngOnInit(): void {
     this._adminUserservice.getData().subscribe((data) => {
       this.dataSource = new MatTableDataSource(data);
-
       this.dataSource.paginator = this.paginator;
+      this.isFetching = false;
     });
   }
-
-//   ngAfterViewInit(): void {
-//     if(this.dataSource != null){
-//       this.dataSource.paginator = this.paginator;
-//     }
-    
-// }
 
 applyFilter(filterValue: string): void {
   this.dataSource.filter = filterValue.trim().toLowerCase();

@@ -8,9 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { FeedService } from '../../../core';
 import { Feed } from '../../../core';
-import { Subscription, Subject, Observable, throwError } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
-import { Channel } from 'pusher-js';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +20,8 @@ import { Channel } from 'pusher-js';
   styleUrls: [],
 })
 export class BreadcrumbComponent implements OnInit {
-
+  public userInfo;
+  public is_admin:boolean = true;
   private feedSubscription: Subscription;
   public feeds: Feed[] = [];
   pageInfo: Data = Object.create(null);
@@ -37,11 +37,23 @@ export class BreadcrumbComponent implements OnInit {
 
     
   ) {
-    this._feedService.checkUser();
-    this.feedSubscription = this._feedService.getFeedItems().subscribe((feed: Feed) => {
+    this.userInfo = JSON.parse(localStorage.getItem('user'));
+
+    if(this.userInfo?.is_admin == 0){
+      this.is_admin = false;
+      console.log(this.is_admin);
+      this._feedService.checkUser();
+      this.feedSubscription = this._feedService.getFeedItems().subscribe((feed: Feed) => {
       this.feeds.push(feed);
+
     
-    });
+      });
+
+      this._feedService.getNotifTable().subscribe(data =>{
+        this.feeds = data.data;
+        })
+    }
+   
 
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -63,9 +75,8 @@ export class BreadcrumbComponent implements OnInit {
   }
 
   ngOnInit(): void{
-    this._feedService.getNotifTable().subscribe(data =>{
-      this.feeds = data.data;
-    })
+   
+   
    
   }
   
@@ -74,7 +85,10 @@ export class BreadcrumbComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.feedSubscription.unsubscribe();
+    if(!this.is_admin){
+      this.feedSubscription.unsubscribe();
+    }
+   
   }
 
   openNotif(){

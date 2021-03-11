@@ -164,6 +164,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
       useFactory: adapterFactory,
     }),
     MatDialogModule,
+    DashboardComponentsModule,
 
     ChartsModule,
   ],

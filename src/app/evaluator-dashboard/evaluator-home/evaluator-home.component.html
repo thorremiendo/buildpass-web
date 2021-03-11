@@ -1,62 +1,28 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-3">
-      <mat-card class="totalCard">
-        <mat-card-content>
-          <p>
-            <span style="font-size: 3em; color:maroon">3</span>
-          </p>
-          <p>
-            <span style="font-size: 1em; color:gray">New Tasks</span>
-          </p>
-        </mat-card-content>
-      </mat-card>
+    <div class="col-md-7">
+      <app-top-card-two></app-top-card-two>
+      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card >
+          <div class="box p-20 bg-info text-center cursor-pointer">
+           <mat-card-content style="height: 190px;">
+             <h1 style="color:white;">Reminders Here</h1>
+           </mat-card-content>
+          </div>
+        </mat-card>
+     </div>
     </div>
-    <div class="col-md-3">
-      <mat-card class="totalCard">
-        <mat-card-content>
-          <p>
-            <span style="font-size: 3em; color:maroon">2</span>
-          </p>
-          <p>
-            <span style="font-size: 1em; color:gray">Opened Task</span>
-          </p>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    <div class="col-md-3">
-      <mat-card class="totalCard">
-        <mat-card-content>
-          <p>
-            <span style="font-size: 3em; color:maroon">4</span>
-          </p>
-          <p>
-            <span style="font-size: 1em; color:gray">Close Task</span>
-          </p>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    <div class="col-md-3">
-      <mat-card class="totalCard">
-        <mat-card-content>
-          <p>
-            <span style="font-size: 3em; color:maroon">9</span>
-          </p>
-          <p>
-            <span style="font-size: 1em; color:gray">Applicant</span>
-          </p>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-5">
       <app-donut-chart></app-donut-chart>
     </div>
   </div>
+
+  <div class="row">
+    
+  </div>
   <div class="row">
     <div class="col-md-12">
-      <mat-card class="card-container mt-5">
+      <mat-card class="card-container mt-3">
         <nav mat-tab-nav-bar mat-stretch-tabs>
           <a
             mat-tab-link

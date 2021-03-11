@@ -55,7 +55,7 @@ export class DonutChartComponent implements OnInit {
         show: false,
       },
       labels: ['New Task', 'Opened Task', 'Closed Task', 'Applicants'],
-      colors: ['#955670', '#275070', '#EBAAB0', '#F3E1C0'],
+      colors: ['#C32148', '#F2BA49', '#FF8C00', '#800000'],
       responsive: [
         {
           breakpoint: 767,

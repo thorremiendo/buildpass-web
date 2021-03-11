@@ -4,7 +4,7 @@ import { Injectable } from "@angular/core";
     providedIn: 'root',
   })
 export class JwtService {
-  TOKEN_KEY = 'Ocpas Evaluator Token'
+  TOKEN_KEY = 'token'
 
   getToken(): string {
     return window.localStorage[this.TOKEN_KEY];

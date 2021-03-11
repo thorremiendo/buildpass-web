@@ -1,16 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RouterModule, Routes, Router } from '@angular/router';
-import { DomSanitizer } from '@angular/platform-browser';
-import { MatIconRegistry } from '@angular/material/icon';
-import { AuthService } from 'src/app/core/services/auth.service';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
-
-
-
-
-
-const googleLogoURL =
-  'https://raw.githubusercontent.com/fireflysemantics/logo/master/Google.svg';
 
 @Component({
   selector: 'app-evaluator-home',
@@ -28,14 +18,10 @@ export class EvaluatorHomeComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer,
-    private authService: AuthService,
     public applicationInfoService: ApplicationInfoService,
   
   ) {
    
-
     this.navLinks = [
       {
         label: 'Table View',

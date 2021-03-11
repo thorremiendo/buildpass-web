@@ -1,17 +1,13 @@
 import firebase from 'firebase/app';
 import { Injectable, NgZone } from '@angular/core';
-import { User } from '../models/user.model';
-//import { auth } from 'firebase/app';
 import { JwtService } from './jwt.service';
 import { AngularFireAuth } from '@angular/fire/auth';
-import {
-  AngularFirestore,
-  AngularFirestoreDocument,
-} from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { UserService } from './user.service';
+import { ApiService} from '../services/api.service';
 
 @Injectable({
   providedIn: 'root',
@@ -32,30 +28,17 @@ export class AuthService {
     public router: Router,
     public ngZone: NgZone, // NgZone service to remove outside scope warning
     public userService: UserService,
-    public jwtService: JwtService
+    public jwtService: JwtService,
+    public apiService: ApiService,
   ) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
-    this.afAuth.authState.subscribe((user) => {
+    this.currentUser.subscribe((user) => {
       if (user) {
-        this.userData = user;
-        this.updateUserInfo(user);
-        localStorage.setItem('user', JSON.stringify(this.userData));
+        localStorage.setItem('user', JSON.stringify(user));
         this.isAuthenticatedSubject.next(true);
-        JSON.parse(localStorage.getItem('user'));
-      } else {
-        localStorage.setItem('user', null);
-        JSON.parse(localStorage.getItem('user'));
-        this.isAuthenticatedSubject.next(false);
-      }
+      } 
     });
-  }
-
-  login(user, token: string) {
-    this.currentUserSubject.next(user);
-    this.userService.setUserInfo(user);
-    this.jwtService.saveToken(token);
-    this.isAuthenticatedSubject.next(true);
   }
 
   saveToken(token: string) {
@@ -65,7 +48,7 @@ export class AuthService {
   updateUserInfo(user) {
     this.userService.getUserInfo(user.uid).subscribe((data) => {
       this.userService.setUserInfo(data);
-      console.log('get user from api' + data);
+      
     });
   }
 
@@ -75,6 +58,7 @@ export class AuthService {
         .auth()
         .signInWithEmailAndPassword(value.email, value.password)
         .then((result) => {
+          console.log(result);
           resolve(result);
         })
         .catch((error) => {
@@ -167,28 +151,26 @@ export class AuthService {
     return userRef.get();
   }
 
-  /* Setting up user data when sign in with username/password,
-  sign up with username/password and sign in with social auth
-  provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
-  // SetUserData(user) {
-  //   const userRef: AngularFirestoreDocument<any> = this.afs.doc(
-  //     `users/${user.uid}`
-  //   );
-  //   const userData: User = {
-  //     uid: user.uid,
-  //     email: user.email,
-  //     displayName: user.displayName,
-  //     emailVerified: user.emailVerified,
-  //     is_evaluator: user.is_evaluator,
-  //   };
-  //   return userRef.set(userData, {
-  //     merge: true,
-  //   });
+  getToken(uid){
+    console.log(JSON.stringify(uid))
+    const url = `/auth/firebase/login`;
+    const body = {
+      firebase_uid: `${uid}`
+    }
 
-  // }
+    return this.apiService.post(url,body).subscribe(res =>{
+      const token = res.data.token
+      this.jwtService.saveToken(token)
+      this.userService
+      .getUserInfo(uid)
+      .subscribe((data) => {
+        this.currentUserSubject.next(data);
+        this.router.navigate(['dashboard']);
+      });
+    })  
+  } 
 
-  // Sign out
-  userSignOut() {
+  userSignOut(route) {
     return firebase
       .auth()
       .signOut()
@@ -196,20 +178,9 @@ export class AuthService {
         localStorage.removeItem('user');
         localStorage.removeItem('app_id');
         localStorage.removeItem('applicationDetails');
+        this.router.navigateByUrl(route);
+        this.jwtService.removeToken();
         this.isAuthenticatedSubject.next(false);
-        this.router.navigateByUrl('/user/sign-in');
-      });
-  }
-  evaluatorSignOut() {
-    return firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('app_id');
-        localStorage.removeItem('applicationDetails');
-        this.isAuthenticatedSubject.next(false);
-        this.router.navigateByUrl('/evaluator/sign-in');
       });
   }
 }

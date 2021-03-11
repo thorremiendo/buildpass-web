@@ -1,13 +1,14 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 import { UserService } from '../../core/services/user.service';
-import { FeedService} from '../../core';
+
+
 
 @Component({
   selector: 'app-sign-in',
@@ -16,19 +17,20 @@ import { FeedService} from '../../core';
 })
 export class SignInComponent implements OnInit {
   public hide: boolean = true;
+  public _signinForm: FormGroup;
   public user;
-  _submitted: boolean = false;
-  _signinForm: FormGroup;
+  private _submitted: boolean = false;
+ 
 
   constructor(
     private _authService: AuthService,
     private _router: Router,
     private _fb: FormBuilder,
-    private _route: ActivatedRoute,
     private _ngZone: NgZone,
     private _afs: AngularFirestore,
     private _userService: UserService,
-    private _feedService: FeedService,
+   
+    
   ) {
     this.createForm();
   }
@@ -46,22 +48,12 @@ export class SignInComponent implements OnInit {
       this._authService
         .SignIn(value)
         .then((result) => {
-          this._authService.currentUserSubject.next(result);
-          this._ngZone.run(() => {
-            if (result.user.emailVerified == true) {
-              this.SetUserDataFire(result.user.uid, result.user.emailVerified);
-              this._userService
-                .getUserInfo(result.user.uid)
-                .subscribe((data) => {
-                  this._userService.setUserInfo(data);
-                  this._router.navigate(['dashboard']);
-                });
-             
+          if (result.user.emailVerified == true) {
+            this.SetUserDataFire(result.user.uid, result.user.emailVerified);
+            this._authService.getToken(result.user.uid)
             } else {
               window.alert('Email not yet verified');
             }
-          });
-        
         })
         .catch((error) => {
           window.alert(error.message);
@@ -77,9 +69,7 @@ export class SignInComponent implements OnInit {
         this._ngZone.run(() => {
           if (result.additionalUserInfo.isNewUser != true) {
             this.SetUserDataFire(result.user.uid, result.user.emailVerified);
-            this._userService.getUserInfo(result.user.uid).subscribe((data) => {
-              this._userService.setUserInfo(data);
-            });
+            this._authService.getToken(result.user.uid)
             this._router.navigate(['dashboard']);
           } else {
             this._router.navigateByUrl('registration/personal-info');
@@ -87,7 +77,6 @@ export class SignInComponent implements OnInit {
         });
       })
       .catch((error) => {
-
         window.alert(error.message);
       });
   }
@@ -96,7 +85,6 @@ export class SignInComponent implements OnInit {
     const userRef: AngularFirestoreDocument<any> = this._afs.doc(
       `users/${user}`
     );
-
 
     const userData = {
       emailVerified: emailVerified,
@@ -108,5 +96,6 @@ export class SignInComponent implements OnInit {
 
   ngOnInit(): void {
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('user');
   }
 }

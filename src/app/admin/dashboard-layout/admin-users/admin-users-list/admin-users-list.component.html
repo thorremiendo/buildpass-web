@@ -74,6 +74,14 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
+
+          <div class="evaluator-list__empty text-center py-5" *ngIf='!isFetching && dataSource.length === 0'>
+            <h2>No Evaluator yet....</h2>
+          </div>
+          <div class="evaluator-list__loader text-center py-5" *ngIf='isFetching'>
+            <p>Fetching Evaluators...</p>
+            <mat-progress-spinner mode='indeterminate' diameter='40'></mat-progress-spinner>
+          </div>
           
           <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
         </div>

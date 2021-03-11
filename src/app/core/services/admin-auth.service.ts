@@ -4,8 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { JwtService } from './jwt.service';
 import { AuthService } from './auth.service';
-import { UserAdapter } from '../adapters/user.adapter';
-import { UserService } from './user.service';
+
 
 @Injectable({
   providedIn: 'root',
@@ -13,12 +12,31 @@ import { UserService } from './user.service';
 export class AdminAuthService {
   constructor(
     private api: ApiService,
-    private userAdapter: UserAdapter,
     private authService: AuthService,
-    private userService: UserService
+    private jwtService: JwtService,
+
   ) {}
 
   loginAdmin(username: string, password: string): Observable<any> {
+    const url = `/admin/login`;
+
+    return this.api
+      .post(url, {
+        username,
+        password,
+      })
+      .pipe(
+        map((res) => {
+          console.log(res)
+          const user = res.data.user;
+          const token = res.data.token
+          this.authService.currentUserSubject.next(user);        
+          this.jwtService.saveToken(token);
+        })
+      );
+  }
+
+  loginEvaluator(username: string, password: string): Observable<any> {
     const url = `/evaluator/login`;
 
     return this.api
@@ -28,10 +46,11 @@ export class AdminAuthService {
       })
       .pipe(
         map((res) => {
+          console.log(res)
           const user = res.data.user;
-          this.authService.login(user, res.data.token);
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          return res.data;
+          const token = res.data.token
+          this.authService.currentUserSubject.next(user);        
+          this.jwtService.saveToken(token);
         })
       );
   }

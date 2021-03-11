@@ -35,11 +35,10 @@ export class FeedService {
   }
 
   checkUser(){
-    var evaluator = JSON.parse(localStorage.getItem('currentUser'));
-    var applicant = JSON.parse(localStorage.getItem('user'));
+    var user = JSON.parse(localStorage.getItem('user'));
 
-    if(evaluator != null){
-      this.user = evaluator;
+    if(user.employee_detail != null){
+      this.user = user;
       this.channelType = 'evaluator'; 
       this.notifChannel = this.user.employee_detail.user_notif.channel;
       this.channelName = `evaluator-${this.user.employee_detail.user_notif.channel}`;
@@ -47,14 +46,13 @@ export class FeedService {
       
     }
     else{
-      this.user = applicant
+      this.user = user;
       this.channelType = 'applicant'; 
-      this.notifChannel = this.user.uid;
-      this.channelName = `applicant-${this.user.uid}`;
+      this.notifChannel = this.user.user_credentials[0]?.firebase_uid;
+      this.channelName = `applicant-${this.user.user_credentials[0]?.firebase_uid}`;
       this.pusherBind= 'ApplicantStatusChanged';
    
     }
-
     this.pusherSubscribe();
     this.getNotifTable();
 

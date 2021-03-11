@@ -143,12 +143,12 @@ export class EvaluatorEditProfileComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.userInfo = JSON.parse(localStorage.getItem('currentUser'));
-    this.userInfo.marital_status_id = String(this.userInfo.marital_status_id);
-    this.userInfo.employee_detail.office_id = String(this.userInfo.employee_detail.office_id);
-
-    this.createForm();
-
+    if (localStorage.getItem('user') != null) {
+      this.userInfo = JSON.parse(localStorage.getItem('user'));
+      this.userInfo.marital_status_id = String(this.userInfo.marital_status_id);
+      this.userInfo.employee_detail.office_id = String(this.userInfo.employee_detail.office_id);
+      this.createForm();
+    }
     this._barangayService.getBarangayInfo().subscribe(data => {
       this._barangay = data;
       this._filteredBarangayOptions = this.evaluatorEditProfileFormControl.barangay.valueChanges
@@ -199,7 +199,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
         .updateUserInfo(user, this.userInfo.id)
         .subscribe((result) => {
           this.isUpdating = false;
-          const user = JSON.parse(localStorage.getItem('currentUser'));
+          const user = JSON.parse(localStorage.getItem('user'));
           const update = {
             ...user,
             ...result['data'],
@@ -210,7 +210,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
               position: this._evaluatorEditProfileForm.value.position
             }
           };
-          localStorage.setItem('currentUser', JSON.stringify(update));
+          localStorage.setItem('user', JSON.stringify(update));
           
           Swal.fire('Success!', `Updated profile information.`, 'success').then(
             (result) => {

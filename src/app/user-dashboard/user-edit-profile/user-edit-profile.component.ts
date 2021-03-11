@@ -41,7 +41,9 @@ export class UserEditProfileComponent implements OnInit {
     private _fb: FormBuilder,
     private _userService: UserService,
     private _barangayService: BarangayService
-  ) {}
+  ) {
+    
+  }
 
   createForm() {
     this._userEditProfileForm = this._fb.group({
@@ -121,21 +123,21 @@ export class UserEditProfileComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this._userService.cast.subscribe((userSubject) => {
-      this.userInfo = userSubject;
+    if (localStorage.getItem('user') != null) {
+      this.userInfo = JSON.parse(localStorage.getItem('user'));
       this.userInfo.marital_status_id = String(this.userInfo.marital_status_id);
-
       this.createForm();
+    }
 
-      this._barangayService.getBarangayInfo().subscribe(data => {
-        this._barangay = data;
-        this._filteredBarangayOptions = this.userEditProfileFormControl.barangay.valueChanges
-        .pipe(
-          startWith(''),
-          map(barangay => barangay ? this.filterBarangays(barangay) : this._barangay.slice())
-        );
-      });
+    this._barangayService.getBarangayInfo().subscribe(data => {
+      this._barangay = data;
+      this._filteredBarangayOptions = this.userEditProfileFormControl.barangay.valueChanges
+      .pipe(
+        startWith(''),
+        map(barangay => barangay ? this.filterBarangays(barangay) : this._barangay.slice())
+      );
     });
+
   }
 
   onSubmit() {
