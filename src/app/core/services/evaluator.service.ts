@@ -12,6 +12,6 @@ export class EvaluatorService {
   constructor(private api: ApiService) {}
 
   fetchEvaluatorDetails() {
-    this.evaluatorDetails = JSON.parse(localStorage.getItem('currentUser'));
+    this.evaluatorDetails = JSON.parse(localStorage.getItem('user'));
   }
 }

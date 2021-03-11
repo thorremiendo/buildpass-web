@@ -36,7 +36,7 @@ export class ChecklistSummaryComponent implements OnInit {
 
   ngOnInit(): void {
     this.applicationId = this.route.snapshot.params.id;
-    this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
+    this.user = JSON.parse(localStorage.getItem('user'));
     console.log(this.user);
     this.newApplicationService
       .fetchApplicationInfo(this.applicationId)

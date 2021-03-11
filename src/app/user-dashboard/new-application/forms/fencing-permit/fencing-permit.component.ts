@@ -153,7 +153,8 @@ export class FencingPermitComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.cast.subscribe((userSubject) => (this.user = userSubject));
+    this.user = JSON.parse(localStorage.getItem('user'));
+
 
     this.newApplicationService.applicationId
       .asObservable()
@@ -165,7 +166,7 @@ export class FencingPermitComponent implements OnInit {
           const isRepresentative = this.applicationDetails.is_representative == '1' ? true : false;
           const isOwner = this.applicationDetails.rol_status_id == '1' ? true : false;
           const isRegistered = this.applicationDetails.registered_owner == '1' ? true : false;
-  
+
           this.fieldSets[0] = this.fieldSets[0].filter(field => {
             if (field.for == 'representative' && !isRepresentative) return false;
             else if (field.for == 'lessee' && isOwner) return false;
@@ -211,7 +212,7 @@ export class FencingPermitComponent implements OnInit {
         this.vicinityMap = file;
         break;
       case 'sitePhoto':
-        this.sitePhoto = file;  
+        this.sitePhoto = file;
         break;
       case 'constructionTarp':
         this.constructionTarp = file;
@@ -259,7 +260,7 @@ export class FencingPermitComponent implements OnInit {
         break;
       case 'propertyTaxReceipt':
         this.propertyTaxReceipt = null;
-        break; 
+        break;
       case 'professionalTaxReceipt':
         this.professionalTaxReceipt = null;
         break;
@@ -267,7 +268,7 @@ export class FencingPermitComponent implements OnInit {
         this.vicinityMap = null;
         break;
       case 'sitePhoto':
-        this.sitePhoto = null;  
+        this.sitePhoto = null;
         break;
       case 'constructionTarp':
         this.constructionTarp = null;

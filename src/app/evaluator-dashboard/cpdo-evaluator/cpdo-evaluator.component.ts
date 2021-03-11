@@ -71,7 +71,7 @@ export class CpdoEvaluatorComponent implements OnInit {
     return isNonCompliant;
   }
   fetchEvaluatorDetails() {
-    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
     console.log('Evaluator Role', this.evaluatorRole);

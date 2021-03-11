@@ -58,8 +58,8 @@ export class FormDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.userService.cast.subscribe((userSubject) => {
       this.user = userSubject;
-      if (localStorage.getItem('currentUser')) {
-        this.user = JSON.parse(localStorage.getItem('currentUser'));
+      if (localStorage.getItem('user')) {
+        this.user = JSON.parse(localStorage.getItem('user'));
       }
     });
     console.log('USER DOCUMENT', this.data);

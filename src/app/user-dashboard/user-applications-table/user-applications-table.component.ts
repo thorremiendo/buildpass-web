@@ -28,14 +28,10 @@ export class UserApplicationsTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userService.cast.subscribe((userSubject) => {
-      this.user = userSubject;
-      this.userService
-        .fetchUserApplications(this.user.id)
-        .subscribe((result) => {
-          this.applicationInfoData = result.data;
-          console.log(this.applicationInfoData);
-        });
+    this.user = JSON.parse(localStorage.getItem('user'));
+    this.userService.fetchUserApplications(this.user.id).subscribe((result) => {
+      this.applicationInfoData = result.data;
+      console.log(this.applicationInfoData);
     });
   }
 

@@ -63,7 +63,7 @@ export class BfpEvaluatorComponent implements OnInit {
     return isCompliant;
   }
   fetchEvaluatorDetails() {
-    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     console.log('Evaluator Details', this.evaluatorDetails);
     this.isLoading = false;

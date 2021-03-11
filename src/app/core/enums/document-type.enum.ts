@@ -34,7 +34,7 @@ export enum documentTypes {
   'Bill of Materials (Signed and Sealed)' = 33,
   'Civil Engineer' = 34,
   'Architect' = 35,
-  'Sanitary Engineer/Master Plumber' = 36,
+  'Sanitary Engineer or Master Plumber' = 36,
   'Geodetic Engineer Affidavit' = 37,
   'Civil Engineer Affidavit' = 38,
   'Barangay Clearance' = 39,
