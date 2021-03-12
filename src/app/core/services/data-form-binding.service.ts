@@ -12,14 +12,117 @@ export class DataFormBindingService {
   public applicantDetails;
   public representativeDetails;
 
-  constructor(private newApplicationService: NewApplicationService) {}
+  constructor() {}
 
-  getFormData(applicationDetails) {
-    const applicantDetails = applicationDetails.applicant_detail;
-    const projectDetails = applicationDetails.project_detail;
-    const representativeDetails = applicationDetails.representative_detail;
+  //FIRE SAFETY EVALUATION CLEARANCE
+  getFireClearanceData(a) {
+    const applicantDetails = a.applicant_detail;
+    const projectDetails = a.project_detail;
+    const representativeDetails = a.representative_detail;
+
+    const formData = {
+      building_name:
+        projectDetails.project_title == 'undefined'
+          ? 'N/A'
+          : projectDetails.project_title.toUpperCase(),
+      address:
+        projectDetails.barangay == 'undefined'
+          ? 'N/A'
+          : projectDetails.barangay.toUpperCase(),
+      owner_name: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+    };
+
+    return formData;
+  }
+
+  //BUILDING PERMIT CERTIFICATE
+  getBuildingCertificateData(a) {
+    const applicantDetails = a.applicant_detail;
+    const projectDetails = a.project_detail;
+    const representativeDetails = a.representative_detail;
     const projectCostCap = parseFloat(
-      applicationDetails.project_detail.project_cost_cap
+      a.project_detail.project_cost_cap
+    ).toLocaleString();
+
+    const formData = {
+      owner_permitee: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      project_title:
+        projectDetails.project_title == 'undefined'
+          ? 'N/A'
+          : projectDetails.project_title.toUpperCase(),
+      lot:
+        projectDetails.lot_number == 'undefined'
+          ? 'N/A'
+          : projectDetails.lot_number,
+      block:
+        projectDetails.block_number == 'undefined'
+          ? 'N/A'
+          : projectDetails.block_number,
+      tct_no:
+        projectDetails.tct_number == 'undefined'
+          ? 'N/A'
+          : projectDetails.tct_number,
+      street:
+        projectDetails.street_name == 'undefined'
+          ? 'N/A'
+          : projectDetails.street_name.toUpperCase(),
+      brgy:
+        projectDetails.barangay == 'undefined'
+          ? 'N/A'
+          : projectDetails.barangay.toUpperCase(),
+      city: 'BAGUIO CITY',
+      zip_code: '2600',
+      project_cost: projectCostCap,
+    };
+
+    return formData;
+  }
+
+  //WWMS BP CERTIFICATE
+  getWwmsData(a) {
+    const applicantDetails = a.applicant_detail;
+    const projectDetails = a.project_detail;
+    const representativeDetails = a.representative_detail;
+
+    const formData = {
+      project_name:
+        projectDetails.project_title == 'undefined'
+          ? 'N/A'
+          : projectDetails.project_title.toUpperCase(),
+      building_address:
+        projectDetails.lot_number == 'undefined'
+          ? 'N/A'
+          : projectDetails.lot_number,
+      street_no:
+        projectDetails.street_name == 'undefined'
+          ? 'N/A'
+          : projectDetails.street_name.toUpperCase(),
+      street_name:
+        projectDetails.street_name == 'undefined'
+          ? 'N/A'
+          : projectDetails.street_name.toUpperCase(),
+      brgy_name:
+        projectDetails.barangay == 'undefined'
+          ? 'N/A'
+          : projectDetails.barangay.toUpperCase(),
+      business_owner: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      owner_address: `${applicantDetails.house_number} ${applicantDetails.street_name} ${applicantDetails.barangay}`.toUpperCase(),
+      contact_no:
+        applicantDetails.contact_number == 'undefined'
+          ? 'N/A'
+          : applicantDetails.contact_number,
+    };
+
+    return formData;
+  }
+
+  //GENERTAL FORM DATA
+  getFormData(a) {
+    const applicantDetails = a.applicant_detail;
+    const projectDetails = a.project_detail;
+    const representativeDetails = a.representative_detail;
+    const projectCostCap = parseFloat(
+      a.project_detail.project_cost_cap
     ).toLocaleString();
 
     const formData = {
