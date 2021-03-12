@@ -35,28 +35,28 @@ export class NotificationComponent implements OnInit {
   }
 
   ngOnInit():void{
-
+ 
     if(this.type == "super admin"){
-      this.show_notif = false
+      this.show_notif = false;
 
-      if(this.show_notif){  
-        this.feedService.checkUser();
-        this.feedSubscription = this.feedService.getFeedItems().subscribe((feed: Feed) => {
-          this.feeds.push(feed);
-
-          this.feedService.getNotifTable().subscribe(data =>{
-            this.feeds = data.data;
-            console.log(this.feeds)
-          })
-        });
-      }
     } 
+
+    else{
+
+      this.feedService.checkUser();
+      this.feedSubscription = this.feedService.getFeedItems().subscribe((feed: Feed) => {
+        this.feeds.push(feed);
+      });
+
+      this.feedService.getNotifTable().subscribe(data =>{
+        this.feeds = data.data;
+      })
+    }
+
   }
 
   openNotif(index, id){
     this.feeds.splice(index, 1)
-    console.log(this.feeds)
-
     this.router.navigate(['evaluator/application', id])
     .then(() =>{
     }) 
