@@ -6,10 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./new-tasks.component.scss']
 })
 export class NewTasksComponent implements OnInit {
+  public userInfo;
 
-  constructor() { }
+  constructor() { 
+
+  }
 
   ngOnInit(): void {
+  
+
+    
   }
 
 }

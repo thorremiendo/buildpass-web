@@ -13,12 +13,10 @@ import { DashboardLayoutModule } from 'src/app/layout/dashboard-layout/dashboard
 import { AdminAnalyticsModule } from '../admin-analytics/admin-analytics.module';
 
 
-
-
-
 @NgModule({
   declarations: [
     DashboardComponent,
+
   ],
   imports: [
     SharedModule,

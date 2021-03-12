@@ -14,15 +14,27 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { DonutChartComponent } from './donut-chart/donut-chart.component';
 import { TopCardTwoComponent } from './top-card-two/top-card-two.component';
+import { NotificationComponent } from './notification/notification.component';
 
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { ChatBoxComponent } from './chat-box/chat-box.component';
 
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true,
+  wheelSpeed: 2,
+  wheelPropagation: true
+};
 
 @NgModule({
   declarations: [
     TopCardComponent,
     BarChartComponent,
     DonutChartComponent,
-    TopCardTwoComponent],
+    TopCardTwoComponent,
+    NotificationComponent,
+    ChatBoxComponent],
 
   imports: [
     CommonModule,
@@ -33,9 +45,14 @@ import { TopCardTwoComponent } from './top-card-two/top-card-two.component';
     MatIconModule,
     MatCardModule,
     MaterialModule,
+
     FlexLayoutModule,
     ChartsModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    PerfectScrollbarModule,
+
+   
+
   ],
 
   exports:[
@@ -43,8 +60,17 @@ import { TopCardTwoComponent } from './top-card-two/top-card-two.component';
     BarChartComponent,
     DonutChartComponent,
     TopCardTwoComponent,
+    NotificationComponent,
+    ChatBoxComponent,
+  ],
 
-  ]
+  providers: [
+    {
+        provide: PERFECT_SCROLLBAR_CONFIG,
+        useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    }, 
+    
+],
    
 })
 export class DashboardComponentsModule { }

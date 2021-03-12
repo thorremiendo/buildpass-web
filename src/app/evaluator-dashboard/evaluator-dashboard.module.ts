@@ -79,6 +79,7 @@ import { RemarksHistoryTableComponent } from './remarks-history-table/remarks-hi
 import { DashboardComponentsModule } from '../dashboard-components/dashboard-components.module';
 import { BfpResidentialChecklistComponent } from './bfp-residential-checklist/bfp-residential-checklist.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MaterialModule } from '../material-module';
 
 @NgModule({
   declarations: [
@@ -165,6 +166,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     }),
     MatDialogModule,
     DashboardComponentsModule,
+    MaterialModule,
 
     ChartsModule,
   ],

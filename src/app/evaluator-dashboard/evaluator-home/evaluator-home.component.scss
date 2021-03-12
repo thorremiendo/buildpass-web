@@ -113,5 +113,14 @@ mat-card {
     text-align: center;
     height: 120px;
   }
+
+  .carousel {
+    margin-top: 1em;
+  
+    .carousel-control-next,
+    .carousel-control-prev {
+      filter: invert(100%);
+    }
+  }
   
  
