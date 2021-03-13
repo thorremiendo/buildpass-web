@@ -1,4 +1,8 @@
-<form [formGroup]="representativeDetailsForm" (ngSubmit)="onSubmit()">
+<form
+  [formGroup]="representativeDetailsForm"
+  (ngSubmit)="onSubmit()"
+  *ngIf="!isLoading"
+>
   <div class="row justify-content-center pt-3 px-3">
     <div class="col-md-3">
       <mat-form-field appearance="outline">
@@ -88,13 +92,14 @@
         </mat-error>
         <mat-error
           *ngIf="
-            (representativeDetailsFormControl.representative_email_address.touched ||
+            (representativeDetailsFormControl.representative_email_address
+              .touched ||
               _submitted) &&
             representativeDetailsFormControl.representative_email_address.errors
               ?.pattern
           "
         >
-            Email must be a valid email address
+          Email must be a valid email address
         </mat-error>
       </mat-form-field>
     </div>
@@ -151,13 +156,15 @@
         </mat-error>
         <mat-error
           *ngIf="
-            (representativeDetailsFormControl.representative_contact_no.touched ||
+            (representativeDetailsFormControl.representative_contact_no
+              .touched ||
               _submitted) &&
             representativeDetailsFormControl.representative_contact_no.errors
               ?.pattern
           "
         >
-           Contact Number must be start with '09', should be numerical and fixed length of 11
+          Contact Number must be start with '09', should be numerical and fixed
+          length of 11
         </mat-error>
         <mat-hint align="end"
           >{{ contact.value.length }} / {{ maxLength }}</mat-hint
@@ -215,3 +222,6 @@
     </div>
   </div>
 </form>
+<div class="d-flex justify-content-center mt-5" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>

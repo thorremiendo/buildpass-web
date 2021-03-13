@@ -82,7 +82,20 @@
         </div>
       </div>
       <div class="mt-5">
-        <button mat-raised-button color="primary" (click)="openProjectDialog()">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="openRepresentativeDialog()"
+          *ngIf="applicationDetails.is_representative == 1"
+        >
+          Representative Details
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="openProjectDialog()"
+          class="ml-2"
+        >
           Project Details
         </button>
         <button

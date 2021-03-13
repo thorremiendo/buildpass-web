@@ -163,7 +163,7 @@ export class ChecklistSummaryComponent implements OnInit {
       Swal.fire({
         title: 'Do you need an Excavation Permit?',
         showDenyButton: true,
-        showCancelButton: true,
+        showCancelButton: false,
         confirmButtonText: `Yes`,
         denyButtonText: `No`,
       }).then((result) => {

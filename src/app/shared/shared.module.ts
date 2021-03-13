@@ -1,3 +1,4 @@
+import { MaterialModule } from './../material-module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccordionAnchorDirective } from './accordion/accordionanchor.directive';
@@ -9,6 +10,7 @@ import { LoaderComponent } from './loader/loader.component';
 import { DateAgoPipe } from '../core';
 import { ApplicationTimelineComponent } from './application-timeline/application-timeline.component';
 import { ApplicationFeesSummaryComponent } from './application-fees-summary/application-fees-summary.component';
+import { RepresentativeDetailsComponent } from './representative-details/representative-details.component';
 
 @NgModule({
   declarations: [
@@ -19,8 +21,9 @@ import { ApplicationFeesSummaryComponent } from './application-fees-summary/appl
     DateAgoPipe,
     ApplicationTimelineComponent,
     ApplicationFeesSummaryComponent,
+    RepresentativeDetailsComponent,
   ],
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MaterialModule],
   exports: [
     AccordionAnchorDirective,
     AccordionDirective,
@@ -29,6 +32,7 @@ import { ApplicationFeesSummaryComponent } from './application-fees-summary/appl
     DateAgoPipe,
     ApplicationTimelineComponent,
     ApplicationFeesSummaryComponent,
+    RepresentativeDetailsComponent,
   ],
   providers: [MenuItems],
 })
