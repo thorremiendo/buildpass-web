@@ -2,7 +2,7 @@
     <mat-card-content>
         <mat-card-title>Task</mat-card-title>
         <mat-card-subtitle>as of {{date | date:"medium"}}</mat-card-subtitle>
-        <div id="donut-chart" class="m-t-20 p-t-20 p-b-20 d-flex flex-column">
+        <div id="donut-chart" class="m-t-10 p-t-10 p-b-10 d-flex flex-column">
             <apx-chart [series]="DonutChartOptions.series" [chart]="DonutChartOptions.chart"
                 [labels]="DonutChartOptions.labels" [responsive]="DonutChartOptions.responsive"
                 [tooltip]="DonutChartOptions.tooltip" [legend]="DonutChartOptions.legend"
