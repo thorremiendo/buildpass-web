@@ -40,7 +40,8 @@ export class ExcavationPermitComponent implements OnInit {
   public notificationLetter: File;
   public dumpSite: File;
   public isLoading: boolean = true;
-
+  public exisitingApplicationInfo;
+  public excavationId;
   public fieldSets = [
     [
       {
@@ -222,33 +223,47 @@ export class ExcavationPermitComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
+    this.applicationId = JSON.parse(localStorage.getItem('app_id'));
 
-    this.newApplicationService.applicationId
-      .asObservable()
-      .subscribe((applicationId) => {
-        this.applicationId = applicationId;
-        this.applicationService
-          .fetchApplicationInfo(this.applicationId)
-          .subscribe((res) => {
-            this.applicationDetails = res.data;
+    if (localStorage.getItem('application_details_for_excavation')) {
+      this.exisitingApplicationInfo = JSON.parse(
+        localStorage.getItem('application_details_for_excavation')
+      );
+      console.log('EXISTING', this.exisitingApplicationInfo);
+      this.submitExcavationDetails();
+    }
+    this.applicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((res) => {
+        this.applicationDetails = res.data;
 
-            const isRepresentative =
-              this.applicationDetails.is_representative == '1' ? true : false;
-            const isOwner =
-              this.applicationDetails.rol_status_id == '1' ? true : false;
-            const isRegistered =
-              this.applicationDetails.registered_owner == '1' ? true : false;
+        const isRepresentative =
+          this.applicationDetails.is_representative == '1' ? true : false;
+        const isOwner =
+          this.applicationDetails.rol_status_id == '1' ? true : false;
+        const isRegistered =
+          this.applicationDetails.registered_owner == '1' ? true : false;
 
-            this.fieldSets[0] = this.fieldSets[0].filter((field) => {
-              if (field.for == 'representative' && !isRepresentative)
-                return false;
-              else if (field.for == 'lessee' && isOwner) return false;
-              else if (field.for == 'lot-owner' && !isRegistered) return false;
-              else if (field.for == 'not-owner' && isRegistered) return false;
-              else return true;
-            });
-          });
+        this.fieldSets[0] = this.fieldSets[0].filter((field) => {
+          if (field.for == 'representative' && !isRepresentative) return false;
+          else if (field.for == 'lessee' && isOwner) return false;
+          else if (field.for == 'lot-owner' && !isRegistered) return false;
+          else if (field.for == 'not-owner' && isRegistered) return false;
+          else return true;
+        });
       });
+  }
+
+  submitExcavationDetails() {
+    const body = {
+      ...this.exisitingApplicationInfo,
+      main_permit_id: this.applicationId,
+      permit_type_id: 3,
+    };
+    console.log(body);
+    this.newApplicationService.submitApplication(body).subscribe((res) => {
+      console.log('RES', res);
+    });
   }
 
   onSelect(file: File, type: string) {
@@ -434,7 +449,7 @@ export class ExcavationPermitComponent implements OnInit {
                 `${docType.description} uploaded!`,
                 'success'
               ).then((result) => {});
-          });
+            });
 
           breakFlag = true;
           return false;
@@ -447,7 +462,15 @@ export class ExcavationPermitComponent implements OnInit {
   }
 
   submitApplication() {
-    this.router.navigate(['dashboard/new/summary', this.applicationId]);
+    debugger;
+    this.router.navigate(['dashboard/new/summary'], this.excavationId);
     localStorage.removeItem('app_id');
+    localStorage.removeItem('application_details_for_excavation');
   }
+
+  // if (this.isExcavation) {
+  //   this.applicationDetails.permit_type_id = '3';
+  //   body['main_permit_id'] = this.applicationDetails.id;
+  //   body['permit_type_id'] = this.applicationDetails.permit_type_id;
+  // }
 }

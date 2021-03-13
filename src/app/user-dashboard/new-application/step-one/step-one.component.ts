@@ -26,8 +26,9 @@ export class StepOneComponent implements OnInit {
   public userInfo;
   public applicationId;
   public applicationInfo;
-  public isExcavation;
+  public withExcavation;
   public useExistingInfo;
+  public isLoading: boolean = false;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -38,14 +39,12 @@ export class StepOneComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.applicationId = localStorage.getItem('app_id');
-    if (this.applicationId) {
-      this.fetchApplicationInfo();
-    }
-    this.userService.cast.subscribe((userSubject) => {
-      this.userInfo = userSubject;
-      console.log(this.userInfo);
-    });
+    this.createForm();
+    this.isLoading = true;
+    this.userInfo = JSON.parse(localStorage.getItem('user'));
+    this.isLoading = false;
+  }
+  createForm() {
     this.permitStepOneForm = this.fb.group({
       application_type: new FormControl('', Validators.required),
       is_representative: new FormControl('', Validators.required),
@@ -53,30 +52,6 @@ export class StepOneComponent implements OnInit {
       construction_status: new FormControl('', Validators.required),
       registered_owner: new FormControl('', Validators.required),
     });
-  }
-
-  fetchApplicationInfo() {
-    this.newApplicationService
-      .fetchApplicationInfo(this.applicationId)
-      .subscribe((result) => {
-        this.applicationInfo = result.data;
-        console.log('app ifo', this.applicationInfo);
-        localStorage.setItem(
-          'applicationDetails',
-          JSON.stringify(this.applicationInfo)
-        );
-        if (this.applicationInfo.is_excavation == 1) {
-          this.isExcavation = true;
-          this.selectedPermitType = '3';
-        }
-      });
-  }
-  //button for excavation from BP
-  callProceed() {
-    if (this.useExistingInfo == '1') {
-      this.excavationService.setUseExistingInfo(this.useExistingInfo);
-    }
-    this.router.navigateByUrl('/dashboard/new/step-two/lot-owner');
   }
 
   callNext() {
