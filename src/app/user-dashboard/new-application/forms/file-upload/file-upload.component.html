@@ -1,16 +1,33 @@
-<div class="file-upload">
-    <div class="d-flex justify-content-between">
-        <h5> {{fileDescription}} </h5>
-        <mat-icon *ngIf="file" style="color: green">
-            check_circle
-        </mat-icon>
+<div class="file-upload container-fluid">
+    <div class="row">
+        <div class="file-description col-8">
+            {{fileDescription}}
+        </div>
+        <div class="file-actions col-4">
+            <div *ngIf="!loading">
+                <a *ngIf="filePath" [href]="filePath" target="_blank">View File</a>
+                <span *ngIf="filePath" (click)="openFileChooser()">Change</span>
+                <mat-icon
+                    *ngIf="file || filePath"
+                >
+                    check_circle
+                </mat-icon>
+            </div>
+            <mat-spinner
+                *ngIf="loading"
+                [diameter]="20"
+            >
+            </mat-spinner>
+        </div>
+        <input id="file-input-{{doctypeId}}" class="file-input" type="file" (change)="onUpdate($event)" />
     </div>
     <ngx-dropzone
+        *ngIf="!filePath"
         (change)="onSelect($event)"
         [multiple]="false"
     >
         <ngx-dropzone-label>
-            Click here to upload file!
+            Click here or drag and drop a file to upload.
         </ngx-dropzone-label>
         <ngx-dropzone-preview
             *ngIf="file"

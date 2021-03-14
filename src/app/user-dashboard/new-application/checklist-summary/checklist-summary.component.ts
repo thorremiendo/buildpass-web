@@ -174,7 +174,8 @@ export class ChecklistSummaryComponent implements OnInit {
     } else if (this.applicationInfo.permit_type_id == '3') {
       this.router.navigateByUrl('dashboard/new/success');
     } else {
-      this.router.navigateByUrl('dashboard');
+      this.isLoading = true;
+      this.updateApplicationStatusToPayment();
     }
   }
 

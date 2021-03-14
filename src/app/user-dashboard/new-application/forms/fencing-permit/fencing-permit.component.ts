@@ -34,49 +34,64 @@ export class FencingPermitComponent implements OnInit {
   public elevationPlans: File;
   public isLoading: boolean = true;
 
+  public fencingPermitField = {
+    id: '73',
+    type: 'fencingPermit',
+    description: 'Fencing Permit',
+    for: 'all',
+    path: ''
+  };
+
   public fieldSets = [
     [
       {
         id: '21',
         type: 'representativeAuthorization',
         description: 'Duly notarized authorization to process and receive approved permit or special power of the attorney (for representative/s)',
-        for: 'representative'
+        for: 'representative',
+        path: ''
       },
       {
         id: '26',
         type: 'landTitle',
         description: 'Certified True Copy of the Title (updated not more than 6 months)',
-        for: 'lot-owner'
+        for: 'lot-owner',
+        path: ''
       },
       {
         id: '44',
         type: 'surveyPlan',
         description: 'Surveyed Plan signed and sealed by Geodetic Engineer',
-        for: 'lot-owner'
+        for: 'lot-owner',
+        path: ''
       },
       {
         id: '27',
         type: 'deedOfSale',
         description: 'Conditional Deed of Sale, or Absolute Deed of Sale',
-        for: 'not-owner'
+        for: 'not-owner',
+        path: ''
       },
       {
         id: '23',
         type: 'taxDeclaration',
         description: 'Tax Declaration with documentary stamp from City Assessor\'s Office',
-        for: 'not-owner'
+        for: 'not-owner',
+        path: ''
       },
       {
         id: '24',
         type: 'propertyTaxReceipt',
         description: 'Photocopy of latest quarter of the real property tax receipy or Certifcate of Non-tax Delinquency with Documentary Stamp at City Treasurer\'s Office',
-        for: 'not-owner'
+        for: 'not-owner',
+        path: ''
       },
       {
         id: '27',
         type: 'leaseContract',
         description: 'Contract of Lease, or Certified Copy of Authority to Construct on the subject property',
-        for: 'lessee'
+        for: 'lessee',
+        path: ''
       },
     ],
     [
@@ -84,31 +99,36 @@ export class FencingPermitComponent implements OnInit {
         id: '45',
         type: 'professionalTaxReceipt',
         description: 'Photocopy of updated Professional Tax Receipt and Professional Identification Card (PRC ID) of all professional signatories in the application forms and plans (duly signed and sealed)',
-        for: 'all'
+        for: 'all',
+        path: ''
       },
       {
         id: '8',
         type: 'vicinityMap',
         description: 'Vicinity map / location plan within a half-ilometer radius showing prominent landmarks or major thoroughfares for easy reference',
-        for: 'all'
+        for: 'all',
+        path: ''
       },
       {
         id: '26',
         type: 'landTitle',
         description: 'Certified True Copy of the Title (updated not more than 6 months)',
-        for: 'all'
+        for: 'all',
+        path: ''
       },
       {
         id: '25',
         type: 'sitePhoto',
         description: 'Clear latest picture of site (Taken at least a week before application)',
-        for: 'all'
+        for: 'all',
+        path: ''
       },
       {
         id: '15',
         type: 'constructionTarp',
         description: 'Construction Tarpaulin',
-        for: 'all'
+        for: 'all',
+        path: ''
       },
     ],
     [
@@ -116,37 +136,41 @@ export class FencingPermitComponent implements OnInit {
         id: '50',
         type: 'fencingSpecifications',
         description: 'Fencing Specifications',
-        for: 'all'
+        for: 'all',
+        path: ''
       },
       {
         id: '33',
         type: 'billOfMaterials',
         description: 'Bill of Materials',
-        for: 'all'
+        for: 'all',
+        path: ''
       },
       {
         id: '51',
         type: 'siteDevelopmentPlan',
         description: 'Site Development Plan showing the lot boundaries and the location of proposed fence',
-        for: 'all'
+        for: 'all',
+        path: ''
       },
       {
         id: '52',
         type: 'sectionAndDetails',
         description: 'Section and details of fence, footings, columns and beams',
-        for: 'all'
+        for: 'all',
+        path: ''
       },
       {
         id: '53',
         type: 'elevationPlans',
         description: 'Elevation Plans of fence from corner to corner with complete dimensions',
-        for: 'all'
+        for: 'all',
+        path: ''
       }
     ],
   ];
 
   constructor(
-    private userService: UserService,
     private newApplicationService: NewApplicationService,
     private applicationService: ApplicationInfoService,
     private router: Router
@@ -154,12 +178,12 @@ export class FencingPermitComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
-
-
     this.newApplicationService.applicationId
       .asObservable()
       .subscribe(applicationId => {
-        this.applicationId = applicationId;
+        if (applicationId) this.applicationId = applicationId;
+        else this.applicationId = localStorage.getItem('app_id');
+
         this.applicationService.fetchApplicationInfo(this.applicationId).subscribe(res => {
           this.applicationDetails = res.data;
 
@@ -174,163 +198,125 @@ export class FencingPermitComponent implements OnInit {
             else if (field.for == 'not-owner' && isRegistered) return false;
             else return true;
           });
+
+          this.setFilePaths();
         });
       });
   }
 
-  onSelect(file: File, type: string) {
-    this.submitDocument(file, type);
-    switch (type) {
-      case 'fencingPermit':
-        this.fencingPermit = file;
-        break;
-      case 'representativeAuthorization':
-        this.representativeAuthorization = file;
-        break;
-      case 'landTitle':
-        this.landTitle = file;
-        break;
-      case 'surveyPlan':
-        this.surveyPlan = file;
-        break;
-      case 'leaseContract':
-        this.leaseContract = file;
-        break;
-      case 'deedOfSale':
-        this.deedOfSale = file;
-        break;
-      case 'taxDeclaration':
-        this.taxDeclaration = file;
-        break;
-      case 'propertyTaxReceipt':
-        this.propertyTaxReceipt = file;
-        break;
-      case 'professionalTaxReceipt':
-        this.professionalTaxReceipt = file;
-        break;
-      case 'vicinityMap':
-        this.vicinityMap = file;
-        break;
-      case 'sitePhoto':
-        this.sitePhoto = file;
-        break;
-      case 'constructionTarp':
-        this.constructionTarp = file;
-        break;
-      case 'fencingSpecifications':
-        this.fencingSpecifications = file;
-        break;
-      case 'billOfMaterials':
-        this.billOfMaterials = file;
-        break;
-      case 'siteDevelopmentPlan':
-        this.siteDevelopmentPlan = file;
-        break;
-      case 'sectionAndDetails':
-        this.sectionAndDetails = file;
-        break;
-      case 'elevationPlans':
-        this.elevationPlans = file;
-        break;
-    }
+  ngAfterViewInit() {
+    this.saveRoute();
   }
 
-  onRemove(type) {
-    switch (type) {
-      case 'fencingPermit':
-        this.fencingPermit = null;
-        break;
-      case 'representativeAuthorization':
-        this.representativeAuthorization = null;
-        break;
-      case 'landTitle':
-        this.landTitle = null;
-        break;
-      case 'surveyPlan':
-        this.surveyPlan = null;
-        break;
-      case 'leaseContract':
-        this.leaseContract = null;
-        break;
-      case 'deedOfSale':
-        this.deedOfSale = null;
-        break;
-      case 'taxDeclaration':
-        this.taxDeclaration = null;
-        break;
-      case 'propertyTaxReceipt':
-        this.propertyTaxReceipt = null;
-        break;
-      case 'professionalTaxReceipt':
-        this.professionalTaxReceipt = null;
-        break;
-      case 'vicinityMap':
-        this.vicinityMap = null;
-        break;
-      case 'sitePhoto':
-        this.sitePhoto = null;
-        break;
-      case 'constructionTarp':
-        this.constructionTarp = null;
-        break;
-      case 'fencingSpecifications':
-        this.fencingSpecifications = null;
-        break;
-      case 'billOfMaterials':
-        this.billOfMaterials = null;
-        break;
-      case 'siteDevelopmentPlan':
-        this.siteDevelopmentPlan = null;
-        break;
-      case 'sectionAndDetails':
-        this.sectionAndDetails = null;
-        break;
-      case 'elevationPlans':
-        this.elevationPlans = null;
-        break;
-    }
-  }
-
-  callSaveAsDraft() {
-    console.log('SAVE AS DRAFT');
-  }
-
-  submitDocument(file: File, type: string) {
-    this.fieldSets.every(fieldSet => {
-      let breakFlag = false;
-      fieldSet.every(field => {
-        if (field.type == type) {
-          const docType = field;
-
-          const uploadDocumentData = {
-            application_id: this.applicationId,
-            user_id: this.user.id,
-            document_id: docType.id,
-            document_path: file,
-            document_status: '0'
-          };
-
-          this.newApplicationService
-            .submitDocument(uploadDocumentData)
-            .subscribe((res) => {
-              this.isLoading = false;
-              Swal.fire(
-                'Success!',
-                `${docType.description} uploaded!`,
-                'success'
-              ).then((result) => {
-
-              });
-            });
-
-          breakFlag = true;
-          return false;
-        }
-        return true;
-      });
-      if (breakFlag) return false;
-      else return true;
+  saveRoute() {
+    const body = {
+      user_id: this.user.id,
+      application_id: this.applicationId,
+      url: this.router.url,
+    };
+    
+    this.newApplicationService.saveAsDraft(body).subscribe(res => {
     });
+  }
+
+  setFilePaths() {
+    const docs = this.applicationDetails.user_docs;
+    docs.forEach(doc => {
+      if (doc.document_id == '73') {
+        this.fencingPermitField.path =  doc.document_path;
+      }
+    });
+    this.fieldSets.forEach(fieldSet => {
+      fieldSet.forEach(field => {
+        docs.forEach(doc => {
+          if (field.id == doc.document_id) {
+            field.path =  doc.document_path;
+          }
+        })
+      });
+    });
+  }
+
+  onSelect(file: File, type: string, doctypeId: string) {
+    this.submitDocument(file, type, doctypeId);
+    this[type] = file;
+  }
+
+  onUpdate(file: File, type: string, doctypeId: string) {
+    this.updateDocument(file, type, doctypeId);
+    this[type] = file;
+  }
+
+  onRemove(type: string) {
+    this[type] = null;
+  }
+
+  submitDocument(file: File, type: string, doctypeId: string) {
+    const uploadDocumentData = {
+      application_id: this.applicationId,
+      user_id: this.user.id,
+      document_id: doctypeId,
+      document_path: file,
+      document_status: '0'
+    };
+
+    this.newApplicationService
+      .submitDocument(uploadDocumentData)
+      .subscribe((res) => {
+        this.isLoading = false;
+        const path = res.data.document_path;
+
+        if (doctypeId == '73') {
+          this.fencingPermitField.path = path;
+        } else {
+          this.fieldSets.forEach(fieldSet => {
+            fieldSet.forEach(field => {
+              if (field.id == doctypeId) field.path = path;
+            });
+          });
+        }
+        
+        Swal.fire(
+          'Success!',
+          'File uploaded!',
+          'success'
+        ).then((result) => {
+        });
+      });
+  }
+
+  updateDocument(file: File, type: string, doctypeId: string) {
+    const uploadDocumentData = {
+      application_id: this.applicationId,
+      user_id: this.user.id,
+      document_id: doctypeId,
+      document_path: file,
+      document_status: '0'
+    };
+
+    this.newApplicationService
+      .submitDocument(uploadDocumentData)
+      .subscribe((res) => {
+        this.isLoading = false;
+
+        const updatePath = res.data.document_path;
+        if (doctypeId == '73') {
+          this.fencingPermitField.path = updatePath;
+        } else {
+          this.fieldSets.forEach(fieldSet => {
+            fieldSet.forEach(field => {
+              if (field.id == doctypeId) field.path = updatePath;
+            });
+          });
+        }
+
+        Swal.fire(
+          'Success!',
+          'File updated!',
+          'success'
+        ).then((result) => {
+        });
+      });
   }
 
   submitApplication() {

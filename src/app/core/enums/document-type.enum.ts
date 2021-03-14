@@ -64,4 +64,6 @@ export enum documentTypes {
   'Sanitary Plans' = 63,
   'Electronics Plans' = 64,
   'Mechanical Plan' = 65,
+  'Demolition Permit' = 72,
+  'Fencing Permit' = 73,
 }

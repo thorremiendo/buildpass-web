@@ -1,0 +1,28 @@
+.file-description {
+    font-weight: 400;
+}
+
+.file-actions {
+    div {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-end;
+
+        a, span {
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        .mat-icon {
+            color: green;
+        }
+    }
+
+    .mat-spinner {
+        float: right;
+    }
+}
+
+.file-input {
+    display: none;
+}

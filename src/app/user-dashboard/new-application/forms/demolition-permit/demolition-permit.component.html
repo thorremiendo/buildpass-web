@@ -38,9 +38,12 @@
               2. Upload the form.
             </p>
             <app-file-upload 
-              (emitFile)="onSelect($event, 'demolitionPermit')"
-              (removeFile)="onRemove('demolitionPermit')"
-              description="Demolition Permit"
+              (emitFile)="onSelect($event, demolitionPermitField.type, demolitionPermitField.id)"
+              (emitRevision)="onUpdate($event, demolitionPermitField.type, demolitionPermitField.id)"
+              (removeFile)="onRemove(demolitionPermitField.type)"
+              description="{{demolitionPermitField.description}}"
+              path="{{demolitionPermitField.path}}"
+              doctypeId={{demolitionPermitField.id}}
             ></app-file-upload>
           </div>
         </mat-card-content>
@@ -56,14 +59,16 @@
     <div *ngFor="let field of fieldSet">
       <div class="mb-4">
         <app-file-upload 
-          (emitFile)="onSelect($event, field.type)"
+          (emitFile)="onSelect($event, field.type, field.id)"
+          (emitRevision)="onUpdate($event, field.type, field.id)"
           (removeFile)="onRemove(field.type)"
           description="{{field.description}}"
+          path="{{field.path}}"
+          doctypeId={{field.id}}
         ></app-file-upload>
       </div>
     </div>
-    <div class="d-flex justify-content-between">
-      <button mat-raised-button (click)="callSaveAsDraft()">Save As Draft</button>
+    <div class="text-right">
       <button mat-raised-button color="primary" matStepperNext *ngIf="i != fieldSets.length-1; else submit_button;">Next</button>
       <ng-template #submit_button>   
         <button mat-raised-button (click)="submitApplication()">Submit</button>
