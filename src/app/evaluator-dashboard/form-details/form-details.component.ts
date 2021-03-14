@@ -167,7 +167,7 @@ export class FormDetailsComponent implements OnInit {
   }
 
   compliant(form, id) {
-    this.waterMark.modifyPdf(form, 'compliant').then((blob) => {
+    this.waterMark.insertWaterMark(form, 'compliant').then((blob) => {
       const updateFileData = {
         document_status_id: this.permitDetails.value.is_compliant,
       };
@@ -183,7 +183,7 @@ export class FormDetailsComponent implements OnInit {
   }
 
   noncompliant(form, id) {
-    this.waterMark.modifyPdf(form, 'non-compliant').then((blob) => {
+    this.waterMark.insertWaterMark(form, 'non-compliant').then((blob) => {
       const updateFileData = {
         document_status_id: this.permitDetails.value.is_compliant,
         document_path: blob,

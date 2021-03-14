@@ -15,13 +15,18 @@ export class AdminAnalyticsComponent implements OnInit {
   ngOnInit(): void {}
 
   compliant() {
-    this.watermark.modifyPdf(this.testDoc, 'compliant').then((blob) => {
-      console.log(blob);
-    });
+    // this.watermark.insertWaterMark(this.testDoc, 'compliant').then((blob) => {
+    //   console.log(blob);
+    // });
+
+    this.watermark.generateQrCode(1).subscribe(res =>{
+      console.log(res.data)
+      this.watermark.insertQrCode(this.testDoc, res.data)
+    })
   }
 
   noncompliant() {
-    this.watermark.modifyPdf(this.testDoc, 'non-compliant').then((blob) => {
+    this.watermark.insertWaterMark(this.testDoc, 'non-compliant').then((blob) => {
       console.log(blob);
     });
   }
