@@ -77,6 +77,7 @@ export class CpdoEvaluatorComponent implements OnInit {
     console.log('Evaluator Role', this.evaluatorRole);
     this.isLoading = false;
   }
+
   generateCpdoForms() {
     const CPDO_FORMS = this.forms.filter(
       (doc) =>
@@ -92,6 +93,7 @@ export class CpdoEvaluatorComponent implements OnInit {
     );
     this.dataSource = CPDO_FORMS;
   }
+
   getDocType(id): string {
     return documentTypes[id];
   }
