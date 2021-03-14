@@ -39,7 +39,6 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
   public additionalPermits;
   public barangay: Barangay[];
   public isLoading: boolean = true;
-  public useExistingInfo;
   _personalInfoFormCommonFields: FormGroup;
   _submitted = false;
 
@@ -75,77 +74,12 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     this._registerAccountFormService.cast.subscribe(
       (registerAccountSubject) => (this.userDetails = registerAccountSubject)
     );
-    this.excavationService.useExistingInfoSubject
+    this.newApplicationFormService.newApplicationSubject
       .asObservable()
       .subscribe(
-        (useExistingInfoSubject) =>
-          (this.useExistingInfo = useExistingInfoSubject)
+        (newApplicationSubject) =>
+          (this.applicationDetails = newApplicationSubject)
       );
-
-    if (this.useExistingInfo == '1') {
-      this.applicationDetails = JSON.parse(
-        localStorage.getItem('applicationDetails')
-      );
-
-      this._personalInfoFormCommonFields.patchValue({
-        owner_first_name:
-          this.applicationDetails.applicant_detail.first_name == 'undefined'
-            ? ''
-            : this.applicationDetails.applicant_detail.first_name,
-        owner_middle_name:
-          this.applicationDetails.applicant_detail.middle_name == 'undefined'
-            ? ''
-            : this.applicationDetails.applicant_detail.middle_name,
-        owner_last_name:
-          this.applicationDetails.applicant_detail.last_name == 'undefined'
-            ? ''
-            : this.applicationDetails.applicant_detail.last_name,
-        owner_email_address:
-          this.applicationDetails.applicant_detail.email_address == 'undefined'
-            ? ''
-            : this.applicationDetails.applicant_detail.email_address,
-        owner_suffix: '',
-        owner_contact_number:
-          this.applicationDetails.applicant_detail.contact_number == 'undefined'
-            ? ''
-            : this.applicationDetails.applicant_detail.contact_number,
-        owner_house_number:
-          this.applicationDetails.applicant_detail.house_number == 'undefined'
-            ? ''
-            : this.applicationDetails.applicant_detail.house_number,
-        owner_unit_number:
-          this.applicationDetails.applicant_detail.unit_number == 'undefined'
-            ? ''
-            : this.applicationDetails.applicant_detail.unit_number,
-        owner_floor_number:
-          this.applicationDetails.applicant_detail.floor_number == 'undefined'
-            ? ''
-            : this.applicationDetails.applicant_detail.street_name,
-        owner_street:
-          this.applicationDetails.applicant_detail.street_name == 'undefined'
-            ? ''
-            : this.applicationDetails.applicant_detail.street_name,
-        owner_barangay:
-          this.applicationDetails.applicant_detail.barangay == 'undefined'
-            ? ''
-            : this.applicationDetails.applicant_detail.barangay,
-        owner_province: 'Benguet',
-        owner_municipality: 'Baguio City',
-        owner_zip_code: '2600',
-        owner_tin_number:
-          this.applicationDetails.applicant_detail.tin_number == 'undefined'
-            ? ''
-            : this.applicationDetails.applicant_detail.tin_number,
-        blank: this.userDetails.blank,
-      });
-    } else {
-      this.newApplicationFormService.newApplicationSubject
-        .asObservable()
-        .subscribe(
-          (newApplicationSubject) =>
-            (this.applicationDetails = newApplicationSubject)
-        );
-    }
 
     console.log(this.applicationDetails);
 

@@ -1,11 +1,11 @@
-<div class="container">
+<div class="container" *ngIf="!isLoading">
   <div class="row">
     <div class="__left col-md-6 p-5" [formGroup]="permitStepOneForm">
       <h2 class="mb-5">
         Hi, {{ userInfo.first_name }} Let's get started with your application.
       </h2>
       <p style="color: #767676"><strong>STEP 1</strong></p>
-      <div *ngIf="!isExcavation">
+      <div>
         <h4>What type of permit do you want to apply?</h4>
         <mat-form-field appearance="outline">
           <mat-label>Application Type</mat-label>
@@ -22,23 +22,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div *ngIf="isExcavation">
-        <h3>Excavation Permit for</h3>
-        <h4>
-          <strong>{{ applicationInfo.ocpas_code }}</strong>
-        </h4>
-        <div class="mt-4">
-          <h4>Use Existing Information?</h4>
-          <mat-form-field appearance="outline">
-            <mat-label>Choose</mat-label>
-            <mat-select [(value)]="useExistingInfo">
-              <mat-option value="1">Yes</mat-option>
-              <mat-option value="2">No</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </div>
-      <div *ngIf="useExistingInfo == '2' || selectedPermitType !== '3'">
+      <div>
         <div *ngIf="selectedPermitType">
           <h4>Applicant Type:</h4>
           <mat-form-field appearance="outline">
@@ -103,10 +87,7 @@
         <h4>Site Location:</h4>
         <app-map></app-map>
       </div> -->
-      <div
-        class="mt-3 text-right"
-        *ngIf="useExistingInfo == '2' || selectedPermitType !== '3'"
-      >
+      <div class="mt-3 text-right">
         <button
           mat-raised-button
           color="primary"
@@ -114,11 +95,6 @@
           [disabled]="!constructionStatus"
         >
           Next
-        </button>
-      </div>
-      <div class="mt-3 text-right" *ngIf="useExistingInfo == '1'">
-        <button mat-raised-button color="primary" (click)="callProceed()">
-          Proceed
         </button>
       </div>
     </div>
