@@ -1,3 +1,4 @@
+import { RepresentativeDetailsComponent } from './../../shared/representative-details/representative-details.component';
 import { RemarksHistoryTableComponent } from './../../evaluator-dashboard/remarks-history-table/remarks-history-table.component';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {
@@ -44,9 +45,21 @@ export class ViewApplicationComponent implements OnInit {
   ) {}
   openProjectDialog(): void {
     const dialogRef = this.dialog.open(ProjectDetailsComponent, {
-      width: '1000px',
+      width: '1600px',
       data: {
         projectDetails: this.applicationDetails.project_detail,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+    });
+  }
+  openRepresentativeDialog() {
+    const dialogRef = this.dialog.open(RepresentativeDetailsComponent, {
+      width: '1600px',
+      data: {
+        representativeDetails: this.applicationDetails.representative_detail,
       },
     });
 

@@ -111,11 +111,24 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
       representative_house_number: ['', Validators.required],
       representative_street_name: [''],
       representative_barangay: ['', Validators.required],
-      representative_contact_no: ['',[Validators.required, Validators.maxLength(11), Validators.pattern("(09)[0-9 ]{9}")]],
-      representative_email_address: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+      representative_contact_no: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(11),
+          Validators.pattern('(09)[0-9 ]{9}'),
+        ],
+      ],
+      representative_email_address: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+        ],
+      ],
     });
   }
-  createprojectDetails() {
+  createRepresentativeDetails() {
     const value = this.representativeDetailsForm.value;
     this.representativeDetails = {
       rep_first_name: value.representative_first_name,
@@ -130,38 +143,47 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
     };
   }
   onSubmit() {
-    this.createprojectDetails();
+    this.isLoading = true;
     this._submitted = true;
-    const body = {
-      ...this.representativeDetails,
-      ...this.applicationDetails,
-    };
-    console.log(body);
-    this.newApplicationService.submitApplication(body).subscribe((res) => {
-      Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
+    this.createRepresentativeDetails();
+    if (!this.representativeDetailsForm.valid) {
+      Swal.fire('Notice!', 'Please fill out all required fields!', 'info').then(
         (result) => {
           this.isLoading = false;
-          switch (this.applicationDetails.permit_type_id) {
-            case '1':
-              this._router.navigateByUrl(
-                '/dashboard/new/initial-forms/zoning-clearance'
-              );
-              break;
-            case '2':
-              // occupancy permit
-              break;
-            case '3':
-              this._router.navigateByUrl('/dashboard/new/excavation-permit');
-              break;
-            case '4':
-              this._router.navigateByUrl('/dashboard/new/fencing-permit');
-              break;
-            case '5':
-              this._router.navigateByUrl('/dashboard/new/demolition-permit');
-              break;
-          }
         }
       );
-    });
+    } else {
+      const body = {
+        ...this.representativeDetails,
+        ...this.applicationDetails,
+      };
+      console.log(body);
+      this.newApplicationService.submitApplication(body).subscribe((res) => {
+        Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
+          (result) => {
+            this.isLoading = false;
+            switch (this.applicationDetails.permit_type_id) {
+              case '1':
+                this._router.navigateByUrl(
+                  '/dashboard/new/initial-forms/zoning-clearance'
+                );
+                break;
+              case '2':
+                // occupancy permit
+                break;
+              case '3':
+                this._router.navigateByUrl('/dashboard/new/excavation-permit');
+                break;
+              case '4':
+                this._router.navigateByUrl('/dashboard/new/fencing-permit');
+                break;
+              case '5':
+                this._router.navigateByUrl('/dashboard/new/demolition-permit');
+                break;
+            }
+          }
+        );
+      });
+    }
   }
 }
