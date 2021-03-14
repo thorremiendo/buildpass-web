@@ -255,14 +255,79 @@ export class ExcavationPermitComponent implements OnInit {
   }
 
   submitExcavationDetails() {
+    this.isLoading = true;
     const body = {
-      ...this.exisitingApplicationInfo,
       main_permit_id: this.applicationId,
       permit_type_id: 3,
+      user_id: this.user.id,
+      is_representative: this.exisitingApplicationInfo.is_representative,
+      rol_status_id: this.exisitingApplicationInfo.rol_status_id,
+      construction_status_id: this.exisitingApplicationInfo
+        .construction_status_id,
+      is_registered_owner: this.exisitingApplicationInfo.is_registered_owner,
+      applicant_first_name: this.exisitingApplicationInfo.applicant_detail
+        .first_name,
+      applicant_middle_name: this.exisitingApplicationInfo.applicant_detail
+        .middle_name,
+      applicant_last_name: this.exisitingApplicationInfo.applicant_detail
+        .last_name,
+      applicant_suffix_name: this.exisitingApplicationInfo.applicant_detail
+        .suffix_name,
+      applicant_tin_number: this.exisitingApplicationInfo.applicant_detail
+        .tin_number,
+      applicant_contact_number: this.exisitingApplicationInfo.applicant_detail
+        .contact_number,
+      applicant_email_address: this.exisitingApplicationInfo.applicant_detail
+        .email_address,
+      applicant_house_number: this.exisitingApplicationInfo.applicant_detail
+        .house_number,
+      applicant_unit_number: this.exisitingApplicationInfo.applicant_detail
+        .unit_number,
+      applicant_floor_number: this.exisitingApplicationInfo.applicant_detail
+        .floor_number,
+      applicant_street_name: this.exisitingApplicationInfo.applicant_detail
+        .street_name,
+      applicant_barangay: this.exisitingApplicationInfo.applicant_detail
+        .barangay,
+      project_house_number: this.exisitingApplicationInfo.project_detail
+        .house_number,
+      project_lot_number: this.exisitingApplicationInfo.project_detail
+        .lot_number,
+      project_block_number: this.exisitingApplicationInfo.project_detail
+        .block_number,
+      project_street_name: this.exisitingApplicationInfo.project_detail
+        .street_name,
+      project_number_of_units: this.exisitingApplicationInfo.project_detail
+        .number_of_units
+        ? this.exisitingApplicationInfo.project_detail.number_of_units
+        : 0,
+      project_barangay: this.exisitingApplicationInfo.project_detail.barangay,
+      project_number_of_basement: this.exisitingApplicationInfo.project_detail
+        .number_of_basement
+        ? this.exisitingApplicationInfo.project_detail.number_of_basement
+        : 0,
+      project_lot_area: this.exisitingApplicationInfo.project_detail.lot_area,
+      project_total_floor_area: this.exisitingApplicationInfo.project_detail
+        .total_floor_area,
+      project_units: this.exisitingApplicationInfo.project_detail.unit_number
+        ? this.exisitingApplicationInfo.project_detail.unit_number
+        : 0,
+      project_number_of_storey: this.exisitingApplicationInfo.project_detail
+        .number_of_storey
+        ? this.exisitingApplicationInfo.project_detail.number_of_storey
+        : 0,
+      project_title: this.exisitingApplicationInfo.project_detail.project_title,
+      project_cost_cap: this.exisitingApplicationInfo.project_detail
+        .project_cost_cap,
+      project_tct_number: this.exisitingApplicationInfo.project_detail
+        .tct_number,
+      project_tax_dec_number: this.exisitingApplicationInfo.project_detail
+        .tax_dec_number,
+      project_landmark: this.exisitingApplicationInfo.project_detail.landmark,
     };
-    console.log(body);
     this.newApplicationService.submitApplication(body).subscribe((res) => {
-      console.log('RES', res);
+      this.excavationId = res.data.id;
+      this.isLoading = false;
     });
   }
 
@@ -433,22 +498,22 @@ export class ExcavationPermitComponent implements OnInit {
           const docType = field;
 
           const uploadDocumentData = {
-            application_id: this.applicationId,
+            application_id: this.excavationId,
             user_id: this.user.id,
             document_id: docType.id,
             document_path: file,
             document_status: '0',
           };
-
           this.newApplicationService
             .submitDocument(uploadDocumentData)
             .subscribe((res) => {
-              this.isLoading = false;
               Swal.fire(
                 'Success!',
                 `${docType.description} uploaded!`,
                 'success'
-              ).then((result) => {});
+              ).then((result) => {
+                this.isLoading = false;
+              });
             });
 
           breakFlag = true;
@@ -462,10 +527,16 @@ export class ExcavationPermitComponent implements OnInit {
   }
 
   submitApplication() {
-    debugger;
-    this.router.navigate(['dashboard/new/summary'], this.excavationId);
-    localStorage.removeItem('app_id');
-    localStorage.removeItem('application_details_for_excavation');
+    const data = {
+      application_status_id: 7,
+    };
+    this.applicationService
+      .updateApplicationStatus(data, this.excavationId)
+      .subscribe((res) => {
+        this.router.navigate(['dashboard/new/summary', this.excavationId]);
+        localStorage.removeItem('app_id');
+        localStorage.removeItem('application_details_for_excavation');
+      });
   }
 
   // if (this.isExcavation) {

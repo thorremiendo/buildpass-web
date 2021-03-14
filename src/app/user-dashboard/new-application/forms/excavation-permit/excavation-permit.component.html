@@ -1,5 +1,5 @@
 <h3>Excavation Permit Application</h3>
-<mat-horizontal-stepper linear #stepper>
+<mat-horizontal-stepper linear #stepper *ngIf="!isLoading">
   <mat-step>
     <ng-template matStepLabel>Step 1</ng-template>
     <div class="container">
@@ -7,10 +7,13 @@
         <mat-card-content>
           <div>
             <p class="ml-2">
-              1. After filling out the form, please click the download/save button on the right.
+              1. After filling out the form, please click the download/save
+              button on the right.
             </p>
             <ngx-extended-pdf-viewer
-              [src]="'../../../../assets/forms/Excavation_and_Ground_Preparation_Permit.pdf'"
+              [src]="
+                '../../../../assets/forms/Excavation_and_Ground_Preparation_Permit.pdf'
+              "
               [showToolbar]="true"
               [showSidebarButton]="false"
               [showFindButton]="false"
@@ -33,11 +36,9 @@
               [(formData)]="formData"
             >
             </ngx-extended-pdf-viewer>
-            
-            <p class="ml-2 mt-4">
-              2. Upload the form.
-            </p>
-            <app-file-upload 
+
+            <p class="ml-2 mt-4">2. Upload the form.</p>
+            <app-file-upload
               (emitFile)="onSelect($event, 'excavationPermit')"
               (removeFile)="onRemove('excavationPermit')"
               description="Excavation Permit"
@@ -52,22 +53,34 @@
   </mat-step>
 
   <mat-step *ngFor="let fieldSet of fieldSets; let i = index">
-    <ng-template matStepLabel>Step {{i+2}}</ng-template>
+    <ng-template matStepLabel>Step {{ i + 2 }}</ng-template>
     <div *ngFor="let field of fieldSet">
       <div class="mb-4">
-        <app-file-upload 
+        <app-file-upload
           (emitFile)="onSelect($event, field.type)"
           (removeFile)="onRemove(field.type)"
-          description="{{field.description}}"
+          description="{{ field.description }}"
         ></app-file-upload>
       </div>
     </div>
     <div class="d-flex justify-content-between">
-      <button mat-raised-button (click)="callSaveAsDraft()">Save As Draft</button>
-      <button mat-raised-button color="primary" matStepperNext *ngIf="i != fieldSets.length-1; else submit_button;">Next</button>
-      <ng-template #submit_button>   
+      <button mat-raised-button (click)="callSaveAsDraft()">
+        Save As Draft
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        matStepperNext
+        *ngIf="i != fieldSets.length - 1; else submit_button"
+      >
+        Next
+      </button>
+      <ng-template #submit_button>
         <button mat-raised-button (click)="submitApplication()">Submit</button>
       </ng-template>
     </div>
   </mat-step>
 </mat-horizontal-stepper>
+<div class="d-flex justify-content-center mt-5" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>

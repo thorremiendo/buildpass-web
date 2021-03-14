@@ -180,6 +180,7 @@ export class ChecklistSummaryComponent implements OnInit {
 
   updateApplicationWithExcavation() {
     const data = {
+      application_status_id: 7,
       is_excavation: 1,
     };
     this.applicationService
