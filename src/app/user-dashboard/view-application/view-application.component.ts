@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { documentTypes } from '../../core/enums/document-type.enum';
 import { documentStatus } from '../../core/enums/document-status.enum';
+import { applicationTypes } from '../../core/enums/application-type.enum';
 import { AuthService, UserService } from 'src/app/core';
 import { ProjectDetailsComponent } from 'src/app/evaluator-dashboard/project-details/project-details.component';
 import { FormDetailsComponent } from 'src/app/evaluator-dashboard/form-details/form-details.component';
@@ -117,7 +118,9 @@ export class ViewApplicationComponent implements OnInit {
   getApplicationStatus(id): string {
     return applicationStatus[id];
   }
-
+  getApplicationType(id): string {
+    return applicationTypes[id];
+  }
   checkFormNonCompliant() {
     const isNonCompliant = this.dataSource.find(
       (form) => form.document_status_id == 2

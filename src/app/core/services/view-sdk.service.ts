@@ -1,3 +1,4 @@
+import { WaterMarkService } from './watermark.service';
 /*
 Copyright 2020 Adobe
 All Rights Reserved.
@@ -23,7 +24,10 @@ export class ViewSDKClient {
   public userId;
   public applicationId;
   public form;
-  constructor(public newApplicationService: NewApplicationService) {}
+  constructor(
+    public newApplicationService: NewApplicationService,
+    private watermark: WaterMarkService
+  ) {}
   readyPromise: Promise<any> = new Promise((resolve) => {
     if (window.AdobeDC) {
       resolve();
@@ -182,11 +186,7 @@ export class ViewSDKClient {
             this.newApplicationService
               .submitDocument(uploadDocumentData)
               .subscribe((res) => {
-                Swal.fire('Success!', `File uploaded!`, 'success').then(
-                  (result) => {
-                    window.location.reload();
-                  }
-                );
+                this.insertFormQrCode(res.data.document_path, res.data.id);
               });
           } else if (condition == 'zoningPermit') {
             const uploadDocumentData = {
@@ -199,11 +199,7 @@ export class ViewSDKClient {
             this.newApplicationService
               .submitDocument(uploadDocumentData)
               .subscribe((res) => {
-                Swal.fire('Success!', `File uploaded!`, 'success').then(
-                  (result) => {
-                    window.location.reload();
-                  }
-                );
+                this.insertFormQrCode(res.data.document_path, res.data.id);
               });
           } else if (condition == 'firePermit') {
             const uploadDocumentData = {
@@ -216,11 +212,7 @@ export class ViewSDKClient {
             this.newApplicationService
               .submitDocument(uploadDocumentData)
               .subscribe((res) => {
-                Swal.fire('Success!', `File uploaded!`, 'success').then(
-                  (result) => {
-                    window.location.reload();
-                  }
-                );
+                this.insertFormQrCode(res.data.document_path, res.data.id);
               });
           } else if (condition == 'bfpChecklist') {
             const uploadDocumentData = {
@@ -233,11 +225,7 @@ export class ViewSDKClient {
             this.newApplicationService
               .submitDocument(uploadDocumentData)
               .subscribe((res) => {
-                Swal.fire('Success!', `File Saved!`, 'success').then(
-                  (result) => {
-                    window.location.reload();
-                  }
-                );
+                this.insertFormQrCode(res.data.document_path, res.data.id);
               });
           } else if (condition == 'wwmsBp') {
             const uploadDocumentData = {
@@ -250,11 +238,7 @@ export class ViewSDKClient {
             this.newApplicationService
               .submitDocument(uploadDocumentData)
               .subscribe((res) => {
-                Swal.fire('Success!', `File Saved!`, 'success').then(
-                  (result) => {
-                    window.location.reload();
-                  }
-                );
+                this.insertFormQrCode(res.data.document_path, res.data.id);
               });
           }
         }, 2000);
@@ -285,5 +269,25 @@ export class ViewSDKClient {
         enablePDFAnalytics: true,
       }
     );
+  }
+
+  insertFormQrCode(doc, id) {
+    this.watermark.generateQrCode(this.applicationId).subscribe((res) => {
+      this.watermark.insertQrCode(doc, res.data).then((blob) => {
+        const updateFileData = {
+          document_status_id: 1,
+          document_path: blob,
+        };
+        this.newApplicationService
+          .updateDocumentFile(updateFileData, id)
+          .subscribe((res) => {
+            Swal.fire('Success!', `File uploaded!`, 'success').then(
+              (result) => {
+                window.location.reload();
+              }
+            );
+          });
+      });
+    });
   }
 }

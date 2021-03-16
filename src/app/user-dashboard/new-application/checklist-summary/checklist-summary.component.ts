@@ -24,7 +24,7 @@ export class ChecklistSummaryComponent implements OnInit {
   public permitType;
   public isExcavation;
   public sortedForms;
-
+  public isLoading;
   constructor(
     private router: Router,
     private newApplicationService: NewApplicationService,
@@ -155,10 +155,6 @@ export class ChecklistSummaryComponent implements OnInit {
     return documentTypes[id];
   }
   submit() {
-    const body = {
-      application_status_id: 7,
-    };
-
     if (this.applicationInfo.permit_type_id == '1') {
       Swal.fire({
         title: 'Do you need an Excavation Permit?',
@@ -168,30 +164,56 @@ export class ChecklistSummaryComponent implements OnInit {
         denyButtonText: `No`,
       }).then((result) => {
         if (result.isConfirmed) {
-          const data = {
-            is_excavation: 1,
-          };
-          this.applicationService
-            .updateApplicationStatus(data, this.applicationId)
-            .subscribe((res) => {
-              this.router.navigateByUrl('dashboard/new/step-one');
-            });
+          this.isLoading = true;
+          this.updateApplicationWithExcavation();
         } else if (result.isDenied) {
-          this.applicationService
-            .updateApplicationStatus(body, this.applicationId)
-            .subscribe((res) => {
-              localStorage.removeItem('applicationDetails');
-              this.router.navigateByUrl('dashboard/new/success');
-            });
+          this.isLoading = true;
+          this.updateApplicationStatusToPayment();
         }
       });
     } else if (this.applicationInfo.permit_type_id == '3') {
       this.router.navigateByUrl('dashboard/new/success');
     } else {
-      this.router.navigateByUrl('dashboard');
+      this.isLoading = true;
+      this.updateApplicationStatusToPayment();
     }
   }
-  // handleRedirect() {
-  //   this.router.navigateByUrl('dashboard/new/step-one');
-  // }
+
+  updateApplicationWithExcavation() {
+    const data = {
+      application_status_id: 7,
+      is_excavation: 1,
+    };
+    this.applicationService
+      .updateApplicationStatus(data, this.applicationId)
+      .subscribe((res) => {
+        this.saveApplicationDetailsToLocal();
+        this.router.navigateByUrl('dashboard/new/excavation-permit');
+      });
+  }
+
+  saveApplicationDetailsToLocal() {
+    this.newApplicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((res) => {
+        localStorage.setItem(
+          'application_details_for_excavation',
+          JSON.stringify(res.data)
+        );
+        this.isLoading = false;
+      });
+  }
+
+  updateApplicationStatusToPayment() {
+    const body = {
+      application_status_id: 7,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        localStorage.removeItem('application_details_for_excavation');
+        this.isLoading = false;
+        this.router.navigateByUrl('dashboard/new/success');
+      });
+  }
 }

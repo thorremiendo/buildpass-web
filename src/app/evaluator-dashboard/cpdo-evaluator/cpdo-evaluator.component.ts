@@ -77,21 +77,23 @@ export class CpdoEvaluatorComponent implements OnInit {
     console.log('Evaluator Role', this.evaluatorRole);
     this.isLoading = false;
   }
+
   generateCpdoForms() {
     const CPDO_FORMS = this.forms.filter(
-      (obj) =>
-        obj.document_id == 1 ||
-        obj.document_id == 28 ||
-        obj.document_id == 26 ||
-        obj.document_id == 27 ||
-        obj.document_id == 23 ||
-        obj.document_id == 24 ||
-        obj.document_id == 27 ||
-        obj.document_id == 43 ||
-        obj.document_id == 59
+      (doc) =>
+        doc.document_id == 1 ||
+        doc.document_id == 28 ||
+        doc.document_id == 26 ||
+        doc.document_id == 27 ||
+        doc.document_id == 23 ||
+        doc.document_id == 24 ||
+        doc.document_id == 27 ||
+        doc.document_id == 43 ||
+        doc.document_id == 59
     );
     this.dataSource = CPDO_FORMS;
   }
+
   getDocType(id): string {
     return documentTypes[id];
   }

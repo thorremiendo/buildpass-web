@@ -72,9 +72,7 @@
             <h5>
               <strong
                 >&nbsp;{{
-                  applicationDetails.permit_type_id == "1"
-                    ? "Building Permit"
-                    : "Occupancy Permit"
+                  getApplicationType(applicationDetails.permit_type_id)
                 }}</strong
               >
             </h5>

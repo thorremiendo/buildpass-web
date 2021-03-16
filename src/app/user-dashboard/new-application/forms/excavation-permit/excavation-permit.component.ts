@@ -40,7 +40,8 @@ export class ExcavationPermitComponent implements OnInit {
   public notificationLetter: File;
   public dumpSite: File;
   public isLoading: boolean = true;
-
+  public exisitingApplicationInfo;
+  public excavationId;
   public fieldSets = [
     [
       {
@@ -222,33 +223,112 @@ export class ExcavationPermitComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
+    this.applicationId = JSON.parse(localStorage.getItem('app_id'));
 
-    this.newApplicationService.applicationId
-      .asObservable()
-      .subscribe((applicationId) => {
-        this.applicationId = applicationId;
-        this.applicationService
-          .fetchApplicationInfo(this.applicationId)
-          .subscribe((res) => {
-            this.applicationDetails = res.data;
+    if (localStorage.getItem('application_details_for_excavation')) {
+      this.exisitingApplicationInfo = JSON.parse(
+        localStorage.getItem('application_details_for_excavation')
+      );
+      console.log('EXISTING', this.exisitingApplicationInfo);
+      this.submitExcavationDetails();
+    }
+    this.applicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((res) => {
+        this.applicationDetails = res.data;
 
-            const isRepresentative =
-              this.applicationDetails.is_representative == '1' ? true : false;
-            const isOwner =
-              this.applicationDetails.rol_status_id == '1' ? true : false;
-            const isRegistered =
-              this.applicationDetails.registered_owner == '1' ? true : false;
+        const isRepresentative =
+          this.applicationDetails.is_representative == '1' ? true : false;
+        const isOwner =
+          this.applicationDetails.rol_status_id == '1' ? true : false;
+        const isRegistered =
+          this.applicationDetails.registered_owner == '1' ? true : false;
 
-            this.fieldSets[0] = this.fieldSets[0].filter((field) => {
-              if (field.for == 'representative' && !isRepresentative)
-                return false;
-              else if (field.for == 'lessee' && isOwner) return false;
-              else if (field.for == 'lot-owner' && !isRegistered) return false;
-              else if (field.for == 'not-owner' && isRegistered) return false;
-              else return true;
-            });
-          });
+        this.fieldSets[0] = this.fieldSets[0].filter((field) => {
+          if (field.for == 'representative' && !isRepresentative) return false;
+          else if (field.for == 'lessee' && isOwner) return false;
+          else if (field.for == 'lot-owner' && !isRegistered) return false;
+          else if (field.for == 'not-owner' && isRegistered) return false;
+          else return true;
+        });
       });
+  }
+
+  submitExcavationDetails() {
+    this.isLoading = true;
+    const body = {
+      main_permit_id: this.applicationId,
+      permit_type_id: 3,
+      user_id: this.user.id,
+      is_representative: this.exisitingApplicationInfo.is_representative,
+      rol_status_id: this.exisitingApplicationInfo.rol_status_id,
+      construction_status_id: this.exisitingApplicationInfo
+        .construction_status_id,
+      is_registered_owner: this.exisitingApplicationInfo.is_registered_owner,
+      applicant_first_name: this.exisitingApplicationInfo.applicant_detail
+        .first_name,
+      applicant_middle_name: this.exisitingApplicationInfo.applicant_detail
+        .middle_name,
+      applicant_last_name: this.exisitingApplicationInfo.applicant_detail
+        .last_name,
+      applicant_suffix_name: this.exisitingApplicationInfo.applicant_detail
+        .suffix_name,
+      applicant_tin_number: this.exisitingApplicationInfo.applicant_detail
+        .tin_number,
+      applicant_contact_number: this.exisitingApplicationInfo.applicant_detail
+        .contact_number,
+      applicant_email_address: this.exisitingApplicationInfo.applicant_detail
+        .email_address,
+      applicant_house_number: this.exisitingApplicationInfo.applicant_detail
+        .house_number,
+      applicant_unit_number: this.exisitingApplicationInfo.applicant_detail
+        .unit_number,
+      applicant_floor_number: this.exisitingApplicationInfo.applicant_detail
+        .floor_number,
+      applicant_street_name: this.exisitingApplicationInfo.applicant_detail
+        .street_name,
+      applicant_barangay: this.exisitingApplicationInfo.applicant_detail
+        .barangay,
+      project_house_number: this.exisitingApplicationInfo.project_detail
+        .house_number,
+      project_lot_number: this.exisitingApplicationInfo.project_detail
+        .lot_number,
+      project_block_number: this.exisitingApplicationInfo.project_detail
+        .block_number,
+      project_street_name: this.exisitingApplicationInfo.project_detail
+        .street_name,
+      project_number_of_units: this.exisitingApplicationInfo.project_detail
+        .number_of_units
+        ? this.exisitingApplicationInfo.project_detail.number_of_units
+        : 0,
+      project_barangay: this.exisitingApplicationInfo.project_detail.barangay,
+      project_number_of_basement: this.exisitingApplicationInfo.project_detail
+        .number_of_basement
+        ? this.exisitingApplicationInfo.project_detail.number_of_basement
+        : 0,
+      project_lot_area: this.exisitingApplicationInfo.project_detail.lot_area,
+      project_total_floor_area: this.exisitingApplicationInfo.project_detail
+        .total_floor_area,
+      project_units: this.exisitingApplicationInfo.project_detail.unit_number
+        ? this.exisitingApplicationInfo.project_detail.unit_number
+        : 0,
+      project_number_of_storey: this.exisitingApplicationInfo.project_detail
+        .number_of_storey
+        ? this.exisitingApplicationInfo.project_detail.number_of_storey
+        : 0,
+      project_title: this.exisitingApplicationInfo.project_detail.project_title,
+      project_cost_cap: this.exisitingApplicationInfo.project_detail
+        .project_cost_cap,
+      project_tct_number: this.exisitingApplicationInfo.project_detail
+        .tct_number,
+      project_tax_dec_number: this.exisitingApplicationInfo.project_detail
+        .tax_dec_number,
+      project_landmark: this.exisitingApplicationInfo.project_detail.landmark,
+    };
+    this.newApplicationService.submitApplication(body).subscribe((res) => {
+      this.excavationId = res.data.id;
+      this.isLoading = false;
+    });
   }
 
   onSelect(file: File, type: string) {
@@ -418,23 +498,23 @@ export class ExcavationPermitComponent implements OnInit {
           const docType = field;
 
           const uploadDocumentData = {
-            application_id: this.applicationId,
+            application_id: this.excavationId,
             user_id: this.user.id,
             document_id: docType.id,
             document_path: file,
             document_status: '0',
           };
-
           this.newApplicationService
             .submitDocument(uploadDocumentData)
             .subscribe((res) => {
-              this.isLoading = false;
               Swal.fire(
                 'Success!',
                 `${docType.description} uploaded!`,
                 'success'
-              ).then((result) => {});
-          });
+              ).then((result) => {
+                this.isLoading = false;
+              });
+            });
 
           breakFlag = true;
           return false;
@@ -447,7 +527,21 @@ export class ExcavationPermitComponent implements OnInit {
   }
 
   submitApplication() {
-    this.router.navigate(['dashboard/new/summary', this.applicationId]);
-    localStorage.removeItem('app_id');
+    const data = {
+      application_status_id: 7,
+    };
+    this.applicationService
+      .updateApplicationStatus(data, this.excavationId)
+      .subscribe((res) => {
+        this.router.navigate(['dashboard/new/summary', this.excavationId]);
+        localStorage.removeItem('app_id');
+        localStorage.removeItem('application_details_for_excavation');
+      });
   }
+
+  // if (this.isExcavation) {
+  //   this.applicationDetails.permit_type_id = '3';
+  //   body['main_permit_id'] = this.applicationDetails.id;
+  //   body['permit_type_id'] = this.applicationDetails.permit_type_id;
+  // }
 }

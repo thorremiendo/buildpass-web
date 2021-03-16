@@ -1,3 +1,4 @@
+import { WaterMarkService } from './../../core/services/watermark.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
@@ -28,16 +29,11 @@ export class ZoningCertificateComponent implements OnInit {
   public userDocument = userDocuments[42];
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
     private newApplicationService: NewApplicationService,
-    private authService: AuthService,
-    private userService: UserService,
-    private fb: FormBuilder,
+    private watermark: WaterMarkService,
     public dialogRef: MatDialogRef<ZoningCertificateComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data,
-    private viewSDKClient: ViewSDKClient
+    public data
   ) {}
 
   ngOnInit(): void {
@@ -82,15 +78,31 @@ export class ZoningCertificateComponent implements OnInit {
     if (this.zoningComplianceForm) {
       uploadDocumentData['document_path'] = this.zoningComplianceForm;
     }
+
     this.newApplicationService
       .submitDocument(uploadDocumentData)
       .subscribe((res) => {
-        Swal.fire(
-          'Success!',
-          `${this.userDocument.name} uploaded!`,
-          'success'
-        ).then((result) => {
-          this.onNoClick();
+        const doc = res.data.document_path;
+        const id = res.data.id;
+        this.watermark.generateQrCode(this.applicationId).subscribe((res) => {
+          this.watermark.insertQrCode(doc, res.data).then((blob) => {
+            const updateFileData = {
+              document_status_id: 1,
+              document_path: blob,
+            };
+            this.newApplicationService
+              .updateDocumentFile(updateFileData, id)
+              .subscribe((res) => {
+                console.log(res);
+                Swal.fire(
+                  'Success!',
+                  `${this.userDocument.name} uploaded!`,
+                  'success'
+                ).then((result) => {
+                  this.onNoClick();
+                });
+              });
+          });
         });
       });
   }

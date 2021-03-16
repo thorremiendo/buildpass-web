@@ -40,30 +40,34 @@ export class TableViewComponent implements OnInit {
     this.evaluatorRole = this.user.user_roles[0].role[0];
     this.isLoading = false;
     //console.log('evaluator details', this.evaluatorDetails);
-    this.checkIfCpdo();
+    this.checkCurrentOffice();
   }
-  checkIfCpdo() {
+
+  checkCurrentOffice() {
     if (this.evaluatorDetails.office_id == 1) {
-      this.filterCpdoApplication();
+      this.filterCpdoApplications();
     } else if (
       this.evaluatorDetails.office_id == 2 ||
       this.evaluatorDetails.office_id == 3
     ) {
-      this.filterApplication(3);
+      this.filterCbaoCepmoBfpApplications();
     }
   }
-  filterCpdoApplication() {
-    const CPDO_FORMS = this.dataSource.filter(
-      (obj) => obj.application_status_id == 2 || obj.application_status_id == 10
+
+  filterCpdoApplications() {
+    const CPDO_APPLICATIONS = this.dataSource.filter(
+      (e) => e.application_status_id == 2 || e.application_status_id == 10
     );
-    this.dataSource = CPDO_FORMS;
+    this.dataSource = CPDO_APPLICATIONS;
   }
-  filterApplication(id) {
-    const CPDO_FORMS = this.dataSource.filter(
-      (obj) => obj.application_status_id == id
+
+  filterCbaoCepmoBfpApplications() {
+    const CBAO_CEPMO_BFP_APPLICATIONS = this.dataSource.filter(
+      (e) => e.application_status_id == 3
     );
-    this.dataSource = CPDO_FORMS;
+    this.dataSource = CBAO_CEPMO_BFP_APPLICATIONS;
   }
+
   getApplicationStatus(id): string {
     return applicationStatus[id];
   }
