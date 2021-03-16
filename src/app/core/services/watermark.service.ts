@@ -52,14 +52,6 @@ export class WaterMarkService {
             rotate: degrees(-45),
           });
           break;
-          case 'insertQrCode':
-            pages[i].drawImage(qr_code, {
-              x: width / 2 + 150 ,
-              y: height / 2 + 350,
-              width: pngDims.width,
-              height: pngDims.height,
-          });
-          break;
       }
     }
 
@@ -71,7 +63,7 @@ export class WaterMarkService {
     return blob;
   }
 
-  async insertQrCode(doc_path, qr_code_path){
+  async insertQrCode(doc_path, qr_code_path, doc_type){
     const url = doc_path;
     const qr_code_bytes = await fetch(qr_code_path).then((res) => res.arrayBuffer());
 
@@ -82,15 +74,50 @@ export class WaterMarkService {
     const pages = pdfDocLoad.getPages();
     const pageCount = pages.length;
     const { width, height } = pages[0].getSize();
-    const pngDims = qr_code.scale(0.3)
+    const pngDims = qr_code.scale(0.5)
+    const pngDimsfire = qr_code.scale(0.4)
 
     for (let i = 0; i < pageCount; i++) {
-      pages[i].drawImage(qr_code, {
-        x: width / 2 + 200 ,
-        y: height / 2 + 400,
-        width: pngDims.width,
-        height: pngDims.height,
-      })
+
+      switch(doc_type){
+
+        case 'building-permit':
+        pages[0].drawImage(qr_code, {
+          x: width / 2 + 280 ,
+          y: height /2 + 150,
+          width: pngDims.width,
+          height: pngDims.height,
+        })
+        break;
+
+        case 'zoning-permit':
+          pages[i].drawImage(qr_code, {
+            x: width / 2 + 200 ,
+            y: height /2 - 450,
+            width: pngDims.width,
+            height: pngDims.height,
+          })
+          break;
+
+        case 'fire-permit':
+            pages[i].drawImage(qr_code, {
+              x: width / 2 + 180 ,
+              y: height /2 - 370,
+              width: pngDimsfire.width,
+              height: pngDimsfire.height,
+            })
+        break;
+
+        case 'wwms-permit':
+            pages[i].drawImage(qr_code, {
+              x: width / 2 + 140 ,
+              y: height /2 + 365,
+              width: pngDimsfire.width,
+              height: pngDimsfire.height,
+            })
+        break;
+  
+      }
     }
 
     const pdfBytes = await pdfDocLoad.save();
@@ -99,11 +126,8 @@ export class WaterMarkService {
     window.open(file); // open in new window
 
     return blob;
-
-    
+   
   }
-
-  
 
   generateQrCode(id){
     const url = `/application/${id}/qrcode`;

@@ -26,13 +26,8 @@ export class NotificationComponent implements OnInit {
     private feedService: FeedService,
     private router: Router,
 
-  ) {
-
-   
-
+  ) {}
   
-  
-  }
 
   ngOnInit():void{
  
