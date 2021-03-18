@@ -80,6 +80,7 @@ import { DashboardComponentsModule } from '../dashboard-components/dashboard-com
 import { BfpResidentialChecklistComponent } from './bfp-residential-checklist/bfp-residential-checklist.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MaterialModule } from '../material-module';
+import { UploadSupportingDocumentsComponent } from './upload-supporting-documents/upload-supporting-documents.component';
 
 @NgModule({
   declarations: [
@@ -117,6 +118,7 @@ import { MaterialModule } from '../material-module';
     CepmoFeesTableComponent,
     RemarksHistoryTableComponent,
     BfpResidentialChecklistComponent,
+    UploadSupportingDocumentsComponent,
   ],
 
   imports: [

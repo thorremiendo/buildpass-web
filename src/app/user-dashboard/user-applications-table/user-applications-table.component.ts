@@ -29,6 +29,7 @@ export class UserApplicationsTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
+    console.log(this.user.id);
     this.userService.fetchUserApplications(this.user.id).subscribe((result) => {
       this.applicationInfoData = result.data;
       console.log(this.applicationInfoData);

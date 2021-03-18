@@ -218,6 +218,18 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       is_registered_owner: this.applicationDetailsFromService
         ? this.applicationDetailsFromService.registered_owner
         : this.applicationDetails.is_registered_owner,
+      is_owned_by_corporation: this.applicationDetailsFromService
+        ? this.applicationDetailsFromService.is_owned_by_corporation
+        : this.applicationDetails.is_owned_by_corporation,
+      is_property_have_coowners: this.applicationDetailsFromService
+        ? this.applicationDetailsFromService.is_property_have_coowners
+        : this.applicationDetails.is_property_have_coowners,
+      is_under_mortgage: this.applicationDetailsFromService
+        ? this.applicationDetailsFromService.is_under_mortgage
+        : this.applicationDetails.is_under_mortgage,
+      is_within_subdivision: this.applicationDetailsFromService
+        ? this.applicationDetailsFromService.is_within_subdivision
+        : this.applicationDetails.is_within_subdivision,
       applicant_first_name: this.ownerDetails
         ? this.ownerDetails.owner_first_name
         : this.applicationDetails.applicant_detail.first_name,

@@ -167,6 +167,14 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
+      <button
+        mat-raised-button
+        color="primary"
+        class="mt-3"
+        (click)="handleAddSupportingDocument()"
+      >
+        <mat-icon>add_circle</mat-icon> Add a supporting document
+      </button>
       <div *ngIf="applicationInfo.application_status_id == 13">
         <button
           class="mt-2 w-100"

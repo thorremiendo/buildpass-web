@@ -10,6 +10,10 @@ import { Router } from '@angular/router';
 import { UserService } from 'src/app/core';
 import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
+import {
+  applicationDescriptions,
+  applicationTypes,
+} from '../../../core/enums/application-type.enum';
 
 @Component({
   selector: 'app-step-one',
@@ -33,8 +37,6 @@ export class StepOneComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private newApplicationFormService: NewApplicationFormService,
-    private userService: UserService,
-    private newApplicationService: NewApplicationService,
     public excavationService: ExcavationPermitService
   ) {}
 
@@ -44,6 +46,12 @@ export class StepOneComponent implements OnInit {
     this.userInfo = JSON.parse(localStorage.getItem('user'));
     this.isLoading = false;
   }
+  getApplicationDescription(id): string {
+    return applicationDescriptions[id];
+  }
+  getApplicationType(id): string {
+    return applicationTypes[id];
+  }
   createForm() {
     this.permitStepOneForm = this.fb.group({
       application_type: new FormControl('', Validators.required),
@@ -51,6 +59,10 @@ export class StepOneComponent implements OnInit {
       is_lot_owner: new FormControl('', Validators.required),
       construction_status: new FormControl('', Validators.required),
       registered_owner: new FormControl('', Validators.required),
+      is_within_subdivision: new FormControl('', Validators.required),
+      is_under_mortgage: new FormControl('', Validators.required),
+      is_owned_by_corporation: new FormControl('', Validators.required),
+      is_property_have_coowners: new FormControl('', Validators.required),
     });
   }
 
@@ -62,7 +74,12 @@ export class StepOneComponent implements OnInit {
       is_lot_owner: value.is_lot_owner,
       construction_status: value.construction_status,
       registered_owner: value.registered_owner ? value.registered_owner : 0,
+      is_within_subdivision: value.is_within_subdivision,
+      is_under_mortgage: value.is_under_mortgage,
+      is_owned_by_corporation: value.is_owned_by_corporation,
+      is_property_have_coowners: value.is_property_have_coowners,
     };
+    console.log({ body });
     this.newApplicationFormService.setApplicationInfo(body);
 
     this.router.navigateByUrl('/dashboard/new/step-two/lot-owner');

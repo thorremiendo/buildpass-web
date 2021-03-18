@@ -141,6 +141,10 @@ export class ChecklistSummaryComponent implements OnInit {
             case 40:
             case 41:
             case 42:
+            case 72:
+            case 73:
+            case 74:
+            case 75:
               this.sortedForms.others.data.push(element);
               break;
           }

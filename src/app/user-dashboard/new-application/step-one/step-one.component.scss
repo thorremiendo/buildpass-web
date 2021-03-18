@@ -21,3 +21,14 @@
 //     height: 100vh;
 //   }
 // }
+.permit-card {
+  padding: 20px;
+  border-radius: 30px;
+  background: linear-gradient(225deg, #d6dde0, #ffffff);
+  box-shadow: -5px 5px 13px #cad0d4, 5px -5px 13px #ffffff;
+
+  h5 {
+    color: maroon;
+    font-weight: bold;
+  }
+}

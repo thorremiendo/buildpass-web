@@ -1,56 +1,50 @@
-
-
-
-@import './app/scss/shapes';
-@import './app/scss/typography';
-@import './app/scss/form';
-@import './app/scss/schedule-a-visit';
+@import "./app/scss/shapes";
+@import "./app/scss/typography";
+@import "./app/scss/form";
 
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
-@import '~mapbox-gl/dist/mapbox-gl.css';
-@import '~@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css';
-
+@import "~mapbox-gl/dist/mapbox-gl.css";
+@import "~@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css";
 
 ng-typeahead {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 ngb-typeahead-window {
-    max-height: 400px;
-    overflow: auto;
+  max-height: 400px;
+  overflow: auto;
 }
 
 button:focus {
-    outline: none !important;
+  outline: none !important;
 }
 
-
 .mat-calendar {
-    background-color: white;
+  background-color: white;
 }
 
 .submit-button {
-    width: 100px;
-    height: 40px;
+  width: 100px;
+  height: 40px;
 }
-  
 
 .home-qrcode {
-    margin-bottom: 2em;
+  margin-bottom: 2em;
 
-    .qrcode {
-        display: flex;
-    }
+  .qrcode {
+    display: flex;
+  }
 }
 
 .home-content {
-    margin-top: 114px;
+  margin-top: 114px;
 }
 
 .mat-dialog-container {
-    box-shadow: 0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12);
-    background: #fff;
-    color: rgba(0,0,0,.87);
+  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
+    0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
+  background: #fff;
+  color: rgba(0, 0, 0, 0.87);
 }
