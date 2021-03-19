@@ -273,7 +273,7 @@ export class ViewSDKClient {
 
   insertFormQrCode(doc, id) {
     this.watermark.generateQrCode(this.applicationId).subscribe((res) => {
-      this.watermark.insertQrCode(doc, res.data).then((blob) => {
+      this.watermark.insertQrCode(doc, res.data, "building-permit").then((blob) => {
         const updateFileData = {
           document_status_id: 1,
           document_path: blob,

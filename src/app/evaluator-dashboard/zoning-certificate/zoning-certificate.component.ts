@@ -85,7 +85,7 @@ export class ZoningCertificateComponent implements OnInit {
         const doc = res.data.document_path;
         const id = res.data.id;
         this.watermark.generateQrCode(this.applicationId).subscribe((res) => {
-          this.watermark.insertQrCode(doc, res.data).then((blob) => {
+          this.watermark.insertQrCode(doc, res.data, "").then((blob) => {
             const updateFileData = {
               document_status_id: 1,
               document_path: blob,

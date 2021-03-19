@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-12 mb-3">
-    <h2>Edit Profile</h2>
+    <h1>Edit Profile</h1>
     <div class="horizontal-line"></div>
   </div>
 </div>
@@ -31,9 +31,9 @@
       />
     </div>
   </div>
-  <div class="col-12 col-lg-9">
-    <mat-card *ngIf="_userEditProfileForm">
-      <mat-card-content>
+  <div class="col-12 col-lg-9" >
+    <mat-card *ngIf="_userEditProfileForm" >
+      <mat-card-content class="mat-elevation-z0" >
         <form [formGroup]="_userEditProfileForm" (ngSubmit)="onSubmit()">
           <div class="row">
             <div class="col-12 section-header">

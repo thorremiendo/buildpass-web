@@ -72,6 +72,8 @@ import { UserApplicationsTableComponent } from './user-applications-table/user-a
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FileUploadComponent } from './new-application/forms/file-upload/file-upload.component';
+import { DashboardComponentsModule } from '../dashboard-components/dashboard-components.module';
+import { MaterialModule } from '../material-module';
 
 @NgModule({
   declarations: [
@@ -149,6 +151,8 @@ import { FileUploadComponent } from './new-application/forms/file-upload/file-up
     MatStepperModule,
     MatProgressSpinnerModule,
     SweetAlert2Module.forRoot(),
+    MaterialModule,
+
   ],
 })
 export class UserModule {}
