@@ -186,7 +186,11 @@ export class ViewSDKClient {
             this.newApplicationService
               .submitDocument(uploadDocumentData)
               .subscribe((res) => {
-                this.insertFormQrCode(res.data.document_path, res.data.id);
+                this.insertFormQrCode(
+                  res.data.document_path,
+                  res.data.id,
+                  'building-permit'
+                );
               });
           } else if (condition == 'zoningPermit') {
             const uploadDocumentData = {
@@ -199,7 +203,11 @@ export class ViewSDKClient {
             this.newApplicationService
               .submitDocument(uploadDocumentData)
               .subscribe((res) => {
-                this.insertFormQrCode(res.data.document_path, res.data.id);
+                this.insertFormQrCode(
+                  res.data.document_path,
+                  res.data.id,
+                  'zoning-permit'
+                );
               });
           } else if (condition == 'firePermit') {
             const uploadDocumentData = {
@@ -212,7 +220,11 @@ export class ViewSDKClient {
             this.newApplicationService
               .submitDocument(uploadDocumentData)
               .subscribe((res) => {
-                this.insertFormQrCode(res.data.document_path, res.data.id);
+                this.insertFormQrCode(
+                  res.data.document_path,
+                  res.data.id,
+                  'fire-permit'
+                );
               });
           } else if (condition == 'bfpChecklist') {
             const uploadDocumentData = {
@@ -225,7 +237,11 @@ export class ViewSDKClient {
             this.newApplicationService
               .submitDocument(uploadDocumentData)
               .subscribe((res) => {
-                this.insertFormQrCode(res.data.document_path, res.data.id);
+                this.insertFormQrCode(
+                  res.data.document_path,
+                  res.data.id,
+                  'bfp-checklist'
+                );
               });
           } else if (condition == 'wwmsBp') {
             const uploadDocumentData = {
@@ -238,7 +254,11 @@ export class ViewSDKClient {
             this.newApplicationService
               .submitDocument(uploadDocumentData)
               .subscribe((res) => {
-                this.insertFormQrCode(res.data.document_path, res.data.id);
+                this.insertFormQrCode(
+                  res.data.document_path,
+                  res.data.id,
+                  'wwms-permit'
+                );
               });
           }
         }, 2000);
@@ -271,9 +291,9 @@ export class ViewSDKClient {
     );
   }
 
-  insertFormQrCode(doc, id) {
+  insertFormQrCode(doc, id, doc_type) {
     this.watermark.generateQrCode(this.applicationId).subscribe((res) => {
-      this.watermark.insertQrCode(doc, res.data, "building-permit").then((blob) => {
+      this.watermark.insertQrCode(doc, res.data, doc_type).then((blob) => {
         const updateFileData = {
           document_status_id: 1,
           document_path: blob,

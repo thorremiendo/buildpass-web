@@ -1,0 +1,41 @@
+<div>
+  <div>
+    <h4 style="color: #400c06" class="mb-4">
+      <strong>Supporting Documents</strong>
+    </h4>
+  </div>
+  <ngx-dropzone (change)="onSelect($event)">
+    <ngx-dropzone-label>Click to upload files!</ngx-dropzone-label>
+    <ngx-dropzone-preview
+      *ngFor="let f of files"
+      [removable]="true"
+      (removed)="onRemove(f)"
+    >
+      <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+    </ngx-dropzone-preview>
+  </ngx-dropzone>
+  <ngx-dropzone-image-preview
+    ngProjectAs="ngx-dropzone-preview"
+    *ngFor="let f of files"
+    [file]="f"
+  >
+  </ngx-dropzone-image-preview>
+  <div class="d-flex justify-content-between">
+    <button
+      class="text-right mt-3"
+      mat-raised-button
+      color="accent"
+      (click)="onNoClick()"
+    >
+      Close
+    </button>
+    <button
+      class="text-right mt-3"
+      mat-raised-button
+      color="primary"
+      (click)="onNoClick()"
+    >
+      Save
+    </button>
+  </div>
+</div>

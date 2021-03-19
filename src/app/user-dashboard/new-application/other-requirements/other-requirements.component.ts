@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, Data } from '@angular/router';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
@@ -17,6 +17,11 @@ export class OtherRequirementsComponent implements OnInit {
   public governmentClearance: File;
   public chspCertificate: File;
   public barangayClearance: File;
+  public subdivisionConsent: File;
+  public mortgageConsent: File;
+  public secretaryCertificate: File;
+  public consentFromLotOwners: File;
+
   public user;
   public applicationId;
   public isLoading: boolean = true;
@@ -30,7 +35,6 @@ export class OtherRequirementsComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
-    console.log(this.user);
     this.applicationId = JSON.parse(localStorage.getItem('app_id'));
     this.fetchApplicationInfo();
   }
@@ -40,6 +44,7 @@ export class OtherRequirementsComponent implements OnInit {
       .subscribe((result) => {
         this.applicationInfo = result.data;
         this.isLoading = false;
+        console.log(this.applicationInfo);
       });
   }
   callSaveAsDraft() {
@@ -59,7 +64,6 @@ export class OtherRequirementsComponent implements OnInit {
       url: this.router.url,
     };
     this.newApplicationService.saveAsDraft(body).subscribe((res) => {
-      console.log(res);
       Swal.fire('Success!', `Application Saved as Draft!`, 'success').then(
         (result) => {
           this.router.navigateByUrl('/dashboard');
@@ -78,7 +82,7 @@ export class OtherRequirementsComponent implements OnInit {
     if (file) {
       uploadDocumentData['document_path'] = file;
     }
-    console.log(uploadDocumentData);
+
     this.newApplicationService
       .submitDocument(uploadDocumentData)
       .subscribe((res) => {
@@ -114,6 +118,26 @@ export class OtherRequirementsComponent implements OnInit {
         const chspCertificate = userDocuments[41];
         this.handleUpload(this.chspCertificate, chspCertificate);
         break;
+      case 'subdivisionConsent':
+        this.subdivisionConsent = file;
+        const subdivisionConsent = userDocuments[71];
+        this.handleUpload(this.subdivisionConsent, subdivisionConsent);
+        break;
+      case 'mortgageConsent':
+        this.mortgageConsent = file;
+        const mortgageConsent = userDocuments[72];
+        this.handleUpload(this.mortgageConsent, mortgageConsent);
+        break;
+      case 'secretaryCertificate':
+        this.secretaryCertificate = file;
+        const secretaryCertificate = userDocuments[73];
+        this.handleUpload(this.secretaryCertificate, secretaryCertificate);
+        break;
+      case 'consentFromLotOwners':
+        this.consentFromLotOwners = file;
+        const consentFromLotOwners = userDocuments[74];
+        this.handleUpload(this.consentFromLotOwners, consentFromLotOwners);
+        break;
     }
   }
   onRemove(type) {
@@ -129,6 +153,18 @@ export class OtherRequirementsComponent implements OnInit {
         break;
       case 'chspCertificate':
         this.chspCertificate = null;
+        break;
+      case 'subdivisionConsent':
+        this.subdivisionConsent = null;
+        break;
+      case 'mortgageConsent':
+        this.mortgageConsent = null;
+        break;
+      case 'secretaryCertificate':
+        this.secretaryCertificate = null;
+        break;
+      case 'consentFromLotOwners':
+        this.consentFromLotOwners = null;
         break;
     }
   }

@@ -81,6 +81,49 @@
             </mat-select>
           </mat-form-field>
         </div>
+        <div *ngIf="constructionStatus" class="mt-4">
+          <h4>Is the property within a subdivision?</h4>
+          <mat-form-field appearance="outline">
+            <mat-label>Choose</mat-label>
+            <mat-select formControlName="is_within_subdivision">
+              <mat-option value="1">Yes</mat-option>
+              <mat-option value="2">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf="permitStepOneForm.value.is_within_subdivision" class="mt-4">
+          <h4>Is this property under mortgage?</h4>
+          <mat-form-field appearance="outline">
+            <mat-label>Choose</mat-label>
+            <mat-select formControlName="is_under_mortgage">
+              <mat-option value="1">Yes</mat-option>
+              <mat-option value="2">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf="permitStepOneForm.value.is_under_mortgage" class="mt-4">
+          <h4>Is this property owned by a corporation?</h4>
+          <mat-form-field appearance="outline">
+            <mat-label>Choose</mat-label>
+            <mat-select formControlName="is_owned_by_corporation">
+              <mat-option value="1">Yes</mat-option>
+              <mat-option value="2">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div
+          *ngIf="permitStepOneForm.value.is_owned_by_corporation"
+          class="mt-4"
+        >
+          <h4>Does the property have co-owner/s?</h4>
+          <mat-form-field appearance="outline">
+            <mat-label>Choose</mat-label>
+            <mat-select formControlName="is_property_have_coowners">
+              <mat-option value="1">Yes</mat-option>
+              <mat-option value="2">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
 
       <!-- <div *ngIf="constructionStatus" class="map-container mt-4">
@@ -104,6 +147,14 @@
           class="new-illustration mt-5"
           src="../../../assets/illustrations/folder.png"
         />
+      </div>
+      <div class="permit-card" *ngIf="selectedPermitType">
+        <h5>
+          {{ getApplicationType(selectedPermitType) }}
+        </h5>
+        <span>
+          {{ getApplicationDescription(selectedPermitType) }}
+        </span>
       </div>
     </div>
   </div>
