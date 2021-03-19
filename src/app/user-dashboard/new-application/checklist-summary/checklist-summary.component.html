@@ -15,26 +15,33 @@
       </div>
     </div>
     <div class="col-12 m-0 p-0">
-      <div *ngFor="let category of sortedForms">
-        <div *ngIf="category.data.length > 0">
-          <div class="mb-2">{{ category.label }}</div>
-          <ul>
-            <li
-              class="d-flex justify-content-between"
-              *ngFor="let element of category.data; let i = index"
-            >
-              {{ i + 1 }}. {{ getDocType(element.document_id) }}
-              <button
-                mat-button
-                color="primary"
-                (click)="goToLink(element.document_path)"
+      <ng-container *ngIf="applicationInfo.permit_type_id == 1">
+        <div *ngFor="let category of sortedForms">
+          <div *ngIf="category.data.length > 0">
+            <div class="mb-2">{{ category.label }}</div>
+            <ul>
+              <li
+                class="d-flex justify-content-between"
+                *ngFor="let element of category.data; let i = index"
               >
-                <u>View</u>
-              </button>
-            </li>
-          </ul>
+                {{ i + 1 }}. {{ getDocType(element.document_id) }}
+                <button
+                  mat-button
+                  color="primary"
+                  (click)="goToLink(element.document_path)"
+                >
+                  <u>View</u>
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
+      </ng-container>
+      <ng-container *ngIf="applicantForms">
+        <app-summary-forms-list
+          [forms]="applicantForms"
+        ></app-summary-forms-list>
+      </ng-container>
       <div class="text-right my-4">
         <button mat-raised-button color="primary" (click)="submit()">
           Save

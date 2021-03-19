@@ -11,6 +11,7 @@ import { DateAgoPipe } from '../core';
 import { ApplicationTimelineComponent } from './application-timeline/application-timeline.component';
 import { ApplicationFeesSummaryComponent } from './application-fees-summary/application-fees-summary.component';
 import { RepresentativeDetailsComponent } from './representative-details/representative-details.component';
+import { SummaryFormsListComponent } from './summary-forms-list/summary-forms-list.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { RepresentativeDetailsComponent } from './representative-details/represe
     ApplicationTimelineComponent,
     ApplicationFeesSummaryComponent,
     RepresentativeDetailsComponent,
+    SummaryFormsListComponent,
   ],
   imports: [CommonModule, FormsModule, MaterialModule],
   exports: [
@@ -33,6 +35,7 @@ import { RepresentativeDetailsComponent } from './representative-details/represe
     ApplicationTimelineComponent,
     ApplicationFeesSummaryComponent,
     RepresentativeDetailsComponent,
+    SummaryFormsListComponent
   ],
   providers: [MenuItems],
 })

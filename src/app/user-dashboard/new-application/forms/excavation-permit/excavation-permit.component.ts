@@ -4,6 +4,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import Swal from 'sweetalert2';
+import { DataFormBindingService } from 'src/app/core/services/data-form-binding.service';
 
 @Component({
   selector: 'app-excavation-permit',
@@ -12,7 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class ExcavationPermitComponent implements OnInit {
   public user;
-  public formData;
+  public formData = {};
   public applicationId;
   public applicationDetails;
   public excavationPermit: File;
@@ -218,10 +219,12 @@ export class ExcavationPermitComponent implements OnInit {
     private userService: UserService,
     private newApplicationService: NewApplicationService,
     private applicationService: ApplicationInfoService,
-    private router: Router
+    private router: Router,
+    private dataBindingService: DataFormBindingService
   ) {}
 
   ngOnInit(): void {
+    console.log({ formData: this.formData });
     this.user = JSON.parse(localStorage.getItem('user'));
     this.applicationId = JSON.parse(localStorage.getItem('app_id'));
 
@@ -236,7 +239,8 @@ export class ExcavationPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
-
+        this.getFormDataBinding(this.applicationDetails);
+        this.isLoading = false;
         const isRepresentative =
           this.applicationDetails.is_representative == '1' ? true : false;
         const isOwner =
@@ -252,6 +256,12 @@ export class ExcavationPermitComponent implements OnInit {
           else return true;
         });
       });
+  }
+
+  getFormDataBinding(a) {
+    this.formData = this.dataBindingService.getFormData(a);
+    console.log('DATA BINDING', this.formData);
+    this.isLoading = false;
   }
 
   submitExcavationDetails() {
@@ -496,9 +506,10 @@ export class ExcavationPermitComponent implements OnInit {
       fieldSet.every((field) => {
         if (field.type == type) {
           const docType = field;
+          const id = this.excavationId ? this.excavationId : this.applicationId;
 
           const uploadDocumentData = {
-            application_id: this.excavationId,
+            application_id: id,
             user_id: this.user.id,
             document_id: docType.id,
             document_path: file,
@@ -527,13 +538,15 @@ export class ExcavationPermitComponent implements OnInit {
   }
 
   submitApplication() {
+    const id = this.excavationId ? this.excavationId : this.applicationId;
+
     const data = {
       application_status_id: 7,
     };
     this.applicationService
-      .updateApplicationStatus(data, this.excavationId)
+      .updateApplicationStatus(data, id)
       .subscribe((res) => {
-        this.router.navigate(['dashboard/new/summary', this.excavationId]);
+        this.router.navigate(['dashboard/new/summary', id]);
         localStorage.removeItem('app_id');
         localStorage.removeItem('application_details_for_excavation');
       });

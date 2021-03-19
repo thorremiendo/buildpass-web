@@ -18,7 +18,7 @@ export class NewApplicationService {
       map((data: any) => {
         console.log('submitApplication result:', data);
         this.applicationId.next(data.data.id);
-        console.log(this.applicationId);
+        localStorage.setItem('app_id', data.data.id);
         return data;
       }),
       catchError((error) => {
