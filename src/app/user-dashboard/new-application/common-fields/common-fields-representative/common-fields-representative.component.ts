@@ -164,12 +164,10 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
             this.isLoading = false;
             switch (this.applicationDetails.permit_type_id) {
               case '1':
-                this._router.navigateByUrl(
-                  '/dashboard/new/initial-forms/zoning-clearance'
-                );
+                this._router.navigateByUrl('/dashboard/new/demolition-permit');
                 break;
               case '2':
-                // occupancy permit
+                this._router.navigateByUrl('/dashboard/new/occupancy-permit');
                 break;
               case '3':
                 this._router.navigateByUrl('/dashboard/new/excavation-permit');

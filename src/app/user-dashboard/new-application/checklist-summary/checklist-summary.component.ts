@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { UserService } from 'src/app/core/services/user.service';
-import { userDocuments } from 'src/app/core/variables/documents';
 import Swal from 'sweetalert2';
 import { documentTypes } from '../../../core/enums/document-type.enum';
 
