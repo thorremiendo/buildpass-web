@@ -1,5 +1,3 @@
-import { BuildingPlansComponent } from './new-application/building-plans/building-plans.component';
-import { NoticeOfConstructionComponent } from './new-application/forms/notice-of-construction/notice-of-construction.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserHomeComponent } from './user-home/user-home.component';
@@ -20,28 +18,14 @@ import { ExistingApplicationsComponent } from './existing-applications/existing-
 import { UserFormsComponent } from './user-forms/user-forms.component';
 
 import { StepOneComponent } from './new-application/step-one/step-one.component';
-import { InitialFormsComponent } from './new-application/initial-forms/initial-forms.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CoreModule } from '../core/core.module';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { BuildingPermitFormsComponent } from './new-application/building-permit-forms/building-permit-forms.component';
-import { DesignAnalysisFormsComponent } from './new-application/design-analysis-forms/design-analysis-forms.component';
-import { ProfessionalDetailsComponent } from './new-application/professional-details/professional-details.component';
-import { ClearanceFormsComponent } from './new-application/clearance-forms/clearance-forms.component';
-import { AffidavitFilesComponent } from './new-application/affidavit-files/affidavit-files.component';
-import { OtherRequirementsComponent } from './new-application/other-requirements/other-requirements.component';
 import { ChecklistSummaryComponent } from './new-application/checklist-summary/checklist-summary.component';
 import { SuccessPageComponent } from './new-application/success-page/success-page.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { MapComponent } from '../map/map.component';
-import { DocumentaryRequirementsComponent } from './new-application/documentary-requirements/documentary-requirements.component';
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
-import { ZoningClearanceFormComponent } from './new-application/forms/zoning-clearance-form/zoning-clearance-form.component';
-import { BuildingPermitFormComponent } from './new-application/forms/building-permit-form/building-permit-form.component';
-import { SanitaryPermitFormComponent } from './new-application/forms/sanitary-permit-form/sanitary-permit-form.component';
-import { ElectricalPermitFormComponent } from './new-application/forms/electrical-permit-form/electrical-permit-form.component';
-import { CivilEngineerAffidavitComponent } from './new-application/forms/civil-engineer-affidavit/civil-engineer-affidavit.component';
-import { GeodeticEngineerAffidavitComponent } from './new-application/forms/geodetic-engineer-affidavit/geodetic-engineer-affidavit.component';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -62,11 +46,6 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from '../../environments/environment';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { AdditionalPermitsComponent } from './new-application/additional-permits/additional-permits.component';
-import { ExcavationPermitComponent } from './new-application/forms/excavation-permit/excavation-permit.component';
-import { DemolitionPermitComponent } from './new-application/forms/demolition-permit/demolition-permit.component';
-import { FencingPermitComponent } from './new-application/forms/fencing-permit/fencing-permit.component';
-import { OtherPermitsComponent } from './new-application/other-permits/other-permits.component';
 import { ViewApplicationComponent } from './view-application/view-application.component';
 import { UserApplicationsTableComponent } from './user-applications-table/user-applications-table.component';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -74,6 +53,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FileUploadComponent } from './new-application/forms/file-upload/file-upload.component';
 import { DashboardComponentsModule } from '../dashboard-components/dashboard-components.module';
 import { MaterialModule } from '../material-module';
+
+import { BuildingPermitComponent } from './new-application/building-permit/building-permit.component';
+import { OccupancyPermitComponent } from './new-application/occupancy-permit/occupancy-permit.component';
+import { ExcavationPermitComponent } from './new-application/excavation-permit/excavation-permit.component';
+import { FencingPermitComponent } from './new-application/fencing-permit/fencing-permit.component';
+import { DemolitionPermitComponent } from './new-application/demolition-permit/demolition-permit.component';
 
 @NgModule({
   declarations: [
@@ -83,33 +68,17 @@ import { MaterialModule } from '../material-module';
     ExistingApplicationsComponent,
     UserFormsComponent,
     StepOneComponent,
-    InitialFormsComponent,
-    BuildingPermitFormsComponent,
-    DesignAnalysisFormsComponent,
-    ProfessionalDetailsComponent,
-    ClearanceFormsComponent,
-    AffidavitFilesComponent,
-    OtherRequirementsComponent,
     ChecklistSummaryComponent,
     SuccessPageComponent,
-    DocumentaryRequirementsComponent,
-    ZoningClearanceFormComponent,
-    BuildingPermitFormComponent,
-    SanitaryPermitFormComponent,
-    ElectricalPermitFormComponent,
-    CivilEngineerAffidavitComponent,
-    GeodeticEngineerAffidavitComponent,
     UserEditProfileComponent,
-    AdditionalPermitsComponent,
-    ExcavationPermitComponent,
-    DemolitionPermitComponent,
-    FencingPermitComponent,
-    OtherPermitsComponent,
     ViewApplicationComponent,
     UserApplicationsTableComponent,
     FileUploadComponent,
-    NoticeOfConstructionComponent,
-    BuildingPlansComponent,
+    BuildingPermitComponent,
+    OccupancyPermitComponent,
+    ExcavationPermitComponent,
+    FencingPermitComponent,
+    DemolitionPermitComponent,
   ],
   imports: [
     CommonModule,
