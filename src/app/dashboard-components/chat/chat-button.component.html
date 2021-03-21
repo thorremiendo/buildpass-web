@@ -1,0 +1,8 @@
+
+<button mat-button [matMenuTriggerFor]="menu" >
+    <mat-icon  aria-label="chat icon">chat</mat-icon>
+<mat-menu #menu="matMenu" yPosition="above" [overlapTrigger]="false" (click)="$event.stopPropagation(); false;">
+    <app-chat-body>
+    </app-chat-body>
+</mat-menu>
+

@@ -40,6 +40,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatBadgeModule } from '@angular/material/badge';
 import { LocaleCurrencyInputModule } from 'locale-currency-input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DashboardComponentsModule } from 'src/app/dashboard-components/dashboard-components.module';
+import { MaterialModule } from 'src/app/material-module';
 
 @NgModule({
   declarations: [
@@ -85,6 +87,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatBadgeModule,
     LocaleCurrencyInputModule,
     MatProgressSpinnerModule,
+    DashboardComponentsModule,
+    MaterialModule
   ],
 
   providers: [CurrencyPipe],

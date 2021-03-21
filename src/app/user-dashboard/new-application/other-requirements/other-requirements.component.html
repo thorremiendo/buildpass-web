@@ -1,0 +1,287 @@
+<div class="container">
+  <div class="d-flex justify-content-center mt-5" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div class="row mx-5" *ngIf="!isLoading">
+    <div class="d-flex justify-content-between w-100">
+      <div>
+        <h2>Building Permit Application</h2>
+        <p>
+          Click <a href="" target="_blank">here</a> to view all required forms
+          for Building Permit Application.
+        </p>
+        <hr />
+        <p class="pt-5">Please upload the necessary files.</p>
+        <p style="font-size: 14px; color: maroon; font-weight: bold">
+          You can only upload PDF files.
+        </p>
+      </div>
+      <div>
+        <img
+          src="../../../../assets/illustrations/checklist.png"
+          class="illustration"
+        />
+      </div>
+    </div>
+    <div class="content px-5 w-100">
+      <div class="d-flex align-items-center mt-3">
+        <mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
+          >attachment</mat-icon
+        >
+        <h3 class="mt-2">Other Requirements</h3>
+      </div>
+      <hr />
+
+      <div class="mb-4">
+        <div class="d-flex justify-content-between">
+          <h5>Barangay Certificate</h5>
+          <mat-icon *ngIf="barangayClearance" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'barangayClearance')"
+          [multiple]="false"
+          accept="application/pdf"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="barangayClearance"
+            [removable]="true"
+            (removed)="onRemove('barangayClearance')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ barangayClearance.name }} ({{
+                barangayClearance.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div
+        class="mb-4"
+        *ngIf="applicationInfo.project_detail.total_floor_area >= 10000"
+      >
+        <div class="d-flex justify-content-between">
+          <h5>
+            Environmental Compliance Certificate of Building for
+            Critical/Hazardous Projects or for a floor area of 10,000 sq.m
+          </h5>
+          <mat-icon *ngIf="environmentalCompliance" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'environmentalCompliance')"
+          [multiple]="false"
+          accept="application/pdf"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="environmentalCompliance"
+            [removable]="true"
+            (removed)="onRemove('environmentalCompliance')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ environmentalCompliance.name }} ({{
+                environmentalCompliance.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4">
+        <div class="d-flex justify-content-between">
+          <h5>
+            Clearance from other government agencies, pursuant to No. 12 (B) of
+            Section 302 of the IRR of the National Building Code (PD 1096) (if
+            applicable)
+          </h5>
+          <mat-icon *ngIf="governmentClearance" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'governmentClearance')"
+          [multiple]="false"
+          accept="application/pdf"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="governmentClearance"
+            [removable]="true"
+            (removed)="onRemove('governmentClearance')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ governmentClearance.name }} ({{
+                governmentClearance.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4">
+        <div class="d-flex justify-content-between">
+          <h5>
+            Certificate of Construction Safety Health Program (CSHP) from DOLE
+          </h5>
+          <mat-icon *ngIf="chspCertificate" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'chspCertificate')"
+          [multiple]="false"
+          accept="application/pdf"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="chspCertificate"
+            [removable]="true"
+            (removed)="onRemove('chspCertificate')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ chspCertificate.name }} ({{
+                chspCertificate.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4" *ngIf="applicationInfo.is_within_subdivision == 1">
+        <div class="d-flex justify-content-between">
+          <h5>Consent from the subdivision / home owners association</h5>
+          <mat-icon *ngIf="subdivisionConsent" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'subdivisionConsent')"
+          [multiple]="false"
+          accept="application/pdf"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="subdivisionConsent"
+            [removable]="true"
+            (removed)="onRemove('subdivisionConsent')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ subdivisionConsent.name }} ({{
+                subdivisionConsent.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4" *ngIf="applicationInfo.is_under_mortgage == 1">
+        <div class="d-flex justify-content-between">
+          <h5>
+            Consent from the bank, cooperative and individual to whom the lot
+            has mortgage
+          </h5>
+          <mat-icon *ngIf="mortgageConsent" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'mortgageConsent')"
+          [multiple]="false"
+          accept="application/pdf"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="mortgageConsent"
+            [removable]="true"
+            (removed)="onRemove('mortgageConsent')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ mortgageConsent.name }} ({{
+                mortgageConsent.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4" *ngIf="applicationInfo.is_owned_by_corporation == 1">
+        <div class="d-flex justify-content-between">
+          <h5>Secretary certificate / articles of Inc.</h5>
+          <mat-icon *ngIf="secretaryCertificate" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'secretaryCertificate')"
+          [multiple]="false"
+          accept="application/pdf"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="secretaryCertificate"
+            [removable]="true"
+            (removed)="onRemove('secretaryCertificate')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ secretaryCertificate.name }} ({{
+                secretaryCertificate.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="mb-4" *ngIf="applicationInfo.is_property_have_coowners == 1">
+        <div class="d-flex justify-content-between">
+          <h5>Consent from co-owner/s (to apply process, name, sign, pay)</h5>
+          <mat-icon *ngIf="consentFromLotOwners" style="color: green"
+            >check_circle</mat-icon
+          >
+        </div>
+        <ngx-dropzone
+          (change)="onSelect($event, 'consentFromLotOwners')"
+          [multiple]="false"
+          accept="application/pdf"
+        >
+          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="consentFromLotOwners"
+            [removable]="true"
+            (removed)="onRemove('consentFromLotOwners')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ consentFromLotOwners.name }} ({{
+                consentFromLotOwners.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+
+      <div class="d-flex justify-content-between mb-4">
+        <div>
+          <!-- <button mat-raised-button color="accent" (click)="callSaveAsDraft()">
+            Save as Draft
+          </button> -->
+        </div>
+        <div>
+          <button mat-raised-button color="primary" (click)="callNext()">
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="content-background col-md-6">
+        <img
+          class="img-fluid mt-5"
+          src="../../../assets/illustrations/construction.png"
+        />
+      </div> -->
+  </div>
+</div>

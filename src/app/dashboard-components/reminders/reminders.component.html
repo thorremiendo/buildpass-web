@@ -1,0 +1,64 @@
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>Reminders</mat-card-title>
+      <button mat-button color="primary">View All</button>
+    </mat-card-header>
+    <hr class="m-0" />
+    <mat-card-content>
+      <!-- <div class="row ml-3" *ngFor="let reminder of reminders">
+        <mat-icon aria-hidden="false" class="mr-2" style="color: goldenrod"
+          >message</mat-icon
+        >
+        <p>{{ reminder }}</p>
+      </div> -->
+      <div
+        id="carouselContent"
+        class="carousel slide carousel-bg zindex-2 w-100"
+        data-ride="carousel"
+      >
+        <div class="carousel-inner" role="listbox">
+          <div class="carousel-item active text-center p-4">
+            <p>
+              Check out our construction permit online application
+              guidelines <a href="#">here</a>.
+            </p>
+          </div>
+          <div class="carousel-item text-center p-4">
+            <p>
+              Make sure all forms are correctly and completely filled-out.
+            </p>
+          </div>
+          <div class="carousel-item text-center p-4">
+            <p>
+              Don’t forget to bring your proof of payment, original signed
+              and sealed documents upon claiming your Building Permit.
+            </p>
+          </div>
+        </div>
+        <a
+          class="carousel-control-prev"
+          href="#carouselContent"
+          role="button"
+          data-slide="prev"
+        >
+          <span
+            class="carousel-control-prev-icon"
+            aria-hidden="true"
+          ></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a
+          class="carousel-control-next"
+          href="#carouselContent"
+          role="button"
+          data-slide="next"
+        >
+          <span
+            class="carousel-control-next-icon"
+            aria-hidden="true"
+          ></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </mat-card-content>
+  </mat-card>

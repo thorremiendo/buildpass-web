@@ -169,7 +169,7 @@
                 &nbsp;{{
                   data.projectDetails.project_cost_cap == "undefined"
                     ? "N/A"
-                    : data.projectDetails.project_cost_cap
+                    : (data.projectDetails.project_cost_cap | currency: "PHP")
                 }}
               </h5>
             </div>
@@ -186,7 +186,7 @@
               </h5>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
             <div class="d-flex">
               <h5>Tax Declaration Number:</h5>
               <h5 style="color: maroon">
@@ -212,7 +212,20 @@
           </div>
           <hr />
         </div>
+
         <hr />
+        <div class="row">
+          <div class="col-md-3">
+            <div class="d-flex">
+              <h5>1% of Project Cost:</h5>
+              <h5 style="color: maroon; font-weight: bold">
+                &nbsp;{{
+                  data.projectDetails.project_cost_cap * 0.01 | currency: "PHP"
+                }}
+              </h5>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

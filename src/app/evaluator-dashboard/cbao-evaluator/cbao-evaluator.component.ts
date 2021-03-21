@@ -1,3 +1,4 @@
+import { UploadSupportingDocumentsComponent } from './../upload-supporting-documents/upload-supporting-documents.component';
 import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks-history-table.component';
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -121,6 +122,22 @@ export class CbaoEvaluatorComponent implements OnInit {
       (form) => form.document_status_id == 1 || form.document_status_id == 2
     );
     return isReviewed;
+  }
+
+  handleAddSupportingDocument() {
+    const dialogRef = this.dialog.open(UploadSupportingDocumentsComponent, {
+      width: '1200px',
+      height: '800px',
+      data: {
+        evaluator: this.evaluatorDetails,
+        route: this.route,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+      this.ngOnInit();
+    });
   }
 
   nonCompliant() {

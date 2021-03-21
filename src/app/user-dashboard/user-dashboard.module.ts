@@ -51,6 +51,8 @@ import { UserApplicationsTableComponent } from './user-applications-table/user-a
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FileUploadComponent } from './new-application/forms/file-upload/file-upload.component';
+import { DashboardComponentsModule } from '../dashboard-components/dashboard-components.module';
+import { MaterialModule } from '../material-module';
 
 import { BuildingPermitComponent } from './new-application/building-permit/building-permit.component';
 import { OccupancyPermitComponent } from './new-application/occupancy-permit/occupancy-permit.component';
@@ -118,6 +120,8 @@ import { DemolitionPermitComponent } from './new-application/demolition-permit/d
     MatStepperModule,
     MatProgressSpinnerModule,
     SweetAlert2Module.forRoot(),
+    MaterialModule,
+
   ],
 })
 export class UserModule {}

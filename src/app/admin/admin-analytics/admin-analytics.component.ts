@@ -9,13 +9,14 @@ import { WaterMarkService } from '../../core';
 export class AdminAnalyticsComponent implements OnInit {
   private testDoc: string =
     //'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/bldg-permit-certificate.pdf';
-   'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/Certificate-of-Zoning-Compliance-Form-BLANK-FORM.doc.pdf';
+   //'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/Certificate-of-Zoning-Compliance-Form-BLANK-FORM.doc.pdf';
   // 'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/fsec.pdf';
-  //'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/wwms.pdf'
+  'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/wwms.pdf'
   private doc_type: string = 
     //'building-permit';
     //'zoning-permit';
-    'zoning-permit';
+    //'fire-permit';
+    'wwms-permit'
 
   private id = 1
   constructor(private watermark: WaterMarkService) {}

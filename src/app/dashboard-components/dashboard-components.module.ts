@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from    '@angular/platform-browser/animations';
 import { TopCardComponent } from './top-card/top-card.component';
 import { SharedModule } from '../shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,6 +21,11 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
+import { ChatModule } from './chat/chat.module';
+import { RemindersComponent } from './reminders/reminders.component';
+import { FaqExpansionPanelComponent } from './faq-expansion-panel/faq-expansion-panel.component';
+import { TutorialComponent } from './tutorial/tutorial.component';
+import { MatCarouselModule } from '@ngmodule/material-carousel';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -34,24 +40,28 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     DonutChartComponent,
     TopCardTwoComponent,
     NotificationComponent,
-    ChatBoxComponent],
+    ChatBoxComponent,
+    RemindersComponent,
+    FaqExpansionPanelComponent,
+    TutorialComponent,],
 
   imports: [
     CommonModule,
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     
     MatIconModule,
     MatCardModule,
     MaterialModule,
+    MatCarouselModule.forRoot(),
 
     FlexLayoutModule,
     ChartsModule,
     NgApexchartsModule,
     PerfectScrollbarModule,
-
-   
+    ChatModule,
 
   ],
 
@@ -62,6 +72,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     TopCardTwoComponent,
     NotificationComponent,
     ChatBoxComponent,
+    RemindersComponent,
+    FaqExpansionPanelComponent,
+    TutorialComponent,
+    ChatModule,
   ],
 
   providers: [

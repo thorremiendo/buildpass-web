@@ -1,8 +1,10 @@
 table {
     width: 100%;
+    background-color: transparent;
+    
   }
   
-  .mat-column-index {
+  .mat-column-applicationNumber {
     word-wrap: break-word !important;
     white-space: unset !important;
     flex: 0 0 5% !important;
@@ -17,11 +19,11 @@ table {
     -webkit-hyphens: auto;
     hyphens: auto;
   }
-  .mat-column-name {
+  .mat-column-applicationType {
     word-wrap: break-word !important;
     white-space: unset !important;
-    flex: 0 0 50% !important;
-    width: 50% !important;
+    flex: 0 0 15% !important;
+    width: 15% !important;
     overflow-wrap: break-word;
     word-wrap: break-word;
   
@@ -32,11 +34,11 @@ table {
     -webkit-hyphens: auto;
     hyphens: auto;
   }
-  .mat-column-status {
+  .mat-column-applicationDate {
     word-wrap: break-word !important;
     white-space: unset !important;
-    flex: 0 0 20% !important;
-    width: 20% !important;
+    flex: 0 0 15% !important;
+    width: 15% !important;
     overflow-wrap: break-word;
     word-wrap: break-word;
   
@@ -47,7 +49,7 @@ table {
     -webkit-hyphens: auto;
     hyphens: auto;
   }
-  .mat-column-remarks {
+  .mat-column-applicationStatus {
     word-wrap: break-word !important;
     white-space: unset !important;
     flex: 0 0 20% !important;
@@ -65,8 +67,24 @@ table {
   .mat-column-action {
     word-wrap: break-word !important;
     white-space: unset !important;
-    flex: 0 0 5% !important;
-    width: 5% !important;
+    flex: 0 0 10% !important;
+    width: 10% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+  .mat-column-applicationProgress {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 10% !important;
+    width: 10% !important;
     overflow-wrap: break-word;
     word-wrap: break-word;
   
@@ -78,3 +96,61 @@ table {
     hyphens: auto;
   }
   
+  td, th {
+  height: 80px;
+  width: 20px;
+}
+
+.horizontal-line {
+  background-color: maroon;
+}
+
+mat-card{
+  background-color: transparent;
+}
+
+mat-paginator{
+  background-color: transparent;
+}
+
+mat-progress-bar {
+  margin-top: 40px;
+  height: 10px;
+  border-radius: 20px;
+  color: maroon;
+  background-color: transparent;
+}
+
+.application{
+  &__loader {
+    padding-top: 2em;
+    padding-bottom: 2em;
+  
+    mat-progress-spinner {
+    margin-left: auto;
+    margin-right: auto;
+    }
+  }
+
+  &__empty {
+    padding-top: 2em;
+    padding-bottom: 2em;
+  }
+
+  &__date {
+    width: 250px;
+  }
+
+  &__search {
+    width: 250px;
+    margin-right: 1em;
+  }
+  &__select {
+    width: 250px;
+    margin-right: 1em;
+  }
+}
+  
+
+
+
