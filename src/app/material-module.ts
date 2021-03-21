@@ -42,7 +42,12 @@ import { PlatformModule } from '@angular/cdk/platform';
 import { ObserversModule } from '@angular/cdk/observers';
 import { PortalModule } from '@angular/cdk/portal';
 
+
 @NgModule({
+
+    imports:[
+       
+    ],
     exports: [
         MatAutocompleteModule,
         MatButtonModule,
@@ -85,7 +90,8 @@ import { PortalModule } from '@angular/cdk/portal';
         ObserversModule,
         OverlayModule,
         PlatformModule,
-        PortalModule
+        PortalModule,
+        
     ]
 })
 export class MaterialModule { }

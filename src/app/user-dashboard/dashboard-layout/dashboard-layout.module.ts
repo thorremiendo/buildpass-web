@@ -17,7 +17,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { StepOneComponent } from '../new-application/step-one/step-one.component';
-import { InitialFormsComponent } from '../new-application/initial-forms/initial-forms.component';
 import { NewApplicationPageComponent } from '../new-application/new-application-page/new-application-page.component';
 import { NewApplicationRouterComponent } from '../new-application/new-application-router/new-application-router.component';
 import { CoreModule } from 'src/app/core/core.module';
@@ -41,6 +40,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatBadgeModule } from '@angular/material/badge';
 import { LocaleCurrencyInputModule } from 'locale-currency-input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DashboardComponentsModule } from 'src/app/dashboard-components/dashboard-components.module';
+import { MaterialModule } from 'src/app/material-module';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatBadgeModule,
     LocaleCurrencyInputModule,
     MatProgressSpinnerModule,
+    DashboardComponentsModule,
+    MaterialModule
   ],
 
   providers: [CurrencyPipe],

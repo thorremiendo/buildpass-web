@@ -1,0 +1,25 @@
+
+.chat-card {
+    max-width: 300px;
+    max-height: 400px;
+
+  }
+
+  img {
+    background-size: cover;
+    max-width: 100px;
+    max-height: 200px;
+
+  }
+  
+  mat-card-header{
+     max-height: 200px;
+     background-color: maroon;
+
+      mat-card-title{
+          color:white;
+      }
+      mat-card-subtitle{
+          color:white
+      }
+  }

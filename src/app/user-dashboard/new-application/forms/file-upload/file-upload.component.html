@@ -6,7 +6,7 @@
         <div class="file-actions col-4">
             <div *ngIf="!loading">
                 <a *ngIf="filePath" [href]="filePath" target="_blank">View File</a>
-                <span *ngIf="filePath" (click)="openFileChooser()">Change</span>
+                <span *ngIf="filePath" (click)="toggleEditMode()">Change</span>
                 <mat-icon
                     *ngIf="file || filePath"
                 >
@@ -19,10 +19,9 @@
             >
             </mat-spinner>
         </div>
-        <input id="file-input-{{doctypeId}}" class="file-input" type="file" (change)="onUpdate($event)" />
     </div>
     <ngx-dropzone
-        *ngIf="!filePath"
+        *ngIf="!filePath || editMode"
         (change)="onSelect($event)"
         [multiple]="false"
     >
