@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { ExcavationPermitService } from './../../../core/services/excavation-permit.service';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -33,6 +34,15 @@ export class StepOneComponent implements OnInit {
   public withExcavation;
   public useExistingInfo;
   public isLoading: boolean = false;
+  public userBuildingPermits = [
+    {
+      bp_number: 'BP-2021-01',
+    },
+    {
+      bp_number: 'BP-2021-02',
+    },
+  ];
+  public selectedBuildingPermit;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -45,6 +55,8 @@ export class StepOneComponent implements OnInit {
     this.isLoading = true;
     this.userInfo = JSON.parse(localStorage.getItem('user'));
     this.isLoading = false;
+    localStorage.removeItem('newApplicationInfo');
+    localStorage.removeItem('commonFieldsInfo');
   }
   getApplicationDescription(id): string {
     return applicationDescriptions[id];
@@ -67,21 +79,33 @@ export class StepOneComponent implements OnInit {
   }
 
   callNext() {
-    const value = this.permitStepOneForm.value;
-    const body = {
-      application_type: this.selectedPermitType,
-      is_representative: value.is_representative,
-      is_lot_owner: value.is_lot_owner,
-      construction_status: value.construction_status,
-      registered_owner: value.registered_owner ? value.registered_owner : 0,
-      is_within_subdivision: value.is_within_subdivision,
-      is_under_mortgage: value.is_under_mortgage,
-      is_owned_by_corporation: value.is_owned_by_corporation,
-      is_property_have_coowners: value.is_property_have_coowners,
-    };
-    console.log({ body });
-    this.newApplicationFormService.setApplicationInfo(body);
+    if (this.selectedPermitType !== '2') {
+      if (this.permitStepOneForm.valid) {
+        const value = this.permitStepOneForm.value;
+        const body = {
+          application_type: this.selectedPermitType,
+          is_representative: value.is_representative,
+          is_lot_owner: value.is_lot_owner,
+          construction_status: value.construction_status,
+          registered_owner: value.registered_owner ? value.registered_owner : 0,
+          is_within_subdivision: value.is_within_subdivision,
+          is_under_mortgage: value.is_under_mortgage,
+          is_owned_by_corporation: value.is_owned_by_corporation,
+          is_property_have_coowners: value.is_property_have_coowners,
+        };
+        console.log({ body });
+        this.newApplicationFormService.setApplicationInfo(body);
 
-    this.router.navigateByUrl('/dashboard/new/step-two/lot-owner');
+        this.router.navigateByUrl('/dashboard/new/step-two/lot-owner');
+      } else {
+        Swal.fire('Error!', 'Fill out all required information!', 'error');
+      }
+    } else {
+      if (!this.selectedBuildingPermit) {
+        Swal.fire('Error!', 'Fill out all required information!', 'error');
+      } else {
+        this.router.navigateByUrl('/dashboard/new/occupancy-permit');
+      }
+    }
   }
 }

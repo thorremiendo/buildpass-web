@@ -37,7 +37,9 @@
           </div>
         </div>
       </ng-container>
-      <ng-container *ngIf="applicantForms">
+      <ng-container
+        *ngIf="applicationInfo.permit_type_id !== 1 && applicantForms"
+      >
         <app-summary-forms-list
           [forms]="applicantForms"
         ></app-summary-forms-list>

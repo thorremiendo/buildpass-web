@@ -250,6 +250,46 @@
       </div>
     </div>
   </div>
+  <div class="summary__card row mt-3" *ngIf="formChange">
+    <div class="summary__card__left col-md-6">
+      <div>
+        <h5>Applicant Complete Name:</h5>
+        <p>
+          {{ formChange.owner_first_name }}
+          {{ formChange.owner_middle_name }}
+          {{ formChange.owner_last_name }}
+          {{ formChange.owner_suffix }}
+        </p>
+        <ng-container *ngIf="formChange.owner_house_number">
+          <h5>Applicant Complete Address:</h5>
+          <p>
+            #{{ formChange.owner_house_number }}
+            {{ formChange.owner_unit_number }}
+            {{ formChange.owner_street }}
+            {{ formChange.owner_barangay }} Baguio City
+          </p>
+        </ng-container>
+      </div>
+    </div>
+    <div class="summary__card__right col-md-6">
+      <div>
+        <ng-container *ngIf="formChange.owner_tin_number">
+          <h5>Applicant TIN Number:</h5>
+          <p>
+            {{ formChange.owner_tin_number }}
+          </p>
+        </ng-container>
+
+        <ng-container *ngIf="formChange.owner_email_address">
+          <h5>Applicant Contact Details:</h5>
+          <p>
+            {{ formChange.owner_email_address }}
+            {{ formChange.owner_contact_number }}
+          </p>
+        </ng-container>
+      </div>
+    </div>
+  </div>
   <div class="row flex-row-reverse">
     <div class="m-4">
       <button mat-raised-button color="primary" type="submit">Proceed</button>

@@ -7,18 +7,17 @@
   height: auto;
 }
 
-.map-container {
-  height: 400px;
-}
-
 // .container {
 //   height: 100vh;
+//   position: relative;
 //   .__left {
 //     overflow: scroll;
-//     height: 100vh;
 //   }
 //   .__right {
-//     height: 100vh;
+//     position: sticky;
+//     bottom: 0;
+//     right: 0;
+//     z-index: 1000;
 //   }
 // }
 .permit-card {

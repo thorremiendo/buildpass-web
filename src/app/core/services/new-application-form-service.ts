@@ -15,10 +15,14 @@ export class NewApplicationFormService {
 
   setApplicationInfo(newApplicationInfo) {
     this.newApplicationSubject.next(newApplicationInfo);
+    localStorage.setItem(
+      'newApplicationInfo',
+      JSON.stringify(newApplicationInfo)
+    );
   }
   setCommonFields(commonFieldsInfo) {
     this.commonFieldsSubject.next(commonFieldsInfo);
-    // localStorage.setItem('applicationDetails', JSON.stringify(commonFieldsInfo));
+    localStorage.setItem('commonFieldsInfo', JSON.stringify(commonFieldsInfo));
   }
   setAdditionalPermits(additionalPermits) {
     this.additionalPermitsSubject.next(additionalPermits);

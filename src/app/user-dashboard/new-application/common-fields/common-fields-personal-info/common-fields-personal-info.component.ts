@@ -39,6 +39,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
   public additionalPermits;
   public barangay: Barangay[];
   public isLoading: boolean = true;
+  public formChange;
   _personalInfoFormCommonFields: FormGroup;
   _submitted = false;
 
@@ -70,7 +71,6 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
-
     this._registerAccountFormService.cast.subscribe(
       (registerAccountSubject) => (this.userDetails = registerAccountSubject)
     );
@@ -127,6 +127,9 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
       blank: [''],
     });
     this.isLoading = false;
+    this._personalInfoFormCommonFields.valueChanges.subscribe((data) => {
+      this.formChange = data;
+    });
   }
 
   createUserDetails() {
