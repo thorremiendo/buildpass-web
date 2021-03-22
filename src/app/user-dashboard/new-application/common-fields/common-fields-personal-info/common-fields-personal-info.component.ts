@@ -74,12 +74,18 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     this._registerAccountFormService.cast.subscribe(
       (registerAccountSubject) => (this.userDetails = registerAccountSubject)
     );
-    this.newApplicationFormService.newApplicationSubject
-      .asObservable()
-      .subscribe(
-        (newApplicationSubject) =>
-          (this.applicationDetails = newApplicationSubject)
+    if (localStorage.getItem('newApplicationInfo')) {
+      this.applicationDetails = JSON.parse(
+        localStorage.getItem('newApplicationInfo')
       );
+    } else {
+      this.newApplicationFormService.newApplicationSubject
+        .asObservable()
+        .subscribe(
+          (newApplicationSubject) =>
+            (this.applicationDetails = newApplicationSubject)
+        );
+    }
 
     console.log(this.applicationDetails);
 
