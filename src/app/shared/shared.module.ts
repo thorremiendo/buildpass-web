@@ -12,6 +12,7 @@ import { ApplicationTimelineComponent } from './application-timeline/application
 import { ApplicationFeesSummaryComponent } from './application-fees-summary/application-fees-summary.component';
 import { RepresentativeDetailsComponent } from './representative-details/representative-details.component';
 import { SummaryFormsListComponent } from './summary-forms-list/summary-forms-list.component';
+import { ApplicationSummaryComponent } from './application-summary/application-summary.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { SummaryFormsListComponent } from './summary-forms-list/summary-forms-li
     ApplicationFeesSummaryComponent,
     RepresentativeDetailsComponent,
     SummaryFormsListComponent,
+    ApplicationSummaryComponent,
   ],
   imports: [CommonModule, FormsModule, MaterialModule],
   exports: [
@@ -35,7 +37,8 @@ import { SummaryFormsListComponent } from './summary-forms-list/summary-forms-li
     ApplicationTimelineComponent,
     ApplicationFeesSummaryComponent,
     RepresentativeDetailsComponent,
-    SummaryFormsListComponent
+    SummaryFormsListComponent,
+    ApplicationSummaryComponent,
   ],
   providers: [MenuItems],
 })

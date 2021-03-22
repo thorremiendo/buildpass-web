@@ -15,6 +15,7 @@ import {
   applicationDescriptions,
   applicationTypes,
 } from '../../../core/enums/application-type.enum';
+import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 
 @Component({
   selector: 'app-step-one',
@@ -34,26 +35,21 @@ export class StepOneComponent implements OnInit {
   public withExcavation;
   public useExistingInfo;
   public isLoading: boolean = false;
-  public userBuildingPermits = [
-    {
-      bp_number: 'BP-2021-01',
-    },
-    {
-      bp_number: 'BP-2021-02',
-    },
-  ];
+  public userBuildingPermits = [];
   public selectedBuildingPermit;
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private newApplicationFormService: NewApplicationFormService,
-    public excavationService: ExcavationPermitService
+    public excavationService: ExcavationPermitService,
+    public applicationInfoService: ApplicationInfoService
   ) {}
 
   ngOnInit(): void {
     this.createForm();
     this.isLoading = true;
     this.userInfo = JSON.parse(localStorage.getItem('user'));
+    this.fetchUserBuildingPermit();
     this.isLoading = false;
     localStorage.removeItem('newApplicationInfo');
     localStorage.removeItem('commonFieldsInfo');
@@ -63,6 +59,14 @@ export class StepOneComponent implements OnInit {
   }
   getApplicationType(id): string {
     return applicationTypes[id];
+  }
+  fetchUserBuildingPermit() {
+    this.applicationInfoService
+      .fetchUserBuildingPermit(this.userInfo.id)
+      .subscribe((res) => {
+        this.userBuildingPermits = res.data;
+        console.log(this.userBuildingPermits);
+      });
   }
   createForm() {
     this.permitStepOneForm = this.fb.group({
@@ -104,7 +108,11 @@ export class StepOneComponent implements OnInit {
       if (!this.selectedBuildingPermit) {
         Swal.fire('Error!', 'Fill out all required information!', 'error');
       } else {
-        this.router.navigateByUrl('/dashboard/new/occupancy-permit');
+        console.log(this.selectedBuildingPermit);
+        this.router.navigate([
+          '/dashboard/new/details',
+          this.selectedBuildingPermit,
+        ]);
       }
     }
   }

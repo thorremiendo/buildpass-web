@@ -136,8 +136,8 @@
             <mat-select [(value)]="selectedBuildingPermit">
               <mat-option
                 *ngFor="let item of userBuildingPermits"
-                value="{{ item.bp_number }}"
-                >{{ item.bp_number }}</mat-option
+                value="{{ item.id }}"
+                >{{ item.ocpas_code }}</mat-option
               >
             </mat-select>
           </mat-form-field>

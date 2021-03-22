@@ -63,4 +63,17 @@ export class ApplicationInfoService {
     const url = `/application/${id}/updateStatus`;
     return this.api.post(url, body);
   }
+
+  fetchUserBuildingPermit(id) {
+    const url = `/user/${id}/building-permit`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        //console.log('fetchUserDocs Result:', data);
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
 }

@@ -1,0 +1,126 @@
+<mat-card>
+  <mat-card-content>
+    <div class="d-flex justify-content-between">
+      <div>
+        <h4 style="color: #313131" class="mb-4">
+          <strong>Building Permit Details</strong>
+        </h4>
+      </div>
+    </div>
+    <div class="row mb-1">
+      <div class="avatar-container col-md-4">
+        <div>
+          <h5>
+            <strong
+              >&nbsp;{{ applicationInfo.applicant_detail.first_name }}&nbsp;{{
+                applicationInfo.applicant_detail.last_name
+              }}</strong
+            >
+          </h5>
+        </div>
+        <div>
+          <h5 style="color: #7b7b7b">
+            {{ applicationInfo.applicant_detail.email_address }}
+          </h5>
+        </div>
+        <div>
+          <h5 style="color: #7b7b7b">
+            {{ applicationInfo.applicant_detail.contact_number }}
+          </h5>
+        </div>
+        <div>
+          <h5 style="color: #7b7b7b">
+            {{ applicationInfo.applicant_detail.barangay }}
+          </h5>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="col">
+          <h5 style="color: #7b7b7b">Application Number:</h5>
+          <h5>
+            <strong>{{ applicationInfo.ocpas_code }}</strong>
+          </h5>
+        </div>
+        <div class="col">
+          <h5 style="color: #7b7b7b">Release Date:</h5>
+          <h5>
+            <strong
+              >&nbsp;{{
+                applicationInfo.created_at | date: "MMMM dd, yyyy"
+              }}</strong
+            >
+          </h5>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="col">
+          <h5 style="color: #7b7b7b">Application Status:</h5>
+          <h5>
+            <strong
+              >&nbsp;
+              {{ getApplicationStatus(applicationInfo.application_status_id) }}
+            </strong>
+          </h5>
+        </div>
+        <div class="col">
+          <h5 style="color: #7b7b7b">Application Type:</h5>
+          <h5>
+            <strong
+              >&nbsp;{{
+                getApplicationType(applicationInfo.permit_type_id)
+              }}</strong
+            >
+          </h5>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="mt-5">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="openRepresentativeDialog()"
+        *ngIf="applicationInfo.is_representative == 1"
+      >
+        Representative Details
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="openProjectDialog()"
+        class="ml-2"
+      >
+        Project Details
+      </button>
+    </div> -->
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-content>
+    <mat-tab-group>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>assignment</mat-icon>
+          Project Details
+        </ng-template>
+        <!-- <app-project-details></app-project-details
+      > -->
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>folder</mat-icon>
+          Document Manager
+        </ng-template></mat-tab
+      >
+    </mat-tab-group>
+    <div>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="handleNext()"
+        class="text-right"
+      >
+        Continue
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

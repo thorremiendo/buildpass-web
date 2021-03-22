@@ -5,8 +5,11 @@
   </div>
 </div>
 
-
-<table mat-table [dataSource]="applicationInfoData" class="mat-elevation-z0 p-5 ">
+<table
+  mat-table
+  [dataSource]="applicationInfoData"
+  class="mat-elevation-z0 p-5"
+>
   <!--- Note that these columns can be defined in any order.
                 The actual rendered columns are set as a property on the row definition" -->
   <ng-container matColumnDef="applicationNumber">
@@ -37,7 +40,8 @@
 
   <ng-container matColumnDef="applicationProgress">
     <th mat-header-cell *matHeaderCellDef>Progress</th>
-    <td mat-cell *matCellDef="let element">{{value}}%
+    <td mat-cell *matCellDef="let element">
+      {{ value }}%
       <!-- <mat-progress-bar
             class="example-margin"
             [value]="value"
@@ -49,12 +53,20 @@
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef>Action</th>
     <td mat-cell *matCellDef="let element">
-      <button mat-button color="accent" (click)="viewApplication(element.id)"
-        *ngIf="element.application_status_id !== 6">
+      <button
+        mat-button
+        color="accent"
+        (click)="viewApplication(element.id)"
+        *ngIf="element.application_status_id !== 6"
+      >
         View
       </button>
-      <button mat-button color="accent" (click)="continueApplication(element.user_id, element.id)"
-        *ngIf="element.application_status_id == 6">
+      <button
+        mat-button
+        color="accent"
+        (click)="continueApplication(element.user_id, element.id)"
+        *ngIf="element.application_status_id == 6"
+      >
         Proceed
       </button>
     </td>
@@ -63,22 +75,30 @@
   <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
 </table>
 
-<div class="application__loader text-center py-5" *ngIf='isFetching'>
+<div class="application__loader text-center py-5" *ngIf="isFetching">
   <p>Fetching Applications...</p>
-  <mat-progress-spinner mode='indeterminate' diameter='50'></mat-progress-spinner>
+  <mat-progress-spinner
+    mode="indeterminate"
+    diameter="50"
+  ></mat-progress-spinner>
 </div>
 
-<div class="application__empty text-center py-5" *ngIf='!isFetching && applicationInfoData.length === 0'>
+<div
+  class="application__empty text-center py-5"
+  *ngIf="!isFetching && applicationInfoData.length === 0"
+>
   <h2>No application found</h2>
-  <button (click)="redirect()" mat-button style="background-color: transparent;">
-    <h4 style="color: #f50057; font-weight: bold; margin: auto;">
+  <button (click)="redirect()" mat-button style="background-color: transparent">
+    <h4 style="color: #f50057; font-weight: bold; margin: auto">
       Apply construction permit now >
     </h4>
   </button>
-
 </div>
 
-<mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
-<div *ngIf="applicationInfoData != null && applicationInfoData.length >= 5">
- 
-</div>
+<mat-paginator
+  [pageSizeOptions]="[5, 10, 15]"
+  showFirstLastButtons
+></mat-paginator>
+<div
+  *ngIf="applicationInfoData != null && applicationInfoData.length >= 5"
+></div>
