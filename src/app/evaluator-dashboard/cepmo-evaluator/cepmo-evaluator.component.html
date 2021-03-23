@@ -1,128 +1,156 @@
-<mat-card>
+<mat-card *ngIf="!isLoading">
   <mat-card-content>
     <div>
       <h4 style="color: #400c06" class="mb-4">
         <strong>Application Forms</strong>
       </h4>
-      <div *ngIf="applicationDetails.application_status_id == 3">
-        <h5>
-          <strong> BFP Status: </strong>
-          {{
-            applicationDetails.parallel_bfp_status_id == 0
-              ? "Pending"
-              : applicationDetails.parallel_bfp_status_id == 1
-              ? "Review Done - Compliant"
-              : "Review Done - Non Compliant"
-          }}
-        </h5>
-        <h5>
-          <strong> CEPMO Status: </strong>
-          {{
-            applicationDetails.parallel_cepmo_status_id == 0
-              ? "Pending"
-              : applicationDetails.parallel_cepmo_status_id == 1
-              ? "Review Done - Compliant"
-              : "Review Done - Non Compliant"
-          }}
-        </h5>
-        <h5>
-          <strong> CBAO Status: </strong>
-          {{
-            applicationDetails.parallel_cbao_status_id == 0
-              ? "Pending"
-              : applicationDetails.parallel_cbao_status_id == 1
-              ? "Review Done - Compliant"
-              : "Review Done - Non Compliant"
-          }}
-        </h5>
-      </div>
     </div>
+    <div *ngIf="applicationDetails.application_status_id == 3">
+      <h5>
+        <strong> BFP Status: </strong>
+        {{
+          applicationDetails.parallel_bfp_status_id == 0
+            ? "Pending"
+            : applicationDetails.parallel_bfp_status_id == 1
+            ? "Review Done - Compliant"
+            : "Review Done - Non Compliant"
+        }}
+      </h5>
+      <h5>
+        <strong> CEPMO Status: </strong>
+        {{
+          applicationDetails.parallel_cepmo_status_id == 0
+            ? "Pending"
+            : applicationDetails.parallel_cepmo_status_id == 1
+            ? "Review Done - Compliant"
+            : "Review Done - Non Compliant"
+        }}
+      </h5>
+      <h5>
+        <strong> CBAO Status: </strong>
+        {{
+          applicationDetails.parallel_cbao_status_id == 0
+            ? "Pending"
+            : applicationDetails.parallel_cbao_status_id == 1
+            ? "Review Done - Compliant"
+            : "Review Done - Non Compliant"
+        }}
+      </h5>
+    </div>
+    <mat-tab-group>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>assignment</mat-icon>
+          Applicant Forms
+        </ng-template>
+        <div>
+          <table mat-table [dataSource]="dataSource">
+            <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+            <ng-container matColumnDef="index">
+              <th mat-header-cell *matHeaderCellDef>No.</th>
+              <td mat-cell *matCellDef="let element; let i = index">
+                {{ i + 1 }}
+              </td>
+            </ng-container>
+            <!--  Name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Document</th>
+              <td mat-cell *matCellDef="let element">
+                {{ getDocType(element.document_id) }}
+              </td>
+            </ng-container>
 
-    <div>
-      <table mat-table [dataSource]="dataSource">
-        <!--- Note that these columns can be defined in any order.
-                  The actual rendered columns are set as a property on the row definition" -->
-        <ng-container matColumnDef="index">
-          <th mat-header-cell *matHeaderCellDef>No.</th>
-          <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
-        </ng-container>
-        <!--  Name Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>Document</th>
-          <td mat-cell *matCellDef="let element">
-            {{ getDocType(element.document_id) }}
-          </td>
-        </ng-container>
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                [style.color]="
+                  element.document_status_id == 1 ? 'green' : 'red'
+                "
+              >
+                {{ getDocStatus(element.document_status_id) }}
+              </td>
+            </ng-container>
+            <!-- Remarks Column -->
+            <ng-container matColumnDef="remarks">
+              <th mat-header-cell *matHeaderCellDef>Remarks</th>
+              <td mat-cell *matCellDef="let element">
+                <mat-icon
+                  class="remark"
+                  (click)="openRemarksHistory(element)"
+                  [matBadge]="element.document_revision.length"
+                  matBadgeColor="warn"
+                  >remove_red_eye</mat-icon
+                >
+              </td>
+            </ng-container>
 
-        <!-- Status Column -->
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef>Status</th>
-          <td
-            mat-cell
-            *matCellDef="let element"
-            [style.color]="element.document_status_id == 1 ? 'green' : 'red'"
+            <!-- Action Column -->
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>Action</th>
+              <td mat-cell *matCellDef="let element">
+                <button
+                  mat-button
+                  color="accent"
+                  (click)="openFormDialog(element)"
+                >
+                  <mat-icon class="action">mode_edit</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+          <button
+            class="mt-2 w-100"
+            mat-raised-button
+            color="accent"
+            (click)="openWwmsDialog()"
+            *ngIf="evaluatorRole.code == 'CEPMO-DV'"
+            [disabled]="checkWwmsUploaded()"
           >
-            {{ getDocStatus(element.document_status_id) }}
-          </td>
-        </ng-container>
-        <!-- Remarks Column -->
-        <ng-container matColumnDef="remarks">
-          <th mat-header-cell *matHeaderCellDef>Remarks</th>
-          <td mat-cell *matCellDef="let element">
-            <mat-icon
-              class="remark"
-              (click)="openRemarksHistory(element)"
-              [matBadge]="element.document_revision.length"
-              matBadgeColor="warn"
-              >remove_red_eye</mat-icon
+            Generate WWMS BP Certificate
+          </button>
+          <mat-progress-bar
+            mode="indeterminate"
+            *ngIf="isLoading"
+          ></mat-progress-bar>
+          <div class="d-flex justify-content-between mt-5">
+            <button
+              mat-raised-button
+              color="warn"
+              (click)="nonCompliant()"
+              [disabled]="checkFormsCompliant()"
             >
-          </td>
-        </ng-container>
-
-        <!-- Action Column -->
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>Action</th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-button color="accent" (click)="openFormDialog(element)">
-              <mat-icon class="action">mode_edit</mat-icon>
+              Review Done (Non-Compliant)
             </button>
-          </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
-      <button
-        class="mt-2 w-100"
-        mat-raised-button
-        color="accent"
-        (click)="openWwmsDialog()"
-        *ngIf="evaluatorRole.code == 'CEPMO-DV'"
-        [disabled]="checkWwmsUploaded()"
-      >
-        Generate WWMS BP Certificate
-      </button>
-      <mat-progress-bar
-        mode="indeterminate"
-        *ngIf="isLoading"
-      ></mat-progress-bar>
-      <div class="d-flex justify-content-between mt-5">
-        <button
-          mat-raised-button
-          color="warn"
-          (click)="nonCompliant()"
-          [disabled]="checkFormsCompliant()"
-        >
-          Review Done (Non-Compliant)
-        </button>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="compliant()"
-          [disabled]="!checkFormsCompliant()"
-        >
-          Review Done (Compliant)
-        </button>
-      </div>
-    </div>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="compliant()"
+              [disabled]="!checkFormsCompliant()"
+            >
+              Review Done (Compliant)
+            </button>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>folder</mat-icon>
+          Supporting Documents
+        </ng-template>
+        <app-supporting-documents
+          [evaluatorDetails]="evaluatorDetails"
+          [applicationDetails]="applicationDetails"
+        ></app-supporting-documents>
+      </mat-tab>
+    </mat-tab-group>
   </mat-card-content>
 </mat-card>
+<div class="spinner" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>

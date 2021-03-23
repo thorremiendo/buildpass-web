@@ -124,22 +124,6 @@ export class CbaoEvaluatorComponent implements OnInit {
     return isReviewed;
   }
 
-  handleAddSupportingDocument() {
-    const dialogRef = this.dialog.open(UploadSupportingDocumentsComponent, {
-      width: '1200px',
-      height: '800px',
-      data: {
-        evaluator: this.evaluatorDetails,
-        route: this.route,
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-      this.ngOnInit();
-    });
-  }
-
   nonCompliant() {
     this.isLoading = true;
     if (this.checkFormsReviewed()) {
@@ -365,6 +349,37 @@ export class CbaoEvaluatorComponent implements OnInit {
           }
         );
       });
+  }
+
+  handleReject() {
+    this.isLoading = false;
+    const body = {
+      application_status_id: 16,
+    };
+
+    Swal.fire({
+      title: 'Are you sure?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: `Yes`,
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.isLoading = false;
+            Swal.fire('Success!', `Application Denied!`, 'success').then(
+              (result) => {
+                window.location.reload();
+              }
+            );
+            this.ngOnInit();
+          });
+      } else if (result.isDenied) {
+      }
+    });
   }
   openBldgPermitDialog() {
     const dialogRef = this.dialog.open(ReleaseBldgPermitComponent, {

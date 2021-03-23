@@ -175,7 +175,6 @@ export class ExcavationPermitComponent implements OnInit {
       project_landmark: this.exisitingApplicationInfo.project_detail.landmark,
     };
     this.newApplicationService.submitApplication(body).subscribe((res) => {
-      debugger;
       this.excavationId = res.data.id;
       this.isLoading = false;
     });

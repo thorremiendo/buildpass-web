@@ -76,4 +76,21 @@ export class ApplicationInfoService {
       })
     );
   }
+
+  uploadSupportingFiles(body, id) {
+    const url = `/application/${id}/files`;
+    return this.api.post(url, body);
+  }
+
+  fetchApplicationSupportingFiles(id) {
+    const url = `/application/${id}/supporting-files`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
 }

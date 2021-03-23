@@ -12,4 +12,5 @@ export enum applicationStatus {
   'Permit has been Released' = 11,
   'For Initial Evaluation of the Division Chief' = 12,
   'For Final Evaluation of the Building Official' = 13,
+  'Application Denied' = 16,
 }

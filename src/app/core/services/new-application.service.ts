@@ -33,6 +33,7 @@ export class NewApplicationService {
 
     return this.api.post(url, body);
   }
+
   saveAsDraft(body) {
     const url = `/user/lastroute`;
 
@@ -58,7 +59,7 @@ export class NewApplicationService {
   }
 
   fetchUserInfo(id) {
-    const url = `/user/${id}/applicationid`;
+    const url = `/user/${id}/application-id`;
 
     return this.api.get(url);
   }

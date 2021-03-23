@@ -1,8 +1,14 @@
 <div>
   <div>
     <h4 style="color: #400c06" class="mb-4">
-      <strong>Supporting Documents</strong>
+      <strong>Upload Supporting Documents</strong>
     </h4>
+  </div>
+  <div>
+    <mat-form-field class="example-full-width">
+      <mat-label>File Name</mat-label>
+      <input matInput [formControl]="fileName" />
+    </mat-form-field>
   </div>
   <ngx-dropzone (change)="onSelect($event)">
     <ngx-dropzone-label>Click to upload files!</ngx-dropzone-label>
@@ -33,7 +39,7 @@
       class="text-right mt-3"
       mat-raised-button
       color="primary"
-      (click)="onNoClick()"
+      (click)="handleUploadSupportingFiles()"
     >
       Save
     </button>

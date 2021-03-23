@@ -17,7 +17,7 @@ export class BuildingPermitComponent implements OnInit {
   public formData;
   public applicationId;
   public applicationDetails;
-  public isLoading: boolean = false;
+  public isLoading: boolean = true;
 
   public forms: any = [
     {
@@ -107,6 +107,7 @@ export class BuildingPermitComponent implements OnInit {
             this.pdfSource = this.forms[0].src;
           });
       });
+    this.isLoading = false;
   }
 
   ngAfterViewInit() {
@@ -176,6 +177,7 @@ export class BuildingPermitComponent implements OnInit {
   }
 
   submitDocument(file: File, doctypeId: string) {
+    this.isLoading = true;
     const uploadDocumentData = {
       application_id: this.applicationId,
       user_id: this.user.id,

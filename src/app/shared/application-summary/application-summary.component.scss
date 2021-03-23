@@ -8,3 +8,17 @@
 mat-icon {
   margin: 0 4px 0 0;
 }
+.continue {
+  display: flex;
+  justify-content: flex-end;
+  button {
+    background-color: green;
+  }
+}
+.ocpas_bot {
+  margin: 0;
+  padding: 0;
+  img {
+    width: 200px;
+  }
+}

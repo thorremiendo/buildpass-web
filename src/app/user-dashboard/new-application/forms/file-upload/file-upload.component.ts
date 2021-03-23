@@ -4,19 +4,20 @@ import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 @Component({
   selector: 'app-file-upload',
   templateUrl: './file-upload.component.html',
-  styleUrls: ['./file-upload.component.scss']
+  styleUrls: ['./file-upload.component.scss'],
 })
 export class FileUploadComponent implements OnInit {
   @Input() description: string;
   @Input() path: string;
   @Output() emitFile: EventEmitter<File> = new EventEmitter<File>();
+
   public fileDescription: string;
   public filePath: string;
   public file: File;
   public editMode: boolean = false;
   public loading: boolean = false;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     this.fileDescription = this.description;

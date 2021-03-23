@@ -14,6 +14,10 @@ import { ApplicationFeesSummaryComponent } from './application-fees-summary/appl
 import { RepresentativeDetailsComponent } from './representative-details/representative-details.component';
 import { SummaryFormsListComponent } from './summary-forms-list/summary-forms-list.component';
 import { ApplicationSummaryComponent } from './application-summary/application-summary.component';
+import { SupportingDocumentsComponent } from './supporting-documents/supporting-documents.component';
+import { ApplicantDetailsComponent } from './applicant-details/applicant-details.component';
+import { ProjectDetailsComponent } from './project-details/project-details.component';
+import { ApplicantBuildingPermitDocsComponent } from './applicant-building-permit-docs/applicant-building-permit-docs.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +31,10 @@ import { ApplicationSummaryComponent } from './application-summary/application-s
     RepresentativeDetailsComponent,
     SummaryFormsListComponent,
     ApplicationSummaryComponent,
+    SupportingDocumentsComponent,
+    ApplicantDetailsComponent,
+    ProjectDetailsComponent,
+    ApplicantBuildingPermitDocsComponent,
   ],
   imports: [CommonModule, FormsModule, MaterialModule],
   exports: [
@@ -40,6 +48,10 @@ import { ApplicationSummaryComponent } from './application-summary/application-s
     RepresentativeDetailsComponent,
     SummaryFormsListComponent,
     ApplicationSummaryComponent,
+    SupportingDocumentsComponent,
+    ApplicantDetailsComponent,
+    ProjectDetailsComponent,
+    ApplicantBuildingPermitDocsComponent,
   ],
   providers: [MenuItems, { provide: MAT_DIALOG_DATA, useValue: {} }],
 })

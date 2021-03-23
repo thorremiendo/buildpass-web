@@ -1,14 +1,41 @@
 <mat-card *ngIf="applicationInfo">
   <mat-card-content>
     <div class="heading">
-      <h2 class="my-3">Building Permit</h2>
-      <div class="row">
-        <div class="col-md-4"><p>Building Permit Number:</p></div>
+      <h2 class="my-3" style="font-weight: bold">Building Permit</h2>
+
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <p>Building Permit Number:</p>
+          <p style="font-weight: bold; font-size: 24px; color: maroon">
+            {{ applicationInfo.ocpas_code }}
+          </p>
+        </div>
         <div class="col-md-4">
           <p>Release Date:</p>
+          <p style="font-weight: bold; font-size: 24px; color: maroon">
+            {{
+              applicationInfo.updated_at
+                | date: "MMMM dd, yyyy hh:mm:ss a":"+0800"
+            }}
+          </p>
         </div>
         <div class="col-md-4"></div>
       </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="applicationInfo">
+  <mat-card-content>
+    <div class="continue">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="handleNext()"
+        class="text-right"
+      >
+        <mat-icon>check</mat-icon>
+        Continue
+      </button>
     </div>
     <mat-tab-group>
       <mat-tab>
@@ -16,7 +43,9 @@
           <mat-icon>assignment</mat-icon>
           Applicant Details
         </ng-template>
-        <div></div>
+        <app-applicant-details
+          [applicationInfo]="applicationInfo"
+        ></app-applicant-details>
       </mat-tab>
       <mat-tab *ngIf="applicationInfo.representative_detail !== null">
         <ng-template mat-tab-label>
@@ -32,25 +61,19 @@
           <mat-icon>assignment</mat-icon>
           Project Details
         </ng-template>
-        <!-- <app-project-details></app-project-details
-      > -->
+        <app-project-details
+          [applicationInfo]="applicationInfo"
+        ></app-project-details>
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>folder</mat-icon>
           Document Manager
-        </ng-template></mat-tab
-      >
+        </ng-template>
+        <app-applicant-building-permit-docs
+          [forms]="applicationInfo.user_docs"
+        ></app-applicant-building-permit-docs
+      ></mat-tab>
     </mat-tab-group>
-    <div>
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="handleNext()"
-        class="text-right"
-      >
-        Continue
-      </button>
-    </div>
   </mat-card-content>
 </mat-card>
