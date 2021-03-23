@@ -11,6 +11,15 @@ import { DateAgoPipe } from '../core';
 import { ApplicationTimelineComponent } from './application-timeline/application-timeline.component';
 import { ApplicationFeesSummaryComponent } from './application-fees-summary/application-fees-summary.component';
 import { RepresentativeDetailsComponent } from './representative-details/representative-details.component';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true,
+  wheelSpeed: 2,
+  wheelPropagation: true
+};
 
 @NgModule({
   declarations: [
@@ -22,8 +31,15 @@ import { RepresentativeDetailsComponent } from './representative-details/represe
     ApplicationTimelineComponent,
     ApplicationFeesSummaryComponent,
     RepresentativeDetailsComponent,
+    
   ],
-  imports: [CommonModule, FormsModule, MaterialModule],
+  imports: [
+    CommonModule,
+    FormsModule, 
+    MaterialModule,
+    PerfectScrollbarModule,
+  ],
+  
   exports: [
     AccordionAnchorDirective,
     AccordionDirective,
@@ -33,7 +49,13 @@ import { RepresentativeDetailsComponent } from './representative-details/represe
     ApplicationTimelineComponent,
     ApplicationFeesSummaryComponent,
     RepresentativeDetailsComponent,
+   
   ],
-  providers: [MenuItems],
+  providers: [
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+  },
+  MenuItems],
 })
 export class SharedModule {}

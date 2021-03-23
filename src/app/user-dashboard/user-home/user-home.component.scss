@@ -3,7 +3,21 @@
 
 
 mat-card {
-  height: 100%;
+  border-radius: 20px;
+
+  mat-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+
+    mat-card-title {
+      font-size: 18px;
+    }
+
+  }
+
+ 
 
   ._illustration {
     max-width: 150px;
@@ -33,6 +47,15 @@ mat-card {
   }
 }
 
+.scrollbar{
+  position: relative;
+  overflow: auto;
+
+  max-height:340px;
+  min-height: 340px;
+  
+}
+
 .chat-container {
   position: relative;
   margin-top: 200px;
@@ -44,3 +67,38 @@ mat-card {
   right: 16px;
   font-size: 18px;
 }
+
+
+  img {
+    background-size: cover;
+    max-width: 100px;
+    max-height: 200px;
+
+  }
+  
+
+  .no-gutter > [class*='col-'] {
+    padding-right:0;
+    padding-left:0;
+}
+
+.permit-card{
+  width: 180px; 
+  height: 180px;  
+  border-radius: 20px;
+  //background-color: #F1BA49;
+ 
+
+  &hover{
+    transform: scale(3);
+  }
+ 
+
+  p{
+    text-align: center;
+    margin-top: 50%;
+  }
+}
+
+
+ 

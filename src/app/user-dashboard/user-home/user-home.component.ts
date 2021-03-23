@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router'
 import { FeedService } from '../../core';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 
 @Component({
@@ -10,7 +11,10 @@ import { FeedService } from '../../core';
   providers: [FeedService],
 })
 export class UserHomeComponent implements OnInit {
-  public user;
+  public config: PerfectScrollbarConfigInterface = {};
+  public applicationId = 1;
+  public userInfo;
+
 
 
   panelOpenState = false;
@@ -24,6 +28,7 @@ export class UserHomeComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.userInfo = JSON.parse(localStorage.getItem('user'));
    
   
     
