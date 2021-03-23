@@ -79,6 +79,7 @@ export class ZoningCertificateComponent implements OnInit {
       uploadDocumentData['document_path'] = this.zoningComplianceForm;
     }
 
+    console.log(uploadDocumentData);
     this.newApplicationService
       .submitDocument(uploadDocumentData)
       .subscribe((res) => {

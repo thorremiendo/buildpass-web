@@ -1,3 +1,4 @@
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaterialModule } from './../material-module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -18,8 +19,14 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelSpeed: 2,
-  wheelPropagation: true
+  wheelPropagation: true,
 };
+import { SummaryFormsListComponent } from './summary-forms-list/summary-forms-list.component';
+import { ApplicationSummaryComponent } from './application-summary/application-summary.component';
+import { SupportingDocumentsComponent } from './supporting-documents/supporting-documents.component';
+import { ApplicantDetailsComponent } from './applicant-details/applicant-details.component';
+import { ProjectDetailsComponent } from './project-details/project-details.component';
+import { ApplicantBuildingPermitDocsComponent } from './applicant-building-permit-docs/applicant-building-permit-docs.component';
 
 @NgModule({
   declarations: [
@@ -31,15 +38,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ApplicationTimelineComponent,
     ApplicationFeesSummaryComponent,
     RepresentativeDetailsComponent,
-    
   ],
-  imports: [
-    CommonModule,
-    FormsModule, 
-    MaterialModule,
-    PerfectScrollbarModule,
-  ],
-  
+  imports: [CommonModule, FormsModule, MaterialModule, PerfectScrollbarModule],
+
   exports: [
     AccordionAnchorDirective,
     AccordionDirective,
@@ -49,13 +50,20 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ApplicationTimelineComponent,
     ApplicationFeesSummaryComponent,
     RepresentativeDetailsComponent,
-   
+    SummaryFormsListComponent,
+    ApplicationSummaryComponent,
+    SupportingDocumentsComponent,
+    ApplicantDetailsComponent,
+    ProjectDetailsComponent,
+    ApplicantBuildingPermitDocsComponent,
   ],
   providers: [
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-  },
-  MenuItems],
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+    },
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    MenuItems,
+  ],
 })
 export class SharedModule {}

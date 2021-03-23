@@ -14,7 +14,7 @@ import { MatTableDataSource, MatTable } from '@angular/material/table';
   styleUrls: ['./user-applications-table.component.scss'],
 })
 export class UserApplicationsTableComponent implements OnInit {
-  public value:number = 65;
+  public value: number = 65;
   public columnsToDisplay: string[] = [
     'applicationNumber',
     'applicationType',
@@ -25,10 +25,13 @@ export class UserApplicationsTableComponent implements OnInit {
   ];
   public user;
   public applicationInfoData;
-  public isFetching:boolean = true;
+  public isFetching: boolean = true;
 
-  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
+  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(
+    null
+  );
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator = Object.create(null);
   constructor(
     private userService: UserService,
     private router: Router,
@@ -42,7 +45,7 @@ export class UserApplicationsTableComponent implements OnInit {
       this.applicationInfoData = new MatTableDataSource(result.data);
       this.applicationInfoData.paginator = this.paginator;
       this.isFetching = false;
-      console.log(this.applicationInfoData);
+      console.log('app data', this.applicationInfoData);
     });
   }
 
@@ -69,6 +72,6 @@ export class UserApplicationsTableComponent implements OnInit {
   }
 
   redirect() {
-    this.router.navigateByUrl("/new/step-one");
+    this.router.navigateByUrl('/new/step-one');
   }
 }

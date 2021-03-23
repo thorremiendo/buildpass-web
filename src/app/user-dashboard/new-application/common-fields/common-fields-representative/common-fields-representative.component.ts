@@ -70,30 +70,22 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
-    console.log(this.user);
-    this.newApplicationFormService.commonFieldsSubject
-      .asObservable()
-      .subscribe((commonFieldsSubject) => {
-        this.applicationDetails = commonFieldsSubject;
-        console.log(this.applicationDetails);
-      });
+    if (localStorage.getItem('commonFieldsInfo')) {
+      this.applicationDetails = JSON.parse(
+        localStorage.getItem('commonFieldsInfo')
+      );
+      this.isLoading = false;
+    } else {
+      this.newApplicationFormService.commonFieldsSubject
+        .asObservable()
+        .subscribe((commonFieldsSubject) => {
+          this.applicationDetails = commonFieldsSubject;
+          console.log(this.applicationDetails);
+        });
+      this.isLoading = false;
+    }
 
     this.createForm();
-
-    // this.representativeDetailsForm.patchValue({
-    //   representative_first_name: this.projectDetails.representative_first_name,
-    //   representative_last_name: this.projectDetails.representative_last_name,
-    //   representative_middle_name: this.projectDetails
-    //     .representative_middle_name,
-    //   representative_suffix: this.projectDetails.representative_suffix,
-    //   representative_house_number: this.projectDetails
-    //     .representative_house_number,
-    //   representative_street_name: this.projectDetails
-    //     .representative_street_name,
-    //   representative_barangay: this.projectDetails.representative_barangay,
-    //   representative_email_address: this.projectDetails.representative_email_address,
-    //   representative_contact_no: this.projectDetails.representative_contact_no
-    // });
   }
   private _filter(value: string): Barangay[] {
     const filterValue = value.toLowerCase();
@@ -164,12 +156,10 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
             this.isLoading = false;
             switch (this.applicationDetails.permit_type_id) {
               case '1':
-                this._router.navigateByUrl(
-                  '/dashboard/new/initial-forms/zoning-clearance'
-                );
+                this._router.navigateByUrl('/dashboard/new/building-permit');
                 break;
               case '2':
-                // occupancy permit
+                this._router.navigateByUrl('/dashboard/new/occupancy-permit');
                 break;
               case '3':
                 this._router.navigateByUrl('/dashboard/new/excavation-permit');
