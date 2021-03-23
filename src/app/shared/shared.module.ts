@@ -1,3 +1,4 @@
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaterialModule } from './../material-module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -11,6 +12,12 @@ import { DateAgoPipe } from '../core';
 import { ApplicationTimelineComponent } from './application-timeline/application-timeline.component';
 import { ApplicationFeesSummaryComponent } from './application-fees-summary/application-fees-summary.component';
 import { RepresentativeDetailsComponent } from './representative-details/representative-details.component';
+import { SummaryFormsListComponent } from './summary-forms-list/summary-forms-list.component';
+import { ApplicationSummaryComponent } from './application-summary/application-summary.component';
+import { SupportingDocumentsComponent } from './supporting-documents/supporting-documents.component';
+import { ApplicantDetailsComponent } from './applicant-details/applicant-details.component';
+import { ProjectDetailsComponent } from './project-details/project-details.component';
+import { ApplicantBuildingPermitDocsComponent } from './applicant-building-permit-docs/applicant-building-permit-docs.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +29,12 @@ import { RepresentativeDetailsComponent } from './representative-details/represe
     ApplicationTimelineComponent,
     ApplicationFeesSummaryComponent,
     RepresentativeDetailsComponent,
+    SummaryFormsListComponent,
+    ApplicationSummaryComponent,
+    SupportingDocumentsComponent,
+    ApplicantDetailsComponent,
+    ProjectDetailsComponent,
+    ApplicantBuildingPermitDocsComponent,
   ],
   imports: [CommonModule, FormsModule, MaterialModule],
   exports: [
@@ -33,7 +46,13 @@ import { RepresentativeDetailsComponent } from './representative-details/represe
     ApplicationTimelineComponent,
     ApplicationFeesSummaryComponent,
     RepresentativeDetailsComponent,
+    SummaryFormsListComponent,
+    ApplicationSummaryComponent,
+    SupportingDocumentsComponent,
+    ApplicantDetailsComponent,
+    ProjectDetailsComponent,
+    ApplicantBuildingPermitDocsComponent,
   ],
-  providers: [MenuItems],
+  providers: [MenuItems, { provide: MAT_DIALOG_DATA, useValue: {} }],
 })
 export class SharedModule {}

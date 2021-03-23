@@ -40,7 +40,6 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   public maxLength: number = 2;
   public projectDetails;
   public ownerDetails;
-  public applicationDetails;
   public user;
   public userDetails;
   public isLoading: boolean = false;
@@ -48,11 +47,9 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   _submitted = false;
   public barangay: Barangay[];
   public permitTypeId;
-  public isExcavation;
   public applicationDetailsFromService;
   public isRepresentative;
-  public useExistingInfo;
-
+  public projectFormChange;
   get projectDetailsFormControl() {
     return this.projectDetailsForm.controls;
   }
@@ -68,7 +65,6 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
-    private _registerAccountFormService: RegisterAccountFormService,
     private newApplicationFormService: NewApplicationFormService,
     private newApplicationSerivce: NewApplicationService,
     private barangayService: BarangayService,
@@ -91,22 +87,38 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     this.createForm();
     this.initializeMap();
     this.user = JSON.parse(localStorage.getItem('user'));
+    this.getCommonDetails();
+    this.getApplicationDetails();
 
-    this._registerAccountFormService.cast.subscribe(
-      (registerAccountSubject) => (this.projectDetails = registerAccountSubject)
-    );
-    this.newApplicationFormService.commonFieldsSubject
-      .asObservable()
-      .subscribe((commonFieldsSubject) => {
-        this.ownerDetails = commonFieldsSubject;
-        this.isRepresentative = this.ownerDetails.is_representative;
-      });
-    this.newApplicationFormService.newApplicationSubject
-      .asObservable()
-      .subscribe((newApplicationSubject) => {
-        this.applicationDetailsFromService = newApplicationSubject;
-        this.permitTypeId = this.applicationDetailsFromService.application_type;
-      });
+    this.isLoading = false;
+  }
+  getCommonDetails() {
+    if (localStorage.getItem('commonFieldsInfo')) {
+      this.ownerDetails = JSON.parse(localStorage.getItem('commonFieldsInfo'));
+      this.isRepresentative = this.ownerDetails.is_representative;
+    } else {
+      this.newApplicationFormService.commonFieldsSubject
+        .asObservable()
+        .subscribe((commonFieldsSubject) => {
+          this.ownerDetails = commonFieldsSubject;
+          this.isRepresentative = this.ownerDetails.is_representative;
+        });
+    }
+  }
+  getApplicationDetails() {
+    if (localStorage.getItem('newApplicationInfo')) {
+      this.applicationDetailsFromService = JSON.parse(
+        localStorage.getItem('newApplicationInfo')
+      );
+      this.permitTypeId = this.applicationDetailsFromService.application_type;
+    } else {
+      this.newApplicationFormService.newApplicationSubject
+        .asObservable()
+        .subscribe((newApplicationSubject) => {
+          this.applicationDetailsFromService = newApplicationSubject;
+          this.permitTypeId = this.applicationDetailsFromService.application_type;
+        });
+    }
     this.isLoading = false;
   }
 
@@ -169,6 +181,9 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_basement: [''],
       project_landmark: [''],
     });
+    this.projectDetailsForm.valueChanges.subscribe((data) => {
+      this.projectFormChange = data;
+    });
   }
 
   createprojectDetails() {
@@ -203,72 +218,33 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
 
     const body = {
       user_id: this.user.id,
-      permit_type_id: this.applicationDetailsFromService
-        ? this.applicationDetailsFromService.application_type
-        : this.applicationDetails.permit_type_id,
-      is_representative: this.applicationDetailsFromService
-        ? this.applicationDetailsFromService.is_representative
-        : this.applicationDetails.is_representative,
-      rol_status_id: this.applicationDetailsFromService
-        ? this.applicationDetailsFromService.is_lot_owner
-        : this.applicationDetails.rol_status_id,
+      permit_type_id: this.applicationDetailsFromService.application_type,
+      is_representative: this.applicationDetailsFromService.is_representative,
+      rol_status_id: this.applicationDetailsFromService.is_lot_owner,
       construction_status_id: this.applicationDetailsFromService
-        ? this.applicationDetailsFromService.construction_status
-        : this.applicationDetails.construction_status_id,
-      is_registered_owner: this.applicationDetailsFromService
-        ? this.applicationDetailsFromService.registered_owner
-        : this.applicationDetails.is_registered_owner,
+        .construction_status,
+      is_registered_owner: this.applicationDetailsFromService.registered_owner,
       is_owned_by_corporation: this.applicationDetailsFromService
-        ? this.applicationDetailsFromService.is_owned_by_corporation
-        : this.applicationDetails.is_owned_by_corporation,
+        .is_owned_by_corporation,
       is_property_have_coowners: this.applicationDetailsFromService
-        ? this.applicationDetailsFromService.is_property_have_coowners
-        : this.applicationDetails.is_property_have_coowners,
-      is_under_mortgage: this.applicationDetailsFromService
-        ? this.applicationDetailsFromService.is_under_mortgage
-        : this.applicationDetails.is_under_mortgage,
+        .is_property_have_coowners,
+      is_under_mortgage: this.applicationDetailsFromService.is_under_mortgage,
       is_within_subdivision: this.applicationDetailsFromService
-        ? this.applicationDetailsFromService.is_within_subdivision
-        : this.applicationDetails.is_within_subdivision,
-      applicant_first_name: this.ownerDetails
-        ? this.ownerDetails.owner_first_name
-        : this.applicationDetails.applicant_detail.first_name,
-      applicant_middle_name: this.ownerDetails
-        ? this.ownerDetails.owner_middle_name
-        : this.applicationDetails.applicant_detail.middle_name,
-      applicant_last_name: this.ownerDetails
-        ? this.ownerDetails.owner_last_name
-        : this.applicationDetails.applicant_detail.last_name,
-      applicant_suffix_name: this.ownerDetails
-        ? this.ownerDetails.owner_suffix
-        : this.applicationDetails.applicant_detail.suffix_name,
-      applicant_tin_number: this.ownerDetails
-        ? this.ownerDetails.owner_tin_number
-        : this.applicationDetails.applicant_detail.tin_number,
-      applicant_contact_number: this.ownerDetails
-        ? this.ownerDetails.owner_contact_number
-        : this.applicationDetails.applicant_detail.contact_number,
-      applicant_email_address: this.ownerDetails
-        ? this.ownerDetails.owner_email_address
-        : this.applicationDetails.applicant_detail.email_address,
-      applicant_house_number: this.ownerDetails
-        ? this.ownerDetails.owner_house_number
-        : this.applicationDetails.applicant_detail.house_number,
-      applicant_unit_number: this.ownerDetails
-        ? this.ownerDetails.owner_unit_number
-        : this.applicationDetails.applicant_detail.unit_number,
-      applicant_floor_number: this.ownerDetails
-        ? this.ownerDetails.owner_floor_number
-        : this.applicationDetails.applicant_detail.floor_number,
-      applicant_street_name: this.ownerDetails
-        ? this.ownerDetails.owner_street
-        : this.applicationDetails.applicant_detail.street_name,
-      applicant_barangay: this.ownerDetails
-        ? this.ownerDetails.owner_barangay
-        : this.applicationDetails.applicant_detail.barangay,
+        .is_within_subdivision,
+      applicant_first_name: this.ownerDetails.owner_first_name,
+      applicant_middle_name: this.ownerDetails.owner_middle_name,
+      applicant_last_name: this.ownerDetails.owner_last_name,
+      applicant_suffix_name: this.ownerDetails.owner_suffix,
+      applicant_tin_number: this.ownerDetails.owner_tin_number,
+      applicant_contact_number: this.ownerDetails.owner_contact_number,
+      applicant_email_address: this.ownerDetails.owner_email_address,
+      applicant_house_number: this.ownerDetails.owner_house_number,
+      applicant_unit_number: this.ownerDetails.owner_unit_number,
+      applicant_floor_number: this.ownerDetails.owner_floor_number,
+      applicant_street_name: this.ownerDetails.owner_street,
+      applicant_barangay: this.ownerDetails.owner_barangay,
       ...this.projectDetails,
     };
-
     if (!this.projectDetailsForm.valid) {
       Swal.fire('Notice!', 'Please fill out all required fields!', 'info').then(
         (result) => {
@@ -286,7 +262,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
             this.isLoading = false;
             switch (this.permitTypeId) {
               case '1':
-                this._router.navigateByUrl('/dashboard/new/demolition-permit');
+                this._router.navigateByUrl('/dashboard/new/building-permit');
                 break;
               case '2':
                 this._router.navigateByUrl('/dashboard/new/occupancy-permit');
@@ -308,74 +284,5 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
         this._router.navigateByUrl('/dashboard/new/step-two/representative');
       }
     }
-  }
-
-  patchExistingDetails() {
-    this.projectDetailsForm.patchValue({
-      project_lot_number:
-        this.applicationDetails.project_detail.lot_number == 'undefined'
-          ? ''
-          : this.applicationDetails.project_detail.lot_number,
-      project_block_number:
-        this.applicationDetails.project_detail.block_number == 'undefined'
-          ? ''
-          : this.applicationDetails.project_detail.block_number,
-      project_unit_number:
-        this.applicationDetails.project_detail.unit_number == 0
-          ? ''
-          : this.applicationDetails.project_detail.unit_number,
-      project_street:
-        this.applicationDetails.project_detail.street_name == 'undefined'
-          ? ''
-          : this.applicationDetails.project_detail.street_name,
-      project_barangay:
-        this.applicationDetails.project_detail.barangay == 'undefined'
-          ? ''
-          : this.applicationDetails.project_detail.barangay,
-      project_lot_area:
-        this.applicationDetails.project_detail.lot_area == 'undefined'
-          ? ''
-          : this.applicationDetails.project_detail.lot_area,
-      project_floor_area:
-        this.applicationDetails.project_detail.total_floor_area == 'undefined'
-          ? ''
-          : this.applicationDetails.project_detail.total_floor_area,
-      project_units:
-        this.applicationDetails.project_detail.number_of_units == 0
-          ? ''
-          : this.applicationDetails.project_detail.number_of_units,
-      project_storeys:
-        this.applicationDetails.project_detail.number_of_storey == 'undefined'
-          ? 0
-          : this.applicationDetails.project_detail.number_of_storey,
-      project_title:
-        this.applicationDetails.project_detail.project_title == 'undefined'
-          ? ''
-          : this.applicationDetails.project_detail.project_title,
-      project_cost:
-        this.applicationDetails.project_detail.project_cost_cap == 'undefined'
-          ? ''
-          : this.applicationDetails.project_detail.project_cost_cap,
-      project_tct_number:
-        this.applicationDetails.project_detail.tct_number == 'undefined'
-          ? ''
-          : this.applicationDetails.project_detail.tct_number,
-      project_td_number:
-        this.applicationDetails.project_detail.tax_dec_number == 'undefined'
-          ? ''
-          : this.applicationDetails.project_detail.tax_dec_number,
-      project_basement:
-        this.applicationDetails.project_detail.project_basement == 'undefined'
-          ? ''
-          : this.applicationDetails.project_detail.project_basement,
-      project_house_number:
-        this.applicationDetails.project_detail.number_of_basement == 0
-          ? ''
-          : this.applicationDetails.project_detail.number_of_basement,
-      project_landmark:
-        this.applicationDetails.project_detail.landmark == 'undefined'
-          ? ''
-          : this.applicationDetails.project_detail.landmark,
-    });
   }
 }

@@ -1,43 +1,36 @@
 <div class="file-upload container-fluid">
-    <div class="row">
-        <div class="file-description col-8">
-            {{fileDescription}}
-        </div>
-        <div class="file-actions col-4">
-            <div *ngIf="!loading">
-                <a *ngIf="filePath" [href]="filePath" target="_blank">View File</a>
-                <span *ngIf="filePath" (click)="toggleEditMode()">Change</span>
-                <mat-icon
-                    *ngIf="file || filePath"
-                >
-                    check_circle
-                </mat-icon>
-            </div>
-            <mat-spinner
-                *ngIf="loading"
-                [diameter]="20"
-            >
-            </mat-spinner>
-        </div>
+  <div class="row">
+    <div class="file-description col-8">
+      <p style="font-weight: bold; color: maroon">{{ fileDescription }}</p>
     </div>
-    <ngx-dropzone
-        *ngIf="!filePath || editMode"
-        (change)="onSelect($event)"
-        [multiple]="false"
+    <div class="file-actions col-4">
+      <div *ngIf="!loading">
+        <a *ngIf="filePath" [href]="filePath" target="_blank">View File</a>
+        <span *ngIf="filePath" (click)="toggleEditMode()">Change</span>
+        <mat-icon *ngIf="file || filePath"> check_circle </mat-icon>
+      </div>
+      <mat-spinner *ngIf="loading" [diameter]="20"> </mat-spinner>
+    </div>
+  </div>
+  <ngx-dropzone
+    *ngIf="!filePath || editMode"
+    (change)="onSelect($event)"
+    [multiple]="false"
+    accept="application/pdf"
+  >
+    <ngx-dropzone-label>
+      Click here or drag and drop a file to upload.
+    </ngx-dropzone-label>
+    <ngx-dropzone-preview
+      *ngIf="file"
+      [removable]="true"
+      (removed)="onRemove()"
+      class="mx-auto"
     >
-        <ngx-dropzone-label>
-            Click here or drag and drop a file to upload.
-        </ngx-dropzone-label>
-        <ngx-dropzone-preview
-            *ngIf="file"
-            [removable]="true"
-            (removed)="onRemove()"
-            class="mx-auto"
-        >
-            <ngx-dropzone-label>
-                {{ file.name }} 
-                ({{ file.type }})
-            </ngx-dropzone-label>
-        </ngx-dropzone-preview>
-    </ngx-dropzone>
+      <ngx-dropzone-label>
+        {{ file.name }}
+        ({{ file.type }})
+      </ngx-dropzone-label>
+    </ngx-dropzone-preview>
+  </ngx-dropzone>
 </div>

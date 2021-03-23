@@ -23,18 +23,10 @@ export class CommonFieldsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.excavationService.useExistingInfoSubject
-      .asObservable()
-      .subscribe(
-        (useExistingInfoSubject) =>
-          (this.useExistingInfo = useExistingInfoSubject)
-      );
-
-    if (this.useExistingInfo == '1') {
+    if (localStorage.getItem('newApplicationInfo')) {
       this.applicationInfo = JSON.parse(
-        localStorage.getItem('applicationDetails')
+        localStorage.getItem('newApplicationInfo')
       );
-      this.filterTabs();
     } else {
       this.newApplicationFormService.newApplicationSubject
         .asObservable()
@@ -42,8 +34,9 @@ export class CommonFieldsComponent implements OnInit {
           (newApplicationSubject) =>
             (this.applicationInfo = newApplicationSubject)
         );
-      this.filterTabs();
     }
+    console.log(this.applicationInfo);
+    this.filterTabs();
   }
 
   filterTabs() {

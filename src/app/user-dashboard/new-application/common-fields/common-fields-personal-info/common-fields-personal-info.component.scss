@@ -1,0 +1,16 @@
+.summary__card {
+  margin: 20px;
+  padding: 20px;
+  border-radius: 5px;
+  background: linear-gradient(225deg, #d6dde0, #ffffff);
+  box-shadow: -5px 5px 13px #cad0d4, 5px -5px 13px #ffffff;
+
+  h5 {
+    color: maroon;
+    font-weight: bold;
+  }
+
+  &__right {
+    border-left: 3px solid maroon;
+  }
+}

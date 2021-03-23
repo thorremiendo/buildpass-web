@@ -21,6 +21,7 @@ import { FencingPermitComponent } from '../new-application/fencing-permit/fencin
 import { DemolitionPermitComponent } from '../new-application/demolition-permit/demolition-permit.component';
 import { NewApplicationPageComponent } from '../new-application/new-application-page/new-application-page.component';
 import { NewApplicationRouterComponent } from '../new-application/new-application-router/new-application-router.component';
+import { ApplicationSummaryComponent } from 'src/app/shared/application-summary/application-summary.component';
 
 const routes: Routes = [
   {
@@ -77,6 +78,10 @@ const routes: Routes = [
                     component: CommonFieldsRepresentativeComponent,
                   },
                 ],
+              },
+              {
+                path: 'details/:id',
+                component: ApplicationSummaryComponent,
               },
               {
                 path: 'building-permit',

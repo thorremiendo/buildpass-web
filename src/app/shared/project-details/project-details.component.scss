@@ -1,0 +1,17 @@
+.container {
+  margin: 20px 0;
+  padding: 0;
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &-title {
+      font-weight: bold;
+    }
+    &-value {
+      font-weight: bold;
+      color: maroon;
+    }
+  }
+}
