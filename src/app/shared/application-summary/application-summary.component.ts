@@ -31,32 +31,8 @@ export class ApplicationSummaryComponent implements OnInit {
     this.fetchApplicationDetails();
   }
 
-  openProjectDialog(): void {
-    const dialogRef = this.dialog.open(ProjectDetailsComponent, {
-      width: '1600px',
-      data: {
-        projectDetails: this.applicationInfo.project_detail,
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-    });
-  }
   handleNext() {
     this.router.navigateByUrl('dashboard/new/occupancy-permit');
-  }
-  openRepresentativeDialog() {
-    const dialogRef = this.dialog.open(RepresentativeDetailsComponent, {
-      width: '1600px',
-      data: {
-        representativeDetails: this.applicationInfo.representative_detail,
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-    });
   }
 
   getApplicationStatus(id): string {

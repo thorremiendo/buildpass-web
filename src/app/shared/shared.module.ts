@@ -1,3 +1,4 @@
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaterialModule } from './../material-module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -40,6 +41,6 @@ import { ApplicationSummaryComponent } from './application-summary/application-s
     SummaryFormsListComponent,
     ApplicationSummaryComponent,
   ],
-  providers: [MenuItems],
+  providers: [MenuItems, { provide: MAT_DIALOG_DATA, useValue: {} }],
 })
 export class SharedModule {}
