@@ -231,21 +231,45 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   updateApplicationStatus() {
-    const body = {
-      application_status_id: 2,
-      receiving_status_id: 1,
-    };
-    this.applicationService
-      .updateApplicationStatus(body, this.applicationId)
-      .subscribe((res) => {
-        this.fetchApplicationInfo();
-        Swal.fire('Success!', `Forwarded to CPDO!`, 'success').then(
-          (result) => {
-            this.isLoading = false;
-            window.location.reload();
-          }
-        );
-      });
+    if (this.applicationInfo.permit_type_id == 1) {
+      const body = {
+        application_status_id: 2,
+        receiving_status_id: 1,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          this.fetchApplicationInfo();
+          Swal.fire('Success!', `Forwarded to CPDO!`, 'success').then(
+            (result) => {
+              this.isLoading = false;
+              window.location.reload();
+            }
+          );
+        });
+    } else if (this.applicationInfo.permit_type_id !== 1) {
+      if (this.checkFormsReviewed()) {
+        const body = {
+          application_status_id: 35,
+          receiving_status_id: 1,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.fetchApplicationInfo();
+            Swal.fire(
+              'Success!',
+              `Forwarded to Technical Evaluators!`,
+              'success'
+            ).then((result) => {
+              this.isLoading = false;
+              window.location.reload();
+            });
+          });
+      } else {
+        alert('Review All Documents First!');
+      }
+    }
   }
   forwardToCpdo() {
     if (this.checkFormsCompliant()) {

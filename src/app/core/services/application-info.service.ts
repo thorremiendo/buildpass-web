@@ -78,7 +78,7 @@ export class ApplicationInfoService {
   }
 
   uploadSupportingFiles(body, id) {
-    const url = `/application/${id}/files`;
+    const url = `/application/${id}/supporting-file`;
     return this.api.post(url, body);
   }
 

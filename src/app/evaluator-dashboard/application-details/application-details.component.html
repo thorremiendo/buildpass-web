@@ -163,6 +163,7 @@
           (opened)="panelOpenState = true"
           (closed)="panelOpenState = false"
           class="mb-2"
+          *ngIf="applicationDetails.permit_type_id == 1"
         >
           <mat-expansion-panel-header>
             <mat-panel-title
@@ -178,6 +179,10 @@
           (opened)="panelOpenState = true"
           (closed)="panelOpenState = false"
           class="mb-2"
+          *ngIf="
+            applicationDetails.permit_type_id == 1 ||
+            applicationDetails.permit_type_id == 2
+          "
         >
           <mat-expansion-panel-header>
             <mat-panel-title
@@ -192,6 +197,10 @@
         <mat-expansion-panel
           (opened)="panelOpenState = true"
           (closed)="panelOpenState = false"
+          *ngIf="
+            applicationDetails.permit_type_id == 1 ||
+            applicationDetails.permit_type_id == 2
+          "
         >
           <mat-expansion-panel-header>
             <mat-panel-title

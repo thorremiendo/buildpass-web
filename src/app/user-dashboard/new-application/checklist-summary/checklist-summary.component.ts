@@ -33,6 +33,7 @@ export class ChecklistSummaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.applicationId = this.route.snapshot.params.id;
     this.user = JSON.parse(localStorage.getItem('user'));
     console.log(this.user);
@@ -148,6 +149,7 @@ export class ChecklistSummaryComponent implements OnInit {
           }
         });
         this.sortedForms = Object.values(this.sortedForms);
+        this.isLoading = false;
       });
   }
   goToLink(url: string) {
@@ -173,8 +175,6 @@ export class ChecklistSummaryComponent implements OnInit {
           this.updateApplicationStatusToPayment();
         }
       });
-    } else if (this.applicationInfo.permit_type_id == '3') {
-      this.router.navigateByUrl('dashboard/new/success');
     } else {
       this.isLoading = true;
       this.updateApplicationStatusToPayment();
