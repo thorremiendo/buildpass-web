@@ -7,6 +7,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
+import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 
 @Component({
   selector: 'app-upload-supporting-documents',
@@ -14,7 +15,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./upload-supporting-documents.component.scss'],
 })
 export class UploadSupportingDocumentsComponent implements OnInit {
-  public files: File[] = [];
+  public selectedFile: File;
   fileName = new FormControl('', [Validators.required]);
   constructor(
     public dialogRef: MatDialogRef<UploadSupportingDocumentsComponent>,
@@ -26,13 +27,20 @@ export class UploadSupportingDocumentsComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.data);
   }
-  onSelect(event) {
-    this.files.push(...event.addedFiles);
+  onSelect($event: NgxDropzoneChangeEvent, type) {
+    const file = $event.addedFiles[0];
+    switch (type) {
+      case 'selectedFile':
+        this.selectedFile = file;
+        break;
+    }
   }
-
-  onRemove(event) {
-    console.log(event);
-    this.files.splice(this.files.indexOf(event), 1);
+  onRemove(type) {
+    switch (type) {
+      case 'selectedFile':
+        this.selectedFile = null;
+        break;
+    }
   }
   onNoClick(): void {
     this.dialogRef.close();
@@ -40,9 +48,9 @@ export class UploadSupportingDocumentsComponent implements OnInit {
   handleUploadSupportingFiles() {
     const id = this.data.applicationDetails.id;
     const body = {
-      user_id: this.data.evaluator.id,
+      evaluator_user_id: this.data.evaluator.id,
       title: this.fileName.value,
-      supporting_files: this.files,
+      file_path: this.selectedFile,
     };
     console.log({ body });
     this.applicationInfoService

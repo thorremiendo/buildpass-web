@@ -31,25 +31,21 @@ export class ExcavationPermitComponent implements OnInit {
 
   public fieldSets: any = [
     {
-      label: '1',
+      label: 'Step 1',
       documents: [21, 26, 44, 27, 23, 24],
     },
     {
-      label: '2',
+      label: 'Step 2',
       documents: [45, 8, 25, 15],
     },
     {
-      label: '3',
+      label: 'Step 3',
       documents: [7, 9, 10, 11, 12],
     },
     {
-      label: '4',
+      label: 'Step 4',
       documents: [13, 16, 17, 18, 20, 19],
     },
-    // {
-    //   label: '5',
-    //   documents: [39, 40, 41, 42],
-    // },
   ];
 
   constructor(
@@ -60,40 +56,39 @@ export class ExcavationPermitComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem('user'));
-    this.newApplicationService.applicationId
-      .asObservable()
-      .subscribe((applicationId) => {
-        if (applicationId) this.applicationId = applicationId;
-        else this.applicationId = localStorage.getItem('app_id');
-        this.applicationService
-          .fetchApplicationInfo(this.applicationId)
-          .subscribe((res) => {
-            this.applicationDetails = res.data;
-            this.formData = this.dataBindingService.getFormData(
-              this.applicationDetails
-            );
-
-            /*const isRepresentative = this.applicationDetails.is_representative == '1' ? true : false;
-          const isOwner = this.applicationDetails.rol_status_id == '1' ? true : false;
-          const isRegistered = this.applicationDetails.registered_owner == '1' ? true : false;
-
-          this.fieldSets[0] = this.fieldSets[0].filter(field => {
-            if (field.for == 'representative' && !isRepresentative) return false;
-            else if (field.for == 'lessee' && isOwner) return false;
-            else if (field.for == 'lot-owner' && !isRegistered) return false;
-            else if (field.for == 'not-owner' && isRegistered) return false;
-            else return true;
-          });*/
-
-            this.initData();
-            this.setFilePaths();
-            this.pdfSource = this.forms[0].src;
-          });
-      });
-    this.checkBuildingPermitExcavation();
+    setTimeout(() => {
+      this.user = JSON.parse(localStorage.getItem('user'));
+      this.newApplicationService.applicationId
+        .asObservable()
+        .subscribe((applicationId) => {
+          this.isLoading = true;
+          if (applicationId) {
+            this.applicationId = applicationId;
+          } else {
+            this.applicationId = localStorage.getItem('app_id');
+          }
+        });
+      this.checkBuildingPermitExcavation();
+    }, 2000);
   }
 
+  fetchApplicationInfo() {
+    this.applicationService
+      .fetchApplicationInfo(
+        this.excavationId ? this.excavationId : this.applicationId
+      )
+      .subscribe((res) => {
+        this.applicationDetails = res.data;
+        this.formData = this.dataBindingService.getFormData(
+          this.applicationDetails
+        );
+        this.initData();
+        this.setFilePaths();
+        this.pdfSource = this.forms[0].src;
+
+        this.isLoading = false;
+      });
+  }
   checkBuildingPermitExcavation() {
     if (localStorage.getItem('application_details_for_excavation')) {
       this.exisitingApplicationInfo = JSON.parse(
@@ -101,10 +96,11 @@ export class ExcavationPermitComponent implements OnInit {
       );
       console.log('EXISTING', this.exisitingApplicationInfo);
       this.submitExcavationDetails();
+    } else {
+      this.fetchApplicationInfo();
     }
   }
   submitExcavationDetails() {
-    this.isLoading = true;
     const body = {
       main_permit_id: this.applicationId,
       permit_type_id: 3,
@@ -176,18 +172,23 @@ export class ExcavationPermitComponent implements OnInit {
     };
     this.newApplicationService.submitApplication(body).subscribe((res) => {
       this.excavationId = res.data.id;
-      this.isLoading = false;
+      localStorage.removeItem('application_details_for_excavation');
+      this.fetchApplicationInfo();
     });
   }
 
   ngAfterViewInit() {
-    this.saveRoute();
+    setTimeout(() => {
+      this.saveRoute();
+    }, 2000);
   }
 
   saveRoute() {
     const body = {
       user_id: this.user.id,
-      application_id: this.applicationId,
+      application_id: this.excavationId
+        ? this.excavationId
+        : this.applicationId,
       url: this.router.url,
     };
 
