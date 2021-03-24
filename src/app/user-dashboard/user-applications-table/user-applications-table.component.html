@@ -40,7 +40,7 @@
 
   <ng-container matColumnDef="applicationProgress">
     <th mat-header-cell *matHeaderCellDef>Progress</th>
-    <td mat-cell *matCellDef="let element">{{element.status.progress == '' ? '': element.status.progress }}%
+    <td mat-cell *matCellDef="let element">{{element.status.progress == '' ? '0': element.status.progress }}%
       <!-- <mat-progress-bar
             class="example-margin"
             [value]="value"

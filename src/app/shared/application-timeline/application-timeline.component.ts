@@ -21,6 +21,7 @@ export class ApplicationTimelineComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.id);
     if(this.page == "home"){
       this.applicationId = this.id;
     }

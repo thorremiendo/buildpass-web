@@ -13,7 +13,7 @@ import { ApplicationInfoService } from "../../core";
 })
 export class UserHomeComponent implements OnInit {
   public config: PerfectScrollbarConfigInterface = {};
-  public applicationId = 1;
+  public applicationId;
   public userInfo;
   public applications: [];
 
