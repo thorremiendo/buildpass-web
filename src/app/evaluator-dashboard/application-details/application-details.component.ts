@@ -11,6 +11,7 @@ import { ProjectDetailsComponent } from '../project-details/project-details.comp
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { officeTypes } from 'src/app/core/enums/offices.enum';
 import { departmentStatus } from 'src/app/core/enums/department-status.enum';
+import { applicationTypes } from '../../core/enums/application-type.enum';
 
 @Component({
   selector: 'app-application-details',
@@ -32,7 +33,8 @@ export class ApplicationDetailsComponent implements OnInit {
   constructor(
     private applicationService: ApplicationInfoService,
     public dialog: MatDialog,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public router: Router
   ) {}
   openProjectDialog(): void {
     const dialogRef = this.dialog.open(ProjectDetailsComponent, {
@@ -138,7 +140,9 @@ export class ApplicationDetailsComponent implements OnInit {
   getDepartmentStatus(id): string {
     return departmentStatus[id];
   }
-
+  getApplicationType(id): string {
+    return applicationTypes[id];
+  }
   fetchEvaluatorDetails() {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
