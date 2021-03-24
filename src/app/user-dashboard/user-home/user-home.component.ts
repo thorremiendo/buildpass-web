@@ -35,7 +35,7 @@ export class UserHomeComponent implements OnInit {
 
     if(this.userInfo){
 
-      this.applicatonInfoService.fetchApplicationInfo(this.userInfo.id).subscribe(data =>
+      this.applicatonInfoService.fetchOngoingApplication(this.userInfo.id).subscribe(data =>
         {
           
           this.applications = data.data;
