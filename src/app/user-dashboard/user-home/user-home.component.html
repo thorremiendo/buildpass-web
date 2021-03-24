@@ -27,7 +27,14 @@
     <div class="col-md-5">
       <mat-card>
           <mat-card-header>
-            <mat-card-title>Timeline</mat-card-title>
+            <!-- <mat-card-title>Timeline</mat-card-title> -->
+             <mat-form-field appearance="none">
+              <mat-label>Select Application</mat-label>
+               <mat-select>
+                <mat-option value="">Select Application</mat-option>
+                <mat-option *ngFor="let application of applications" [value]="application.id">{{application.ocpas_code}}</mat-option>
+              </mat-select> 
+            </mat-form-field> 
           </mat-card-header>
           <hr class="m-0" />
        <div class="scrollbar">

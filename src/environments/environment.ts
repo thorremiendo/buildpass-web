@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-    api_url: `http://ocpas-api.test/api`,
+  api_url: `http://ocpas-api.test/api`,
   //api_url: `http://localhost:8000/api`,
   firebase: {
     apiKey: 'AIzaSyA2KX_f0SKSYcJhqdDGdBK5yfnlxYYWuHU',

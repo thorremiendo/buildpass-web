@@ -14,16 +14,16 @@ export class TutorialComponent implements OnInit {
 
   slides = [
     {
-      img: "../../../../assets/illustrations/tutorials/1.png"
+      img: "https://ocpas-storage.s3-ap-southeast-1.amazonaws.com/guideline/1.png"
     },
     {
-      img: "../../../../assets/illustrations/tutorials/2.png"
+      img: "https://ocpas-storage.s3-ap-southeast-1.amazonaws.com/guideline/2.png"
     },
     {
-      img: "../../../../assets/illustrations/tutorials/3.png"
+      img: "https://ocpas-storage.s3-ap-southeast-1.amazonaws.com/guideline/3.png"
     },
     {
-      img: "../../../../assets/illustrations/tutorials/4.png"
+      img: "https://ocpas-storage.s3-ap-southeast-1.amazonaws.com/guideline/4.png"
     },
   ]
 

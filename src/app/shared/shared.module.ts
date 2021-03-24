@@ -38,6 +38,12 @@ import { ApplicantBuildingPermitDocsComponent } from './applicant-building-permi
     ApplicationTimelineComponent,
     ApplicationFeesSummaryComponent,
     RepresentativeDetailsComponent,
+    SummaryFormsListComponent,
+    ApplicationSummaryComponent,
+    SupportingDocumentsComponent,
+    ApplicantDetailsComponent,
+    ProjectDetailsComponent,
+    ApplicantBuildingPermitDocsComponent,
   ],
   imports: [CommonModule, FormsModule, MaterialModule, PerfectScrollbarModule],
 

@@ -93,4 +93,17 @@ export class ApplicationInfoService {
       })
     );
   }
+
+  fetchOngoingApplication(id){
+    const url = `/user/${id}/ongoing-application`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+
+  }
 }
