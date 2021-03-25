@@ -1,4 +1,4 @@
-<div class="app-details" *ngIf="!isLoading">
+<div class="app-details" *ngIf="applicationDetails">
   <mat-card>
     <mat-card-content>
       <div class="d-flex justify-content-between">
@@ -107,7 +107,8 @@
       </div>
     </mat-card-content>
   </mat-card>
-</div>
+
+
 <div class="app-timeline">
   <mat-card>
     <mat-card-content>
@@ -135,7 +136,7 @@
     </mat-card-content>
   </mat-card>
 </div>
-<div class="app-forms" *ngIf="!isLoading">
+<div class="app-forms" >
   <mat-card>
     <mat-card-content>
       <div>
@@ -231,4 +232,5 @@
 </div>
 <div class="spinner" *ngIf="isLoading">
   <mat-spinner></mat-spinner>
+</div>
 </div>

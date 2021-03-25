@@ -13,7 +13,7 @@ import { ApplicationInfoService } from "../../core";
 })
 export class UserHomeComponent implements OnInit {
   public config: PerfectScrollbarConfigInterface = {};
-  public applicationId;
+  public applicationId = 1;
   public userInfo;
   public applications: [];
 
@@ -37,15 +37,11 @@ export class UserHomeComponent implements OnInit {
 
       this.applicatonInfoService.fetchOngoingApplication(this.userInfo.id).subscribe(data =>
         {
-          
           this.applications = data.data;
-          console.log(this.applications);
-          
+          console.log(this.applications)
+        
         })
-    
-    }
-  
-    
+    } 
   }
 
   openApplication(id){

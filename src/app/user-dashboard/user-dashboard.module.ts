@@ -122,6 +122,13 @@ import { DemolitionPermitComponent } from './new-application/demolition-permit/d
     SweetAlert2Module.forRoot(),
     MaterialModule,
 
+    
+
   ],
+
+  exports:[
+    UserApplicationsTableComponent,
+
+  ]
 })
 export class UserModule {}

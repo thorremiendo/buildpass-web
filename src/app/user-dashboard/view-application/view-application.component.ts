@@ -93,14 +93,17 @@ export class ViewApplicationComponent implements OnInit {
   }
 
   fetchApplicationInfo() {
+    this.isLoading = true;
     this.applicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
         console.log(this.applicationDetails);
+        this.isLoading = false;
       });
   }
   fetchUserDocs() {
+    this.isLoading = true;
     this.applicationService
       .fetchUserDocs(this.applicationId)
       .subscribe((result) => {

@@ -5,11 +5,18 @@
 mat-card {
   border-radius: 20px;
 
+  .top-card:hover{
+    transform: scale(1);
+   }
+
+ 
+  
+   
   mat-card-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
+   
 
     mat-card-title {
       font-size: 18px;
@@ -19,28 +26,7 @@ mat-card {
 
  
 
-  ._illustration {
-    max-width: 150px;
-  }
-  ._notificationBox {
-    overflow: auto;
-    max-height: 180px;
 
-    
-
-      img {
-        width: 150px;
-        height: auto;
-        display: block;
-        margin: 0 auto;
-      }
-    
-    ._notifications :hover {
-      opacity: 0.6;
-
-      cursor: pointer;
-    }
-  }
 
   .mat-expansion-panel {
     margin-bottom: 5px;
@@ -51,8 +37,10 @@ mat-card {
   position: relative;
   overflow: auto;
 
-  max-height:340px;
-  min-height: 340px;
+  max-height:175px;
+  min-height: 175px;
+
+
   
 }
 
@@ -104,6 +92,23 @@ mat-card {
   margin-bottom: -1.25em;
   margin-top: 0;
 }
+
+.jumbotron-fluid{
+  max-height: 250px !important;
+  min-height: 250px !important;
+  //padding: 20px;
+  border-radius: 20px;
+  background-color:#F2BA49;
+
+  a{
+    color: #800002;
+  }
+ 
+
+}
+
+
+
 
 
  
