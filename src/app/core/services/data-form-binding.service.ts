@@ -222,7 +222,7 @@ export class DataFormBindingService {
         projectDetails.number_of_storey == 'undefined'
           ? 'N/A'
           : projectDetails.number_of_storey,
-      untitled26:
+      project_type:
         projectDetails.project_title == 'undefined'
           ? 'N/A'
           : projectDetails.project_title.toUpperCase(),
@@ -239,7 +239,7 @@ export class DataFormBindingService {
       project_province: 'BENGUET',
       project_city: 'BAGUIO CITY',
       project_zipcode: '2600',
-      untitled34:
+      amount_in_words:
         projectDetails.project_cost_cap == 'undefined'
           ? 0
           : `${NumberToWords.toWords(
@@ -280,13 +280,11 @@ export class DataFormBindingService {
       rep_province: 'BENGUET',
       rep_city: 'BAGUIO CITY',
       rep_zipcode: '2600',
-      //TODO: fix these untitled formnames on pdf
-      untitled6: 'N/A',
-      untitled8: 'N/A',
-      untitled13: 'N/A',
-      untitled14: 'N/A',
-      untitled15: 'N/A',
-      untitled16: 'N/A',
+      name_of_corporation: 'N/A',
+      corporation_contact_number: 'N/A',
+      corporation_address_no: 'N/A',
+      corporation_address_barangay: ' N/A',
+      corporation_address_city: 'N/A',
       //TODO: data binding
       existing_land_others: 'N/A',
       position_title: 'N/A',
