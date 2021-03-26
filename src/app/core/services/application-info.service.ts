@@ -104,6 +104,5 @@ export class ApplicationInfoService {
         return throwError('Something went wrong.');
       })
     );
-
   }
 }

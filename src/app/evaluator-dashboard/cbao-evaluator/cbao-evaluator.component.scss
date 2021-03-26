@@ -1,5 +1,20 @@
 table {
   width: 100%;
+  th {
+    background-color: #400c06e0;
+    font-weight: bold;
+    color: white;
+  }
+}
+
+.table-container {
+  margin: 20px 0;
+  height: 600px;
+  overflow: auto;
+
+  h5 {
+    font-weight: bold;
+  }
 }
 
 .mat-column-index {

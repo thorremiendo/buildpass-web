@@ -282,6 +282,23 @@ export class CbaoEvaluatorComponent implements OnInit {
       );
     }
   }
+  forwardToDivisionChief() {
+    const body = {
+      application_status_id: 12,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire(
+          'All documents are compliant!!',
+          `Notified Division Chief for Evaluation!`,
+          'success'
+        ).then((result) => {
+          this.isLoading = false;
+          window.location.reload();
+        });
+      });
+  }
   notifyBuildingOfficial() {
     this.isLoading = true;
     if (this.checkFormsCompliant()) {
@@ -310,7 +327,34 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
   forPayment() {
     this.isLoading = true;
-    if (this.checkFormsCompliant) {
+    if (this.applicationInfo.permit_type_id == 1) {
+      if (this.checkFormsCompliant) {
+        const body = {
+          application_status_id: 8,
+          bo_status_id: 1,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Building Permit Application Approved! Notified Applicant for Payment`,
+              'success'
+            ).then((result) => {
+              this.isLoading = false;
+              window.location.reload();
+            });
+          });
+      } else {
+        Swal.fire(
+          'Warning!',
+          `Please review all documents first!`,
+          'warning'
+        ).then((result) => {
+          this.isLoading = false;
+        });
+      }
+    } else {
       const body = {
         application_status_id: 8,
         bo_status_id: 1,
@@ -320,21 +364,13 @@ export class CbaoEvaluatorComponent implements OnInit {
         .subscribe((res) => {
           Swal.fire(
             'Success!',
-            `Building Permit Application Approved! Notified Applicant for Payment`,
+            `Notified Applicant for Payment`,
             'success'
           ).then((result) => {
             this.isLoading = false;
             window.location.reload();
           });
         });
-    } else {
-      Swal.fire(
-        'Warning!',
-        `Please review all documents first!`,
-        'warning'
-      ).then((result) => {
-        this.isLoading = false;
-      });
     }
   }
   handleDepartmentStatus() {

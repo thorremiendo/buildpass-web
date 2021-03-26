@@ -11,43 +11,46 @@
         </button>
       </div>
     </div>
-    <div
-      *ngIf="
-        applicationInfo.application_status_id == 3 ||
-        applicationInfo.application_status_id == 12
-      "
-    >
-      <h5>
-        <strong> BFP Status: </strong>
-        {{
-          applicationInfo.parallel_bfp_status_id == 0
-            ? "Pending"
-            : applicationInfo.parallel_bfp_status_id == 1
-            ? "Review Done - Compliant"
-            : "Review Done - Non Compliant"
-        }}
-      </h5>
-      <h5>
-        <strong> CEPMO Status: </strong>
-        {{
-          applicationInfo.parallel_cepmo_status_id == 0
-            ? "Pending"
-            : applicationInfo.parallel_cepmo_status_id == 1
-            ? "Review Done - Compliant"
-            : "Review Done - Non Compliant"
-        }}
-      </h5>
-      <h5>
-        <strong> CBAO Status: </strong>
-        {{
-          applicationInfo.parallel_cbao_status_id == 0
-            ? "Pending"
-            : applicationInfo.parallel_cbao_status_id == 1
-            ? "Review Done - Compliant"
-            : "Review Done - Non Compliant"
-        }}
-      </h5>
-    </div>
+    <ng-container *ngIf="applicationInfo.permit_type_id == 1">
+      <div
+        *ngIf="
+          applicationInfo.application_status_id == 3 ||
+          applicationInfo.application_status_id == 12
+        "
+      >
+        <h5>
+          <strong> BFP Status: </strong>
+          {{
+            applicationInfo.parallel_bfp_status_id == 0
+              ? "Pending"
+              : applicationInfo.parallel_bfp_status_id == 1
+              ? "Review Done - Compliant"
+              : "Review Done - Non Compliant"
+          }}
+        </h5>
+        <h5>
+          <strong> CEPMO Status: </strong>
+          {{
+            applicationInfo.parallel_cepmo_status_id == 0
+              ? "Pending"
+              : applicationInfo.parallel_cepmo_status_id == 1
+              ? "Review Done - Compliant"
+              : "Review Done - Non Compliant"
+          }}
+        </h5>
+        <h5>
+          <strong> CBAO Status: </strong>
+          {{
+            applicationInfo.parallel_cbao_status_id == 0
+              ? "Pending"
+              : applicationInfo.parallel_cbao_status_id == 1
+              ? "Review Done - Compliant"
+              : "Review Done - Non Compliant"
+          }}
+        </h5>
+      </div>
+    </ng-container>
+
     <mat-tab-group>
       <mat-tab>
         <ng-template mat-tab-label>
@@ -56,111 +59,128 @@
         </ng-template>
 
         <div>
-          <table mat-table [dataSource]="dataSource">
-            <ng-container matColumnDef="index">
-              <th mat-header-cell *matHeaderCellDef>No.</th>
-              <td mat-cell *matCellDef="let element; let i = index">
-                {{ i + 1 }}
-              </td>
-            </ng-container>
-            <!--  Name Column -->
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef>
-                Documentary Requirements
-              </th>
-              <td mat-cell *matCellDef="let element">
-                {{ getDocType(element.document_id) }}
-              </td>
-            </ng-container>
+          <div class="table-container">
+            <table mat-table [dataSource]="dataSource">
+              <ng-container matColumnDef="index">
+                <th mat-header-cell *matHeaderCellDef>No.</th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                  {{ i + 1 }}
+                </td>
+              </ng-container>
+              <!--  Name Column -->
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Uploaded Documents</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ getDocType(element.document_id) }}
+                </td>
+              </ng-container>
 
-            <!-- Status Column -->
-            <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef>Status</th>
-              <td
-                mat-cell
-                *matCellDef="let element"
-                [style.color]="
-                  element.document_status_id == 1
-                    ? 'green'
-                    : element.document_status_id == 0
-                    ? 'black'
-                    : 'red'
-                "
-              >
-                {{ getDocStatus(element.document_status_id) }}
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="remarks">
-              <th mat-header-cell *matHeaderCellDef>Remarks</th>
-              <td mat-cell *matCellDef="let element">
-                <mat-icon
-                  class="remark"
-                  (click)="openRemarksHistory(element)"
-                  [matBadge]="element.document_revision.length"
-                  matBadgeColor="warn"
-                  >remove_red_eye</mat-icon
-                >
-              </td>
-            </ng-container>
-
-            <!-- Action Column -->
-            <ng-container matColumnDef="action">
-              <th mat-header-cell *matHeaderCellDef>Action</th>
-              <td mat-cell *matCellDef="let element">
-                <button
-                  mat-button
-                  color="accent"
-                  (click)="openFormDialog(element)"
-                  [disabled]="applicationInfo.application_status_id !== 1"
-                  *ngIf="evaluatorRole.code == 'CBAO-REC'"
-                >
-                  <mat-icon class="action">mode_edit</mat-icon>
-                </button>
-                <button
-                  mat-button
-                  color="accent"
-                  (click)="openFormDialog(element)"
-                  [disabled]="applicationInfo.application_status_id !== 3"
-                  *ngIf="
-                    evaluatorRole.code == 'CBAO-LG' ||
-                    evaluatorRole.code == 'CBAO-ARCH' ||
-                    evaluatorRole.code == 'CBAO-STR' ||
-                    evaluatorRole.code == 'CBAO-SAN' ||
-                    evaluatorRole.code == 'CBAO-ELEC' ||
-                    evaluatorRole.code == 'CBAO-MEC'
+              <!-- Status Column -->
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Status</th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  [style.color]="
+                    element.document_status_id == 1
+                      ? 'green'
+                      : element.document_status_id == 0
+                      ? 'black'
+                      : 'red'
                   "
                 >
-                  <mat-icon class="action">mode_edit</mat-icon>
-                </button>
-                <button
-                  mat-button
-                  color="accent"
-                  (click)="openFormDialog(element)"
-                  [disabled]="applicationInfo.application_status_id !== 12"
-                  *ngIf="evaluatorRole.code == 'CBAO-DC'"
-                >
-                  <mat-icon class="action">mode_edit</mat-icon>
-                </button>
-                <button
-                  mat-button
-                  color="accent"
-                  (click)="openFormDialog(element)"
-                  [disabled]="applicationInfo.application_status_id !== 13"
-                  *ngIf="evaluatorRole.code == 'CBAO-BO'"
-                >
-                  <mat-icon class="action">mode_edit</mat-icon>
-                </button>
-                <a
-                  href="{{ element.document_path }}"
-                  target="_blank"
-                  *ngIf="evaluatorRole.code == 'CBAO-REL'"
-                  >Print</a
-                >
-              </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-          </table>
+                  {{ getDocStatus(element.document_status_id) }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="remarks">
+                <th mat-header-cell *matHeaderCellDef>Remarks</th>
+                <td mat-cell *matCellDef="let element">
+                  <mat-icon
+                    class="remark"
+                    (click)="openRemarksHistory(element)"
+                    [matBadge]="element.document_revision.length"
+                    matBadgeColor="warn"
+                    >remove_red_eye</mat-icon
+                  >
+                </td>
+              </ng-container>
+
+              <!-- Action Column -->
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef>Action</th>
+                <td mat-cell *matCellDef="let element">
+                  <ng-container *ngIf="applicationInfo.permit_type_id == 1">
+                    <button
+                      mat-button
+                      color="accent"
+                      (click)="openFormDialog(element)"
+                      [disabled]="applicationInfo.application_status_id !== 1"
+                      *ngIf="evaluatorRole.code == 'CBAO-REC'"
+                    >
+                      <mat-icon class="action">mode_edit</mat-icon>
+                    </button>
+                    <button
+                      mat-button
+                      color="accent"
+                      (click)="openFormDialog(element)"
+                      [disabled]="applicationInfo.application_status_id !== 3"
+                      *ngIf="
+                        evaluatorRole.code == 'CBAO-LG' ||
+                        evaluatorRole.code == 'CBAO-ARCH' ||
+                        evaluatorRole.code == 'CBAO-STR' ||
+                        evaluatorRole.code == 'CBAO-SAN' ||
+                        evaluatorRole.code == 'CBAO-ELEC' ||
+                        evaluatorRole.code == 'CBAO-MEC'
+                      "
+                    >
+                      <mat-icon class="action">mode_edit</mat-icon>
+                    </button>
+                    <button
+                      mat-button
+                      color="accent"
+                      (click)="openFormDialog(element)"
+                      [disabled]="applicationInfo.application_status_id !== 12"
+                      *ngIf="evaluatorRole.code == 'CBAO-DC'"
+                    >
+                      <mat-icon class="action">mode_edit</mat-icon>
+                    </button>
+                    <button
+                      mat-button
+                      color="accent"
+                      (click)="openFormDialog(element)"
+                      [disabled]="applicationInfo.application_status_id !== 13"
+                      *ngIf="evaluatorRole.code == 'CBAO-BO'"
+                    >
+                      <mat-icon class="action">mode_edit</mat-icon>
+                    </button>
+                  </ng-container>
+                  <ng-container *ngIf="applicationInfo.permit_type_id !== 1">
+                    <button
+                      mat-button
+                      color="accent"
+                      (click)="openFormDialog(element)"
+                      *ngIf="evaluatorRole.code !== 'CBAO-REL'"
+                    >
+                      <mat-icon class="action">mode_edit</mat-icon>
+                    </button>
+                  </ng-container>
+
+                  <a
+                    href="{{ element.document_path }}"
+                    target="_blank"
+                    *ngIf="evaluatorRole.code == 'CBAO-REL'"
+                    >Print</a
+                  >
+                </td>
+              </ng-container>
+
+              <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns; sticky: true"
+              ></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+          </div>
 
           <ng-container *ngIf="applicationInfo.permit_type_id == 1">
             <!-- TODO MAKE THIS A COMPONENT -->
@@ -290,8 +310,52 @@
                   color="primary"
                   (click)="updateApplicationStatus()"
                   [disabled]="applicationInfo.application_status_id !== 1"
+                  *ngIf="evaluatorRole.code == 'CBAO-REC'"
                 >
                   Forward <mat-icon>arrow_forward</mat-icon>
+                </button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="forwardToDivisionChief()"
+                  [disabled]="
+                    !checkFormsCompliant() ||
+                    applicationInfo.application_status_id !== 35
+                  "
+                  *ngIf="
+                    evaluatorRole.code !== 'CBAO-REC' &&
+                    evaluatorRole.code !== 'CBAO-DC' &&
+                    evaluatorRole.code !== 'CBAO-BO' &&
+                    evaluatorRole.code !== 'CBAO-REL'
+                  "
+                >
+                  Forward to Division Chief <mat-icon>arrow_forward</mat-icon>
+                </button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="notifyBuildingOfficial()"
+                  [disabled]="
+                    !checkFormsCompliant() ||
+                    applicationInfo.application_status_id !== 12
+                  "
+                  *ngIf="evaluatorRole.code == 'CBAO-DC'"
+                >
+                  Forward to Building Official
+                  <mat-icon>arrow_forward</mat-icon>
+                </button>
+                <button
+                  mat-raised-button
+                  (click)="forPayment()"
+                  color="primary"
+                  *ngIf="evaluatorRole.code == 'CBAO-BO'"
+                  [disabled]="
+                    !checkFormsCompliant() ||
+                    applicationInfo.application_status_id !== 13
+                  "
+                >
+                  Approve
+                  <mat-icon>check</mat-icon>
                 </button>
               </div>
             </div></ng-container
