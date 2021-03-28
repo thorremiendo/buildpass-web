@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { DataFormBindingService } from 'src/app/core/services/data-form-binding.service';
-import { documentTypes } from '../../../core/enums/document-type.enum';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -17,6 +16,7 @@ export class ExcavationPermitComponent implements OnInit {
   public formData;
   public applicationId;
   public applicationDetails;
+  public documentTypes;
   public isLoading: boolean = false;
   public exisitingApplicationInfo;
   public excavationId;
@@ -32,7 +32,7 @@ export class ExcavationPermitComponent implements OnInit {
   public fieldSets: any = [
     {
       label: 'Step 1',
-      documents: [21, 26, 44, 27, 23, 24],
+      documents: [],
     },
     {
       label: 'Step 2',
@@ -61,6 +61,34 @@ export class ExcavationPermitComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.user = JSON.parse(localStorage.getItem('user'));
+    this.newApplicationService.fetchDocumentTypes().subscribe(res => {
+      this.documentTypes = res.data;
+    });
+    this.newApplicationService.applicationId
+      .asObservable()
+      .subscribe(applicationId => {
+        if (applicationId) this.applicationId = applicationId;
+        else this.applicationId = localStorage.getItem('app_id');
+
+        this.applicationService.fetchApplicationInfo(this.applicationId).subscribe(res => {
+          this.applicationDetails = res.data;
+          this.formData = this.dataBindingService.getFormData(this.applicationDetails);
+
+          const isRepresentative = this.applicationDetails.is_representative == '1' ? true : false;
+          const isLessee = this.applicationDetails.rol_status_id != '1' ? true : false;
+          const isRegisteredOwner = this.applicationDetails.registered_owner == '1' ? true : false;
+
+          isRepresentative ? this.fieldSets[0].documents.push(...this.representativeDocs) : null;
+          isLessee ? this.fieldSets[0].documents.push(...this.lesseeDocs) : null;
+          isRegisteredOwner ? this.fieldSets[0].documents.push(...this.registeredDocs) : this.fieldSets[0].documents.push(...this.notRegisteredDocs);
+
+          this.initData();
+          this.setFilePaths();
+          this.pdfSource = this.forms[0].src;
+        });
+      });
+
     setTimeout(() => {
       this.user = JSON.parse(localStorage.getItem('user'));
       this.newApplicationService.applicationId
