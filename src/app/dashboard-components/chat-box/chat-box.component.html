@@ -43,7 +43,7 @@
           </mat-toolbar>
           <mat-card-content class="chat-middle-box">
             <ng-container *ngFor="let c of selectedMessage.chat">
-              <ng-template [ngIf]="c.type == 'odd'" [ngIfElse]="evenblock">
+              <ng-template [ngIf]="c.type == 'incoming'" [ngIfElse]="evenblock">
                 <div class="chat-list odd">
                   <div class="chat-message">
                     <div class="chat-block">

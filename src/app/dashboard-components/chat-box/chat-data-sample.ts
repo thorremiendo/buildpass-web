@@ -1,106 +1,44 @@
+export const chatBotMessage = [{
+    from: 'OCPAS BOT',
+    photo: 'assets/images/cbao-cartoon.png',
+    subject: 'Need Assistance',
+    chat: [
+      
+    ]
+}, ]
+
+
 export const messages = [{
-    from: 'CBAO',
+    from: 'Jose Garcia',
     photo: 'assets/images/cbao-cartoon.png',
-    subject: 'Hey, how are you?',
+    subject: 'Test Chat',
     chat: [
         {
-            type: 'odd',
-            msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
+            type: 'incoming',
+            msg: 'Good Day, I need assistance can you help me? Thank you',
             date: new Date()
         },
         {
-            type: 'odd',
-            msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
+            type: 'outgoing',
+            msg: 'Sure, May I know thier concerns please ',
             date: new Date()
         },
         {
-            type: 'even',
-            msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
+            type: 'incoming',
+            msg: "I need to change my building plan requirement, I uplaoded the wrong one",
             date: new Date()
         },
         {
-            type: 'odd',
-            msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
+            type: 'outgoing',
+            msg: "Sure you can, please wait while I'm reviewing your requirements. Thank you",
             date: new Date()
         },
         {
-            type: 'even',
-            msg: 'I would love to join the team.',
+            type: 'incoming',
+            msg: "Great!, Thank you ",
             date: new Date()
         },
-        {
-            type: 'odd',
-            msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
-            date: new Date()
-        }
     ]
-}, 
-{
-    from: 'CPDO',
-    photo: 'assets/images/cbao-cartoon.png',
-    subject: 'Lorem ipsum done dkaghdka',
-    chat: [
-        {
-            type: 'odd',
-            msg: 'this is odd2',
-            date: new Date()
-        },
-        {
-            type: 'even',
-            msg: 'this is even2',
-            date: new Date()
-        },
-        {
-            type: 'odd',
-            msg: 'Simply dummy text of the printing & type setting industry.',
-            date: new Date()
-        },
-        {
-            type: 'even',
-            msg: 'Love to join the team.',
-            date: new Date()
-        },
-        {
-            type: 'odd',
-            msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
-            date: new Date()
-        }
-    ]
-}, 
-{
-    from: 'CEPMO',
-    photo: 'assets/images/cbao-cartoon.png',
-    subject: 'This is CEMPO',
-    chat: [
-        {
-            type: 'odd',
-            msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
-            date: new Date()
-        },
-        {
-            type: 'odd',
-            msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
-            date: new Date()
-        },
-        {
-            type: 'even',
-            msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
-            date: new Date()
-        },
-        {
-            type: 'odd',
-            msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
-            date: new Date()
-        },
-        {
-            type: 'even',
-            msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
-            date: new Date()
-        },
-        {
-            type: 'odd',
-            msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
-            date: new Date()
-        }
-    ]
+
 }]
+
