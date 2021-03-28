@@ -48,16 +48,23 @@
             </div>
           </mat-card-content>
         </mat-card>
-        <div class="step-label">2. Please upload the Notarized Form.</div>
+        <!-- <div class="step-label">2. Please upload the Notarized Form.</div>
         <div class="pdf-only">You can only upload PDF files.</div>
         <app-file-upload
           (emitFile)="submitDocument($event, form.id)"
           description="{{ form.description }}"
           path="{{ form.path }}"
-        ></app-file-upload>
+        ></app-file-upload> -->
       </div>
       <div class="buttons">
-        <button mat-raised-button color="primary" matStepperNext>Next</button>
+        <button
+          mat-raised-button
+          color="primary"
+          matStepperNext
+          (click)="upload(form)"
+        >
+          Save
+        </button>
       </div>
     </mat-step>
     <mat-step *ngFor="let fieldSet of fieldSets; let i = index">

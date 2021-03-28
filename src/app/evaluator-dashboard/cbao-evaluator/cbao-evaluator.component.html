@@ -302,17 +302,26 @@
           <ng-container *ngIf="applicationInfo.permit_type_id !== 1">
             <div class="other__permit">
               <div class="other__permit__buttons">
-                <button mat-raised-button color="accent">
+                <button
+                  mat-raised-button
+                  color="accent"
+                  [disabled]="checkFormsCompliant()"
+                  (click)="otherPermitsReturnToApplicant()"
+                >
                   <mat-icon>cancel</mat-icon> Return to Applicant
                 </button>
                 <button
                   mat-raised-button
                   color="primary"
                   (click)="updateApplicationStatus()"
-                  [disabled]="applicationInfo.application_status_id !== 1"
+                  [disabled]="
+                    applicationInfo.application_status_id !== 1 ||
+                    !checkFormsCompliant()
+                  "
                   *ngIf="evaluatorRole.code == 'CBAO-REC'"
                 >
-                  Forward <mat-icon>arrow_forward</mat-icon>
+                  Forward to Technical Evaluators
+                  <mat-icon>arrow_right</mat-icon>
                 </button>
                 <button
                   mat-raised-button
@@ -320,7 +329,7 @@
                   (click)="forwardToDivisionChief()"
                   [disabled]="
                     !checkFormsCompliant() ||
-                    applicationInfo.application_status_id !== 35
+                    applicationInfo.application_status_id !== 18
                   "
                   *ngIf="
                     evaluatorRole.code !== 'CBAO-REC' &&
@@ -329,7 +338,7 @@
                     evaluatorRole.code !== 'CBAO-REL'
                   "
                 >
-                  Forward to Division Chief <mat-icon>arrow_forward</mat-icon>
+                  Forward to Division Chief <mat-icon>arrow_right</mat-icon>
                 </button>
                 <button
                   mat-raised-button
@@ -356,6 +365,17 @@
                 >
                   Approve
                   <mat-icon>check</mat-icon>
+                </button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="handleRelease()"
+                  *ngIf="
+                    evaluatorRole.code == 'CBAO-REL' &&
+                    applicationInfo.application_status_id == '4'
+                  "
+                >
+                  Release Permit
                 </button>
               </div>
             </div></ng-container
