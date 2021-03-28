@@ -1,5 +1,11 @@
 table {
   width: 100%;
+
+  th {
+    // background-color: maroon;
+    // color: white;
+    font-weight: bold;
+  }
 }
 
 .mat-column-index {
@@ -20,8 +26,8 @@ table {
 .mat-column-name {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 50% !important;
-  width: 50% !important;
+  flex: 0 0 60% !important;
+  width: 60% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -50,8 +56,8 @@ table {
 .mat-column-remarks {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 20% !important;
-  width: 20% !important;
+  flex: 0 0 10% !important;
+  width: 10% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -95,4 +101,11 @@ mat-icon:hover {
 
 .action {
   color: #f9c232;
+}
+
+.reject {
+  button {
+    background-color: rgb(172, 17, 17);
+    color: whitesmoke;
+  }
 }

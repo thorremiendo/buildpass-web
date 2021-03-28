@@ -3,7 +3,11 @@
   Click <a href="" target="_blank">here</a> to view all required forms for
   Building Permit Application.
 </p>
-<mat-horizontal-stepper linear #stepper (selectionChange)="initPdfViewer($event)">
+<mat-horizontal-stepper
+  linear
+  #stepper
+  (selectionChange)="initPdfViewer($event)"
+>
   <mat-step *ngFor="let form of forms; let i = index">
     <ng-template matStepLabel>{{ form.description }}</ng-template>
     <div class="fillable-form">
@@ -11,64 +15,120 @@
         1. After filling out the form, please click the download/save button on
         the right.
       </div>
-      <mat-card>
-        <mat-card-content>
-          <div id="form-{{i}}">
-            <div id="pdf-viewer" *ngIf="i == 0 && pdfSource">
-              <ngx-extended-pdf-viewer
-                [src]="pdfSource"
-                [showToolbar]="true"
-                [showSidebarButton]="false"
-                [showFindButton]="false"
-                [showPagingButtons]="false"
-                [showZoomButtons]="true"
-                [showPresentationModeButton]="true"
-                [showOpenFileButton]="false"
-                [showPrintButton]="false"
-                [showDownloadButton]="true"
-                [showBookmarkButton]="false"
-                [showSecondaryToolbarButton]="true"
-                [showRotateButton]="false"
-                [showHandToolButton]="false"
-                [showScrollingButton]="false"
-                [showSpreadButton]="false"
-                [showPropertiesButton]="false"
-                [useBrowserLocale]="true"
-                height="1000px"
-                zoom="80%"
-                [(formData)]="formData"
-              >
-              </ngx-extended-pdf-viewer>
-            </div>
+
+      <div id="form-{{ i }}">
+        <div id="pdf-viewer" *ngIf="i == 0 && pdfSource">
+          <ngx-extended-pdf-viewer
+            [src]="pdfSource"
+            [showToolbar]="true"
+            [showSidebarButton]="false"
+            [showFindButton]="false"
+            [showPagingButtons]="false"
+            [showZoomButtons]="true"
+            [showPresentationModeButton]="true"
+            [showOpenFileButton]="false"
+            [showPrintButton]="false"
+            [showDownloadButton]="true"
+            [showBookmarkButton]="false"
+            [showSecondaryToolbarButton]="true"
+            [showRotateButton]="false"
+            [showHandToolButton]="false"
+            [showScrollingButton]="false"
+            [showSpreadButton]="false"
+            [showPropertiesButton]="false"
+            [useBrowserLocale]="true"
+            height="1000px"
+            zoom="80%"
+            [(formData)]="
+              form.id == 1
+                ? zoningForm == undefined
+                  ? formData
+                  : zoningForm
+                : formData
+            "
+          >
+          </ngx-extended-pdf-viewer>
+        </div>
+      </div>
+
+      <ng-container>
+        <!-- <app-file-upload
+          (emitFile)="submitDocument($event, form.id)"
+          description="{{ form.description }}"
+          path="{{ form.path }}"
+        ></app-file-upload> -->
+        <div class="row mt-4">
+          <div class="file-description col-8">
+            <p style="font-weight: bold; color: maroon">
+              {{ form.description }}
+            </p>
           </div>
-        </mat-card-content>
-      </mat-card>
-      <div class="step-label">2. Please upload the Notarized Form.</div>
-      <div class="pdf-only">You can only upload PDF files.</div>
-      <app-file-upload 
-        (emitFile)="submitDocument($event, form.id)"
-        description="{{form.description}}"
-        path="{{form.path}}"
-      ></app-file-upload>
+          <div class="file-actions col-4">
+            <div *ngIf="!isLoading">
+              <a *ngIf="form.path" [href]="form.path" target="_blank"
+                >View File</a
+              >
+              <span *ngIf="form.path" (click)="toggleEditMode()">Change</span>
+              <mat-icon *ngIf="file || form.path"> check_circle </mat-icon>
+            </div>
+            <mat-spinner *ngIf="isLoading" [diameter]="20"> </mat-spinner>
+          </div>
+        </div>
+      </ng-container>
     </div>
     <div class="buttons">
-      <button mat-raised-button color="primary" matStepperNext>Next</button>
+      <!-- <button
+        mat-raised-button
+        color="primary"
+        (click)="handleSaveFormData(form.id)"
+        matStepperNext
+        [disabled]="isLoading"
+      >
+        Save
+      </button> -->
+      <button
+        *ngIf="!form.path"
+        mat-raised-button
+        color="primary"
+        (click)="upload(form.id)"
+        matStepperNext
+        [disabled]="isLoading"
+      >
+        Save
+      </button>
+      <button
+        *ngIf="form.path"
+        matStepperNext
+        mat-raised-button
+        color="primary"
+        [disabled]="isLoading"
+      >
+        Next
+      </button>
     </div>
   </mat-step>
   <mat-step *ngFor="let fieldSet of fieldSets; let i = index">
     <ng-template matStepLabel>{{ fieldSet.label }}</ng-template>
     <div class="fieldsets">
       <div *ngFor="let field of fieldSet.documents">
-        <app-file-upload 
+        <app-file-upload
           (emitFile)="submitDocument($event, field.id)"
-          description="{{field.description}}"
-          path="{{field.path}}"
+          description="{{ field.description }}"
+          path="{{ field.path }}"
         ></app-file-upload>
       </div>
     </div>
     <div class="buttons">
-      <button mat-raised-button color="primary" matStepperNext *ngIf="i != fieldSets.length-1; else submit_button;">Next</button>
-      <ng-template #submit_button>   
+      <button
+        mat-raised-button
+        color="primary"
+        matStepperNext
+        *ngIf="i != fieldSets.length - 1; else submit_button"
+        [disabled]="isLoading"
+      >
+        Next
+      </button>
+      <ng-template #submit_button>
         <button mat-raised-button (click)="submitApplication()">Submit</button>
       </ng-template>
     </div>

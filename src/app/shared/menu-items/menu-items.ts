@@ -59,7 +59,7 @@ const USERMENUITEMS = [
     state: 'dashboard/edit-profile',
     name: 'Edit Profile',
     type: 'link',
-    icon: 'folder',
+    icon: 'manage_accounts',
   },
 ];
 const EVALUATORMENUITEMS = [

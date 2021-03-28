@@ -1,23 +1,105 @@
 <div class="container">
-  <div class="row">
-    <!-- <div class="col-md-7">
-      <app-reminders></app-reminders>
-     </div> -->
+  <div class="row no-gutters px-5 pt-3 pb-0">
     <div class="col-md-12">
-   <app-tutorial></app-tutorial>
+      <app-tutorial class="mb-5"></app-tutorial>
     </div>
   </div>
-  <div class="row mt-5">
-    <div class="col-md-12">
-      <app-faq-expansion-panel></app-faq-expansion-panel>
+  <div class="row no-gutters px-5 pt-1 pb-2 ">
+    <div class="col-md-4">
+      <mat-card>
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container mx-4 pt-3">
+            <h2 class="" style="color:white; font-weight: bolder;">Get Started</h2>
+            <p class="lead" style="color:white;"> </p>
+            <a [routerLink]="['/dashboard/new/step-one']">Apply now ></a>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+    <div class="col-md-4">
+      <mat-card>
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container mx-4 pt-3">
+            <h2 class="" style="color:white; font-weight: bolder;">FAQS</h2>
+          
+            <a href="/dashboard/#faqs">Learn More ></a>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+     <div class="col-md-4">
+      <mat-card>
+        <mat-card-header>
+          <mat-form-field appearance="none">
+            <mat-label>My Application</mat-label>
+            <mat-select [(value)]="applicationId">
+              <mat-option *ngFor="let application of applications" value="{{application.id}}">{{application.ocpas_code}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card-header>
+        <hr class="m-0" />
+        <div class="scrollbar">
+          <perfect-scrollbar [config]="config">
+            <app-application-timeline page="home" [id]="applicationId">
+            </app-application-timeline>
+          </perfect-scrollbar>
+        </div>
+      </mat-card>
+    </div>
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <app-faq-expansion-panel id ="faqs"></app-faq-expansion-panel>
+      </div>
     </div>
   </div>
-</div>
-
-
-
-<div class="chat-container">
-  <div class="bottomright">
-    <app-chat-button style="position: sticky;"></app-chat-button>
+  <div class="chat-container">
+    <div class="bottomright">
+      <app-chat-button style="position: sticky;"></app-chat-button>
+    </div>
   </div>
-</div>
+
+    <!-- <div class="col-md-4">
+      <mat-card>
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container mx-4">
+            <h2 class="" style="color:white; font-weight: bolder;">Get Started</h2>
+            <p class="lead" style="color:white;">Lorem Ipsum has been the industry's </p>
+            <a [routerLink]="['/dashboard/new/step-one']">Apply now ></a>
+          </div>
+        </div>
+      </mat-card>
+    </div>-->
+
+
+      <!-- <mat-card>
+        <mat-card-content>
+        
+        </mat-card-content>
+      </mat-card> -->
+
+  <!-- <div class="col-md-6">
+    <div class="row">
+      <div class="col  pr-0 pl-0">
+        <mat-card class="permit-card">
+        </mat-card>
+      </div>
+      <div class="col pr-0 pl-0">
+        <mat-card class="permit-card">
+
+        </mat-card>
+      </div>
+    </div>
+    <div class="row ">
+      <div class="col  pr-0 pl-0">
+        <mat-card class="permit-card">
+
+        </mat-card>
+      </div>
+      <div class="col pr-0 pl-0">
+        <mat-card class="permit-card">
+
+        </mat-card>
+      </div>
+    </div>
+  </div> -->

@@ -1,0 +1,61 @@
+<div class="container" *ngIf="!isLoading">
+  <div class="container__content">
+    <div>
+      <table
+        mat-table
+        [dataSource]="applicantSupportingDocs"
+        class="full-width"
+        #itemsTable
+      >
+        <ng-container matColumnDef="index">
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let item; let i = index">
+            {{ i + 1 }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fileName">
+          <th mat-header-cell *matHeaderCellDef>File Name</th>
+          <td mat-cell *matCellDef="let item">
+            {{ item.title }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let item">
+            {{ item.updated_at | date: "MMMM dd, yyyy hh:mm:ss a":"+0800" }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="evaluator">
+          <th mat-header-cell *matHeaderCellDef>Uploaded By</th>
+          <td mat-cell *matCellDef="let item">
+            {{
+              item.evaluator_detail ? item.evaluator_detail.first_name : "N/A"
+            }}
+            {{
+              item.evaluator_detail ? item.evaluator_detail.last_name : "N/A"
+            }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let item">
+            <a href="{{ item.file_path }}" target="_blank">View</a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let items; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    <div class="d-flex justify-content-center align-items-center w-100 my-3">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="handleAddSupportingDocument()"
+      >
+        Add a supporting document
+      </button>
+    </div>
+  </div>
+</div>

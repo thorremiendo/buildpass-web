@@ -57,6 +57,7 @@ export class CpdoEvaluatorComponent implements OnInit {
     this.changeDetectorRefs.detectChanges();
   }
   fetchApplicationDetails() {
+    this.isLoading = true;
     this.applicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
@@ -71,6 +72,7 @@ export class CpdoEvaluatorComponent implements OnInit {
     return isNonCompliant;
   }
   fetchEvaluatorDetails() {
+    this.isLoading = true;
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
@@ -224,6 +226,36 @@ export class CpdoEvaluatorComponent implements OnInit {
         }
       );
     }
+  }
+  handleReject() {
+    this.isLoading = false;
+    const body = {
+      application_status_id: 16,
+    };
+
+    Swal.fire({
+      title: 'Are you sure?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: `Yes`,
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.isLoading = false;
+            Swal.fire('Success!', `Application Denied!`, 'success').then(
+              (result) => {
+                window.location.reload();
+              }
+            );
+            this.ngOnInit();
+          });
+      } else if (result.isDenied) {
+      }
+    });
   }
   handleApprove() {
     this.isLoading = true;

@@ -1,17 +1,21 @@
 <div *ngIf="applicationTimeline">
-  <section *ngFor="let item of applicationTimeline" class="timeline-area">
-    <div class="timeline">
-      <h4>
-        {{ item.name }}
-      </h4>
-      <h5 [style.color]="item.status.includes('Returned') ? 'red' : 'green'">
-        <strong>
-          {{ item.status }}
-        </strong>
-      </h5>
-      <h6>
-        {{ item.created_at | date: "MMMM dd, yyyy hh:mm:ss a":"+0800" }}
-      </h6>
-    </div>
-  </section>
+
+      <section *ngFor="let item of applicationTimeline.slice().reverse()" class="timeline-area">
+        <div class="timeline">
+          <h4>
+            {{ item.name }}
+          </h4>
+          <h5 [style.color]="item.status.includes('Returned') ? 'red' : 'green'">
+            <strong>
+              {{ item.status }}
+            </strong>
+          </h5>
+          <h6>
+            {{ item.created_at | date: "MMMM dd, yyyy hh:mm:ss a":"+0800" }}
+          </h6>
+        </div>
+      </section>
+    
+   
+ 
 </div>

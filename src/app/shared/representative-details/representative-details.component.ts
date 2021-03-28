@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input } from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
@@ -11,10 +11,18 @@ import {
   styleUrls: ['./representative-details.component.scss'],
 })
 export class RepresentativeDetailsComponent implements OnInit {
+  public representativeDetails;
+  @Input()
+  dataFromParent;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const info = this.dataFromParent
+      ? this.dataFromParent
+      : this.data.representativeDetails;
+    this.representativeDetails = info;
+  }
 }

@@ -1,31 +1,17 @@
 <mat-carousel
-    proportion="50"
-    slides
-    interval="5000"
-    [loop]="true"
-    [hideArrows]="false"
-    [hideIndicators]="false"
-    >
-    <mat-carousel-slide
+  maxWidth="auto"
+  proportion="30"
+  color="primary"
+  interval="3000"
+  [loop]="true"
+  [hideArrows]="false"
+  [hideIndicators]="true"
+  orientation="ltr"
+>
+  <mat-carousel-slide
     *ngFor="let slide of slides; let i = index"
     [image]="slide.img"
-    [hideOverlay]="true">
-        <!-- <mat-card class="oh">
-         <img mat-card-image src="assets/images/big/img1.jpg" style="max-height: 100px;" alt="Photo of a Shiba Inu">
-         <mat-card-content>
-              <p>
-                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A
-                small, agile dog that copes
-                very well with mountainous terrain
-              </p>
-              <mat-card-actions>
-                 <button mat-raised-button color="accent">LIKE</button>
-                 <button mat-button>SHARE</button>
-              </mat-card-actions>
-          </mat-card-content>
-        </mat-card> -->
-        
-    </mat-carousel-slide>
-   
-    
-  </mat-carousel>
+    [hideOverlay]="true"
+  >
+  </mat-carousel-slide>
+</mat-carousel>

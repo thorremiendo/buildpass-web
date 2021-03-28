@@ -1,6 +1,7 @@
 import { ActivatedRoute } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-application-timeline',
@@ -8,16 +9,36 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./application-timeline.component.scss'],
 })
 export class ApplicationTimelineComponent implements OnInit {
+@Input() id;
+@Input() page;
+
   public applicationId;
   public applicationTimeline;
+  public config: PerfectScrollbarConfigInterface = {};
   constructor(
     private applicationService: ApplicationInfoService,
     public route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.applicationId = this.route.snapshot.params.id;
+    console.log(this.id);
+    if(this.page == "home"){
+      this.applicationId = this.id;
+    }
+
+    else{
+      this.applicationId = this.route.snapshot.paramMap.get('id')
+    }
+   
     this.getApplicationTimeline();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.applicationId = changes.id.currentValue;
+    console.log(this.applicationId)
+    this.getApplicationTimeline();
+    
+   
   }
   getApplicationTimeline() {
     this.applicationService

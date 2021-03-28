@@ -75,20 +75,37 @@
             <h5 style="color: #7b7b7b">Application Type:</h5>
             <h5>
               <strong
-                >&nbsp;{{
-                  applicationDetails.permit_type_id == "1"
-                    ? "Building Permit"
-                    : "Occupancy Permit"
-                }}</strong
-              >
+                >&nbsp;
+                {{ getApplicationType(applicationDetails.permit_type_id) }}
+              </strong>
             </h5>
           </div>
         </div>
       </div>
-      <div class="text-right mt-5">
-        <button mat-raised-button color="primary" (click)="openProjectDialog()">
-          Project Details
-        </button>
+      <div class="d-flex justify-content-between align-items-center mt-5">
+        <div
+          *ngIf="applicationDetails.main_permit_id"
+          class="d-flex justify-content-center align-items-center"
+        >
+          <p class="m-0 p-0" style="font-weight: bold">
+            Associated Building Permit Application:&nbsp;
+          </p>
+          <a
+            [routerLink]="['../', applicationDetails.main_permit_id]"
+            routerLinkActive="active"
+            target="_blank"
+            >View</a
+          >
+        </div>
+        <div>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="openProjectDialog()"
+          >
+            Project Details
+          </button>
+        </div>
       </div>
     </mat-card-content>
   </mat-card>
@@ -163,6 +180,7 @@
           (opened)="panelOpenState = true"
           (closed)="panelOpenState = false"
           class="mb-2"
+          *ngIf="applicationDetails.permit_type_id == 1"
         >
           <mat-expansion-panel-header>
             <mat-panel-title
@@ -178,6 +196,10 @@
           (opened)="panelOpenState = true"
           (closed)="panelOpenState = false"
           class="mb-2"
+          *ngIf="
+            applicationDetails.permit_type_id == 1 ||
+            applicationDetails.permit_type_id == 2
+          "
         >
           <mat-expansion-panel-header>
             <mat-panel-title
@@ -192,6 +214,10 @@
         <mat-expansion-panel
           (opened)="panelOpenState = true"
           (closed)="panelOpenState = false"
+          *ngIf="
+            applicationDetails.permit_type_id == 1 ||
+            applicationDetails.permit_type_id == 2
+          "
         >
           <mat-expansion-panel-header>
             <mat-panel-title

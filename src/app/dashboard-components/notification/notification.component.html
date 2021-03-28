@@ -10,16 +10,12 @@
         <div class="mailbox">
             <ul>
                 <li>
-                    <div class="drop-title">Notifications</div>
+                    <div class="drop-title">   <span matBadge="{{feeds.length}}" matBadgeOverlap="false">Notification</span></div>
                 </li>
                 <li>
                     <div class="message-center">
                         <perfect-scrollbar [config]="config">
-                            <div *ngIf="feeds.length === 0 ">
-                                <h5 class="mail-desc text-center pt-5">Oppss. ala kang notif badi</h5>
-                             
-                            </div>
-                                <a  *ngFor="let feed of feeds; let i = index" >
+                                <a  *ngFor="let feed of feeds.slice().reverse(); let i = index" >
                                     <!-- <div class="round {{feed.round}}">
                                         <i class="{{feed.icon}}"></i>
                                     </div> -->

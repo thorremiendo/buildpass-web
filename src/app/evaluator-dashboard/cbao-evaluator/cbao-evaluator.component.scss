@@ -1,5 +1,20 @@
 table {
   width: 100%;
+  th {
+    background-color: #400c06e0;
+    font-weight: bold;
+    color: white;
+  }
+}
+
+.table-container {
+  margin: 20px 0;
+  height: 600px;
+  overflow: auto;
+
+  h5 {
+    font-weight: bold;
+  }
 }
 
 .mat-column-index {
@@ -96,4 +111,18 @@ mat-icon:hover {
 
 .action {
   color: #f9c232;
+}
+.reject {
+  button {
+    background-color: rgb(172, 17, 17);
+    color: whitesmoke;
+  }
+}
+.other__permit {
+  margin: 20px 0;
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }

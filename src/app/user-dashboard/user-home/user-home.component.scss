@@ -3,34 +3,43 @@
 
 
 mat-card {
-  height: 100%;
+  border-radius: 20px;
 
-  ._illustration {
-    max-width: 150px;
-  }
-  ._notificationBox {
-    overflow: auto;
-    max-height: 180px;
+  .top-card:hover{
+    transform: scale(1);
+   }
 
-    
 
-      img {
-        width: 150px;
-        height: auto;
-        display: block;
-        margin: 0 auto;
-      }
-    
-    ._notifications :hover {
-      opacity: 0.6;
+  mat-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+   
 
-      cursor: pointer;
+    mat-card-title {
+      font-size: 18px;
     }
+
   }
+
+ 
+
+
 
   .mat-expansion-panel {
     margin-bottom: 5px;
   }
+}
+
+.scrollbar{
+  position: relative;
+  overflow: auto;
+
+  max-height:175px;
+  min-height: 175px;
+
+
+  
 }
 
 .chat-container {
@@ -44,3 +53,60 @@ mat-card {
   right: 16px;
   font-size: 18px;
 }
+
+
+  img {
+    background-size: cover;
+    max-width: 100px;
+    max-height: 200px;
+
+  }
+  
+
+  .no-gutter > [class*='col-'] {
+    padding-right:0;
+    padding-left:0;
+}
+
+.permit-card{
+  width: 180px; 
+  height: 180px;  
+  border-radius: 20px;
+  //background-color: #F1BA49;
+ 
+
+  &hover{
+    transform: scale(3);
+  }
+ 
+
+  p{
+    text-align: center;
+    margin-top: 50%;
+  }
+}
+
+::ng-deep .mat-form-field-wrapper{
+  margin-bottom: -1.25em;
+  margin-top: 0;
+}
+
+.jumbotron-fluid{
+  max-height: 250px !important;
+  min-height: 250px !important;
+  //padding: 20px;
+  border-radius: 20px;
+  background-color:#F2BA49;
+
+  a{
+    color: #800002;
+  }
+ 
+
+}
+
+
+
+
+
+ 

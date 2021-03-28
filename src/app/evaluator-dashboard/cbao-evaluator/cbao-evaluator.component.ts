@@ -124,22 +124,6 @@ export class CbaoEvaluatorComponent implements OnInit {
     return isReviewed;
   }
 
-  handleAddSupportingDocument() {
-    const dialogRef = this.dialog.open(UploadSupportingDocumentsComponent, {
-      width: '1200px',
-      height: '800px',
-      data: {
-        evaluator: this.evaluatorDetails,
-        route: this.route,
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-      this.ngOnInit();
-    });
-  }
-
   nonCompliant() {
     this.isLoading = true;
     if (this.checkFormsReviewed()) {
@@ -247,21 +231,45 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   updateApplicationStatus() {
-    const body = {
-      application_status_id: 2,
-      receiving_status_id: 1,
-    };
-    this.applicationService
-      .updateApplicationStatus(body, this.applicationId)
-      .subscribe((res) => {
-        this.fetchApplicationInfo();
-        Swal.fire('Success!', `Forwarded to CPDO!`, 'success').then(
-          (result) => {
-            this.isLoading = false;
-            window.location.reload();
-          }
-        );
-      });
+    if (this.applicationInfo.permit_type_id == 1) {
+      const body = {
+        application_status_id: 2,
+        receiving_status_id: 1,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          this.fetchApplicationInfo();
+          Swal.fire('Success!', `Forwarded to CPDO!`, 'success').then(
+            (result) => {
+              this.isLoading = false;
+              window.location.reload();
+            }
+          );
+        });
+    } else if (this.applicationInfo.permit_type_id !== 1) {
+      if (this.checkFormsReviewed()) {
+        const body = {
+          application_status_id: 35,
+          receiving_status_id: 1,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.fetchApplicationInfo();
+            Swal.fire(
+              'Success!',
+              `Forwarded to Technical Evaluators!`,
+              'success'
+            ).then((result) => {
+              this.isLoading = false;
+              window.location.reload();
+            });
+          });
+      } else {
+        alert('Review All Documents First!');
+      }
+    }
   }
   forwardToCpdo() {
     if (this.checkFormsCompliant()) {
@@ -273,6 +281,23 @@ export class CbaoEvaluatorComponent implements OnInit {
         }
       );
     }
+  }
+  forwardToDivisionChief() {
+    const body = {
+      application_status_id: 12,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire(
+          'All documents are compliant!!',
+          `Notified Division Chief for Evaluation!`,
+          'success'
+        ).then((result) => {
+          this.isLoading = false;
+          window.location.reload();
+        });
+      });
   }
   notifyBuildingOfficial() {
     this.isLoading = true;
@@ -302,7 +327,34 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
   forPayment() {
     this.isLoading = true;
-    if (this.checkFormsCompliant) {
+    if (this.applicationInfo.permit_type_id == 1) {
+      if (this.checkFormsCompliant) {
+        const body = {
+          application_status_id: 8,
+          bo_status_id: 1,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Building Permit Application Approved! Notified Applicant for Payment`,
+              'success'
+            ).then((result) => {
+              this.isLoading = false;
+              window.location.reload();
+            });
+          });
+      } else {
+        Swal.fire(
+          'Warning!',
+          `Please review all documents first!`,
+          'warning'
+        ).then((result) => {
+          this.isLoading = false;
+        });
+      }
+    } else {
       const body = {
         application_status_id: 8,
         bo_status_id: 1,
@@ -312,21 +364,13 @@ export class CbaoEvaluatorComponent implements OnInit {
         .subscribe((res) => {
           Swal.fire(
             'Success!',
-            `Building Permit Application Approved! Notified Applicant for Payment`,
+            `Notified Applicant for Payment`,
             'success'
           ).then((result) => {
             this.isLoading = false;
             window.location.reload();
           });
         });
-    } else {
-      Swal.fire(
-        'Warning!',
-        `Please review all documents first!`,
-        'warning'
-      ).then((result) => {
-        this.isLoading = false;
-      });
     }
   }
   handleDepartmentStatus() {
@@ -365,6 +409,37 @@ export class CbaoEvaluatorComponent implements OnInit {
           }
         );
       });
+  }
+
+  handleReject() {
+    this.isLoading = false;
+    const body = {
+      application_status_id: 16,
+    };
+
+    Swal.fire({
+      title: 'Are you sure?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: `Yes`,
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.isLoading = false;
+            Swal.fire('Success!', `Application Denied!`, 'success').then(
+              (result) => {
+                window.location.reload();
+              }
+            );
+            this.ngOnInit();
+          });
+      } else if (result.isDenied) {
+      }
+    });
   }
   openBldgPermitDialog() {
     const dialogRef = this.dialog.open(ReleaseBldgPermitComponent, {

@@ -3,6 +3,10 @@
     top: -19px;
     right: 0;
   }
+
+.point{
+  background-color:#F1BA49;
+}
   
   .heartbit {
     position: absolute;
@@ -11,7 +15,7 @@
     height: 25px;
     width: 25px;
     z-index: 10;
-    border: 5px solid maroon;
+    border: 5px solid #F1BA49;
     border-radius: 70px;
     -moz-animation: heartbit 1s ease-out;
     animation: heartbit 1s ease-out;

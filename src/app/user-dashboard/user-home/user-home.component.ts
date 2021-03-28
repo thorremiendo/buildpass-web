@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router'
 import { FeedService } from '../../core';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { ApplicationInfoService } from "../../core";
 
 
 @Component({
@@ -10,7 +12,11 @@ import { FeedService } from '../../core';
   providers: [FeedService],
 })
 export class UserHomeComponent implements OnInit {
-  public user;
+  public config: PerfectScrollbarConfigInterface = {};
+  public applicationId = 1;
+  public userInfo;
+  public applications: [];
+
 
 
   panelOpenState = false;
@@ -18,15 +24,24 @@ export class UserHomeComponent implements OnInit {
 
   constructor(
     private _router: Router,
+    private applicatonInfoService: ApplicationInfoService,
     ) 
     {
 
     }
 
   ngOnInit(): void {
-   
-  
-    
+    this.userInfo = JSON.parse(localStorage.getItem('user'));
+
+    if(this.userInfo){
+
+      this.applicatonInfoService.fetchOngoingApplication(this.userInfo.id).subscribe(data =>
+        {
+          this.applications = data.data;
+          console.log(this.applications)
+        
+        })
+    } 
   }
 
   openApplication(id){

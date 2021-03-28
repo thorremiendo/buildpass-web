@@ -63,4 +63,61 @@ export class ApplicationInfoService {
     const url = `/application/${id}/updateStatus`;
     return this.api.post(url, body);
   }
+
+  fetchUserBuildingPermit(id) {
+    const url = `/user/${id}/building-permit`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        //console.log('fetchUserDocs Result:', data);
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+
+  uploadSupportingFiles(body, id) {
+    const url = `/application/${id}/supporting-file`;
+    return this.api.post(url, body);
+  }
+
+  fetchApplicationSupportingFiles(id) {
+    const url = `/application/${id}/supporting-files`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+
+  fetchOngoingApplication(id) {
+    const url = `/user/${id}/ongoing-application`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+  submitZoningFormData(body, id) {
+    const url = `/formdata/${id}/zoning`;
+    return this.api.post(url, body);
+  }
+  fetchZoningFormData(id) {
+    const url = `/formdata/${id}/zoning`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
 }
