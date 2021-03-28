@@ -1,19 +1,19 @@
 import { Component, OnInit, Injectable, Input } from '@angular/core';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 import { FeedService } from '../../core';
 import { Feed } from '../../core';
-import { Subscription, } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Channel } from 'pusher-js';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss']
+  styleUrls: ['./notification.component.scss'],
 })
 export class NotificationComponent implements OnInit {
-  @Input() type = ''
-
+  @Input() type = '';
+  public user;
   public channel: Channel;
   public feeds: Feed[] = [];
   public notifTable: any[];
@@ -21,44 +21,32 @@ export class NotificationComponent implements OnInit {
   public config: PerfectScrollbarConfigInterface = {};
   private feedSubscription: Subscription;
 
+  constructor(private feedService: FeedService, private router: Router) {}
 
-  constructor(
-    private feedService: FeedService,
-    private router: Router,
-
-  ) {}
-  
-
-  ngOnInit():void{
- 
-    if(this.type == "super admin"){
+  ngOnInit(): void {
+    this.user = JSON.parse(localStorage.getItem('user'));
+    if (this.type == 'super admin') {
       this.show_notif = false;
-
-    } 
-
-    else{
-
+    } else {
       this.feedService.checkUser();
-      this.feedSubscription = this.feedService.getFeedItems().subscribe((feed: Feed) => {
-        this.feeds.push(feed);
-      });
+      this.feedSubscription = this.feedService
+        .getFeedItems()
+        .subscribe((feed: Feed) => {
+          this.feeds.push(feed);
+        });
 
-      this.feedService.getNotifTable().subscribe(data =>{
+      this.feedService.getNotifTable().subscribe((data) => {
         this.feeds = data.data;
-      })
+      });
     }
-
   }
 
-  openNotif(index, id){
-    this.feeds.splice(index, 1)
-    this.router.navigate(['evaluator/application', id])
-    .then(() =>{
-    }) 
-
+  openNotif(index, id) {
+    this.feeds.splice(index, 1);
+    if (this.user.is_evaluator == 1) {
+      this.router.navigate(['evaluator/application', id]).then(() => {});
+    } else {
+      this.router.navigate(['dashboard/applications/view', id]);
+    }
   }
-
-
 }
-
-
