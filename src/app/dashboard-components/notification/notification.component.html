@@ -1,10 +1,7 @@
 <div *ngIf='show_notif == true'>
     <button [matMenuTriggerFor]="notification" mat-icon-button class="m-r-5">
         <mat-icon>notifications_none</mat-icon>
-        <div class="notify">
-            <span class="heartbit"></span>
-            <span class="point"></span>
-        </div>
+    
     </button>
     <mat-menu #notification="matMenu" class="mymegamenu">
         <div class="mailbox">

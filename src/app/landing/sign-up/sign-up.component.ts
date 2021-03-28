@@ -77,7 +77,7 @@ export class SignUpComponent implements OnInit {
       this._ngZone.run(() => {
 
         if (result.additionalUserInfo.isNewUser != true) {
-          this._router.navigate(['dashboard']);
+          this._authService.getToken(result.user.uid)
         }
         else {
           const user = result.additionalUserInfo.profile;

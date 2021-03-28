@@ -1,35 +1,45 @@
+export const chatBotMessage = [{
+    from: 'OCPAS BOT',
+    photo: 'assets/images/cbao-cartoon.png',
+    subject: 'Test Chat',
+    chat: [
+      
+    ]
+}, ]
+
+
 export const messages = [{
     from: 'CBAO',
     photo: 'assets/images/cbao-cartoon.png',
-    subject: 'Hey, how are you?',
+    subject: 'Test Chat',
     chat: [
         {
-            type: 'odd',
+            type: 'incoming',
             msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
             date: new Date()
         },
         {
-            type: 'odd',
+            type: 'incoming',
             msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
             date: new Date()
         },
         {
-            type: 'even',
+            type: 'outgoing',
             msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
             date: new Date()
         },
         {
-            type: 'odd',
+            type: 'incoming',
             msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
             date: new Date()
         },
         {
-            type: 'even',
+            type: 'outgoing',
             msg: 'I would love to join the team.',
             date: new Date()
         },
         {
-            type: 'odd',
+            type: 'incoming',
             msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
             date: new Date()
         }
@@ -41,27 +51,32 @@ export const messages = [{
     subject: 'Lorem ipsum done dkaghdka',
     chat: [
         {
-            type: 'odd',
-            msg: 'this is odd2',
+            type: 'incoming',
+            msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
             date: new Date()
         },
         {
-            type: 'even',
-            msg: 'this is even2',
+            type: 'incoming',
+            msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
             date: new Date()
         },
         {
-            type: 'odd',
-            msg: 'Simply dummy text of the printing & type setting industry.',
+            type: 'outgoing',
+            msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
             date: new Date()
         },
         {
-            type: 'even',
-            msg: 'Love to join the team.',
+            type: 'incoming',
+            msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
             date: new Date()
         },
         {
-            type: 'odd',
+            type: 'outgoing',
+            msg: 'I would love to join the team.',
+            date: new Date()
+        },
+        {
+            type: 'incoming',
             msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
             date: new Date()
         }
@@ -73,34 +88,35 @@ export const messages = [{
     subject: 'This is CEMPO',
     chat: [
         {
-            type: 'odd',
+            type: 'incoming',
             msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
             date: new Date()
         },
         {
-            type: 'odd',
+            type: 'incoming',
             msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
             date: new Date()
         },
         {
-            type: 'even',
+            type: 'outgoing',
             msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
             date: new Date()
         },
         {
-            type: 'odd',
+            type: 'incoming',
             msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
             date: new Date()
         },
         {
-            type: 'even',
-            msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
+            type: 'outgoing',
+            msg: 'I would love to join the team.',
             date: new Date()
         },
         {
-            type: 'odd',
+            type: 'incoming',
             msg: 'Lorem Ipsum is simply dummy text of the printing & type setting industry.',
             date: new Date()
         }
     ]
 }]
+

@@ -28,3 +28,7 @@ button{
 ::ng-deep.mat-menu-panel {
     max-width: none !important;
   }
+
+::ng-deep .menu-without-scroll {
+    overflow: hidden !important;
+}

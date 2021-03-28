@@ -65,12 +65,10 @@ export class SignInComponent implements OnInit {
     this._authService
       .GoogleAuth()
       .then((result) => {
-        this._authService.currentUserSubject.next(result);
         this._ngZone.run(() => {
           if (result.additionalUserInfo.isNewUser != true) {
             this.SetUserDataFire(result.user.uid, result.user.emailVerified);
             this._authService.getToken(result.user.uid)
-            this._router.navigate(['dashboard']);
           } else {
             this._router.navigateByUrl('registration/personal-info');
           }
