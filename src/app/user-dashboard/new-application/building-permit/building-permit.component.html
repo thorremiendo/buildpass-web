@@ -87,24 +87,23 @@
         Save
       </button> -->
       <button
-        *ngIf="!form.path"
         mat-raised-button
         color="primary"
-        (click)="upload(form.id)"
         matStepperNext
+        (click)="upload(form)"
         [disabled]="isLoading"
       >
         Save
       </button>
-      <button
+      <!-- <button
         *ngIf="form.path"
-        matStepperNext
         mat-raised-button
+        matStepperNext
         color="primary"
         [disabled]="isLoading"
       >
         Next
-      </button>
+      </button> -->
     </div>
   </mat-step>
   <mat-step *ngFor="let fieldSet of fieldSets; let i = index">

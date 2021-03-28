@@ -97,4 +97,10 @@ export enum documentTypes {
   'OP - Specifications' = 94,
   'Notice of Disapproval - CPDO' = 95,
   'Notice of Disapproval - BFP' = 96,
+  'Excavation Permit' = 97,
+  'Fencing Permit' = 98,
+  'Demolition Permit' = 99,
+  'Site latest photo for excavation' = 100,
+  'Site latest photo for fencing' = 101,
+  'Site latest photo for demolition' = 102,
 }

@@ -1,112 +1,170 @@
+// mat-card {
+//   border-radius: 20px;
 
+//   .top-card:hover {
+//     transform: scale(1);
+//   }
 
+//   mat-card-header {
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
 
+//     mat-card-title {
+//       font-size: 18px;
+//     }
+//   }
 
-mat-card {
-  border-radius: 20px;
+//   .mat-expansion-panel {
+//     margin-bottom: 5px;
+//   }
+// }
 
-  .top-card:hover{
-    transform: scale(1);
-   }
+// .scrollbar {
+//   position: relative;
+//   overflow: auto;
 
+//   max-height: 175px;
+//   min-height: 175px;
+// }
 
-  mat-card-header {
+// .bottomright {
+//   position: absolute;
+//   bottom: 0px;
+//   right: 16px;
+//   font-size: 18px;
+// }
+
+// img {
+//   background-size: cover;
+//   max-width: 100px;
+//   max-height: 200px;
+// }
+
+// .no-gutter > [class*="col-"] {
+//   padding-right: 0;
+//   padding-left: 0;
+// }
+
+// .permit-card {
+//   width: 180px;
+//   height: 180px;
+//   border-radius: 20px;
+//   //background-color: #F1BA49;
+
+//   &hover {
+//     transform: scale(3);
+//   }
+
+//   p {
+//     text-align: center;
+//     margin-top: 50%;
+//   }
+// }
+
+// ::ng-deep .mat-form-field-wrapper {
+//   margin-bottom: -1.25em;
+//   margin-top: 0;
+// }
+
+// .jumbotron-fluid {
+//   max-height: 250px !important;
+//   min-height: 250px !important;
+//   //padding: 20px;
+//   border-radius: 20px;
+//   background-color: #f2ba49;
+
+//   a {
+//     color: #800002;
+//   }
+// }
+
+.main__container {
+  margin: 0;
+  padding: 0 20px;
+  width: 100%;
+  .title {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-   
-
-    mat-card-title {
-      font-size: 18px;
+    font-weight: bold;
+    color: #400c06;
+    margin: 20px 0;
+    mat-icon {
+      margin-right: 10px;
     }
-
   }
-
- 
-
-
-
-  .mat-expansion-panel {
-    margin-bottom: 5px;
+  .tutorial {
+    display: flex;
+    justify-content: center;
+    &-content {
+      max-width: 70%;
+    }
   }
-}
-
-.scrollbar{
-  position: relative;
-  overflow: auto;
-
-  max-height:175px;
-  min-height: 175px;
-
-
-  
-}
-
-.chat-container {
-  position: relative;
-  margin-top: 200px;
-}
-
-.bottomright {
-  position: absolute;
-  bottom: 0px;
-  right: 16px;
-  font-size: 18px;
-}
-
-
-  img {
-    background-size: cover;
-    max-width: 100px;
-    max-height: 200px;
-
+  &__header {
+    div:first-of-type {
+      display: flex;
+      justify-content: space-between;
+      p:first-of-type {
+        font-size: 20px;
+        font-weight: bold;
+        color: #313131;
+      }
+    }
   }
-  
+  &__services {
+    h4 {
+      font-weight: bold;
+      color: #400c06;
+      margin: 20px 0;
+    }
+    &-cards {
+      margin: 40px 0;
 
-  .no-gutter > [class*='col-'] {
-    padding-right:0;
-    padding-left:0;
-}
+      mat-card {
+        border-radius: 20px;
+        width: 25%;
+        &:hover {
+          transform: scale(1.1);
+          cursor: pointer;
+        }
 
-.permit-card{
-  width: 180px; 
-  height: 180px;  
-  border-radius: 20px;
-  //background-color: #F1BA49;
- 
+        mat-card-content {
+          padding: 10px;
 
-  &hover{
-    transform: scale(3);
+          mat-icon {
+            color: maroon;
+            font-size: 30px;
+          }
+        }
+      }
+    }
   }
- 
-
-  p{
-    text-align: center;
-    margin-top: 50%;
+  &__applications {
+    mat-expansion-panel {
+    }
+    &-content {
+      .scrollbar {
+        position: relative;
+        overflow: auto;
+      }
+    }
+  }
+  &__faqs {
   }
 }
 
-::ng-deep .mat-form-field-wrapper{
-  margin-bottom: -1.25em;
-  margin-top: 0;
-}
+// div:nth-of-type(2) {
+//   display: flex;
+//   flex-direction: column;
 
-.jumbotron-fluid{
-  max-height: 250px !important;
-  min-height: 250px !important;
-  //padding: 20px;
-  border-radius: 20px;
-  background-color:#F2BA49;
-
-  a{
-    color: #800002;
-  }
- 
-
-}
-
-
-
-
-
- 
+//   h3 {
+//     font-weight: bold;
+//     margin: 0;
+//     padding: 0;
+//     color: var(--grey-text-dark);
+//   }
+//   p {
+//     margin: 0;
+//     padding: 0;
+//   }
+// }

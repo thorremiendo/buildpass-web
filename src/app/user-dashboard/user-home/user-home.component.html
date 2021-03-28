@@ -1,10 +1,10 @@
-<div class="container">
-  <div class="row no-gutters px-5 pt-3 pb-0">
+<!-- <div class="container"> -->
+<!-- <div class="row no-gutters px-5 pt-3 pb-0">
     <div class="col-md-12">
-      <app-tutorial class="mb-5"></app-tutorial>
+      <app-tutorial class="mb-5 p-5"></app-tutorial>
     </div>
-  </div>
-  <div class="row no-gutters px-5 pt-1 pb-2 ">
+  </div> -->
+<!-- <div class="row no-gutters px-5 pt-1 pb-2 ">
     <div class="col-md-4">
       <mat-card>
         <div class="jumbotron jumbotron-fluid">
@@ -21,7 +21,7 @@
         <div class="jumbotron jumbotron-fluid">
           <div class="container mx-4 pt-3">
             <h2 class="" style="color:white; font-weight: bolder;">FAQS</h2>
-          
+
             <a href="/dashboard/#faqs">Learn More ></a>
           </div>
         </div>
@@ -52,14 +52,9 @@
         <app-faq-expansion-panel id ="faqs"></app-faq-expansion-panel>
       </div>
     </div>
-  </div>
-  <div class="chat-container">
-    <div class="bottomright">
-      <app-chat-button style="position: sticky;"></app-chat-button>
-    </div>
-  </div>
+  </div> -->
 
-    <!-- <div class="col-md-4">
+<!-- <div class="col-md-4">
       <mat-card>
         <div class="jumbotron jumbotron-fluid">
           <div class="container mx-4">
@@ -71,14 +66,13 @@
       </mat-card>
     </div>-->
 
-
-      <!-- <mat-card>
+<!-- <mat-card>
         <mat-card-content>
-        
+
         </mat-card-content>
       </mat-card> -->
 
-  <!-- <div class="col-md-6">
+<!-- <div class="col-md-6">
     <div class="row">
       <div class="col  pr-0 pl-0">
         <mat-card class="permit-card">
@@ -103,3 +97,93 @@
       </div>
     </div>
   </div> -->
+<!-- </div> -->
+
+<div class="main__container">
+  <div class="chat-container">
+    <div class="bottomright">
+      <app-chat-button style="position: sticky"></app-chat-button>
+    </div>
+  </div>
+  <div class="main__container__header">
+    <div>
+      <p>Welcome back, Thor!</p>
+      <p>
+        {{ currentDate | date: "MMMM-dd-yyyy" }}&nbsp;{{
+          time | date: "hh:mm:ss a"
+        }}
+      </p>
+    </div>
+  </div>
+  <h4 class="title"><mat-icon>assignment</mat-icon>Reminders</h4>
+  <div class="tutorial row no-gutters px-5 pt-3 pb-0">
+    <div class="tutorial-content col-md-12">
+      <app-tutorial class="mb-5 p-5"></app-tutorial>
+    </div>
+  </div>
+
+  <div class="main__container__services">
+    <h4 class="title"><mat-icon>desktop_windows</mat-icon>E-Services</h4>
+    <div class="main__container__services-cards" (click)="goToNewApplication()">
+      <mat-card>
+        <mat-card-content>
+          <div class="col-md-12">
+            <div>
+              <mat-icon>hardware</mat-icon>
+            </div>
+            <div>
+              <h3 class="m-0 p-0">Building Permit Application</h3>
+              <!-- <p class="m-0 p-0" style="font-size: 10px; color: grey">
+                Best things to do in Baguio.
+              </p> -->
+            </div>
+            <div>
+              <h6 style="color: #400c06; font-weight: bold" class="mt-2">
+                Apply Now >
+              </h6>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="main__container__applications">
+    <h4 class="title"><mat-icon>pending_actions</mat-icon>Applications Tracker</h4>
+    <ng-container *ngIf="applications.length >= 1">
+      <ng-container *ngFor="let item of applications">
+        <mat-expansion-panel
+          style="border-radius: 10px"
+          class="my-1"
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title
+              ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
+                >timeline</mat-icon
+              >
+              {{ item.ocpas_code }}</mat-panel-title
+            >
+          </mat-expansion-panel-header>
+          <div class="main__container__applications-content">
+            <div class="scrollbar">
+              <perfect-scrollbar [config]="config">
+                <app-application-timeline page="home" [id]="item.id">
+                </app-application-timeline>
+              </perfect-scrollbar>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="applications.length == 0">
+      <p class="text-center" style="font-weight: bold;">You don't have any applications.</p>
+    </ng-container>
+  </div>
+  <div class="main__container__faqs">
+    <h4 class="title">
+      <mat-icon>question_answer</mat-icon>Frequently Asked Questions
+    </h4>
+    <app-faq-expansion-panel id="faqs"></app-faq-expansion-panel>
+  </div>
+</div>
