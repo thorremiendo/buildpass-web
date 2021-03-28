@@ -42,13 +42,26 @@ export class ChatBoxComponent implements OnInit {
   OnAddMsg(): void {
       this.msg = this.myInput.nativeElement.value;
 
-      if (this.msg !== '') {
+      if (this.msg == "Thank you for waiting, You can now update your application requirements. Have a nice day") {
           this.selectedMessage.chat.push({
               type: 'outgoing',
               msg: this.msg,
               date: new Date()
           });
+
+          setTimeout(
+            () =>  this.selectedMessage.chat.push({
+              type: 'incoming',
+              msg: "Great Thank you very much for your assistance",
+              date: new Date()
+           }),
+            2000
+          );
+
+         
       }
+
+
 
       this.myInput.nativeElement.value = '';
   }

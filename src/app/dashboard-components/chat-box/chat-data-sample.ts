@@ -11,7 +11,7 @@ export const chatBotMessage = [{
 export const messages = [{
     from: 'Jose Garcia',
     photo: 'assets/images/cbao-cartoon.png',
-    subject: 'Test Chat',
+    subject: 'Need Assistance',
     chat: [
         {
             type: 'incoming',
