@@ -81,4 +81,9 @@ export class NewApplicationService {
       })
     );
   }
+
+  fetchDocumentTypes() {
+    const url = '/document';
+    return this.api.get(url);
+  }
 }

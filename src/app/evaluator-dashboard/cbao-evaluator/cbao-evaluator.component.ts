@@ -15,6 +15,7 @@ import { documentStatus } from '../../core/enums/document-status.enum';
 import { UserService } from 'src/app/core';
 import Swal from 'sweetalert2';
 import { ReleaseBldgPermitComponent } from '../release-bldg-permit/release-bldg-permit.component';
+import { WaterMarkService } from '../../core';
 
 @Component({
   selector: 'app-cbao-evaluator',
@@ -38,7 +39,8 @@ export class CbaoEvaluatorComponent implements OnInit {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private changeDetectorRefs: ChangeDetectorRef,
-    private newApplicationService: NewApplicationService
+    private newApplicationService: NewApplicationService,
+    private waterMark: WaterMarkService
   ) {}
 
   ngOnInit(): void {
@@ -236,6 +238,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         application_status_id: 2,
         receiving_status_id: 1,
       };
+      debugger;
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
         .subscribe((res) => {
@@ -336,14 +339,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
-            Swal.fire(
-              'Success!',
-              `Building Permit Application Approved! Notified Applicant for Payment`,
-              'success'
-            ).then((result) => {
-              this.isLoading = false;
-              window.location.reload();
-            });
+            this.addWatermarkToAllCompliant();
           });
       } else {
         Swal.fire(
@@ -372,6 +368,27 @@ export class CbaoEvaluatorComponent implements OnInit {
           });
         });
     }
+  }
+  addWatermarkToAllCompliant() {
+    this.dataSource.forEach((element) => {
+      this.isLoading = true;
+      if (element.document_id !== 50) {
+        console.log(element);
+        this.waterMark
+          .insertWaterMark(element.document_path, 'compliant')
+          .then((blob) => {
+            const updateFileData = {
+              document_status_id: 1,
+              document_path: blob,
+            };
+            this.newApplicationService
+              .updateDocumentFile(updateFileData, element.id)
+              .subscribe((res) => {
+                this.isLoading = false;
+              });
+          });
+      }
+    });
   }
   handleDepartmentStatus() {
     if (this.checkFormsCompliant()) {

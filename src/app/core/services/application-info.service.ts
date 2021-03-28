@@ -94,11 +94,26 @@ export class ApplicationInfoService {
     );
   }
 
-  fetchOngoingApplication(id){
+  fetchOngoingApplication(id) {
     const url = `/user/${id}/ongoing-application`;
 
     return this.api.get(url);
 
+  }
+  submitZoningFormData(body, id) {
+    const url = `/formdata/${id}/zoning`;
+    return this.api.post(url, body);
+  }
+  fetchZoningFormData(id) {
+    const url = `/formdata/${id}/zoning`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
   }
   submitZoningFormData(body, id) {
     const url = `/formdata/${id}/zoning`;

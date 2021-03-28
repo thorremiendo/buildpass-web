@@ -21,6 +21,7 @@ export class BuildingPermitComponent implements OnInit {
   public applicationDetails;
   public isLoading: boolean = true;
   public zoningForm;
+
   public forms: any = [
     {
       id: 1,
@@ -49,7 +50,7 @@ export class BuildingPermitComponent implements OnInit {
   public fieldSets: any = [
     {
       label: 'Documentary Requirements',
-      documents: [21, 23, 24, 25, 26, 27],
+      documents: [25],
     },
     {
       label: 'Design Analysis',
@@ -65,9 +66,19 @@ export class BuildingPermitComponent implements OnInit {
     },
     {
       label: 'Other Requirements',
-      documents: [39, 40, 41, 42, 72, 73, 74, 75],
+      documents: [39, 40, 41, 42],
     },
   ];
+
+  public representativeDocs: Array<any> = [21];
+  public lesseeDocs: Array<any> = [27];
+  public registeredDocs: Array<any> = [26, 44];
+  public notRegisteredDocs: Array<any> = [27, 23, 24];
+  public isWithinSubdivision: Array<any> = [72];
+  public isUnderMortgage: Array<any> = [73];
+  public isOwnedByCorporation: Array<any> = [74];
+  public isHaveCoOwners: Array<any> = [75];
+  public isConstructionStatus: Array<any> = [37, 38];
 
   constructor(
     private newApplicationService: NewApplicationService,
@@ -90,21 +101,58 @@ export class BuildingPermitComponent implements OnInit {
           .fetchApplicationInfo(this.applicationId)
           .subscribe((res) => {
             this.applicationDetails = res.data;
+            console.log(this.applicationDetails);
             this.formData = this.dataBindingService.getFormData(
               this.applicationDetails
             );
 
-            /*const isRepresentative = this.applicationDetails.is_representative == '1' ? true : false;
-          const isOwner = this.applicationDetails.rol_status_id == '1' ? true : false;
-          const isRegistered = this.applicationDetails.registered_owner == '1' ? true : false;
+            const isRepresentative =
+              this.applicationDetails.is_representative == '1' ? true : false;
+            const isLessee =
+              this.applicationDetails.rol_status_id != '1' ? true : false;
+            const isRegisteredOwner =
+              this.applicationDetails.registered_owner == '1' ? true : false;
+            const isWithinSubdivision =
+              this.applicationDetails.is_within_subdivision == 1 ? true : false;
+            const isUnderMortgage =
+              this.applicationDetails.is_under_mortgage == 1 ? true : false;
+            const isOwnedByCorporation =
+              this.applicationDetails.is_owned_by_corporation == 1
+                ? true
+                : false;
+            const isHaveCoOwners =
+              this.applicationDetails.is_property_have_coowners == 1
+                ? true
+                : false;
+            const isConstructionStatus =
+              this.applicationDetails.construction_status_id == 1
+                ? true
+                : false;
 
-          this.fieldSets[0] = this.fieldSets[0].filter(field => {
-            if (field.for == 'representative' && !isRepresentative) return false;
-            else if (field.for == 'lessee' && isOwner) return false;
-            else if (field.for == 'lot-owner' && !isRegistered) return false;
-            else if (field.for == 'not-owner' && isRegistered) return false;
-            else return true;
-          });*/
+            isRepresentative
+              ? this.fieldSets[0].documents.push(...this.representativeDocs)
+              : null;
+            isLessee
+              ? this.fieldSets[0].documents.push(...this.lesseeDocs)
+              : null;
+            isRegisteredOwner
+              ? this.fieldSets[0].documents.push(...this.registeredDocs)
+              : this.fieldSets[0].documents.push(...this.notRegisteredDocs);
+            isWithinSubdivision
+              ? this.fieldSets[4].documents.push(...this.isWithinSubdivision)
+              : null;
+            isUnderMortgage
+              ? this.fieldSets[4].documents.push(...this.isUnderMortgage)
+              : null;
+            isOwnedByCorporation
+              ? this.fieldSets[4].documents.push(...this.isOwnedByCorporation)
+              : null;
+            isHaveCoOwners
+              ? this.fieldSets[4].documents.push(...this.isHaveCoOwners)
+              : null;
+            isConstructionStatus
+              ? null
+              : this.fieldSets[0].documents.push(...this.isConstructionStatus);
 
             this.initData();
             this.setFilePaths();
@@ -222,27 +270,29 @@ export class BuildingPermitComponent implements OnInit {
         console.log(this.zoningForm);
       });
   }
-  public async upload(id): Promise<void> {
-    const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
-    if (blob) {
-      console.log({ blob });
-      this.isLoading = true;
-      const uploadDocumentData = {
-        application_id: this.applicationId,
-        user_id: this.user.id,
-        document_id: id,
-        document_path: blob,
-        document_status: '0',
-      };
+  public async upload(form): Promise<void> {
+    if (!form.path) {
+      const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+      if (blob) {
+        console.log({ blob });
+        this.isLoading = true;
+        const uploadDocumentData = {
+          application_id: this.applicationId,
+          user_id: this.user.id,
+          document_id: form.id,
+          document_path: blob,
+          document_status: '0',
+        };
 
-      this.newApplicationService
-        .submitDocument(uploadDocumentData)
-        .subscribe((res) => {
-          this.isLoading = false;
-          this.openSnackBar('Uploaded!');
-        });
-    } else {
-      console.log('Blob failed');
+        this.newApplicationService
+          .submitDocument(uploadDocumentData)
+          .subscribe((res) => {
+            this.isLoading = false;
+            this.openSnackBar('Uploaded!');
+          });
+      } else {
+        console.log('Blob failed');
+      }
     }
   }
 

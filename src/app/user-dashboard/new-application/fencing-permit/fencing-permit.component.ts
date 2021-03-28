@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { DataFormBindingService } from 'src/app/core/services/data-form-binding.service';
-import { documentTypes } from '../../../core/enums/document-type.enum';
 import Swal from 'sweetalert2';
  
 @Component({
@@ -17,53 +16,35 @@ export class FencingPermitComponent implements OnInit {
   public formData;
   public applicationId;
   public applicationDetails;
+  public documentTypes;
   public isLoading: boolean = false;
 
   public forms: any = [
     {
-      id: 1,
-      src: '../../../../assets/forms/Application_Form_for_Certificate_of_Zoning_Compliance.pdf',
-    },
-    {
-      id: 2,
-      src: '../../../../assets/forms/Unified_Application_for_Building_Permit.pdf',
-    },
-    {
-      id: 3,
-      src: '../../../../assets/forms/Sanitary_Plumbing_Permit.pdf',
-    },
-    {
-      id: 48,
-      src: '../../../../assets/forms/Notice_of_Construction.pdf',
-    },
-    {
-      id: 4,
-      src: '../../../../assets/forms/Electrical_Permit.pdf',
+      id: 98,
+      src: '../../../../assets/forms/Fencing_Permit.pdf',
     },
   ];
 
   public fieldSets: any = [
     {
       label: 'Documentary Requirements',
-      documents: [21, 23, 24, 25, 26, 27]
+      documents: []
     },
     {
-      label: 'Design Analysis',
-      documents: [28, 29, 30, 31, 32, 33]
+      label: 'Plans',
+      documents: [50, 33, 8, 51, 52, 53, 101]
     },
     {
-      label: 'Building Plans',
-      documents: [59, 61, 63, 62, 64]
-    },
-    {
-      label: 'Professional Details',
-      documents: [34, 35, 36, 47, 46]
-    },
-    {
-      label: 'Other Requirements',
-      documents: [39, 40, 41, 42]
-    },
+      label: 'Others',
+      documents: [45]
+    }
   ];
+
+  public representativeDocs: Array<any> = [21];
+  public lesseeDocs: Array<any> = [27];
+  public registeredDocs: Array<any> = [26, 44];
+  public notRegisteredDocs: Array<any> = [27, 23, 24];
 
   constructor(
     private newApplicationService: NewApplicationService,
@@ -74,6 +55,9 @@ export class FencingPermitComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
+    this.newApplicationService.fetchDocumentTypes().subscribe(res => {
+      this.documentTypes = res.data;
+    });
     this.newApplicationService.applicationId
       .asObservable()
       .subscribe(applicationId => {
@@ -84,17 +68,13 @@ export class FencingPermitComponent implements OnInit {
           this.applicationDetails = res.data;
           this.formData = this.dataBindingService.getFormData(this.applicationDetails);
 
-          /*const isRepresentative = this.applicationDetails.is_representative == '1' ? true : false;
-          const isOwner = this.applicationDetails.rol_status_id == '1' ? true : false;
-          const isRegistered = this.applicationDetails.registered_owner == '1' ? true : false;
+          const isRepresentative = this.applicationDetails.is_representative == '1' ? true : false;
+          const isLessee = this.applicationDetails.rol_status_id != '1' ? true : false;
+          const isRegisteredOwner = this.applicationDetails.registered_owner == '1' ? true : false;
 
-          this.fieldSets[0] = this.fieldSets[0].filter(field => {
-            if (field.for == 'representative' && !isRepresentative) return false;
-            else if (field.for == 'lessee' && isOwner) return false;
-            else if (field.for == 'lot-owner' && !isRegistered) return false;
-            else if (field.for == 'not-owner' && isRegistered) return false;
-            else return true;
-          });*/
+          isRepresentative ? this.fieldSets[0].documents.push(...this.representativeDocs) : null;
+          isLessee ? this.fieldSets[0].documents.push(...this.lesseeDocs) : null;
+          isRegisteredOwner ? this.fieldSets[0].documents.push(...this.registeredDocs) : this.fieldSets[0].documents.push(...this.notRegisteredDocs);
 
           this.initData();
           this.setFilePaths();
@@ -127,7 +107,7 @@ export class FencingPermitComponent implements OnInit {
   }
 
   getDocType(id): string {
-    return documentTypes[id];
+    return this.documentTypes[id-1].name;
   }
 
   initData() {
