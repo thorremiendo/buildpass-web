@@ -28,11 +28,16 @@
 //   min-height: 175px;
 // }
 
-// .bottomright {
-//   position: absolute;
-//   bottom: 0px;
-//   right: 16px;
-//   font-size: 18px;
+.bottomright {
+  position: absolute;
+  bottom: 0px;
+  right: 16px;
+  font-size: 18px;
+  z-index: 1;
+}
+// .chat-container {
+//   position: relative;
+//   margin-top: 200px;
 // }
 
 // img {
@@ -118,8 +123,9 @@
       margin: 20px 0;
     }
     &-cards {
+      display: flex;
+      align-items: center;
       margin: 40px 0;
-
       mat-card {
         border-radius: 20px;
         width: 25%;
@@ -135,6 +141,11 @@
             color: maroon;
             font-size: 30px;
           }
+          img {
+            margin-bottom: 5px;
+            width: 35px;
+            height: auto;
+          }
         }
       }
     }
@@ -148,7 +159,9 @@
       }
     }
   }
-
+  &__faqs {
+    margin-bottom: 100px;
+  }
 }
 
 // div:nth-of-type(2) {
