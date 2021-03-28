@@ -123,8 +123,9 @@
       margin: 20px 0;
     }
     &-cards {
+      display: flex;
+      align-items: center;
       margin: 40px 0;
-
       mat-card {
         border-radius: 20px;
         width: 25%;
@@ -139,6 +140,11 @@
           mat-icon {
             color: maroon;
             font-size: 30px;
+          }
+          img {
+            margin-bottom: 5px;
+            width: 35px;
+            height: auto;
           }
         }
       }
