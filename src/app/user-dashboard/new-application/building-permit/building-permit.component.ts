@@ -54,7 +54,7 @@ export class BuildingPermitComponent implements OnInit {
     },
     {
       label: 'Design Analysis',
-      documents: [28, 29, 30, 31, 32, 33],
+      documents: [29, 30, 31, 32, 33],
     },
     {
       label: 'Building Plans',
