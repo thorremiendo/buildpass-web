@@ -2,12 +2,15 @@ import firebase from 'firebase/app';
 import { Injectable, NgZone } from '@angular/core';
 import { JwtService } from './jwt.service';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import {
+  AngularFirestore,
+  AngularFirestoreDocument,
+} from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { UserService } from './user.service';
-import { ApiService} from '../services/api.service';
+import { ApiService } from '../services/api.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +32,7 @@ export class AuthService {
     public ngZone: NgZone, // NgZone service to remove outside scope warning
     public userService: UserService,
     public jwtService: JwtService,
-    public apiService: ApiService,
+    public apiService: ApiService
   ) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
@@ -37,7 +40,7 @@ export class AuthService {
       if (user) {
         localStorage.setItem('user', JSON.stringify(user));
         this.isAuthenticatedSubject.next(true);
-      } 
+      }
     });
   }
 
@@ -45,10 +48,16 @@ export class AuthService {
     this.jwtService.saveToken(token);
   }
 
+  purgeAuth() {
+    console.log('PURGE AUTH');
+    this.jwtService.removeToken();
+    this.currentUserSubject.next(null);
+    this.isAuthenticatedSubject.next(false);
+  }
+
   updateUserInfo(user) {
     this.userService.getUserInfo(user.uid).subscribe((data) => {
       this.userService.setUserInfo(data);
-      
     });
   }
 
@@ -151,24 +160,22 @@ export class AuthService {
     return userRef.get();
   }
 
-  getToken(uid){
-    console.log(JSON.stringify(uid))
+  getToken(uid) {
+    console.log(JSON.stringify(uid));
     const url = `/auth/firebase/login`;
     const body = {
-      firebase_uid: `${uid}`
-    }
+      firebase_uid: `${uid}`,
+    };
 
-    return this.apiService.post(url,body).subscribe(res =>{
-      const token = res.data.token
-      this.jwtService.saveToken(token)
-      this.userService
-      .getUserInfo(uid)
-      .subscribe((data) => {
+    return this.apiService.post(url, body).subscribe((res) => {
+      const token = res.data.token;
+      this.jwtService.saveToken(token);
+      this.userService.getUserInfo(uid).subscribe((data) => {
         this.currentUserSubject.next(data);
         this.router.navigate(['dashboard']);
       });
-    })  
-  } 
+    });
+  }
 
   userSignOut(route) {
     return firebase
