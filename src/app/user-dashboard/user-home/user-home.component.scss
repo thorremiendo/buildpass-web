@@ -28,11 +28,16 @@
 //   min-height: 175px;
 // }
 
-// .bottomright {
-//   position: absolute;
-//   bottom: 0px;
-//   right: 16px;
-//   font-size: 18px;
+.bottomright {
+  position: absolute;
+  bottom: 0px;
+  right: 16px;
+  font-size: 18px;
+  z-index: 1;
+}
+// .chat-container {
+//   position: relative;
+//   margin-top: 200px;
 // }
 
 // img {
@@ -150,6 +155,7 @@
     }
   }
   &__faqs {
+    margin-bottom: 100px;
   }
 }
 
