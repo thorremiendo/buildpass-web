@@ -107,7 +107,7 @@
   </div>
   <div class="main__container__header">
     <div>
-      <p>Welcome back, Thor!</p>
+      <p>Welcome back, {{ userInfo.first_name }}</p>
       <p>
         {{ currentDate | date: "MMMM-dd-yyyy" }}&nbsp;{{
           time | date: "hh:mm:ss a"
@@ -148,7 +148,9 @@
     </div>
   </div>
   <div class="main__container__applications">
-    <h4 class="title"><mat-icon>pending_actions</mat-icon>Applications Tracker</h4>
+    <h4 class="title">
+      <mat-icon>pending_actions</mat-icon>Applications Tracker
+    </h4>
     <ng-container *ngIf="applications.length >= 1">
       <ng-container *ngFor="let item of applications">
         <mat-expansion-panel
@@ -177,7 +179,9 @@
       </ng-container>
     </ng-container>
     <ng-container *ngIf="applications.length == 0">
-      <p class="text-center" style="font-weight: bold;">You don't have any applications.</p>
+      <p class="text-center" style="font-weight: bold">
+        You don't have any applications.
+      </p>
     </ng-container>
   </div>
   <div class="main__container__faqs">
