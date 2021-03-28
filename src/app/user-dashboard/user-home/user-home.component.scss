@@ -140,8 +140,7 @@
     }
   }
   &__applications {
-    mat-expansion-panel {
-    }
+  
     &-content {
       .scrollbar {
         position: relative;
@@ -149,8 +148,7 @@
       }
     }
   }
-  &__faqs {
-  }
+
 }
 
 // div:nth-of-type(2) {

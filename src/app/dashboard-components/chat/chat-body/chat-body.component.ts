@@ -86,7 +86,7 @@ export class ChatBodyComponent implements OnInit {
         () =>  this.selectedMessage.chat.push({
           type: 'outgoing',
           msg:"Occupancy Permit",
-          param:"Occupancy",
+          param:"Residential",
        }),
       
         2000
@@ -95,7 +95,7 @@ export class ChatBodyComponent implements OnInit {
         () =>  this.selectedMessage.chat.push({
           type: 'outgoing',
           msg:"Other Permit",
-          param:"Other",
+          param:"Residential",
        }),
       
         2000
@@ -126,7 +126,7 @@ export class ChatBodyComponent implements OnInit {
         () =>  this.selectedMessage.chat.push({
          type: 'outgoing',
          msg:"Commercial",
-         param:"Commercial",
+         param:"Residential",
        }),
         2000
       );
@@ -134,7 +134,7 @@ export class ChatBodyComponent implements OnInit {
         () =>  this.selectedMessage.chat.push({
          type: 'outgoing',
          msg:"Institutional",
-         param:"Institutional",
+         param:"Residential",
        }),
         2000
       );
@@ -146,7 +146,7 @@ export class ChatBodyComponent implements OnInit {
         setTimeout(
           () =>  this.selectedMessage.chat.push({
             type: 'incoming',
-            msg: "Please go to this link google.com",
+            msg: "Go to New Application - To start an application, click on New Application, then select the type of permit you are applying to and answer the following questions",
             date: new Date()
          }),
           1000
@@ -170,7 +170,7 @@ export class ChatBodyComponent implements OnInit {
         setTimeout(
           () =>  this.selectedMessage.chat.push({
             type: 'incoming',
-            msg: "Wait lang sis busy pa sila.. Wait lang wag attan connect lang kita ",
+            msg: "Please wait for a couple of minutes...",
             date: new Date()
          }),
           1000
