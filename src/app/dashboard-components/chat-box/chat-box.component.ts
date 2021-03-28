@@ -44,7 +44,7 @@ export class ChatBoxComponent implements OnInit {
 
       if (this.msg !== '') {
           this.selectedMessage.chat.push({
-              type: 'even',
+              type: 'outgoing',
               msg: this.msg,
               date: new Date()
           });

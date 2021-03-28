@@ -1,7 +1,7 @@
 export const chatBotMessage = [{
     from: 'OCPAS BOT',
     photo: 'assets/images/cbao-cartoon.png',
-    subject: 'Test Chat',
+    subject: 'Need Assistance',
     chat: [
       
     ]
@@ -24,13 +24,18 @@ export const messages = [{
             date: new Date()
         },
         {
-            type: 'income',
+            type: 'incoming',
             msg: "I need to change my building plan requirement, I uplaoded the wrong one",
             date: new Date()
         },
         {
             type: 'outgoing',
-            msg: "Sure you can please wait while I'm reviewing your requirements. Thank you",
+            msg: "Sure you can, please wait while I'm reviewing your requirements. Thank you",
+            date: new Date()
+        },
+        {
+            type: 'incoming',
+            msg: "Great!, Thank you ",
             date: new Date()
         },
     ]
