@@ -238,9 +238,12 @@
     <h5>Project Location</h5>
     <ng-container *ngIf="projectFormChange">
       <p style="font-weight: bold">
-        #{{ projectFormChange.project_house_number }} Lot #{{
-          projectFormChange.project_lot_number
+        {{
+          projectFormChange.project_house_number
+            ? projectFormChange.project_house_number
+            : ""
         }}
+        Lot#{{ projectFormChange.project_lot_number }} Block#
         {{ projectFormChange.project_block_number }}
         {{ projectFormChange.project_unit_number }}
         {{ projectFormChange.project_street }}

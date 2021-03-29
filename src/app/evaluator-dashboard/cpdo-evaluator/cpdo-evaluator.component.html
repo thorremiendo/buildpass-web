@@ -10,8 +10,9 @@
           color="accent"
           (click)="handleReject()"
           [disabled]="
-            applicationDetails.application_status_id !== 2 &&
-            applicationDetails.application_status_id !== 10
+            (applicationDetails.application_status_id !== 2 &&
+              applicationDetails.application_status_id !== 10) ||
+            checkFormsCompliant()
           "
         >
           <mat-icon>cancel</mat-icon>

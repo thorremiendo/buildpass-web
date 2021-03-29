@@ -5,7 +5,12 @@
         <strong>Application Forms</strong>
       </h4>
       <div class="reject" *ngIf="evaluatorRole.code == 'CBAO-BO'">
-        <button mat-raised-button color="accent" (click)="handleReject()">
+        <button
+          mat-raised-button
+          color="accent"
+          (click)="handleReject()"
+          [disabled]="checkFormsCompliant()"
+        >
           <mat-icon>cancel</mat-icon>
           Reject Application
         </button>

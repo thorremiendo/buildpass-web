@@ -33,6 +33,7 @@ export class FormDetailsComponent implements OnInit {
   public userDetails;
   public applicationId;
   public selectedForm: File;
+  public isSubmitting: boolean = false;
   //adobe sdk
   previewFilePromise: any;
   annotationManager: any;
@@ -130,6 +131,7 @@ export class FormDetailsComponent implements OnInit {
   }
 
   callSave() {
+    this.isSubmitting = true;
     const id = this.data.form.id;
     const revisionData = {
       evaluator_user_id: this.data.evaluator.user_id,
@@ -150,6 +152,7 @@ export class FormDetailsComponent implements OnInit {
     this.dialogRef.close();
   }
   callUpdate() {
+    this.isSubmitting = true;
     const uploadDocumentData = {
       document_status_id: 0,
     };
@@ -159,6 +162,7 @@ export class FormDetailsComponent implements OnInit {
     this.newApplicationService
       .updateDocumentFile(uploadDocumentData, this.data.form.id)
       .subscribe((res) => {
+        this.isSubmitting = false;
         console.log(res);
         Swal.fire('Success!', `File Updated!`, 'success').then((result) => {
           this.onNoClick();
@@ -174,6 +178,7 @@ export class FormDetailsComponent implements OnInit {
       this.newApplicationService
         .updateDocumentFile(updateFileData, id)
         .subscribe((res) => {
+          this.isSubmitting = false;
           console.log(res);
           Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
             this.onNoClick();
@@ -191,6 +196,7 @@ export class FormDetailsComponent implements OnInit {
       this.newApplicationService
         .updateDocumentFile(updateFileData, id)
         .subscribe((res) => {
+          this.isSubmitting = false;
           console.log(res);
           Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
             this.onNoClick();

@@ -317,7 +317,7 @@ export class CpdoEvaluatorComponent implements OnInit {
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
         this.isLoading = false;
-        Swal.fire('Success!', `Notified BFP, CEPMO, CBAO!`, 'success').then(
+        Swal.fire('Success!', `BFP, CEPMO, CBAO Notified`, 'success').then(
           (result) => {
             window.location.reload();
           }

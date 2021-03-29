@@ -66,19 +66,20 @@ export class BuildingPermitComponent implements OnInit {
     },
     {
       label: 'Other Requirements',
-      documents: [39, 40, 41, 42],
+      documents: [39, 41, 42],
     },
   ];
 
   public representativeDocs: Array<any> = [21];
   public lesseeDocs: Array<any> = [27];
   public registeredDocs: Array<any> = [26, 44];
-  public notRegisteredDocs: Array<any> = [27, 23, 24];
+  public notRegisteredDocs: Array<any> = [103, 23, 24];
   public isWithinSubdivision: Array<any> = [72];
   public isUnderMortgage: Array<any> = [73];
   public isOwnedByCorporation: Array<any> = [74];
   public isHaveCoOwners: Array<any> = [75];
   public isConstructionStatus: Array<any> = [37, 38];
+  public if10000sqm: Array<any> = [40];
 
   constructor(
     private newApplicationService: NewApplicationService,
@@ -128,7 +129,14 @@ export class BuildingPermitComponent implements OnInit {
               this.applicationDetails.construction_status_id == 1
                 ? true
                 : false;
+            const if10000sqm =
+              this.applicationDetails.project_detail.total_floor_area >= 10000
+                ? true
+                : false;
 
+            if10000sqm
+              ? this.fieldSets[4].documents.push(...this.if10000sqm)
+              : null;
             isRepresentative
               ? this.fieldSets[0].documents.push(...this.representativeDocs)
               : null;

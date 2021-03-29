@@ -145,20 +145,19 @@ export const userDocuments = [
   {
     id: 31,
     category: 3,
-    name:
-      'Soil Analysis for Residential Buildings with 3 storeys or more (Signed and Sealed)',
+    name: 'Soil Analysis for Residential Buildings with 3 storeys or more',
     status: 0,
   },
   {
     id: 32,
     category: 3,
-    name: 'Building Specification (Signed and Sealed)',
+    name: 'Building Specification',
     status: 0,
   },
   {
     id: 33,
     category: 3,
-    name: 'Bill of Materials (Signed and Sealed)',
+    name: 'Bill of Materials',
     status: 0,
   },
   { id: 34, category: 4, name: 'Civil Engineer', status: 0 },
@@ -166,7 +165,7 @@ export const userDocuments = [
   { id: 36, category: 4, name: 'Sanitary Engineer/Master Plumber', status: 0 },
   { id: 37, category: 5, name: 'Geodetic Engineer Affidavit', status: 0 },
   { id: 38, category: 5, name: 'Civil Engineer Affidavit', status: 0 },
-  { id: 39, category: 5, name: 'Barangay Clearance', status: 0 },
+  { id: 39, category: 5, name: 'Barangay Certificate', status: 0 },
   {
     id: 40,
     category: 5,
