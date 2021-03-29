@@ -10,7 +10,8 @@
     (selectionChange)="initPdfViewer($event)"
   >
     <mat-step *ngFor="let form of forms; let i = index">
-      <ng-template matStepLabel>{{ form.description }}</ng-template>
+      <ng-template matStepLabel>{{ form.label }}</ng-template>
+      <h1>{{ form.description }}</h1>
       <div class="fillable-form">
         <div class="step-label">
           1. After filling out the form, please click the download/save button

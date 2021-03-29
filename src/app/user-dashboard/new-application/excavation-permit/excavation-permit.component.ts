@@ -33,19 +33,19 @@ export class ExcavationPermitComponent implements OnInit {
 
   public fieldSets: any = [
     {
-      label: 'Step 1',
+      label: 'Step 2',
       documents: [],
     },
     {
-      label: 'Step 2',
+      label: 'Step 3',
       documents: [8, 25, 15],
     },
     {
-      label: 'Step 3',
+      label: 'Step 4',
       documents: [7, 9, 10, 11, 12],
     },
     {
-      label: 'Step 4',
+      label: 'Step 5',
       documents: [13, 16, 17, 18, 20, 19],
     },
   ];
@@ -266,6 +266,7 @@ export class ExcavationPermitComponent implements OnInit {
   initData() {
     for (let i = 0; i < this.forms.length; i++) {
       this.forms[i] = {
+        label: `Step ${i + 1}`,
         id: this.forms[i].id,
         src: this.forms[i].src,
         description: this.getDocType(this.forms[i].id),

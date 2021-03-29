@@ -27,45 +27,55 @@ export class BuildingPermitComponent implements OnInit {
       id: 1,
       src:
         '../../../../assets/forms/Application_Form_for_Certificate_of_Zoning_Compliance.pdf',
+      label: 'Step 1',
     },
     {
       id: 2,
       src:
         '../../../../assets/forms/Unified_Application_for_Building_Permit.pdf',
+      label: 'Step 2',
     },
     {
       id: 3,
       src: '../../../../assets/forms/Sanitary_Plumbing_Permit.pdf',
+      label: 'Step 3',
     },
     {
       id: 48,
       src: '../../../../assets/forms/Notice_of_Construction.pdf',
+      label: 'Step 4',
     },
     {
       id: 4,
       src: '../../../../assets/forms/Electrical_Permit.pdf',
+      label: 'Step 5',
     },
   ];
 
   public fieldSets: any = [
     {
-      label: 'Documentary Requirements',
+      label: 'Step 6',
+      title: 'Documentary Requirements',
       documents: [25],
     },
     {
-      label: 'Design Analysis',
+      label: 'Step 7',
+      title: 'Design Analysis',
       documents: [29, 30, 31, 32, 33],
     },
     {
-      label: 'Building Plans',
+      label: 'Step 8',
+      title: 'Building Plans',
       documents: [59, 61, 63, 62, 64],
     },
     {
-      label: 'Professional Details',
+      label: 'Step 9',
+      title: 'Professional Details',
       documents: [34, 35, 36, 47, 46],
     },
     {
-      label: 'Other Requirements',
+      label: 'Step 10',
+      title: 'Other Requirements',
       documents: [39, 41, 42],
     },
   ];
@@ -200,6 +210,7 @@ export class BuildingPermitComponent implements OnInit {
   initData() {
     for (let i = 0; i < this.forms.length; i++) {
       this.forms[i] = {
+        label: `Step ${i + 1}`,
         id: this.forms[i].id,
         src: this.forms[i].src,
         description: this.getDocType(this.forms[i].id),
