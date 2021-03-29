@@ -1,9 +1,9 @@
 <ng-container>
   <div *ngFor="let form of forms; let i = index">
     <div class="d-flex justify-content-between align-items-center">
-      <div class="row">
-        <p>{{ i + 1 }}.&nbsp;</p>
-        <p>{{ getDocType(form.document_id) }}</p>
+      <div class="d-flex align-items-center">
+        <img src="../../../assets/illustrations/pdf.svg" />&nbsp;
+        <p style="font-weight: 400">{{ getDocType(form.document_id) }}</p>
       </div>
       <div>
         <a href="{{ form.document_path }}" target="_blank">View</a>

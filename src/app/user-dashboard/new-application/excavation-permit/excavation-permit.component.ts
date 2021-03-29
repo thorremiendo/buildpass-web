@@ -4,6 +4,8 @@ import { NewApplicationService } from 'src/app/core/services/new-application.ser
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { DataFormBindingService } from 'src/app/core/services/data-form-binding.service';
 import Swal from 'sweetalert2';
+import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-excavation-permit',
@@ -36,7 +38,7 @@ export class ExcavationPermitComponent implements OnInit {
     },
     {
       label: 'Step 2',
-      documents: [45, 8, 25, 15],
+      documents: [8, 25, 15],
     },
     {
       label: 'Step 3',
@@ -57,40 +59,17 @@ export class ExcavationPermitComponent implements OnInit {
     private newApplicationService: NewApplicationService,
     private applicationService: ApplicationInfoService,
     private dataBindingService: DataFormBindingService,
-    private router: Router
+    private router: Router,
+    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem('user'));
-    this.newApplicationService.fetchDocumentTypes().subscribe(res => {
-      this.documentTypes = res.data;
-    });
-    this.newApplicationService.applicationId
-      .asObservable()
-      .subscribe(applicationId => {
-        if (applicationId) this.applicationId = applicationId;
-        else this.applicationId = localStorage.getItem('app_id');
-
-        this.applicationService.fetchApplicationInfo(this.applicationId).subscribe(res => {
-          this.applicationDetails = res.data;
-          this.formData = this.dataBindingService.getFormData(this.applicationDetails);
-
-          const isRepresentative = this.applicationDetails.is_representative == '1' ? true : false;
-          const isLessee = this.applicationDetails.rol_status_id != '1' ? true : false;
-          const isRegisteredOwner = this.applicationDetails.registered_owner == '1' ? true : false;
-
-          isRepresentative ? this.fieldSets[0].documents.push(...this.representativeDocs) : null;
-          isLessee ? this.fieldSets[0].documents.push(...this.lesseeDocs) : null;
-          isRegisteredOwner ? this.fieldSets[0].documents.push(...this.registeredDocs) : this.fieldSets[0].documents.push(...this.notRegisteredDocs);
-
-          this.initData();
-          this.setFilePaths();
-          this.pdfSource = this.forms[0].src;
-        });
-      });
-
     setTimeout(() => {
       this.user = JSON.parse(localStorage.getItem('user'));
+      this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
+        this.documentTypes = res.data;
+      });
       this.newApplicationService.applicationId
         .asObservable()
         .subscribe((applicationId) => {
@@ -115,6 +94,24 @@ export class ExcavationPermitComponent implements OnInit {
         this.formData = this.dataBindingService.getFormData(
           this.applicationDetails
         );
+        const isRepresentative =
+          this.applicationDetails.is_representative == '1' ? true : false;
+        const isLessee =
+          this.applicationDetails.rol_status_id != '1' ? true : false;
+        const isRegisteredOwner =
+          this.applicationDetails.registered_owner == '1' ? true : false;
+
+        isRepresentative
+          ? this.fieldSets[0].documents.push(...this.representativeDocs)
+          : null;
+        isLessee ? this.fieldSets[0].documents.push(...this.lesseeDocs) : null;
+        isRegisteredOwner
+          ? this.fieldSets[0].documents.push(...this.registeredDocs)
+          : this.fieldSets[0].documents.push(...this.notRegisteredDocs);
+
+        this.initData();
+        this.setFilePaths();
+        this.pdfSource = this.forms[0].src;
         this.initData();
         this.setFilePaths();
         this.pdfSource = this.forms[0].src;
@@ -131,6 +128,32 @@ export class ExcavationPermitComponent implements OnInit {
       this.submitExcavationDetails();
     } else {
       this.fetchApplicationInfo();
+    }
+  }
+
+  public async upload(form): Promise<void> {
+    if (!form.path) {
+      const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+      if (blob) {
+        console.log({ blob });
+        this.isLoading = true;
+        const uploadDocumentData = {
+          application_id: this.applicationId,
+          user_id: this.user.id,
+          document_id: form.id,
+          document_path: blob,
+          document_status: '0',
+        };
+
+        this.newApplicationService
+          .submitDocument(uploadDocumentData)
+          .subscribe((res) => {
+            this.isLoading = false;
+            this.openSnackBar('Uploaded!');
+          });
+      } else {
+        console.log('Blob failed');
+      }
     }
   }
   submitExcavationDetails() {
@@ -237,7 +260,7 @@ export class ExcavationPermitComponent implements OnInit {
   }
 
   getDocType(id): string {
-    return this.documentTypes[id-1].name;
+    return this.documentTypes[id - 1].name;
   }
 
   initData() {
@@ -322,5 +345,10 @@ export class ExcavationPermitComponent implements OnInit {
         localStorage.removeItem('app_id');
         localStorage.removeItem('application_details_for_excavation');
       });
+  }
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 2000,
+    });
   }
 }

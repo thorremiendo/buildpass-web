@@ -1,37 +1,40 @@
-<div *ngIf='show_notif == true'>
-    <button [matMenuTriggerFor]="notification" mat-icon-button class="m-r-5">
-        <p class="pt-2">
-            <mat-icon  matBadge="{{feeds.length}}" matBadgeColor="secondary">notifications_none </mat-icon> 
-        
-        </p>
-    
-    </button>
-    <mat-menu #notification="matMenu" class="mymegamenu">
-        <div class="mailbox">
-            <ul>
-                <li>
-                    <div class="drop-title">Notification</div>
-                </li>
-                <li>
-                    <div class="message-center">
-                        <perfect-scrollbar [config]="config">
-                                <a  *ngFor="let feed of feeds.slice().reverse(); let i = index" >
-                                    <!-- <div class="round {{feed.round}}">
+<div *ngIf="show_notif == true">
+  <button [matMenuTriggerFor]="notification" mat-icon-button class="m-r-5">
+    <p class="pt-2">
+      <mat-icon matBadge="{{ feeds.length }}" matBadgeColor="secondary"
+        >notifications_none
+      </mat-icon>
+    </p>
+  </button>
+  <mat-menu #notification="matMenu" class="mymegamenu">
+    <div class="mailbox">
+      <ul>
+        <li>
+          <div class="drop-title">Notification</div>
+        </li>
+        <li>
+          <div class="message-center">
+            <perfect-scrollbar [config]="config">
+              <a *ngFor="let feed of feeds.slice().reverse(); let i = index">
+                <!-- <div class="round {{feed.round}}">
                                         <i class="{{feed.icon}}"></i>
                                     </div> -->
-                                    <div class="mail-content" (click)="openNotif(i, feed.application_id)">
-                                        <h5>{{ feed.application_number }} <br> {{ feed.status }}</h5>
-                                        <span class="mail-desc">     {{ feed.message }} </span>
-                                        <span class="time"> {{ feed.currentTime | dateAgo }}</span>
-                                    </div>
-                                </a>
-                           
-                           
-                        </perfect-scrollbar>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </mat-menu>
-    
+                <div
+                  class="mail-content"
+                  (click)="openNotif(i, feed.application_id)"
+                >
+                  <h5>
+                    {{ feed.application_number }} <br />
+                    {{ feed.status }}
+                  </h5>
+                  <span class="mail-desc"> {{ feed.message }} </span>
+                  <span class="time"> {{ feed.currentTime | dateAgo }}</span>
+                </div>
+              </a>
+            </perfect-scrollbar>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </mat-menu>
 </div>

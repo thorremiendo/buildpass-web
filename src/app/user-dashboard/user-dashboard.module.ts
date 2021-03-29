@@ -1,3 +1,4 @@
+import { UserResolver } from './../core/guard/user.resolver';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserHomeComponent } from './user-home/user-home.component';
@@ -121,14 +122,9 @@ import { DemolitionPermitComponent } from './new-application/demolition-permit/d
     MatProgressSpinnerModule,
     SweetAlert2Module.forRoot(),
     MaterialModule,
-
-    
-
   ],
 
-  exports:[
-    UserApplicationsTableComponent,
-
-  ]
+  exports: [UserApplicationsTableComponent],
+  providers: [UserResolver],
 })
 export class UserModule {}
