@@ -54,6 +54,12 @@ export class ExcavationPermitComponent implements OnInit {
   public lesseeDocs: Array<any> = [27];
   public registeredDocs: Array<any> = [26, 44];
   public notRegisteredDocs: Array<any> = [27, 23, 24];
+  public isWithinSubdivision: Array<any> = [72];
+  public isUnderMortgage: Array<any> = [73];
+  public isOwnedByCorporation: Array<any> = [74];
+  public isHaveCoOwners: Array<any> = [75];
+  public isConstructionStatus: Array<any> = [37, 38];
+  public if10000sqm: Array<any> = [40];
 
   constructor(
     private newApplicationService: NewApplicationService,
@@ -100,6 +106,20 @@ export class ExcavationPermitComponent implements OnInit {
           this.applicationDetails.rol_status_id != '1' ? true : false;
         const isRegisteredOwner =
           this.applicationDetails.registered_owner == '1' ? true : false;
+        const isWithinSubdivision =
+          this.applicationDetails.is_within_subdivision == 1 ? true : false;
+        const isUnderMortgage =
+          this.applicationDetails.is_under_mortgage == 1 ? true : false;
+        const isOwnedByCorporation =
+          this.applicationDetails.is_owned_by_corporation == 1 ? true : false;
+        const isHaveCoOwners =
+          this.applicationDetails.is_property_have_coowners == 1 ? true : false;
+        const isConstructionStatus =
+          this.applicationDetails.construction_status_id == 1 ? true : false;
+        const if10000sqm =
+          this.applicationDetails.project_detail.total_floor_area >= 10000
+            ? true
+            : false;
 
         isRepresentative
           ? this.fieldSets[0].documents.push(...this.representativeDocs)
@@ -108,10 +128,25 @@ export class ExcavationPermitComponent implements OnInit {
         isRegisteredOwner
           ? this.fieldSets[0].documents.push(...this.registeredDocs)
           : this.fieldSets[0].documents.push(...this.notRegisteredDocs);
+        if10000sqm
+          ? this.fieldSets[1].documents.push(...this.if10000sqm)
+          : null;
+        isWithinSubdivision
+          ? this.fieldSets[1].documents.push(...this.isWithinSubdivision)
+          : null;
+        isUnderMortgage
+          ? this.fieldSets[1].documents.push(...this.isUnderMortgage)
+          : null;
+        isOwnedByCorporation
+          ? this.fieldSets[1].documents.push(...this.isOwnedByCorporation)
+          : null;
+        isHaveCoOwners
+          ? this.fieldSets[1].documents.push(...this.isHaveCoOwners)
+          : null;
+        isConstructionStatus
+          ? null
+          : this.fieldSets[0].documents.push(...this.isConstructionStatus);
 
-        this.initData();
-        this.setFilePaths();
-        this.pdfSource = this.forms[0].src;
         this.initData();
         this.setFilePaths();
         this.pdfSource = this.forms[0].src;
