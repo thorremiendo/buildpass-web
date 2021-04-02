@@ -165,6 +165,10 @@
                       color="accent"
                       (click)="openFormDialog(element)"
                       *ngIf="evaluatorRole.code !== 'CBAO-REL'"
+                      [disabled]="
+                        applicationInfo.application_status_id !== 1 &&
+                        evaluatorRole.code == 'CBAO-REC'
+                      "
                     >
                       <mat-icon class="action">mode_edit</mat-icon>
                     </button>
