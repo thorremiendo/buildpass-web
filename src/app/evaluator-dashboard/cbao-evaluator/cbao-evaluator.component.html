@@ -166,8 +166,13 @@
                       (click)="openFormDialog(element)"
                       *ngIf="evaluatorRole.code !== 'CBAO-REL'"
                       [disabled]="
-                        applicationInfo.application_status_id !== 1 &&
-                        evaluatorRole.code == 'CBAO-REC'
+                        (applicationInfo.application_status_id !== 1 &&
+                          evaluatorRole.code == 'CBAO-REC') ||
+                        (applicationInfo.application_status_id == 12 &&
+                          evaluatorRole.code !== 'CBAO-DC') ||
+                        applicationInfo.application_status_id == 5 ||
+                        (applicationInfo.application_status_id == 13 &&
+                          evaluatorRole.code !== 'CBAO-BO')
                       "
                     >
                       <mat-icon class="action">mode_edit</mat-icon>
