@@ -5,7 +5,12 @@
         <strong>Application Forms</strong>
       </h4>
       <div class="reject" *ngIf="evaluatorRole.code == 'CBAO-BO'">
-        <button mat-raised-button color="accent" (click)="handleReject()">
+        <button
+          mat-raised-button
+          color="accent"
+          (click)="handleReject()"
+          [disabled]="checkFormsCompliant()"
+        >
           <mat-icon>cancel</mat-icon>
           Reject Application
         </button>
@@ -160,6 +165,15 @@
                       color="accent"
                       (click)="openFormDialog(element)"
                       *ngIf="evaluatorRole.code !== 'CBAO-REL'"
+                      [disabled]="
+                        (applicationInfo.application_status_id !== 1 &&
+                          evaluatorRole.code == 'CBAO-REC') ||
+                        (applicationInfo.application_status_id == 12 &&
+                          evaluatorRole.code !== 'CBAO-DC') ||
+                        applicationInfo.application_status_id == 5 ||
+                        (applicationInfo.application_status_id == 13 &&
+                          evaluatorRole.code !== 'CBAO-BO')
+                      "
                     >
                       <mat-icon class="action">mode_edit</mat-icon>
                     </button>

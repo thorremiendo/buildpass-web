@@ -9,7 +9,8 @@
   (selectionChange)="initPdfViewer($event)"
 >
   <mat-step *ngFor="let form of forms; let i = index">
-    <ng-template matStepLabel>{{ form.description }}</ng-template>
+    <ng-template matStepLabel>{{ form.label }}</ng-template>
+    <h1>{{ form.description }}</h1>
     <div class="fillable-form">
       <div class="step-label">
         1. After filling out the form, please click the download/save button on
@@ -109,6 +110,7 @@
   <mat-step *ngFor="let fieldSet of fieldSets; let i = index">
     <ng-template matStepLabel>{{ fieldSet.label }}</ng-template>
     <div class="fieldsets">
+      <h1>{{ fieldSet.title }}</h1>
       <div *ngFor="let field of fieldSet.documents">
         <app-file-upload
           (emitFile)="submitDocument($event, field.id)"

@@ -99,7 +99,7 @@ export class ZoningCertificateComponent implements OnInit {
                   console.log(res);
                   Swal.fire(
                     'Success!',
-                    `${this.userDocument.name} uploaded!`,
+                    `Certificate of Zoning Compliance Uploaded`,
                     'success'
                   ).then((result) => {
                     this.onNoClick();

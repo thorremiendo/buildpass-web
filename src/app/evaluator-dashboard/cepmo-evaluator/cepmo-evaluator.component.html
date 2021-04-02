@@ -109,7 +109,6 @@
             mat-raised-button
             color="accent"
             (click)="openWwmsDialog()"
-            *ngIf="evaluatorRole.code == 'CEPMO-DV'"
             [disabled]="checkWwmsUploaded()"
           >
             Generate WWMS BP Certificate

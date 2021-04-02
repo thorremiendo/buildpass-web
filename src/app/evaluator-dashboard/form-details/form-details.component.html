@@ -53,7 +53,12 @@
         this.data.form.document_id !== 50
       "
     >
-      <button mat-raised-button color="primary" (click)="callSave()">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="callSave()"
+        [disabled]="isSubmitting"
+      >
         Save
       </button>
     </div>
@@ -116,6 +121,7 @@
       "
       mat-raised-button
       color="primary"
+      [disabled]="isSubmitting || !selectedForm"
       (click)="callUpdate()"
     >
       Update

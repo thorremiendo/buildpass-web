@@ -1,49 +1,45 @@
 <div>
-  <mat-card>
-    <mat-card-content>
-      <div>
-        <h4 style="color: #400c06" class="mb-4">
-          <strong>Certificate of Zoning Compliance</strong>
-        </h4>
-      </div>
-      <ngx-dropzone
-        (change)="onSelect($event, 'zoningComplianceForm')"
-        [multiple]="false"
-        accept="application/pdf"
-        class="mt-3"
+  <div>
+    <h4 style="color: #400c06" class="mb-4">
+      <strong>Certificate of Zoning Compliance</strong>
+    </h4>
+  </div>
+  <ngx-dropzone
+    (change)="onSelect($event, 'zoningComplianceForm')"
+    [multiple]="false"
+    accept="application/pdf"
+    class="mt-3"
+  >
+    <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+    <ngx-dropzone-preview
+      *ngIf="zoningComplianceForm"
+      [removable]="true"
+      (removed)="onRemove('zoningComplianceForm')"
+      class="mx-auto"
+    >
+      <ngx-dropzone-label
+        >{{ zoningComplianceForm.name }} ({{
+          zoningComplianceForm.type
+        }})</ngx-dropzone-label
       >
-        <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-        <ngx-dropzone-preview
-          *ngIf="zoningComplianceForm"
-          [removable]="true"
-          (removed)="onRemove('zoningComplianceForm')"
-          class="mx-auto"
-        >
-          <ngx-dropzone-label
-            >{{ zoningComplianceForm.name }} ({{
-              zoningComplianceForm.type
-            }})</ngx-dropzone-label
-          >
-        </ngx-dropzone-preview>
-      </ngx-dropzone>
-      <div class="d-flex justify-content-between">
-        <button
-          class="text-right mt-3"
-          mat-raised-button
-          color="accent"
-          (click)="onNoClick()"
-        >
-          Close
-        </button>
-        <button
-          class="text-right mt-3"
-          mat-raised-button
-          color="primary"
-          (click)="callSave()"
-        >
-          Save
-        </button>
-      </div>
-    </mat-card-content>
-  </mat-card>
+    </ngx-dropzone-preview>
+  </ngx-dropzone>
+  <div class="d-flex justify-content-between">
+    <button
+      class="text-right mt-3"
+      mat-raised-button
+      color="accent"
+      (click)="onNoClick()"
+    >
+      Close
+    </button>
+    <button
+      class="text-right mt-3"
+      mat-raised-button
+      color="primary"
+      (click)="callSave()"
+    >
+      Save
+    </button>
+  </div>
 </div>
