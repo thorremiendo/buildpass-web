@@ -14,8 +14,9 @@
             <mat-nav-list>
               <mat-list-item (click)="onSelect(message)" [class.active]="message === selectedMessage"
                 *ngFor="let message of messages">
-                <img mat-list-avatar src="{{message.photo}}" alt="">
-                <h3 matLine> {{message.from}} </h3>
+                <!-- <img mat-list-avatar src="{{message.photo}}" alt=""> -->
+                <!-- <h3 matLine> {{message.from}} </h3> -->
+                <h3 matLine>Test User</h3>
                 <p matLine class="text-muted"> {{message.subject}} </p>
               </mat-list-item>
             </mat-nav-list>
@@ -26,10 +27,11 @@
                 <mat-icon>short_text</mat-icon>
               </button>
               <span class="top-avatar m-r-10">
-                <img src="{{selectedMessage.photo}}" class="img-circle">
+                <!-- <img src="{{selectedMessage.photo}}" class="img-circle"> -->
               </span>
               <div fxFlex>
-                <div class="font-14">{{selectedMessage.from}}</div>
+                <!-- <div class="font-14">{{selectedMessage.from}}</div> -->
+                <div class="font-14">Test User</div>
               </div>
               <button [matMenuTriggerFor]="them" mat-icon-button class="ml-1">
                 <mat-icon>more_vert</mat-icon>
@@ -42,17 +44,17 @@
             </div>
           </mat-toolbar>
           <mat-card-content class="chat-middle-box">
-            <ng-container *ngFor="let c of selectedMessage.chat">
+            <ng-container *ngFor="let c of selectedMessage">
               <ng-template [ngIf]="c.type == 'incoming'" [ngIfElse]="evenblock">
                 <div class="chat-list odd">
                   <div class="chat-message">
                     <div class="chat-block">
-                      <span>
-                        <img src="{{selectedMessage.photo}}" class="img-circle" width="40">
-                      </span>
+                      <!-- <span>
+                        <img src="{{selectedMessage.photo}}" class="img-circle" width="40"> 
+                      </span> -->
                       <span>{{c.msg}}</span>
                     </div>
-                    <span class="chat-date">{{ c.date | date }}</span>
+                    <span class="chat-date">{{ c.currentTime | date}}</span>
                   </div>
                 </div>
               </ng-template>
@@ -60,7 +62,7 @@
                 <div class="chat-list even">
                   <div class="chat-message">
                     <div class="chat-block bg-light-info">{{c.msg}}</div>
-                    <span class="chat-date">{{ c.date | date}}</span>
+                    <span class="chat-date">{{ c.currentTime | date}}</span>
                   </div>
                 </div>
               </ng-template>

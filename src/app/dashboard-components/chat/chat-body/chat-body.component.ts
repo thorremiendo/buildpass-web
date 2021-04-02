@@ -1,5 +1,7 @@
 import { OnInit,Component, ViewChild, ElementRef } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { messages, chatBotMessage } from '../../chat-box/chat-data-sample';
+import { ChatService } from '../../../core';
 
 
 @Component({
@@ -11,23 +13,40 @@ export class ChatBodyComponent implements OnInit {
  
   public userInfo;
   public sidePanelOpened = false;
-  public selectedMessage: any;
+  public selectedMessage = [];
   public msg = '';
 
   public talkWithChatbot:boolean = false;
+  public talkWithEvaluator:boolean = false;
   public isEnd:boolean = false;
   public isEvaluator = false;
- 
-  messages: Object[] = messages;
 
-  constructor() {
+  
+ 
+  public messages: Object[] = messages;
+  private messageSubscription: Subscription;
+
+  constructor(
+    private chatService: ChatService,
+  ) {
       
-      this.selectedMessage = chatBotMessage[0];
+      //this.selectedMessage = chatBotMessage[0];
   }
 
   ngOnInit(): void {
+
+
+    this.chatService.applicantChatSubscribe();
+
+    this.messageSubscription = this.chatService
+    .getApplicantChatItems()
+    .subscribe((data) => {
+      this.selectedMessage.push(data);
+      console.log(this.selectedMessage)
+    });
     if (localStorage.getItem('user') != null) {
       this.userInfo = JSON.parse(localStorage.getItem('user'));
+     
     }
 
   }
@@ -47,11 +66,13 @@ export class ChatBodyComponent implements OnInit {
       this.msg = this.myInput.nativeElement.value;
 
       if (this.msg !== '') {
-          this.selectedMessage.chat.push({
-              type: 'outgoing',
-              msg: this.msg,
-              date: new Date()
-          });
+        this.chatService.sendConvo(1,8, this.msg)
+          // this.selectedMessage.push({
+          //   type: 'incoming',
+          //   msg: this.msg,
+          //   date: new Date()
+             
+          // });
       }
 
       this.myInput.nativeElement.value = '';
@@ -65,7 +86,7 @@ export class ChatBodyComponent implements OnInit {
       case"Apply":
       this.talkWithChatbot= true;
       setTimeout(
-        () =>  this.selectedMessage.chat.push({
+        () =>  this.selectedMessage.push({
           type: 'incoming',
           msg: 'What type of permit do you intend to apply?',
           date: new Date()
@@ -74,7 +95,7 @@ export class ChatBodyComponent implements OnInit {
       );
 
       setTimeout(
-        () =>  this.selectedMessage.chat.push({
+        () =>  this.selectedMessage.push({
           type: 'outgoing',
           msg:"Building Permit",
           param:"Building",
@@ -83,7 +104,7 @@ export class ChatBodyComponent implements OnInit {
         2000
       );
       setTimeout(
-        () =>  this.selectedMessage.chat.push({
+        () =>  this.selectedMessage.push({
           type: 'outgoing',
           msg:"Occupancy Permit",
           param:"Residential",
@@ -92,7 +113,7 @@ export class ChatBodyComponent implements OnInit {
         2000
       );
       setTimeout(
-        () =>  this.selectedMessage.chat.push({
+        () =>  this.selectedMessage.push({
           type: 'outgoing',
           msg:"Other Permit",
           param:"Residential",
@@ -101,13 +122,13 @@ export class ChatBodyComponent implements OnInit {
         2000
       );
      
-     console.log(this.selectedMessage.chat);
+     console.log(this.selectedMessage);
        break;
 
        case"Building":
        this.talkWithChatbot= true;
        setTimeout(
-         () =>  this.selectedMessage.chat.push({
+         () =>  this.selectedMessage.push({
            type: 'incoming',
            msg: "What type of structure do you intend to build?",
            date: new Date()
@@ -115,7 +136,7 @@ export class ChatBodyComponent implements OnInit {
          1000
        );
        setTimeout(
-         () =>  this.selectedMessage.chat.push({
+         () =>  this.selectedMessage.push({
           type: 'outgoing',
           msg:"Residential",
           param:"Residential",
@@ -123,7 +144,7 @@ export class ChatBodyComponent implements OnInit {
          2000
        );
        setTimeout(
-        () =>  this.selectedMessage.chat.push({
+        () =>  this.selectedMessage.push({
          type: 'outgoing',
          msg:"Commercial",
          param:"Residential",
@@ -131,7 +152,7 @@ export class ChatBodyComponent implements OnInit {
         2000
       );
       setTimeout(
-        () =>  this.selectedMessage.chat.push({
+        () =>  this.selectedMessage.push({
          type: 'outgoing',
          msg:"Institutional",
          param:"Residential",
@@ -144,7 +165,7 @@ export class ChatBodyComponent implements OnInit {
         case"Residential":
         this.talkWithChatbot= true;
         setTimeout(
-          () =>  this.selectedMessage.chat.push({
+          () =>  this.selectedMessage.push({
             type: 'incoming',
             msg: "Go to New Application - To start an application, click on New Application, then select the type of permit you are applying to and answer the following questions",
             date: new Date()
@@ -153,7 +174,7 @@ export class ChatBodyComponent implements OnInit {
         );
 
         setTimeout(
-          () =>  this.selectedMessage.chat.push({
+          () =>  this.selectedMessage.push({
             type: 'outgoing',
             msg: "Thank you",
             date: new Date()
@@ -167,23 +188,23 @@ export class ChatBodyComponent implements OnInit {
 
         case"Evaluator":
         this.talkWithChatbot= true;
+
         setTimeout(
-          () =>  this.selectedMessage.chat.push({
+          () =>  this.talkWithChatbot= false,500,
+       this.talkWithEvaluator =true,500,
+       this.selectedMessage = [],500
+       
+
+        );
+        setTimeout(
+          () =>  this.selectedMessage.push({
             type: 'incoming',
             msg: "Please wait for a couple of minutes...",
-            date: new Date()
+            currentTime: new Date()
          }),
           1000
         );
 
-        setTimeout(
-          () =>  this.selectedMessage.chat.push({
-            type: 'outgoing',
-            msg: "OK!",
-            date: new Date()
-         }),
-          2000
-        );
         //this.talkWithChatbot = false;
         console.log(this.selectedMessage)
          break;

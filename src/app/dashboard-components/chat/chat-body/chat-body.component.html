@@ -7,18 +7,20 @@
   
       <perfect-scrollbar>
         <mat-card-content>
-          <div class="pb-3 text-right">
-            <button mat-stroked-button class="btn-bot" (click)="chatbotMessage('Apply')">
-              How to Apply?
-             </button>
-          </div>
-          <div class="pb-3 text-right">
-            <button mat-stroked-button class="btn-bot" (click)="chatbotMessage('Evaluator')">
-              Talk with Evaluator
-             </button>
+          <div *ngIf="!talkWithEvaluator">
+            <div class="pb-3 text-right">
+              <button mat-stroked-button class="btn-bot" (click)="chatbotMessage('Apply')">
+                How to Apply?
+               </button>
+            </div>
+            <div class="pb-3 text-right">
+              <button mat-stroked-button class="btn-bot" (click)="chatbotMessage('Evaluator')">
+                Talk with Evaluator
+               </button>
+            </div>
           </div>
         
-          <ng-container *ngFor="let c of selectedMessage.chat">
+          <ng-container *ngFor="let c of selectedMessage">
             <ng-template [ngIf]="c.type == 'incoming'" [ngIfElse]="evenblock">
               <div class="chat-list odd">
                 <div class="chat-message">
@@ -28,7 +30,7 @@
                     </span>
                     <span>{{c.msg}}</span>
                   </div>
-                  <span class="chat-date">{{ c.date | date }}</span>
+                  <span class="chat-date">{{ c.currentTime | date }}</span>
                 </div>
               </div>
             </ng-template>

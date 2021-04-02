@@ -16,7 +16,6 @@ export class NotificationComponent implements OnInit {
   public user;
   public channel: Channel;
   public feeds: Feed[] = [];
-  public notifTable: any[];
   public show_notif: boolean = true;
   public config: PerfectScrollbarConfigInterface = {};
   private feedSubscription: Subscription;

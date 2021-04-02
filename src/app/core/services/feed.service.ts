@@ -14,7 +14,6 @@ import { Channel } from 'pusher-js';
 export class FeedService {
   public user:any;
   public channel: Channel;
-  public feeds: Feed[] = [];
   private channelName:string;
   private channelType: string;
   private notifChannel;
@@ -60,6 +59,7 @@ export class FeedService {
 
   pusherSubscribe() {
     this.channel = this.pusher.subscribe(this.channelName);
+
     this.channel.bind(
       `App\\Events\\${this.pusherBind}`,
       (data: {

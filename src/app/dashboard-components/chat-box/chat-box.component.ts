@@ -1,4 +1,6 @@
 import { OnInit,Component, ViewChild, ElementRef } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { ChatService } from 'src/app/core';
 import { messages } from './chat-data-sample';
 
 @Component({
@@ -13,17 +15,38 @@ export class ChatBoxComponent implements OnInit {
   msg = '';
 
   // MESSAGE
-  selectedMessage: any;
+  selectedMessage = [];
   // tslint:disable-next-line - Disables all
-  messages: Object[] = messages;
+  messages: Object[];
+  //messages: Object[] = messages;
 
-  constructor() {
-      this.selectedMessage = this.messages[0];
+  private messageSubscription: Subscription;
+  constructor(
+    private chatService: ChatService,
+  ) {
+     
   }
 
   ngOnInit(): void {
     if (localStorage.getItem('user') != null) {
       this.userInfo = JSON.parse(localStorage.getItem('user'));
+
+      this.chatService.fetchConvo(8).subscribe(result =>{
+        console.log(result);
+        this.messages = result.data;
+       // this.selectedMessage = this.messages[0];
+      })
+
+      this.chatService.evaluatorChatSubscribe('chat-1');
+
+      this.messageSubscription = this.chatService
+      .getApplicantChatItems()
+      .subscribe((data) => {
+        this.selectedMessage.push(data);
+        console.log(this.selectedMessage)
+      });
+
+      
     }
 
   }
@@ -40,30 +63,19 @@ export class ChatBoxComponent implements OnInit {
   }
 
   OnAddMsg(): void {
-      this.msg = this.myInput.nativeElement.value;
+    this.msg = this.myInput.nativeElement.value;
 
-      if (this.msg == "Thank you for waiting, You can now update your application requirements. Have a nice day") {
-          this.selectedMessage.chat.push({
-              type: 'outgoing',
-              msg: this.msg,
-              date: new Date()
-          });
+    if (this.msg !== '') {
+      this.chatService.sendConvo(1,9, this.msg)
+        // this.selectedMessage.push({
+        //   type: 'incoming',
+        //   msg: this.msg,
+        //   date: new Date()
+           
+        // });
+    }
 
-          setTimeout(
-            () =>  this.selectedMessage.chat.push({
-              type: 'incoming',
-              msg: "Great Thank you very much for your assistance",
-              date: new Date()
-           }),
-            2000
-          );
-
-         
-      }
-
-
-
-      this.myInput.nativeElement.value = '';
-  }
+    this.myInput.nativeElement.value = '';
+}
 
 }

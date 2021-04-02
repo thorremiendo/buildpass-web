@@ -12,6 +12,7 @@ export const messages = [{
     from: 'Jose Garcia',
     photo: 'assets/images/cbao-cartoon.png',
     subject: 'Need Assistance',
+    channel:'chat-1',
     chat: [
         {
             type: 'incoming',
