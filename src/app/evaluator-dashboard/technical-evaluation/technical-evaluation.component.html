@@ -1,0 +1,96 @@
+<div class="container mt-3">
+  <h4>Technical Evaluators Status</h4>
+  <div class="row">
+    <div class="col-md-2">
+      <p>
+        Line and Grade:
+        <span style="font-weight: bold">
+          {{
+            applicationDetails.cbao_lg_status_id == 1
+              ? "Approved"
+              : applicationDetails.cbao_lg_status_id == 2
+              ? "For Compliance"
+              : "Pending"
+          }}
+        </span>
+      </p>
+    </div>
+    <div class="col-md-2">
+      <p>
+        Sanitary:
+        <span style="font-weight: bold">
+          {{
+            applicationDetails.cbao_san_status_id == 1
+              ? "Approved"
+              : applicationDetails.cbao_san_status_id == 2
+              ? "For Compliance"
+              : "Pending"
+          }}
+        </span>
+      </p>
+    </div>
+    <div class="col-md-2">
+      <p>
+        Electrical:
+        <span style="font-weight: bold">
+          {{
+            applicationDetails.cbao_elec_status_id == 1
+              ? "Approved"
+              : applicationDetails.cbao_elec_status_id == 2
+              ? "For Compliance"
+              : "Pending"
+          }}
+        </span>
+      </p>
+    </div>
+    <div class="col-md-2">
+      <p>
+        Structural:
+        <span style="font-weight: bold">
+          {{
+            applicationDetails.cbao_str_status_id == 1
+              ? "Approved"
+              : applicationDetails.cbao_str_status_id == 2
+              ? "For Compliance"
+              : "Pending"
+          }}
+        </span>
+      </p>
+    </div>
+    <div class="col-md-2">
+      <p>
+        Architectural:
+        <span style="font-weight: bold">
+          {{
+            applicationDetails.cbao_arch_status_id == 1
+              ? "Approved"
+              : applicationDetails.cbao_arch_status_id == 2
+              ? "For Compliance"
+              : "Pending"
+          }}
+        </span>
+      </p>
+    </div>
+  </div>
+</div>
+<div *ngIf="cbaoTimeline">
+  <section *ngFor="let item of cbaoTimeline" class="timeline-area">
+    <div class="timeline">
+      <h4>
+        {{ item.name }}
+      </h4>
+      <h5 [style.color]="item.status.includes('Compliance') ? 'red' : 'green'">
+        <strong>
+          {{ item.status }}
+        </strong>
+      </h5>
+      <h6>
+        Evaluated by: {{ item.evaluator_detail.first_name }}
+        {{ item.evaluator_detail.last_name }}
+      </h6>
+      <h6>
+        {{ item.created_at | date: "MMMM dd, yyyy hh:mm:ss a":"+0800" }}
+      </h6>
+    </div>
+  </section>
+</div>

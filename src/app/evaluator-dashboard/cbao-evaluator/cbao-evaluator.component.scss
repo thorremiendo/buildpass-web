@@ -101,6 +101,9 @@ a:hover {
   cursor: pointer;
 }
 
+mat-icon {
+  margin-right: 10px;
+}
 mat-icon:hover {
   cursor: pointer;
   transform: scale(1.1);

@@ -84,7 +84,8 @@ export class BfpEvaluatorComponent implements OnInit {
         obj.document_id == 43 ||
         obj.document_id == 59 ||
         obj.document_id == 62 ||
-        obj.document_id == 65
+        obj.document_id == 65 ||
+        obj.document_id == 45
     );
     this.dataSource = BFP_FORMS;
   }
