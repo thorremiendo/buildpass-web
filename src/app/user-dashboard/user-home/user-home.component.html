@@ -217,7 +217,7 @@
     <h4 class="title">
       <mat-icon>pending_actions</mat-icon>Applications Tracker
     </h4>
-    <ng-container *ngIf="applications.length >= 1">
+    <ng-container *ngIf="applications?.length >= 1">
       <ng-container *ngFor="let item of applications">
         <mat-expansion-panel
           style="border-radius: 10px"
@@ -244,7 +244,7 @@
         </mat-expansion-panel>
       </ng-container>
     </ng-container>
-    <ng-container *ngIf="applications.length == 0">
+    <ng-container *ngIf="applications?.length == 0">
       <p class="text-center" style="font-weight: bold">
         You don't have any applications.
       </p>

@@ -28,7 +28,7 @@ export class ChatService {
 
   constructor(private api: ApiService) {
 
-    Pusher.logToConsole = true;
+    // Pusher.logToConsole = true;
     const { key, cluster } = environment.pusher;
     this.pusher = new Pusher(key, { cluster });
   }
