@@ -84,7 +84,7 @@ export class ChatBodyComponent implements OnInit {
     const newConvo ={
       channel: `chat-${this.chatService.generateRandomNumber()}`,
       subject: 'Assistance',
-      user_sender_id: 8,
+      user_sender_id: this.userInfo.id,
       user_receiver_id:9,
       status_id: 1,
       type_id:1,
@@ -93,7 +93,9 @@ export class ChatBodyComponent implements OnInit {
     }
 
     console.log(newConvo);
-    this.chatService.createConvo(newConvo);
+    this.chatService.createConvo(newConvo).subscribe(data =>{
+     this.chatId = data.data;
+    });
   }
 
   OnAddMsg(): void {

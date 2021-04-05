@@ -76,9 +76,7 @@ export class ChatService {
 
   createConvo(body){
     const url = `/chat`;
-    return this.api.post(url,body).subscribe(result =>{
-        console.log(result);
-    });
+    return this.api.post(url,body);
 
   }
 

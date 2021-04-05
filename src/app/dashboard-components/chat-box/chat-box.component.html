@@ -46,7 +46,7 @@
           <mat-card-content *ngIf="selectedMessage"class="chat-middle-box">
             <perfect-scrollbar>
             <ng-container *ngFor="let c of selectedMessage.convo">
-              <ng-template [ngIf]="c.type == 'incoming'" [ngIfElse]="evenblock">
+              <ng-template [ngIf]="c.type == 'outgoing'" [ngIfElse]="evenblock">
                 <div class="chat-list odd">
                   <div class="chat-message">
                     <div class="chat-block">
@@ -68,6 +68,8 @@
                 </div>
               </ng-template>
             </ng-container>
+
+            
           </perfect-scrollbar>
   
           </mat-card-content>
