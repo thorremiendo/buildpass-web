@@ -260,7 +260,63 @@ export class ViewApplicationComponent implements OnInit {
         this.updateApplication(body);
       }
     });
+    this.updateTechnicalEvaluatorStatus();
     return isNonCompliant;
+  }
+  updateTechnicalEvaluatorStatus() {
+    const app = this.applicationDetails;
+    const status = [
+      {
+        cbao_arch_status_id: app.cbao_arch_status_id,
+      },
+      {
+        cbao_elec_status_id: app.cbao_elec_status_id,
+      },
+      {
+        cbao_san_status_id: app.cbao_san_status_id,
+      },
+      {
+        cbao_lg_status_id: app.cbao_lg_status_id,
+      },
+      {
+        cbao_str_status_id: app.cbao_str_status_id,
+      },
+    ];
+    status.forEach((tech) => {
+      if (tech.cbao_arch_status_id == 2) {
+        const body = {
+          cbao_arch_status_id: 0,
+        };
+        this.updateTechnicalEvaluationStatus(body);
+      } else if (tech.cbao_elec_status_id == 2) {
+        const body = {
+          cbao_elec_status_id: 0,
+        };
+        this.updateTechnicalEvaluationStatus(body);
+      } else if (tech.cbao_san_status_id == 2) {
+        const body = {
+          cbao_san_status_id: 0,
+        };
+        this.updateTechnicalEvaluationStatus(body);
+      } else if (tech.cbao_lg_status_id == 2) {
+        const body = {
+          cbao_lg_status_id: 0,
+        };
+        this.updateTechnicalEvaluationStatus(body);
+      } else if (tech.cbao_str_status_id == 2) {
+        const body = {
+          cbao_str_status_id: 0,
+        };
+        this.updateTechnicalEvaluationStatus(body);
+      }
+    });
+  }
+  updateTechnicalEvaluationStatus(body) {
+    this.applicationService
+      .updateCbaoStatus(body, this.applicationId)
+      .subscribe((res) => {
+        this.openSnackBar('Success!');
+      });
   }
 
   updateApplication(body) {

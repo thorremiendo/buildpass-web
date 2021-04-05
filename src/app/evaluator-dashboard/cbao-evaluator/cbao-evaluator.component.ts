@@ -2,7 +2,7 @@ import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { FormDetailsComponent } from '../form-details/form-details.component';
 import { documentTypes } from '../../core/enums/document-type.enum';
@@ -62,8 +62,88 @@ export class CbaoEvaluatorComponent implements OnInit {
       .subscribe((res) => {
         console.log('Application Info:', res);
         this.applicationInfo = res.data;
+        if (this.applicationInfo.application_status_id == 3) {
+          this.checkTechnicalEvaluationCompliant();
+        }
         this.isLoading = false;
       });
+  }
+  checkTechnicalEvaluationDone() {
+    const app = this.applicationInfo;
+    const status = [
+      {
+        id: app.cbao_arch_status_id,
+      },
+      {
+        id: app.cbao_elec_status_id,
+      },
+      {
+        id: app.cbao_san_status_id,
+      },
+      {
+        id: app.cbao_lg_status_id,
+      },
+      {
+        id: app.cbao_str_status_id,
+      },
+    ];
+    const isAllReviewed = status.every((tech) => tech.id == 1 || tech.id == 2);
+
+    return isAllReviewed;
+  }
+  checkTechnicalEvaluationCompliant() {
+    if (this.checkTechnicalEvaluationDone()) {
+      const app = this.applicationInfo;
+      const status = [
+        {
+          id: app.cbao_arch_status_id,
+        },
+        {
+          id: app.cbao_elec_status_id,
+        },
+        {
+          id: app.cbao_san_status_id,
+        },
+        {
+          id: app.cbao_lg_status_id,
+        },
+        {
+          id: app.cbao_str_status_id,
+        },
+      ];
+      const isCompliant = status.every((tech) => tech.id == 1);
+      if (isCompliant) {
+        this.isLoading = true;
+        const body = {
+          parallel_cbao_status_id: 1,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire('Success!', `CBAO Evaluation Done!`, 'success').then(
+              (result) => {
+                this.isLoading = false;
+                window.location.reload();
+              }
+            );
+          });
+      } else if (!isCompliant) {
+        this.isLoading = true;
+        const body = {
+          parallel_cbao_status_id: 2,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire('Success!', `Evaluation Done!`, 'success').then(
+              (result) => {
+                this.isLoading = false;
+                window.location.reload();
+              }
+            );
+          });
+      }
+    }
   }
 
   fetchEvaluatorDetails() {
@@ -122,24 +202,54 @@ export class CbaoEvaluatorComponent implements OnInit {
     return isReviewed;
   }
 
+  handleTechnicalEvaluatorNonCompliant() {
+    if (this.checkFormNonCompliant()) {
+      switch (this.evaluatorRole.code) {
+        case 'CBAO-LG':
+          const lg = {
+            cbao_lg_status_id: 2,
+            evaluator_user_id: this.evaluatorDetails.user_id,
+          };
+          this.updateCbaoStatus(lg);
+          break;
+        case 'CBAO-ARCH':
+          const arch = {
+            cbao_arch_status_id: 2,
+            evaluator_user_id: this.evaluatorDetails.user_id,
+          };
+          this.updateCbaoStatus(arch);
+          break;
+        case 'CBAO-STR':
+          const str = {
+            cbao_str_status_id: 2,
+            evaluator_user_id: this.evaluatorDetails.user_id,
+          };
+          this.updateCbaoStatus(str);
+          break;
+        case 'CBAO-SAN':
+          const san = {
+            cbao_san_status_id: 2,
+            evaluator_user_id: this.evaluatorDetails.user_id,
+          };
+          this.updateCbaoStatus(san);
+          break;
+        case 'CBAO-ELEC':
+          const elec = {
+            cbao_elec_status_id: 2,
+            evaluator_user_id: this.evaluatorDetails.user_id,
+          };
+          this.updateCbaoStatus(elec);
+          break;
+      }
+    } else {
+      this.openSnackBar('Please review documents.');
+    }
+  }
+
   nonCompliant() {
     this.isLoading = true;
     if (this.checkFormsReviewed()) {
-      if (this.applicationInfo.application_status_id == 3) {
-        const body = {
-          parallel_cbao_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            Swal.fire('Success!', `Updated CBAO Status!`, 'success').then(
-              (result) => {
-                window.location.reload();
-              }
-            );
-          });
-      } else if (this.evaluatorRole.code == 'CBAO-DC') {
+      if (this.evaluatorRole.code == 'CBAO-DC') {
         const body = {
           application_status_id: 5,
           dc_status_id: 2,
@@ -492,28 +602,53 @@ export class CbaoEvaluatorComponent implements OnInit {
       }
     });
   }
-  handleDepartmentStatus() {
-    if (this.checkFormsCompliant()) {
-      const body = {
-        parallel_cbao_status_id: 1,
-      };
-      this.applicationService
-        .updateApplicationStatus(body, this.applicationId)
-        .subscribe((res) => {
-          Swal.fire('Success!', `CBAO Evaluation Done!`, 'success').then(
-            (result) => {
-              this.isLoading = false;
-              window.location.reload();
-            }
-          );
-        });
-    } else {
-      Swal.fire('Warning!', `Please Review All Documents!`, 'warning').then(
-        (result) => {
-          this.isLoading = false;
-        }
-      );
+  handleTechnicalEvaluatorCompliant() {
+    switch (this.evaluatorRole.code) {
+      case 'CBAO-LG':
+        const lg = {
+          cbao_lg_status_id: 1,
+          evaluator_user_id: this.evaluatorRole.id,
+        };
+        this.updateCbaoStatus(lg);
+        break;
+      case 'CBAO-ARCH':
+        const arch = {
+          cbao_arch_status_id: 1,
+          evaluator_user_id: this.evaluatorRole.id,
+        };
+        this.updateCbaoStatus(arch);
+        break;
+      case 'CBAO-STR':
+        const str = {
+          cbao_str_status_id: 1,
+          evaluator_user_id: this.evaluatorRole.id,
+        };
+        this.updateCbaoStatus(str);
+        break;
+      case 'CBAO-SAN':
+        const san = {
+          cbao_san_status_id: 1,
+          evaluator_user_id: this.evaluatorRole.id,
+        };
+        this.updateCbaoStatus(san);
+        break;
+      case 'CBAO-ELEC':
+        const elec = {
+          cbao_elec_status_id: 1,
+          evaluator_user_id: this.evaluatorRole.id,
+        };
+        this.updateCbaoStatus(elec);
+        break;
     }
+  }
+  updateCbaoStatus(body) {
+    this.applicationService
+      .updateCbaoStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire('Success!', `Review Saved!`, 'success').then((result) => {
+          window.location.reload();
+        });
+      });
   }
   handleRelease() {
     const body = {
