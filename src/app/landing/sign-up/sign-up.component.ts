@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, FormControl, Validators, EmailValidator } from 
 import { AngularFirestore, AngularFirestoreDocument, } from '@angular/fire/firestore';
 import { FormValidatorService } from '../../core/services/form-validator.service';
 import { User } from '../../core/models/user.model';
-import { RegisterAccountFormService } from '../../core/services/register-account-form.service';
+import { RegisterAccountFormService } from '../../core';
 
 @Component({
   selector: 'app-sign-up',
