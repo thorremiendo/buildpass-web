@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable, throwError, Subscription } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { ReplaySubject } from 'rxjs/Rx';
 import { SelectedMessageModel } from '../models';
 import { environment } from '../../../environments/environment';
 import { ApiService } from './api.service';
@@ -23,8 +22,6 @@ export class ChatService {
   private subject: Subject<any> = new Subject<any>();
 
   public pusher: Pusher;
-
-  messagesStream = new ReplaySubject<any>(1);
 
   constructor(private api: ApiService) {
 

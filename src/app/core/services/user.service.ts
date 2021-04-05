@@ -1,5 +1,5 @@
 import { Injectable, APP_ID } from '@angular/core';
-import { BehaviorSubject, Observable, ReplaySubject, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { distinctUntilChanged, map, catchError } from 'rxjs/operators';
 import { UserModel } from '../models/user.model';
 import { ApiService } from './api.service';
