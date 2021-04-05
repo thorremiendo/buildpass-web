@@ -2,11 +2,15 @@
 mat-card {
     max-width:450px;
     max-height: 600px;
+  
 
   
 
     mat-card-header{
       max-height: 200px;
+      max-width:450px;
+      min-width: 450px;
+     
       background-color: maroon;
  
        mat-card-title{
@@ -20,13 +24,15 @@ mat-card {
    mat-card-content{
      max-height: 300px;
      min-height: 300px;
+     max-width:450px;
+     min-width: 450px;
      overflow-y: auto;
 
    }
 
    mat-card-actions{
    max-width: 450px;
-
+  
    }
   }
 
@@ -42,7 +48,7 @@ mat-card {
 
 .btn-bot{
     
-    width: 200px;
+    width: 230px;
     border-color: maroon;
     color: maroon;
     

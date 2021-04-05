@@ -10,12 +10,13 @@ import { messages } from './chat-data-sample';
 })
 export class ChatBoxComponent implements OnInit {
   public userInfo;
+  private chatId:number;
 
   sidePanelOpened = true;
   msg = '';
 
   // MESSAGE
-  selectedMessage = [];
+  selectedMessage:any;
   // tslint:disable-next-line - Disables all
   messages: Object[];
   //messages: Object[] = messages;
@@ -34,7 +35,11 @@ export class ChatBoxComponent implements OnInit {
       this.chatService.fetchConvo(8).subscribe(result =>{
         console.log(result);
         this.messages = result.data;
-       // this.selectedMessage = this.messages[0];
+        if(this.messages != null){
+          this.selectedMessage = this.messages[0];
+          this.chatId = this.selectedMessage.convo[0].chat_id;
+        }
+       
       })
 
       this.chatService.evaluatorChatSubscribe('chat-1');
@@ -42,7 +47,7 @@ export class ChatBoxComponent implements OnInit {
       this.messageSubscription = this.chatService
       .getApplicantChatItems()
       .subscribe((data) => {
-        this.selectedMessage.push(data);
+        this.selectedMessage.convo.push(data);
         console.log(this.selectedMessage)
       });
 
@@ -58,15 +63,16 @@ export class ChatBoxComponent implements OnInit {
   }
 
   // tslint:disable-next-line - Disables all
-  onSelect(message: Object[]): void {
-      this.selectedMessage = message;
+  onSelect(message): void {
+    this.selectedMessage = message;
+    this.chatId = this.selectedMessage.convo[0].chat_id;
   }
 
   OnAddMsg(): void {
     this.msg = this.myInput.nativeElement.value;
 
     if (this.msg !== '') {
-      this.chatService.sendConvo(1,9, this.msg)
+      this.chatService.sendConvo(this.chatId, this.userInfo.id, this.msg)
         // this.selectedMessage.push({
         //   type: 'incoming',
         //   msg: this.msg,

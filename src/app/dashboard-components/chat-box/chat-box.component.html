@@ -11,27 +11,27 @@
                   <img [src]="userInfo.photo_path" class="img-circle vm m-r-10" width="40">{{userInfo.first_name}} {{userInfo.last_name}}</span>
               </div>
             </mat-toolbar>
-            <mat-nav-list>
+            <mat-nav-list *ngIf="messages">
               <mat-list-item (click)="onSelect(message)" [class.active]="message === selectedMessage"
-                *ngFor="let message of messages">
-                <!-- <img mat-list-avatar src="{{message.photo}}" alt=""> -->
-                <!-- <h3 matLine> {{message.from}} </h3> -->
-                <h3 matLine>Test User</h3>
+                *ngFor="let message of messages.slice().reverse();">
+                <img mat-list-avatar src="{{message.sender_detail.photo_path}}" alt="sender profile picture">
+                 <h3 matLine>{{message.sender_detail.first_name}} {{message.sender_detail.last_name}} </h3> 
+                <!-- <h3 matLine>Test User</h3> -->
                 <p matLine class="text-muted"> {{message.subject}} </p>
               </mat-list-item>
             </mat-nav-list>
           </mat-sidenav>
-          <mat-toolbar class="bg-success no-shadow chat-right-panel" color="warn">
+          <mat-toolbar *ngIf="selectedMessage" class="bg-success no-shadow chat-right-panel" color="warn">
             <div fxLayout="row" fxFlex="100" fxLayoutAlign="center center">
               <button (click)="chatnav.toggle()" class="mr-1" mat-icon-button>
                 <mat-icon>short_text</mat-icon>
               </button>
               <span class="top-avatar m-r-10">
-                <!-- <img src="{{selectedMessage.photo}}" class="img-circle"> -->
+                <img src="{{selectedMessage.sender_detail.photo_path}}" class="img-circle">
               </span>
               <div fxFlex>
-                <!-- <div class="font-14">{{selectedMessage.from}}</div> -->
-                <div class="font-14">Test User</div>
+                <div class="font-14">{{selectedMessage.sender_detail.first_name}} {{selectedMessage.sender_detail.last_name}}</div>
+                <!-- <div class="font-14">Test User</div> -->
               </div>
               <button [matMenuTriggerFor]="them" mat-icon-button class="ml-1">
                 <mat-icon>more_vert</mat-icon>
@@ -43,8 +43,9 @@
               </mat-menu>
             </div>
           </mat-toolbar>
-          <mat-card-content class="chat-middle-box">
-            <ng-container *ngFor="let c of selectedMessage">
+          <mat-card-content *ngIf="selectedMessage"class="chat-middle-box">
+            <perfect-scrollbar>
+            <ng-container *ngFor="let c of selectedMessage.convo">
               <ng-template [ngIf]="c.type == 'incoming'" [ngIfElse]="evenblock">
                 <div class="chat-list odd">
                   <div class="chat-message">
@@ -52,21 +53,22 @@
                       <!-- <span>
                         <img src="{{selectedMessage.photo}}" class="img-circle" width="40"> 
                       </span> -->
-                      <span>{{c.msg}}</span>
+                      <span>{{c.message}}</span>
                     </div>
-                    <span class="chat-date">{{ c.currentTime | date}}</span>
+                    <span class="chat-date">{{ c.created_at | date:'MMM d, y h:mm a'}}</span>
                   </div>
                 </div>
               </ng-template>
               <ng-template #evenblock>
                 <div class="chat-list even">
                   <div class="chat-message">
-                    <div class="chat-block bg-light-info">{{c.msg}}</div>
-                    <span class="chat-date">{{ c.currentTime | date}}</span>
+                    <div class="chat-block bg-light-info">{{c.message}}</div>
+                    <span class="chat-date">{{ c.created_at |  date:'MMM d, y h:mm a' }}</span>
                   </div>
                 </div>
               </ng-template>
             </ng-container>
+          </perfect-scrollbar>
   
           </mat-card-content>
           <mat-card-actions class="chat-footer">

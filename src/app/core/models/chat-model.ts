@@ -1,11 +1,11 @@
 export class SelectedMessageModel{
     constructor(
       public type: string,
-      public msg: string,
+      public message: string,
       public currentTime: Date
     ) {
       this.type = type,
-      this.msg = msg,
+      this.message = message,
       this.currentTime = currentTime;
     }
   }

@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 import { ApiService } from './api.service';
 import Pusher from 'pusher-js';
 import { Channel } from 'pusher-js';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +34,7 @@ export class ChatService {
   }
 
   generateRandomNumber() {
-    let randomNumber = Math.floor(1000 * Math.random());
+    let randomNumber = uuidv4();;
     return randomNumber;
   }
 
@@ -63,12 +64,18 @@ export class ChatService {
   fetchConvo(current_user_id){
       const url = `/chat/${current_user_id}/sender`;
 
-      return this.api.get(url);
-  }
+      return this.api.get(url).pipe(
+        map((data: any) => {
+          return data;
+        }),
+        catchError((error) => {
+          return throwError('Something went wrong.');
+        })
+      );
+}
 
   createConvo(body){
     const url = `/chat`;
-
     return this.api.post(url,body).subscribe(result =>{
         console.log(result);
     });
@@ -78,7 +85,6 @@ export class ChatService {
   sendConvo(chat_id, current_user_id, message,  ) {
       const url = `/chat/message`;
      
-
       var body = {
           chat_id: chat_id,
           current_user_id: current_user_id,
@@ -91,8 +97,6 @@ export class ChatService {
     });
 
 }
-
-
 
   evaluatorChatSubscribe(channelName) {
     let pusherBind = "RealTimeMessagingEvent"
