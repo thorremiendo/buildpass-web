@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FeedService } from '../../core';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ApplicationInfoService } from '../../core';
@@ -23,6 +23,7 @@ export class UserHomeComponent implements OnInit {
   reminders = ['Reminder 1', 'Reminder 2', 'Reminder 3', 'Reminder 4'];
 
   constructor(
+    private route: ActivatedRoute,
     private _router: Router,
     private applicatonInfoService: ApplicationInfoService
   ) {}
@@ -49,7 +50,12 @@ export class UserHomeComponent implements OnInit {
   openApplication(id) {
     this._router.navigate(['dashboard/applications/view', id]);
   }
-  goToNewApplication() {
-    this._router.navigate(['dashboard/new/step-one']);
+  goToNewApplication(id) {
+    this._router.navigate([
+      'dashboard/new/step-one',
+      {
+        new_application: id,
+      },
+    ]);
   }
 }

@@ -70,7 +70,8 @@ export class BuildingPermitComponent implements OnInit {
     },
     {
       label: 'Step 9',
-      title: 'Professional Details',
+      title:
+        'Professional Tax Receipt and Professional Regulations Commission ID',
       documents: [34, 35, 36, 47, 46],
     },
     {
@@ -81,9 +82,10 @@ export class BuildingPermitComponent implements OnInit {
   ];
 
   public representativeDocs: Array<any> = [21];
-  public lesseeDocs: Array<any> = [27];
-  public registeredDocs: Array<any> = [26, 44];
+  public lesseeDocs: Array<any> = [27, 26, 23, 24];
+  public registeredDocs: Array<any> = [26];
   public notRegisteredDocs: Array<any> = [103, 23, 24];
+  public isOwnerNotRegisteredDocs: Array<any> = [103];
   public isWithinSubdivision: Array<any> = [72];
   public isUnderMortgage: Array<any> = [73];
   public isOwnedByCorporation: Array<any> = [74];
@@ -116,13 +118,16 @@ export class BuildingPermitComponent implements OnInit {
             this.formData = this.dataBindingService.getFormData(
               this.applicationDetails
             );
+            console.log(this.formData);
 
             const isRepresentative =
-              this.applicationDetails.is_representative == '1' ? true : false;
+              this.applicationDetails.is_representative == 1 ? true : false;
             const isLessee =
-              this.applicationDetails.rol_status_id != '1' ? true : false;
+              this.applicationDetails.rol_status_id == 2 ? true : false;
             const isRegisteredOwner =
-              this.applicationDetails.registered_owner == '1' ? true : false;
+              this.applicationDetails.is_registered_owner == 1 ? true : false;
+            const isNotRegisteredOwner =
+              this.applicationDetails.is_registered_owner == 2 ? true : false;
             const isWithinSubdivision =
               this.applicationDetails.is_within_subdivision == 1 ? true : false;
             const isUnderMortgage =
@@ -155,7 +160,10 @@ export class BuildingPermitComponent implements OnInit {
               : null;
             isRegisteredOwner
               ? this.fieldSets[0].documents.push(...this.registeredDocs)
-              : this.fieldSets[0].documents.push(...this.notRegisteredDocs);
+              : null;
+            isNotRegisteredOwner
+              ? this.fieldSets[0].documents.push(...this.notRegisteredDocs)
+              : null;
             isWithinSubdivision
               ? this.fieldSets[4].documents.push(...this.isWithinSubdivision)
               : null;

@@ -33,6 +33,7 @@ export interface Barangay {
   styleUrls: ['./common-fields-personal-info.component.scss'],
 })
 export class CommonFieldsPersonalInfoComponent implements OnInit {
+  public user;
   public userDetails;
   public maxLength: number = 11;
   public applicationDetails;
@@ -70,7 +71,13 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.createForm();
+    this.user = JSON.parse(localStorage.getItem('user'));
+    console.log(this.user);
+    if (this.user) {
+      this.patchUserDetails();
+    }
     this._registerAccountFormService.cast.subscribe(
       (registerAccountSubject) => (this.userDetails = registerAccountSubject)
     );
@@ -90,6 +97,17 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     console.log(this.applicationDetails);
 
     console.log(this._personalInfoFormCommonFields);
+    this.isLoading = false;
+  }
+
+  patchUserDetails() {
+    this._personalInfoFormCommonFields.patchValue({
+      owner_first_name: this.user.first_name,
+      owner_middle_name: this.user.middle_name,
+      owner_last_name: this.user.last_name,
+      owner_contact_number: this.user.contact_number,
+      owner_email_address: this.user.email_address,
+    });
   }
 
   private _filter(value: string): Barangay[] {

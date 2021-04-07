@@ -1,4 +1,8 @@
-<form [formGroup]="_personalInfoFormCommonFields" (ngSubmit)="onSubmit()">
+<form
+  [formGroup]="_personalInfoFormCommonFields"
+  (ngSubmit)="onSubmit()"
+  *ngIf="!isLoading"
+>
   <div class="row pt-3 px-3">
     <div class="d-flex align-items-center w-100">
       <h3 class="col-md-2">Basic Info</h3>

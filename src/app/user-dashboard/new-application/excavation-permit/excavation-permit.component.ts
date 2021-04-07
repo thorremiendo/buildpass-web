@@ -13,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./excavation-permit.component.scss'],
 })
 export class ExcavationPermitComponent implements OnInit {
+  public isSubmitting: boolean = false;
   public user;
   public pdfSource;
   public formData;
@@ -34,18 +35,14 @@ export class ExcavationPermitComponent implements OnInit {
   public fieldSets: any = [
     {
       label: 'Step 2',
-      documents: [],
+      documents: [8, 15],
     },
     {
       label: 'Step 3',
-      documents: [8, 25, 15],
-    },
-    {
-      label: 'Step 4',
       documents: [7, 9, 10, 11, 12],
     },
     {
-      label: 'Step 5',
+      label: 'Step 4',
       documents: [13, 16, 17, 18, 20, 19],
     },
   ];
@@ -100,52 +97,58 @@ export class ExcavationPermitComponent implements OnInit {
         this.formData = this.dataBindingService.getFormData(
           this.applicationDetails
         );
-        const isRepresentative =
-          this.applicationDetails.is_representative == '1' ? true : false;
-        const isLessee =
-          this.applicationDetails.rol_status_id != '1' ? true : false;
-        const isRegisteredOwner =
-          this.applicationDetails.registered_owner == '1' ? true : false;
-        const isWithinSubdivision =
-          this.applicationDetails.is_within_subdivision == 1 ? true : false;
-        const isUnderMortgage =
-          this.applicationDetails.is_under_mortgage == 1 ? true : false;
-        const isOwnedByCorporation =
-          this.applicationDetails.is_owned_by_corporation == 1 ? true : false;
-        const isHaveCoOwners =
-          this.applicationDetails.is_property_have_coowners == 1 ? true : false;
-        const isConstructionStatus =
-          this.applicationDetails.construction_status_id == 1 ? true : false;
-        const if10000sqm =
-          this.applicationDetails.project_detail.total_floor_area >= 10000
-            ? true
-            : false;
-
-        isRepresentative
-          ? this.fieldSets[0].documents.push(...this.representativeDocs)
-          : null;
-        isLessee ? this.fieldSets[0].documents.push(...this.lesseeDocs) : null;
-        isRegisteredOwner
-          ? this.fieldSets[0].documents.push(...this.registeredDocs)
-          : this.fieldSets[0].documents.push(...this.notRegisteredDocs);
-        if10000sqm
-          ? this.fieldSets[1].documents.push(...this.if10000sqm)
-          : null;
-        isWithinSubdivision
-          ? this.fieldSets[1].documents.push(...this.isWithinSubdivision)
-          : null;
-        isUnderMortgage
-          ? this.fieldSets[1].documents.push(...this.isUnderMortgage)
-          : null;
-        isOwnedByCorporation
-          ? this.fieldSets[1].documents.push(...this.isOwnedByCorporation)
-          : null;
-        isHaveCoOwners
-          ? this.fieldSets[1].documents.push(...this.isHaveCoOwners)
-          : null;
-        isConstructionStatus
-          ? null
-          : this.fieldSets[0].documents.push(...this.isConstructionStatus);
+        if (this.applicationDetails.main_permit_id == null) {
+          this.fieldSets[0].documents.push([25]);
+          const isRepresentative =
+            this.applicationDetails.is_representative == '1' ? true : false;
+          const isLessee =
+            this.applicationDetails.rol_status_id != '1' ? true : false;
+          const isRegisteredOwner =
+            this.applicationDetails.registered_owner == '1' ? true : false;
+          const isWithinSubdivision =
+            this.applicationDetails.is_within_subdivision == 1 ? true : false;
+          const isUnderMortgage =
+            this.applicationDetails.is_under_mortgage == 1 ? true : false;
+          const isOwnedByCorporation =
+            this.applicationDetails.is_owned_by_corporation == 1 ? true : false;
+          const isHaveCoOwners =
+            this.applicationDetails.is_property_have_coowners == 1
+              ? true
+              : false;
+          const isConstructionStatus =
+            this.applicationDetails.construction_status_id == 1 ? true : false;
+          const if10000sqm =
+            this.applicationDetails.project_detail.total_floor_area >= 10000
+              ? true
+              : false;
+          isRepresentative
+            ? this.fieldSets[0].documents.push(...this.representativeDocs)
+            : null;
+          isLessee
+            ? this.fieldSets[0].documents.push(...this.lesseeDocs)
+            : null;
+          isRegisteredOwner
+            ? this.fieldSets[0].documents.push(...this.registeredDocs)
+            : this.fieldSets[0].documents.push(...this.notRegisteredDocs);
+          if10000sqm
+            ? this.fieldSets[1].documents.push(...this.if10000sqm)
+            : null;
+          isWithinSubdivision
+            ? this.fieldSets[1].documents.push(...this.isWithinSubdivision)
+            : null;
+          isUnderMortgage
+            ? this.fieldSets[1].documents.push(...this.isUnderMortgage)
+            : null;
+          isOwnedByCorporation
+            ? this.fieldSets[1].documents.push(...this.isOwnedByCorporation)
+            : null;
+          isHaveCoOwners
+            ? this.fieldSets[1].documents.push(...this.isHaveCoOwners)
+            : null;
+          isConstructionStatus
+            ? null
+            : this.fieldSets[0].documents.push(...this.isConstructionStatus);
+        }
 
         this.initData();
         this.setFilePaths();
@@ -369,6 +372,7 @@ export class ExcavationPermitComponent implements OnInit {
   }
 
   submitApplication() {
+    this.isSubmitting = true;
     const id = this.excavationId ? this.excavationId : this.applicationId;
 
     const data = {
@@ -377,6 +381,7 @@ export class ExcavationPermitComponent implements OnInit {
     this.applicationService
       .updateApplicationStatus(data, id)
       .subscribe((res) => {
+        this.isSubmitting = true;
         this.router.navigate(['dashboard/new/summary', id]);
         localStorage.removeItem('app_id');
         localStorage.removeItem('application_details_for_excavation');

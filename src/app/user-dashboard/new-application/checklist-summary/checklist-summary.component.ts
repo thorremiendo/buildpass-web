@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Data } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
@@ -213,9 +213,13 @@ export class ChecklistSummaryComponent implements OnInit {
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
+        console.log(res);
         localStorage.removeItem('application_details_for_excavation');
         this.isLoading = false;
-        this.router.navigateByUrl('dashboard/new/success');
+        this.router.navigate([
+          'dashboard/new/success',
+          { application_number: res.data },
+        ]);
       });
   }
 }

@@ -64,7 +64,7 @@
           matStepperNext
           (click)="upload(form)"
         >
-          Save
+          Next
         </button>
       </div>
     </mat-step>
@@ -89,7 +89,16 @@
           Next
         </button>
         <ng-template #submit_button>
-          <button mat-raised-button (click)="submitApplication()">
+          <button
+            mat-raised-button
+            (click)="submitApplication()"
+            [disabled]="isSubmitting"
+          >
+            <ng-container *ngIf="isSubmitting">
+              <div class="spinner">
+                <mat-spinner></mat-spinner>
+              </div>
+            </ng-container>
             Submit
           </button>
         </ng-template>
@@ -97,3 +106,8 @@
     </mat-step>
   </mat-horizontal-stepper>
 </div>
+<ng-container *ngIf="!applicationDetails">
+  <div class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-container>

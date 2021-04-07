@@ -124,8 +124,8 @@
 
   <div class="main__container__services">
     <h4 class="title"><mat-icon>desktop_windows</mat-icon>E-Services</h4>
-    <div class="main__container__services-cards" (click)="goToNewApplication()">
-      <mat-card>
+    <div class="main__container__services-cards">
+      <mat-card (click)="goToNewApplication(1)">
         <mat-card-content>
           <div class="col-md-12">
             <div>
@@ -143,7 +143,7 @@
           </div>
         </mat-card-content>
       </mat-card>
-      <mat-card>
+      <mat-card (click)="goToNewApplication(2)">
         <mat-card-content>
           <div class="col-md-12">
             <div>
@@ -160,7 +160,7 @@
           </div>
         </mat-card-content>
       </mat-card>
-      <mat-card>
+      <mat-card (click)="goToNewApplication(3)">
         <mat-card-content>
           <div class="col-md-12">
             <div>
@@ -177,7 +177,7 @@
           </div>
         </mat-card-content>
       </mat-card>
-      <mat-card>
+      <mat-card (click)="goToNewApplication(5)">
         <mat-card-content>
           <div class="col-md-12">
             <div>
@@ -194,7 +194,7 @@
           </div>
         </mat-card-content>
       </mat-card>
-      <mat-card>
+      <mat-card (click)="goToNewApplication(4)">
         <mat-card-content>
           <div class="col-md-12">
             <div>
