@@ -36,8 +36,7 @@ export class ChatBodyComponent implements OnInit {
   ngOnInit(): void {
     if (localStorage.getItem('user') != null) {
       this.userInfo = JSON.parse(localStorage.getItem('user'));
-      this.chatService.applicantChatSubscribe();
-
+    
       this.messageSubscription = this.chatService
         .getApplicantChatItems()
         .subscribe((data) => {
@@ -45,7 +44,7 @@ export class ChatBodyComponent implements OnInit {
           console.log('Message SUbs' + this.selectedMessage);
         });
 
-      this.chatService.fetchConvo(this.userInfo.id).subscribe((data) => {
+      this.chatService.fetchConvo(this.userInfo.id, 'sender').subscribe((data) => {
         console.log(data);
         this.messages = data.data;
         // this.selectedMessage = this.messages[0];
@@ -54,12 +53,14 @@ export class ChatBodyComponent implements OnInit {
   }
 
   backToConversations() {
-    this.conversations = true;
+    this.conversations = false;
     this.talkWithEvaluator = false;
+    this.headerStart =true;
   }
 
   // tslint:disable-next-line - Disables all
   onSelect(message): void {
+    this.chatService.applicantChatSubscribe(message.channel);
     this.selectedMessage = message.convo;
     this.chatId = this.selectedMessage[0].chat_id;
     this.conversations = false;
@@ -67,19 +68,23 @@ export class ChatBodyComponent implements OnInit {
   }
 
   OnCreateMsg() {
+    let channel = `chat-${this.chatService.generateRandomNumber()}`;
+    // let channel = "chat-1";
     const newConvo = {
-      channel: `chat-${this.chatService.generateRandomNumber()}`,
+      channel: channel,
       subject: 'Assistance',
       user_sender_id: this.userInfo.id,
       user_receiver_id: 9,
       status_id: 1,
       type_id: 1,
       message: 'Good day, Can you assist me?',
-      current_user_id: 8,
+      current_user_id: this.userInfo.id,
     };
 
     console.log(newConvo);
+    this.chatService.applicantChatSubscribe(channel);
     this.chatService.createConvo(newConvo).subscribe((data) => {
+   
       this.chatId = data.data;
     });
   }
@@ -89,12 +94,6 @@ export class ChatBodyComponent implements OnInit {
 
     if (this.msg !== '') {
       this.chatService.sendConvo(this.chatId, this.userInfo.id, this.msg);
-      // this.selectedMessage.push({
-      //   type: 'incoming',
-      //   msg: this.msg,
-      //   date: new Date()
-
-      // });
     }
 
     this.myInput.nativeElement.value = '';
