@@ -5,7 +5,16 @@
         <strong>Application Forms</strong>
       </h4>
       <div class="reject">
-        <button mat-raised-button color="accent" (click)="handleReject()">
+        <button
+          mat-raised-button
+          color="accent"
+          (click)="handleReject()"
+          [disabled]="
+            (applicationDetails.application_status_id !== 2 &&
+              applicationDetails.application_status_id !== 10) ||
+            checkFormsCompliant()
+          "
+        >
           <mat-icon>cancel</mat-icon>
           Reject Application
         </button>
@@ -70,6 +79,10 @@
                   mat-button
                   color="accent"
                   (click)="openFormDialog(element)"
+                  [disabled]="
+                    applicationDetails.application_status_id !== 2 &&
+                    applicationDetails.application_status_id !== 10
+                  "
                 >
                   <mat-icon class="action">mode_edit</mat-icon>
                 </button>

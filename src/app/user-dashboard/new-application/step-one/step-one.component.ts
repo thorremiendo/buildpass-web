@@ -7,7 +7,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/core';
 import { NewApplicationFormService } from 'src/app/core/services/new-application-form-service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
@@ -39,6 +39,7 @@ export class StepOneComponent implements OnInit {
   public selectedBuildingPermit;
   constructor(
     private fb: FormBuilder,
+    private route: ActivatedRoute,
     private router: Router,
     private newApplicationFormService: NewApplicationFormService,
     public excavationService: ExcavationPermitService,
@@ -47,6 +48,13 @@ export class StepOneComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    if (this.route.snapshot.paramMap.get('new_application')) {
+      const type = this.route.snapshot.paramMap.get('new_application');
+      this.selectedPermitType = type;
+      this.permitStepOneForm.patchValue({
+        application_type: type,
+      });
+    }
     this.isLoading = true;
     this.userInfo = JSON.parse(localStorage.getItem('user'));
     this.fetchUserBuildingPermit();
@@ -74,7 +82,7 @@ export class StepOneComponent implements OnInit {
       is_representative: new FormControl('', Validators.required),
       is_lot_owner: new FormControl('', Validators.required),
       construction_status: new FormControl('', Validators.required),
-      registered_owner: new FormControl('', Validators.required),
+      registered_owner: new FormControl(''),
       is_within_subdivision: new FormControl('', Validators.required),
       is_under_mortgage: new FormControl('', Validators.required),
       is_owned_by_corporation: new FormControl('', Validators.required),

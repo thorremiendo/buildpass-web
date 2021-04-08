@@ -1,20 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-success-page',
   templateUrl: './success-page.component.html',
-  styleUrls: ['./success-page.component.scss']
+  styleUrls: ['./success-page.component.scss'],
 })
 export class SuccessPageComponent implements OnInit {
-
-  constructor(
-    private router: Router
-  ) { }
+  public applicationNumber;
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.applicationNumber = this.route.snapshot.paramMap.get(
+      'application_number'
+    );
+    console.log(this.applicationNumber);
   }
-  goToHome(){
-    this.router.navigateByUrl("/dashboard")
+  goToHome() {
+    this.router.navigateByUrl('/dashboard');
   }
 }

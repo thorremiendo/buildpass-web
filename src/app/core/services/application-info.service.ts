@@ -96,15 +96,10 @@ export class ApplicationInfoService {
 
   fetchOngoingApplication(id) {
     const url = `/user/${id}/ongoing-application`;
-    return this.api.get(url).pipe(
-      map((data: any) => {
-        return data;
-      }),
-      catchError((error) => {
-        return throwError('Something went wrong.');
-      })
-    );
+
+    return this.api.get(url);
   }
+
   submitZoningFormData(body, id) {
     const url = `/formdata/${id}/zoning`;
     return this.api.post(url, body);
@@ -119,5 +114,22 @@ export class ApplicationInfoService {
         return throwError('Something went wrong.');
       })
     );
+  }
+
+  fetchCbaoTimeline(id) {
+    const url = `/application/${id}/timeline-cbao`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+
+  updateCbaoStatus(body, id) {
+    const url = `/application/${id}/update-status-cbao`;
+    return this.api.post(url, body);
   }
 }

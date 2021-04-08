@@ -21,53 +21,77 @@ export class BuildingPermitComponent implements OnInit {
   public applicationDetails;
   public isLoading: boolean = true;
   public zoningForm;
+
   public forms: any = [
     {
       id: 1,
       src:
         '../../../../assets/forms/Application_Form_for_Certificate_of_Zoning_Compliance.pdf',
+      label: 'Step 1',
     },
     {
       id: 2,
       src:
         '../../../../assets/forms/Unified_Application_for_Building_Permit.pdf',
+      label: 'Step 2',
     },
     {
       id: 3,
       src: '../../../../assets/forms/Sanitary_Plumbing_Permit.pdf',
+      label: 'Step 3',
     },
     {
       id: 48,
       src: '../../../../assets/forms/Notice_of_Construction.pdf',
+      label: 'Step 4',
     },
     {
       id: 4,
       src: '../../../../assets/forms/Electrical_Permit.pdf',
+      label: 'Step 5',
     },
   ];
 
   public fieldSets: any = [
     {
-      label: 'Documentary Requirements',
-      documents: [21, 23, 24, 25, 26, 27],
+      label: 'Step 6',
+      title: 'Documentary Requirements',
+      documents: [25],
     },
     {
-      label: 'Design Analysis',
-      documents: [28, 29, 30, 31, 32, 33],
+      label: 'Step 7',
+      title: 'Design Analysis',
+      documents: [29, 30, 31, 32, 33],
     },
     {
-      label: 'Building Plans',
+      label: 'Step 8',
+      title: 'Building Plans',
       documents: [59, 61, 63, 62, 64],
     },
     {
-      label: 'Professional Details',
+      label: 'Step 9',
+      title:
+        'Professional Tax Receipt and Professional Regulations Commission ID',
       documents: [34, 35, 36, 47, 46],
     },
     {
-      label: 'Other Requirements',
-      documents: [39, 40, 41, 42, 72, 73, 74, 75],
+      label: 'Step 10',
+      title: 'Other Requirements',
+      documents: [39, 41, 42],
     },
   ];
+
+  public representativeDocs: Array<any> = [21];
+  public lesseeDocs: Array<any> = [27, 26, 23, 24];
+  public registeredDocs: Array<any> = [26];
+  public notRegisteredDocs: Array<any> = [103, 23, 24];
+  public isOwnerNotRegisteredDocs: Array<any> = [103];
+  public isWithinSubdivision: Array<any> = [72];
+  public isUnderMortgage: Array<any> = [73];
+  public isOwnedByCorporation: Array<any> = [74];
+  public isHaveCoOwners: Array<any> = [75];
+  public isConstructionStatus: Array<any> = [37, 38];
+  public if10000sqm: Array<any> = [40];
 
   constructor(
     private newApplicationService: NewApplicationService,
@@ -90,21 +114,71 @@ export class BuildingPermitComponent implements OnInit {
           .fetchApplicationInfo(this.applicationId)
           .subscribe((res) => {
             this.applicationDetails = res.data;
+            console.log(this.applicationDetails);
             this.formData = this.dataBindingService.getFormData(
               this.applicationDetails
             );
+            console.log(this.formData);
 
-            /*const isRepresentative = this.applicationDetails.is_representative == '1' ? true : false;
-          const isOwner = this.applicationDetails.rol_status_id == '1' ? true : false;
-          const isRegistered = this.applicationDetails.registered_owner == '1' ? true : false;
+            const isRepresentative =
+              this.applicationDetails.is_representative == 1 ? true : false;
+            const isLessee =
+              this.applicationDetails.rol_status_id == 2 ? true : false;
+            const isRegisteredOwner =
+              this.applicationDetails.is_registered_owner == 1 ? true : false;
+            const isNotRegisteredOwner =
+              this.applicationDetails.is_registered_owner == 2 ? true : false;
+            const isWithinSubdivision =
+              this.applicationDetails.is_within_subdivision == 1 ? true : false;
+            const isUnderMortgage =
+              this.applicationDetails.is_under_mortgage == 1 ? true : false;
+            const isOwnedByCorporation =
+              this.applicationDetails.is_owned_by_corporation == 1
+                ? true
+                : false;
+            const isHaveCoOwners =
+              this.applicationDetails.is_property_have_coowners == 1
+                ? true
+                : false;
+            const isConstructionStatus =
+              this.applicationDetails.construction_status_id == 1
+                ? true
+                : false;
+            const if10000sqm =
+              this.applicationDetails.project_detail.total_floor_area >= 10000
+                ? true
+                : false;
 
-          this.fieldSets[0] = this.fieldSets[0].filter(field => {
-            if (field.for == 'representative' && !isRepresentative) return false;
-            else if (field.for == 'lessee' && isOwner) return false;
-            else if (field.for == 'lot-owner' && !isRegistered) return false;
-            else if (field.for == 'not-owner' && isRegistered) return false;
-            else return true;
-          });*/
+            if10000sqm
+              ? this.fieldSets[4].documents.push(...this.if10000sqm)
+              : null;
+            isRepresentative
+              ? this.fieldSets[0].documents.push(...this.representativeDocs)
+              : null;
+            isLessee
+              ? this.fieldSets[0].documents.push(...this.lesseeDocs)
+              : null;
+            isRegisteredOwner
+              ? this.fieldSets[0].documents.push(...this.registeredDocs)
+              : null;
+            isNotRegisteredOwner
+              ? this.fieldSets[0].documents.push(...this.notRegisteredDocs)
+              : null;
+            isWithinSubdivision
+              ? this.fieldSets[4].documents.push(...this.isWithinSubdivision)
+              : null;
+            isUnderMortgage
+              ? this.fieldSets[4].documents.push(...this.isUnderMortgage)
+              : null;
+            isOwnedByCorporation
+              ? this.fieldSets[4].documents.push(...this.isOwnedByCorporation)
+              : null;
+            isHaveCoOwners
+              ? this.fieldSets[4].documents.push(...this.isHaveCoOwners)
+              : null;
+            isConstructionStatus
+              ? null
+              : this.fieldSets[0].documents.push(...this.isConstructionStatus);
 
             this.initData();
             this.setFilePaths();
@@ -144,6 +218,7 @@ export class BuildingPermitComponent implements OnInit {
   initData() {
     for (let i = 0; i < this.forms.length; i++) {
       this.forms[i] = {
+        label: `Step ${i + 1}`,
         id: this.forms[i].id,
         src: this.forms[i].src,
         description: this.getDocType(this.forms[i].id),
@@ -222,27 +297,29 @@ export class BuildingPermitComponent implements OnInit {
         console.log(this.zoningForm);
       });
   }
-  public async upload(id): Promise<void> {
-    const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
-    if (blob) {
-      console.log({ blob });
-      this.isLoading = true;
-      const uploadDocumentData = {
-        application_id: this.applicationId,
-        user_id: this.user.id,
-        document_id: id,
-        document_path: blob,
-        document_status: '0',
-      };
+  public async upload(form): Promise<void> {
+    if (!form.path) {
+      const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+      if (blob) {
+        console.log({ blob });
+        this.isLoading = true;
+        const uploadDocumentData = {
+          application_id: this.applicationId,
+          user_id: this.user.id,
+          document_id: form.id,
+          document_path: blob,
+          document_status: '0',
+        };
 
-      this.newApplicationService
-        .submitDocument(uploadDocumentData)
-        .subscribe((res) => {
-          this.isLoading = false;
-          this.openSnackBar('Uploaded!');
-        });
-    } else {
-      console.log('Blob failed');
+        this.newApplicationService
+          .submitDocument(uploadDocumentData)
+          .subscribe((res) => {
+            this.isLoading = false;
+            this.openSnackBar('Uploaded!');
+          });
+      } else {
+        console.log('Blob failed');
+      }
     }
   }
 

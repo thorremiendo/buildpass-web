@@ -1,15 +1,103 @@
-<mat-card class="chat-card">
-    <mat-card-header>  
-      <mat-card-title>Hi There! </mat-card-title>
-      <mat-card-subtitle>Welcome to OCPAS Chat, How can we help you?</mat-card-subtitle>
-      <img src="../../../../assets/images/cbao-cartoon.png">
+<mat-card>
+    <mat-card-header *ngIf="headerStart"> 
+        <mat-card-title>Hi There! </mat-card-title>
+        <mat-card-subtitle>Welcome to OCPAS Chat, How can we help you?</mat-card-subtitle>
+        <img src="../../../../assets/images/cbao-cartoon.png">
     </mat-card-header>
-    <mat-card-content>
-      <p>
-      
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button style="border-color: maroon; color: maroon;">Send us a message</button>
-    </mat-card-actions>
+    <mat-card-header *ngIf="!headerStart"> 
+      <div class="d-flex justify-content-between">
+        <button mat-icon-button (click)="backToConversations()">
+          <mat-icon aria-hidden="false" aria-label="back btn" style="color: white;">arrow_back_ios</mat-icon>
+        </button>
+        <!-- <p style="font-weight: bold; text-align: end; color: white;">Conversations </p> -->
+      </div>
+  </mat-card-header>
+      <perfect-scrollbar>
+        <mat-card-content>
+          <div *ngIf="!talkWithEvaluator && !conversations">
+            <div class="pb-3 text-right">
+              <button mat-stroked-button class="btn-bot" (click)="chatbotMessage('Apply')">
+                How to Apply?
+               </button>
+            </div>
+            <div class="pb-3 text-right">
+              <button mat-stroked-button class="btn-bot" (click)="chatbotMessage('Evaluator')">
+                Talk with Evaluator
+               </button>
+            </div>
+            <div class="pb-3 text-right">
+              <button mat-stroked-button class="btn-bot" (click)="chatbotMessage('Conversations')">
+               See all your conversations
+               </button>
+            </div>
+          </div>
+          <div *ngIf="conversations">
+            <div class="mailbox message-widget">
+              <div class="message-center">
+                  <a *ngFor="let message of messages.slice().reverse();" (click)="onSelect(message)">
+                      <div class="user-img">
+                          <img src="{{message.receiver_detail.photo_path}}" alt="user" class="img-circle" width="40">
+                          <!-- <span class="profile-status {{message.status}} pull-right"></span> -->
+                      </div>
+                      <div class="mail-content">
+                          <h5>Office Name</h5>
+                          <span class="mail-desc text-muted">{{message.subject}}</span>
+                          <span class="time text-muted">{{message.created_at | date:'MMM d, y h:mm a' }}</span>
+                      </div>
+                  </a>
+              </div>
+          </div>
+          </div>
+        
+          <div *ngIf="!conversations">
+            <ng-container *ngFor="let c of selectedMessage">
+              <ng-template [ngIf]="c.type == 'incoming'" [ngIfElse]="evenblock">
+                <div class="chat-list odd">
+                  <div class="chat-message">
+                    <div class="chat-block">
+                      <span>
+                        <img src="{{selectedMessage.photo}}" class="img-circle" width="40">
+                      </span>
+                      <span>{{c.message}}</span>
+                    </div>
+                    <span class="chat-date">{{ c.created_at | date:'MMM d, y h:mm a'}}</span>
+                  </div>
+                </div>
+              </ng-template>
+              <ng-template #evenblock>
+                <div *ngIf="talkWithChatbot" class="chat-list even">
+                  <div class="chat-message">
+                    <button mat-stroked-button class="btn-bot pb-2" (click)="chatbotMessage(c.param)">
+                      {{c.msg}}
+                     </button>
+  
+                
+                  </div>
+                </div>
+                <div *ngIf="talkWithEvaluator">
+                   <div  class="chat-list even">
+                  <div class="chat-message">
+                    <div class="chat-block bg-light-info">{{c.message}}</div>
+                    <span class="chat-date">{{ c.created_at |  date:'MMM d, y h:mm a' }}</span>
+                  </div>
+                </div>
+                </div>
+              </ng-template>
+            </ng-container>
+          </div>
+          
+        </mat-card-content>
+      </perfect-scrollbar>
+   
+   
+      <mat-card-actions class="chat-footer">
+        <div fxLayout="row" layout-align="start center">
+          <mat-form-field class="mr-1 ml-1" fxFlex style="max-width: 350px;">
+            <input matInput [(ngModel)]="msg" placeholder="Send message" #myInput (keyup.enter)="OnAddMsg()">
+          </mat-form-field>
+          <button mat-fab color="warn" (click)="OnAddMsg()" [disabled]="!msg">
+            <mat-icon>send</mat-icon>
+          </button>
+    </div>
+      </mat-card-actions>
   </mat-card>

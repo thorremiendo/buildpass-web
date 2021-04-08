@@ -3,9 +3,15 @@
   Click <a href="" target="_blank">here</a> to view all required forms for
   Fencing Permit Application.
 </p>
-<mat-horizontal-stepper linear #stepper (selectionChange)="initPdfViewer($event)">
+<mat-horizontal-stepper
+  linear
+  #stepper
+  (selectionChange)="initPdfViewer($event)"
+>
   <mat-step *ngFor="let form of forms; let i = index">
-    <ng-template matStepLabel>{{ form.description }}</ng-template>
+    <ng-template matStepLabel>{{ form.label }}</ng-template>
+    <h1>{{ form.description }}</h1>
+
     <div class="fillable-form">
       <div class="step-label">
         1. After filling out the form, please click the download/save button on
@@ -13,7 +19,7 @@
       </div>
       <mat-card>
         <mat-card-content>
-          <div id="form-{{i}}">
+          <div id="form-{{ i }}">
             <div id="pdf-viewer" *ngIf="i == 0 && pdfSource">
               <ngx-extended-pdf-viewer
                 [src]="pdfSource"
@@ -45,10 +51,10 @@
       </mat-card>
       <div class="step-label">2. Please upload the Notarized Form.</div>
       <div class="pdf-only">You can only upload PDF files.</div>
-      <app-file-upload 
+      <app-file-upload
         (emitFile)="submitDocument($event, form.id)"
-        description="{{form.description}}"
-        path="{{form.path}}"
+        description="{{ form.description }}"
+        path="{{ form.path }}"
       ></app-file-upload>
     </div>
     <div class="buttons">
@@ -59,16 +65,23 @@
     <ng-template matStepLabel>{{ fieldSet.label }}</ng-template>
     <div class="fieldsets">
       <div *ngFor="let field of fieldSet.documents">
-        <app-file-upload 
+        <app-file-upload
           (emitFile)="submitDocument($event, field.id)"
-          description="{{field.description}}"
-          path="{{field.path}}"
+          description="{{ field.description }}"
+          path="{{ field.path }}"
         ></app-file-upload>
       </div>
     </div>
     <div class="buttons">
-      <button mat-raised-button color="primary" matStepperNext *ngIf="i != fieldSets.length-1; else submit_button;">Next</button>
-      <ng-template #submit_button>   
+      <button
+        mat-raised-button
+        color="primary"
+        matStepperNext
+        *ngIf="i != fieldSets.length - 1; else submit_button"
+      >
+        Next
+      </button>
+      <ng-template #submit_button>
         <button mat-raised-button (click)="submitApplication()">Submit</button>
       </ng-template>
     </div>

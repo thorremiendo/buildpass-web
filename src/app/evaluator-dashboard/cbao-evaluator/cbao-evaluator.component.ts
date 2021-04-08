@@ -1,20 +1,16 @@
-import { UploadSupportingDocumentsComponent } from './../upload-supporting-documents/upload-supporting-documents.component';
 import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks-history-table.component';
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Params } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { FormDetailsComponent } from '../form-details/form-details.component';
 import { documentTypes } from '../../core/enums/document-type.enum';
 import { documentStatus } from '../../core/enums/document-status.enum';
-import { UserService } from 'src/app/core';
 import Swal from 'sweetalert2';
 import { ReleaseBldgPermitComponent } from '../release-bldg-permit/release-bldg-permit.component';
+import { WaterMarkService } from '../../core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-cbao-evaluator',
@@ -30,7 +26,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   public evaluatorDetails;
   public isLoading: boolean = true;
   public evaluatorRole;
-
+  public mainPermitStatus;
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
   constructor(
@@ -38,7 +34,9 @@ export class CbaoEvaluatorComponent implements OnInit {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private changeDetectorRefs: ChangeDetectorRef,
-    private newApplicationService: NewApplicationService
+    private newApplicationService: NewApplicationService,
+    private waterMark: WaterMarkService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -64,8 +62,88 @@ export class CbaoEvaluatorComponent implements OnInit {
       .subscribe((res) => {
         console.log('Application Info:', res);
         this.applicationInfo = res.data;
+        if (this.applicationInfo.application_status_id == 3) {
+          this.checkTechnicalEvaluationCompliant();
+        }
         this.isLoading = false;
       });
+  }
+  checkTechnicalEvaluationDone() {
+    const app = this.applicationInfo;
+    const status = [
+      {
+        id: app.cbao_arch_status_id,
+      },
+      {
+        id: app.cbao_elec_status_id,
+      },
+      {
+        id: app.cbao_san_status_id,
+      },
+      {
+        id: app.cbao_lg_status_id,
+      },
+      {
+        id: app.cbao_str_status_id,
+      },
+    ];
+    const isAllReviewed = status.every((tech) => tech.id == 1 || tech.id == 2);
+
+    return isAllReviewed;
+  }
+  checkTechnicalEvaluationCompliant() {
+    if (this.checkTechnicalEvaluationDone()) {
+      const app = this.applicationInfo;
+      const status = [
+        {
+          id: app.cbao_arch_status_id,
+        },
+        {
+          id: app.cbao_elec_status_id,
+        },
+        {
+          id: app.cbao_san_status_id,
+        },
+        {
+          id: app.cbao_lg_status_id,
+        },
+        {
+          id: app.cbao_str_status_id,
+        },
+      ];
+      const isCompliant = status.every((tech) => tech.id == 1);
+      if (isCompliant) {
+        this.isLoading = true;
+        const body = {
+          parallel_cbao_status_id: 1,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire('Success!', `CBAO Evaluation Done!`, 'success').then(
+              (result) => {
+                this.isLoading = false;
+                window.location.reload();
+              }
+            );
+          });
+      } else if (!isCompliant) {
+        this.isLoading = true;
+        const body = {
+          parallel_cbao_status_id: 2,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire('Success!', `Evaluation Done!`, 'success').then(
+              (result) => {
+                this.isLoading = false;
+                window.location.reload();
+              }
+            );
+          });
+      }
+    }
   }
 
   fetchEvaluatorDetails() {
@@ -124,24 +202,54 @@ export class CbaoEvaluatorComponent implements OnInit {
     return isReviewed;
   }
 
+  handleTechnicalEvaluatorNonCompliant() {
+    if (this.checkFormNonCompliant()) {
+      switch (this.evaluatorRole.code) {
+        case 'CBAO-LG':
+          const lg = {
+            cbao_lg_status_id: 2,
+            evaluator_user_id: this.evaluatorDetails.user_id,
+          };
+          this.updateCbaoStatus(lg);
+          break;
+        case 'CBAO-ARCH':
+          const arch = {
+            cbao_arch_status_id: 2,
+            evaluator_user_id: this.evaluatorDetails.user_id,
+          };
+          this.updateCbaoStatus(arch);
+          break;
+        case 'CBAO-STR':
+          const str = {
+            cbao_str_status_id: 2,
+            evaluator_user_id: this.evaluatorDetails.user_id,
+          };
+          this.updateCbaoStatus(str);
+          break;
+        case 'CBAO-SAN':
+          const san = {
+            cbao_san_status_id: 2,
+            evaluator_user_id: this.evaluatorDetails.user_id,
+          };
+          this.updateCbaoStatus(san);
+          break;
+        case 'CBAO-ELEC':
+          const elec = {
+            cbao_elec_status_id: 2,
+            evaluator_user_id: this.evaluatorDetails.user_id,
+          };
+          this.updateCbaoStatus(elec);
+          break;
+      }
+    } else {
+      this.openSnackBar('Please review documents.');
+    }
+  }
+
   nonCompliant() {
     this.isLoading = true;
     if (this.checkFormsReviewed()) {
-      if (this.applicationInfo.application_status_id == 3) {
-        const body = {
-          parallel_cbao_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            Swal.fire('Success!', `Updated CBAO Status!`, 'success').then(
-              (result) => {
-                window.location.reload();
-              }
-            );
-          });
-      } else if (this.evaluatorRole.code == 'CBAO-DC') {
+      if (this.evaluatorRole.code == 'CBAO-DC') {
         const body = {
           application_status_id: 5,
           dc_status_id: 2,
@@ -203,31 +311,90 @@ export class CbaoEvaluatorComponent implements OnInit {
     }
   }
 
+  otherPermitsReturnToApplicant() {
+    if (this.checkFormsReviewed()) {
+      this.isLoading = true;
+      if (this.evaluatorRole.code == 'CBAO-REC') {
+        const body = {
+          application_status_id: 5,
+          receiving_status_id: 2,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.isLoading = false;
+            this.openSnackBar('Returned to Applicant!');
+            window.location.reload();
+          });
+      } else if (this.evaluatorRole.code == 'CBAO-DC') {
+        const body = {
+          application_status_id: 5,
+          dc_status_id: 2,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.isLoading = false;
+            this.openSnackBar('Returned to Applicant!');
+            window.location.reload();
+          });
+      } else if (this.evaluatorRole.code == 'CBAO-BO') {
+        const body = {
+          application_status_id: 5,
+          bo_status_id: 2,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.isLoading = false;
+            this.openSnackBar('Returned to Applicant!');
+            window.location.reload();
+          });
+      } else {
+        //IF TECHNICAL EVALUATORS\
+        const body = {
+          application_status_id: 5,
+          cbao_status_id: 2,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.isLoading = false;
+            this.openSnackBar('Returned to Applicant!');
+            window.location.reload();
+          });
+      }
+    } else {
+      this.isLoading = false;
+      this.openSnackBar('Review all documents first!');
+    }
+  }
   updateFormStatus() {
-    this.isLoading = true;
-    const CPDO_FORMS = this.dataSource.filter(
-      (obj) =>
-        obj.document_id == 1 ||
-        obj.document_id == 28 ||
-        obj.document_id == 26 ||
-        obj.document_id == 27 ||
-        obj.document_id == 23 ||
-        obj.document_id == 24 ||
-        obj.document_id == 27 ||
-        obj.document_id == 43 ||
-        obj.document_id == 59
-    );
-    const forReview = CPDO_FORMS.forEach((element) => {
-      let body = {
-        document_status_id: 0,
-      };
-      this.newApplicationService
-        .updateDocumentFile(body, element.id)
-        .subscribe((res) => {});
-    });
-    this.updateApplicationStatus();
-    console.log(forReview);
-    return forReview;
+    if (this.applicationInfo.permit_type_id == 1) {
+      this.isLoading = true;
+      const CPDO_FORMS = this.dataSource.filter(
+        (obj) =>
+          obj.document_id == 1 ||
+          obj.document_id == 28 ||
+          obj.document_id == 26 ||
+          obj.document_id == 27 ||
+          obj.document_id == 23 ||
+          obj.document_id == 24 ||
+          obj.document_id == 27 ||
+          obj.document_id == 43 ||
+          obj.document_id == 59
+      );
+      const forReview = CPDO_FORMS.forEach((element) => {
+        let body = {
+          document_status_id: 0,
+        };
+        this.newApplicationService
+          .updateDocumentFile(body, element.id)
+          .subscribe((res) => {});
+      });
+      this.updateApplicationStatus();
+      return forReview;
+    }
   }
 
   updateApplicationStatus() {
@@ -247,27 +414,41 @@ export class CbaoEvaluatorComponent implements OnInit {
             }
           );
         });
-    } else if (this.applicationInfo.permit_type_id !== 1) {
+    } else if (
+      this.applicationInfo.permit_type_id !== 1 ||
+      this.applicationInfo.permit_type_id !== 2
+    ) {
       if (this.checkFormsReviewed()) {
+        this.isLoading = true;
         const body = {
-          application_status_id: 35,
+          application_status_id: 18,
           receiving_status_id: 1,
         };
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
-            this.fetchApplicationInfo();
-            Swal.fire(
-              'Success!',
-              `Forwarded to Technical Evaluators!`,
-              'success'
-            ).then((result) => {
-              this.isLoading = false;
-              window.location.reload();
+            this.dataSource.forEach((element) => {
+              let body = {
+                document_status_id: 0,
+              };
+              this.newApplicationService
+                .updateDocumentFile(body, element.id)
+                .subscribe((res) => {});
             });
+            setTimeout(() => {
+              Swal.fire(
+                'Success!',
+                `Forwarded to Technical Evaluators!`,
+                'success'
+              ).then((result) => {
+                this.isLoading = false;
+                window.location.reload();
+              });
+            }, 3000);
           });
       } else {
-        alert('Review All Documents First!');
+        this.openSnackBar('Please review all documents first!');
+        this.isLoading = false;
       }
     }
   }
@@ -283,20 +464,60 @@ export class CbaoEvaluatorComponent implements OnInit {
     }
   }
   forwardToDivisionChief() {
-    const body = {
-      application_status_id: 12,
-    };
-    this.applicationService
-      .updateApplicationStatus(body, this.applicationId)
-      .subscribe((res) => {
-        Swal.fire(
-          'All documents are compliant!!',
-          `Notified Division Chief for Evaluation!`,
-          'success'
-        ).then((result) => {
-          this.isLoading = false;
-          window.location.reload();
+    if (this.applicationInfo.main_permit_id == null) {
+      this.isLoading = true;
+      const body = {
+        application_status_id: 12,
+        cbao_status_id: 1,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          Swal.fire(
+            'All documents are compliant!!',
+            `Notified Division Chief for Evaluation!`,
+            'success'
+          ).then((result) => {
+            this.isLoading = false;
+            window.location.reload();
+          });
         });
+    } else {
+      this.checkIfMainPermit();
+    }
+  }
+  checkIfMainPermit() {
+    this.isLoading = true;
+    this.applicationService
+      .fetchApplicationInfo(this.applicationInfo.main_permit_id)
+      .subscribe((res) => {
+        this.mainPermitStatus = res.data.application_status_id;
+        if (
+          this.mainPermitStatus == 12 ||
+          this.mainPermitStatus == 13 ||
+          this.mainPermitStatus == 4 ||
+          this.mainPermitStatus == 8 ||
+          this.mainPermitStatus == 11
+        ) {
+          const body = {
+            application_status_id: 12,
+          };
+          this.applicationService
+            .updateApplicationStatus(body, this.applicationId)
+            .subscribe((res) => {
+              Swal.fire(
+                'All documents are compliant!!',
+                `Notified Division Chief for Evaluation!`,
+                'success'
+              ).then((result) => {
+                this.isLoading = false;
+                window.location.reload();
+              });
+            });
+        } else {
+          this.isLoading = false;
+          this.openSnackBar('Please review associated Building Permit first!');
+        }
       });
   }
   notifyBuildingOfficial() {
@@ -336,14 +557,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
-            Swal.fire(
-              'Success!',
-              `Building Permit Application Approved! Notified Applicant for Payment`,
-              'success'
-            ).then((result) => {
-              this.isLoading = false;
-              window.location.reload();
-            });
+            this.addWatermarkToAllCompliant();
           });
       } else {
         Swal.fire(
@@ -362,39 +576,79 @@ export class CbaoEvaluatorComponent implements OnInit {
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
         .subscribe((res) => {
-          Swal.fire(
-            'Success!',
-            `Notified Applicant for Payment`,
-            'success'
-          ).then((result) => {
-            this.isLoading = false;
-            window.location.reload();
-          });
+          this.addWatermarkToAllCompliant();
         });
     }
   }
-  handleDepartmentStatus() {
-    if (this.checkFormsCompliant()) {
-      const body = {
-        parallel_cbao_status_id: 1,
-      };
-      this.applicationService
-        .updateApplicationStatus(body, this.applicationId)
-        .subscribe((res) => {
-          Swal.fire('Success!', `CBAO Evaluation Done!`, 'success').then(
-            (result) => {
-              this.isLoading = false;
-              window.location.reload();
-            }
-          );
-        });
-    } else {
-      Swal.fire('Warning!', `Please Review All Documents!`, 'warning').then(
-        (result) => {
-          this.isLoading = false;
-        }
-      );
+  addWatermarkToAllCompliant() {
+    this.dataSource.forEach((element) => {
+      this.isLoading = true;
+      if (element.document_id !== 50) {
+        console.log(element);
+        this.waterMark
+          .insertWaterMark(element.document_path, 'compliant')
+          .then((blob) => {
+            const updateFileData = {
+              document_status_id: 1,
+              document_path: blob,
+            };
+            this.newApplicationService
+              .updateDocumentFile(updateFileData, element.id)
+              .subscribe((res) => {
+                this.isLoading = false;
+                window.location.reload();
+              });
+          });
+      }
+    });
+  }
+  handleTechnicalEvaluatorCompliant() {
+    switch (this.evaluatorRole.code) {
+      case 'CBAO-LG':
+        const lg = {
+          cbao_lg_status_id: 1,
+          evaluator_user_id: this.evaluatorRole.id,
+        };
+        this.updateCbaoStatus(lg);
+        break;
+      case 'CBAO-ARCH':
+        const arch = {
+          cbao_arch_status_id: 1,
+          evaluator_user_id: this.evaluatorRole.id,
+        };
+        this.updateCbaoStatus(arch);
+        break;
+      case 'CBAO-STR':
+        const str = {
+          cbao_str_status_id: 1,
+          evaluator_user_id: this.evaluatorRole.id,
+        };
+        this.updateCbaoStatus(str);
+        break;
+      case 'CBAO-SAN':
+        const san = {
+          cbao_san_status_id: 1,
+          evaluator_user_id: this.evaluatorRole.id,
+        };
+        this.updateCbaoStatus(san);
+        break;
+      case 'CBAO-ELEC':
+        const elec = {
+          cbao_elec_status_id: 1,
+          evaluator_user_id: this.evaluatorRole.id,
+        };
+        this.updateCbaoStatus(elec);
+        break;
     }
+  }
+  updateCbaoStatus(body) {
+    this.applicationService
+      .updateCbaoStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire('Success!', `Review Saved!`, 'success').then((result) => {
+          window.location.reload();
+        });
+      });
   }
   handleRelease() {
     const body = {
@@ -473,6 +727,12 @@ export class CbaoEvaluatorComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
       this.ngOnInit();
+    });
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
     });
   }
 }

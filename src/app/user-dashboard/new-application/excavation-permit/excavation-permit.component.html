@@ -10,7 +10,8 @@
     (selectionChange)="initPdfViewer($event)"
   >
     <mat-step *ngFor="let form of forms; let i = index">
-      <ng-template matStepLabel>{{ form.description }}</ng-template>
+      <ng-template matStepLabel>{{ form.label }}</ng-template>
+      <h1>{{ form.description }}</h1>
       <div class="fillable-form">
         <div class="step-label">
           1. After filling out the form, please click the download/save button
@@ -48,16 +49,23 @@
             </div>
           </mat-card-content>
         </mat-card>
-        <div class="step-label">2. Please upload the Notarized Form.</div>
+        <!-- <div class="step-label">2. Please upload the Notarized Form.</div>
         <div class="pdf-only">You can only upload PDF files.</div>
         <app-file-upload
           (emitFile)="submitDocument($event, form.id)"
           description="{{ form.description }}"
           path="{{ form.path }}"
-        ></app-file-upload>
+        ></app-file-upload> -->
       </div>
       <div class="buttons">
-        <button mat-raised-button color="primary" matStepperNext>Next</button>
+        <button
+          mat-raised-button
+          color="primary"
+          matStepperNext
+          (click)="upload(form)"
+        >
+          Next
+        </button>
       </div>
     </mat-step>
     <mat-step *ngFor="let fieldSet of fieldSets; let i = index">
@@ -81,7 +89,16 @@
           Next
         </button>
         <ng-template #submit_button>
-          <button mat-raised-button (click)="submitApplication()">
+          <button
+            mat-raised-button
+            (click)="submitApplication()"
+            [disabled]="isSubmitting"
+          >
+            <ng-container *ngIf="isSubmitting">
+              <div class="spinner">
+                <mat-spinner></mat-spinner>
+              </div>
+            </ng-container>
             Submit
           </button>
         </ng-template>
@@ -89,3 +106,8 @@
     </mat-step>
   </mat-horizontal-stepper>
 </div>
+<ng-container *ngIf="!applicationDetails">
+  <div class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-container>

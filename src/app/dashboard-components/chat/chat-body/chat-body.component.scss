@@ -1,8 +1,36 @@
 
-.chat-card {
-    max-width: 300px;
-    max-height: 400px;
+mat-card {
+    max-width:450px;
+    max-height: 600px;
+  
+    mat-card-header{
+      max-height: 200px;
+      max-width:450px;
+      min-width: 450px;
+     
+      background-color: maroon;
+ 
+       mat-card-title{
+           color:white;
+       }
+       mat-card-subtitle{
+           color:white
+       }
+   }
 
+   mat-card-content{
+     max-height: 300px;
+     min-height: 300px;
+     max-width:450px;
+     min-width: 450px;
+     overflow-y: auto;
+
+   }
+
+   mat-card-actions{
+   max-width: 450px;
+  
+   }
   }
 
   img {
@@ -10,16 +38,29 @@
     max-width: 100px;
     max-height: 200px;
 
-  }
-  
-  mat-card-header{
-     max-height: 200px;
-     background-color: maroon;
 
-      mat-card-title{
-          color:white;
-      }
-      mat-card-subtitle{
-          color:white
-      }
   }
+
+
+
+.btn-bot{
+    
+    width: 230px;
+    border-color: maroon;
+    color: maroon;
+    
+
+    .btn-bot:hover{
+      background-color: maroon;
+      color:white
+
+    }
+  }
+
+
+  
+ 
+
+
+  
+ 

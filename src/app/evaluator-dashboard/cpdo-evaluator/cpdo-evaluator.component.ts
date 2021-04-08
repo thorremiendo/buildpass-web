@@ -293,7 +293,7 @@ export class CpdoEvaluatorComponent implements OnInit {
 
   updateFormStatus() {
     this.isLoading = true;
-    const forReview = this.forms.forEach((element) => {
+    this.forms.forEach((element) => {
       if (element.document_id !== 43 && element.document_id !== 1) {
         let body = {
           document_status_id: 0,
@@ -304,8 +304,6 @@ export class CpdoEvaluatorComponent implements OnInit {
       }
     });
     this.updateApplicationStatus();
-    console.log(forReview);
-    return forReview;
   }
 
   updateApplicationStatus() {
@@ -317,11 +315,11 @@ export class CpdoEvaluatorComponent implements OnInit {
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
         this.isLoading = false;
-        Swal.fire('Success!', `Notified BFP, CEPMO, CBAO!`, 'success').then(
-          (result) => {
-            window.location.reload();
-          }
-        );
+        Swal.fire(
+          'Success!',
+          `BFP, CEPMO, CBAO Notified`,
+          'success'
+        ).then((result) => {});
         this.ngOnInit();
       });
   }

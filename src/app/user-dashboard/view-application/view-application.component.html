@@ -108,129 +108,159 @@
     </mat-card-content>
   </mat-card>
 
-
-<div class="app-timeline">
-  <mat-card>
-    <mat-card-content>
-      <h4 style="color: #313131" class="mb-4">
-        <strong>Application Timeline</strong>
-        <hr />
-      </h4>
-      <div>
-        <mat-expansion-panel
-          (opened)="panelOpenState = true"
-          (closed)="panelOpenState = false"
-          class="mb-2"
-        >
-          <mat-expansion-panel-header>
-            <mat-panel-title
-              ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
-                >timeline</mat-icon
-              >
-              View Timeline</mat-panel-title
-            >
-          </mat-expansion-panel-header>
-          <app-application-timeline></app-application-timeline>
-        </mat-expansion-panel>
-      </div>
-    </mat-card-content>
-  </mat-card>
-</div>
-<div class="app-forms" >
-  <mat-card>
-    <mat-card-content>
-      <div>
+  <div class="app-timeline">
+    <mat-card>
+      <mat-card-content>
         <h4 style="color: #313131" class="mb-4">
-          <strong>Application Forms</strong>
+          <strong>Application Timeline</strong>
+          <hr />
         </h4>
-      </div>
-      <div>
         <div>
-          <table mat-table [dataSource]="dataSource">
-            <!--- Note that these columns can be defined in any order.
-                          The actual rendered columns are set as a property on the row definition" -->
-            <ng-container matColumnDef="index">
-              <th mat-header-cell *matHeaderCellDef>No.</th>
-              <td mat-cell *matCellDef="let element; let i = index">
-                {{ i + 1 }}
-              </td>
-            </ng-container>
-            <!--  Name Column -->
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef>
-                Documentary Requirements
-              </th>
-              <td mat-cell *matCellDef="let element">
-                {{ getDocType(element.document_id) }}
-              </td>
-            </ng-container>
-
-            <!-- Status Column -->
-            <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef>Status</th>
-              <td
-                mat-cell
-                *matCellDef="let element"
-                [style.color]="
-                  element.document_status_id == 1
-                    ? 'green'
-                    : element.document_status_id == 0
-                    ? 'black'
-                    : 'red'
-                "
+          <mat-expansion-panel
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"
+            class="mb-2"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title
+                ><mat-icon
+                  aria-hidden="false"
+                  class="mr-2"
+                  style="color: maroon"
+                  >timeline</mat-icon
+                >
+                View Timeline</mat-panel-title
               >
-                {{ getDocStatus(element.document_status_id) }}
-              </td>
-            </ng-container>
-            <!-- Remarks Column -->
-            <ng-container matColumnDef="remarks">
-              <th mat-header-cell *matHeaderCellDef>Remarks</th>
-              <td mat-cell *matCellDef="let element">
-                <!-- <a (click)="openRemarksHistory(element)" style="color: orange">
+            </mat-expansion-panel-header>
+            <app-application-timeline></app-application-timeline>
+          </mat-expansion-panel>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="app-forms" *ngIf="!isLoading">
+    <mat-card>
+      <mat-card-content>
+        <div>
+          <h4 style="color: #313131" class="mb-4">
+            <strong>Application Forms</strong>
+          </h4>
+        </div>
+        <div>
+          <div>
+            <table mat-table [dataSource]="dataSource">
+              <!--- Note that these columns can be defined in any order.
+                          The actual rendered columns are set as a property on the row definition" -->
+              <ng-container matColumnDef="index">
+                <th mat-header-cell *matHeaderCellDef>No.</th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                  {{ i + 1 }}
+                </td>
+              </ng-container>
+              <!--  Name Column -->
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>
+                  Documentary Requirements
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ getDocType(element.document_id) }}
+                </td>
+              </ng-container>
+
+              <!-- Status Column -->
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Status</th>
+                <td
+                  mat-cell
+                  *matCellDef="let element"
+                  [style.color]="
+                    element.document_status_id == 1
+                      ? 'green'
+                      : element.document_status_id == 0
+                      ? 'black'
+                      : 'red'
+                  "
+                >
+                  {{ getDocStatus(element.document_status_id) }}
+                </td>
+              </ng-container>
+              <!-- Remarks Column -->
+              <ng-container matColumnDef="remarks">
+                <th mat-header-cell *matHeaderCellDef>Remarks</th>
+                <td mat-cell *matCellDef="let element">
+                  <!-- <a (click)="openRemarksHistory(element)" style="color: orange">
                   View
                 </a> -->
-                <mat-icon class="remark" (click)="openRemarksHistory(element)"
-                  >remove_red_eye</mat-icon
-                >
-              </td>
-            </ng-container>
+                  <mat-icon class="remark" (click)="openRemarksHistory(element)"
+                    >remove_red_eye</mat-icon
+                  >
+                </td>
+              </ng-container>
 
-            <!-- Action Column -->
-            <ng-container matColumnDef="action">
-              <th mat-header-cell *matHeaderCellDef>Action</th>
-              <td mat-cell *matCellDef="let element">
+              <!-- Action Column -->
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef>Action</th>
+                <td mat-cell *matCellDef="let element">
+                  <ng-container
+                    *ngIf="applicationDetails.application_status_id !== 11"
+                  >
+                    <button
+                      [disabled]="
+                        element.document_status_id !== 2 ||
+                        applicationDetails.application_status_id !== 5
+                      "
+                      mat-button
+                      color="accent"
+                      (click)="openFormDialog(element)"
+                    >
+                      <mat-icon class="action">mode_edit</mat-icon>
+                    </button>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="applicationDetails.application_status_id == 11"
+                  >
+                    <a href="{{ element.document_path }}" target="_blank"
+                      >Print</a
+                    >
+                  </ng-container>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <div class="text-right mt-5">
+              <ng-container *ngIf="this.applicationDetails.permit_type_id == 1">
                 <button
-                  [disabled]="
-                    element.document_status_id !== 2 ||
-                    applicationDetails.application_status_id !== 5
-                  "
-                  mat-button
-                  color="accent"
-                  (click)="openFormDialog(element)"
+                  mat-raised-button
+                  color="warn"
+                  (click)="onSave()"
+                  [disabled]="applicationDetails.application_status_id !== 5"
                 >
-                  <mat-icon class="action">mode_edit</mat-icon>
+                  Save
+                </button></ng-container
+              >
+              <ng-container
+                *ngIf="
+                  this.applicationDetails.permit_type_id !== 1 &&
+                  this.applicationDetails.permit_type_id !== 2
+                "
+              >
+                <button
+                  mat-raised-button
+                  color="warn"
+                  (click)="otherPermitsSave()"
+                  [disabled]="applicationDetails.application_status_id !== 5"
+                >
+                  Save
                 </button>
-              </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-          </table>
-          <div class="text-right mt-5">
-            <button
-              mat-raised-button
-              color="warn"
-              (click)="onSave()"
-              [disabled]="applicationDetails.application_status_id !== 5"
-            >
-              Save
-            </button>
+              </ng-container>
+            </div>
           </div>
         </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
-</div>
-<div class="spinner" *ngIf="isLoading">
-  <mat-spinner></mat-spinner>
-</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="spinner" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
 </div>

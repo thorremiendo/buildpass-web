@@ -1,3 +1,6 @@
+import { UserGuardGuard } from './../../core/guard/user-guard.guard';
+import { UserGuardService } from './../../core/guard/user-guard.service';
+import { UserResolver } from './../../core/guard/user.resolver';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ExistingApplicationsComponent } from '../existing-applications/existing-applications.component';
@@ -27,7 +30,7 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    //canActivate: [UserGuardService],
+    canActivate: [UserGuardGuard],
     children: [
       {
         path: '',
@@ -163,11 +166,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    scrollPositionRestoration: 'enabled',
-    anchorScrolling: 'enabled',
-    scrollOffset: [0, 10]
-  })],
+  imports: [
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'enabled',
+      anchorScrolling: 'enabled',
+      scrollOffset: [0, 10],
+    }),
+  ],
   exports: [RouterModule],
 })
 export class UserDashboardRoutingModule {}

@@ -6,7 +6,7 @@ import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
-import { UserService } from '../../core/services/user.service';
+import { RegisterAccountFormService, User } from '../../core';
 
 
 
@@ -17,9 +17,12 @@ import { UserService } from '../../core/services/user.service';
 })
 export class SignInComponent implements OnInit {
   public hide: boolean = true;
+  public fireBaseUser: any;
+  public fireBaseUid: any;
   public _signinForm: FormGroup;
   public user;
   private _submitted: boolean = false;
+  public userDetails;
  
 
   constructor(
@@ -28,8 +31,8 @@ export class SignInComponent implements OnInit {
     private _fb: FormBuilder,
     private _ngZone: NgZone,
     private _afs: AngularFirestore,
-    private _userService: UserService,
-   
+    private _registerAccountFormService: RegisterAccountFormService,
+  
     
   ) {
     this.createForm();
@@ -65,14 +68,21 @@ export class SignInComponent implements OnInit {
     this._authService
       .GoogleAuth()
       .then((result) => {
-        this._authService.currentUserSubject.next(result);
         this._ngZone.run(() => {
           if (result.additionalUserInfo.isNewUser != true) {
             this.SetUserDataFire(result.user.uid, result.user.emailVerified);
             this._authService.getToken(result.user.uid)
-            this._router.navigate(['dashboard']);
           } else {
-            this._router.navigateByUrl('registration/personal-info');
+            const user = result.additionalUserInfo.profile;
+            this.fireBaseUid = result.user;
+            this.fireBaseUser = user;
+            console.log("firebase UID" + this.fireBaseUid.value);
+            console.log("firebase USer" + this.fireBaseUid.value);
+          
+            this.SetUserDataFireGoogle(this.fireBaseUser);
+            this.createUserDetailsGoogle(this.fireBaseUser);
+            this._registerAccountFormService.setRegisterAccountInfo(this.userDetails);
+            this._router.navigateByUrl('registration');
           }
         });
       })
@@ -92,6 +102,45 @@ export class SignInComponent implements OnInit {
     return userRef.set(userData, {
       merge: true,
     });
+  }
+
+  SetUserDataFireGoogle(user) {
+    const userRef: AngularFirestoreDocument<any> = this._afs.doc(`users/${this.fireBaseUid.uid}`
+    );
+    const userData: User = {
+      firebase_uid: this.fireBaseUid.uid,
+      email: user.email, 
+      first_name: user.given_name,
+      last_name: user.family_name,
+      emailVerified: user.verified_email,
+      is_evaluator: false,
+    };
+    return userRef.set(userData, {
+      merge: true,
+    });
+  }
+
+
+  createUserDetails(value) {
+    this.userDetails ={
+      "firebase_uid": this.fireBaseUser.uid,
+      "first_name": value.first_name,
+      "last_name":  value.last_name,
+      "email_address": value.email,
+      "is_evaluator": false,
+      "emailVerified": this.fireBaseUser.emailVerified
+    };
+  }
+
+  createUserDetailsGoogle(user) {
+    this.userDetails ={
+      "firebase_uid": this.fireBaseUid.uid,
+      "first_name": user.given_name,
+      "last_name":  user.family_name,
+      "email_address": user.email,
+      "is_evaluator": false,
+      "emailVerified": user.verified_email,
+    };
   }
 
   ngOnInit(): void {

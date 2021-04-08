@@ -48,7 +48,7 @@ export class UploadSupportingDocumentsComponent implements OnInit {
   handleUploadSupportingFiles() {
     const id = this.data.applicationDetails.id;
     const body = {
-      evaluator_user_id: this.data.evaluator.id,
+      evaluator_user_id: this.data.evaluator.user_id,
       title: this.fileName.value,
       file_path: this.selectedFile,
     };

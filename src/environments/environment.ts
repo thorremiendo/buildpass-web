@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   api_url: `http://ocpas-api.test/api`,
-  //api_url: `http://localhost:8000/api`,
+ // api_url: `http://ocpasapitest-env.eba-rycu4cp5.ap-southeast-1.elasticbeanstalk.com/api`,
+
   firebase: {
     apiKey: 'AIzaSyA2KX_f0SKSYcJhqdDGdBK5yfnlxYYWuHU',
     authDomain: 'baguio-ocpas.firebaseapp.com',

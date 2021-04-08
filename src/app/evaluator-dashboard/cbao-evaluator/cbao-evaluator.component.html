@@ -1,380 +1,441 @@
-<mat-card *ngIf="!isLoading">
-  <mat-card-content>
-    <div class="d-flex justify-content-between align-items-center">
-      <h4 style="color: #400c06" class="mb-4">
-        <strong>Application Forms</strong>
-      </h4>
-      <div class="reject" *ngIf="evaluatorRole.code == 'CBAO-BO'">
-        <button mat-raised-button color="accent" (click)="handleReject()">
-          <mat-icon>cancel</mat-icon>
-          Reject Application
-        </button>
+<ng-container *ngIf="applicationInfo">
+  <mat-card *ngIf="!isLoading">
+    <mat-card-content>
+      <div class="d-flex justify-content-between align-items-center">
+        <h4 style="color: #400c06" class="mb-4">
+          <strong>Application Forms</strong>
+        </h4>
+        <div class="reject" *ngIf="evaluatorRole.code == 'CBAO-BO'">
+          <button
+            mat-raised-button
+            color="accent"
+            (click)="handleReject()"
+            [disabled]="checkFormsCompliant()"
+          >
+            <mat-icon>cancel</mat-icon>
+            Reject Application
+          </button>
+        </div>
       </div>
-    </div>
-    <ng-container *ngIf="applicationInfo.permit_type_id == 1">
-      <div
-        *ngIf="
-          applicationInfo.application_status_id == 3 ||
-          applicationInfo.application_status_id == 12
-        "
-      >
-        <h5>
-          <strong> BFP Status: </strong>
-          {{
-            applicationInfo.parallel_bfp_status_id == 0
-              ? "Pending"
-              : applicationInfo.parallel_bfp_status_id == 1
-              ? "Review Done - Compliant"
-              : "Review Done - Non Compliant"
-          }}
-        </h5>
-        <h5>
-          <strong> CEPMO Status: </strong>
-          {{
-            applicationInfo.parallel_cepmo_status_id == 0
-              ? "Pending"
-              : applicationInfo.parallel_cepmo_status_id == 1
-              ? "Review Done - Compliant"
-              : "Review Done - Non Compliant"
-          }}
-        </h5>
-        <h5>
-          <strong> CBAO Status: </strong>
-          {{
-            applicationInfo.parallel_cbao_status_id == 0
-              ? "Pending"
-              : applicationInfo.parallel_cbao_status_id == 1
-              ? "Review Done - Compliant"
-              : "Review Done - Non Compliant"
-          }}
-        </h5>
-      </div>
-    </ng-container>
+      <ng-container *ngIf="applicationInfo.permit_type_id == 1">
+        <div
+          *ngIf="
+            applicationInfo.application_status_id == 3 ||
+            applicationInfo.application_status_id == 12
+          "
+        >
+          <h5>
+            <strong> BFP Status: </strong>
+            {{
+              applicationInfo.parallel_bfp_status_id == 0
+                ? "Pending"
+                : applicationInfo.parallel_bfp_status_id == 1
+                ? "Review Done - Compliant"
+                : "Review Done - Non Compliant"
+            }}
+          </h5>
+          <h5>
+            <strong> CEPMO Status: </strong>
+            {{
+              applicationInfo.parallel_cepmo_status_id == 0
+                ? "Pending"
+                : applicationInfo.parallel_cepmo_status_id == 1
+                ? "Review Done - Compliant"
+                : "Review Done - Non Compliant"
+            }}
+          </h5>
+          <h5>
+            <strong> CBAO Status: </strong>
+            {{
+              applicationInfo.parallel_cbao_status_id == 0
+                ? "Pending"
+                : applicationInfo.parallel_cbao_status_id == 1
+                ? "Review Done - Compliant"
+                : "Review Done - Non Compliant"
+            }}
+          </h5>
+        </div>
+      </ng-container>
 
-    <mat-tab-group>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon>assignment</mat-icon>
-          Applicant Forms
-        </ng-template>
+      <mat-tab-group>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>assignment</mat-icon>
+            Applicant Forms
+          </ng-template>
 
-        <div>
-          <div class="table-container">
-            <table mat-table [dataSource]="dataSource">
-              <ng-container matColumnDef="index">
-                <th mat-header-cell *matHeaderCellDef>No.</th>
-                <td mat-cell *matCellDef="let element; let i = index">
-                  {{ i + 1 }}
-                </td>
-              </ng-container>
-              <!--  Name Column -->
-              <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef>Uploaded Documents</th>
-                <td mat-cell *matCellDef="let element">
-                  {{ getDocType(element.document_id) }}
-                </td>
-              </ng-container>
+          <div>
+            <div class="table-container">
+              <table mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="index">
+                  <th mat-header-cell *matHeaderCellDef>No.</th>
+                  <td mat-cell *matCellDef="let element; let i = index">
+                    {{ i + 1 }}
+                  </td>
+                </ng-container>
+                <!--  Name Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>Uploaded Documents</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ getDocType(element.document_id) }}
+                  </td>
+                </ng-container>
 
-              <!-- Status Column -->
-              <ng-container matColumnDef="status">
-                <th mat-header-cell *matHeaderCellDef>Status</th>
-                <td
-                  mat-cell
-                  *matCellDef="let element"
-                  [style.color]="
-                    element.document_status_id == 1
-                      ? 'green'
-                      : element.document_status_id == 0
-                      ? 'black'
-                      : 'red'
+                <!-- Status Column -->
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef>Status</th>
+                  <td
+                    mat-cell
+                    *matCellDef="let element"
+                    [style.color]="
+                      element.document_status_id == 1
+                        ? 'green'
+                        : element.document_status_id == 0
+                        ? 'black'
+                        : 'red'
+                    "
+                  >
+                    {{ getDocStatus(element.document_status_id) }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="remarks">
+                  <th mat-header-cell *matHeaderCellDef>Remarks</th>
+                  <td mat-cell *matCellDef="let element">
+                    <mat-icon
+                      class="remark"
+                      (click)="openRemarksHistory(element)"
+                      [matBadge]="element.document_revision.length"
+                      matBadgeColor="warn"
+                      >remove_red_eye</mat-icon
+                    >
+                  </td>
+                </ng-container>
+
+                <!-- Action Column -->
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef>Action</th>
+                  <td mat-cell *matCellDef="let element">
+                    <ng-container *ngIf="applicationInfo.permit_type_id == 1">
+                      <button
+                        mat-button
+                        color="accent"
+                        (click)="openFormDialog(element)"
+                        [disabled]="applicationInfo.application_status_id !== 1"
+                        *ngIf="evaluatorRole.code == 'CBAO-REC'"
+                      >
+                        <mat-icon class="action">mode_edit</mat-icon>
+                      </button>
+                      <button
+                        mat-button
+                        color="accent"
+                        (click)="openFormDialog(element)"
+                        [disabled]="applicationInfo.application_status_id !== 3"
+                        *ngIf="
+                          evaluatorRole.code == 'CBAO-LG' ||
+                          evaluatorRole.code == 'CBAO-ARCH' ||
+                          evaluatorRole.code == 'CBAO-STR' ||
+                          evaluatorRole.code == 'CBAO-SAN' ||
+                          evaluatorRole.code == 'CBAO-ELEC' ||
+                          evaluatorRole.code == 'CBAO-MEC'
+                        "
+                      >
+                        <mat-icon class="action">mode_edit</mat-icon>
+                      </button>
+                      <button
+                        mat-button
+                        color="accent"
+                        (click)="openFormDialog(element)"
+                        [disabled]="
+                          applicationInfo.application_status_id !== 12
+                        "
+                        *ngIf="evaluatorRole.code == 'CBAO-DC'"
+                      >
+                        <mat-icon class="action">mode_edit</mat-icon>
+                      </button>
+                      <button
+                        mat-button
+                        color="accent"
+                        (click)="openFormDialog(element)"
+                        [disabled]="
+                          applicationInfo.application_status_id !== 13
+                        "
+                        *ngIf="evaluatorRole.code == 'CBAO-BO'"
+                      >
+                        <mat-icon class="action">mode_edit</mat-icon>
+                      </button>
+                    </ng-container>
+                    <ng-container *ngIf="applicationInfo.permit_type_id !== 1">
+                      <button
+                        mat-button
+                        color="accent"
+                        (click)="openFormDialog(element)"
+                        *ngIf="evaluatorRole.code !== 'CBAO-REL'"
+                        [disabled]="
+                          (applicationInfo.application_status_id !== 1 &&
+                            evaluatorRole.code == 'CBAO-REC') ||
+                          (applicationInfo.application_status_id == 12 &&
+                            evaluatorRole.code !== 'CBAO-DC') ||
+                          applicationInfo.application_status_id == 5 ||
+                          (applicationInfo.application_status_id == 13 &&
+                            evaluatorRole.code !== 'CBAO-BO')
+                        "
+                      >
+                        <mat-icon class="action">mode_edit</mat-icon>
+                      </button>
+                    </ng-container>
+
+                    <a
+                      href="{{ element.document_path }}"
+                      target="_blank"
+                      *ngIf="evaluatorRole.code == 'CBAO-REL'"
+                      >Print</a
+                    >
+                  </td>
+                </ng-container>
+
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumns; sticky: true"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                ></tr>
+              </table>
+            </div>
+
+            <ng-container *ngIf="applicationInfo.permit_type_id == 1">
+              <!-- TODO MAKE THIS A COMPONENT -->
+              <div *ngIf="applicationInfo.application_status_id == 13">
+                <button
+                  class="mt-2 w-100"
+                  mat-raised-button
+                  color="primary"
+                  (click)="openBldgPermitDialog()"
+                  *ngIf="evaluatorRole.code == 'CBAO-BO'"
+                  [disabled]="checkBuildingPermitUploaded()"
+                >
+                  Release Building Permit
+                </button>
+              </div>
+              <mat-progress-bar
+                mode="indeterminate"
+                *ngIf="isLoading"
+              ></mat-progress-bar>
+              <div *ngIf="evaluatorRole.code !== 'CBAO-BO'"></div>
+
+              <div class="d-flex justify-content-between mt-5">
+                <div
+                  *ngIf="
+                    applicationInfo.application_status_id !== 11 &&
+                    !checkFormsCompliant()
                   "
                 >
-                  {{ getDocStatus(element.document_status_id) }}
-                </td>
-              </ng-container>
-              <ng-container matColumnDef="remarks">
-                <th mat-header-cell *matHeaderCellDef>Remarks</th>
-                <td mat-cell *matCellDef="let element">
-                  <mat-icon
-                    class="remark"
-                    (click)="openRemarksHistory(element)"
-                    [matBadge]="element.document_revision.length"
-                    matBadgeColor="warn"
-                    >remove_red_eye</mat-icon
+                  <div
+                    *ngIf="
+                      applicationInfo.application_status_id !== 5 &&
+                      (evaluatorRole.code == 'CBAO-REC' ||
+                        evaluatorRole.code == 'CBAO-DC' ||
+                        evaluatorRole.code == 'CBAO-BO')
+                    "
                   >
-                </td>
-              </ng-container>
-
-              <!-- Action Column -->
-              <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef>Action</th>
-                <td mat-cell *matCellDef="let element">
-                  <ng-container *ngIf="applicationInfo.permit_type_id == 1">
                     <button
-                      mat-button
-                      color="accent"
-                      (click)="openFormDialog(element)"
-                      [disabled]="applicationInfo.application_status_id !== 1"
-                      *ngIf="evaluatorRole.code == 'CBAO-REC'"
-                    >
-                      <mat-icon class="action">mode_edit</mat-icon>
-                    </button>
-                    <button
-                      mat-button
-                      color="accent"
-                      (click)="openFormDialog(element)"
-                      [disabled]="applicationInfo.application_status_id !== 3"
-                      *ngIf="
-                        evaluatorRole.code == 'CBAO-LG' ||
-                        evaluatorRole.code == 'CBAO-ARCH' ||
-                        evaluatorRole.code == 'CBAO-STR' ||
-                        evaluatorRole.code == 'CBAO-SAN' ||
-                        evaluatorRole.code == 'CBAO-ELEC' ||
-                        evaluatorRole.code == 'CBAO-MEC'
+                      mat-raised-button
+                      color="warn"
+                      (click)="nonCompliant()"
+                      *ngIf="applicationInfo.application_status_id !== 3"
+                      [disabled]="
+                        evaluatorRole.code == 'CBAO-REC' &&
+                        applicationInfo.application_status_id !== 1
                       "
                     >
-                      <mat-icon class="action">mode_edit</mat-icon>
+                      Return to Applicant
                     </button>
+                  </div>
+
+                  <div *ngIf="evaluatorRole.code !== 'CBAO-BO'">
                     <button
-                      mat-button
-                      color="accent"
-                      (click)="openFormDialog(element)"
-                      [disabled]="applicationInfo.application_status_id !== 12"
-                      *ngIf="evaluatorRole.code == 'CBAO-DC'"
+                      mat-raised-button
+                      color="primary"
+                      (click)="handleTechnicalEvaluatorNonCompliant()"
+                      *ngIf="applicationInfo.application_status_id == 3"
+                      [disabled]="
+                        evaluatorRole.code == 'CBAO-REC' &&
+                        applicationInfo.application_status_id !== 1
+                      "
                     >
-                      <mat-icon class="action">mode_edit</mat-icon>
+                      Review Done (Non-Compliant)
                     </button>
-                    <button
-                      mat-button
-                      color="accent"
-                      (click)="openFormDialog(element)"
-                      [disabled]="applicationInfo.application_status_id !== 13"
-                      *ngIf="evaluatorRole.code == 'CBAO-BO'"
-                    >
-                      <mat-icon class="action">mode_edit</mat-icon>
-                    </button>
-                  </ng-container>
-                  <ng-container *ngIf="applicationInfo.permit_type_id !== 1">
-                    <button
-                      mat-button
-                      color="accent"
-                      (click)="openFormDialog(element)"
-                      *ngIf="evaluatorRole.code !== 'CBAO-REL'"
-                    >
-                      <mat-icon class="action">mode_edit</mat-icon>
-                    </button>
-                  </ng-container>
-
-                  <a
-                    href="{{ element.document_path }}"
-                    target="_blank"
-                    *ngIf="evaluatorRole.code == 'CBAO-REL'"
-                    >Print</a
-                  >
-                </td>
-              </ng-container>
-
-              <tr
-                mat-header-row
-                *matHeaderRowDef="displayedColumns; sticky: true"
-              ></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-            </table>
-          </div>
-
-          <ng-container *ngIf="applicationInfo.permit_type_id == 1">
-            <!-- TODO MAKE THIS A COMPONENT -->
-            <div *ngIf="applicationInfo.application_status_id == 13">
-              <button
-                class="mt-2 w-100"
-                mat-raised-button
-                color="primary"
-                (click)="openBldgPermitDialog()"
-                *ngIf="evaluatorRole.code == 'CBAO-BO'"
-                [disabled]="checkBuildingPermitUploaded()"
-              >
-                Release Building Permit
-              </button>
-            </div>
-            <mat-progress-bar
-              mode="indeterminate"
-              *ngIf="isLoading"
-            ></mat-progress-bar>
-            <div *ngIf="evaluatorRole.code !== 'CBAO-BO'"></div>
-
-            <div class="d-flex justify-content-between mt-5">
-              <div
-                *ngIf="
-                  applicationInfo.application_status_id !== 11 &&
-                  !checkFormsCompliant()
-                "
-              >
-                <div *ngIf="applicationInfo.application_status_id !== 5">
-                  <button
-                    mat-raised-button
-                    color="warn"
-                    (click)="nonCompliant()"
-                    *ngIf="applicationInfo.application_status_id !== 3"
-                    [disabled]="
-                      evaluatorRole.code == 'CBAO-REC' &&
-                      applicationInfo.application_status_id !== 1
-                    "
-                  >
-                    Return to Applicant
-                  </button>
+                  </div>
                 </div>
-
-                <div *ngIf="evaluatorRole.code !== 'CBAO-BO'">
+                <div>
                   <button
-                    mat-raised-button
-                    color="primary"
-                    (click)="nonCompliant()"
-                    *ngIf="applicationInfo.application_status_id == 3"
-                    [disabled]="
-                      evaluatorRole.code == 'CBAO-REC' &&
-                      applicationInfo.application_status_id !== 1
-                    "
-                  >
-                    Review Done (Non-Compliant)
-                  </button>
-                </div>
-              </div>
-              <div>
-                <button
-                  [disabled]="checkFormNonCompliant()"
-                  mat-raised-button
-                  color="primary"
-                  (click)="forwardToCpdo()"
-                  *ngIf="
-                    applicationInfo.application_status_id == 1 &&
-                    evaluatorRole.code == 'CBAO-REC'
-                  "
-                >
-                  Forward to CPDO
-                </button>
-                <button
-                  mat-raised-button
-                  color="primary"
-                  (click)="notifyBuildingOfficial()"
-                  *ngIf="evaluatorRole.code == 'CBAO-DC'"
-                  [disabled]="applicationInfo.application_status_id !== 12"
-                >
-                  Forward to Building Official
-                </button>
-                <button
-                  mat-raised-button
-                  color="primary"
-                  (click)="handleRelease()"
-                  *ngIf="
-                    evaluatorRole.code == 'CBAO-REL' &&
-                    applicationInfo.application_status_id == '4'
-                  "
-                >
-                  Release Permit
-                </button>
-                <div *ngIf="evaluatorRole.code !== 'CBAO-BO'">
-                  <button
-                    mat-raised-button
-                    color="primary"
-                    (click)="handleDepartmentStatus()"
-                    *ngIf="applicationInfo.application_status_id == '3'"
                     [disabled]="checkFormNonCompliant()"
+                    mat-raised-button
+                    color="primary"
+                    (click)="forwardToCpdo()"
+                    *ngIf="
+                      applicationInfo.application_status_id == 1 &&
+                      evaluatorRole.code == 'CBAO-REC'
+                    "
                   >
-                    Review Done (Compliant)
+                    Forward to CPDO
+                  </button>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="notifyBuildingOfficial()"
+                    *ngIf="evaluatorRole.code == 'CBAO-DC'"
+                    [disabled]="applicationInfo.application_status_id !== 12"
+                  >
+                    Forward to Building Official
+                  </button>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="handleRelease()"
+                    *ngIf="
+                      evaluatorRole.code == 'CBAO-REL' &&
+                      applicationInfo.application_status_id == '4'
+                    "
+                  >
+                    Release Permit
+                  </button>
+                  <div *ngIf="evaluatorRole.code !== 'CBAO-BO'">
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      (click)="handleTechnicalEvaluatorCompliant()"
+                      *ngIf="applicationInfo.application_status_id == '3'"
+                      [disabled]="checkFormNonCompliant()"
+                    >
+                      Review Done (Compliant)
+                    </button>
+                  </div>
+
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="forPayment()"
+                    *ngIf="evaluatorRole.code == 'CBAO-BO'"
+                    [disabled]="
+                      !checkBuildingPermitUploaded() ||
+                      applicationInfo.application_status_id !== 13
+                    "
+                  >
+                    Approve
                   </button>
                 </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="applicationInfo.permit_type_id !== 1">
+              <div class="other__permit">
+                <div class="other__permit__buttons">
+                  <button
+                    mat-raised-button
+                    color="accent"
+                    [disabled]="checkFormsCompliant()"
+                    (click)="otherPermitsReturnToApplicant()"
+                  >
+                    <mat-icon>cancel</mat-icon> Return to Applicant
+                  </button>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="updateApplicationStatus()"
+                    [disabled]="
+                      applicationInfo.application_status_id !== 1 ||
+                      !checkFormsCompliant()
+                    "
+                    *ngIf="evaluatorRole.code == 'CBAO-REC'"
+                  >
+                    Forward to Technical Evaluators
+                    <mat-icon>arrow_right</mat-icon>
+                  </button>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="forwardToDivisionChief()"
+                    [disabled]="
+                      !checkFormsCompliant() ||
+                      applicationInfo.application_status_id !== 18
+                    "
+                    *ngIf="
+                      evaluatorRole.code !== 'CBAO-REC' &&
+                      evaluatorRole.code !== 'CBAO-DC' &&
+                      evaluatorRole.code !== 'CBAO-BO' &&
+                      evaluatorRole.code !== 'CBAO-REL'
+                    "
+                  >
+                    Forward to Division Chief <mat-icon>arrow_right</mat-icon>
+                  </button>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="notifyBuildingOfficial()"
+                    [disabled]="
+                      !checkFormsCompliant() ||
+                      applicationInfo.application_status_id !== 12
+                    "
+                    *ngIf="evaluatorRole.code == 'CBAO-DC'"
+                  >
+                    Forward to Building Official
+                    <mat-icon>arrow_forward</mat-icon>
+                  </button>
+                  <button
+                    mat-raised-button
+                    (click)="forPayment()"
+                    color="primary"
+                    *ngIf="evaluatorRole.code == 'CBAO-BO'"
+                    [disabled]="
+                      !checkFormsCompliant() ||
+                      applicationInfo.application_status_id !== 13
+                    "
+                  >
+                    Approve
+                    <mat-icon>check</mat-icon>
+                  </button>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="handleRelease()"
+                    *ngIf="
+                      evaluatorRole.code == 'CBAO-REL' &&
+                      applicationInfo.application_status_id == '4'
+                    "
+                  >
+                    Release Permit
+                  </button>
+                </div>
+              </div></ng-container
+            >
+          </div>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>folder</mat-icon>
+            Supporting Documents
+          </ng-template>
+          <app-supporting-documents
+            [evaluatorDetails]="evaluatorDetails"
+            [applicationDetails]="applicationInfo"
+          ></app-supporting-documents>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>engineering</mat-icon>
+            Technical Evaluation
+          </ng-template>
+          <app-technical-evaluation
+            [evaluatorDetails]="evaluatorDetails"
+            [applicationDetails]="applicationInfo"
+          ></app-technical-evaluation>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
 
-                <button
-                  mat-raised-button
-                  color="primary"
-                  (click)="forPayment()"
-                  *ngIf="evaluatorRole.code == 'CBAO-BO'"
-                  [disabled]="
-                    !checkBuildingPermitUploaded() ||
-                    applicationInfo.application_status_id !== 13
-                  "
-                >
-                  Approve
-                </button>
-              </div>
-            </div>
-          </ng-container>
-          <ng-container *ngIf="applicationInfo.permit_type_id !== 1">
-            <div class="other__permit">
-              <div class="other__permit__buttons">
-                <button mat-raised-button color="accent">
-                  <mat-icon>cancel</mat-icon> Return to Applicant
-                </button>
-                <button
-                  mat-raised-button
-                  color="primary"
-                  (click)="updateApplicationStatus()"
-                  [disabled]="applicationInfo.application_status_id !== 1"
-                  *ngIf="evaluatorRole.code == 'CBAO-REC'"
-                >
-                  Forward <mat-icon>arrow_forward</mat-icon>
-                </button>
-                <button
-                  mat-raised-button
-                  color="primary"
-                  (click)="forwardToDivisionChief()"
-                  [disabled]="
-                    !checkFormsCompliant() ||
-                    applicationInfo.application_status_id !== 35
-                  "
-                  *ngIf="
-                    evaluatorRole.code !== 'CBAO-REC' &&
-                    evaluatorRole.code !== 'CBAO-DC' &&
-                    evaluatorRole.code !== 'CBAO-BO' &&
-                    evaluatorRole.code !== 'CBAO-REL'
-                  "
-                >
-                  Forward to Division Chief <mat-icon>arrow_forward</mat-icon>
-                </button>
-                <button
-                  mat-raised-button
-                  color="primary"
-                  (click)="notifyBuildingOfficial()"
-                  [disabled]="
-                    !checkFormsCompliant() ||
-                    applicationInfo.application_status_id !== 12
-                  "
-                  *ngIf="evaluatorRole.code == 'CBAO-DC'"
-                >
-                  Forward to Building Official
-                  <mat-icon>arrow_forward</mat-icon>
-                </button>
-                <button
-                  mat-raised-button
-                  (click)="forPayment()"
-                  color="primary"
-                  *ngIf="evaluatorRole.code == 'CBAO-BO'"
-                  [disabled]="
-                    !checkFormsCompliant() ||
-                    applicationInfo.application_status_id !== 13
-                  "
-                >
-                  Approve
-                  <mat-icon>check</mat-icon>
-                </button>
-              </div>
-            </div></ng-container
-          >
-        </div>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon>folder</mat-icon>
-          Supporting Documents
-        </ng-template>
-        <app-supporting-documents
-          [evaluatorDetails]="evaluatorDetails"
-          [applicationDetails]="applicationInfo"
-        ></app-supporting-documents>
-      </mat-tab>
-    </mat-tab-group>
-  </mat-card-content>
-</mat-card>
 <div class="spinner" *ngIf="isLoading">
   <mat-spinner></mat-spinner>
 </div>

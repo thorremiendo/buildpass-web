@@ -79,18 +79,13 @@ export class BfpEvaluatorComponent implements OnInit {
   generateBfpForms() {
     const BFP_FORMS = this.forms.filter(
       (obj) =>
-        obj.document_id == 28 ||
         obj.document_id == 32 ||
         obj.document_id == 33 ||
         obj.document_id == 43 ||
-        obj.document_id == 45 ||
-        obj.document_id == 29 ||
-        obj.document_id == 30 ||
-        obj.document_id == 31 ||
         obj.document_id == 59 ||
         obj.document_id == 62 ||
         obj.document_id == 65 ||
-        obj.document_id == 49
+        obj.document_id == 45
     );
     this.dataSource = BFP_FORMS;
   }

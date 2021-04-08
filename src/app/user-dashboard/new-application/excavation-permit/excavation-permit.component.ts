@@ -4,6 +4,8 @@ import { NewApplicationService } from 'src/app/core/services/new-application.ser
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { DataFormBindingService } from 'src/app/core/services/data-form-binding.service';
 import Swal from 'sweetalert2';
+import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-excavation-permit',
@@ -11,6 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./excavation-permit.component.scss'],
 })
 export class ExcavationPermitComponent implements OnInit {
+  public isSubmitting: boolean = false;
   public user;
   public pdfSource;
   public formData;
@@ -31,12 +34,8 @@ export class ExcavationPermitComponent implements OnInit {
 
   public fieldSets: any = [
     {
-      label: 'Step 1',
-      documents: [],
-    },
-    {
       label: 'Step 2',
-      documents: [45, 8, 25, 15],
+      documents: [8, 15],
     },
     {
       label: 'Step 3',
@@ -52,45 +51,28 @@ export class ExcavationPermitComponent implements OnInit {
   public lesseeDocs: Array<any> = [27];
   public registeredDocs: Array<any> = [26, 44];
   public notRegisteredDocs: Array<any> = [27, 23, 24];
+  public isWithinSubdivision: Array<any> = [72];
+  public isUnderMortgage: Array<any> = [73];
+  public isOwnedByCorporation: Array<any> = [74];
+  public isHaveCoOwners: Array<any> = [75];
+  public isConstructionStatus: Array<any> = [37, 38];
+  public if10000sqm: Array<any> = [40];
 
   constructor(
     private newApplicationService: NewApplicationService,
     private applicationService: ApplicationInfoService,
     private dataBindingService: DataFormBindingService,
-    private router: Router
+    private router: Router,
+    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem('user'));
-    this.newApplicationService.fetchDocumentTypes().subscribe(res => {
-      this.documentTypes = res.data;
-    });
-    this.newApplicationService.applicationId
-      .asObservable()
-      .subscribe(applicationId => {
-        if (applicationId) this.applicationId = applicationId;
-        else this.applicationId = localStorage.getItem('app_id');
-
-        this.applicationService.fetchApplicationInfo(this.applicationId).subscribe(res => {
-          this.applicationDetails = res.data;
-          this.formData = this.dataBindingService.getFormData(this.applicationDetails);
-
-          const isRepresentative = this.applicationDetails.is_representative == '1' ? true : false;
-          const isLessee = this.applicationDetails.rol_status_id != '1' ? true : false;
-          const isRegisteredOwner = this.applicationDetails.registered_owner == '1' ? true : false;
-
-          isRepresentative ? this.fieldSets[0].documents.push(...this.representativeDocs) : null;
-          isLessee ? this.fieldSets[0].documents.push(...this.lesseeDocs) : null;
-          isRegisteredOwner ? this.fieldSets[0].documents.push(...this.registeredDocs) : this.fieldSets[0].documents.push(...this.notRegisteredDocs);
-
-          this.initData();
-          this.setFilePaths();
-          this.pdfSource = this.forms[0].src;
-        });
-      });
-
     setTimeout(() => {
       this.user = JSON.parse(localStorage.getItem('user'));
+      this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
+        this.documentTypes = res.data;
+      });
       this.newApplicationService.applicationId
         .asObservable()
         .subscribe((applicationId) => {
@@ -115,6 +97,59 @@ export class ExcavationPermitComponent implements OnInit {
         this.formData = this.dataBindingService.getFormData(
           this.applicationDetails
         );
+        if (this.applicationDetails.main_permit_id == null) {
+          this.fieldSets[0].documents.push([25]);
+          const isRepresentative =
+            this.applicationDetails.is_representative == '1' ? true : false;
+          const isLessee =
+            this.applicationDetails.rol_status_id != '1' ? true : false;
+          const isRegisteredOwner =
+            this.applicationDetails.registered_owner == '1' ? true : false;
+          const isWithinSubdivision =
+            this.applicationDetails.is_within_subdivision == 1 ? true : false;
+          const isUnderMortgage =
+            this.applicationDetails.is_under_mortgage == 1 ? true : false;
+          const isOwnedByCorporation =
+            this.applicationDetails.is_owned_by_corporation == 1 ? true : false;
+          const isHaveCoOwners =
+            this.applicationDetails.is_property_have_coowners == 1
+              ? true
+              : false;
+          const isConstructionStatus =
+            this.applicationDetails.construction_status_id == 1 ? true : false;
+          const if10000sqm =
+            this.applicationDetails.project_detail.total_floor_area >= 10000
+              ? true
+              : false;
+          isRepresentative
+            ? this.fieldSets[0].documents.push(...this.representativeDocs)
+            : null;
+          isLessee
+            ? this.fieldSets[0].documents.push(...this.lesseeDocs)
+            : null;
+          isRegisteredOwner
+            ? this.fieldSets[0].documents.push(...this.registeredDocs)
+            : this.fieldSets[0].documents.push(...this.notRegisteredDocs);
+          if10000sqm
+            ? this.fieldSets[1].documents.push(...this.if10000sqm)
+            : null;
+          isWithinSubdivision
+            ? this.fieldSets[1].documents.push(...this.isWithinSubdivision)
+            : null;
+          isUnderMortgage
+            ? this.fieldSets[1].documents.push(...this.isUnderMortgage)
+            : null;
+          isOwnedByCorporation
+            ? this.fieldSets[1].documents.push(...this.isOwnedByCorporation)
+            : null;
+          isHaveCoOwners
+            ? this.fieldSets[1].documents.push(...this.isHaveCoOwners)
+            : null;
+          isConstructionStatus
+            ? null
+            : this.fieldSets[0].documents.push(...this.isConstructionStatus);
+        }
+
         this.initData();
         this.setFilePaths();
         this.pdfSource = this.forms[0].src;
@@ -131,6 +166,32 @@ export class ExcavationPermitComponent implements OnInit {
       this.submitExcavationDetails();
     } else {
       this.fetchApplicationInfo();
+    }
+  }
+
+  public async upload(form): Promise<void> {
+    if (!form.path) {
+      const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+      if (blob) {
+        console.log({ blob });
+        this.isLoading = true;
+        const uploadDocumentData = {
+          application_id: this.applicationId,
+          user_id: this.user.id,
+          document_id: form.id,
+          document_path: blob,
+          document_status: '0',
+        };
+
+        this.newApplicationService
+          .submitDocument(uploadDocumentData)
+          .subscribe((res) => {
+            this.isLoading = false;
+            this.openSnackBar('Uploaded!');
+          });
+      } else {
+        console.log('Blob failed');
+      }
     }
   }
   submitExcavationDetails() {
@@ -237,12 +298,13 @@ export class ExcavationPermitComponent implements OnInit {
   }
 
   getDocType(id): string {
-    return this.documentTypes[id-1].name;
+    return this.documentTypes[id - 1].name;
   }
 
   initData() {
     for (let i = 0; i < this.forms.length; i++) {
       this.forms[i] = {
+        label: `Step ${i + 1}`,
         id: this.forms[i].id,
         src: this.forms[i].src,
         description: this.getDocType(this.forms[i].id),
@@ -310,6 +372,7 @@ export class ExcavationPermitComponent implements OnInit {
   }
 
   submitApplication() {
+    this.isSubmitting = true;
     const id = this.excavationId ? this.excavationId : this.applicationId;
 
     const data = {
@@ -318,9 +381,15 @@ export class ExcavationPermitComponent implements OnInit {
     this.applicationService
       .updateApplicationStatus(data, id)
       .subscribe((res) => {
+        this.isSubmitting = true;
         this.router.navigate(['dashboard/new/summary', id]);
         localStorage.removeItem('app_id');
         localStorage.removeItem('application_details_for_excavation');
       });
+  }
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 2000,
+    });
   }
 }

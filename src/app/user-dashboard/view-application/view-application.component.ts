@@ -18,6 +18,7 @@ import { applicationStatus } from '../../core/enums/application-status.enum';
 import Swal from 'sweetalert2';
 import { ViewFeesComponent } from 'src/app/evaluator-dashboard/view-fees/view-fees.component';
 import { ApplicationFeesService } from 'src/app/core/services/application-fees.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-view-application',
@@ -42,7 +43,8 @@ export class ViewApplicationComponent implements OnInit {
     private applicationService: ApplicationInfoService,
     public dialog: MatDialog,
     public route: ActivatedRoute,
-    private applicationFeeService: ApplicationFeesService
+    private applicationFeeService: ApplicationFeesService,
+    private snackBar: MatSnackBar
   ) {}
   openProjectDialog(): void {
     const dialogRef = this.dialog.open(ProjectDetailsComponent, {
@@ -258,7 +260,63 @@ export class ViewApplicationComponent implements OnInit {
         this.updateApplication(body);
       }
     });
+    this.updateTechnicalEvaluatorStatus();
     return isNonCompliant;
+  }
+  updateTechnicalEvaluatorStatus() {
+    const app = this.applicationDetails;
+    const status = [
+      {
+        cbao_arch_status_id: app.cbao_arch_status_id,
+      },
+      {
+        cbao_elec_status_id: app.cbao_elec_status_id,
+      },
+      {
+        cbao_san_status_id: app.cbao_san_status_id,
+      },
+      {
+        cbao_lg_status_id: app.cbao_lg_status_id,
+      },
+      {
+        cbao_str_status_id: app.cbao_str_status_id,
+      },
+    ];
+    status.forEach((tech) => {
+      if (tech.cbao_arch_status_id == 2) {
+        const body = {
+          cbao_arch_status_id: 0,
+        };
+        this.updateTechnicalEvaluationStatus(body);
+      } else if (tech.cbao_elec_status_id == 2) {
+        const body = {
+          cbao_elec_status_id: 0,
+        };
+        this.updateTechnicalEvaluationStatus(body);
+      } else if (tech.cbao_san_status_id == 2) {
+        const body = {
+          cbao_san_status_id: 0,
+        };
+        this.updateTechnicalEvaluationStatus(body);
+      } else if (tech.cbao_lg_status_id == 2) {
+        const body = {
+          cbao_lg_status_id: 0,
+        };
+        this.updateTechnicalEvaluationStatus(body);
+      } else if (tech.cbao_str_status_id == 2) {
+        const body = {
+          cbao_str_status_id: 0,
+        };
+        this.updateTechnicalEvaluationStatus(body);
+      }
+    });
+  }
+  updateTechnicalEvaluationStatus(body) {
+    this.applicationService
+      .updateCbaoStatus(body, this.applicationId)
+      .subscribe((res) => {
+        this.openSnackBar('Success!');
+      });
   }
 
   updateApplication(body) {
@@ -326,6 +384,88 @@ export class ViewApplicationComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
       this.ngOnInit();
+    });
+  }
+
+  otherPermitsSave() {
+    if (!this.checkFormNonCompliant()) {
+      this.isLoading = true;
+      if (this.applicationDetails.receiving_status_id == 2) {
+        const body = {
+          application_status_id: 1,
+          receiving_status_id: 0,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Forwarded to CBAO Receiving for Evaluation!`,
+              'success'
+            ).then((result) => {
+              this.isLoading = false;
+              window.location.reload();
+            });
+          });
+      } else if (this.applicationDetails.cbao_status_id == 2) {
+        const body = {
+          application_status_id: 18,
+          cbao_status_id: 0,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Forwarded to Technical Evaluators for Evaluation!`,
+              'success'
+            ).then((result) => {
+              this.isLoading = false;
+              window.location.reload();
+            });
+          });
+      } else if (this.applicationDetails.dc_status_id == 2) {
+        const body = {
+          application_status_id: 12,
+          dc_status_id: 0,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Forwarded to Division Chief for Evaluation!`,
+              'success'
+            ).then((result) => {
+              this.isLoading = false;
+              window.location.reload();
+            });
+          });
+      } else if (this.applicationDetails.bo_status_id == 2) {
+        const body = {
+          application_status_id: 13,
+          bo_status_id: 0,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Forwarded to Building Official for Evaluation!`,
+              'success'
+            ).then((result) => {
+              this.isLoading = false;
+              window.location.reload();
+            });
+          });
+      }
+    } else {
+      this.openSnackBar('Please review non-compliant document!');
+    }
+  }
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
     });
   }
 }

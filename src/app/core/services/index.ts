@@ -9,3 +9,6 @@ export * from './jwt.service';
 export * from './watermark.service';
 export * from './api.service';
 export * from './application-info.service';
+export * from './chat.service';
+export * from './register-account-evaluator-form.service';
+export * from './register-account-form.service';

@@ -1,3 +1,4 @@
+import { UserGuardGuard } from './../../core/guard/user-guard.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ApplicationDetailsComponent } from '../application-details/application-details.component';
@@ -19,12 +20,13 @@ const routes: Routes = [
       {
         path: 'home',
         component: EvaluatorHomeComponent,
+        canActivate: [UserGuardGuard],
         children: [
           {
             path: 'table',
             component: TableViewComponent,
           },
-    
+
           {
             path: 'calendar',
             component: CalendarViewComponent,
@@ -48,9 +50,8 @@ const routes: Routes = [
         component: ApplicationDetailsComponent,
       },
       {
-        path:'edit-profile',
+        path: 'edit-profile',
         component: EvaluatorEditProfileComponent,
-
       },
     ],
   },

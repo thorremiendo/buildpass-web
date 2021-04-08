@@ -81,6 +81,7 @@ import { BfpResidentialChecklistComponent } from './bfp-residential-checklist/bf
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MaterialModule } from '../material-module';
 import { UploadSupportingDocumentsComponent } from './upload-supporting-documents/upload-supporting-documents.component';
+import { TechnicalEvaluationComponent } from './technical-evaluation/technical-evaluation.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { UploadSupportingDocumentsComponent } from './upload-supporting-document
     RemarksHistoryTableComponent,
     BfpResidentialChecklistComponent,
     UploadSupportingDocumentsComponent,
+    TechnicalEvaluationComponent,
   ],
 
   imports: [
@@ -172,5 +174,7 @@ import { UploadSupportingDocumentsComponent } from './upload-supporting-document
 
     ChartsModule,
   ],
+
+  exports: [TechnicalEvaluationComponent],
 })
 export class EvaluatorModule {}
