@@ -123,34 +123,38 @@ export class StepOneComponent implements OnInit {
       this.selectedPermitType == '4' ||
       this.selectedPermitType == '5'
     ) {
-      const value = this.permitStepOneForm.value;
-      const body = {
-        user_id: this.userInfo.id,
-        permit_type_id: this.selectedPermitType,
-        is_representative: value.is_representative,
-        rol_status_id: value.is_lot_owner,
-        construction_status: value.construction_status,
-        is_registered_owner: value.registered_owner
-          ? value.registered_owner
-          : 0,
-        is_within_subdivision: value.is_within_subdivision,
-        is_under_mortgage: value.is_under_mortgage,
-        is_owned_by_corporation: value.is_owned_by_corporation,
-        is_property_have_coowners: value.is_property_have_coowners,
-        construction_status_id: 0,
-        applicant_first_name: this.userInfo.first_name,
-        applicant_middle_name: this.userInfo.middle_name,
-        applicant_last_name: this.userInfo.last_name,
-        applicant_suffix_name: this.userInfo.suffix_name,
-        applicant_contact_number: this.userInfo.contact_number,
-        applicant_email_address: this.userInfo.email_address,
-        // applicant_house_number: this.userInfo.home_address,
-        // applicant_street_name: this.userInfo.owner_street,
-        // applicant_barangay: this.userInfo.barangay,
-      };
-      this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
-        Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
-          (result) => {
+      if (this.permitStepOneForm.value.is_property_have_coowners) {
+        const value = this.permitStepOneForm.value;
+        const body = {
+          user_id: this.userInfo.id,
+          permit_type_id: this.selectedPermitType,
+          is_representative: value.is_representative,
+          rol_status_id: value.is_lot_owner,
+          construction_status: value.construction_status,
+          is_registered_owner: value.registered_owner
+            ? value.registered_owner
+            : 0,
+          is_within_subdivision: value.is_within_subdivision,
+          is_under_mortgage: value.is_under_mortgage,
+          is_owned_by_corporation: value.is_owned_by_corporation,
+          is_property_have_coowners: value.is_property_have_coowners,
+          construction_status_id: 0,
+          applicant_first_name: this.userInfo.first_name,
+          applicant_middle_name: this.userInfo.middle_name,
+          applicant_last_name: this.userInfo.last_name,
+          applicant_suffix_name: this.userInfo.suffix_name,
+          applicant_contact_number: this.userInfo.contact_number,
+          applicant_email_address: this.userInfo.email_address,
+          // applicant_house_number: this.userInfo.home_address,
+          // applicant_street_name: this.userInfo.owner_street,
+          // applicant_barangay: this.userInfo.barangay,
+        };
+        this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
+          Swal.fire(
+            'Success!',
+            'Application Details Submitted!',
+            'success'
+          ).then((result) => {
             this.isLoading = false;
             switch (this.selectedPermitType) {
               case '3':
@@ -163,9 +167,11 @@ export class StepOneComponent implements OnInit {
                 this.router.navigateByUrl('/dashboard/new/demolition-permit');
                 break;
             }
-          }
-        );
-      });
+          });
+        });
+      } else {
+        Swal.fire('Error!', 'Fill out all required information!', 'error');
+      }
     } else {
       Swal.fire('Error!', 'Fill out all required information!', 'error');
     }
