@@ -32,7 +32,15 @@ export class ChatBoxComponent implements OnInit {
     if (localStorage.getItem('user') != null) {
       this.userInfo = JSON.parse(localStorage.getItem('user'));
 
-      this.chatService.fetchConvo(8).subscribe(result =>{
+     
+      this.messageSubscription = this.chatService
+      .getApplicantChatItems()
+      .subscribe((data) => {
+        this.selectedMessage.convo.push(data);
+        console.log(this.selectedMessage)
+      });
+
+      this.chatService.fetchConvo(this.userInfo.id, 'reciever').subscribe(result =>{
         console.log(result);
         this.messages = result.data;
         if(this.messages != null){
@@ -42,14 +50,6 @@ export class ChatBoxComponent implements OnInit {
        
       })
 
-      this.chatService.evaluatorChatSubscribe('chat-1');
-
-      this.messageSubscription = this.chatService
-      .getApplicantChatItems()
-      .subscribe((data) => {
-        this.selectedMessage.convo.push(data);
-        console.log(this.selectedMessage)
-      });
 
       
     }
@@ -65,6 +65,7 @@ export class ChatBoxComponent implements OnInit {
   // tslint:disable-next-line - Disables all
   onSelect(message): void {
     this.selectedMessage = message;
+    this.chatService.evaluatorChatSubscribe(this.selectedMessage.channel);
     this.chatId = this.selectedMessage.convo[0].chat_id;
   }
 

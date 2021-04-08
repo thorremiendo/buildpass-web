@@ -14,10 +14,6 @@ import { v4 as uuidv4 } from 'uuid';
 export class ChatService {
   public user: any;
   public channel: Channel;
-  private channelName: string;
-  private channelType: string;
-  private chatChannel;
-  private pusherBind: string;
 
   private subject: Subject<any> = new Subject<any>();
 
@@ -25,7 +21,7 @@ export class ChatService {
 
   constructor(private api: ApiService) {
 
-    // Pusher.logToConsole = true;
+    Pusher.logToConsole = true;
     const { key, cluster } = environment.pusher;
     this.pusher = new Pusher(key, { cluster });
   }
@@ -35,12 +31,11 @@ export class ChatService {
     return randomNumber;
   }
 
-  applicantChatSubscribe() {
-    //let channelName = `chat-${this.generateRandomNumber()}`;
-    let channelName = "chat-1"
+  applicantChatSubscribe(channel) {
+    // let channelName = "chat-1"
     let pusherBind = "RealTimeMessagingEvent"
-    console.log(channelName);
-    this.channel = this.pusher.subscribe(channelName);
+    console.log(channel);
+    this.channel = this.pusher.subscribe(channel);
     this.channel.bind(`App\\Events\\${pusherBind}`, (data:{
         type: string,
         msg:string,
@@ -58,8 +53,15 @@ export class ChatService {
     )
   }
 
-  fetchConvo(current_user_id){
-      const url = `/chat/${current_user_id}/sender`;
+  fetchConvo(current_user_id, user){
+    var url;
+    if(user == 'sender'){
+       url = `/chat/${current_user_id}/sender`;
+    }
+    else{
+       url = `/chat/${current_user_id}/receiver`;
+    }
+    
 
       return this.api.get(url).pipe(
         map((data: any) => {
@@ -93,10 +95,10 @@ export class ChatService {
 
 }
 
-  evaluatorChatSubscribe(channelName) {
+  evaluatorChatSubscribe(channel) {
     let pusherBind = "RealTimeMessagingEvent"
-    console.log(channelName);
-    this.channel = this.pusher.subscribe(channelName);
+    console.log(channel);
+    this.channel = this.pusher.subscribe(channel);
     this.channel.bind(`App\\Events\\${pusherBind}`, (data:{
         type: string,
         msg:string,
