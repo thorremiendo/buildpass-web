@@ -5,7 +5,6 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { UserService } from 'src/app/core/services/user.service';
 import Swal from 'sweetalert2';
-import { documentTypes } from '../../../core/enums/document-type.enum';
 
 @Component({
   selector: 'app-checklist-summary',
@@ -23,6 +22,8 @@ export class ChecklistSummaryComponent implements OnInit {
   public isExcavation;
   public sortedForms;
   public isLoading;
+  public documentTypes;
+
   constructor(
     private router: Router,
     private newApplicationService: NewApplicationService,
@@ -36,7 +37,11 @@ export class ChecklistSummaryComponent implements OnInit {
     this.isLoading = true;
     this.applicationId = this.route.snapshot.params.id;
     this.user = JSON.parse(localStorage.getItem('user'));
-    console.log(this.user);
+    
+    this.newApplicationService.fetchDocumentTypes().subscribe(res => {
+      this.documentTypes = res.data;
+    });
+
     this.newApplicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
@@ -93,57 +98,31 @@ export class ChecklistSummaryComponent implements OnInit {
             data: [],
           },
         };
+
         this.applicantForms.forEach((element) => {
-          switch (element.document_id) {
+          const docType = this.documentTypes[element.document_id].document_category_id;
+          console.log(docType);
+          switch(docType) {
             case 1:
-            case 21:
-            case 26:
-            case 27:
-            case 23:
-            case 25:
-            case 57:
               this.sortedForms.documents.data.push(element);
               break;
             case 2:
-            case 3:
-            case 4:
               this.sortedForms.permits.data.push(element);
               break;
-            case 28:
-            case 29:
-            case 30:
-            case 31:
-            case 32:
-            case 33:
-            case 59:
-            case 61:
-            case 62:
-            case 63:
-            case 64:
+            case 3:
               this.sortedForms.plans.data.push(element);
               break;
-            case 34:
-            case 35:
-            case 36:
+            case 4:
               this.sortedForms.professional.data.push(element);
               break;
-            case 37:
-            case 38:
+            case 5:
               this.sortedForms.affidavits.data.push(element);
               break;
-            case 39:
-            case 43:
-            case 44:
-            case 45:
+            case 6:
               this.sortedForms.clearances.data.push(element);
               break;
-            case 40:
-            case 41:
-            case 42:
-            case 72:
-            case 73:
-            case 74:
-            case 75:
+            //case 7:
+            default:
               this.sortedForms.others.data.push(element);
               break;
           }
@@ -156,8 +135,24 @@ export class ChecklistSummaryComponent implements OnInit {
     window.open(url, '_blank');
   }
   getDocType(id): string {
-    return documentTypes[id];
+    return this.documentTypes[id-1].name;
   }
+
+  proceed() {
+    this.newApplicationService
+      .fetchDraftDetails(
+        this.applicationInfo.user_id,
+        this.applicationInfo.id
+      ).subscribe((res) => {
+        console.log(res.data);
+        localStorage.setItem(
+          'app_id',
+          res.data[res.data.length - 1].application_id
+        );
+        this.router.navigateByUrl(res.data[res.data.length - 1].url);
+      });
+  }
+
   submit() {
     if (this.applicationInfo.permit_type_id == '1') {
       Swal.fire({

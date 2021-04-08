@@ -50,16 +50,7 @@ export class UserApplicationsTableComponent implements OnInit {
   }
 
   continueApplication(id, application_id) {
-    this.newApplicationService
-      .fetchDraftDetails(id, application_id)
-      .subscribe((res) => {
-        console.log(res.data);
-        localStorage.setItem(
-          'app_id',
-          res.data[res.data.length - 1].application_id
-        );
-        this.router.navigateByUrl(res.data[res.data.length - 1].url);
-      });
+    this.router.navigate(['dashboard/new/summary', application_id]);
   }
   getApplicationStatus(id): string {
     return applicationStatus[id];
