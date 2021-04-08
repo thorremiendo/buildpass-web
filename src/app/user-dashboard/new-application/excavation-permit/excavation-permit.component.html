@@ -94,11 +94,6 @@
             (click)="submitApplication()"
             [disabled]="isSubmitting"
           >
-            <ng-container *ngIf="isSubmitting">
-              <div class="spinner">
-                <mat-spinner></mat-spinner>
-              </div>
-            </ng-container>
             Submit
           </button>
         </ng-template>
@@ -109,5 +104,10 @@
 <ng-container *ngIf="!applicationDetails">
   <div class="spinner">
     <mat-spinner></mat-spinner>
+  </div>
+</ng-container>
+<ng-container *ngIf="isSubmitting">
+  <div>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
 </ng-container>

@@ -104,36 +104,38 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
-          <button
-            class="mt-2 w-100"
-            mat-raised-button
-            color="accent"
-            (click)="openWwmsDialog()"
-            [disabled]="checkWwmsUploaded()"
-          >
-            Generate WWMS BP Certificate
-          </button>
-          <mat-progress-bar
-            mode="indeterminate"
-            *ngIf="isLoading"
-          ></mat-progress-bar>
-          <div class="d-flex justify-content-between mt-5">
+          <div class="action__buttons">
             <button
+              class="mt-2 w-100"
               mat-raised-button
-              color="warn"
-              (click)="nonCompliant()"
-              [disabled]="checkFormsCompliant()"
+              color="accent"
+              (click)="openWwmsDialog()"
+              [disabled]="checkWwmsUploaded()"
             >
-              Review Done (Non-Compliant)
+              Generate WWMS BP Certificate
             </button>
-            <button
-              mat-raised-button
-              color="primary"
-              (click)="compliant()"
-              [disabled]="!checkFormsCompliant()"
-            >
-              Review Done (Compliant)
-            </button>
+            <mat-progress-bar
+              mode="indeterminate"
+              *ngIf="isLoading"
+            ></mat-progress-bar>
+            <div class="d-flex justify-content-between mt-5">
+              <button
+                mat-raised-button
+                color="warn"
+                (click)="nonCompliant()"
+                [disabled]="checkFormsCompliant()"
+              >
+                Review Done (Non-Compliant)
+              </button>
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="compliant()"
+                [disabled]="!checkFormsCompliant()"
+              >
+                Review Done (Compliant)
+              </button>
+            </div>
           </div>
         </div>
       </mat-tab>

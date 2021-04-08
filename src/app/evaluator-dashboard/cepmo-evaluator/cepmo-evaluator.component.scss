@@ -78,8 +78,10 @@ table {
   hyphens: auto;
 }
 
-button {
-  min-width: 250px;
+.action__buttons {
+  button {
+    min-width: 250px;
+  }
 }
 
 a:hover {

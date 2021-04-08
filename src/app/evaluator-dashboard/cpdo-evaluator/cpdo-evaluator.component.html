@@ -91,57 +91,61 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
-          <ng-container *ngIf="applicationDetails.application_status_id !== 16">
-            <button
-              class="mt-2 w-100"
-              mat-raised-button
-              color="accent"
-              (click)="openZoningDialog()"
-              *ngIf="
-                evaluatorRole.code == 'CPDO-COD' &&
-                applicationDetails.application_status_id == '10'
-              "
-              [disabled]="checkCertificateUploaded()"
+          <div class="action__buttons">
+            <ng-container
+              *ngIf="applicationDetails.application_status_id !== 16"
             >
-              Upload Zoning Compliance Form
-            </button>
-            <mat-progress-bar
-              mode="indeterminate"
-              *ngIf="isLoading"
-            ></mat-progress-bar>
-            <div class="d-flex justify-content-between mt-5">
               <button
+                class="mt-2 w-100"
                 mat-raised-button
-                color="warn"
-                [disabled]="applicationDetails.application_status_id == 3"
-                (click)="nonCompliant()"
-                *ngIf="!checkFormsCompliant()"
-              >
-                Return to Applicant
-              </button>
-              <button
-                mat-raised-button
-                [disabled]="applicationDetails.application_status_id == 3"
-                color="primary"
-                (click)="handleApprove()"
-                *ngIf="evaluatorRole.code == 'CPDO-COD'"
-              >
-                Forward
-              </button>
-              <button
-                mat-raised-button
-                color="primary"
-                (click)="forwardToCpdoCoordinator()"
+                color="accent"
+                (click)="openZoningDialog()"
                 *ngIf="
-                  evaluatorRole.code == 'CPDO-ZI' &&
-                  applicationDetails.application_status_id !== 10
+                  evaluatorRole.code == 'CPDO-COD' &&
+                  applicationDetails.application_status_id == '10'
                 "
-                [disabled]="checkFormNonCompliant()"
+                [disabled]="checkCertificateUploaded()"
               >
-                For Approval of Clearance
+                Upload Zoning Compliance Form
               </button>
-            </div>
-          </ng-container>
+              <mat-progress-bar
+                mode="indeterminate"
+                *ngIf="isLoading"
+              ></mat-progress-bar>
+              <div class="d-flex justify-content-between mt-5">
+                <button
+                  mat-raised-button
+                  color="warn"
+                  [disabled]="applicationDetails.application_status_id == 3"
+                  (click)="nonCompliant()"
+                  *ngIf="!checkFormsCompliant()"
+                >
+                  Return to Applicant
+                </button>
+                <button
+                  mat-raised-button
+                  [disabled]="applicationDetails.application_status_id == 3"
+                  color="primary"
+                  (click)="handleApprove()"
+                  *ngIf="evaluatorRole.code == 'CPDO-COD'"
+                >
+                  Forward
+                </button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="forwardToCpdoCoordinator()"
+                  *ngIf="
+                    evaluatorRole.code == 'CPDO-ZI' &&
+                    applicationDetails.application_status_id !== 10
+                  "
+                  [disabled]="checkFormNonCompliant()"
+                >
+                  For Approval of Clearance
+                </button>
+              </div>
+            </ng-container>
+          </div>
         </div>
       </mat-tab>
       <mat-tab>

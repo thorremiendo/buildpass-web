@@ -68,21 +68,23 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div *ngIf="isLotOwner" class="mt-4">
-            <h4>Construction Status:</h4>
-            <mat-form-field appearance="outline">
-              <mat-label>Choose</mat-label>
-              <mat-select
-                [(value)]="constructionStatus"
-                formControlName="construction_status"
-              >
-                <mat-option value="1">New</mat-option>
-                <mat-option value="2">On-Going</mat-option>
-                <mat-option value="3">As built</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div *ngIf="constructionStatus" class="mt-4">
+          <ng-container *ngIf="selectedPermitType == '1'">
+            <div *ngIf="isLotOwner" class="mt-4">
+              <h4>Construction Status:</h4>
+              <mat-form-field appearance="outline">
+                <mat-label>Choose</mat-label>
+                <mat-select
+                  [(value)]="constructionStatus"
+                  formControlName="construction_status"
+                >
+                  <mat-option value="1">New</mat-option>
+                  <mat-option value="2">On-Going</mat-option>
+                  <mat-option value="3">As built</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </ng-container>
+          <div *ngIf="constructionStatus || registeredOwner" class="mt-4">
             <h4>Is the property within a subdivision?</h4>
             <mat-form-field appearance="outline">
               <mat-label>Choose</mat-label>

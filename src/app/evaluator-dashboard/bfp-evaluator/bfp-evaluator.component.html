@@ -114,40 +114,42 @@
           >
             Generate Checklist
           </button> -->
-          <button
-            class="mt-2 w-100"
-            mat-raised-button
-            color="accent"
-            (click)="openFsecDialog()"
-            *ngIf="!checkFireSecUploaded()"
-            [disabled]="!checkFormsCompliant()"
-          >
-            Generate Fire Safety Evaluation Clearance
-          </button>
-          <mat-progress-bar
-            mode="indeterminate"
-            *ngIf="isLoading"
-          ></mat-progress-bar>
+          <div class="action__buttons">
+            <button
+              class="mt-2 w-100"
+              mat-raised-button
+              color="accent"
+              (click)="openFsecDialog()"
+              *ngIf="!checkFireSecUploaded()"
+              [disabled]="!checkFormsCompliant()"
+            >
+              Generate Fire Safety Evaluation Clearance
+            </button>
+            <mat-progress-bar
+              mode="indeterminate"
+              *ngIf="isLoading"
+            ></mat-progress-bar>
 
-          <div class="d-flex justify-content-between mt-5">
-            <div>
+            <div class="d-flex justify-content-between mt-5">
+              <div>
+                <button
+                  mat-raised-button
+                  color="warn"
+                  (click)="nonCompliant()"
+                  [disabled]="checkFormsCompliant()"
+                >
+                  Review Done (Non-Compliant)
+                </button>
+              </div>
               <button
                 mat-raised-button
-                color="warn"
-                (click)="nonCompliant()"
-                [disabled]="checkFormsCompliant()"
+                color="primary"
+                [disabled]="!checkFormsCompliant()"
+                (click)="compliant()"
               >
-                Review Done (Non-Compliant)
+                Review Done (Compliant)
               </button>
             </div>
-            <button
-              mat-raised-button
-              color="primary"
-              [disabled]="!checkFormsCompliant()"
-              (click)="compliant()"
-            >
-              Review Done (Compliant)
-            </button>
           </div>
         </div>
       </mat-tab>

@@ -94,11 +94,12 @@ export class ExcavationPermitComponent implements OnInit {
       )
       .subscribe((res) => {
         this.applicationDetails = res.data;
-        this.formData = this.dataBindingService.getFormData(
-          this.applicationDetails
-        );
+        console.log(this.applicationDetails);
+        // this.formData = this.dataBindingService.getFormData(
+        //   this.applicationDetails
+        // );
         if (this.applicationDetails.main_permit_id == null) {
-          this.fieldSets[0].documents.push([25]);
+          this.fieldSets[0].documents.push(14);
           const isRepresentative =
             this.applicationDetails.is_representative == '1' ? true : false;
           const isLessee =
@@ -170,8 +171,9 @@ export class ExcavationPermitComponent implements OnInit {
   }
 
   public async upload(form): Promise<void> {
+    console.log(form);
+    const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     if (!form.path) {
-      const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
       if (blob) {
         console.log({ blob });
         this.isLoading = true;
@@ -192,6 +194,19 @@ export class ExcavationPermitComponent implements OnInit {
       } else {
         console.log('Blob failed');
       }
+    } else {
+      console.log('exists!');
+      const uploadDocumentData = {
+        document_status_id: 0,
+      };
+      if (blob) {
+        uploadDocumentData['document_path'] = blob;
+      }
+      this.newApplicationService
+        .updateDocumentFile(uploadDocumentData, form.doc_id)
+        .subscribe((res) => {
+          this.openSnackBar('Saved!');
+        });
     }
   }
   submitExcavationDetails() {
@@ -327,7 +342,9 @@ export class ExcavationPermitComponent implements OnInit {
     this.forms.forEach((form) => {
       docs.forEach((doc) => {
         if (form.id == doc.document_id) {
+          form.src = doc.document_path;
           form.path = doc.document_path;
+          form.doc_id = doc.id;
         }
       });
     });
@@ -359,7 +376,9 @@ export class ExcavationPermitComponent implements OnInit {
         this.isLoading = false;
         const path = res.data.document_path;
         this.forms.forEach((form) => {
-          if (form.id == doctypeId) form.path = path;
+          if (form.id == doctypeId) {
+            form.path = path;
+          }
         });
         this.fieldSets.forEach((fieldSet) => {
           fieldSet.documents.forEach((field) => {
