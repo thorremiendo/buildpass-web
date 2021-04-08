@@ -190,6 +190,7 @@ export class ExcavationPermitComponent implements OnInit {
           .subscribe((res) => {
             this.isLoading = false;
             this.openSnackBar('Uploaded!');
+            window.location.reload();
           });
       } else {
         console.log('Blob failed');

@@ -37,8 +37,8 @@ export class ChecklistSummaryComponent implements OnInit {
     this.isLoading = true;
     this.applicationId = this.route.snapshot.params.id;
     this.user = JSON.parse(localStorage.getItem('user'));
-    
-    this.newApplicationService.fetchDocumentTypes().subscribe(res => {
+
+    this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
       this.documentTypes = res.data;
     });
 
@@ -100,9 +100,10 @@ export class ChecklistSummaryComponent implements OnInit {
         };
 
         this.applicantForms.forEach((element) => {
-          const docType = this.documentTypes[element.document_id].document_category_id;
+          const docType = this.documentTypes[element.document_id]
+            .document_category_id;
           console.log(docType);
-          switch(docType) {
+          switch (docType) {
             case 1:
               this.sortedForms.documents.data.push(element);
               break;
@@ -135,15 +136,13 @@ export class ChecklistSummaryComponent implements OnInit {
     window.open(url, '_blank');
   }
   getDocType(id): string {
-    return this.documentTypes[id-1].name;
+    return this.documentTypes[id - 1].name;
   }
 
   proceed() {
     this.newApplicationService
-      .fetchDraftDetails(
-        this.applicationInfo.user_id,
-        this.applicationInfo.id
-      ).subscribe((res) => {
+      .fetchDraftDetails(this.applicationInfo.user_id, this.applicationInfo.id)
+      .subscribe((res) => {
         console.log(res.data);
         localStorage.setItem(
           'app_id',

@@ -56,7 +56,7 @@ export class BuildingPermitComponent implements OnInit {
     {
       label: 'Step 6',
       title: 'Documentary Requirements',
-      documents: [25],
+      documents: [23, 24, 25],
     },
     {
       label: 'Step 7',
@@ -82,9 +82,9 @@ export class BuildingPermitComponent implements OnInit {
   ];
 
   public representativeDocs: Array<any> = [21];
-  public lesseeDocs: Array<any> = [27, 26, 23, 24];
+  public lesseeDocs: Array<any> = [27, 26];
   public registeredDocs: Array<any> = [26];
-  public notRegisteredDocs: Array<any> = [103, 23, 24];
+  public notRegisteredDocs: Array<any> = [103];
   public isOwnerNotRegisteredDocs: Array<any> = [103];
   public isWithinSubdivision: Array<any> = [72];
   public isUnderMortgage: Array<any> = [73];
@@ -241,7 +241,9 @@ export class BuildingPermitComponent implements OnInit {
     this.forms.forEach((form) => {
       docs.forEach((doc) => {
         if (form.id == doc.document_id) {
+          form.src = doc.document_path;
           form.path = doc.document_path;
+          form.doc_id = doc.id;
         }
       });
     });
@@ -298,8 +300,9 @@ export class BuildingPermitComponent implements OnInit {
       });
   }
   public async upload(form): Promise<void> {
+    console.log(form);
+    const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     if (!form.path) {
-      const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
       if (blob) {
         console.log({ blob });
         this.isLoading = true;
@@ -316,10 +319,24 @@ export class BuildingPermitComponent implements OnInit {
           .subscribe((res) => {
             this.isLoading = false;
             this.openSnackBar('Uploaded!');
+            // window.location.reload();
           });
       } else {
         console.log('Blob failed');
       }
+    } else {
+      console.log('exists!');
+      const uploadDocumentData = {
+        document_status_id: 0,
+      };
+      if (blob) {
+        uploadDocumentData['document_path'] = blob;
+      }
+      this.newApplicationService
+        .updateDocumentFile(uploadDocumentData, form.doc_id)
+        .subscribe((res) => {
+          this.openSnackBar('Saved!');
+        });
     }
   }
 
