@@ -19,16 +19,10 @@
 .fieldsets {
   margin-top: 20px;
 }
-
 .buttons {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 30px;
-
-  button {
-    background-color: maroon !important;
-    color: #fff;
-  }
 }
 .file-description {
   font-weight: 400;

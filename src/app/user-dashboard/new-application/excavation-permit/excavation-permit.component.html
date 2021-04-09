@@ -4,6 +4,10 @@
     Click <a href="" target="_blank">here</a> to view all required forms for
     Excavation Permit Application.
   </p>
+  <h4 style="font-weight: bold; color: grey">
+    Uploaded Documents: {{ applicationDetails.user_docs.length }}/
+    {{ getFieldSetsLength() + 1 }}
+  </h4>
   <mat-horizontal-stepper
     linear
     #stepper
@@ -60,6 +64,13 @@
       <div class="buttons">
         <button
           mat-raised-button
+          color="accent"
+          [routerLink]="['/dashboard/applications']"
+        >
+          Save as Draft
+        </button>
+        <button
+          mat-raised-button
           color="primary"
           matStepperNext
           (click)="upload(form)"
@@ -80,6 +91,13 @@
         </div>
       </div>
       <div class="buttons">
+        <button
+          mat-raised-button
+          color="accent"
+          [routerLink]="['/dashboard/applications']"
+        >
+          Save as Draft
+        </button>
         <button
           mat-raised-button
           color="primary"

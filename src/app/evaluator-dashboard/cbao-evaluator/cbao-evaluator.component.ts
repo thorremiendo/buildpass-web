@@ -208,35 +208,35 @@ export class CbaoEvaluatorComponent implements OnInit {
         case 'CBAO-LG':
           const lg = {
             cbao_lg_status_id: 2,
-            evaluator_user_id: this.evaluatorDetails.user_id,
+            evaluator_user_id: this.evaluatorDetails.id,
           };
           this.updateCbaoStatus(lg);
           break;
         case 'CBAO-ARCH':
           const arch = {
             cbao_arch_status_id: 2,
-            evaluator_user_id: this.evaluatorDetails.user_id,
+            evaluator_user_id: this.evaluatorDetails.id,
           };
           this.updateCbaoStatus(arch);
           break;
         case 'CBAO-STR':
           const str = {
             cbao_str_status_id: 2,
-            evaluator_user_id: this.evaluatorDetails.user_id,
+            evaluator_user_id: this.evaluatorDetails.id,
           };
           this.updateCbaoStatus(str);
           break;
         case 'CBAO-SAN':
           const san = {
             cbao_san_status_id: 2,
-            evaluator_user_id: this.evaluatorDetails.user_id,
+            evaluator_user_id: this.evaluatorDetails.id,
           };
           this.updateCbaoStatus(san);
           break;
         case 'CBAO-ELEC':
           const elec = {
             cbao_elec_status_id: 2,
-            evaluator_user_id: this.evaluatorDetails.user_id,
+            evaluator_user_id: this.evaluatorDetails.id,
           };
           this.updateCbaoStatus(elec);
           break;
@@ -607,35 +607,35 @@ export class CbaoEvaluatorComponent implements OnInit {
       case 'CBAO-LG':
         const lg = {
           cbao_lg_status_id: 1,
-          evaluator_user_id: this.evaluatorRole.id,
+          evaluator_user_id: this.evaluatorDetails.user_id,
         };
         this.updateCbaoStatus(lg);
         break;
       case 'CBAO-ARCH':
         const arch = {
           cbao_arch_status_id: 1,
-          evaluator_user_id: this.evaluatorRole.id,
+          evaluator_user_id: this.evaluatorDetails.user_id,
         };
         this.updateCbaoStatus(arch);
         break;
       case 'CBAO-STR':
         const str = {
           cbao_str_status_id: 1,
-          evaluator_user_id: this.evaluatorRole.id,
+          evaluator_user_id: this.evaluatorDetails.user_id,
         };
         this.updateCbaoStatus(str);
         break;
       case 'CBAO-SAN':
         const san = {
           cbao_san_status_id: 1,
-          evaluator_user_id: this.evaluatorRole.id,
+          evaluator_user_id: this.evaluatorDetails.user_id,
         };
         this.updateCbaoStatus(san);
         break;
       case 'CBAO-ELEC':
         const elec = {
           cbao_elec_status_id: 1,
-          evaluator_user_id: this.evaluatorRole.id,
+          evaluator_user_id: this.evaluatorDetails.user_id,
         };
         this.updateCbaoStatus(elec);
         break;

@@ -27,7 +27,7 @@ export class ZoningCertificateComponent implements OnInit {
   public applicationId;
   public userInfo;
   public userDocument = userDocuments[42];
-
+  public isSubmitting: boolean = false;
   constructor(
     private newApplicationService: NewApplicationService,
     private watermark: WaterMarkService,
@@ -68,6 +68,7 @@ export class ZoningCertificateComponent implements OnInit {
     this.dialogRef.close();
   }
   callSave() {
+    this.isSubmitting = true;
     const uploadDocumentData = {
       application_id: this.applicationId,
       user_id: this.userId,
@@ -102,6 +103,7 @@ export class ZoningCertificateComponent implements OnInit {
                     `Certificate of Zoning Compliance Uploaded`,
                     'success'
                   ).then((result) => {
+                    this.isSubmitting = true;
                     this.onNoClick();
                   });
                 });

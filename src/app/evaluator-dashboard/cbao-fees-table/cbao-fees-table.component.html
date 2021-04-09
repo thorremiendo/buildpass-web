@@ -37,7 +37,9 @@
           mat-button
           color="accent"
           (click)="onRemove(item.id)"
-          [disabled]="evaluatorDetails.office_id !== 4"
+          [disabled]="
+            evaluatorDetails.office_id !== 4 || evaluatorRole.code == 'CBAO-REC'
+          "
           *ngIf="item.name"
         >
           Remove

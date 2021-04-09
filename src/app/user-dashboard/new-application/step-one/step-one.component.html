@@ -84,7 +84,10 @@
               </mat-form-field>
             </div>
           </ng-container>
-          <div *ngIf="constructionStatus || registeredOwner" class="mt-4">
+          <div
+            *ngIf="constructionStatus || registeredOwner || isLotOwner"
+            class="mt-4"
+          >
             <h4>Is the property within a subdivision?</h4>
             <mat-form-field appearance="outline">
               <mat-label>Choose</mat-label>

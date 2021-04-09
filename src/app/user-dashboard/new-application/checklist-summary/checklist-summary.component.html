@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="col-12 m-0 p-0">
-      <ng-container>
+      <ng-container *ngIf="applicantForms">
         <div *ngFor="let category of sortedForms">
           <div *ngIf="category.data.length > 0">
             <div class="mb-2">{{ category.label }}</div>
@@ -38,10 +38,20 @@
         </div>
       </ng-container>
       <div class="text-right my-4">
-        <button mat-raised-button color="primary" (click)="proceed()" *ngIf="applicationInfo.application_status_id == 6">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="proceed()"
+          *ngIf="applicationInfo.application_status_id == 6"
+        >
           Proceed
         </button>
-        <button mat-raised-button color="primary" (click)="submit()" *ngIf="applicationInfo.application_status_id !== 6">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="submit()"
+          *ngIf="applicationInfo.application_status_id !== 6"
+        >
           Save
         </button>
       </div>

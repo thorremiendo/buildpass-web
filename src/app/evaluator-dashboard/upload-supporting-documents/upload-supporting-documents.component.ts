@@ -15,6 +15,7 @@ import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
   styleUrls: ['./upload-supporting-documents.component.scss'],
 })
 export class UploadSupportingDocumentsComponent implements OnInit {
+  public isSubmitting: boolean = false;
   public selectedFile: File;
   fileName = new FormControl('', [Validators.required]);
   constructor(
@@ -25,7 +26,7 @@ export class UploadSupportingDocumentsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
+    console.log("DATA", this.data);
   }
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
@@ -46,6 +47,7 @@ export class UploadSupportingDocumentsComponent implements OnInit {
     this.dialogRef.close();
   }
   handleUploadSupportingFiles() {
+    this.isSubmitting = true;
     const id = this.data.applicationDetails.id;
     const body = {
       evaluator_user_id: this.data.evaluator.user_id,
@@ -59,6 +61,7 @@ export class UploadSupportingDocumentsComponent implements OnInit {
         Swal.fire('Success!', `${body.title} uploaded!`, 'success').then(
           (result) => {
             this.onNoClick();
+            this.isSubmitting = false;
           }
         );
       });

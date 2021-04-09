@@ -24,6 +24,11 @@
       >
     </ngx-dropzone-preview>
   </ngx-dropzone>
+  <ng-container *ngIf="isSubmitting">
+    <div>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </ng-container>
   <div class="d-flex justify-content-between">
     <button
       class="text-right mt-3"
@@ -37,6 +42,7 @@
       class="text-right mt-3"
       mat-raised-button
       color="primary"
+      [disabled]="isSubmitting"
       (click)="callSave()"
     >
       Save

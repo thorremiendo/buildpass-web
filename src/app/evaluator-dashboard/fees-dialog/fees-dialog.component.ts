@@ -85,10 +85,12 @@ export class FeesDialogComponent implements OnInit {
   }
 
   fetchFeeTypes() {
-    this.applicationFeeService.fetchAllFees().subscribe((res) => {
-      this.fees = res.data;
-      this.filterFees();
-    });
+    this.applicationFeeService
+      .fetchOfficeFees(this.data.office_id)
+      .subscribe((res) => {
+        this.fees = res.data;
+        this.filterFees();
+      });
   }
   onSubmit() {
     this.isLoading = true;

@@ -35,11 +35,11 @@ export class ExcavationPermitComponent implements OnInit {
   public fieldSets: any = [
     {
       label: 'Step 2',
-      documents: [8, 15],
+      documents: [8, 7, 9],
     },
     {
       label: 'Step 3',
-      documents: [7, 9, 10, 11, 12],
+      documents: [10, 11, 12],
     },
     {
       label: 'Step 4',
@@ -95,11 +95,9 @@ export class ExcavationPermitComponent implements OnInit {
       .subscribe((res) => {
         this.applicationDetails = res.data;
         console.log(this.applicationDetails);
-        // this.formData = this.dataBindingService.getFormData(
-        //   this.applicationDetails
-        // );
+
         if (this.applicationDetails.main_permit_id == null) {
-          this.fieldSets[0].documents.push(14);
+          this.fieldSets[0].documents.push(14, 15);
           const isRepresentative =
             this.applicationDetails.is_representative == '1' ? true : false;
           const isLessee =
@@ -149,6 +147,10 @@ export class ExcavationPermitComponent implements OnInit {
           isConstructionStatus
             ? null
             : this.fieldSets[0].documents.push(...this.isConstructionStatus);
+        } else {
+          this.formData = this.dataBindingService.getFormData(
+            this.applicationDetails
+          );
         }
 
         this.initData();
@@ -170,6 +172,26 @@ export class ExcavationPermitComponent implements OnInit {
     }
   }
 
+  getFieldSetsLength() {
+    const length = [];
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    Object.keys(this.fieldSets).forEach((element) => {
+      length.push(this.fieldSets[element].documents.length);
+    });
+
+    return length.reduce(reducer);
+  }
+
+  updateFilePath() {
+    this.applicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((res) => {
+        this.applicationDetails = res.data;
+        this.setFilePaths();
+        this.openSnackBar('Uploaded!');
+      });
+  }
+
   public async upload(form): Promise<void> {
     console.log(form);
     const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
@@ -189,8 +211,7 @@ export class ExcavationPermitComponent implements OnInit {
           .submitDocument(uploadDocumentData)
           .subscribe((res) => {
             this.isLoading = false;
-            this.openSnackBar('Uploaded!');
-            window.location.reload();
+            this.updateFilePath();
           });
       } else {
         console.log('Blob failed');
@@ -314,7 +335,9 @@ export class ExcavationPermitComponent implements OnInit {
   }
 
   getDocType(id): string {
-    return this.documentTypes[id - 1].name;
+    if (this.applicationDetails) {
+      return this.documentTypes[id - 1].name;
+    }
   }
 
   initData() {
@@ -340,6 +363,7 @@ export class ExcavationPermitComponent implements OnInit {
 
   setFilePaths() {
     const docs = this.applicationDetails.user_docs;
+
     this.forms.forEach((form) => {
       docs.forEach((doc) => {
         if (form.id == doc.document_id) {
@@ -386,26 +410,34 @@ export class ExcavationPermitComponent implements OnInit {
             if (field.id == doctypeId) field.path = path;
           });
         });
-
-        Swal.fire('Success!', 'File uploaded!', 'success').then((result) => {});
+        this.updateFilePath();
       });
   }
 
   submitApplication() {
-    this.isSubmitting = true;
-    const id = this.excavationId ? this.excavationId : this.applicationId;
+    console.log(this.getFieldSetsLength() + 1);
+    console.log(this.applicationDetails.user_docs.length);
+    if (
+      this.getFieldSetsLength() + 1 ==
+      this.applicationDetails.user_docs.length
+    ) {
+      this.isSubmitting = true;
+      const id = this.excavationId ? this.excavationId : this.applicationId;
 
-    const data = {
-      application_status_id: 7,
-    };
-    this.applicationService
-      .updateApplicationStatus(data, id)
-      .subscribe((res) => {
-        this.isSubmitting = true;
-        this.router.navigate(['dashboard/new/summary', id]);
-        localStorage.removeItem('app_id');
-        localStorage.removeItem('application_details_for_excavation');
-      });
+      const data = {
+        application_status_id: 7,
+      };
+      this.applicationService
+        .updateApplicationStatus(data, id)
+        .subscribe((res) => {
+          this.isSubmitting = true;
+          this.router.navigate(['dashboard/new/summary', id]);
+          localStorage.removeItem('app_id');
+          localStorage.removeItem('application_details_for_excavation');
+        });
+    } else {
+      this.openSnackBar('Please upload all necessary documents!');
+    }
   }
   openSnackBar(message: string) {
     this.snackBar.open(message, 'Close', {

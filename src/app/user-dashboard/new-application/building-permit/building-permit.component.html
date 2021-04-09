@@ -4,6 +4,10 @@
     Click <a href="" target="_blank">here</a> to view all required forms for
     Building Permit Application.
   </p>
+  <h4 style="font-weight: bold; color: grey">
+    Uploaded Documents: {{ applicationDetails.user_docs.length }}/
+    {{ getFieldSetsLength() + 5 }}
+  </h4>
   <mat-horizontal-stepper
     linear
     #stepper
@@ -79,6 +83,13 @@
         </ng-container>
       </div>
       <div class="buttons">
+        <button
+          mat-raised-button
+          color="accent"
+          [routerLink]="['/dashboard/applications']"
+        >
+          Save as Draft
+        </button>
         <!-- <button
           mat-raised-button
           color="primary"
@@ -123,6 +134,13 @@
       <div class="buttons">
         <button
           mat-raised-button
+          color="accent"
+          [routerLink]="['/dashboard/applications']"
+        >
+          Save as Draft
+        </button>
+        <button
+          mat-raised-button
           color="primary"
           matStepperNext
           *ngIf="i != fieldSets.length - 1; else submit_button"
@@ -138,6 +156,11 @@
       </div>
     </mat-step>
   </mat-horizontal-stepper>
+</ng-container>
+<ng-container *ngIf="isLoading">
+  <div>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
 </ng-container>
 <ng-container *ngIf="!applicationDetails">
   <div class="spinner">

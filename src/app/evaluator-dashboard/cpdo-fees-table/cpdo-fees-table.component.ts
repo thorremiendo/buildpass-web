@@ -60,6 +60,7 @@ export class CpdoFeesTableComponent implements OnInit {
       width: '800px',
       data: {
         route: this.route,
+        office_id: 1,
       },
     });
 

@@ -22,11 +22,6 @@
 
 .buttons {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 30px;
-
-  button {
-    background-color: maroon !important;
-    color: #fff;
-  }
 }

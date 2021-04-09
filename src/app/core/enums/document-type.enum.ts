@@ -24,7 +24,7 @@ export enum documentTypes {
   "Tax Declaration from City Assessor's Office with Documentary Stamp from City Treasurers Office" = 23,
   'Latest Quarter of the Real Property Tax Receipt, or Certificate of Non-Tax Deliquency w/ documentary stamp from City Treasurers Office' = 24,
   'Clear Latest picture of site/area' = 25,
-  'Certified True Copy of the Title (updated not more than 6 months), or Copy of award w/ approved surveyed plan (signed and sealed by Geodetic Engineer)' = 26,
+  'Certified True Copy of the Title (updated not more than 6 months), or Copy of award' = 26,
   'Contract of Lease or Certified Copy of Authority to Construct on the subject property' = 27,
   'Building Plans (to be signed by applicant/owner)' = 28,
   'Structural Design and Analysis for Buildings with floor area of 20.00 sq.m. or more' = 29,
@@ -104,4 +104,5 @@ export enum documentTypes {
   'Site latest photo for fencing' = 101,
   'Site latest photo for demolition' = 102,
   'Absolute Deed of Sale or Conditional Deed of Sale' = 103,
+  'Copy of award w/ approved surveyed plan signed and sealed by Geodetic Engineer' = 104,
 }

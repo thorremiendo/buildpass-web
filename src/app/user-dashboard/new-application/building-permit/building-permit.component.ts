@@ -77,7 +77,7 @@ export class BuildingPermitComponent implements OnInit {
     {
       label: 'Step 10',
       title: 'Other Requirements',
-      documents: [39, 41, 42],
+      documents: [39, 41, 42, 15],
     },
   ];
 
@@ -193,6 +193,16 @@ export class BuildingPermitComponent implements OnInit {
     this.saveRoute();
   }
 
+  fetchApplicationInfo() {
+    this.applicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((res) => {
+        this.applicationDetails = res.data;
+        this.openSnackBar('Uploaded!');
+        this.setFilePaths();
+      });
+  }
+
   saveRoute() {
     const body = {
       user_id: this.user.id,
@@ -281,13 +291,40 @@ export class BuildingPermitComponent implements OnInit {
             if (field.id == doctypeId) field.path = path;
           });
         });
-
-        Swal.fire('Success!', 'File uploaded!', 'success').then((result) => {});
+        this.fetchApplicationInfo();
       });
   }
 
+  getFieldSetsLength() {
+    const length = [];
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    Object.keys(this.fieldSets).forEach((element) => {
+      length.push(this.fieldSets[element].documents.length);
+    });
+
+    return length.reduce(reducer);
+  }
+
   submitApplication() {
-    this.router.navigate(['dashboard/new/summary', this.applicationId]);
+    console.log(this.getFieldSetsLength() + 5);
+    console.log(this.applicationDetails.user_docs.length);
+    if (
+      this.getFieldSetsLength() + 5 ==
+      this.applicationDetails.user_docs.length
+    ) {
+      this.isLoading = true;
+      const body = {
+        application_status_id: 7,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          this.isLoading = false;
+          this.router.navigate(['dashboard/new/summary', this.applicationId]);
+        });
+    } else {
+      this.openSnackBar('Please upload all necessary documents!');
+    }
   }
   checkExistingZoningFormData() {
     this.applicationService
@@ -318,8 +355,7 @@ export class BuildingPermitComponent implements OnInit {
           .submitDocument(uploadDocumentData)
           .subscribe((res) => {
             this.isLoading = false;
-            this.openSnackBar('Uploaded!');
-            // window.location.reload();
+            this.fetchApplicationInfo();
           });
       } else {
         console.log('Blob failed');

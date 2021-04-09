@@ -61,6 +61,7 @@ export class BfpFeesTableComponent implements OnInit {
       data: {
         dataSource: this.dataSource,
         route: this.route,
+        office_id: 3,
       },
     });
 
