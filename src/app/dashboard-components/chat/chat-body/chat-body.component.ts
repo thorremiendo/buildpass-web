@@ -15,6 +15,7 @@ export class ChatBodyComponent implements OnInit {
   public selectedMessage: any;
   public msg: string = '';
   public chatId: number;
+  private channel: string;
 
   public talkWithChatbot: boolean = false;
   public talkWithEvaluator: boolean = false;
@@ -47,7 +48,7 @@ export class ChatBodyComponent implements OnInit {
       this.chatService.fetchConvo(this.userInfo.id, 'sender').subscribe((data) => {
         console.log(data);
         this.messages = data.data;
-        // this.selectedMessage = this.messages[0];
+        console.log(this.messages)
       });
     }
   }
@@ -58,11 +59,13 @@ export class ChatBodyComponent implements OnInit {
     this.talkWithChatbot = false;
     this.headerStart =true;
     this.selectedMessage = [];
+    this.chatService.unSubscribe(this.channel);
 
   }
 
   onSelect(message): void {
-    this.chatService.applicantChatSubscribe(message.channel);
+    this.channel = message.channel;
+    this.chatService.applicantChatSubscribe(this.channel);
     this.selectedMessage = message.convo;
     this.chatId = this.selectedMessage[0].chat_id;
     this.showContacts = false;
@@ -75,7 +78,8 @@ export class ChatBodyComponent implements OnInit {
       channel: channel,
       subject: 'Assistance',
       user_sender_id: this.userInfo.id,
-      user_receiver_id: 9,
+      user_receiver_id: 0,
+      office_receiver_id: 4,
       status_id: 1,
       type_id: 1,
       message: 'Good day, Can you assist me?',

@@ -53,13 +53,13 @@ export class ChatService {
     )
   }
 
-  fetchConvo(current_user_id, user){
+  fetchConvo(id, user){
     var url;
     if(user == 'sender'){
-       url = `/chat/${current_user_id}/sender`;
+       url = `/chat/${id}/sender`;
     }
     else{
-       url = `/chat/${current_user_id}/receiver`;
+       url = `/chat/${id}/office`;
     }
     
 
@@ -119,6 +119,11 @@ export class ChatService {
   subscribe(channelName) {
     this.pusher.subscribe(channelName);
   }
+
+  unSubscribe(channelName){
+    this.pusher.unsubscribe(channelName);
+  }
+
 
   getApplicantChatItems(): Observable<any> {
     return this.subject.asObservable();

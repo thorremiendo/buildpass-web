@@ -10,7 +10,10 @@ import { messages } from './chat-data-sample';
 })
 export class ChatBoxComponent implements OnInit {
   public userInfo;
+  private officeId:string | number;
   private chatId:number;
+  private channel;
+  private 
 
   sidePanelOpened = true;
   msg = '';
@@ -31,6 +34,8 @@ export class ChatBoxComponent implements OnInit {
   ngOnInit(): void {
     if (localStorage.getItem('user') != null) {
       this.userInfo = JSON.parse(localStorage.getItem('user'));
+      this.officeId = this.userInfo.employee_detail.office_id;
+      
 
      
       this.messageSubscription = this.chatService
@@ -40,20 +45,18 @@ export class ChatBoxComponent implements OnInit {
         console.log(this.selectedMessage)
       });
 
-      this.chatService.fetchConvo(this.userInfo.id, 'reciever').subscribe(result =>{
+      this.chatService.fetchConvo(this.officeId, 'reciever').subscribe(result =>{
         console.log(result);
         this.messages = result.data;
         if(this.messages != null){
           this.selectedMessage = this.messages[0];
           this.chatId = this.selectedMessage.convo[0].chat_id;
+          this.channel = this.selectedMessage.channel;
+          this.chatService.evaluatorChatSubscribe(this.channel);
         }
        
       })
-
-
-      
     }
-
   }
 
   @ViewChild('myInput', { static: true }) myInput: ElementRef = Object.create(null);
@@ -64,9 +67,19 @@ export class ChatBoxComponent implements OnInit {
 
   // tslint:disable-next-line - Disables all
   onSelect(message): void {
+  
+    let newChannel = message.channel;
     this.selectedMessage = message;
-    this.chatService.evaluatorChatSubscribe(this.selectedMessage.channel);
     this.chatId = this.selectedMessage.convo[0].chat_id;
+
+    if(this.channel != newChannel ){
+      console.log("Current: "+this.channel+" New: "+newChannel+" Not Equal")
+      this.channel = newChannel;
+      this.chatService.unSubscribe(this.channel);
+      this.chatService.evaluatorChatSubscribe(newChannel);
+    }
+   
+   
   }
 
   OnAddMsg(): void {

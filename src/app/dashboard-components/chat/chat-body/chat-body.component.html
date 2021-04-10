@@ -35,12 +35,12 @@
             <div class="mailbox message-widget">
               <div class="message-center">
                   <a *ngFor="let message of messages.slice().reverse();" (click)="onSelect(message)">
-                      <div class="user-img">
+                      <!-- <div class="user-img">
                           <img src="{{message.receiver_detail.photo_path}}" alt="user" class="img-circle" width="40">
-                          <!-- <span class="profile-status {{message.status}} pull-right"></span> -->
-                      </div>
+                           <span class="profile-status {{message.status}} pull-right"></span> 
+                      </div> -->
                       <div class="mail-content">
-                          <h5>Office Name</h5>
+                          <h5>{{message.office_detail.name}}</h5>
                           <span class="mail-desc text-muted">{{message.subject}}</span>
                           <span class="time text-muted">{{message.created_at | date:'MMM d, y h:mm a' }}</span>
                       </div>

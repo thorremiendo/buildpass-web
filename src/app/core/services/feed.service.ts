@@ -87,6 +87,10 @@ export class FeedService {
 
   }
 
+  unSubscribe(channelName){
+    this.pusher.unsubscribe(channelName);
+  }
+
   getFeedItems(): Observable<Feed> {
     return this.subject.asObservable();
   }
