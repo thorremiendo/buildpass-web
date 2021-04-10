@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
+import { ApplicationInfoService, EvaluatorService } from '../../core';
 
 @Component({
   selector: 'app-evaluator-home',
@@ -8,20 +8,25 @@ import { ApplicationInfoService } from 'src/app/core/services/application-info.s
   styleUrls: ['./evaluator-home.component.scss'],
 })
 export class EvaluatorHomeComponent implements OnInit {
-  public user;
+  public userInfo;
   public applications;
   public evaluatorDetails;
   public date = new Date();
+  public loading:boolean = true;
+
+  public application: string | number;
+  public pending: string | number;
+  public current: string | number;
+  public completed: string | number;
 
   navLinks: any[];
   activeLinkIndex = -1;
 
   constructor(
     private _router: Router,
-    public applicationInfoService: ApplicationInfoService,
-  
+    private evaluatorService: EvaluatorService,
+    private applicationInfoService: ApplicationInfoService
   ) {
-   
     this.navLinks = [
       {
         label: 'Table View',
@@ -34,10 +39,15 @@ export class EvaluatorHomeComponent implements OnInit {
         index: 1,
       },
     ];
-
   }
 
   ngOnInit(): void {
+    this.userInfo = JSON.parse(localStorage.getItem('user'));
+    if (this.userInfo) {
+      console.log(this.userInfo)
+      this.fetchTaskCount(this.userInfo.id);
+    }
+
     this._router.events.subscribe((res) => {
       this.activeLinkIndex = this.navLinks.indexOf(
         this.navLinks.find((tab) => tab.link === '.' + this._router.url)
@@ -45,15 +55,26 @@ export class EvaluatorHomeComponent implements OnInit {
     });
     this.applicationInfoService.fetchApplications().subscribe((res) => {
       this.applications = res.data;
-     
     });
   }
 
-  
- 
+  fetchTaskCount(id) {
+    this.evaluatorService.fetchTaskCount(id).subscribe((res) => {
+      let data = res.data[0];
+      console.log(data);
 
+      this.application = data.application;
+      this.pending = data.pending;
+      this.current = data.current;
+      this.completed = data.completed;
+      this.loading = false;
+    },
+    (err)=>{
+      console.log(err);
+    });
+  }
 
-  openApplication(id){
+  openApplication(id) {
     this._router.navigate(['evaluator/application', id]);
   }
 
@@ -71,5 +92,4 @@ export class EvaluatorHomeComponent implements OnInit {
   handleView() {
     this._router.navigateByUrl('evaluator/application');
   }
- 
 }

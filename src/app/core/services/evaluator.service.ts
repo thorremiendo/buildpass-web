@@ -14,4 +14,11 @@ export class EvaluatorService {
   fetchEvaluatorDetails() {
     this.evaluatorDetails = JSON.parse(localStorage.getItem('user'));
   }
+
+  fetchTaskCount(id){
+    const url = `/dashboard/${id}/evaluator`;
+
+    return this.api.get(url);
+
+  }
 }

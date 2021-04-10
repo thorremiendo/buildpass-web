@@ -1,74 +1,83 @@
 <div class="container">
-  <div class="row">
+  <div class="row no-gutters">
     <div class="col-md-7">
       <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
-        <mat-card >
+        <mat-card>
           <div class="box p-20 text-center cursor-pointer">
-           <mat-card-content style="height: 190px;">
-            <div
-            id="carouselContent"
-            class="carousel slide carousel-bg zindex-2 w-100"
-            data-ride="carousel"
-          >
-            <div class="carousel-inner" role="listbox">
-              <div class="carousel-item active text-center p-4">
-                <p>
-                  Check out our construction permit online application
-                  guidelines <a href="#">here</a>.
-                </p>
+            <mat-card-content style="height: 190px">
+              <div
+                id="carouselContent"
+                class="carousel slide carousel-bg zindex-2 w-100"
+                data-ride="carousel"
+              >
+                <div class="carousel-inner" role="listbox">
+                  <div class="carousel-item active text-center p-4">
+                    <p>
+                      Check out our construction permit online application
+                      guidelines <a href="#">here</a>.
+                    </p>
+                  </div>
+                  <div class="carousel-item text-center p-4">
+                    <p>
+                      Make sure all forms are correctly and completely
+                      filled-out.
+                    </p>
+                  </div>
+                  <div class="carousel-item text-center p-4">
+                    <p>
+                      Don’t forget to bring your proof of payment, original
+                      signed and sealed documents upon claiming your Building
+                      Permit.
+                    </p>
+                  </div>
+                </div>
+                <a
+                  class="carousel-control-prev"
+                  href="#carouselContent"
+                  role="button"
+                  data-slide="prev"
+                >
+                  <span
+                    class="carousel-control-prev-icon"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a
+                  class="carousel-control-next"
+                  href="#carouselContent"
+                  role="button"
+                  data-slide="next"
+                >
+                  <span
+                    class="carousel-control-next-icon"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="sr-only">Next</span>
+                </a>
               </div>
-              <div class="carousel-item text-center p-4">
-                <p>
-                  Make sure all forms are correctly and completely filled-out.
-                </p>
-              </div>
-              <div class="carousel-item text-center p-4">
-                <p>
-                  Don’t forget to bring your proof of payment, original signed
-                  and sealed documents upon claiming your Building Permit.
-                </p>
-              </div>
-            </div>
-            <a
-              class="carousel-control-prev"
-              href="#carouselContent"
-              role="button"
-              data-slide="prev"
-            >
-              <span
-                class="carousel-control-prev-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a
-              class="carousel-control-next"
-              href="#carouselContent"
-              role="button"
-              data-slide="next"
-            >
-              <span
-                class="carousel-control-next-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-           </mat-card-content>
+            </mat-card-content>
           </div>
         </mat-card>
-     </div>
-     <app-top-card-two></app-top-card-two>
+      </div>
+      <app-top-card-two
+        [application]="application"
+        [pending]="pending"
+        [current]="current"
+        [completed]="completed"
+      ></app-top-card-two>
     </div>
     <div class="col-md-5">
-      <app-donut-chart></app-donut-chart>
+      <app-donut-chart *ngIf="!loading"
+        [pending]="pending"
+        [current]="current"
+        [completed]="completed"
+        hello = "'Hello'"
+      >
+    </app-donut-chart>
     </div>
   </div>
-
-  <div class="row">
-    
-  </div>
-  <div class="row">
+  <div class="row no-gutters">
     <div class="col-md-12">
       <mat-card class="card-container mt-3">
         <nav mat-tab-nav-bar mat-stretch-tabs>

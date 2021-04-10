@@ -12,3 +12,5 @@ export * from './application-info.service';
 export * from './chat.service';
 export * from './register-account-evaluator-form.service';
 export * from './register-account-form.service';
+export * from './application-info.service';
+export * from './evaluator.service';

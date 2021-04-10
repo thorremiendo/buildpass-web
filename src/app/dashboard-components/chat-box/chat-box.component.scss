@@ -1,8 +1,10 @@
 mat-card{
-
+    max-height: 500px !important;
+    min-height: 500px !important;
     mat-card-content{
-        max-height: 500px;
-        min-height: 500px;
+        max-height: 500px !important;
+        min-height: 500px !important;
+       
         overflow-y: auto;
     }
 }

@@ -1,9 +1,9 @@
-<mat-card class="">
+<mat-card>
     <mat-card-content>
         <mat-card-title>Task</mat-card-title>
         <mat-card-subtitle>as of {{date | date:"medium"}}</mat-card-subtitle>
         <div id="donut-chart" class="m-t-10 p-t-10 p-b-10 d-flex flex-column">
-            <apx-chart [series]="DonutChartOptions.series" [chart]="DonutChartOptions.chart"
+            <apx-chart [series]="DonutChartOptions.series"  [chart]="DonutChartOptions.chart"
                 [labels]="DonutChartOptions.labels" [responsive]="DonutChartOptions.responsive"
                 [tooltip]="DonutChartOptions.tooltip" [legend]="DonutChartOptions.legend"
                 [colors]="DonutChartOptions.colors" [dataLabels]="DonutChartOptions.dataLabels"
@@ -17,27 +17,22 @@
             <li>
                 <h6 class="text-muted text-success m-0" >
                     <i class="fa fa-circle font-10 m-r-10 "  style="color: #C32148;"></i><span style="color: #C32148;">
-                        New Tasks
+                        Pending
                     </span></h6>
             </li>
             <li>
                 <h6 class="text-muted text-success m-0" >
                     <i class="fa fa-circle font-10 m-r-10 "  style="color:#F2BA49;"></i><span style="color:#F2BA49;">
-                        Opened Tasks
+                        Current
                     </span></h6>
             </li>
             <li>
                 <h6 class="text-muted text-success m-0" >
                     <i class="fa fa-circle font-10 m-r-10 "  style="color:#FF8C00;"></i><span style="color:#FF8C00;">
-                        Closed Tasks
+                        Completed
                     </span></h6>
             </li>
-            <li>
-                <h6 class="text-muted text-success m-0" >
-                    <i class="fa fa-circle font-10 m-r-10 "  style="color: #800000;"></i><span style="color: #800000;">
-                        Applicants
-                    </span></h6>
-            </li>
+    
         </ul>
     </mat-card-content>
 </mat-card>

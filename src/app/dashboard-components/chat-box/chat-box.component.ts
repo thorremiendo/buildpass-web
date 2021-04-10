@@ -74,12 +74,6 @@ export class ChatBoxComponent implements OnInit {
 
     if (this.msg !== '') {
       this.chatService.sendConvo(this.chatId, this.userInfo.id, this.msg)
-        // this.selectedMessage.push({
-        //   type: 'incoming',
-        //   msg: this.msg,
-        //   date: new Date()
-           
-        // });
     }
 
     this.myInput.nativeElement.value = '';

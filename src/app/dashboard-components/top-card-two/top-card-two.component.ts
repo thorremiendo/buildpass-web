@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-top-card-two',
@@ -6,6 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./top-card-two.component.scss']
 })
 export class TopCardTwoComponent implements OnInit {
+  @Input() public application: string | number;
+  @Input() public pending: string | number;
+  @Input() public current: string | number;
+  @Input() public completed: string | number;
 
   constructor() { }
 

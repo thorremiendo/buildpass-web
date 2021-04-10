@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input} from '@angular/core';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -22,14 +22,25 @@ import {
   styleUrls: ['./donut-chart.component.scss']
 })
 export class DonutChartComponent implements OnInit {
+  @Input() pending: number;
+  @Input() current: number;
+  @Input() completed: number;
+  @Input() hello;
+
   public date = new Date;
+  public loading:boolean = true;
 
   @ViewChild('donut-chart') chart2: ChartComponent = Object.create(null);
-  public DonutChartOptions: Partial<DonutChartOptions>;
+  public DonutChartOptions;
 
   constructor() {
+  
+  
+  }
+
+  ngOnInit(): void {
     this.DonutChartOptions = {
-      series: [4, 15, 27, 18],
+      series: [this.pending, this.current, this.completed],
       chart: {
         type: 'donut',
         fontFamily: 'Poppins,sans-serif',
@@ -54,8 +65,8 @@ export class DonutChartComponent implements OnInit {
       legend: {
         show: false,
       },
-      labels: ['New Task', 'Opened Task', 'Closed Task', 'Applicants'],
-      colors: ['#C32148', '#F2BA49', '#FF8C00', '#800000'],
+      labels: [ 'Pending', 'Current', 'Completed'],
+      colors: ['#F2BA49', '#FF8C00', '#800000'],
       responsive: [
         {
           breakpoint: 767,
@@ -67,12 +78,18 @@ export class DonutChartComponent implements OnInit {
         }
       ]
     };
+  
+  
+    
   }
 
-  ngOnInit(): void {
-  }
-
+  displayData(){
+    
 }
+}
+
+
+
 
 export interface DonutChartOptions {
   series: ApexNonAxisChartSeries;

@@ -1,42 +1,34 @@
 <div fxLayout="row wrap">
-    <!-- column -->
     <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
       <mat-card>
         <div class="box p-20 text-center cursor-pointer" style="background-color: #800000" >
-          <h1 class="font-light text-white m-0">20</h1>
+          <h1 class="font-light text-white m-0">{{application}}</h1>
           <h6 class="text-white m-0">Application</h6>
         </div>
       </mat-card>
     </div>
-    <!-- column -->
-    <!-- column -->
     <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
       <mat-card>
         <div class="box p-20 text-center cursor-pointer" style="background-color: #C32148;"  >
-          <h1 class="font-light text-white m-0">14</h1>
-          <h6 class="text-white m-0">New Task</h6>
+          <h1 class="font-light text-white m-0">{{pending}}</h1>
+          <h6 class="text-white m-0">Pending</h6>
         </div>
       </mat-card>
     </div>
-    <!-- column -->
-    <!-- column -->
     <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
       <mat-card>
         <div class="box p-20 text-center cursor-pointer" style="background-color: #F2BA49;">
-          <h1 class="font-light text-white m-0">27</h1>
-          <h6 class="text-white m-0">Open Task</h6>
+          <h1 class="font-light text-white m-0">{{current}}</h1>
+          <h6 class="text-white m-0">Current</h6>
         </div>
       </mat-card>
     </div>
-    <!-- column -->
-    <!-- column -->
     <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
       <mat-card>
         <div class="box p-20 text-center cursor-pointer" style="background-color: #FF8C00;" >
-          <h1 class="font-light text-white m-0">30</h1>
-          <h6 class="text-white m-0">Closed Task</h6>
+          <h1 class="font-light text-white m-0">{{completed}}</h1>
+          <h6 class="text-white m-0">Completed</h6>
         </div>
       </mat-card>
     </div>
-    <!-- column -->
   </div>

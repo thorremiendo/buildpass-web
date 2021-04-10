@@ -18,7 +18,7 @@ export class ChatBodyComponent implements OnInit {
 
   public talkWithChatbot: boolean = false;
   public talkWithEvaluator: boolean = false;
-  public conversations: boolean = false;
+  public showContacts: boolean = false;
   public isEnd: boolean = false;
   public headerStart = true;
   public isEvaluator = false;
@@ -52,24 +52,25 @@ export class ChatBodyComponent implements OnInit {
     }
   }
 
-  backToConversations() {
-    this.conversations = false;
+  mainChat() {
+    this.showContacts = false;
     this.talkWithEvaluator = false;
+    this.talkWithChatbot = false;
     this.headerStart =true;
+    this.selectedMessage = [];
+
   }
 
-  // tslint:disable-next-line - Disables all
   onSelect(message): void {
     this.chatService.applicantChatSubscribe(message.channel);
     this.selectedMessage = message.convo;
     this.chatId = this.selectedMessage[0].chat_id;
-    this.conversations = false;
+    this.showContacts = false;
     this.talkWithEvaluator = true;
   }
 
   OnCreateMsg() {
     let channel = `chat-${this.chatService.generateRandomNumber()}`;
-    // let channel = "chat-1";
     const newConvo = {
       channel: channel,
       subject: 'Assistance',
@@ -232,10 +233,16 @@ export class ChatBodyComponent implements OnInit {
         );
         break;
 
-      case 'Conversations':
+      case 'Show Contacts':
         this.talkWithChatbot = false;
-        this.conversations = true;
+        this.talkWithEvaluator =false;
+        this.showContacts = true;
         this.headerStart = false;
+        this.chatService.fetchConvo(this.userInfo.id, 'sender').subscribe((data) => {
+          console.log(data);
+          this.messages = data.data;
+          // this.selectedMessage = this.messages[0];
+        });
 
         break;
     }

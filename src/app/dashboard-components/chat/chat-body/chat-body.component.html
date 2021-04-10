@@ -6,32 +6,32 @@
     </mat-card-header>
     <mat-card-header *ngIf="!headerStart"> 
       <div class="d-flex justify-content-between">
-        <button mat-icon-button (click)="backToConversations()">
+        <button mat-icon-button (click)="mainChat()">
           <mat-icon aria-hidden="false" aria-label="back btn" style="color: white;">arrow_back_ios</mat-icon>
         </button>
-        <!-- <p style="font-weight: bold; text-align: end; color: white;">Conversations </p> -->
+        <!-- <p style="font-weight: bold; text-align: end; color: white;">openChatList </p> -->
       </div>
   </mat-card-header>
       <perfect-scrollbar>
         <mat-card-content>
-          <div *ngIf="!talkWithEvaluator && !conversations">
-            <div class="pb-3 text-right">
+          <div *ngIf="!talkWithEvaluator && !showContacts">
+            <!-- <div class="pb-3 text-right">
               <button mat-stroked-button class="btn-bot" (click)="chatbotMessage('Apply')">
                 How to Apply?
                </button>
-            </div>
+            </div> -->
             <div class="pb-3 text-right">
               <button mat-stroked-button class="btn-bot" (click)="chatbotMessage('Evaluator')">
                 Talk with Evaluator
                </button>
             </div>
             <div class="pb-3 text-right">
-              <button mat-stroked-button class="btn-bot" (click)="chatbotMessage('Conversations')">
+              <button mat-stroked-button class="btn-bot" (click)="chatbotMessage('Show Contacts')">
                See all your conversations
                </button>
             </div>
           </div>
-          <div *ngIf="conversations">
+          <div *ngIf="showContacts">
             <div class="mailbox message-widget">
               <div class="message-center">
                   <a *ngFor="let message of messages.slice().reverse();" (click)="onSelect(message)">
@@ -49,9 +49,9 @@
           </div>
           </div>
         
-          <div *ngIf="!conversations">
+          <div *ngIf="!showContacts">
             <ng-container *ngFor="let c of selectedMessage">
-              <ng-template [ngIf]="c.type == 'incoming'" [ngIfElse]="evenblock">
+              <ng-template [ngIf]="c.type == 'incoming' && !showContacts" [ngIfElse]="evenblock">
                 <div class="chat-list odd">
                   <div class="chat-message">
                     <div class="chat-block">
@@ -65,21 +65,20 @@
                 </div>
               </ng-template>
               <ng-template #evenblock>
-                <div *ngIf="talkWithChatbot" class="chat-list even">
+                <!-- <div *ngIf="talkWithChatbot" class="chat-list even">
                   <div class="chat-message">
                     <button mat-stroked-button class="btn-bot pb-2" (click)="chatbotMessage(c.param)">
                       {{c.msg}}
                      </button>
-  
-                
                   </div>
-                </div>
-                <div *ngIf="talkWithEvaluator">
-                   <div  class="chat-list even">
+                </div> -->
+                <div  class="chat-list even">
                   <div class="chat-message">
                     <div class="chat-block bg-light-info">{{c.message}}</div>
                     <span class="chat-date">{{ c.created_at |  date:'MMM d, y h:mm a' }}</span>
                   </div>
+                <div *ngIf="talkWithEvaluator">
+                 
                 </div>
                 </div>
               </ng-template>
