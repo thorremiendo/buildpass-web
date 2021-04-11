@@ -93,6 +93,111 @@ export class DataFormBindingService {
     );
   }
 
+  handleSaveFormData(applicationId, formId, data) {
+    switch (formId) {
+      case 1:
+        const body = {
+          applicant_first_name: data.applicant_first_name
+            ? data.applicant_first_name
+            : '',
+          applicant_middle_name: data.applicant_middle_name
+            ? data.applicant_middle_name
+            : '',
+          applicant_last_name: data.applicant_last_name
+            ? data.applicant_last_name
+            : '',
+          name_of_corporation: data.name_of_corporation
+            ? data.name_of_corporation
+            : '',
+          corporation_contact_number: data.corporation_contact_number
+            ? data.corporation_contact_number
+            : '',
+          applicant_house_number: data.applicant_house_number
+            ? data.applicant_house_number
+            : '',
+          applicant_street_name: data.applicant_street_name
+            ? data.applicant_street_name
+            : '',
+          applicant_barangay: data.applicant_barangay
+            ? data.applicant_barangay
+            : '',
+          applicant_province: data.applicant_province
+            ? data.applicant_province
+            : '',
+          corporation_address_no: data.corporation_address_no
+            ? data.corporation_address_no
+            : '',
+          corporation_address_barangay: data.corporation_address_barangay
+            ? data.corporation_address_barangay
+            : '',
+          corporation_address_city: data.corporation_address_city
+            ? data.corporation_address_city
+            : '',
+          rep_first_name: data.rep_first_name ? data.rep_first_name : '',
+          rep_middle_name: data.rep_middle_name ? data.rep_middle_name : '',
+          rep_last_name: data.rep_last_name ? data.rep_last_name : '',
+          rep_contact_number: data.rep_contact_number
+            ? data.rep_contact_number
+            : '',
+          rep_house_number: data.rep_house_number ? data.rep_house_number : '',
+          rep_street_name: data.rep_street_name ? data.rep_street_name : '',
+          rep_barangay: data.rep_barangay ? data.rep_barangay : '',
+          rep_province: data.rep_province ? data.rep_province : '',
+          project_type: data.project_type ? data.project_type : '',
+          project_nature: data.project_nature ? data.project_nature : '',
+          project_nature_others: data.project_nature_others
+            ? data.project_nature_others
+            : '',
+          project_house_number: data.project_house_number
+            ? data.project_house_number
+            : '',
+          project_street_name: data.project_street_name
+            ? data.project_street_name
+            : '',
+          project_barangay: data.project_barangay ? data.project_barangay : '',
+          project_province: data.project_province ? data.project_province : '',
+          project_lot_area: data.project_lot_area ? data.project_lot_area : '',
+          project_total_floor_area: data.project_total_floor_area
+            ? data.project_total_floor_area
+            : '',
+          right_over_land: data.right_over_land ? data.right_over_land : '',
+          right_over_land_others: data.right_over_land_others
+            ? data.right_over_land_others
+            : '',
+          project_tenure: data.project_tenure ? data.project_tenure : '',
+          project_tenure_temporary: data.project_tenure_temporary
+            ? data.project_tenure_temporary
+            : '',
+          project_cost_cap: data.project_cost_cap ? data.project_cost_cap : '',
+          amount_in_words: data.amount_in_words ? data.amount_in_words : '',
+          existing_land: data.existing_land ? data.existing_land : '',
+          existing_land_residence: data.existing_land_residence
+            ? data.existing_land_residence
+            : '',
+          existing_land_commercial: data.existing_land_commercial
+            ? data.existing_land_commercial
+            : '',
+          existing_land_others: data.existing_land_others
+            ? data.existing_land_others
+            : '',
+          applicant_full_name: data.applicant_full_name
+            ? data.applicant_full_name
+            : '',
+          position_title: data.position_title ? data.position_title : '',
+        };
+        this.submitZoningFormData(body, applicationId).subscribe((res) => {
+          console.log(res);
+        });
+        break;
+      case 2:
+        break;
+
+      default:
+        console.log(formId);
+        break;
+    }
+  }
+
   //FIRE SAFETY EVALUATION CLEARANCE
   getFireClearanceData(a) {
     const applicantDetails = a.applicant_detail;

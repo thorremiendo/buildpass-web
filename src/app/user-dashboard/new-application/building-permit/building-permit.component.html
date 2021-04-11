@@ -20,6 +20,7 @@
         <div class="step-label">
           1. After filling out the form, please click the download/save button
           on the right.
+          {{ form.id == 2 ? buildingFormData.applicant_first_name : "" }}
         </div>
 
         <div id="form-{{ i }}">
@@ -45,13 +46,7 @@
               [useBrowserLocale]="true"
               height="1000px"
               zoom="80%"
-              [(formData)]="
-                form.id == 1
-                  ? zoningForm == undefined
-                    ? formData
-                    : zoningForm
-                  : formData
-              "
+              [(formData)]="formData"
             >
             </ngx-extended-pdf-viewer>
           </div>

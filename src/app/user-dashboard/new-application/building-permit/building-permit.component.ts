@@ -20,7 +20,11 @@ export class BuildingPermitComponent implements OnInit {
   public applicationId;
   public applicationDetails;
   public isLoading: boolean = true;
-  public zoningForm;
+  public zoningFormData;
+  public buildingFormData;
+  public sanitaryFormData;
+  public noticeOfConstructionFormData;
+  public electricalFormData;
 
   public forms: any = [
     {
@@ -115,10 +119,20 @@ export class BuildingPermitComponent implements OnInit {
           .subscribe((res) => {
             this.applicationDetails = res.data;
             console.log(this.applicationDetails);
-            this.formData = this.dataBindingService.getFormData(
+            this.zoningFormData = this.dataBindingService.getFormData(
               this.applicationDetails
             );
-            console.log(this.formData);
+            console.log('ZONING', this.zoningFormData);
+            this.buildingFormData = this.dataBindingService.getFormData(
+              this.applicationDetails
+            );
+            console.log('BLDG', this.buildingFormData);
+            this.sanitaryFormData = this.dataBindingService.getFormData(
+              this.applicationDetails
+            );
+            this.electricalFormData = this.dataBindingService.getFormData(
+              this.applicationDetails
+            );
 
             const isRepresentative =
               this.applicationDetails.is_representative == 1 ? true : false;
@@ -182,7 +196,6 @@ export class BuildingPermitComponent implements OnInit {
 
             this.initData();
             this.setFilePaths();
-            this.checkExistingZoningFormData();
             this.pdfSource = this.forms[0].src;
           });
       });
@@ -214,10 +227,17 @@ export class BuildingPermitComponent implements OnInit {
   }
 
   initPdfViewer(event) {
+    this.checkExistingZoningFormData();
     const index = event.selectedIndex;
     const pdfViewer = document.getElementById('pdf-viewer');
     const pdfContainer = document.getElementById(`form-${index}`);
     this.forms[index] ? (this.pdfSource = this.forms[index].src) : null;
+    this.forms[0] ? (this.formData = this.zoningFormData) : null;
+    this.forms[1] ? (this.formData = this.buildingFormData) : null;
+    this.forms[2] ? (this.formData = this.sanitaryFormData) : null;
+    this.forms[3] ? (this.formData = this.noticeOfConstructionFormData) : null;
+    this.forms[4] ? (this.formData = this.electricalFormData) : null;
+
     pdfContainer ? pdfContainer.appendChild(pdfViewer) : null;
   }
 
@@ -331,14 +351,29 @@ export class BuildingPermitComponent implements OnInit {
       .fetchZoningFormData(this.applicationId)
       .subscribe((res) => {
         if (res.data.length !== 0) {
-          this.zoningForm = res.data;
+          this.zoningFormData = res.data;
         }
-        console.log(this.zoningForm);
+        console.log(this.zoningFormData);
       });
   }
   public async upload(form): Promise<void> {
-    console.log(form);
+    const data =
+      form.id == 1
+        ? this.zoningFormData
+        : form.id == 2
+        ? this.buildingFormData
+        : form.id == 3
+        ? this.sanitaryFormData
+        : form.id == 4
+        ? this.noticeOfConstructionFormData
+        : this.electricalFormData;
+
     const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    this.dataBindingService.handleSaveFormData(
+      this.applicationId,
+      form.id,
+      data
+    );
     if (!form.path) {
       if (blob) {
         console.log({ blob });
@@ -373,114 +408,6 @@ export class BuildingPermitComponent implements OnInit {
         .subscribe((res) => {
           this.openSnackBar('Saved!');
         });
-    }
-  }
-
-  handleSaveFormData(id) {
-    switch (id) {
-      case 1:
-        const data =
-          this.zoningForm == undefined ? this.formData : this.zoningForm;
-        const body = {
-          applicant_first_name: data.applicant_first_name
-            ? data.applicant_first_name
-            : '',
-          applicant_middle_name: data.applicant_middle_name
-            ? data.applicant_middle_name
-            : '',
-          applicant_last_name: data.applicant_last_name
-            ? data.applicant_last_name
-            : '',
-          name_of_corporation: data.name_of_corporation
-            ? data.name_of_corporation
-            : '',
-          corporation_contact_number: data.corporation_contact_number
-            ? data.corporation_contact_number
-            : '',
-          applicant_house_number: data.applicant_house_number
-            ? data.applicant_house_number
-            : '',
-          applicant_street_name: data.applicant_street_name
-            ? data.applicant_street_name
-            : '',
-          applicant_barangay: data.applicant_barangay
-            ? data.applicant_barangay
-            : '',
-          applicant_province: data.applicant_province
-            ? data.applicant_province
-            : '',
-          corporation_address_no: data.corporation_address_no
-            ? data.corporation_address_no
-            : '',
-          corporation_address_barangay: data.corporation_address_barangay
-            ? data.corporation_address_barangay
-            : '',
-          corporation_address_city: data.corporation_address_city
-            ? data.corporation_address_city
-            : '',
-          rep_first_name: data.rep_first_name ? data.rep_first_name : '',
-          rep_middle_name: data.rep_middle_name ? data.rep_middle_name : '',
-          rep_last_name: data.rep_last_name ? data.rep_last_name : '',
-          rep_contact_number: data.rep_contact_number
-            ? data.rep_contact_number
-            : '',
-          rep_house_number: data.rep_house_number ? data.rep_house_number : '',
-          rep_street_name: data.rep_street_name ? data.rep_street_name : '',
-          rep_barangay: data.rep_barangay ? data.rep_barangay : '',
-          rep_province: data.rep_province ? data.rep_province : '',
-          project_type: data.project_type ? data.project_type : '',
-          project_nature: data.project_nature ? data.project_nature : '',
-          project_nature_others: data.project_nature_others
-            ? data.project_nature_others
-            : '',
-          project_house_number: data.project_house_number
-            ? data.project_house_number
-            : '',
-          project_street_name: data.project_street_name
-            ? data.project_street_name
-            : '',
-          project_barangay: data.project_barangay ? data.project_barangay : '',
-          project_province: data.project_province ? data.project_province : '',
-          project_lot_area: data.project_lot_area ? data.project_lot_area : '',
-          project_total_floor_area: data.project_total_floor_area
-            ? data.project_total_floor_area
-            : '',
-          right_over_land: data.right_over_land ? data.right_over_land : '',
-          right_over_land_others: data.right_over_land_others
-            ? data.right_over_land_others
-            : '',
-          project_tenure: data.project_tenure ? data.project_tenure : '',
-          project_tenure_temporary: data.project_tenure_temporary
-            ? data.project_tenure_temporary
-            : '',
-          project_cost_cap: data.project_cost_cap ? data.project_cost_cap : '',
-          amount_in_words: data.amount_in_words ? data.amount_in_words : '',
-          existing_land: data.existing_land ? data.existing_land : '',
-          existing_land_residence: data.existing_land_residence
-            ? data.existing_land_residence
-            : '',
-          existing_land_commercial: data.existing_land_commercial
-            ? data.existing_land_commercial
-            : '',
-          existing_land_others: data.existing_land_others
-            ? data.existing_land_others
-            : '',
-          applicant_full_name: data.applicant_full_name
-            ? data.applicant_full_name
-            : '',
-          position_title: data.position_title ? data.position_title : '',
-        };
-        this.applicationService
-          .submitZoningFormData(body, this.applicationId)
-          .subscribe((res) => {
-            console.log(res);
-            this.upload(id);
-          });
-        break;
-
-      default:
-        console.log(id);
-        break;
     }
   }
 
