@@ -4,6 +4,8 @@ import { NewApplicationService } from 'src/app/core/services/new-application.ser
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { DataFormBindingService } from 'src/app/core/services/data-form-binding.service';
 import Swal from 'sweetalert2';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
 
 @Component({
   selector: 'app-demolition-permit',
@@ -11,6 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./demolition-permit.component.scss'],
 })
 export class DemolitionPermitComponent implements OnInit {
+  public isSubmitting: boolean = false;
   public user;
   public pdfSource;
   public formData;
@@ -33,11 +36,11 @@ export class DemolitionPermitComponent implements OnInit {
     },
     {
       label: 'Step 3',
-      documents: [8, 7, 54, 55, 56],
+      documents: [8, 54, 55, 56, 57],
     },
     {
       label: 'Step 4',
-      documents: [45, 42],
+      documents: [42],
     },
   ];
 
@@ -56,7 +59,9 @@ export class DemolitionPermitComponent implements OnInit {
     private newApplicationService: NewApplicationService,
     private applicationService: ApplicationInfoService,
     private dataBindingService: DataFormBindingService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService
   ) {}
 
   ngOnInit(): void {
@@ -207,6 +212,46 @@ export class DemolitionPermitComponent implements OnInit {
     });
   }
 
+  public async upload(form): Promise<void> {
+    console.log(form);
+    const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    if (!form.path) {
+      if (blob) {
+        console.log({ blob });
+        this.isLoading = true;
+        const uploadDocumentData = {
+          application_id: this.applicationId,
+          user_id: this.user.id,
+          document_id: form.id,
+          document_path: blob,
+          document_status: '0',
+        };
+
+        this.newApplicationService
+          .submitDocument(uploadDocumentData)
+          .subscribe((res) => {
+            this.isLoading = false;
+            this.updateFilePath();
+          });
+      } else {
+        console.log('Blob failed');
+      }
+    } else {
+      console.log('exists!');
+      const uploadDocumentData = {
+        document_status_id: 0,
+      };
+      if (blob) {
+        uploadDocumentData['document_path'] = blob;
+      }
+      this.newApplicationService
+        .updateDocumentFile(uploadDocumentData, form.doc_id)
+        .subscribe((res) => {
+          this.openSnackBar('Saved!');
+        });
+    }
+  }
+
   submitDocument(file: File, doctypeId: string) {
     const uploadDocumentData = {
       application_id: this.applicationId,
@@ -230,11 +275,55 @@ export class DemolitionPermitComponent implements OnInit {
           });
         });
 
-        Swal.fire('Success!', 'File uploaded!', 'success').then((result) => {});
+        this.updateFilePath();
+      });
+  }
+  updateFilePath() {
+    this.applicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((res) => {
+        this.applicationDetails = res.data;
+        this.setFilePaths();
+        this.openSnackBar('Uploaded!');
       });
   }
 
+  getFieldSetsLength() {
+    const length = [];
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    Object.keys(this.fieldSets).forEach((element) => {
+      length.push(this.fieldSets[element].documents.length);
+    });
+
+    return length.reduce(reducer);
+  }
+
   submitApplication() {
-    this.router.navigate(['dashboard/new/summary', this.applicationId]);
+    console.log(this.getFieldSetsLength() + 1);
+    console.log(this.applicationDetails.user_docs.length);
+    if (
+      this.getFieldSetsLength() + 1 ==
+      this.applicationDetails.user_docs.length
+    ) {
+      this.isSubmitting = true;
+      const data = {
+        application_status_id: 7,
+      };
+      this.applicationService
+        .updateApplicationStatus(data, this.applicationId)
+        .subscribe((res) => {
+          this.isSubmitting = true;
+          this.router.navigate(['dashboard/new/summary', this.applicationId]);
+          localStorage.removeItem('app_id');
+          localStorage.removeItem('application_details_for_excavation');
+        });
+    } else {
+      this.openSnackBar('Please upload all necessary documents!');
+    }
+  }
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 2000,
+    });
   }
 }

@@ -1,6 +1,9 @@
+import { ApiService } from './api.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { Injectable } from '@angular/core';
 import * as NumberToWords from 'number-to-words';
+import { map, catchError } from 'rxjs/operators';
+import { BehaviorSubject, from, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +15,83 @@ export class DataFormBindingService {
   public applicantDetails;
   public representativeDetails;
 
-  constructor() {}
+  constructor(private api: ApiService) {}
+
+  submitZoningFormData(body, id) {
+    const url = `/formdata/${id}/zoning`;
+    return this.api.post(url, body);
+  }
+  fetchZoningFormData(id) {
+    const url = `/formdata/${id}/zoning`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+  submitBuildingFormData(body, id) {
+    const url = `/formdata/${id}/building`;
+    return this.api.post(url, body);
+  }
+  fetchBuildingFormData(id) {
+    const url = `/formdata/${id}/building`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+  submitSanitaryFormData(body, id) {
+    const url = `/formdata/${id}/sanitary`;
+    return this.api.post(url, body);
+  }
+  fetchSanitaryFormData(id) {
+    const url = `/formdata/${id}/sanitary`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+  submitElectricalFormData(body, id) {
+    const url = `/formdata/${id}/electrical`;
+    return this.api.post(url, body);
+  }
+  fetchElectricalFormData(id) {
+    const url = `/formdata/${id}/electrical`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+  submitExcavationFormData(body, id) {
+    const url = `/formdata/${id}/excavation`;
+    return this.api.post(url, body);
+  }
+  fetchExcavationFormData(id) {
+    const url = `/formdata/${id}/excavation`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
 
   //FIRE SAFETY EVALUATION CLEARANCE
   getFireClearanceData(a) {
