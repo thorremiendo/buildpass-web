@@ -160,6 +160,8 @@ export class ChecklistSummaryComponent implements OnInit {
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: `Yes`,
+        confirmButtonColor: '#330E08',
+        denyButtonColor: '#D2AB48',
         denyButtonText: `No`,
       }).then((result) => {
         if (result.isConfirmed) {
@@ -167,12 +169,12 @@ export class ChecklistSummaryComponent implements OnInit {
           this.updateApplicationWithExcavation();
         } else if (result.isDenied) {
           this.isLoading = true;
-          this.updateApplicationStatusToPayment();
+          this.goToSuccessPage();
         }
       });
     } else {
       this.isLoading = true;
-      this.updateApplicationStatusToPayment();
+      this.goToSuccessPage();
     }
   }
 
@@ -201,20 +203,10 @@ export class ChecklistSummaryComponent implements OnInit {
       });
   }
 
-  updateApplicationStatusToPayment() {
-    const body = {
-      application_status_id: 7,
-    };
-    this.applicationService
-      .updateApplicationStatus(body, this.applicationId)
-      .subscribe((res) => {
-        console.log(res);
-        localStorage.removeItem('application_details_for_excavation');
-        this.isLoading = false;
-        this.router.navigate([
-          'dashboard/new/success',
-          { application_number: res.data },
-        ]);
-      });
+  goToSuccessPage() {
+    this.router.navigate([
+      'dashboard/new/success',
+      { application_number: this.applicationInfo.ocpas_code },
+    ]);
   }
 }

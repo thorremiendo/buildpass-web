@@ -43,7 +43,7 @@ export class ExcavationPermitComponent implements OnInit {
     },
     {
       label: 'Step 4',
-      documents: [13, 16, 17, 18, 20, 19],
+      documents: [13, 16, 17, 20, 19],
     },
   ];
 
@@ -97,7 +97,7 @@ export class ExcavationPermitComponent implements OnInit {
         console.log(this.applicationDetails);
 
         if (this.applicationDetails.main_permit_id == null) {
-          this.fieldSets[0].documents.push(14, 15);
+          this.fieldSets[0].documents.push(14, 18);
           const isRepresentative =
             this.applicationDetails.is_representative == '1' ? true : false;
           const isLessee =

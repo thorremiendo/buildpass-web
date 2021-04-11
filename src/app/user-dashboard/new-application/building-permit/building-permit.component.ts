@@ -77,14 +77,14 @@ export class BuildingPermitComponent implements OnInit {
     {
       label: 'Step 10',
       title: 'Other Requirements',
-      documents: [39, 41, 42, 15],
+      documents: [39, 41, 42],
     },
   ];
 
   public representativeDocs: Array<any> = [21];
   public lesseeDocs: Array<any> = [27, 26];
   public registeredDocs: Array<any> = [26];
-  public notRegisteredDocs: Array<any> = [103];
+  public notRegisteredDocs: Array<any> = [103, 26];
   public isOwnerNotRegisteredDocs: Array<any> = [103];
   public isWithinSubdivision: Array<any> = [72];
   public isUnderMortgage: Array<any> = [73];

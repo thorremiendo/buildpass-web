@@ -149,7 +149,11 @@
           Next
         </button>
         <ng-template #submit_button>
-          <button mat-raised-button (click)="submitApplication()">
+          <button
+            mat-raised-button
+            (click)="submitApplication()"
+            [disabled]="isLoading"
+          >
             Submit
           </button>
         </ng-template>
