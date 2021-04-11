@@ -35,11 +35,11 @@ export class FencingPermitComponent implements OnInit {
     },
     {
       label: 'Step 3',
-      documents: [50, 33, 8, 51, 52, 53, 101],
+      documents: [51, 33, 8, 52, 53],
     },
     {
       label: 'Step 4',
-      documents: [45],
+      documents: [101],
     },
   ];
 
