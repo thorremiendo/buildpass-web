@@ -68,23 +68,23 @@ export class ExcavationPermitComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.user = JSON.parse(localStorage.getItem('user'));
-      this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
-        this.documentTypes = res.data;
-      });
-      this.newApplicationService.applicationId
-        .asObservable()
-        .subscribe((applicationId) => {
-          this.isLoading = true;
-          if (applicationId) {
-            this.applicationId = applicationId;
-          } else {
-            this.applicationId = localStorage.getItem('app_id');
-          }
-        });
-      this.checkBuildingPermitExcavation();
-    }, 2000);
+    this.user = JSON.parse(localStorage.getItem('user'));
+    this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
+      this.isLoading = true;
+      this.documentTypes = res.data;
+      setTimeout(() => {
+        this.newApplicationService.applicationId
+          .asObservable()
+          .subscribe((applicationId) => {
+            if (applicationId) {
+              this.applicationId = applicationId;
+            } else {
+              this.applicationId = localStorage.getItem('app_id');
+            }
+          });
+        this.checkBuildingPermitExcavation();
+      }, 2000);
+    });
   }
 
   fetchApplicationInfo() {

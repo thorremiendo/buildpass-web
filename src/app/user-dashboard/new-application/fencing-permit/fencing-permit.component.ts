@@ -67,81 +67,85 @@ export class FencingPermitComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
       this.documentTypes = res.data;
+      this.newApplicationService.applicationId
+        .asObservable()
+        .subscribe((applicationId) => {
+          if (applicationId) this.applicationId = applicationId;
+          else this.applicationId = localStorage.getItem('app_id');
+
+          this.applicationService
+            .fetchApplicationInfo(this.applicationId)
+            .subscribe((res) => {
+              this.applicationDetails = res.data;
+              this.formData = this.dataBindingService.getFormData(
+                this.applicationDetails
+              );
+
+              const isRepresentative =
+                this.applicationDetails.is_representative == '1' ? true : false;
+              const isLessee =
+                this.applicationDetails.rol_status_id != '1' ? true : false;
+              const isRegisteredOwner =
+                this.applicationDetails.registered_owner == '1' ? true : false;
+              const isWithinSubdivision =
+                this.applicationDetails.is_within_subdivision == 1
+                  ? true
+                  : false;
+              const isUnderMortgage =
+                this.applicationDetails.is_under_mortgage == 1 ? true : false;
+              const isOwnedByCorporation =
+                this.applicationDetails.is_owned_by_corporation == 1
+                  ? true
+                  : false;
+              const isHaveCoOwners =
+                this.applicationDetails.is_property_have_coowners == 1
+                  ? true
+                  : false;
+              const isConstructionStatus =
+                this.applicationDetails.construction_status_id == 1
+                  ? true
+                  : false;
+              const if10000sqm =
+                this.applicationDetails.project_detail.total_floor_area >= 10000
+                  ? true
+                  : false;
+
+              isRepresentative
+                ? this.fieldSets[0].documents.push(...this.representativeDocs)
+                : null;
+              isLessee
+                ? this.fieldSets[0].documents.push(...this.lesseeDocs)
+                : null;
+              isRegisteredOwner
+                ? this.fieldSets[0].documents.push(...this.registeredDocs)
+                : this.fieldSets[0].documents.push(...this.notRegisteredDocs);
+              if10000sqm
+                ? this.fieldSets[2].documents.push(...this.if10000sqm)
+                : null;
+              isWithinSubdivision
+                ? this.fieldSets[2].documents.push(...this.isWithinSubdivision)
+                : null;
+              isUnderMortgage
+                ? this.fieldSets[2].documents.push(...this.isUnderMortgage)
+                : null;
+              isOwnedByCorporation
+                ? this.fieldSets[2].documents.push(...this.isOwnedByCorporation)
+                : null;
+              isHaveCoOwners
+                ? this.fieldSets[2].documents.push(...this.isHaveCoOwners)
+                : null;
+              isConstructionStatus
+                ? null
+                : this.fieldSets[0].documents.push(
+                    ...this.isConstructionStatus
+                  );
+
+              this.initData();
+              this.setFilePaths();
+              this.pdfSource = this.forms[0].src;
+            });
+        });
     });
-    this.newApplicationService.applicationId
-      .asObservable()
-      .subscribe((applicationId) => {
-        if (applicationId) this.applicationId = applicationId;
-        else this.applicationId = localStorage.getItem('app_id');
-
-        this.applicationService
-          .fetchApplicationInfo(this.applicationId)
-          .subscribe((res) => {
-            this.applicationDetails = res.data;
-            this.formData = this.dataBindingService.getFormData(
-              this.applicationDetails
-            );
-
-            const isRepresentative =
-              this.applicationDetails.is_representative == '1' ? true : false;
-            const isLessee =
-              this.applicationDetails.rol_status_id != '1' ? true : false;
-            const isRegisteredOwner =
-              this.applicationDetails.registered_owner == '1' ? true : false;
-            const isWithinSubdivision =
-              this.applicationDetails.is_within_subdivision == 1 ? true : false;
-            const isUnderMortgage =
-              this.applicationDetails.is_under_mortgage == 1 ? true : false;
-            const isOwnedByCorporation =
-              this.applicationDetails.is_owned_by_corporation == 1
-                ? true
-                : false;
-            const isHaveCoOwners =
-              this.applicationDetails.is_property_have_coowners == 1
-                ? true
-                : false;
-            const isConstructionStatus =
-              this.applicationDetails.construction_status_id == 1
-                ? true
-                : false;
-            const if10000sqm =
-              this.applicationDetails.project_detail.total_floor_area >= 10000
-                ? true
-                : false;
-
-            isRepresentative
-              ? this.fieldSets[0].documents.push(...this.representativeDocs)
-              : null;
-            isLessee
-              ? this.fieldSets[0].documents.push(...this.lesseeDocs)
-              : null;
-            isRegisteredOwner
-              ? this.fieldSets[0].documents.push(...this.registeredDocs)
-              : this.fieldSets[0].documents.push(...this.notRegisteredDocs);
-            if10000sqm
-              ? this.fieldSets[2].documents.push(...this.if10000sqm)
-              : null;
-            isWithinSubdivision
-              ? this.fieldSets[2].documents.push(...this.isWithinSubdivision)
-              : null;
-            isUnderMortgage
-              ? this.fieldSets[2].documents.push(...this.isUnderMortgage)
-              : null;
-            isOwnedByCorporation
-              ? this.fieldSets[2].documents.push(...this.isOwnedByCorporation)
-              : null;
-            isHaveCoOwners
-              ? this.fieldSets[2].documents.push(...this.isHaveCoOwners)
-              : null;
-            isConstructionStatus
-              ? null
-              : this.fieldSets[0].documents.push(...this.isConstructionStatus);
-
-            this.initData();
-            this.setFilePaths();
-            this.pdfSource = this.forms[0].src;
-          });
-      });
   }
 
   ngAfterViewInit() {
