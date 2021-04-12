@@ -21,6 +21,7 @@ export class ChatBodyComponent implements OnInit {
   public talkWithEvaluator: boolean = false;
   public showContacts: boolean = false;
   public isEnd: boolean = false;
+  public hasMessage: boolean = false;
   public headerStart = true;
   public isEvaluator = false;
 
@@ -35,6 +36,7 @@ export class ChatBodyComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.talkWithEvaluator);
     if (localStorage.getItem('user') != null) {
       this.userInfo = JSON.parse(localStorage.getItem('user'));
     
@@ -48,7 +50,10 @@ export class ChatBodyComponent implements OnInit {
       this.chatService.fetchConvo(this.userInfo.id, 'sender').subscribe((data) => {
         console.log(data);
         this.messages = data.data;
-        console.log(this.messages)
+        if(this.messages.length != 0){
+            this.hasMessage = true;
+        }
+        console.log(this.messages);
       });
     }
   }
@@ -70,6 +75,7 @@ export class ChatBodyComponent implements OnInit {
     this.chatId = this.selectedMessage[0].chat_id;
     this.showContacts = false;
     this.talkWithEvaluator = true;
+ 
   }
 
   OnCreateMsg() {
