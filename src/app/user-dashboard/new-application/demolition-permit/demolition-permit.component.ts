@@ -40,7 +40,7 @@ export class DemolitionPermitComponent implements OnInit {
     },
     {
       label: 'Step 4',
-      documents: [42],
+      documents: [42, 105],
     },
   ];
 

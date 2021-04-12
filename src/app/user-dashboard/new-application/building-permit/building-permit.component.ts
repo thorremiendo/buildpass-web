@@ -122,6 +122,7 @@ export class BuildingPermitComponent implements OnInit {
             this.zoningFormData = this.dataBindingService.getFormData(
               this.applicationDetails
             );
+            this.formData = this.zoningFormData;
             console.log('ZONING', this.zoningFormData);
             this.buildingFormData = this.dataBindingService.getFormData(
               this.applicationDetails
@@ -237,7 +238,6 @@ export class BuildingPermitComponent implements OnInit {
     this.forms[2] ? (this.formData = this.sanitaryFormData) : null;
     this.forms[3] ? (this.formData = this.noticeOfConstructionFormData) : null;
     this.forms[4] ? (this.formData = this.electricalFormData) : null;
-
     pdfContainer ? pdfContainer.appendChild(pdfViewer) : null;
   }
 
