@@ -1,13 +1,17 @@
 <mat-card>
   <mat-card-header *ngIf="headerStart">
     <mat-card-title>Hi There! </mat-card-title>
-    <mat-card-subtitle>Welcome to OCPAS Chat, How can we help you?</mat-card-subtitle>
-    <img src="../../../../assets/images/cbao-cartoon.png">
+    <mat-card-subtitle
+      >Welcome to BuildPASS Chat, How can we help you?</mat-card-subtitle
+    >
+    <img src="../../../../assets/images/cbao-cartoon.png" />
   </mat-card-header>
   <mat-card-header *ngIf="!headerStart">
     <div class="d-flex justify-content-between">
       <button mat-icon-button (click)="mainChat()">
-        <mat-icon aria-hidden="false" aria-label="back btn" style="color: white;">arrow_back_ios</mat-icon>
+        <mat-icon aria-hidden="false" aria-label="back btn" style="color: white"
+          >arrow_back_ios</mat-icon
+        >
       </button>
       <!-- <p style="font-weight: bold; text-align: end; color: white;">openChatList </p> -->
     </div>
@@ -21,12 +25,20 @@
                </button>
             </div> -->
         <div class="pb-3 text-right">
-          <button mat-stroked-button class="btn-bot" (click)="chatbotMessage('Evaluator')">
+          <button
+            mat-stroked-button
+            class="btn-bot"
+            (click)="chatbotMessage('Evaluator')"
+          >
             Talk with Evaluator
           </button>
         </div>
         <div *ngIf="hasMessage" class="pb-3 text-right">
-          <button mat-stroked-button class="btn-bot" (click)="chatbotMessage('Show Contacts')">
+          <button
+            mat-stroked-button
+            class="btn-bot"
+            (click)="chatbotMessage('Show Contacts')"
+          >
             See all your conversations
           </button>
         </div>
@@ -34,15 +46,20 @@
       <div *ngIf="showContacts">
         <div class="mailbox message-widget">
           <div class="message-center">
-            <a *ngFor="let message of messages.slice().reverse();" (click)="onSelect(message)">
+            <a
+              *ngFor="let message of messages.slice().reverse()"
+              (click)="onSelect(message)"
+            >
               <!-- <div class="user-img">
                           <img src="{{message.receiver_detail.photo_path}}" alt="user" class="img-circle" width="40">
                            <span class="profile-status {{message.status}} pull-right"></span> 
                       </div> -->
               <div class="mail-content">
-                <h5>{{message.office_detail.name}}</h5>
-                <span class="mail-desc text-muted">{{message.subject}}</span>
-                <span class="time text-muted">{{message.created_at | date:'MMM d, y h:mm a' }}</span>
+                <h5>{{ message.office_detail.name }}</h5>
+                <span class="mail-desc text-muted">{{ message.subject }}</span>
+                <span class="time text-muted">{{
+                  message.created_at | date: "MMM d, y h:mm a"
+                }}</span>
               </div>
             </a>
           </div>
@@ -51,16 +68,25 @@
 
       <div *ngIf="!showContacts">
         <ng-container *ngFor="let c of selectedMessage">
-          <ng-template [ngIf]="c.type == 'incoming' && !showContacts" [ngIfElse]="evenblock">
+          <ng-template
+            [ngIf]="c.type == 'incoming' && !showContacts"
+            [ngIfElse]="evenblock"
+          >
             <div class="chat-list odd">
               <div class="chat-message">
                 <div class="chat-block">
                   <span>
-                    <img src="{{selectedMessage.photo}}" class="img-circle" width="40">
+                    <img
+                      src="{{ selectedMessage.photo }}"
+                      class="img-circle"
+                      width="40"
+                    />
                   </span>
-                  <span>{{c.message}}</span>
+                  <span>{{ c.message }}</span>
                 </div>
-                <span class="chat-date">{{ c.created_at | date:'MMM d, y h:mm a'}}</span>
+                <span class="chat-date">{{
+                  c.created_at | date: "MMM d, y h:mm a"
+                }}</span>
               </div>
             </div>
           </ng-template>
@@ -74,12 +100,12 @@
                 </div> -->
             <div class="chat-list even">
               <div class="chat-message">
-                <div class="chat-block bg-light-info">{{c.message}}</div>
-                <span class="chat-date">{{ c.created_at | date:'MMM d, y h:mm a' }}</span>
+                <div class="chat-block bg-light-info">{{ c.message }}</div>
+                <span class="chat-date">{{
+                  c.created_at | date: "MMM d, y h:mm a"
+                }}</span>
               </div>
-              <div *ngIf="talkWithEvaluator">
-
-              </div>
+              <div *ngIf="talkWithEvaluator"></div>
             </div>
           </ng-template>
         </ng-container>
@@ -89,8 +115,14 @@
 
   <mat-card-actions class="chat-footer" [hidden]="!talkWithEvaluator">
     <div fxLayout="row" layout-align="start center">
-      <mat-form-field class="mr-1 ml-1" fxFlex style="max-width: 350px;">
-        <input matInput [(ngModel)]="msg" placeholder="Send message" #myInput (keyup.enter)="OnAddMsg()">
+      <mat-form-field class="mr-1 ml-1" fxFlex style="max-width: 350px">
+        <input
+          matInput
+          [(ngModel)]="msg"
+          placeholder="Send message"
+          #myInput
+          (keyup.enter)="OnAddMsg()"
+        />
       </mat-form-field>
       <button mat-fab color="warn" (click)="OnAddMsg()" [disabled]="!msg">
         <mat-icon>send</mat-icon>

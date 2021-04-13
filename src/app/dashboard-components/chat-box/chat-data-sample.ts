@@ -1,5 +1,5 @@
 export const chatBotMessage = [{
-    from: 'OCPAS BOT',
+    from: 'BuildPASS BOT',
     photo: 'assets/images/cbao-cartoon.png',
     subject: 'Need Assistance',
     chat: [
