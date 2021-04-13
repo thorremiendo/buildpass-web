@@ -7,7 +7,6 @@ import { ExistingApplicationsComponent } from '../existing-applications/existing
 import { ChecklistSummaryComponent } from '../new-application/checklist-summary/checklist-summary.component';
 import { StepOneComponent } from '../new-application/step-one/step-one.component';
 import { SuccessPageComponent } from '../new-application/success-page/success-page.component';
-import { UserFormsComponent } from '../user-forms/user-forms.component';
 import { UserHomeComponent } from '../user-home/user-home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CommonFieldsComponent } from '../new-application/common-fields/common-fields-home/common-fields.component';
@@ -33,13 +32,8 @@ const routes: Routes = [
     canActivate: [UserGuardGuard],
     children: [
       {
-        path: '',
+        path: 'home',
         component: UserHomeComponent,
-        pathMatch: 'full',
-        data: {
-          title: 'Dashboard',
-          urls: [{ title: 'Home', url: '/dashboard' }, { title: 'Dashboard' }],
-        },
       },
       {
         path: 'new',
@@ -71,7 +65,6 @@ const routes: Routes = [
                     path: 'lot-owner',
                     component: CommonFieldsPersonalInfoComponent,
                   },
-
                   {
                     path: 'project-site',
                     component: CommonFieldsAddressInfoComponent,
@@ -152,10 +145,6 @@ const routes: Routes = [
             component: ViewApplicationComponent,
           },
         ],
-      },
-      {
-        path: 'forms',
-        component: UserFormsComponent,
       },
       {
         path: 'edit-profile',

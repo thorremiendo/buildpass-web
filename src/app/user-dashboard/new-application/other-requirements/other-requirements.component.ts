@@ -66,7 +66,7 @@ export class OtherRequirementsComponent implements OnInit {
     this.newApplicationService.saveAsDraft(body).subscribe((res) => {
       Swal.fire('Success!', `Application Saved as Draft!`, 'success').then(
         (result) => {
-          this.router.navigateByUrl('/dashboard');
+          this.router.navigateByUrl('/dashboard/home');
         }
       );
     });
