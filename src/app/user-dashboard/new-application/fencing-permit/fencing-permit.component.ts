@@ -163,6 +163,30 @@ export class FencingPermitComponent implements OnInit {
     this.newApplicationService.saveAsDraft(body).subscribe((res) => {});
   }
 
+  updateApplicationInfoWithFormData() {
+    const body = {
+      applicant_first_name: this.formData.applicant_first_name,
+      applicant_middle_name: this.formData.applicant_middle_name,
+      applicant_last_name: this.formData.applicant_last_name,
+      applicant_tin_number: this.formData.applicant_tin_number,
+      applicant_house_number: this.formData.applicant_house_number,
+      applicant_street_name: this.formData.applicant_street_name,
+      applicant_barangay: this.formData.applicant_barangay,
+      applicant_contact_number: this.formData.applicant_contact_number,
+      project_lot_number: this.formData.project_lot_number,
+      project_block_number: this.formData.project_block_number,
+      project_street_name: this.formData.project_street_name,
+      project_barangay: this.formData.project_barangay,
+      project_tct_number: this.formData.project_tct_number,
+      project_tax_dec_number: this.formData.project_tax_dec_number,
+    };
+    this.applicationService
+      .updateApplicationInfo(body, this.applicationId)
+      .subscribe((res) => {
+        console.log(res);
+      });
+  }
+
   initPdfViewer(event) {
     const index = event.selectedIndex;
     const pdfViewer = document.getElementById('pdf-viewer');
@@ -234,6 +258,7 @@ export class FencingPermitComponent implements OnInit {
           .submitDocument(uploadDocumentData)
           .subscribe((res) => {
             this.isLoading = false;
+            this.updateApplicationInfoWithFormData();
             this.updateFilePath();
           });
       } else {
@@ -250,6 +275,7 @@ export class FencingPermitComponent implements OnInit {
       this.newApplicationService
         .updateDocumentFile(uploadDocumentData, form.doc_id)
         .subscribe((res) => {
+          this.updateApplicationInfoWithFormData();
           this.openSnackBar('Saved!');
         });
     }

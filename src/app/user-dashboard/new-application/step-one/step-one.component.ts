@@ -108,7 +108,7 @@ export class StepOneComponent implements OnInit {
           is_property_have_coowners: value.is_property_have_coowners,
           occupancy_classification_id: value.occupancy_classification_id,
         };
-        debugger;
+
         this.newApplicationFormService.setApplicationInfo(body);
         this.router.navigateByUrl('/dashboard/new/step-two/lot-owner');
       } else {

@@ -255,7 +255,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       );
     } else {
       if (this.isRepresentative == '2') {
-        debugger
+
         this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
           Swal.fire(
             'Success!',
