@@ -68,4 +68,10 @@ export class ApplicationFeesService {
     const url = `/fee/${id}`;
     return this.api.delete(url);
   }
+
+  downloadFees(id) {
+    const url = `/fee/${id}/download`;
+    const body = {};
+    return this.api.post(url, body);
+  }
 }

@@ -144,7 +144,7 @@ export class ChecklistSummaryComponent implements OnInit {
     this.newApplicationService
       .fetchDraftDetails(this.applicationInfo.user_id, this.applicationInfo.id)
       .subscribe((res) => {
-        console.log(res.data);
+        console.log('here', res.data);
         localStorage.setItem(
           'app_id',
           res.data[res.data.length - 1].application_id

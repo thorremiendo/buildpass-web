@@ -88,6 +88,7 @@ export class StepOneComponent implements OnInit {
       is_under_mortgage: new FormControl('', Validators.required),
       is_owned_by_corporation: new FormControl('', Validators.required),
       is_property_have_coowners: new FormControl('', Validators.required),
+      occupancy_classification_id: new FormControl('', Validators.required),
     });
   }
 
@@ -105,9 +106,10 @@ export class StepOneComponent implements OnInit {
           is_under_mortgage: value.is_under_mortgage,
           is_owned_by_corporation: value.is_owned_by_corporation,
           is_property_have_coowners: value.is_property_have_coowners,
+          occupancy_classification_id: value.occupancy_classification_id,
         };
+        debugger;
         this.newApplicationFormService.setApplicationInfo(body);
-
         this.router.navigateByUrl('/dashboard/new/step-two/lot-owner');
       } else {
         Swal.fire('Error!', 'Fill out all required information!', 'error');

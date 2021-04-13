@@ -95,7 +95,7 @@ export class ExcavationPermitComponent implements OnInit {
       .subscribe((res) => {
         this.applicationDetails = res.data;
         console.log(this.applicationDetails);
-
+        this.saveRoute();
         if (this.applicationDetails.main_permit_id == null) {
           this.fieldSets[0].documents.push(14, 18);
           const isRepresentative =
@@ -308,11 +308,9 @@ export class ExcavationPermitComponent implements OnInit {
     });
   }
 
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.saveRoute();
-    }, 2000);
-  }
+  // ngAfterViewInit() {
+  //   this.saveRoute();
+  // }
 
   saveRoute() {
     const body = {

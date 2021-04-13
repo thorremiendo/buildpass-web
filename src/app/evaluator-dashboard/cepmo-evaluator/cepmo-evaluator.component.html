@@ -110,7 +110,7 @@
               mat-raised-button
               color="accent"
               (click)="openWwmsDialog()"
-              [disabled]="checkWwmsUploaded()"
+              [disabled]="checkWwmsUploaded() || nonCompliant()"
             >
               Generate WWMS BP Certificate
             </button>

@@ -23,6 +23,11 @@ export class ApplicationInfoService {
     );
   }
 
+  updateApplicationInfo(body, id) {
+    const url = `/application/${id}/update`;
+    return this.api.post(url, body);
+  }
+
   fetchApplicationInfo(id) {
     const url = `/application/${id}`;
     return this.api.get(url).pipe(

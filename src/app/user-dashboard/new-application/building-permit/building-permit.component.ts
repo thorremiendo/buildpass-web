@@ -60,7 +60,7 @@ export class BuildingPermitComponent implements OnInit {
     {
       label: 'Step 6',
       title: 'Documentary Requirements',
-      documents: [23, 24, 25],
+      documents: [26, 104, 23, 24, 25],
     },
     {
       label: 'Step 7',
@@ -70,25 +70,25 @@ export class BuildingPermitComponent implements OnInit {
     {
       label: 'Step 8',
       title: 'Building Plans',
-      documents: [59, 61, 63, 62, 64],
+      documents: [59, 61, 63, 62],
     },
     {
       label: 'Step 9',
       title:
         'Professional Tax Receipt and Professional Regulations Commission ID',
-      documents: [34, 35, 36, 47, 46],
+      documents: [34, 35, 36, 46],
     },
     {
       label: 'Step 10',
       title: 'Other Requirements',
-      documents: [39, 41, 42],
+      documents: [39, 42],
     },
   ];
 
   public representativeDocs: Array<any> = [21];
-  public lesseeDocs: Array<any> = [27, 26];
-  public registeredDocs: Array<any> = [26];
-  public notRegisteredDocs: Array<any> = [103, 26];
+  public lesseeDocs: Array<any> = [27];
+  public registeredDocs: Array<any> = [];
+  public notRegisteredDocs: Array<any> = [103];
   public isOwnerNotRegisteredDocs: Array<any> = [103];
   public isWithinSubdivision: Array<any> = [72];
   public isUnderMortgage: Array<any> = [73];
@@ -118,6 +118,7 @@ export class BuildingPermitComponent implements OnInit {
           .fetchApplicationInfo(this.applicationId)
           .subscribe((res) => {
             this.applicationDetails = res.data;
+            this.saveRoute();
             console.log(this.applicationDetails);
             this.zoningFormData = this.dataBindingService.getFormData(
               this.applicationDetails
@@ -163,6 +164,10 @@ export class BuildingPermitComponent implements OnInit {
               this.applicationDetails.project_detail.total_floor_area >= 10000
                 ? true
                 : false;
+            const isOccupancyCommercial =
+              this.applicationDetails.occupancy_classification_id !== 1
+                ? true
+                : false;
 
             if10000sqm
               ? this.fieldSets[4].documents.push(...this.if10000sqm)
@@ -194,6 +199,8 @@ export class BuildingPermitComponent implements OnInit {
             isConstructionStatus
               ? null
               : this.fieldSets[0].documents.push(...this.isConstructionStatus);
+            isOccupancyCommercial ? this.fieldSets[3].documents.push(47) : null;
+            isOccupancyCommercial ? this.fieldSets[2].documents.push(64) : null;
 
             this.initData();
             this.setFilePaths();
@@ -203,9 +210,9 @@ export class BuildingPermitComponent implements OnInit {
     this.isLoading = false;
   }
 
-  ngAfterViewInit() {
-    this.saveRoute();
-  }
+  // ngAfterViewInit() {
+  //   this.saveRoute();
+  // }
 
   fetchApplicationInfo() {
     this.applicationService

@@ -88,6 +88,15 @@ export class ViewFeesComponent implements OnInit {
         this.cepmoFees = res.data;
       });
   }
+
+  handleDownloadFees() {
+    this.applicationFeeService
+      .downloadFees(this.applicationId)
+      .subscribe((res) => {
+        console.log(res);
+        window.open(res.data);
+      });
+  }
   getOfficeType(id): string {
     return officeTypes[id];
   }

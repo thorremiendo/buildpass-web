@@ -77,6 +77,7 @@ export class FencingPermitComponent implements OnInit {
             .fetchApplicationInfo(this.applicationId)
             .subscribe((res) => {
               this.applicationDetails = res.data;
+              this.saveRoute();
               this.formData = this.dataBindingService.getFormData(
                 this.applicationDetails
               );
@@ -148,9 +149,9 @@ export class FencingPermitComponent implements OnInit {
     });
   }
 
-  ngAfterViewInit() {
-    this.saveRoute();
-  }
+  // ngAfterViewInit() {
+  //   this.saveRoute();
+  // }
 
   saveRoute() {
     const body = {

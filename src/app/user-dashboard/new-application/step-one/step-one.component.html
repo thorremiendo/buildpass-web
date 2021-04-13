@@ -25,6 +25,23 @@
       <div *ngIf="selectedPermitType">
         <ng-container *ngIf="selectedPermitType !== '2'">
           <div>
+            <ng-container *ngIf="selectedPermitType == 1">
+              <h4>Occupancy Classification:</h4>
+              <mat-form-field appearance="outline">
+                <mat-label>Choose</mat-label>
+                <mat-select
+                  [(value)]="occupancyClassification"
+                  formControlName="occupancy_classification_id"
+                >
+                  <mat-option value="1">Residential</mat-option>
+                  <mat-option value="2">Commercial</mat-option>
+                  <mat-option value="3">Institutional</mat-option>
+                  <mat-option value="4">Industrial</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </ng-container>
+          </div>
+          <div>
             <h4>Applicant Type:</h4>
             <mat-form-field appearance="outline">
               <mat-label>Choose</mat-label>

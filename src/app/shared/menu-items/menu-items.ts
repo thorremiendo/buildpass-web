@@ -49,12 +49,12 @@ const USERMENUITEMS = [
     type: 'link',
     icon: 'pageview',
   },
-  {
-    state: 'dashboard/forms',
-    name: 'Forms',
-    type: 'link',
-    icon: 'folder',
-  },
+  // {
+  //   state: 'dashboard/forms',
+  //   name: 'Forms',
+  //   type: 'link',
+  //   icon: 'folder',
+  // },
   {
     state: 'dashboard/edit-profile',
     name: 'Edit Profile',
@@ -76,7 +76,7 @@ const EVALUATORMENUITEMS = [
     icon: 'note_add',
     badge: [{ type:"warning", value:'5'}]
   },
- 
+
   {
     state: 'evaluator/edit-profile',
     name: 'Edit Profile',

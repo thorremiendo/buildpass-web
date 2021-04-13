@@ -231,6 +231,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       is_under_mortgage: this.applicationDetailsFromService.is_under_mortgage,
       is_within_subdivision: this.applicationDetailsFromService
         .is_within_subdivision,
+      occupancy_classification_id: this.applicationDetailsFromService
+        .occupancy_classification_id,
       applicant_first_name: this.ownerDetails.owner_first_name,
       applicant_middle_name: this.ownerDetails.owner_middle_name,
       applicant_last_name: this.ownerDetails.owner_last_name,
@@ -253,6 +255,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       );
     } else {
       if (this.isRepresentative == '2') {
+        debugger
         this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
           Swal.fire(
             'Success!',
