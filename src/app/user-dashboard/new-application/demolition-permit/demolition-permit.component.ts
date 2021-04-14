@@ -32,15 +32,24 @@ export class DemolitionPermitComponent implements OnInit {
   public fieldSets: any = [
     {
       label: 'Step 2',
-      documents: [],
+      title: 'Documentary Requirements',
+      documents: [26, 104],
     },
     {
       label: 'Step 3',
-      documents: [8, 54, 55, 56, 57],
+      title: 'Plans, Specifications',
+      documents: [8, 55, 56, 102, 105],
     },
     {
       label: 'Step 4',
-      documents: [42, 105],
+      title:
+        'Photocopy of Professional Details (Professional Tax Receipt and Professional Regulations Commission ID, signed and sealed)',
+      documents: [34],
+    },
+    {
+      label: 'Step 5',
+      title: 'Other Requirements',
+      documents: [42],
     },
   ];
 
@@ -52,7 +61,6 @@ export class DemolitionPermitComponent implements OnInit {
   public isUnderMortgage: Array<any> = [73];
   public isOwnedByCorporation: Array<any> = [74];
   public isHaveCoOwners: Array<any> = [75];
-  public isConstructionStatus: Array<any> = [37, 38];
   public if10000sqm: Array<any> = [40];
 
   constructor(
@@ -103,10 +111,7 @@ export class DemolitionPermitComponent implements OnInit {
                 this.applicationDetails.is_property_have_coowners == 1
                   ? true
                   : false;
-              const isConstructionStatus =
-                this.applicationDetails.construction_status_id == 1
-                  ? true
-                  : false;
+
               const if10000sqm =
                 this.applicationDetails.project_detail.total_floor_area >= 10000
                   ? true
@@ -125,22 +130,17 @@ export class DemolitionPermitComponent implements OnInit {
                 ? this.fieldSets[2].documents.push(...this.if10000sqm)
                 : null;
               isWithinSubdivision
-                ? this.fieldSets[2].documents.push(...this.isWithinSubdivision)
+                ? this.fieldSets[3].documents.push(...this.isWithinSubdivision)
                 : null;
               isUnderMortgage
-                ? this.fieldSets[2].documents.push(...this.isUnderMortgage)
+                ? this.fieldSets[3].documents.push(...this.isUnderMortgage)
                 : null;
               isOwnedByCorporation
-                ? this.fieldSets[2].documents.push(...this.isOwnedByCorporation)
+                ? this.fieldSets[3].documents.push(...this.isOwnedByCorporation)
                 : null;
               isHaveCoOwners
-                ? this.fieldSets[2].documents.push(...this.isHaveCoOwners)
+                ? this.fieldSets[3].documents.push(...this.isHaveCoOwners)
                 : null;
-              isConstructionStatus
-                ? null
-                : this.fieldSets[0].documents.push(
-                    ...this.isConstructionStatus
-                  );
 
               this.initData();
               this.setFilePaths();

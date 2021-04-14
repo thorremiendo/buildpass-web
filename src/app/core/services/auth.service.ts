@@ -172,7 +172,7 @@ export class AuthService {
       this.jwtService.saveToken(token);
       this.userService.getUserInfo(uid).subscribe((data) => {
         this.currentUserSubject.next(data);
-        this.router.navigate(['dashboard']);
+        this.router.navigate(['dashboard/home']);
       });
     });
   }

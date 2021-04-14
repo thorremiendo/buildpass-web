@@ -23,7 +23,7 @@ export class ExcavationPermitComponent implements OnInit {
   public isLoading: boolean = false;
   public exisitingApplicationInfo;
   public excavationId;
-
+  public renderFields: any = [];
   public forms: any = [
     {
       id: 5,
@@ -35,27 +35,48 @@ export class ExcavationPermitComponent implements OnInit {
   public fieldSets: any = [
     {
       label: 'Step 2',
-      documents: [8, 7, 9],
+      title: 'Documentary Requirements',
+      documents: [],
     },
     {
       label: 'Step 3',
-      documents: [10, 11, 12],
+      title: 'Plans, Specifications',
+      documents: [7, 8, 9, 10, 11, 12, 13, 16, 17, 100],
     },
     {
       label: 'Step 4',
-      documents: [13, 16, 17, 20, 19],
+      title:
+        'Photocopy of Professional Details (Professional Tax Receipt and Professional Regulations Commission ID, signed and sealed)',
+      documents: [],
+    },
+    {
+      label: 'Step 5',
+      title: 'Other Requirements',
+      documents: [19],
+    },
+  ];
+
+  public fieldSetsWithBuildingPermit: any = [
+    {
+      label: 'Step 2',
+      title: 'Plans, Specifications',
+      documents: [7, 8, 9, 10, 11, 12, 13, 16, 17, 100],
+    },
+    {
+      label: 'Step 3',
+      title: 'Other Requirements',
+      documents: [19],
     },
   ];
 
   public representativeDocs: Array<any> = [21];
   public lesseeDocs: Array<any> = [27];
-  public registeredDocs: Array<any> = [26, 44];
+  public registeredDocs: Array<any> = [44];
   public notRegisteredDocs: Array<any> = [27, 23, 24];
   public isWithinSubdivision: Array<any> = [72];
   public isUnderMortgage: Array<any> = [73];
   public isOwnedByCorporation: Array<any> = [74];
   public isHaveCoOwners: Array<any> = [75];
-  public isConstructionStatus: Array<any> = [37, 38];
   public if10000sqm: Array<any> = [40];
 
   constructor(
@@ -97,7 +118,9 @@ export class ExcavationPermitComponent implements OnInit {
         console.log(this.applicationDetails);
         this.saveRoute();
         if (this.applicationDetails.main_permit_id == null) {
-          this.fieldSets[0].documents.push(14, 18);
+          this.fieldSets[3].documents.push(18);
+          this.fieldSets[0].documents.push(26, 104);
+          this.fieldSets[2].documents.push(34);
           const isRepresentative =
             this.applicationDetails.is_representative == '1' ? true : false;
           const isLessee =
@@ -114,8 +137,7 @@ export class ExcavationPermitComponent implements OnInit {
             this.applicationDetails.is_property_have_coowners == 1
               ? true
               : false;
-          const isConstructionStatus =
-            this.applicationDetails.construction_status_id == 1 ? true : false;
+
           const if10000sqm =
             this.applicationDetails.project_detail.total_floor_area >= 10000
               ? true
@@ -133,28 +155,27 @@ export class ExcavationPermitComponent implements OnInit {
             ? this.fieldSets[1].documents.push(...this.if10000sqm)
             : null;
           isWithinSubdivision
-            ? this.fieldSets[1].documents.push(...this.isWithinSubdivision)
+            ? this.fieldSets[3].documents.push(...this.isWithinSubdivision)
             : null;
           isUnderMortgage
-            ? this.fieldSets[1].documents.push(...this.isUnderMortgage)
+            ? this.fieldSets[3].documents.push(...this.isUnderMortgage)
             : null;
           isOwnedByCorporation
-            ? this.fieldSets[1].documents.push(...this.isOwnedByCorporation)
+            ? this.fieldSets[3].documents.push(...this.isOwnedByCorporation)
             : null;
           isHaveCoOwners
-            ? this.fieldSets[1].documents.push(...this.isHaveCoOwners)
+            ? this.fieldSets[3].documents.push(...this.isHaveCoOwners)
             : null;
-          isConstructionStatus
-            ? null
-            : this.fieldSets[0].documents.push(...this.isConstructionStatus);
 
           this.formData = this.dataBindingService.getFormData(
             this.applicationDetails
           );
+          this.renderFields = this.fieldSets;
         } else {
           this.formData = this.dataBindingService.getFormData(
             this.applicationDetails
           );
+          this.renderFields = this.fieldSetsWithBuildingPermit;
         }
 
         this.initData();
@@ -378,11 +399,11 @@ export class ExcavationPermitComponent implements OnInit {
         path: '',
       };
     }
-    for (let i = 0; i < this.fieldSets.length; i++) {
-      for (let j = 0; j < this.fieldSets[i].documents.length; j++) {
-        this.fieldSets[i].documents[j] = {
-          id: this.fieldSets[i].documents[j],
-          description: this.getDocType(this.fieldSets[i].documents[j]),
+    for (let i = 0; i < this.renderFields.length; i++) {
+      for (let j = 0; j < this.renderFields[i].documents.length; j++) {
+        this.renderFields[i].documents[j] = {
+          id: this.renderFields[i].documents[j],
+          description: this.getDocType(this.renderFields[i].documents[j]),
           path: '',
         };
       }
@@ -401,7 +422,7 @@ export class ExcavationPermitComponent implements OnInit {
         }
       });
     });
-    this.fieldSets.forEach((fieldSet) => {
+    this.renderFields.forEach((fieldSet) => {
       fieldSet.documents.forEach((field) => {
         docs.forEach((doc) => {
           if (field.id == doc.document_id) {
@@ -433,7 +454,7 @@ export class ExcavationPermitComponent implements OnInit {
             form.path = path;
           }
         });
-        this.fieldSets.forEach((fieldSet) => {
+        this.renderFields.forEach((fieldSet) => {
           fieldSet.documents.forEach((field) => {
             if (field.id == doctypeId) field.path = path;
           });

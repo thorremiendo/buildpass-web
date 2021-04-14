@@ -79,9 +79,10 @@
         </button>
       </div>
     </mat-step>
-    <mat-step *ngFor="let fieldSet of fieldSets; let i = index">
+    <mat-step *ngFor="let fieldSet of renderFields; let i = index">
       <ng-template matStepLabel>{{ fieldSet.label }}</ng-template>
       <div class="fieldsets">
+        <h1>{{ fieldSet.title }}</h1>
         <div *ngFor="let field of fieldSet.documents">
           <app-file-upload
             (emitFile)="submitDocument($event, field.id)"
@@ -102,7 +103,7 @@
           mat-raised-button
           color="primary"
           matStepperNext
-          *ngIf="i != fieldSets.length - 1; else submit_button"
+          *ngIf="i != renderFields.length - 1; else submit_button"
         >
           Next
         </button>
