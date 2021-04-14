@@ -72,7 +72,7 @@ export class ExcavationPermitComponent implements OnInit {
   public representativeDocs: Array<any> = [21];
   public lesseeDocs: Array<any> = [27];
   public registeredDocs: Array<any> = [44];
-  public notRegisteredDocs: Array<any> = [27, 23, 24];
+  public notRegisteredDocs: Array<any> = [23, 24];
   public isWithinSubdivision: Array<any> = [72];
   public isUnderMortgage: Array<any> = [73];
   public isOwnedByCorporation: Array<any> = [74];
@@ -224,8 +224,8 @@ export class ExcavationPermitComponent implements OnInit {
   getFieldSetsLength() {
     const length = [];
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
-    Object.keys(this.fieldSets).forEach((element) => {
-      length.push(this.fieldSets[element].documents.length);
+    Object.keys(this.renderFields).forEach((element) => {
+      length.push(this.renderFields[element].documents.length);
     });
 
     return length.reduce(reducer);
