@@ -16,7 +16,6 @@ import { UserDashboardModule } from './dashboard-layout/dashboard-layout.module'
 import { UserRoutingModule } from './user-routing.module';
 
 import { ExistingApplicationsComponent } from './existing-applications/existing-applications.component';
-import { UserFormsComponent } from './user-forms/user-forms.component';
 
 import { StepOneComponent } from './new-application/step-one/step-one.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
@@ -67,7 +66,6 @@ import { DemolitionPermitComponent } from './new-application/demolition-permit/d
     // DashboardComponent
     MapComponent,
     ExistingApplicationsComponent,
-    UserFormsComponent,
     StepOneComponent,
     ChecklistSummaryComponent,
     SuccessPageComponent,

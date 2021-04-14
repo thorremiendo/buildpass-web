@@ -32,7 +32,7 @@ export interface Menu {
 
 const USERMENUITEMS = [
   {
-    state: 'dashboard',
+    state: 'dashboard/home',
     name: 'Home',
     type: 'link',
     icon: 'home',
@@ -49,12 +49,6 @@ const USERMENUITEMS = [
     type: 'link',
     icon: 'pageview',
   },
-  // {
-  //   state: 'dashboard/forms',
-  //   name: 'Forms',
-  //   type: 'link',
-  //   icon: 'folder',
-  // },
   {
     state: 'dashboard/edit-profile',
     name: 'Edit Profile',

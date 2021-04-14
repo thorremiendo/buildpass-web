@@ -17,6 +17,6 @@ export class SuccessPageComponent implements OnInit {
     console.log(this.applicationNumber);
   }
   goToHome() {
-    this.router.navigateByUrl('/dashboard');
+    this.router.navigateByUrl('/dashboard/home');
   }
 }

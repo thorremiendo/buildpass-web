@@ -1,156 +1,75 @@
-table {
-    width: 100%;
-    background-color: transparent;
-    
-  }
-  
-  .mat-column-applicationNumber {
-    word-wrap: break-word !important;
-    white-space: unset !important;
-    flex: 0 0 5% !important;
-    width: 5% !important;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-  
-    word-break: break-word;
-  
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-  }
-  .mat-column-applicationType {
-    word-wrap: break-word !important;
-    white-space: unset !important;
-    flex: 0 0 15% !important;
-    width: 15% !important;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-  
-    word-break: break-word;
-  
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-  }
-  .mat-column-applicationDate {
-    word-wrap: break-word !important;
-    white-space: unset !important;
-    flex: 0 0 15% !important;
-    width: 15% !important;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-  
-    word-break: break-word;
-  
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-  }
-  .mat-column-applicationStatus {
-    word-wrap: break-word !important;
-    white-space: unset !important;
-    flex: 0 0 20% !important;
-    width: 20% !important;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-  
-    word-break: break-word;
-  
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-  }
-  .mat-column-action {
-    word-wrap: break-word !important;
-    white-space: unset !important;
-    flex: 0 0 10% !important;
-    width: 10% !important;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-  
-    word-break: break-word;
-  
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-  }
-
-  .mat-column-applicationProgress {
-    word-wrap: break-word !important;
-    white-space: unset !important;
-    flex: 0 0 10% !important;
-    width: 10% !important;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-  
-    word-break: break-word;
-  
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-  }
-  
-  td, th {
-  height: 80px;
-  width: 20px;
-}
-
 .horizontal-line {
   background-color: maroon;
 }
 
-mat-card{
-  background-color: transparent;
+.application-filters {
+  background-color: #fff;
+  padding: 15px;
+  font-weight: 500;
+
+  ::ng-deep .permit-type-selector .mat-form-field-wrapper {
+    padding: 0;
+  }
 }
 
-mat-paginator{
-  background-color: transparent;
+.loader {
+  display: flex;
+  justify-content: center;
+  margin: 100px 0;
 }
 
-mat-progress-bar {
-  margin-top: 40px;
-  height: 10px;
-  border-radius: 20px;
-  color: maroon;
-  background-color: transparent;
+.no-applications-found {
+  text-align: center;
+  margin: 100px 0;
 }
 
-.application{
-  &__loader {
-    padding-top: 2em;
-    padding-bottom: 2em;
-  
-    mat-progress-spinner {
-    margin-left: auto;
-    margin-right: auto;
+.application {
+  display: flex;
+  margin: 15px 20px;
+  cursor: pointer;
+
+  .application-logo {
+    padding: 20px;
+
+    img {
+      width: 80px;
+      margin: 10px;
     }
   }
 
-  &__empty {
-    padding-top: 2em;
-    padding-bottom: 2em;
-  }
+  .application-details {
+    padding: 20px 20px 20px 0;
+    width: 100%;
 
-  &__date {
-    width: 250px;
-  }
+    .application-type {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-  &__search {
-    width: 250px;
-    margin-right: 1em;
-  }
-  &__select {
-    width: 250px;
-    margin-right: 1em;
+      div:first-of-type {
+        font-size: 14px;
+      }
+    }
+
+    .application-code {
+      font-weight: 700;
+    }
+
+    .application-status {
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+    .application-applicant, .application-location, .application-progress {
+      display: flex;
+      align-items: center;
+      font-size: 15px;
+
+      ::ng-deep .mat-icon {
+        line-height: 17px;
+        font-size: 20px;
+        padding-right: 5px;
+      }
+    }
   }
 }
-  
-
-
-
