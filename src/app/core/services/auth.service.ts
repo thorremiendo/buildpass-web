@@ -177,7 +177,7 @@ export class AuthService {
     });
   }
 
-  userSignOut(route) {
+  userSignOut() {
     return firebase
       .auth()
       .signOut()
@@ -185,9 +185,22 @@ export class AuthService {
         localStorage.removeItem('user');
         localStorage.removeItem('app_id');
         localStorage.removeItem('applicationDetails');
-        this.router.navigateByUrl(route);
         this.jwtService.removeToken();
         this.isAuthenticatedSubject.next(false);
+        this.router.navigateByUrl('/user/sign-in');
+      });
+  }
+  evaluatorSignOut() {
+    return firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('app_id');
+        localStorage.removeItem('applicationDetails');
+        this.jwtService.removeToken();
+        this.isAuthenticatedSubject.next(false);
+        this.router.navigateByUrl('/evaluator/sign-in');
       });
   }
 }

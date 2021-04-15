@@ -55,10 +55,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     public menuItems: MenuItems,
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
-    private _authService: AuthService,
-   
+    private _authService: AuthService
   ) {
-
     this.mobileQuery = media.matchMedia('(min-width: 768px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     // tslint:disable-next-line: deprecation
@@ -70,15 +68,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.userInfo = JSON.parse(localStorage.getItem('user'));
       this._isLoading = false;
     }
-      if(this.userInfo.employee_detail != null){
-        this.evaluatorDetails = JSON.parse(localStorage.getItem('user'));
-        this.employeeDetails = this.evaluatorDetails.employee_detail;
-        this._isLoading = false;
-        let office_id = this.employeeDetails.office_id;
-        this.officeToString(office_id);
-        this._isLoading = false;
-      }
-   
+    if (this.userInfo.employee_detail != null) {
+      this.evaluatorDetails = JSON.parse(localStorage.getItem('user'));
+      this.employeeDetails = this.evaluatorDetails.employee_detail;
+      this._isLoading = false;
+      let office_id = this.employeeDetails.office_id;
+      this.officeToString(office_id);
+      this._isLoading = false;
+    }
   }
   ngOnDestroy(): void {
     // tslint:disable-next-line: deprecation
@@ -91,18 +88,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    if (this.employeeDetails == null) {
-      const signInRoute:string = '/user/sign-in'
-      this._authService.userSignOut(signInRoute);
+    if (this.employeeDetails == undefined) {
+      debugger;
+      this._authService.userSignOut();
     } else {
-      const signInRoute:string = '/evaluator/sign-in'
-      this._authService.userSignOut(signInRoute);
+      debugger;
+      this._authService.evaluatorSignOut();
     }
   }
 
   officeToString(officeID) {
-    
-
     switch (officeID) {
       case 1:
         this.officeString = 'City Planning and Development Office';
