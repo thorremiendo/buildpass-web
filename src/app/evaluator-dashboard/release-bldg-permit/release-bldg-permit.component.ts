@@ -1,3 +1,4 @@
+import { ApplicationInfoService } from './../../core/services/application-info.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
@@ -5,13 +6,11 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { AuthService } from 'src/app/core/services/auth.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
-import { UserService } from 'src/app/core/services/user.service';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { ViewSDKClient } from 'src/app/core/services/view-sdk.service';
+import { WaterMarkService } from './../../core/services/watermark.service';
 
 @Component({
   selector: 'app-release-bldg-permit',
@@ -19,30 +18,22 @@ import { ViewSDKClient } from 'src/app/core/services/view-sdk.service';
   styleUrls: ['./release-bldg-permit.component.scss'],
 })
 export class ReleaseBldgPermitComponent implements OnInit {
-  public bldgPermit: File;
+  public applicationDetails;
+  public src = '../../../assets/forms/bldg-permit-certificate.pdf';
   public formData = {};
   public userId;
   public applicationId;
   public userInfo;
-  //adobe sdk
-  previewFilePromise: any;
-  annotationManager: any;
-  viewerConfig = {
-    /* Enable commenting APIs */
-    enableAnnotationAPIs: true /* Default value is false */,
-    includePDFAnnotations: true,
-  };
+  public bpCertificate: File;
+  public isSubmitting: boolean = false;
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
     private newApplicationService: NewApplicationService,
-    private authService: AuthService,
-    private userService: UserService,
-    private fb: FormBuilder,
     public dialogRef: MatDialogRef<ReleaseBldgPermitComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data,
-    private viewSDKClient: ViewSDKClient
+    private viewSDKClient: ViewSDKClient,
+    private watermark: WaterMarkService,
+    private applicationService: ApplicationInfoService
   ) {}
 
   ngOnInit(): void {
@@ -57,51 +48,123 @@ export class ReleaseBldgPermitComponent implements OnInit {
           (this.viewSDKClient.applicationId = this.applicationId);
         console.log(this.userId);
       });
+    this.applicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((res) => {
+        this.applicationDetails = res.data;
+        console.log(this.applicationDetails);
+        this.formData = {
+          owner_address: `${this.applicationDetails.applicant_detail.house_number}  ${this.applicationDetails.applicant_detail.street_name} ${this.applicationDetails.applicant_detail.barangay}`,
+          owner_permitee: `${this.applicationDetails.applicant_detail.first_name} ${this.applicationDetails.applicant_detail.middle_name} ${this.applicationDetails.applicant_detail.last_name}`,
+          projectproject_title_name: this.applicationDetails.project_detail
+            .project_title,
+          lot: this.applicationDetails.project_detail.lot_number,
+          block: this.applicationDetails.project_detail.block_number,
+          tct_no: this.applicationDetails.project_detail.tct_number,
+          street: this.applicationDetails.project_detail.street_name,
+          brgy: this.applicationDetails.project_detail.barangay,
+          city: 'BAGUIO CITY',
+          zip_code: '2600',
+          project_cost: parseFloat(
+            this.applicationDetails.project_detail.project_cost_cap
+          ).toLocaleString(),
+          building_address: `${this.applicationDetails.project_detail.house_number} ${this.applicationDetails.project_detail.lot_number} ${this.applicationDetails.project_detail.street_name} ${this.applicationDetails.project_detail.barangay}`,
+          no_of_storeys: this.applicationDetails.project_detail
+            .number_of_storey,
+          contact_no: this.applicationDetails.applicant_detail.contact_number,
+        };
+        console.log(this.formData);
+      });
   }
   //adobe sdk functions
-  ngAfterViewInit() {
-    this.viewSDKClient.url =
-      'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/bldg-certificate.pdf';
-    this.viewSDKClient.ready().then(() => {
-      /* Invoke the file preview and get the Promise object */
-      this.previewFilePromise = this.viewSDKClient.previewFile(
-        'pdf-div',
-        this.viewerConfig
-      );
-      /* Use the annotation manager interface to invoke the commenting APIs */
-      this.previewFilePromise.then((adobeViewer: any) => {
-        adobeViewer.getAnnotationManager().then((annotManager: any) => {
-          this.annotationManager = annotManager;
-          /* Set UI configurations */
-          const customFlags = {
-            /* showToolbar: false,   /* Default value is true */
-            showCommentsPanel: false /* Default value is true */,
-            downloadWithAnnotations: true /* Default value is false */,
-            printWithAnnotations: true /* Default value is false */,
-          };
-          this.annotationManager.setConfig(customFlags);
-          this.viewSDKClient.registerSaveApiHandler('bldgPermit');
-        });
-      });
-    });
+  // ngAfterViewInit() {
+  //   this.viewSDKClient.url =
+  //     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/Checklist_Residential.pdf';
+  //   this.viewSDKClient.ready().then(() => {
+  //     /* Invoke the file preview and get the Promise object */
+  //     this.previewFilePromise = this.viewSDKClient.previewFile(
+  //       'pdf-div',
+  //       this.viewerConfig
+  //     );
+  //     /* Use the annotation manager interface to invoke the commenting APIs */
+  //     this.previewFilePromise.then((adobeViewer: any) => {
+  //       adobeViewer.getAnnotationManager().then((annotManager: any) => {
+  //         this.annotationManager = annotManager;
+  //         /* Set UI configurations */
+  //         const customFlags = {
+  //           /* showToolbar: false,   /* Default value is true */
+  //           showCommentsPanel: false /* Default value is true */,
+  //           downloadWithAnnotations: true /* Default value is false */,
+  //           printWithAnnotations: true /* Default value is false */,
+  //         };
+  //         this.annotationManager.setConfig(customFlags);
+  //         this.viewSDKClient.registerSaveApiHandler('bfpChecklist');
+  //       });
+  //     });
+  //   });
+  // }
+  onNoClick(): void {
+    this.dialogRef.close();
   }
+
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
     switch (type) {
-      case 'bldgPermit':
-        this.bldgPermit = file;
+      case 'bpCertificate':
+        this.bpCertificate = file;
         break;
     }
   }
   onRemove(type) {
     switch (type) {
-      case 'bldgPermit':
-        this.bldgPermit = null;
+      case 'bpCertificate':
+        this.bpCertificate = null;
         break;
     }
   }
-  onNoClick(): void {
-    this.dialogRef.close();
-    window.location.reload();
+
+  callSave() {
+    this.isSubmitting = true;
+    const uploadDocumentData = {
+      application_id: this.applicationId,
+      user_id: this.userId,
+      document_id: 50,
+      document_status_id: 1,
+    };
+
+    if (this.bpCertificate) {
+      uploadDocumentData['document_path'] = this.bpCertificate;
+    }
+
+    console.log(uploadDocumentData);
+    this.newApplicationService
+      .submitDocument(uploadDocumentData)
+      .subscribe((res) => {
+        const doc = res.data.document_path;
+        const id = res.data.id;
+        this.watermark.generateQrCode(this.applicationId).subscribe((res) => {
+          this.watermark
+            .insertQrCode(doc, res.data, 'building-permit')
+            .then((blob) => {
+              const updateFileData = {
+                document_status_id: 1,
+                document_path: blob,
+              };
+              this.newApplicationService
+                .updateDocumentFile(updateFileData, id)
+                .subscribe((res) => {
+                  console.log(res);
+                  Swal.fire(
+                    'Success!',
+                    `Building Permit Uploaded`,
+                    'success'
+                  ).then((result) => {
+                    this.isSubmitting = true;
+                    this.onNoClick();
+                  });
+                });
+            });
+        });
+      });
   }
 }

@@ -85,7 +85,8 @@ export class BfpEvaluatorComponent implements OnInit {
         obj.document_id == 59 ||
         obj.document_id == 62 ||
         obj.document_id == 65 ||
-        obj.document_id == 45
+        obj.document_id == 45 ||
+        obj.document_id == 49
     );
     this.dataSource = BFP_FORMS;
   }
@@ -108,7 +109,7 @@ export class BfpEvaluatorComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
-      window.location.reload();
+      this.ngOnInit();
     });
   }
   openChecklistDialog() {
@@ -124,7 +125,7 @@ export class BfpEvaluatorComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
-      window.location.reload();
+      this.ngOnInit();
     });
   }
 
@@ -179,7 +180,7 @@ export class BfpEvaluatorComponent implements OnInit {
 
   compliant() {
     this.isLoading = true;
-    if (this.checkFireSecUploaded()) {
+    if (this.checkFireSecUploaded() && this.checkChecklistUploaded()) {
       const body = {
         parallel_bfp_status_id: 1,
       };

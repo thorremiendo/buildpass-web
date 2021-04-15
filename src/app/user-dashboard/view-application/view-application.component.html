@@ -209,7 +209,11 @@
                   <!-- <a (click)="openRemarksHistory(element)" style="color: orange">
                   View
                 </a> -->
-                  <mat-icon class="remark" (click)="openRemarksHistory(element)"
+                  <mat-icon
+                    class="remark"
+                    (click)="openRemarksHistory(element)"
+                    [matBadge]="element.document_revision.length"
+                    matBadgeColor="warn"
                     >remove_red_eye</mat-icon
                   >
                 </td>

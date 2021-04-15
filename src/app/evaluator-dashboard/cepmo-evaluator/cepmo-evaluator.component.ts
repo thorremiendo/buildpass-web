@@ -28,19 +28,18 @@ export class CepmoEvaluatorComponent implements OnInit {
   public forms;
   public applicationId;
   public evaluatorDetails;
-  public isLoading: boolean = true;
+  public isLoading: boolean = false;
   public evaluatorRole;
   public applicationDetails;
 
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
-    public dialog: MatDialog,
-    private changeDetectorRefs: ChangeDetectorRef,
-    private userService: UserService
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.applicationId = this.route.snapshot.params.id;
     this.applicationService
       .fetchUserDocs(this.applicationId)
@@ -50,7 +49,6 @@ export class CepmoEvaluatorComponent implements OnInit {
         this.fetchEvaluatorDetails();
         this.fetchApplicationDetails();
       });
-    this.changeDetectorRefs.detectChanges();
   }
   fetchApplicationDetails() {
     this.applicationService

@@ -1,84 +1,88 @@
-<div class="card">
-  <div class="card-body">
-    <div class="row mb-4">
-      <div class="col-sm-6">
-        <h3>
-          {{ applicationDetails.ocpas_code }}
-        </h3>
-        <h3 class="text-dark mb-1">
-          {{ applicationDetails.applicant_detail.first_name }}
-          {{ applicationDetails.applicant_detail.last_name }}
-        </h3>
-        <div>
-          {{ applicationDetails.applicant_detail.barangay }}
-        </div>
-        <div>
-          {{ applicationDetails.applicant_detail.email_address }}
+<ng-container *ngIf="applicationDetails">
+  <div class="card">
+    <div class="card-body">
+      <div class="row mb-4">
+        <div class="col-sm-6">
+          <h3>
+            {{ applicationDetails.ocpas_code }}
+          </h3>
+          <h3 class="text-dark mb-1">
+            {{ applicationDetails.applicant_detail.first_name }}
+            {{ applicationDetails.applicant_detail.last_name }}
+          </h3>
+          <div>
+            {{ applicationDetails.applicant_detail.barangay }}
+          </div>
+          <div>
+            {{ applicationDetails.applicant_detail.email_address }}
+          </div>
         </div>
       </div>
-    </div>
-    <div class="table-responsive-sm">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th class="center">#</th>
-            <th>Office</th>
-            <th class="right">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="center">1</td>
-            <td class="left strong">City Buildings and Architecture Office</td>
-
-            <td class="right">Php {{ applicationFee.cbao }}</td>
-          </tr>
-          <tr>
-            <td class="center">2</td>
-            <td class="left">City Planning and Development Office</td>
-
-            <td class="right">Php {{ applicationFee.cpdo }}</td>
-          </tr>
-          <tr>
-            <td class="center">3</td>
-            <td class="left">Bureau of Fire Protection</td>
-
-            <td class="right">Php {{ applicationFee.bfp }}</td>
-          </tr>
-          <tr>
-            <td class="center">4</td>
-            <td class="left">City Environment and Parks Management Office</td>
-
-            <td class="right">Php {{ applicationFee.cepmo }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="row">
-      <div class="col-lg-4 col-sm-5"></div>
-      <div class="col-lg-4 col-sm-5 ml-auto">
-        <table class="table table-clear">
+      <div class="table-responsive-sm">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th class="center">#</th>
+              <th>Office</th>
+              <th class="right">Total</th>
+            </tr>
+          </thead>
           <tbody>
             <tr>
-              <td class="left">
-                <strong class="text-dark">Subtotal</strong>
+              <td class="center">1</td>
+              <td class="left strong">
+                City Buildings and Architecture Office
               </td>
-              <td class="right">Php {{ applicationFee.total }}</td>
-            </tr>
 
+              <td class="right">Php {{ applicationFee.cbao }}</td>
+            </tr>
             <tr>
-              <td class="left">
-                <strong class="text-dark">Total</strong>
-              </td>
-              <td class="right">
-                <strong class="text-dark"
-                  >Php {{ applicationFee.total }}</strong
-                >
-              </td>
+              <td class="center">2</td>
+              <td class="left">City Planning and Development Office</td>
+
+              <td class="right">Php {{ applicationFee.cpdo }}</td>
+            </tr>
+            <tr>
+              <td class="center">3</td>
+              <td class="left">Bureau of Fire Protection</td>
+
+              <td class="right">Php {{ applicationFee.bfp }}</td>
+            </tr>
+            <tr>
+              <td class="center">4</td>
+              <td class="left">City Environment and Parks Management Office</td>
+
+              <td class="right">Php {{ applicationFee.cepmo }}</td>
             </tr>
           </tbody>
         </table>
       </div>
+      <div class="row">
+        <div class="col-lg-4 col-sm-5"></div>
+        <div class="col-lg-4 col-sm-5 ml-auto">
+          <table class="table table-clear">
+            <tbody>
+              <tr>
+                <td class="left">
+                  <strong class="text-dark">Subtotal</strong>
+                </td>
+                <td class="right">Php {{ applicationFee.total }}</td>
+              </tr>
+
+              <tr>
+                <td class="left">
+                  <strong class="text-dark">Total</strong>
+                </td>
+                <td class="right">
+                  <strong class="text-dark"
+                    >Php {{ applicationFee.total }}</strong
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+</ng-container>

@@ -1,4 +1,4 @@
-<div *ngIf="!isLoading">
+<div *ngIf="!isLoading && cbaoFees">
   <table mat-table [dataSource]="cbaoFees" class="full-width" #itemsTable>
     <ng-container matColumnDef="number">
       <th mat-header-cell *matHeaderCellDef>No.</th>

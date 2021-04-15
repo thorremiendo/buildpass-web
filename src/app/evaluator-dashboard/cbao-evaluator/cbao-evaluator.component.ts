@@ -45,7 +45,7 @@ export class CbaoEvaluatorComponent implements OnInit {
       .fetchUserDocs(this.applicationId)
       .subscribe((result) => {
         this.dataSource = result.data;
-        console.log('User Docs', this.dataSource);
+
         this.fetchEvaluatorDetails();
         this.checkFormsCompliant();
         this.checkFormsReviewed();
@@ -60,7 +60,6 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.applicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
-        console.log('Application Info:', res);
         this.applicationInfo = res.data;
         if (this.applicationInfo.application_status_id == 3) {
           this.checkTechnicalEvaluationCompliant();
@@ -150,7 +149,6 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
-    console.log('Evaluator Details', this.evaluatorRole);
   }
 
   getDocType(id): string {
@@ -161,7 +159,6 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   openFormDialog(element): void {
-    console.log(element);
     const dialogRef = this.dialog.open(FormDetailsComponent, {
       width: '1500px',
       height: '2000px',
@@ -208,35 +205,35 @@ export class CbaoEvaluatorComponent implements OnInit {
         case 'CBAO-LG':
           const lg = {
             cbao_lg_status_id: 2,
-            evaluator_user_id: this.evaluatorDetails.id,
+            evaluator_user_id: this.evaluatorDetails.user_id,
           };
           this.updateCbaoStatus(lg);
           break;
         case 'CBAO-ARCH':
           const arch = {
             cbao_arch_status_id: 2,
-            evaluator_user_id: this.evaluatorDetails.id,
+            evaluator_user_id: this.evaluatorDetails.user_id,
           };
           this.updateCbaoStatus(arch);
           break;
         case 'CBAO-STR':
           const str = {
             cbao_str_status_id: 2,
-            evaluator_user_id: this.evaluatorDetails.id,
+            evaluator_user_id: this.evaluatorDetails.user_id,
           };
           this.updateCbaoStatus(str);
           break;
         case 'CBAO-SAN':
           const san = {
             cbao_san_status_id: 2,
-            evaluator_user_id: this.evaluatorDetails.id,
+            evaluator_user_id: this.evaluatorDetails.user_id,
           };
           this.updateCbaoStatus(san);
           break;
         case 'CBAO-ELEC':
           const elec = {
             cbao_elec_status_id: 2,
-            evaluator_user_id: this.evaluatorDetails.id,
+            evaluator_user_id: this.evaluatorDetails.user_id,
           };
           this.updateCbaoStatus(elec);
           break;
@@ -581,27 +578,56 @@ export class CbaoEvaluatorComponent implements OnInit {
     }
   }
   addWatermarkToAllCompliant() {
-    this.dataSource.forEach((element) => {
-      this.isLoading = true;
-      if (element.document_id !== 50) {
-        console.log(element);
-        this.waterMark
-          .insertWaterMark(element.document_path, 'compliant')
-          .then((blob) => {
-            const updateFileData = {
-              document_status_id: 1,
-              document_path: blob,
-            };
-            this.newApplicationService
-              .updateDocumentFile(updateFileData, element.id)
-              .subscribe((res) => {
-                this.isLoading = false;
-                window.location.reload();
-              });
-          });
-      }
+    // this.dataSource.forEach((element) => {
+    //   this.isLoading = true;
+    //   if (element.document_id !== 50) {
+    //     console.log(element);
+    //     this.waterMark
+    //       .insertWaterMark(element.document_path, 'compliant')
+    //       .then((blob) => {
+    //         const updateFileData = {
+    //           document_status_id: 1,
+    //           document_path: blob,
+    //         };
+    //         this.newApplicationService
+    //           .updateDocumentFile(updateFileData, element.id)
+    //           .subscribe((res) => {
+    //             console.log('COMPLIANT ADDED', res);
+    //           });
+    //       });
+    //   }
+    // });
+    var count = 0;
+    var bar = new Promise<void>((resolve, reject) => {
+      this.dataSource.forEach((element, index, array) => {
+        this.isLoading = true;
+        if (element.document_id !== 50) {
+          console.log(element);
+          this.waterMark
+            .insertWaterMark(element.document_path, 'compliant')
+            .then((blob) => {
+              const updateFileData = {
+                document_status_id: 1,
+                document_path: blob,
+              };
+              this.newApplicationService
+                .updateDocumentFile(updateFileData, element.id)
+                .subscribe((res) => {
+                  console.log('COMPLIANT ADDED', res);
+                  count = count + 1;
+                  console.log(count, array.length - 1);
+                  if (count === array.length - 1) {
+                    console.log('DONE!');
+                    this.isLoading = false;
+                    window.location.reload();
+                  }
+                });
+            });
+        }
+      });
     });
   }
+
   handleTechnicalEvaluatorCompliant() {
     switch (this.evaluatorRole.code) {
       case 'CBAO-LG':
@@ -713,7 +739,6 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   openRemarksHistory(e) {
-    console.log(e);
     const dialogRef = this.dialog.open(RemarksHistoryTableComponent, {
       width: '1000px',
       height: '800px',

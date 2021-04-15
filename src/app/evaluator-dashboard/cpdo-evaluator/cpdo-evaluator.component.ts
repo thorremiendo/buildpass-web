@@ -37,7 +37,6 @@ export class CpdoEvaluatorComponent implements OnInit {
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
     public dialog: MatDialog,
-    private changeDetectorRefs: ChangeDetectorRef,
     private userService: UserService,
     private newApplicationService: NewApplicationService
   ) {}
@@ -54,7 +53,6 @@ export class CpdoEvaluatorComponent implements OnInit {
         this.checkFormsCompliant();
         this.checkFormsReviewed();
       });
-    this.changeDetectorRefs.detectChanges();
   }
   fetchApplicationDetails() {
     this.isLoading = true;

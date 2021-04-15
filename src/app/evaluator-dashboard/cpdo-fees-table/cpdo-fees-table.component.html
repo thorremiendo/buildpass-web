@@ -1,4 +1,4 @@
-<div *ngIf="evaluatorDetails">
+<div *ngIf="evaluatorDetails && cpdoFees">
   <table mat-table [dataSource]="cpdoFees" class="full-width" #itemsTable>
     <ng-container matColumnDef="number">
       <th mat-header-cell *matHeaderCellDef>No.</th>
