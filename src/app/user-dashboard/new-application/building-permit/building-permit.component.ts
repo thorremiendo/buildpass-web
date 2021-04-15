@@ -45,13 +45,13 @@ export class BuildingPermitComponent implements OnInit {
       label: 'Step 3',
     },
     {
-      id: 48,
-      src: '../../../../assets/forms/Notice_of_Construction.pdf',
+      id: 4,
+      src: '../../../../assets/forms/Electrical_Permit.pdf',
       label: 'Step 4',
     },
     {
-      id: 4,
-      src: '../../../../assets/forms/Electrical_Permit.pdf',
+      id: 48,
+      src: '../../../../assets/forms/Notice_of_Construction.pdf',
       label: 'Step 5',
     },
   ];
@@ -64,13 +64,13 @@ export class BuildingPermitComponent implements OnInit {
     },
     {
       label: 'Step 7',
-      title: 'Design Analysis',
-      documents: [29, 30, 31, 32, 33],
+      title: 'Plans',
+      documents: [59, 61, 63, 62],
     },
     {
       label: 'Step 8',
-      title: 'Building Plans',
-      documents: [59, 61, 63, 62],
+      title: 'Designs, Specifications, Cost Estimate',
+      documents: [29, 30, 31, 32, 33],
     },
     {
       label: 'Step 9',
@@ -200,7 +200,7 @@ export class BuildingPermitComponent implements OnInit {
               ? null
               : this.fieldSets[0].documents.push(...this.isConstructionStatus);
             isOccupancyCommercial ? this.fieldSets[3].documents.push(47) : null;
-            isOccupancyCommercial ? this.fieldSets[2].documents.push(64) : null;
+            isOccupancyCommercial ? this.fieldSets[1].documents.push(64) : null;
 
             this.initData();
             this.setFilePaths();

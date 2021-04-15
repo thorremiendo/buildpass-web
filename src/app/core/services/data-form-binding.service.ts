@@ -302,6 +302,7 @@ export class DataFormBindingService {
 
   //GENERTAL FORM DATA
   getFormData(a) {
+    console.log(a);
     const applicantDetails = a.applicant_detail;
     const projectDetails = a.project_detail;
     const representativeDetails = a.representative_detail;
@@ -426,10 +427,10 @@ export class DataFormBindingService {
       project_complete_address: `${projectDetails.house_number} ${projectDetails.lot_number} ${projectDetails.street_name} ${projectDetails.barangay}`.toUpperCase(),
 
       amount_in_words:
-        projectDetails.project_cost_cap == 'undefined'
+        projectDetails.project_cost_cap == ''
           ? 0
           : `${NumberToWords.toWords(
-              projectDetails.project_cost_cap == 'undefined'
+              projectDetails.project_cost_cap == ''
                 ? 0
                 : projectDetails.project_cost_cap
             ).toUpperCase()} PESOS`,

@@ -98,9 +98,8 @@ export class ChecklistSummaryComponent implements OnInit {
           };
 
           this.applicantForms.forEach((element) => {
-            console.log(element);
             console.log(this.documentTypes[element.document_id]);
-            const docType = this.documentTypes[element.document_id]
+            const docType = this.documentTypes[element.document_id - 1]
               .document_category_id;
             console.log(docType);
             switch (docType) {
