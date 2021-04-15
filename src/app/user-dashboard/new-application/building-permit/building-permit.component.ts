@@ -70,7 +70,7 @@ export class BuildingPermitComponent implements OnInit {
     {
       label: 'Step 8',
       title: 'Designs, Specifications, Cost Estimate',
-      documents: [29, 30, 31, 32, 33],
+      documents: [29, 30, 32, 33],
     },
     {
       label: 'Step 9',
@@ -96,6 +96,7 @@ export class BuildingPermitComponent implements OnInit {
   public isHaveCoOwners: Array<any> = [75];
   public isConstructionStatus: Array<any> = [37, 38];
   public if10000sqm: Array<any> = [40];
+  public is3storeysOrMore: Array<any> = [31];
 
   constructor(
     private newApplicationService: NewApplicationService,
@@ -168,6 +169,10 @@ export class BuildingPermitComponent implements OnInit {
               this.applicationDetails.occupancy_classification_id !== 1
                 ? true
                 : false;
+            const is3storeysOrMore =
+              this.applicationDetails.project_detail.number_of_storey >= 3
+                ? true
+                : false;
 
             if10000sqm
               ? this.fieldSets[4].documents.push(...this.if10000sqm)
@@ -201,7 +206,9 @@ export class BuildingPermitComponent implements OnInit {
               : this.fieldSets[0].documents.push(...this.isConstructionStatus);
             isOccupancyCommercial ? this.fieldSets[3].documents.push(47) : null;
             isOccupancyCommercial ? this.fieldSets[1].documents.push(64) : null;
-
+            is3storeysOrMore
+              ? this.fieldSets[2].documents.push(...this.is3storeysOrMore)
+              : null;
             this.initData();
             this.setFilePaths();
             this.pdfSource = this.forms[0].src;
@@ -341,7 +348,7 @@ export class BuildingPermitComponent implements OnInit {
     ) {
       this.isLoading = true;
       const body = {
-        application_status_id: 7,
+        application_status_id: 9,
       };
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)

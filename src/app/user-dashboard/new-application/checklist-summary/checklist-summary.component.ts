@@ -168,7 +168,15 @@ export class ChecklistSummaryComponent implements OnInit {
           this.updateApplicationWithExcavation();
         } else if (result.isDenied) {
           this.isLoading = true;
-          this.goToSuccessPage();
+          const body = {
+            application_status_id: 7,
+          };
+          this.applicationService
+            .updateApplicationStatus(body, this.applicationId)
+            .subscribe((res) => {
+              this.isLoading = false;
+              this.goToSuccessPage();
+            });
         }
       });
     } else {
