@@ -136,6 +136,9 @@ export class BuildingPermitComponent implements OnInit {
             this.electricalFormData = this.dataBindingService.getFormData(
               this.applicationDetails
             );
+            this.noticeOfConstructionFormData = this.dataBindingService.getFormData(
+              this.applicationDetails
+            );
 
             const isRepresentative =
               this.applicationDetails.is_representative == 1 ? true : false;
