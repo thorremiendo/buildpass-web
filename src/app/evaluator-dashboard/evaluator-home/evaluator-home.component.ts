@@ -29,7 +29,7 @@ export class EvaluatorHomeComponent implements OnInit {
   ) {
     this.navLinks = [
       {
-        label: 'Table View',
+        label: 'List View',
         link: './table',
         index: 0,
       },

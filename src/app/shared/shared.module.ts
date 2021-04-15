@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { AccordionAnchorDirective } from './accordion/accordionanchor.directive';
 import { AccordionDirective } from './accordion/accordion.directive';
 import { AccordionLinkDirective } from './accordion/accordionlink.directive';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenuItems } from './menu-items/menu-items';
 import { LoaderComponent } from './loader/loader.component';
 import { DateAgoPipe } from '../core';
@@ -27,6 +27,8 @@ import { SupportingDocumentsComponent } from './supporting-documents/supporting-
 import { ApplicantDetailsComponent } from './applicant-details/applicant-details.component';
 import { ProjectDetailsComponent } from './project-details/project-details.component';
 import { ApplicantBuildingPermitDocsComponent } from './applicant-building-permit-docs/applicant-building-permit-docs.component';
+import { ApplicationsListComponent } from './applications-list/applications-list.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -44,9 +46,16 @@ import { ApplicantBuildingPermitDocsComponent } from './applicant-building-permi
     ApplicantDetailsComponent,
     ProjectDetailsComponent,
     ApplicantBuildingPermitDocsComponent,
+    ApplicationsListComponent,
   ],
-  imports: [CommonModule, FormsModule, MaterialModule, PerfectScrollbarModule],
-
+  imports: [
+    CommonModule,
+    FormsModule,
+    MaterialModule,
+    PerfectScrollbarModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+  ],
   exports: [
     AccordionAnchorDirective,
     AccordionDirective,
@@ -62,6 +71,7 @@ import { ApplicantBuildingPermitDocsComponent } from './applicant-building-permi
     ApplicantDetailsComponent,
     ProjectDetailsComponent,
     ApplicantBuildingPermitDocsComponent,
+    ApplicationsListComponent,
   ],
   providers: [
     {
