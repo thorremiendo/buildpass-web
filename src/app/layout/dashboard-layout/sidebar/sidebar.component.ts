@@ -89,10 +89,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   logout() {
     if (this.employeeDetails == undefined) {
-      debugger;
       this._authService.userSignOut();
     } else {
-      debugger;
       this._authService.evaluatorSignOut();
     }
   }
