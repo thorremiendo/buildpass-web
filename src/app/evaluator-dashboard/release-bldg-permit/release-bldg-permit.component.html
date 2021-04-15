@@ -3,61 +3,78 @@
     <mat-card-content>
       <div>
         <h4 style="color: #400c06" class="mb-4">
-          <strong>Releasing of Building Permit</strong>
+          <strong>Building Permit Certificate</strong>
         </h4>
       </div>
-      <!-- <ngx-extended-pdf-viewer
-          [src]="'../../../../assets/forms/bldg-permit-certificate.pdf'"
-          [showToolbar]="true"
-          [showSidebarButton]="false"
-          [showFindButton]="false"
-          [showPagingButtons]="false"
-          [showZoomButtons]="true"
-          [showPresentationModeButton]="true"
-          [showOpenFileButton]="false"
-          [showPrintButton]="false"
-          [showDownloadButton]="true"
-          [showBookmarkButton]="false"
-          [showSecondaryToolbarButton]="true"
-          [showRotateButton]="false"
-          [showHandToolButton]="false"
-          [showScrollingButton]="false"
-          [showSpreadButton]="false"
-          [showPropertiesButton]="false"
-          [useBrowserLocale]="true"
-          height="1000px"
-          zoom="80%"
-          [(formData)]="formData"
+      <ngx-extended-pdf-viewer
+        [src]="src"
+        [showToolbar]="true"
+        [showSidebarButton]="false"
+        [showFindButton]="false"
+        [showPagingButtons]="false"
+        [showZoomButtons]="true"
+        [showPresentationModeButton]="true"
+        [showOpenFileButton]="false"
+        [showPrintButton]="false"
+        [showDownloadButton]="true"
+        [showBookmarkButton]="false"
+        [showSecondaryToolbarButton]="true"
+        [showRotateButton]="false"
+        [showHandToolButton]="false"
+        [showScrollingButton]="false"
+        [showSpreadButton]="false"
+        [showPropertiesButton]="false"
+        [useBrowserLocale]="true"
+        height="1000px"
+        zoom="80%"
+        [(formData)]="formData"
+      >
+      </ngx-extended-pdf-viewer>
+      <ngx-dropzone
+        (change)="onSelect($event, 'bpCertificate')"
+        [multiple]="false"
+        accept="application/pdf"
+        class="mt-3"
+      >
+        <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+        <ngx-dropzone-preview
+          *ngIf="bpCertificate"
+          [removable]="true"
+          (removed)="onRemove('bpCertificate')"
+          class="mx-auto"
         >
-        </ngx-extended-pdf-viewer>
-        <ngx-dropzone
-          (change)="onSelect($event, 'bldgPermit')"
-          [multiple]="false"
-          class="mt-3"
-        >
-          <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-          <ngx-dropzone-preview
-            *ngIf="bldgPermit"
-            [removable]="true"
-            (removed)="onRemove('bldgPermit')"
-            class="mx-auto"
+          <ngx-dropzone-label
+            >{{ bpCertificate.name }} ({{
+              bpCertificate.type
+            }})</ngx-dropzone-label
           >
-            <ngx-dropzone-label
-              >{{ bldgPermit.name }} ({{
-                bldgPermit.type
-              }})</ngx-dropzone-label
-            >
-          </ngx-dropzone-preview>
-        </ngx-dropzone> -->
-      <div class="container">
-        <div id="pdf-div" class="pdf-view"></div>
-      </div>
-
-      <!-- <div class="text-right mt-5">
-        <button mat-raised-button color="primary" (click)="callSave()">
+        </ngx-dropzone-preview>
+      </ngx-dropzone>
+      <ng-container *ngIf="isSubmitting">
+        <div>
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+      </ng-container>
+      <div class="d-flex justify-content-between">
+        <button
+          class="text-right mt-3"
+          mat-raised-button
+          color="accent"
+          (click)="onNoClick()"
+          [disabled]="isSubmitting"
+        >
+          Close
+        </button>
+        <button
+          class="text-right mt-3"
+          mat-raised-button
+          color="primary"
+          [disabled]="isSubmitting || !bpCertificate"
+          (click)="callSave()"
+        >
           Save
         </button>
-      </div> -->
+      </div>
     </mat-card-content>
   </mat-card>
 </div>

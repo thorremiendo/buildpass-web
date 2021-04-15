@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="dataSource">
   <table mat-table [dataSource]="dataSource" class="full-width" #itemsTable>
     <ng-container matColumnDef="number">
       <th mat-header-cell *matHeaderCellDef>No.</th>

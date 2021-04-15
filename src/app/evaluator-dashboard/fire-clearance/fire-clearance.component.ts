@@ -1,3 +1,4 @@
+import { ApplicationInfoService } from './../../core/services/application-info.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
@@ -5,13 +6,11 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { AuthService } from 'src/app/core/services/auth.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
-import { UserService } from 'src/app/core/services/user.service';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { ViewSDKClient } from 'src/app/core/services/view-sdk.service';
+import { WaterMarkService } from './../../core/services/watermark.service';
 
 @Component({
   selector: 'app-fire-clearance',
@@ -19,32 +18,23 @@ import { ViewSDKClient } from 'src/app/core/services/view-sdk.service';
   styleUrls: ['./fire-clearance.component.scss'],
 })
 export class FireClearanceComponent implements OnInit {
-  public fireClearanceFile: File;
+  public applicationDetails;
+  public src = '../../../assets/forms/fsec_obo_copy.pdf';
   public formData = {};
   public userId;
   public applicationId;
   public userInfo;
-  //adobe sdk
-  previewFilePromise: any;
-  annotationManager: any;
-  viewerConfig = {
-    /* Enable commenting APIs */
-    enableAnnotationAPIs: true /* Default value is false */,
-    includePDFAnnotations: true,
-  };
+  public fireClearance: File;
+  public isSubmitting: boolean = false;
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
     private newApplicationService: NewApplicationService,
-    private authService: AuthService,
-    private userService: UserService,
-    private fb: FormBuilder,
+    private applicationService: ApplicationInfoService,
     public dialogRef: MatDialogRef<FireClearanceComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data,
-    private viewSDKClient: ViewSDKClient
+    private viewSDKClient: ViewSDKClient,
+    private watermark: WaterMarkService
   ) {}
-
   ngOnInit(): void {
     console.log(this.data);
     this.applicationId = this.data.route.snapshot.params.id;
@@ -57,50 +47,108 @@ export class FireClearanceComponent implements OnInit {
           (this.viewSDKClient.applicationId = this.applicationId);
         console.log(this.userId);
       });
+    this.applicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((res) => {
+        this.applicationDetails = res.data;
+        console.log(this.applicationDetails);
+        this.formData = {
+          name_of_owner: `${this.applicationDetails.applicant_detail.first_name} ${this.applicationDetails.applicant_detail.middle_name} ${this.applicationDetails.applicant_detail.last_name}`,
+          building_name: this.applicationDetails.project_detail.project_title,
+          address: `${this.applicationDetails.project_detail.house_number} ${this.applicationDetails.project_detail.lot_number} ${this.applicationDetails.project_detail.street_name} ${this.applicationDetails.project_detail.barangay}`,
+          no_of_storeys: this.applicationDetails.project_detail
+            .number_of_storey,
+        };
+        console.log(this.formData);
+      });
   }
   //adobe sdk functions
-  ngAfterViewInit() {
-    this.viewSDKClient.url =
-      'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/fire-clearance.pdf';
-    this.viewSDKClient.ready().then(() => {
-      /* Invoke the file preview and get the Promise object */
-      this.previewFilePromise = this.viewSDKClient.previewFile(
-        'pdf-div',
-        this.viewerConfig
-      );
-      /* Use the annotation manager interface to invoke the commenting APIs */
-      this.previewFilePromise.then((adobeViewer: any) => {
-        adobeViewer.getAnnotationManager().then((annotManager: any) => {
-          this.annotationManager = annotManager;
-          /* Set UI configurations */
-          const customFlags = {
-            /* showToolbar: false,   /* Default value is true */
-            showCommentsPanel: false /* Default value is true */,
-            downloadWithAnnotations: true /* Default value is false */,
-            printWithAnnotations: true /* Default value is false */,
-          };
-          this.annotationManager.setConfig(customFlags);
-          this.viewSDKClient.registerSaveApiHandler('firePermit');
-        });
-      });
-    });
+  // ngAfterViewInit() {
+  //   this.viewSDKClient.url =
+  //     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/Checklist_Residential.pdf';
+  //   this.viewSDKClient.ready().then(() => {
+  //     /* Invoke the file preview and get the Promise object */
+  //     this.previewFilePromise = this.viewSDKClient.previewFile(
+  //       'pdf-div',
+  //       this.viewerConfig
+  //     );
+  //     /* Use the annotation manager interface to invoke the commenting APIs */
+  //     this.previewFilePromise.then((adobeViewer: any) => {
+  //       adobeViewer.getAnnotationManager().then((annotManager: any) => {
+  //         this.annotationManager = annotManager;
+  //         /* Set UI configurations */
+  //         const customFlags = {
+  //           /* showToolbar: false,   /* Default value is true */
+  //           showCommentsPanel: false /* Default value is true */,
+  //           downloadWithAnnotations: true /* Default value is false */,
+  //           printWithAnnotations: true /* Default value is false */,
+  //         };
+  //         this.annotationManager.setConfig(customFlags);
+  //         this.viewSDKClient.registerSaveApiHandler('bfpChecklist');
+  //       });
+  //     });
+  //   });
+  // }
+  onNoClick(): void {
+    this.dialogRef.close();
   }
+
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
     switch (type) {
-      case 'fireClearanceFile':
-        this.fireClearanceFile = file;
+      case 'fireClearance':
+        this.fireClearance = file;
         break;
     }
   }
   onRemove(type) {
     switch (type) {
-      case 'fireClearanceFile':
-        this.fireClearanceFile = null;
+      case 'fireClearance':
+        this.fireClearance = null;
         break;
     }
   }
-  onNoClick(): void {
-    this.dialogRef.close();
+
+  callSave() {
+    this.isSubmitting = true;
+    const uploadDocumentData = {
+      application_id: this.applicationId,
+      user_id: this.userId,
+      document_id: 45,
+      document_status_id: 1,
+    };
+
+    if (this.fireClearance) {
+      uploadDocumentData['document_path'] = this.fireClearance;
+    }
+
+    console.log(uploadDocumentData);
+    this.newApplicationService
+      .submitDocument(uploadDocumentData)
+      .subscribe((res) => {
+        const doc = res.data.document_path;
+        const id = res.data.id;
+        this.watermark.generateQrCode(this.applicationId).subscribe((res) => {
+          this.watermark
+            .insertQrCode(doc, res.data, 'fire-permit')
+            .then((blob) => {
+              const updateFileData = {
+                document_status_id: 1,
+                document_path: blob,
+              };
+              this.newApplicationService
+                .updateDocumentFile(updateFileData, id)
+                .subscribe((res) => {
+                  console.log(res);
+                  Swal.fire('Success!', `FSEC Uploaded`, 'success').then(
+                    (result) => {
+                      this.isSubmitting = true;
+                      this.onNoClick();
+                    }
+                  );
+                });
+            });
+        });
+      });
   }
 }

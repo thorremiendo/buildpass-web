@@ -104,7 +104,9 @@
                   evaluatorRole.code == 'CPDO-COD' &&
                   applicationDetails.application_status_id == '10'
                 "
-                [disabled]="checkCertificateUploaded()"
+                [disabled]="
+                  checkCertificateUploaded() || !checkFormsCompliant()
+                "
               >
                 Upload Zoning Compliance Form
               </button>

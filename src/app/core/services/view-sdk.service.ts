@@ -161,18 +161,15 @@ export class ViewSDKClient {
                 });
             } else {
               const uploadDocumentData = {
-                document_status_id: 0,
                 document_path: blob,
               };
               this.newApplicationService
                 .updateDocumentFile(uploadDocumentData, this.formId)
                 .subscribe((res) => {
                   console.log(res);
-                  Swal.fire('Success!', `Review Saved!`, 'success').then(
-                    (result) => {
-                      console.log('Uploaded!!');
-                    }
-                  );
+                  Swal.fire('Success!', `Saved!`, 'success').then((result) => {
+                    console.log('Uploaded!!');
+                  });
                 });
             }
           } else if (condition == 'bldgPermit') {

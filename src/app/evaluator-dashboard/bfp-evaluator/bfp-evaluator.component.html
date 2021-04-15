@@ -1,4 +1,4 @@
-<mat-card *ngIf="!isLoading">
+<mat-card *ngIf="!isLoading && applicationDetails">
   <mat-card-content>
     <div>
       <h4 style="color: #400c06" class="mb-4">
@@ -6,36 +6,63 @@
       </h4>
     </div>
     <div *ngIf="applicationDetails.application_status_id == 3">
-      <h5>
-        <strong> BFP Status: </strong>
-        {{
-          applicationDetails.parallel_bfp_status_id == 0
-            ? "Pending"
-            : applicationDetails.parallel_bfp_status_id == 1
-            ? "Review Done - Compliant"
-            : "Review Done - Non Compliant"
-        }}
-      </h5>
-      <h5>
-        <strong> CEPMO Status: </strong>
-        {{
-          applicationDetails.parallel_cepmo_status_id == 0
-            ? "Pending"
-            : applicationDetails.parallel_cepmo_status_id == 1
-            ? "Review Done - Compliant"
-            : "Review Done - Non Compliant"
-        }}
-      </h5>
-      <h5>
-        <strong> CBAO Status: </strong>
-        {{
-          applicationDetails.parallel_cbao_status_id == 0
-            ? "Pending"
-            : applicationDetails.parallel_cbao_status_id == 1
-            ? "Review Done - Compliant"
-            : "Review Done - Non Compliant"
-        }}
-      </h5>
+      <div class="row ml-1">
+        <h5>
+          <strong> BFP Status: </strong>
+        </h5>
+        <h5
+          [style.color]="
+            applicationDetails.parallel_bfp_status_id !== 1 ? 'red' : 'green'
+          "
+        >
+          &nbsp;
+          {{
+            applicationDetails.parallel_bfp_status_id == 0
+              ? "Pending"
+              : applicationDetails.parallel_bfp_status_id == 1
+              ? "Review Done - Compliant"
+              : "Review Done - Non Compliant"
+          }}
+        </h5>
+      </div>
+      <div class="row ml-1">
+        <h5>
+          <strong> CEPMO Status: </strong>
+        </h5>
+        <h5
+          [style.color]="
+            applicationDetails.parallel_cepmo_status_id !== 1 ? 'red' : 'green'
+          "
+        >
+          &nbsp;
+          {{
+            applicationDetails.parallel_cepmo_status_id == 0
+              ? "Pending"
+              : applicationDetails.parallel_cepmo_status_id == 1
+              ? "Review Done - Compliant"
+              : "Review Done - Non Compliant"
+          }}
+        </h5>
+      </div>
+      <div class="row ml-1">
+        <h5>
+          <strong> CBAO Status: </strong>
+        </h5>
+        <h5
+          [style.color]="
+            applicationDetails.parallel_cbao_status_id !== 1 ? 'red' : 'green'
+          "
+        >
+          &nbsp;
+          {{
+            applicationDetails.parallel_cbao_status_id == 0
+              ? "Pending"
+              : applicationDetails.parallel_cbao_status_id == 1
+              ? "Review Done - Compliant"
+              : "Review Done - Non Compliant"
+          }}
+        </h5>
+      </div>
     </div>
     <mat-tab-group>
       <mat-tab>
@@ -105,15 +132,16 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
-          <!-- <button
+          <button
             class="mt-2 w-100"
             mat-raised-button
             color="accent"
             *ngIf="!checkChecklistUploaded()"
             (click)="openChecklistDialog()"
+            [disabled]="!checkFormsCompliant()"
           >
-            Generate Checklist
-          </button> -->
+            Upload Checklist
+          </button>
           <div class="action__buttons">
             <button
               class="mt-2 w-100"
@@ -123,7 +151,7 @@
               *ngIf="!checkFireSecUploaded()"
               [disabled]="!checkFormsCompliant()"
             >
-              Generate Fire Safety Evaluation Clearance
+              Upload Fire Safety Evaluation Clearance
             </button>
             <mat-progress-bar
               mode="indeterminate"

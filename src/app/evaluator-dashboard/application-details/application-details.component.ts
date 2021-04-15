@@ -58,22 +58,20 @@ export class ApplicationDetailsComponent implements OnInit {
         this.applicationDetails = result.data;
         this.fetchEvaluatorDetails();
         this.fetchUserDocs();
-        this.isLoading = false;
       });
-    this.isLoading = false;
   }
 
   fetchUserDocs() {
-    this.isLoading = true;
     this.applicationService
       .fetchUserDocs(this.applicationId)
       .subscribe((res) => {
         this.userDocuments = res.data;
         if (this.applicationDetails.application_status_id == 3) {
           this.checkIfParallelEvaluationDone();
+        } else {
+          this.isLoading = false;
         }
       });
-    this.isLoading = false;
   }
 
   checkIfParallelEvaluationDone() {
@@ -95,7 +93,6 @@ export class ApplicationDetailsComponent implements OnInit {
               this.isLoading = false;
               this.ngOnInit();
             });
-            this.isLoading = false;
           });
       }
     }
