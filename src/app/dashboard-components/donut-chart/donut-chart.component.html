@@ -1,8 +1,8 @@
 <mat-card>
     <mat-card-content>
-        <mat-card-title>Task</mat-card-title>
-        <mat-card-subtitle>as of {{date | date:"medium"}}</mat-card-subtitle>
-        <div id="donut-chart" class="m-t-10 p-t-10 p-b-10 d-flex flex-column">
+        <!-- <mat-card-title>Task</mat-card-title>
+        <mat-card-subtitle>as of {{date | date:"medium"}}</mat-card-subtitle> -->
+        <div id="donut-chart" class="m-t-0 p-t-0 p-b-0 d-flex flex-column">
             <apx-chart [series]="DonutChartOptions.series"  [chart]="DonutChartOptions.chart"
                 [labels]="DonutChartOptions.labels" [responsive]="DonutChartOptions.responsive"
                 [tooltip]="DonutChartOptions.tooltip" [legend]="DonutChartOptions.legend"
@@ -11,9 +11,9 @@
             </apx-chart>
         </div>
     </mat-card-content>
-    <hr>
-    <mat-card-content>
-        <ul class="list-inline text-center m-t-30 m-b-30">
+    <!-- <hr> -->
+    <!-- <mat-card-content class ="pb-3 pt-0">
+        <ul class="list-inline text-center my-0 py-0">
             <li>
                 <h6 class="text-muted text-success m-0" >
                     <i class="fa fa-circle font-10 m-r-10 "  style="color: #C32148;"></i><span style="color: #C32148;">
@@ -34,5 +34,5 @@
             </li>
     
         </ul>
-    </mat-card-content>
+    </mat-card-content> -->
 </mat-card>

@@ -1,34 +1,64 @@
 <div fxLayout="row wrap">
-    <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
-      <mat-card>
-        <div class="box p-20 text-center cursor-pointer" style="background-color: #800000" >
-          <h1 class="font-light text-white m-0">{{application}}</h1>
-          <h6 class="text-white m-0">Application</h6>
-        </div>
-      </mat-card>
-    </div>
-    <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
-      <mat-card>
-        <div class="box p-20 text-center cursor-pointer" style="background-color: #C32148;"  >
-          <h1 class="font-light text-white m-0">{{pending}}</h1>
-          <h6 class="text-white m-0">Pending</h6>
-        </div>
-      </mat-card>
-    </div>
-    <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
-      <mat-card>
-        <div class="box p-20 text-center cursor-pointer" style="background-color: #F2BA49;">
-          <h1 class="font-light text-white m-0">{{current}}</h1>
-          <h6 class="text-white m-0">Current</h6>
-        </div>
-      </mat-card>
-    </div>
-    <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
-      <mat-card>
-        <div class="box p-20 text-center cursor-pointer" style="background-color: #FF8C00;" >
-          <h1 class="font-light text-white m-0">{{completed}}</h1>
-          <h6 class="text-white m-0">Completed</h6>
-        </div>
-      </mat-card>
+  <div fxFlex.gt-sm="40" fxFlex.gt-xs="100" fxFlex="100">
+    <div fxLayout="row wrap">
+      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+          <div
+            class="box p-20 text-center cursor-pointer"
+            style="background-color: #800000"
+          >
+            <h1 class="font-light text-white m-0">{{ application }}</h1>
+            <h6 class="text-white m-0">Application</h6>
+          </div>
+        </mat-card>
+      </div>
+      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+          <div
+            class="box p-20 text-center cursor-pointer"
+            style="background-color: #c32148"
+          >
+            <h1 class="font-light text-white m-0">{{ pending }}</h1>
+            <h6 class="text-white m-0">Pending</h6>
+          </div>
+        </mat-card>
+      </div>
     </div>
   </div>
+  <div fxFlex.gt-sm="20" fxFlex.gt-xs="100" fxFlex="100">
+    <app-donut-chart
+      *ngIf="!loading"
+      [pending]="pending"
+      [current]="current"
+      [completed]="completed"
+      hello="'Hello'"
+    >
+    </app-donut-chart>
+  </div>
+  <div fxFlex.gt-sm="40" fxFlex.gt-xs="100" fxFlex="100">
+    <div fxLayout="row wrap">
+      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+          <div
+            class="box p-20 text-center cursor-pointer"
+            style="background-color: #f2ba49"
+          >
+            <h1 class="font-light text-white m-0">{{ current }}</h1>
+            <h6 class="text-white m-0">Current</h6>
+          </div>
+        </mat-card>
+      </div>
+      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <mat-card>
+          <div
+            class="box p-20 text-center cursor-pointer"
+            style="background-color: #ff8c00"
+          >
+            <h1 class="font-light text-white m-0">{{ completed }}</h1>
+            <h6 class="text-white m-0">Completed</h6>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

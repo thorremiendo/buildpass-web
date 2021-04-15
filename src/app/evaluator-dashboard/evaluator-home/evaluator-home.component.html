@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row no-gutters">
-    <div class="col-md-7">
-      <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <div class="col-md-12">
+      <!-- <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card>
           <div class="box p-20 text-center cursor-pointer">
             <mat-card-content style="height: 190px">
@@ -59,15 +59,16 @@
             </mat-card-content>
           </div>
         </mat-card>
-      </div>
+      </div> -->
       <app-top-card-two
+      [loading] = "loading"
         [application]="application"
         [pending]="pending"
         [current]="current"
         [completed]="completed"
       ></app-top-card-two>
     </div>
-    <div class="col-md-5">
+    <!-- <div class="col-md-5">
       <app-donut-chart *ngIf="!loading"
         [pending]="pending"
         [current]="current"
@@ -75,7 +76,7 @@
         hello = "'Hello'"
       >
     </app-donut-chart>
-    </div>
+    </div> -->
   </div>
   <div class="row no-gutters">
     <div class="col-md-12">

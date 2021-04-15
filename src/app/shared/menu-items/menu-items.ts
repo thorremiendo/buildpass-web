@@ -67,15 +67,15 @@ const EVALUATORMENUITEMS = [
     state: 'evaluator/new-tasks',
     name: 'Chat Box',
     type: 'link',
-    icon: 'note_add',
-    badge: [{ type:"warning", value:'5'}]
+    icon: 'textsms',
+    // badge: [{ type:"warning", value:'5'}]
   },
 
   {
     state: 'evaluator/edit-profile',
     name: 'Edit Profile',
     type: 'link',
-    icon: 'folder',
+    icon: 'manage_accounts',
   },
 ];
 

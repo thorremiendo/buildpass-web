@@ -6,6 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./top-card-two.component.scss']
 })
 export class TopCardTwoComponent implements OnInit {
+  @Input() public loading:boolean = true;
   @Input() public application: string | number;
   @Input() public pending: string | number;
   @Input() public current: string | number;

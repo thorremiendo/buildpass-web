@@ -44,12 +44,12 @@ export class DonutChartComponent implements OnInit {
       chart: {
         type: 'donut',
         fontFamily: 'Poppins,sans-serif',
-        height: 230
+        height: 200
       },
       plotOptions: {
         pie: {
           donut: {
-            size: '80px'
+            size: '70px'
           }
         }
       },
@@ -66,7 +66,7 @@ export class DonutChartComponent implements OnInit {
         show: false,
       },
       labels: [ 'Pending', 'Current', 'Completed'],
-      colors: ['#F2BA49', '#FF8C00', '#800000'],
+      colors: ['#C32148', '#F2BA49', '#FF8C00'],
       responsive: [
         {
           breakpoint: 767,

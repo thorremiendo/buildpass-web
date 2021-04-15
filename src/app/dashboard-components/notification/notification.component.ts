@@ -36,6 +36,7 @@ export class NotificationComponent implements OnInit {
 
       this.feedService.getNotifTable().subscribe((data) => {
         this.feeds = data.data;
+        console.log(this.feeds);
       });
     }
   }
