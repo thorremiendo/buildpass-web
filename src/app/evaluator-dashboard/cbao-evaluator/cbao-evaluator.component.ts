@@ -113,34 +113,54 @@ export class CbaoEvaluatorComponent implements OnInit {
       const isCompliant = status.every((tech) => tech.id == 1);
       if (isCompliant) {
         this.isLoading = true;
-        const body = {
-          parallel_cbao_status_id: 1,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            Swal.fire('Success!', `CBAO Evaluation Done!`, 'success').then(
-              (result) => {
-                this.isLoading = false;
-                window.location.reload();
-              }
-            );
+        if (this.applicationInfo.parallel_cbao_status_id !== 1) {
+          const body = {
+            parallel_cbao_status_id: 1,
+          };
+          this.applicationService
+            .updateApplicationStatus(body, this.applicationId)
+            .subscribe((res) => {
+              Swal.fire('Success!', `CBAO Evaluation Done!`, 'success').then(
+                (result) => {
+                  this.isLoading = false;
+                  window.location.reload();
+                }
+              );
+            });
+        } else {
+          Swal.fire(
+            'CBAO Evaluation Done!',
+            `Other offices still pending!`,
+            'info'
+          ).then((result) => {
+            this.isLoading = false;
           });
+        }
       } else if (!isCompliant) {
         this.isLoading = true;
-        const body = {
-          parallel_cbao_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            Swal.fire('Success!', `Evaluation Done!`, 'success').then(
-              (result) => {
-                this.isLoading = false;
-                window.location.reload();
-              }
-            );
+        if (this.applicationInfo.parallel_cbao_status_id !== 2) {
+          const body = {
+            parallel_cbao_status_id: 2,
+          };
+          this.applicationService
+            .updateApplicationStatus(body, this.applicationId)
+            .subscribe((res) => {
+              Swal.fire('Success!', `Evaluation Done!`, 'success').then(
+                (result) => {
+                  this.isLoading = false;
+                  window.location.reload();
+                }
+              );
+            });
+        } else {
+          Swal.fire(
+            'CBAO Evaluation Done!',
+            `Other offices still pending!`,
+            'info'
+          ).then((result) => {
+            this.isLoading = false;
           });
+        }
       }
     }
   }
@@ -155,6 +175,12 @@ export class CbaoEvaluatorComponent implements OnInit {
     return documentTypes[id];
   }
   getDocStatus(id): string {
+    if (
+      this.evaluatorRole.code == 'CBAO-REC' &&
+      this.applicationInfo.receiving_status_id == '1'
+    ) {
+      return 'Compliant';
+    }
     return documentStatus[id];
   }
 

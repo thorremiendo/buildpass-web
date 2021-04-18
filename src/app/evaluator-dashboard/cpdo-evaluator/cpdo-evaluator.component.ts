@@ -98,6 +98,12 @@ export class CpdoEvaluatorComponent implements OnInit {
     return documentTypes[id];
   }
   getDocStatus(id): string {
+    if (
+      this.applicationDetails.cpdo_status_id == '1' &&
+      this.applicationDetails.cpdo_cod_status_id == '1'
+    ) {
+      return 'Compliant';
+    }
     return documentStatus[id];
   }
 

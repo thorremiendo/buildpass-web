@@ -88,7 +88,8 @@
                     mat-cell
                     *matCellDef="let element"
                     [style.color]="
-                      element.document_status_id == 1
+                      element.document_status_id == 1 ||
+                      getDocStatus(element.document_status_id) == 'Compliant'
                         ? 'green'
                         : element.document_status_id == 0
                         ? 'black'

@@ -114,6 +114,7 @@ export class ApplicationDetailsComponent implements OnInit {
     ) {
       const body = {
         application_status_id: 12,
+        cbao_status_id: 1,
       };
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)

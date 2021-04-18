@@ -51,7 +51,10 @@
                 mat-cell
                 *matCellDef="let element"
                 [style.color]="
-                  element.document_status_id == 1 ? 'green' : 'red'
+                  element.document_status_id == 1 ||
+                  getDocStatus(element.document_status_id).includes('Compliant')
+                    ? 'green'
+                    : 'red'
                 "
               >
                 {{ getDocStatus(element.document_status_id) }}

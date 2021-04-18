@@ -29,31 +29,31 @@ export class TableViewComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
-    this.checkCurrentOffice();
+    // this.checkCurrentOffice();
   }
 
-  checkCurrentOffice() {
-    if (this.evaluatorDetails.office_id == 1) {
-      this.filterCpdoApplications();
-    } else if (
-      this.evaluatorDetails.office_id == 2 ||
-      this.evaluatorDetails.office_id == 3
-    ) {
-      this.filterCbaoCepmoBfpApplications();
-    }
-  }
+  // checkCurrentOffice() {
+  //   if (this.evaluatorDetails.office_id == 1) {
+  //     this.filterCpdoApplications();
+  //   } else if (
+  //     this.evaluatorDetails.office_id == 2 ||
+  //     this.evaluatorDetails.office_id == 3
+  //   ) {
+  //     this.filterCbaoCepmoBfpApplications();
+  //   }
+  // }
 
-  filterCpdoApplications() {
-    this.applications = this.applications.filter(
-      (e) => e.application_status_id == 2 || e.application_status_id == 10
-    );
-  }
+  // filterCpdoApplications() {
+  //   this.applications = this.applications.filter(
+  //     (e) => e.application_status_id == 2 || e.application_status_id == 10
+  //   );
+  // }
 
-  filterCbaoCepmoBfpApplications() {
-    this.applications = this.applications.filter(
-      (e) => e.application_status_id == 3
-    );
-  }
+  // filterCbaoCepmoBfpApplications() {
+  //   this.applications = this.applications.filter(
+  //     (e) => e.application_status_id == 3
+  //   );
+  // }
 
   viewApplication(id) {
     this.router.navigate(['evaluator/application', id]);
