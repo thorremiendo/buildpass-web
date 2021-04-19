@@ -52,7 +52,7 @@ export class ChecklistSummaryComponent implements OnInit {
               this.permitType = 'Building Permit';
               break;
             case 2:
-              this.permitType = 'Occupancy Permit';
+              this.permitType = 'Certificate of Occupancy';
               break;
             case 3:
               this.permitType = 'Excavation Permit';
@@ -181,7 +181,15 @@ export class ChecklistSummaryComponent implements OnInit {
       });
     } else {
       this.isLoading = true;
-      this.goToSuccessPage();
+      const body = {
+        application_status_id: 7,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          this.isLoading = false;
+          this.goToSuccessPage();
+        });
     }
   }
 

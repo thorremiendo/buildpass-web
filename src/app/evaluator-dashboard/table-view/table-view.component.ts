@@ -20,7 +20,9 @@ export class TableViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.applicationService.fetchApplications().subscribe((result) => {
-      this.applications = result.data.filter(application => application.application_status_id != 6);
+      this.applications = result.data.filter(
+        (application) => application.application_status_id != 6
+      );
       this.fetchEvaluatorDetails();
     });
   }
@@ -29,20 +31,24 @@ export class TableViewComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
-    // this.checkCurrentOffice();
+    this.checkCurrentOffice();
   }
 
-  // checkCurrentOffice() {
-  //   if (this.evaluatorDetails.office_id == 1) {
-  //     this.filterCpdoApplications();
-  //   } else if (
-  //     this.evaluatorDetails.office_id == 2 ||
-  //     this.evaluatorDetails.office_id == 3
-  //   ) {
-  //     this.filterCbaoCepmoBfpApplications();
-  //   }
-  // }
+  checkCurrentOffice() {
+    if (
+      this.evaluatorDetails.office_id == 1 ||
+      this.evaluatorDetails.office_id == 2 ||
+      this.evaluatorDetails.office_id == 3
+    ) {
+      this.filterOnlyBuildingPermits();
+    }
+  }
 
+  filterOnlyBuildingPermits() {
+    this.applications = this.applications.filter(
+      (e) => e.permit_type_id == 1 || e.permit_type_id == 2
+    );
+  }
   // filterCpdoApplications() {
   //   this.applications = this.applications.filter(
   //     (e) => e.application_status_id == 2 || e.application_status_id == 10

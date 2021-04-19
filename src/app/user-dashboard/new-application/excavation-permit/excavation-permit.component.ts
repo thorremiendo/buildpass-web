@@ -52,7 +52,7 @@ export class ExcavationPermitComponent implements OnInit {
     {
       label: 'Step 5',
       title: 'Other Requirements',
-      documents: [19],
+      documents: [19, 20],
     },
   ];
 
@@ -65,7 +65,7 @@ export class ExcavationPermitComponent implements OnInit {
     {
       label: 'Step 3',
       title: 'Other Requirements',
-      documents: [19],
+      documents: [19, 20],
     },
   ];
 
@@ -474,7 +474,7 @@ export class ExcavationPermitComponent implements OnInit {
       const id = this.excavationId ? this.excavationId : this.applicationId;
 
       const data = {
-        application_status_id: 7,
+        application_status_id: 9,
       };
       this.applicationService
         .updateApplicationStatus(data, id)

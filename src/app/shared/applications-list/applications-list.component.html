@@ -1,89 +1,126 @@
 <div class="application-filters">
-    <div class="filters-toggle">FILTER APPLICATIONS</div>
-    <div>
-        <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>Application Number</mat-label>
-          <input matInput [formControl]="applicationNumber" />
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="permit-type-selector">
-            <mat-label>Permit Type</mat-label>
-            <mat-select [formControl]="permitType">
-                <mat-option value="0">All</mat-option>
-                <mat-option value="1">Building Permit</mat-option>
-                <mat-option value="2">Occupancy Permit</mat-option>
-                <mat-option value="3">Excavation Permit</mat-option>
-                <mat-option value="4">Fencing Permit</mat-option>
-                <mat-option value="5">Demolition Permit</mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
+  <div class="filters-toggle">FILTER APPLICATIONS</div>
+  <div>
+    <mat-form-field class="example-full-width" appearance="outline">
+      <mat-label>Application Number</mat-label>
+      <input matInput [formControl]="applicationNumber" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="permit-type-selector">
+      <mat-label>Permit Type</mat-label>
+      <mat-select [formControl]="permitType">
+        <mat-option value="0">All</mat-option>
+        <mat-option value="1">Building Permit</mat-option>
+        <mat-option value="2">Certificate of Occupancy</mat-option>
+        <mat-option value="3">Excavation Permit</mat-option>
+        <mat-option value="4">Fencing Permit</mat-option>
+        <mat-option value="5">Demolition Permit</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 </div>
 
 <mat-card
-    class="application"
-    *ngFor="let application of currentItemsToShow"
-    (click)="chooseApplication(application)"
+  class="application"
+  *ngFor="let application of currentItemsToShow"
+  (click)="chooseApplication(application)"
 >
-    <div class="application-logo">
-        <img src="../../../assets/illustrations/building.svg" *ngIf="application.permit_type_id == 1" />
-        <img src="../../../assets/illustrations/home.svg" *ngIf="application.permit_type_id == 2" />
-        <img src="../../../assets/illustrations/excavation.svg" *ngIf="application.permit_type_id == 3" />
-        <img src="../../../assets/illustrations/fencing.svg" *ngIf="application.permit_type_id == 4" />
-        <img src="../../../assets/illustrations/demolition.svg" *ngIf="application.permit_type_id == 5" />
+  <div class="application-logo">
+    <img
+      src="../../../assets/illustrations/building.svg"
+      *ngIf="application.permit_type_id == 1"
+    />
+    <img
+      src="../../../assets/illustrations/home.svg"
+      *ngIf="application.permit_type_id == 2"
+    />
+    <img
+      src="../../../assets/illustrations/excavation.svg"
+      *ngIf="application.permit_type_id == 3"
+    />
+    <img
+      src="../../../assets/illustrations/fencing.svg"
+      *ngIf="application.permit_type_id == 4"
+    />
+    <img
+      src="../../../assets/illustrations/demolition.svg"
+      *ngIf="application.permit_type_id == 5"
+    />
+  </div>
+  <div class="application-details">
+    <div class="application-type">
+      <div>
+        {{ application.permit_type_id == 1 ? "Building Permit" : "" }}
+        {{ application.permit_type_id == 2 ? "Certificate of Occupancy" : "" }}
+        {{ application.permit_type_id == 3 ? "Excavation Permit" : "" }}
+        {{ application.permit_type_id == 4 ? "Fencing Permit" : "" }}
+        {{ application.permit_type_id == 5 ? "Demolition Permit" : "" }}
+      </div>
+      <div>
+        {{ application.applicant_detail.created_at | date: "MMMM dd, yyyy" }}
+      </div>
     </div>
-    <div class="application-details">
-        <div class="application-type">
-            <div>
-            {{ application.permit_type_id == 1 ? 'Building Permit' : ''}}
-            {{ application.permit_type_id == 2 ? 'Occupancy Permit' : ''}}
-            {{ application.permit_type_id == 3 ? 'Excavation Permit' : ''}}
-            {{ application.permit_type_id == 4 ? 'Fencing Permit' : ''}}
-            {{ application.permit_type_id == 5 ? 'Demolition Permit' : ''}}
-            </div>
-            <div>
-            {{ application.applicant_detail.created_at | date: "MMMM dd, yyyy" }}
-            </div>
-        </div>
-        <div class="application-code">
-            {{ application.permit_application_code }}
-        </div>
-        <div class="application-status">
-            {{ getApplicationStatus(application.application_status_id) }}
-        </div>
-        <div class="application-applicant">
-            <mat-icon [inline]="true">person</mat-icon>
-            {{ application.applicant_detail.first_name }}
-            {{ application.applicant_detail.middle_name ? application.applicant_detail.middle_name : '' }}
-            {{ application.applicant_detail.last_name }}
-            {{ application.applicant_detail.suffix_name != 'na' ? application.applicant_detail.suffix_name : '' }}
-        </div>
-        <div class="application-location">
-            <mat-icon [inline]="true">location_on</mat-icon>
-            {{ application.project_detail.house_number ? application.project_detail.house_number : '' }}
-            {{ application.project_detail.street_name ? application.project_detail.street_name : '' }}
-            {{ application.project_detail.barangay ? application.project_detail.barangay : '' }}
-        </div>
-        <div class="application-progress" *ngIf="application.status">
-            <mat-icon [inline]="true">assignment</mat-icon>
-            {{ application.status.progress == '' ? '0': application.status.progress }}%
-        </div>
+    <div class="application-code">
+      {{ application.permit_application_code }}
     </div>
+    <div class="application-status">
+      {{ getApplicationStatus(application.application_status_id) }}
+    </div>
+    <div class="application-applicant">
+      <mat-icon [inline]="true">person</mat-icon>
+      {{ application.applicant_detail.first_name }}
+      {{
+        application.applicant_detail.middle_name
+          ? application.applicant_detail.middle_name
+          : ""
+      }}
+      {{ application.applicant_detail.last_name }}
+      {{
+        application.applicant_detail.suffix_name != "na"
+          ? application.applicant_detail.suffix_name
+          : ""
+      }}
+    </div>
+    <div class="application-location">
+      <mat-icon [inline]="true">location_on</mat-icon>
+      {{
+        application.project_detail.house_number
+          ? application.project_detail.house_number
+          : ""
+      }}
+      {{
+        application.project_detail.street_name
+          ? application.project_detail.street_name
+          : ""
+      }}
+      {{
+        application.project_detail.barangay
+          ? application.project_detail.barangay
+          : ""
+      }}
+    </div>
+    <div class="application-progress" *ngIf="application.status">
+      <mat-icon [inline]="true">assignment</mat-icon>
+      {{
+        application.status.progress == "" ? "0" : application.status.progress
+      }}%
+    </div>
+  </div>
 </mat-card>
 
 <div class="loader" *ngIf="loading">
-    <mat-progress-spinner
+  <mat-progress-spinner
     mode="indeterminate"
     diameter="50"
-    ></mat-progress-spinner>
+  ></mat-progress-spinner>
 </div>
 
 <div *ngIf="currentItemsToShow.length == 0" class="no-applications-found">
-    No applications found
+  No applications found
 </div>
 
 <mat-paginator
-    (page)="onPageChange($event)"
-    [length]="filteredApplications.length"
-    [pageSize]="5"
+  (page)="onPageChange($event)"
+  [length]="filteredApplications.length"
+  [pageSize]="5"
 >
 </mat-paginator>
