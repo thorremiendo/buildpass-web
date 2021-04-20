@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  api_url: `http://ocpasapitest-env.eba-rycu4cp5.ap-southeast-1.elasticbeanstalk.com/api`,
+  api_url: `https://api.staging.buildpass.baguio.gov.ph/api`,
   //api_url: `https://api.buildpass.baguio.gov.ph//api`,
 
 
