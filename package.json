@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "aws-deploy": "aws s3 sync dist/ocpas-web/ s3://ocpas-test-s3"
+    "aws-deploy": "aws s3 sync dist/ocpas-web/ s3://staging.buildpass.baguio.gov.ph"
   },
   "private": true,
   "dependencies": {
