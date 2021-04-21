@@ -18,6 +18,7 @@ export class EvaluatorHomeComponent implements OnInit {
   public pending: string | number;
   public current: string | number;
   public completed: string | number;
+  public applicationStatusId: string | number;
 
   navLinks: any[];
   activeLinkIndex = -1;
@@ -47,43 +48,55 @@ export class EvaluatorHomeComponent implements OnInit {
       this.fetchTaskCount(this.userInfo.id);
     }
 
-    this._router.events.subscribe((res) => {
-      this.activeLinkIndex = this.navLinks.indexOf(
-        this.navLinks.find((tab) => tab.link === '.' + this._router.url)
-      );
-    });
-    this.applicationInfoService.fetchApplications().subscribe((res) => {
-      this.applications = res.data;
-    });
+    // this._router.events.subscribe((res) => {
+    //   this.activeLinkIndex = this.navLinks.indexOf(
+    //     this.navLinks.find((tab) => tab.link === '.' + this._router.url)
+    //   );
+    // });
+
+    // this.applicationInfoService.fetchApplications().subscribe((res) => {
+    //   this.applications = res.data;
+    // });
   }
 
   fetchTaskCount(id) {
-    this.evaluatorService.fetchTaskCount(id).subscribe(
-      (res) => {
-        let data = res.data[0];
-
-        this.application = data.application;
-        this.pending = data.pending;
-        this.current = data.current;
-        this.completed = data.completed;
-        this.loading = false;
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+    this.evaluatorService.fetchTaskCount(id).subscribe((res) => {
+      let data = res.data[0];
+      this.application = data.application;
+      this.pending = data.pending;
+      this.current = data.current;
+      this.completed = data.completed;
+      this.loading = false;
+    },
+    (err)=>{
+      console.log(err);
+    });
   }
 
-  openApplication(id) {
-    this._router.navigate(['evaluator/application', id]);
+  sendDataToTableView(status_id){
+    this.applicationStatusId = status_id;
+    console.log("Status ID "+status_id);
+
   }
 
-  onSelect(data): void {}
+  // openApplication(id) {
+  //   this._router.navigate(['evaluator/application', id]);
+  // }
 
-  onActivate(data): void {}
+  // onSelect(data): void {
+  //   console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+  // }
 
-  onDeactivate(data): void {}
-  handleView() {
-    this._router.navigateByUrl('evaluator/application');
-  }
+  // onActivate(data): void {
+  //   console.log('Activate', JSON.parse(JSON.stringify(data)));
+  // }
+
+  // onDeactivate(data): void {
+  //   console.log('Deactivate', JSON.parse(JSON.stringify(data)));
+  // }
+  // handleView() {
+  //   this._router.navigateByUrl('evaluator/application');
+  // }
+
+
 }

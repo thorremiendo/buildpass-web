@@ -66,6 +66,8 @@
         [pending]="pending"
         [current]="current"
         [completed]="completed"
+        (emitApplicationStatus)="sendDataToTableView($event)"
+
       ></app-top-card-two>
     </div>
     <!-- <div class="col-md-5">
@@ -80,8 +82,8 @@
   </div>
   <div class="row no-gutters">
     <div class="col-md-12">
-      <mat-card class="card-container mt-3">
-        <nav mat-tab-nav-bar mat-stretch-tabs>
+      <!-- <mat-card class="card-container mt-3"> -->
+        <!-- <nav mat-tab-nav-bar mat-stretch-tabs>
           <a
             mat-tab-link
             *ngFor="let link of navLinks"
@@ -92,9 +94,14 @@
           >
             {{ link.label }}
           </a>
-        </nav>
-        <router-outlet></router-outlet>
-      </mat-card>
+        </nav> -->
+        <!-- <router-outlet></router-outlet> -->
+       <app-table-view
+       [applicationStatusId] = "applicationStatusId"
+       >
+         
+       </app-table-view>
+      <!-- </mat-card> -->
     </div>
   </div>
 </div>
