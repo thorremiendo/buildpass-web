@@ -26,17 +26,6 @@
 </mat-card>
 <mat-card *ngIf="applicationInfo">
   <mat-card-content>
-    <div class="continue">
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="handleNext()"
-        class="text-right"
-      >
-        <mat-icon>check</mat-icon>
-        Continue
-      </button>
-    </div>
     <mat-tab-group>
       <mat-tab>
         <ng-template mat-tab-label>
@@ -75,5 +64,16 @@
         ></app-applicant-building-permit-docs
       ></mat-tab>
     </mat-tab-group>
+    <div class="continue">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="handleNext()"
+        class="text-right mt-5"
+      >
+        <!-- <mat-icon>check</mat-icon> -->
+        Continue
+      </button>
+    </div>
   </mat-card-content>
 </mat-card>

@@ -432,7 +432,7 @@ export class DataFormBindingService {
         break;
       case 3:
         const sanitaryBody = {
-          application_number: data.application_number,
+          // application_number: data.application_number,
           application_date: data.application_date,
           permit_number: data.permit_number,
           date_issued: data.date_issued,
@@ -648,6 +648,76 @@ export class DataFormBindingService {
     }
   }
 
+  handleSaveExcavationForm(applicationId, data) {
+    const body = {
+      application_no: data.application_no,
+      egpp_no: data.egpp_no,
+      building_permit_no: data.building_permit_no,
+      applicant_last_name: data.applicant_last_name,
+      applicant_first_name: data.applicant_first_name,
+      applicant_middle_name: data.applicant_middle_name,
+      applicant_tin_number: data.applicant_tin_number,
+      for_construction: data.for_construction,
+      form_of_ownership: data.form_of_ownership,
+      char_of_occupancy: data.char_of_occupancy,
+      applicant_house_number: data.applicant_house_number,
+      applicant_street_name: data.applicant_street_name,
+      applicant_barangay: data.applicant_barangay,
+      applicant_contact_number: data.applicant_contact_number,
+      project_lot_number: data.project_lot_number,
+      project_block_number: data.project_block_number,
+      project_tct_number: data.project_tct_number,
+      project_tax_dec_number: data.project_tax_dec_number,
+      project_street_name: data.project_street_name,
+      project_barangay: data.project_barangay,
+      scope_of_work: data.scope_of_work,
+      scope_of_work_renovation: data.scope_of_work_renovation,
+      scope_of_work_repair: data.scope_of_work_repair,
+      scope_of_work_others: data.scope_of_work_others,
+      character_of_occupancy: data.character_of_occupancy,
+      character_of_occupancy_others: data.character_of_occupancy_others,
+      // BOX 2
+      design_professional_name: data.design_professional_name,
+      design_professional_date: data.design_professional_date,
+      design_professional_address: data.design_professional_address,
+      design_professional_prc_no: data.design_professional_prc_no,
+      design_professional_ptr_no: data.design_professional_ptr_no,
+      design_professional_validity: data.design_professional_validity,
+      design_professional_date_issued: data.design_professional_date_issued,
+      design_professional_tin_no: data.design_professional_tin_no,
+      // BOX 3
+      construction_of_works_name: data.construction_of_works_name,
+      construction_of_works_date: data.construction_of_works_date,
+      construction_of_works_address: data.construction_of_works_address,
+      construction_of_works_pcr_no: data.construction_of_works_pcr_no,
+      construction_of_works_ptr_no: data.construction_of_works_ptr_no,
+      construction_of_works_issued_at: data.construction_of_works_issued_at,
+      construction_of_works_validity: data.construction_of_works_validity,
+      construction_of_works_date_issued: data.construction_of_works_date_issued,
+      construction_of_works_tin_no: data.construction_of_works_tin_no,
+      // BOX 4
+      applicant_full_name: data.applicant_full_name,
+      building_owner_date: data.building_owner_date,
+      applicant_full_address: data.applicant_full_address,
+      building_owner_ctc_no: data.building_owner_ctc_no,
+      building_owner_date_issued: data.building_owner_date_issued,
+      building_owner_place_issued: data.building_owner_place_issued,
+      lot_owner_full_name: data.lot_owner_full_name,
+      lot_owner_date: data.lot_owner_date,
+      lot_owner_address: data.lot_owner_address,
+      lot_owner_ctc_no: data.lot_owner_ctc_no,
+      lot_owner_date_issued: data.lot_owner_date_issued,
+      lot_owner_place_issued: data.lot_owner_place_issued,
+      // BOX 6
+      design_professional: data.design_professional,
+      design_professional_others: data.design_professional_others,
+      design_professional_others_one: data.design_professional_others_one,
+      design_professional_others_two: data.design_professional_others_two,
+      building_official: data.building_official,
+      building_official_date: data.building_official_date,
+    };
+    this.submitExcavationFormData(body, applicationId).subscribe((res) => {});
+  }
   //FIRE SAFETY EVALUATION CLEARANCE
   getFireClearanceData(a) {
     const applicantDetails = a.applicant_detail;

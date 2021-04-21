@@ -1,87 +1,128 @@
-<h3>Certificate of Occupancy Application</h3>
-<p>
-  Click <a href="" target="_blank">here</a> to view all required forms for
-  Certificate of Occupancy Application.
-</p>
-<mat-horizontal-stepper
-  linear
-  #stepper
-  (selectionChange)="initPdfViewer($event)"
->
-  <mat-step *ngFor="let form of forms; let i = index">
-    <ng-template matStepLabel>{{ form.description }}</ng-template>
-    <div class="fillable-form">
-      <div class="step-label">
-        1. After filling out the form, please click the download/save button on
-        the right.
-      </div>
-      <mat-card>
-        <mat-card-content>
-          <div id="form-{{ i }}">
-            <div id="pdf-viewer" *ngIf="i == 0 && pdfSource">
-              <ngx-extended-pdf-viewer
-                [src]="pdfSource"
-                [showToolbar]="true"
-                [showSidebarButton]="false"
-                [showFindButton]="false"
-                [showPagingButtons]="false"
-                [showZoomButtons]="true"
-                [showPresentationModeButton]="true"
-                [showOpenFileButton]="false"
-                [showPrintButton]="false"
-                [showDownloadButton]="true"
-                [showBookmarkButton]="false"
-                [showSecondaryToolbarButton]="true"
-                [showRotateButton]="false"
-                [showHandToolButton]="false"
-                [showScrollingButton]="false"
-                [showSpreadButton]="false"
-                [showPropertiesButton]="false"
-                [useBrowserLocale]="true"
-                height="1000px"
-                zoom="100%"
-                [(formData)]="formData"
-              >
-              </ngx-extended-pdf-viewer>
+<div *ngIf="applicationDetails">
+  <h3>Certificate of Occupancy Application</h3>
+  <h4 style="font-weight: bold; color: grey">
+    Uploaded Documents: {{ applicationDetails.user_docs.length }}/
+    {{ getFieldSetsLength() + 1 }}
+  </h4>
+  <mat-horizontal-stepper
+    linear
+    #stepper
+    (selectionChange)="initPdfViewer($event)"
+  >
+    <mat-step *ngFor="let form of forms; let i = index">
+      <ng-template matStepLabel>{{ form.label }}</ng-template>
+      <h1>{{ form.description }}</h1>
+      <div class="fillable-form">
+        <div class="step-label">
+          1. After filling out the form, please click the download/save button
+          on the right.
+        </div>
+        <mat-card>
+          <mat-card-content>
+            <div id="form-{{ i }}">
+              <div id="pdf-viewer" *ngIf="i == 0 && pdfSource">
+                <ngx-extended-pdf-viewer
+                  [src]="pdfSource"
+                  [showToolbar]="true"
+                  [showSidebarButton]="false"
+                  [showFindButton]="false"
+                  [showPagingButtons]="false"
+                  [showZoomButtons]="true"
+                  [showPresentationModeButton]="true"
+                  [showOpenFileButton]="false"
+                  [showPrintButton]="false"
+                  [showDownloadButton]="true"
+                  [showBookmarkButton]="false"
+                  [showSecondaryToolbarButton]="true"
+                  [showRotateButton]="false"
+                  [showHandToolButton]="false"
+                  [showScrollingButton]="false"
+                  [showSpreadButton]="false"
+                  [showPropertiesButton]="false"
+                  [useBrowserLocale]="true"
+                  height="1000px"
+                  zoom="100%"
+                  [(formData)]="formData"
+                >
+                </ngx-extended-pdf-viewer>
+              </div>
             </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-      <div class="step-label">2. Please upload the Notarized Form.</div>
-      <div class="pdf-only">You can only upload PDF files.</div>
-      <app-file-upload
-        (emitFile)="submitDocument($event, form.id)"
-        description="{{ form.description }}"
-        path="{{ form.path }}"
-      ></app-file-upload>
-    </div>
-    <div class="buttons">
-      <button mat-raised-button color="primary" matStepperNext>Next</button>
-    </div>
-  </mat-step>
-  <mat-step *ngFor="let fieldSet of fieldSets; let i = index">
-    <ng-template matStepLabel>{{ fieldSet.label }}</ng-template>
-    <div class="fieldsets">
-      <div *ngFor="let field of fieldSet.documents">
+          </mat-card-content>
+        </mat-card>
+        <!-- <div class="step-label">2. Please upload the Notarized Form.</div>
+        <div class="pdf-only">You can only upload PDF files.</div>
         <app-file-upload
-          (emitFile)="submitDocument($event, field.id)"
-          description="{{ field.description }}"
-          path="{{ field.path }}"
-        ></app-file-upload>
+          (emitFile)="submitDocument($event, form.id)"
+          description="{{ form.description }}"
+          path="{{ form.path }}"
+        ></app-file-upload> -->
       </div>
-    </div>
-    <div class="buttons">
-      <button
-        mat-raised-button
-        color="primary"
-        matStepperNext
-        *ngIf="i != fieldSets.length - 1; else submit_button"
-      >
-        Next
-      </button>
-      <ng-template #submit_button>
-        <button mat-raised-button (click)="submitApplication()">Submit</button>
-      </ng-template>
-    </div>
-  </mat-step>
-</mat-horizontal-stepper>
+      <div class="buttons">
+        <button
+          mat-raised-button
+          color="accent"
+          [routerLink]="['/dashboard/applications']"
+        >
+          Save as Draft
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          matStepperNext
+          (click)="upload(form)"
+        >
+          Next
+        </button>
+      </div>
+    </mat-step>
+    <mat-step *ngFor="let fieldSet of fieldSets; let i = index">
+      <ng-template matStepLabel>{{ fieldSet.label }}</ng-template>
+      <div class="fieldsets">
+        <h1>{{ fieldSet.title }}</h1>
+        <div *ngFor="let field of fieldSet.documents">
+          <app-file-upload
+            (emitFile)="submitDocument($event, field.id)"
+            description="{{ field.description }}"
+            path="{{ field.path }}"
+          ></app-file-upload>
+        </div>
+      </div>
+      <div class="buttons">
+        <button
+          mat-raised-button
+          color="accent"
+          [routerLink]="['/dashboard/applications']"
+        >
+          Save as Draft
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          matStepperNext
+          *ngIf="i != fieldSets.length - 1; else submit_button"
+        >
+          Next
+        </button>
+        <ng-template #submit_button>
+          <button
+            mat-raised-button
+            (click)="submitApplication()"
+            [disabled]="isSubmitting"
+          >
+            Submit
+          </button>
+        </ng-template>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>
+<ng-container *ngIf="!applicationDetails">
+  <div class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-container>
+<ng-container *ngIf="isSubmitting">
+  <div>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+</ng-container>

@@ -238,6 +238,10 @@ export class ExcavationPermitComponent implements OnInit {
 
   public async upload(form): Promise<void> {
     const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    this.dataBindingService.handleSaveExcavationForm(
+      this.applicationId,
+      this.formData
+    );
     if (!form.path) {
       if (blob) {
         this.isLoading = true;
