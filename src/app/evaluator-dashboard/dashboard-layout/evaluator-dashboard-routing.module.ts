@@ -1,3 +1,4 @@
+import { ESignatureComponent } from './../../shared/e-signature/e-signature.component';
 import { UserGuardGuard } from './../../core/guard/user-guard.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -52,6 +53,10 @@ const routes: Routes = [
       {
         path: 'edit-profile',
         component: EvaluatorEditProfileComponent,
+      },
+      {
+        path: 'esig',
+        component: ESignatureComponent,
       },
     ],
   },

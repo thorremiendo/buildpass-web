@@ -1,4 +1,3 @@
-
 import { NgModule } from '@angular/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -41,58 +40,56 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { PlatformModule } from '@angular/cdk/platform';
 import { ObserversModule } from '@angular/cdk/observers';
 import { PortalModule } from '@angular/cdk/portal';
-
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
-
-    imports:[
-      
-       
-    ],
-    exports: [
-        MatAutocompleteModule,
-        MatButtonModule,
-        MatBottomSheetModule,
-        MatButtonToggleModule,
-        MatCardModule,
-        MatCheckboxModule,
-        MatChipsModule,
-        MatTableModule,
-        MatDatepickerModule,
-        MatDialogModule,
-        MatExpansionModule,
-        MatFormFieldModule,
-        MatGridListModule,
-        MatIconModule,
-        MatInputModule,
-        MatListModule,
-        MatMenuModule,
-        MatPaginatorModule,
-        MatProgressBarModule,
-        MatProgressSpinnerModule,
-        MatRadioModule,
-        MatRippleModule,
-        MatSelectModule,
-        MatBadgeModule,
-        MatSidenavModule,
-        MatSlideToggleModule,
-        MatSliderModule,
-        MatSnackBarModule,
-        MatSortModule,
-        MatStepperModule,
-        MatTabsModule,
-        MatToolbarModule,
-        MatTooltipModule,
-        MatNativeDateModule,
-        CdkTableModule,
-        A11yModule,
-        BidiModule,
-        CdkAccordionModule,
-        ObserversModule,
-        OverlayModule,
-        PlatformModule,
-        PortalModule,
-        
-    ]
+  imports: [],
+  exports: [
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatBottomSheetModule,
+    MatButtonToggleModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatTableModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatGridListModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatRippleModule,
+    MatSelectModule,
+    MatBadgeModule,
+    MatSidenavModule,
+    MatSlideToggleModule,
+    MatSliderModule,
+    MatSnackBarModule,
+    MatSortModule,
+    MatStepperModule,
+    MatTabsModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatNativeDateModule,
+    CdkTableModule,
+    A11yModule,
+    BidiModule,
+    CdkAccordionModule,
+    ObserversModule,
+    OverlayModule,
+    PlatformModule,
+    PortalModule,
+    NgxExtendedPdfViewerModule,
+    DragDropModule,
+  ],
 })
-export class MaterialModule { }
+export class MaterialModule {}
