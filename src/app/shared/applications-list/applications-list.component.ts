@@ -1,51 +1,96 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { applicationStatus } from '../../core/enums/application-status.enum';
 import { applicationTypes } from '../../core/enums/application-type.enum';
+import { EvaluatorService } from '../../core';
 
 @Component({
   selector: 'app-applications-list',
   templateUrl: './applications-list.component.html',
-  styleUrls: ['./applications-list.component.scss']
+  styleUrls: ['./applications-list.component.scss'],
 })
-export class ApplicationsListComponent implements OnInit {
+export class ApplicationsListComponent implements OnInit, OnChanges {
   @Input() applications: Array<object>;
+  @Input() applicationStatus: string | number;
   @Output() emitApplication: EventEmitter<object> = new EventEmitter<object>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  private userInfo;
   public filteredApplications = [];
   public currentItemsToShow = [];
   public loading: boolean = true;
   public applicationNumber = new FormControl('');
-  public permitType =  new FormControl('');
+  public permitType = new FormControl('');
 
-  constructor() { }
+  constructor(private evaluatorService: EvaluatorService) {}
 
   ngOnInit(): void {
+    this.userInfo = JSON.parse(localStorage.getItem('user'));
+
     this.filteredApplications = this.applications;
-    this.currentItemsToShow = this.filteredApplications.slice(0*5, 0*5 + 5);
+    this.currentItemsToShow = this.filteredApplications.slice(0 * 5, 0 * 5 + 5);
     this.loading = false;
 
-    this.applicationNumber.valueChanges.subscribe(res => {
-      this.filteredApplications = this.applications.filter(application => application['permit_application_code'].toLowerCase().includes(res.toLowerCase()));
-      this.currentItemsToShow = this.filteredApplications.slice(this.paginator.pageIndex*this.paginator.pageSize, this.paginator.pageIndex*this.paginator.pageSize + this.paginator.pageSize);
+    this.applicationNumber.valueChanges.subscribe((res) => {
+      this.filteredApplications = this.applications.filter((application) =>
+        application['permit_application_code']
+          .toLowerCase()
+          .includes(res.toLowerCase())
+      );
+      this.currentItemsToShow = this.filteredApplications.slice(
+        this.paginator.pageIndex * this.paginator.pageSize,
+        this.paginator.pageIndex * this.paginator.pageSize +
+          this.paginator.pageSize
+      );
       this.paginator.firstPage();
     });
 
-    this.permitType.valueChanges.subscribe(res => {
+    this.permitType.valueChanges.subscribe((res) => {
       if (res == 0) {
         this.filteredApplications = this.applications;
       } else {
-        this.filteredApplications = this.applications.filter(application => application['permit_type_id'] == res);
+        this.filteredApplications = this.applications.filter(
+          (application) => application['permit_type_id'] == res
+        );
       }
-      this.currentItemsToShow = this.filteredApplications.slice(this.paginator.pageIndex*this.paginator.pageSize, this.paginator.pageIndex*this.paginator.pageSize + this.paginator.pageSize);
+      this.currentItemsToShow = this.filteredApplications.slice(
+        this.paginator.pageIndex * this.paginator.pageSize,
+        this.paginator.pageIndex * this.paginator.pageSize +
+          this.paginator.pageSize
+      );
       this.paginator.firstPage();
     });
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    this.loading = true;
+    this.filteredApplications = this.applications;
+    setTimeout(() => {
+      this.currentItemsToShow = this.filteredApplications.slice(
+        this.paginator.pageIndex * this.paginator.pageSize,
+        this.paginator.pageIndex * this.paginator.pageSize +
+          this.paginator.pageSize
+      );
+      this.paginator.firstPage();
+      this.loading = false;
+    }, 3000);
+  }
+
   onPageChange($event) {
-    this.currentItemsToShow =  this.filteredApplications.slice($event.pageIndex*$event.pageSize, $event.pageIndex*$event.pageSize + $event.pageSize);
+    this.currentItemsToShow = this.filteredApplications.slice(
+      $event.pageIndex * $event.pageSize,
+      $event.pageIndex * $event.pageSize + $event.pageSize
+    );
   }
 
   getApplicationStatus(id): string {
@@ -60,4 +105,14 @@ export class ApplicationsListComponent implements OnInit {
     this.emitApplication.emit($event);
   }
 
+  //   btnCategoryClick(status_id: number ){
+
+  //     this.evaluatorService.fetchApplicationByStatus(this.userInfo.id, status_id)
+  //     this.filteredApplications = this.applications.filter(application => application['permit_application_code'].toLowerCase().includes(res.toLowerCase()));
+  //     console.log(this.filteredApplications)
+  //     this.currentItemsToShow = this.filteredApplications.slice(this.paginator.pageIndex*this.paginator.pageSize, this.paginator.pageIndex*this.paginator.pageSize + this.paginator.pageSize);
+  //     console.log(this.currentItemsToShow);
+  //     this.paginator.firstPage();
+
+  // }
 }

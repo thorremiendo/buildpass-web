@@ -1,25 +1,30 @@
 <div class="application-filters">
-  <div class="filters-toggle">FILTER APPLICATIONS</div>
-  <div>
-    <mat-form-field class="example-full-width" appearance="outline">
-      <mat-label>Application Number</mat-label>
-      <input matInput [formControl]="applicationNumber" />
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="permit-type-selector">
-      <mat-label>Permit Type</mat-label>
-      <mat-select [formControl]="permitType">
-        <mat-option value="0">All</mat-option>
-        <mat-option value="1">Building Permit</mat-option>
-        <mat-option value="2">Certificate of Occupancy</mat-option>
-        <mat-option value="3">Excavation Permit</mat-option>
-        <mat-option value="4">Fencing Permit</mat-option>
-        <mat-option value="5">Demolition Permit</mat-option>
-      </mat-select>
-    </mat-form-field>
+  <!-- <div class="filters-toggle">FILTER APPLICATIONS</div> -->
+  <div class="row">
+    <div class="col-md-6">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Application Number</mat-label>
+        <input matInput [formControl]="applicationNumber" />
+      </mat-form-field>
+    </div>
+    <div class="col-md-6">
+      <mat-form-field appearance="outline" class="permit-type-selector">
+        <mat-label>Permit Type</mat-label>
+        <mat-select [formControl]="permitType">
+          <mat-option value="0">All</mat-option>
+          <mat-option value="1">Building Permit</mat-option>
+          <mat-option value="2">Certificate of Occupancy</mat-option>
+          <mat-option value="3">Excavation Permit</mat-option>
+          <mat-option value="4">Fencing Permit</mat-option>
+          <mat-option value="5">Demolition Permit</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+   
   </div>
 </div>
-
-<mat-card
+<div *ngIf="!loading">
+  <mat-card
   class="application"
   *ngFor="let application of currentItemsToShow"
   (click)="chooseApplication(application)"
@@ -107,6 +112,9 @@
   </div>
 </mat-card>
 
+</div>
+
+
 <div class="loader" *ngIf="loading">
   <mat-progress-spinner
     mode="indeterminate"
@@ -114,11 +122,12 @@
   ></mat-progress-spinner>
 </div>
 
-<div *ngIf="currentItemsToShow.length == 0" class="no-applications-found">
+<div *ngIf="currentItemsToShow.length == 0 && !loading"  class="no-applications-found">
   No applications found
 </div>
 
 <mat-paginator
+  style="background-color: transparent;"
   (page)="onPageChange($event)"
   [length]="filteredApplications.length"
   [pageSize]="5"
