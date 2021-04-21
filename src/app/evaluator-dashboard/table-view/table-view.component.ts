@@ -45,7 +45,6 @@ export class TableViewComponent implements OnInit, OnChanges {
           changes.applicationStatusId.currentValue
         )
         .subscribe((res) => {
-          console.log(res);
           this.applications = res.data;
         });
     }

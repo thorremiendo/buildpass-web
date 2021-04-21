@@ -26,7 +26,11 @@ export class EvaluatorService {
 
     return this.api.get(url);
 
-  
+  }
 
+  resetPassword(id: string | number){
+    const url = `/user/${id}/reset-password`;
+
+    return this.api.post(url, null)
   }
 }

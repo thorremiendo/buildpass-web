@@ -27,6 +27,7 @@ export class AdminUserInfoComponent implements OnInit {
 
   fetchUserInfo() {
     this._userService.getUserInfo(this._id).subscribe((data) => {
+      console.log(data)
       this.userInfo = data;
       this.isLoading = false;
     });

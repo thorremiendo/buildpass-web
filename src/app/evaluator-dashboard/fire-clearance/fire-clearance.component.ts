@@ -117,8 +117,6 @@ export class FireClearanceComponent implements OnInit {
     if (this.fireClearance) {
       uploadDocumentData['document_path'] = this.fireClearance;
     }
-
-    console.log(uploadDocumentData);
     this.newApplicationService
       .submitDocument(uploadDocumentData)
       .subscribe((res) => {

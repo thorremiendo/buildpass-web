@@ -182,32 +182,33 @@ export class AdminUsersViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._userService.getUserInfo(this.data.uid).subscribe((data) => {
-      this.userInfo = data;
-      this.userInfo.marital_status_id = String(this.userInfo.marital_status_id);
+      this.userInfo = this.data.data;
+      if(this.userInfo){
+        this.userInfo.marital_status_id = String(this.userInfo.marital_status_id);
 
-      this.createForm();
-
-      this._barangayService.getBarangayInfo().subscribe((data) => {
-        this._barangay = data;
-        this._filteredBarangayOptions = this.adminUpdateUserFormControl.barangay.valueChanges.pipe(
+        this.createForm();
+  
+        this._barangayService.getBarangayInfo().subscribe((data) => {
+          this._barangay = data;
+          this._filteredBarangayOptions = this.adminUpdateUserFormControl.barangay.valueChanges.pipe(
+            startWith(''),
+            map((barangay) =>
+              barangay ? this.filterBarangays(barangay) : this._barangay.slice()
+            )
+          );
+        });
+  
+        this._filteredOfficeOptions = this.adminUpdateUserFormControl.office.valueChanges.pipe(
           startWith(''),
-          map((barangay) =>
-            barangay ? this.filterBarangays(barangay) : this._barangay.slice()
-          )
+          map((value) => this.filterOffice(value))
         );
-      });
+  
+        this._filteredPositionOptions = this.adminUpdateUserFormControl.position.valueChanges.pipe(
+          startWith(''),
+          map((value) => this.filterPosition(value))
+        );
 
-      this._filteredOfficeOptions = this.adminUpdateUserFormControl.office.valueChanges.pipe(
-        startWith(''),
-        map((value) => this.filterOffice(value))
-      );
-
-      this._filteredPositionOptions = this.adminUpdateUserFormControl.position.valueChanges.pipe(
-        startWith(''),
-        map((value) => this.filterPosition(value))
-      );
-    });
+      }
   }
 
   onSubmit() {

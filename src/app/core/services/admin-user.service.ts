@@ -46,9 +46,15 @@ export class AdminUserService {
     const url = `/user/employee`;
     return this.apiService.get(url).pipe(
       map(res => res.data));
-  
 
   }
+
+  fetchEmployeeInfo(id){
+    const url = `/employee/${id}`;
+
+  return this.apiService.get(url);
+  }
+
   
 
   approveEmployee(uid) {

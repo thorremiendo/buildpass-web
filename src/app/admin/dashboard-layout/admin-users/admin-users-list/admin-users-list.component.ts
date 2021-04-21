@@ -5,6 +5,7 @@ import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { AdminUsersCreateComponent } from '../admin-users-create/admin-users-create.component';
 import { AdminUsersViewComponent } from '../admin-users-view/admin-users-view.component';
+import { EmployeeResetPasswordComponent } from '../../../employee-reset-password/employee-reset-password.component'
 
 @Component({
   selector: 'app-admin-users-list',
@@ -35,7 +36,7 @@ export class AdminUsersListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this._adminUserservice.getData().subscribe((data) => {
+    this._adminUserservice.getData().subscribe((data) => {      
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.paginator;
       this.isFetching = false;
@@ -58,17 +59,30 @@ export class AdminUsersListComponent implements OnInit {
     );
   }
 
-  editUser(uid) {
+  editUser(data) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.id = 'create-user';
     dialogConfig.height = '90%';
     dialogConfig.width = '1000px';
-    dialogConfig.data = { uid: uid };
+    dialogConfig.data = { data:data };
     const modalDialog = this.matDialog.open(
       AdminUsersViewComponent,
       dialogConfig
     );
+  }
+
+  sendEmailResetPassword(employee) {
+    this.matDialog.open(EmployeeResetPasswordComponent, {
+      data: {
+        first_name: employee.first_name,
+        last_name: employee.last_name,
+        middle_name: employee.middle_name,
+        employeeId: employee.id,
+      },
+      height: '220px',
+      width: '600px',
+    });
   }
 
   approveFillingFee(value) {
