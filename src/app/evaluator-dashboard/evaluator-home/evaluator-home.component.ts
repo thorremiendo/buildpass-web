@@ -12,7 +12,7 @@ export class EvaluatorHomeComponent implements OnInit {
   public applications;
   public evaluatorDetails;
   public date = new Date();
-  public loading:boolean = true;
+  public loading: boolean = true;
 
   public application: string | number;
   public pending: string | number;
@@ -44,7 +44,6 @@ export class EvaluatorHomeComponent implements OnInit {
   ngOnInit(): void {
     this.userInfo = JSON.parse(localStorage.getItem('user'));
     if (this.userInfo) {
-      console.log(this.userInfo)
       this.fetchTaskCount(this.userInfo.id);
     }
 
@@ -59,36 +58,31 @@ export class EvaluatorHomeComponent implements OnInit {
   }
 
   fetchTaskCount(id) {
-    this.evaluatorService.fetchTaskCount(id).subscribe((res) => {
-      let data = res.data[0];
-      console.log(data);
+    this.evaluatorService.fetchTaskCount(id).subscribe(
+      (res) => {
+        let data = res.data[0];
 
-      this.application = data.application;
-      this.pending = data.pending;
-      this.current = data.current;
-      this.completed = data.completed;
-      this.loading = false;
-    },
-    (err)=>{
-      console.log(err);
-    });
+        this.application = data.application;
+        this.pending = data.pending;
+        this.current = data.current;
+        this.completed = data.completed;
+        this.loading = false;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   openApplication(id) {
     this._router.navigate(['evaluator/application', id]);
   }
 
-  onSelect(data): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
-  }
+  onSelect(data): void {}
 
-  onActivate(data): void {
-    console.log('Activate', JSON.parse(JSON.stringify(data)));
-  }
+  onActivate(data): void {}
 
-  onDeactivate(data): void {
-    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
-  }
+  onDeactivate(data): void {}
   handleView() {
     this._router.navigateByUrl('evaluator/application');
   }

@@ -35,7 +35,6 @@ export class CommonFieldsComponent implements OnInit {
             (this.applicationInfo = newApplicationSubject)
         );
     }
-    console.log(this.applicationInfo);
     this.filterTabs();
   }
 

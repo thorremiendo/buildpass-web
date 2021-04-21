@@ -44,7 +44,7 @@
               [showPropertiesButton]="false"
               [useBrowserLocale]="true"
               height="1000px"
-              zoom="80%"
+              zoom="100%"
               [(formData)]="formData"
             >
             </ngx-extended-pdf-viewer>
@@ -81,6 +81,7 @@
           mat-raised-button
           color="accent"
           [routerLink]="['/dashboard/applications']"
+          [disabled]="isLoading"
         >
           Save as Draft
         </button>
@@ -130,6 +131,7 @@
           mat-raised-button
           color="accent"
           [routerLink]="['/dashboard/applications']"
+          [disabled]="isLoading"
         >
           Save as Draft
         </button>

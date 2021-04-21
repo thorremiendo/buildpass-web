@@ -74,7 +74,6 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     this.isLoading = true;
     this.createForm();
     this.user = JSON.parse(localStorage.getItem('user'));
-    console.log(this.user);
     if (this.user) {
       this.patchUserDetails();
     }
@@ -94,9 +93,6 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
         );
     }
 
-    console.log(this.applicationDetails);
-
-    console.log(this._personalInfoFormCommonFields);
     this.isLoading = false;
   }
 
@@ -205,7 +201,6 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     this.createUserDetails();
 
     this.newApplicationFormService.setCommonFields(this.userDetails);
-    console.log(this.userDetails);
     if (!this._personalInfoFormCommonFields.valid) {
       Swal.fire(
         'Notice!',

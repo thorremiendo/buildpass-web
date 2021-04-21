@@ -11,6 +11,8 @@ import { OpenedTasksComponent } from '../opened-tasks/opened-tasks.component';
 import { TableViewComponent } from '../table-view/table-view.component';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { EvaluatorGuard } from 'src/app/core/guard/evaluator.guard';
+import { EvaluatorAuthGuard } from 'src/app/core/guard/evaluator-guard';
 
 const routes: Routes = [
   {
@@ -20,7 +22,7 @@ const routes: Routes = [
       {
         path: 'home',
         component: EvaluatorHomeComponent,
-        canActivate: [UserGuardGuard],
+        canActivate: [EvaluatorAuthGuard],
         children: [
           {
             path: 'table',

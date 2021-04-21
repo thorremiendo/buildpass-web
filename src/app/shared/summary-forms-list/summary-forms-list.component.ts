@@ -10,9 +10,7 @@ export class SummaryFormsListComponent implements OnInit {
   @Input() forms;
   constructor() {}
 
-  ngOnInit(): void {
-    console.log('child', this.forms);
-  }
+  ngOnInit(): void {}
 
   getDocType(id): string {
     return documentTypes[id];

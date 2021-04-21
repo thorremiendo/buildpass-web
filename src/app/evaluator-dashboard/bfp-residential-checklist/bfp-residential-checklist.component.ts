@@ -46,7 +46,6 @@ export class BfpResidentialChecklistComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
     this.applicationId = this.data.route.snapshot.params.id;
     this.newApplicationService
       .fetchUserInfo(this.applicationId)
@@ -55,13 +54,11 @@ export class BfpResidentialChecklistComponent implements OnInit {
         this.userId = this.userInfo.user_detail.id;
         (this.viewSDKClient.userId = this.userId),
           (this.viewSDKClient.applicationId = this.applicationId);
-        console.log(this.userId);
       });
     this.applicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
-        console.log(this.applicationDetails);
         this.formData = {
           name_of_owner: `${this.applicationDetails.applicant_detail.first_name} ${this.applicationDetails.applicant_detail.middle_name} ${this.applicationDetails.applicant_detail.last_name}`,
           project_title: this.applicationDetails.project_detail.project_title,
@@ -69,7 +66,6 @@ export class BfpResidentialChecklistComponent implements OnInit {
           no_of_storeys: this.applicationDetails.project_detail
             .number_of_storey,
         };
-        console.log(this.formData);
       });
   }
   //adobe sdk functions
@@ -132,7 +128,6 @@ export class BfpResidentialChecklistComponent implements OnInit {
       uploadDocumentData['document_path'] = this.checklistBuilding;
     }
 
-    console.log(uploadDocumentData);
     this.newApplicationService
       .submitDocument(uploadDocumentData)
       .subscribe((res) => {
@@ -149,7 +144,6 @@ export class BfpResidentialChecklistComponent implements OnInit {
               this.newApplicationService
                 .updateDocumentFile(updateFileData, id)
                 .subscribe((res) => {
-                  console.log(res);
                   Swal.fire(
                     'Success!',
                     `BFP Checklist Uploaded`,

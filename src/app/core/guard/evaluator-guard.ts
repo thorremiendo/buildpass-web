@@ -1,30 +1,41 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { AuthService } from "../services/auth.service";
+import {
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  Router,
+  UrlTree,
+} from '@angular/router';
+import { AuthService } from '../services/auth.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class EvaluatorAuthGuard implements CanActivate {
-  
-  constructor(
-    public _authService: AuthService,
-    public _router: Router
-  ){ }
+  public user;
 
-
+  constructor(public _authService: AuthService, public _router: Router) {}
 
   canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if(this._authService.isLoggedIn !== true && this._authService.isEvaluator !== true) {
-      this._router.navigate(['evaluator/sign-in'])
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ):
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
+    this._authService.currentUser.subscribe((currentUser) => {
+      this.user = currentUser
+        ? currentUser
+        : JSON.parse(localStorage.getItem('user'));
+    });
+    if (this.user.user_roles.length !== 0) {
+      return true;
+    } else {
+      this._authService.purgeAuth();
+      this._router.navigateByUrl('user/sign-in');
+      return false;
     }
-    return true;
   }
-
-  
-
 }

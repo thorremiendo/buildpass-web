@@ -1,54 +1,90 @@
 .landing {
+  display: flex;
+  flex-direction: column;
+  background-image: url("../../../assets/images/landing/landing-bg.png");
+  background-size: cover;
+
+  .landing-nav {
+    flex: 1;
     display: flex;
-    flex-direction: column;
-    background-image: url('../../../assets/images/landing/landing-bg.png');
-    background-size: cover;
+    align-items: center;
+    margin: 70px 0 60px 0;
 
-    .landing-nav {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        margin: 70px 0 60px 0;
-
-        > div {
-            text-align: center;
-        }
-
-        input {
-            height: 250px;
-            width: auto;
-            margin: 35px;
-            transition: transform .2s;
-
-            &:hover {
-                transform: scale(1.2);
-            }
-        }
+    > div {
+      text-align: center;
     }
 
-    .faq {
-        text-align: left;
+    input {
+      height: 250px;
+      width: auto;
+      margin: 35px;
+      transition: transform 0.2s;
 
-        .mat-card-content {
-            padding-top: 0;
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
+
+  .faq {
+    text-align: left;
+
+    .mat-card-content {
+      padding-top: 0;
+    }
+
+    .mat-expansion-panel {
+      margin-bottom: 5px;
+    }
+  }
+
+  .ordinances {
+    text-align: left;
+    margin-bottom: 50px;
+
+    .mat-card-content {
+      padding-top: 0;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 5px;
+    }
+  }
+}
+
+.main__container {
+  &__services {
+    margin: 0;
+    padding: 0 20px;
+    width: 100%;
+    &-cards {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      justify-content: space-evenly;
+      mat-card {
+        height: 180px;
+        border-radius: 20px;
+        width: 25%;
+        &:hover {
+          transform: scale(1.1);
+          cursor: pointer;
         }
 
-        .mat-expansion-panel {
+        mat-card-content {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 30px;
+
+          img {
             margin-bottom: 5px;
+            width: 50px;
+            height: auto;
+          }
         }
+      }
     }
-
-    .ordinances {
-        text-align: left;
-        margin-bottom: 50px;
-
-        .mat-card-content {
-            padding-top: 0;
-        }
-
-        ul {
-            list-style-type: none;
-            padding-left: 5px;
-        }
-    }
+  }
 }

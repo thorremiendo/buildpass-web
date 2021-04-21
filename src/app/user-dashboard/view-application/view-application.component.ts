@@ -54,9 +54,7 @@ export class ViewApplicationComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
   openRepresentativeDialog() {
     const dialogRef = this.dialog.open(RepresentativeDetailsComponent, {
@@ -66,9 +64,7 @@ export class ViewApplicationComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
   openFeesDialog() {
     this.applicationFeeService
@@ -81,9 +77,7 @@ export class ViewApplicationComponent implements OnInit {
             applicationId: this.applicationId,
           },
         });
-        dialogRef.afterClosed().subscribe((result) => {
-          console.log('The dialog was closed');
-        });
+        dialogRef.afterClosed().subscribe((result) => {});
       });
   }
 
@@ -100,7 +94,6 @@ export class ViewApplicationComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
-        console.log(this.applicationDetails);
         this.isLoading = false;
       });
   }
@@ -323,7 +316,6 @@ export class ViewApplicationComponent implements OnInit {
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
-        console.log(res);
         Swal.fire('Success!', `Forwarded for Re-Evaluation!`, 'success').then(
           (result) => {
             this.isLoading = false;
@@ -352,7 +344,6 @@ export class ViewApplicationComponent implements OnInit {
   }
 
   openFormDialog(element): void {
-    console.log(element);
     const dialogRef = this.dialog.open(FormDetailsComponent, {
       width: '1500px',
       height: '2000px',
@@ -364,13 +355,11 @@ export class ViewApplicationComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.ngOnInit();
     });
   }
 
   openRemarksHistory(e) {
-    console.log(e);
     const dialogRef = this.dialog.open(RemarksHistoryTableComponent, {
       width: '1000px',
       height: '800px',
@@ -382,7 +371,6 @@ export class ViewApplicationComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.ngOnInit();
     });
   }

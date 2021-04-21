@@ -12,6 +12,7 @@ import { EvaluatorAuthGuard } from '../core/guard/evaluator-guard';
 import { UserGuardService } from '../core/guard/user-guard.service';
 import { EvaluatorIdentificationComponent } from './evaluator-identification/evaluator-identification.component';
 
+
 const routes: Routes = [
   {
     path: 'evaluator',
@@ -19,7 +20,7 @@ const routes: Routes = [
       {
         path: '',
         component: DashboardComponent,
-        canActivate: [UserGuardGuard],
+        canActivate: [EvaluatorAuthGuard],
       },
 
       {

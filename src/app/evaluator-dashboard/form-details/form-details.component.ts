@@ -63,10 +63,7 @@ export class FormDetailsComponent implements OnInit {
         this.user = JSON.parse(localStorage.getItem('user'));
       }
     });
-    console.log('USER DOCUMENT', this.data);
     this.applicationId = this.data.route.snapshot.params.id;
-    console.log(this.applicationId);
-    console.log(this.data);
     this.permitDetails = this.fb.group({
       form_remarks: new FormControl(''),
       is_compliant: new FormControl(''),
@@ -163,7 +160,6 @@ export class FormDetailsComponent implements OnInit {
       .updateDocumentFile(uploadDocumentData, this.data.form.id)
       .subscribe((res) => {
         this.isSubmitting = false;
-        console.log(res);
         Swal.fire('Success!', `File Updated!`, 'success').then((result) => {
           this.onNoClick();
         });
@@ -179,7 +175,6 @@ export class FormDetailsComponent implements OnInit {
         .updateDocumentFile(updateFileData, id)
         .subscribe((res) => {
           this.isSubmitting = false;
-          console.log(res);
           Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
             this.onNoClick();
           });
@@ -197,7 +192,6 @@ export class FormDetailsComponent implements OnInit {
         .updateDocumentFile(updateFileData, id)
         .subscribe((res) => {
           this.isSubmitting = false;
-          console.log(res);
           Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
             this.onNoClick();
           });
