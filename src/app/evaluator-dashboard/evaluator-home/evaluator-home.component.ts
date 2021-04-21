@@ -12,7 +12,7 @@ export class EvaluatorHomeComponent implements OnInit {
   public applications;
   public evaluatorDetails;
   public date = new Date();
-  public loading:boolean = true;
+  public loading: boolean = true;
 
   public application: string | number;
   public pending: string | number;
@@ -45,7 +45,6 @@ export class EvaluatorHomeComponent implements OnInit {
   ngOnInit(): void {
     this.userInfo = JSON.parse(localStorage.getItem('user'));
     if (this.userInfo) {
-      console.log(this.userInfo)
       this.fetchTaskCount(this.userInfo.id);
     }
 

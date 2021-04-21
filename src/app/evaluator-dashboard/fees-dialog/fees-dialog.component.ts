@@ -55,10 +55,7 @@ export class FeesDialogComponent implements OnInit {
     this.isLoading = true;
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
-    console.log('Current user', this.user);
     this.applicationId = this.data.route.snapshot.params.id;
-    console.log(this.applicationId);
-    console.log(this.data);
     this.feesDetails = this.fb.group({
       description: new FormControl('', [Validators.required]),
       amount: new FormControl('', [Validators.required]),
@@ -106,7 +103,6 @@ export class FeesDialogComponent implements OnInit {
     };
 
     this.applicationFeeService.addFee(newItem).subscribe((res) => {
-      console.log(res);
       this.isLoading = false;
 
       this.onNoClick();

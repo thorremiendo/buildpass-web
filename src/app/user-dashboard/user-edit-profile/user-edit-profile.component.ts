@@ -166,6 +166,14 @@ export class UserEditProfileComponent implements OnInit {
       this._userService
         .updateUserInfo(user, this.userInfo.id)
         .subscribe((result) => {
+          this.isUpdating = false;
+          const user = JSON.parse(localStorage.getItem('user'));
+          const update = {
+            ...user,
+            ...result['data']
+          };
+          localStorage.setItem('user', JSON.stringify(update));
+          
           Swal.fire('Success!', `Updated profile information.`, 'success').then(
             (result) => {
               window.location.reload();

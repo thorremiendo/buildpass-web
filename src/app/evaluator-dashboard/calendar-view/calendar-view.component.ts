@@ -124,8 +124,8 @@ export class CalendarViewComponent {
 
   handleEvent(event: CalendarEvent): void {
     // this.config.data = { event };
-    console.log(moment(event.start).format('YYYY,MM,DD'));
-    this.router.navigateByUrl('/evaluator/application')
+    // console.log(moment(event.start).format('YYYY,MM,DD'));
+    this.router.navigateByUrl('/evaluator/application');
     // this.dialogRef = this.dialog.open(CalendarDialogComponent, this.config);
 
     // this.dialogRef.afterClosed().subscribe((result: string) => {

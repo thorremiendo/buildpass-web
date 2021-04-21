@@ -27,7 +27,6 @@ export class ApplicationTimelineComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.id);
     this.isLoading = true;
     if (this.page == 'home') {
       this.applicationId = this.id;
@@ -40,7 +39,6 @@ export class ApplicationTimelineComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     this.applicationId = changes.id.currentValue;
-    console.log(this.applicationId);
     this.getApplicationTimeline();
   }
   getApplicationTimeline() {

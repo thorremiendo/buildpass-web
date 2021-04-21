@@ -74,7 +74,6 @@ export class StepOneComponent implements OnInit {
       .fetchUserBuildingPermit(this.userInfo.id)
       .subscribe((res) => {
         this.userBuildingPermits = res.data;
-        console.log(this.userBuildingPermits);
       });
   }
   createForm() {
@@ -115,7 +114,6 @@ export class StepOneComponent implements OnInit {
         Swal.fire('Error!', 'Fill out all required information!', 'error');
       }
     } else if (this.selectedPermitType == '2') {
-      console.log(this.selectedBuildingPermit);
       this.router.navigate([
         '/dashboard/new/details',
         this.selectedBuildingPermit,

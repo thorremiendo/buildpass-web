@@ -12,8 +12,7 @@ import { AdminUsersViewComponent } from '../admin-users-view/admin-users-view.co
   styleUrls: ['./admin-users-list.component.scss'],
 })
 export class AdminUsersListComponent implements OnInit {
- 
-  public dataSource;;
+  public dataSource;
   public message: String;
   public isFetching = true;
   public displayedColumns: string[] = [
@@ -24,8 +23,11 @@ export class AdminUsersListComponent implements OnInit {
     'is_admin',
     'action',
   ];
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
-  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator = Object.create(null);
+  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(
+    null
+  );
 
   constructor(
     private _adminUserservice: AdminUserService,
@@ -40,9 +42,9 @@ export class AdminUsersListComponent implements OnInit {
     });
   }
 
-applyFilter(filterValue: string): void {
-  this.dataSource.filter = filterValue.trim().toLowerCase();
-}
+  applyFilter(filterValue: string): void {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
   createUser() {
     const dialogConfig = new MatDialogConfig();
@@ -69,13 +71,8 @@ applyFilter(filterValue: string): void {
     );
   }
 
-  
- 
-
-
   approveFillingFee(value) {
     this._adminUserservice.approveFillingFee(value).subscribe((res) => {
-      console.log(res);
       this.message = res;
     });
   }

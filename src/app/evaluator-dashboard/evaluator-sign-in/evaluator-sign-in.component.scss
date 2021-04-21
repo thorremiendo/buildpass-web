@@ -1,18 +1,18 @@
-.card-container {
-    max-width: 800px;
-    height: 600px;
+.evaluator-sign-in {
+    height: 100vh;
+    display: flex;
     justify-content: center;
-    text-align: center;
-    margin: auto;
-    margin-top: 50px;
-    
-    border-radius: 15px;
-  }
+    align-items: center;
+}
 
-  .box{
-      height: 600px;
-      width: 100%;
-      background-color: maroon;
-      
-  }
+.card-container {
+    height: auto;
+    width: 700px;
+}
+
+.box{
+    height: 100%;
+    width: 100%;
+    background-color: maroon;
+}
 

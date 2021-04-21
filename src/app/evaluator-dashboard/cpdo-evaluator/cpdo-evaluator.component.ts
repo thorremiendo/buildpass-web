@@ -74,7 +74,6 @@ export class CpdoEvaluatorComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
-    console.log('Evaluator Role', this.evaluatorRole);
     this.isLoading = false;
   }
 
@@ -114,7 +113,6 @@ export class CpdoEvaluatorComponent implements OnInit {
     ) {
       Swal.fire('Info!', `Action not allowed!`, 'info').then((result) => {});
     } else {
-      console.log(element);
       const dialogRef = this.dialog.open(FormDetailsComponent, {
         width: '1500px',
         height: '2000px',
@@ -126,7 +124,6 @@ export class CpdoEvaluatorComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe((result) => {
-        console.log('The dialog was closed');
         this.ngOnInit();
       });
     }
@@ -143,7 +140,6 @@ export class CpdoEvaluatorComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.ngOnInit();
     });
   }
@@ -341,7 +337,6 @@ export class CpdoEvaluatorComponent implements OnInit {
     }
   }
   openRemarksHistory(e) {
-    console.log(e);
     const dialogRef = this.dialog.open(RemarksHistoryTableComponent, {
       width: '1000px',
       height: '800px',
@@ -353,7 +348,6 @@ export class CpdoEvaluatorComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.ngOnInit();
     });
   }

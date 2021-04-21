@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { BarangayService } from '../../../core/services/barangay.service';
@@ -11,7 +11,7 @@ import { RegisterAccountEvaluatorFormService } from '../../../core/services/regi
 @Component({
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
-  styleUrls: ['./create-user.component.scss']
+  styleUrls: ['./create-user.component.scss'],
 })
 export class AdminUsersCreateComponent implements OnInit {
   public selectedFile: File = null;
@@ -20,8 +20,12 @@ export class AdminUsersCreateComponent implements OnInit {
 
   _adminCreateUserForm: FormGroup;
   _barangay: Barangay[];
-  _office:string[] = Object.keys(Office).map(key => Office[key]).filter(k => !(parseInt(k) >= 0));
-  _position:string[] = Object.keys(Position).map(key => Position[key]).filter(k => !(parseInt(k) >= 0));
+  _office: string[] = Object.keys(Office)
+    .map((key) => Office[key])
+    .filter((k) => !(parseInt(k) >= 0));
+  _position: string[] = Object.keys(Position)
+    .map((key) => Position[key])
+    .filter((k) => !(parseInt(k) >= 0));
   _filteredBarangayOptions: Observable<Barangay[]>;
   _filteredOfficeOptions: Observable<string[]>;
   _filteredPositionOptions: Observable<string[]>;
@@ -30,11 +34,15 @@ export class AdminUsersCreateComponent implements OnInit {
   _submitted = false;
 
   get displayProfilePhoto(): string | ArrayBuffer {
-    return this._displayPhoto ? this._displayPhoto : "https://baguio-visita.s3-ap-southeast-1.amazonaws.com/default-avatar.png";
+    return this._displayPhoto
+      ? this._displayPhoto
+      : 'https://baguio-visita.s3-ap-southeast-1.amazonaws.com/default-avatar.png';
   }
 
   get displayIDPhoto(): string | ArrayBuffer {
-    return this._displayIdPhoto ? this._displayIdPhoto : "https://baguio-visita.s3-ap-southeast-1.amazonaws.com/default-avatar.png";
+    return this._displayIdPhoto
+      ? this._displayIdPhoto
+      : 'https://baguio-visita.s3-ap-southeast-1.amazonaws.com/default-avatar.png';
   }
 
   get adminCreateUserFormControl() {
@@ -46,7 +54,7 @@ export class AdminUsersCreateComponent implements OnInit {
     private _barangayService: BarangayService,
     private _authService: AuthService,
     private _registerAccountEvaluatorFormService: RegisterAccountEvaluatorFormService,
-    public dialogRef: MatDialogRef<AdminUsersCreateComponent>,
+    public dialogRef: MatDialogRef<AdminUsersCreateComponent>
   ) {}
 
   closeModal() {
@@ -55,32 +63,36 @@ export class AdminUsersCreateComponent implements OnInit {
 
   createForm() {
     this._adminCreateUserForm = this._fb.group({
-      first_name:['', Validators.required],
-      middle_name:[''],
-      last_name:['', Validators.required],
-      suffix_name:[''],
-      birthdate:['', Validators.required],
-      marital_status:['', Validators.required],
-      gender:['', Validators.required],
+      first_name: ['', Validators.required],
+      middle_name: [''],
+      last_name: ['', Validators.required],
+      suffix_name: [''],
+      birthdate: ['', Validators.required],
+      marital_status: ['', Validators.required],
+      gender: ['', Validators.required],
       home_address: ['', Validators.required],
       barangay: ['', Validators.required],
-      employee_no:['', Validators.required],
-      office:['', Validators.required],
-      position:['', Validators.required],
-      contact_number:['', [Validators.required, Validators.maxLength(11),]],
-      id_number:['', Validators.required],
-      id_type:['', Validators.required],
-      email:['', Validators.required],
+      employee_no: ['', Validators.required],
+      office: ['', Validators.required],
+      position: ['', Validators.required],
+      contact_number: ['', [Validators.required, Validators.maxLength(11)]],
+      id_number: ['', Validators.required],
+      id_type: ['', Validators.required],
+      email: ['', Validators.required],
     });
   }
 
   openFileChooser() {
-    const element: HTMLElement = document.getElementById('photo') as HTMLElement;
+    const element: HTMLElement = document.getElementById(
+      'photo'
+    ) as HTMLElement;
     element.click();
   }
 
   openIdChooser() {
-    const element: HTMLElement = document.getElementById('id-photo') as HTMLElement;
+    const element: HTMLElement = document.getElementById(
+      'id-photo'
+    ) as HTMLElement;
     element.click();
   }
 
@@ -115,25 +127,31 @@ export class AdminUsersCreateComponent implements OnInit {
   }
 
   filterBarangays(value: string): Barangay[] {
-    return this._barangay.filter(option => option.name.toLowerCase().includes(value));
+    return this._barangay.filter((option) =>
+      option.name.toLowerCase().includes(value)
+    );
   }
 
   filterOffice(value: string): string[] {
-    return this._office.filter(option=> option.toLowerCase().includes(value));
+    return this._office.filter((option) =>
+      option.toLowerCase().includes(value)
+    );
   }
 
   filterPosition(value: string): string[] {
-    return this._position.filter(option=> option.toLowerCase().includes(value));
+    return this._position.filter((option) =>
+      option.toLowerCase().includes(value)
+    );
   }
 
   displayBarangayName(value: number) {
     if (value) {
-      return this._barangay[value-1].name;
+      return this._barangay[value - 1].name;
     }
   }
 
-  dateToString(dateObject){
-    if(dateObject != null){
+  dateToString(dateObject) {
+    if (dateObject != null) {
       const birthdate = new Date(dateObject);
       let dd = birthdate.getDate();
       let mm = birthdate.getMonth() + 1;
@@ -141,28 +159,29 @@ export class AdminUsersCreateComponent implements OnInit {
       return `${yyyy}-${mm}-${dd}`;
     }
   }
-  
+
   ngOnInit(): void {
     this.createForm();
 
-    this._barangayService.getBarangayInfo().subscribe(data => {
+    this._barangayService.getBarangayInfo().subscribe((data) => {
       this._barangay = data;
-      this._filteredBarangayOptions = this.adminCreateUserFormControl.barangay.valueChanges
-      .pipe(
+      this._filteredBarangayOptions = this.adminCreateUserFormControl.barangay.valueChanges.pipe(
         startWith(''),
-        map(barangay => barangay ? this.filterBarangays(barangay) : this._barangay.slice())
+        map((barangay) =>
+          barangay ? this.filterBarangays(barangay) : this._barangay.slice()
+        )
       );
     });
 
     this._filteredOfficeOptions = this.adminCreateUserFormControl.office.valueChanges.pipe(
       startWith(''),
-      map(value => this.filterOffice(value))
+      map((value) => this.filterOffice(value))
     );
-    
+
     this._filteredPositionOptions = this.adminCreateUserFormControl.position.valueChanges.pipe(
       startWith(''),
-      map(value => this.filterPosition(value))
-    );    
+      map((value) => this.filterPosition(value))
+    );
   }
 
   onSubmit() {
@@ -173,8 +192,8 @@ export class AdminUsersCreateComponent implements OnInit {
       middle_name: this._adminCreateUserForm.value.middle_name,
       email: this._adminCreateUserForm.value.email,
       password: 'Password99!@#',
-      confirmPassword: 'Password99!@#'
-    }
+      confirmPassword: 'Password99!@#',
+    };
 
     const user = {
       first_name: this._adminCreateUserForm.value.first_name,
@@ -188,7 +207,7 @@ export class AdminUsersCreateComponent implements OnInit {
       barangay_id: this._adminCreateUserForm.value.barangay,
       employee_no: this._adminCreateUserForm.value.employee_no,
       office_id: this._adminCreateUserForm.value.office,
-      position: this._adminCreateUserForm.value.position, 
+      position: this._adminCreateUserForm.value.position,
       contact_number: this._adminCreateUserForm.value.contact_number,
       id_number: this._adminCreateUserForm.value.id_number,
       id_type: this._adminCreateUserForm.value.id_type,
@@ -196,33 +215,29 @@ export class AdminUsersCreateComponent implements OnInit {
       id_photo_path: this.selectedFile,
       firebase_uid: '',
       emailVerified: '',
-      is_evaluator: true
+      is_evaluator: true,
     };
 
-    this._authService.SignUp(firebaseUser)
-      .then(result => {
-        user.firebase_uid = result.user.uid;
-        user.emailVerified = result.user.emailVerified;
+    this._authService.SignUp(firebaseUser).then((result) => {
+      user.firebase_uid = result.user.uid;
+      user.emailVerified = result.user.emailVerified;
 
-        console.log('FIREBASE CREATED');
-        console.log(user);
-
-        this._registerAccountEvaluatorFormService.submitRegisterAccountInfo(user).subscribe((res) => {
-          console.log('USER CREATED');
-        });
-      });
+      this._registerAccountEvaluatorFormService
+        .submitRegisterAccountInfo(user)
+        .subscribe((res) => {});
+    });
   }
 }
 
 export interface Barangay {
-  id: number
-  b_id: number,
-  name:string,
+  id: number;
+  b_id: number;
+  name: string;
   locality_id: number;
-  province_id: number; 
+  province_id: number;
   zip_code: number;
   region_id: number;
-  country_id: number; 
-  created_at: string,
+  country_id: number;
+  created_at: string;
   updated_at: string;
 }

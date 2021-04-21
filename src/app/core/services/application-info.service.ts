@@ -14,7 +14,6 @@ export class ApplicationInfoService {
     const url = `/application/`;
     return this.api.get(url).pipe(
       map((data: any) => {
-        //console.log('fetchApplications Result:', data);
         return data;
       }),
       catchError((error) => {
@@ -32,7 +31,6 @@ export class ApplicationInfoService {
     const url = `/application/${id}`;
     return this.api.get(url).pipe(
       map((data: any) => {
-        //console.log('fetchApplicationInfo Result:', data);
         return data;
       }),
       catchError((error) => {
@@ -44,7 +42,6 @@ export class ApplicationInfoService {
     const url = `/application/${id}/timeline`;
     return this.api.get(url).pipe(
       map((data: any) => {
-        //console.log('AppTimeline Result:', data);
         return data;
       }),
       catchError((error) => {
@@ -56,7 +53,6 @@ export class ApplicationInfoService {
     const url = `/userdocs/${id}`;
     return this.api.get(url).pipe(
       map((data: any) => {
-        //console.log('fetchUserDocs Result:', data);
         return data;
       }),
       catchError((error) => {
@@ -73,7 +69,6 @@ export class ApplicationInfoService {
     const url = `/user/${id}/building-permit`;
     return this.api.get(url).pipe(
       map((data: any) => {
-        //console.log('fetchUserDocs Result:', data);
         return data;
       }),
       catchError((error) => {

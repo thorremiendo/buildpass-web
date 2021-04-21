@@ -17,6 +17,7 @@
     (change)="onSelect($event)"
     [multiple]="false"
     accept="application/pdf"
+    [disabled]="loading"
   >
     <ngx-dropzone-label>
       Click here or drag and drop a file to upload.

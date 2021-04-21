@@ -1,13 +1,39 @@
-mat-card {
-  mat-card-header {
-    height: 20%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
+::ng-deep .carousel {
+  .carousel-slide {
+    background-position: bottom !important;
+  }
 
-    mat-card-title {
-      font-size: 18px;
+  .carousel-indicators {
+    bottom: 0;
+    left: 0 !important;
+    transform: none !important;
+    -webkit-transform: none !important;
+
+    .mat-focus-indicator {
+      background-color: gray;
+    }
+
+    .mat-button-disabled {
+      background-color: maroon;
+    }
+  }
+
+  .mat-icon-button {
+    background: maroon;
+
+    &:first-of-type {
+      left: 20px !important;
+    }
+
+    &:last-of-type {
+      right: 20px !important;
+    }
+
+    .mat-icon {
+      color: #fff;
+      font-size: 30px;
+      font-weight: 600;
+      display: inline;
     }
   }
 }

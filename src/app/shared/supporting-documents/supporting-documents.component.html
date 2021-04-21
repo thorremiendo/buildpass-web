@@ -48,14 +48,16 @@
         <tr mat-row *matRowDef="let items; columns: displayedColumns"></tr>
       </table>
     </div>
-    <div class="d-flex justify-content-center align-items-center w-100 my-3">
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="handleAddSupportingDocument()"
-      >
-        Add a supporting document
-      </button>
-    </div>
+    <ng-container *ngIf="evaluatorDetails !== undefined">
+      <div class="d-flex justify-content-center align-items-center w-100 my-3">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="handleAddSupportingDocument()"
+        >
+          Add a supporting document
+        </button>
+      </div>
+    </ng-container>
   </div>
 </div>
