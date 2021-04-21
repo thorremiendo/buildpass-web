@@ -70,7 +70,7 @@ export class BuildingPermitComponent implements OnInit {
     {
       label: 'Step 8',
       title: 'Designs, Specifications, Cost Estimate',
-      documents: [29, 30, 32, 33],
+      documents: [30, 32, 33],
     },
     {
       label: 'Step 9',
@@ -89,7 +89,6 @@ export class BuildingPermitComponent implements OnInit {
   public lesseeDocs: Array<any> = [27];
   public registeredDocs: Array<any> = [];
   public notRegisteredDocs: Array<any> = [103];
-  public isOwnerNotRegisteredDocs: Array<any> = [103];
   public isWithinSubdivision: Array<any> = [72];
   public isUnderMortgage: Array<any> = [73];
   public isOwnedByCorporation: Array<any> = [74];
@@ -97,6 +96,7 @@ export class BuildingPermitComponent implements OnInit {
   public isConstructionStatus: Array<any> = [37, 38];
   public if10000sqm: Array<any> = [40];
   public is3storeysOrMore: Array<any> = [31];
+  public ifFloorArea20sqmOrMore: Array<any> = [29];
 
   constructor(
     private newApplicationService: NewApplicationService,
@@ -120,16 +120,13 @@ export class BuildingPermitComponent implements OnInit {
           .subscribe((res) => {
             this.applicationDetails = res.data;
             this.saveRoute();
-            console.log(this.applicationDetails);
             this.zoningFormData = this.dataBindingService.getFormData(
               this.applicationDetails
             );
             this.formData = this.zoningFormData;
-            console.log('ZONING', this.zoningFormData);
             this.buildingFormData = this.dataBindingService.getFormData(
               this.applicationDetails
             );
-            console.log('BLDG', this.buildingFormData);
             this.sanitaryFormData = this.dataBindingService.getFormData(
               this.applicationDetails
             );
@@ -176,6 +173,10 @@ export class BuildingPermitComponent implements OnInit {
               this.applicationDetails.project_detail.number_of_storey >= 3
                 ? true
                 : false;
+            const ifFloorArea20sqmOrMore =
+              this.applicationDetails.project_detail.total_floor_area > 20
+                ? true
+                : false;
 
             if10000sqm
               ? this.fieldSets[4].documents.push(...this.if10000sqm)
@@ -209,8 +210,12 @@ export class BuildingPermitComponent implements OnInit {
               : this.fieldSets[0].documents.push(...this.isConstructionStatus);
             isOccupancyCommercial ? this.fieldSets[3].documents.push(47) : null;
             isOccupancyCommercial ? this.fieldSets[1].documents.push(64) : null;
+            isOccupancyCommercial ? this.fieldSets[1].documents.push(65) : null;
             is3storeysOrMore
               ? this.fieldSets[2].documents.push(...this.is3storeysOrMore)
+              : null;
+            ifFloorArea20sqmOrMore
+              ? this.fieldSets[2].documents.push(...this.ifFloorArea20sqmOrMore)
               : null;
             this.initData();
             this.setFilePaths();
@@ -343,8 +348,6 @@ export class BuildingPermitComponent implements OnInit {
   }
 
   submitApplication() {
-    console.log(this.getFieldSetsLength() + 5);
-    console.log(this.applicationDetails.user_docs.length);
     if (
       this.getFieldSetsLength() + 5 ==
       this.applicationDetails.user_docs.length
@@ -370,21 +373,10 @@ export class BuildingPermitComponent implements OnInit {
         if (res.data.length !== 0) {
           this.zoningFormData = res.data;
         }
-        console.log(this.zoningFormData);
       });
   }
   public async upload(form): Promise<void> {
-    const data =
-      form.id == 1
-        ? this.zoningFormData
-        : form.id == 2
-        ? this.buildingFormData
-        : form.id == 3
-        ? this.sanitaryFormData
-        : form.id == 4
-        ? this.noticeOfConstructionFormData
-        : this.electricalFormData;
-
+    const data = this.formData;
     const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     this.dataBindingService.handleSaveFormData(
       this.applicationId,
@@ -393,7 +385,6 @@ export class BuildingPermitComponent implements OnInit {
     );
     if (!form.path) {
       if (blob) {
-        console.log({ blob });
         this.isLoading = true;
         const uploadDocumentData = {
           application_id: this.applicationId,
@@ -413,7 +404,6 @@ export class BuildingPermitComponent implements OnInit {
         console.log('Blob failed');
       }
     } else {
-      console.log('exists!');
       const uploadDocumentData = {
         document_status_id: 0,
       };

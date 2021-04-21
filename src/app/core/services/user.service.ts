@@ -18,9 +18,7 @@ export class UserService {
   public userInfo = this.userSubject.pipe(distinctUntilChanged());
 
   constructor(public _api: ApiService) {
-    this.userSubject.subscribe((res) => {
-
-    });
+    this.userSubject.subscribe((res) => {});
   }
 
   setUserInfo(value) {
@@ -33,7 +31,6 @@ export class UserService {
 
   updateUserInfo(body, id): Observable<UserModel> {
     const url = `/user/${id}/update`;
-    //console.log(body);
     return this._api.post(url, body);
   }
 
@@ -56,14 +53,12 @@ export class UserService {
 
   fetchUserApplications(id: string | number): Observable<any> {
     const url = `/user/${id}/application`;
-  
+
     return this._api.get(url).pipe(
       map((data: any) => {
-     
         return data;
       }),
       catchError((error) => {
-      
         return throwError('Something went wrong.');
       })
     );

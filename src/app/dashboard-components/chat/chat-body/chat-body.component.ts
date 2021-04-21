@@ -32,29 +32,26 @@ export class ChatBodyComponent implements OnInit {
     null
   );
 
-  constructor(private chatService: ChatService) {
-  }
+  constructor(private chatService: ChatService) {}
 
   ngOnInit(): void {
-    console.log(this.talkWithEvaluator);
     if (localStorage.getItem('user') != null) {
       this.userInfo = JSON.parse(localStorage.getItem('user'));
-    
+
       this.messageSubscription = this.chatService
         .getApplicantChatItems()
         .subscribe((data) => {
           this.selectedMessage.push(data);
-          console.log('Message SUbs' + this.selectedMessage);
         });
 
-      this.chatService.fetchConvo(this.userInfo.id, 'sender').subscribe((data) => {
-        console.log(data);
-        this.messages = data.data;
-        if(this.messages.length != 0){
+      this.chatService
+        .fetchConvo(this.userInfo.id, 'sender')
+        .subscribe((data) => {
+          this.messages = data.data;
+          if (this.messages.length != 0) {
             this.hasMessage = true;
-        }
-        console.log(this.messages);
-      });
+          }
+        });
     }
   }
 
@@ -62,10 +59,9 @@ export class ChatBodyComponent implements OnInit {
     this.showContacts = false;
     this.talkWithEvaluator = false;
     this.talkWithChatbot = false;
-    this.headerStart =true;
+    this.headerStart = true;
     this.selectedMessage = [];
     this.chatService.unSubscribe(this.channel);
-
   }
 
   onSelect(message): void {
@@ -75,7 +71,6 @@ export class ChatBodyComponent implements OnInit {
     this.chatId = this.selectedMessage[0].chat_id;
     this.showContacts = false;
     this.talkWithEvaluator = true;
- 
   }
 
   OnCreateMsg() {
@@ -92,10 +87,8 @@ export class ChatBodyComponent implements OnInit {
       current_user_id: this.userInfo.id,
     };
 
-    console.log(newConvo);
     this.chatService.applicantChatSubscribe(channel);
     this.chatService.createConvo(newConvo).subscribe((data) => {
-   
       this.chatId = data.data;
     });
   }
@@ -111,8 +104,6 @@ export class ChatBodyComponent implements OnInit {
   }
 
   chatbotMessage(question) {
-    console.log(question);
-
     switch (question) {
       case 'Apply':
         this.talkWithChatbot = true;
@@ -157,7 +148,6 @@ export class ChatBodyComponent implements OnInit {
           2000
         );
 
-        console.log(this.selectedMessage);
         break;
 
       case 'Building':
@@ -198,7 +188,6 @@ export class ChatBodyComponent implements OnInit {
             }),
           2000
         );
-        console.log(this.selectedMessage);
         break;
 
       case 'Residential':
@@ -224,7 +213,6 @@ export class ChatBodyComponent implements OnInit {
           2000
         );
         //this.talkWithChatbot = false;
-        console.log(this.selectedMessage);
         break;
 
       case 'Evaluator':
@@ -245,14 +233,15 @@ export class ChatBodyComponent implements OnInit {
 
       case 'Show Contacts':
         this.talkWithChatbot = false;
-        this.talkWithEvaluator =false;
+        this.talkWithEvaluator = false;
         this.showContacts = true;
         this.headerStart = false;
-        this.chatService.fetchConvo(this.userInfo.id, 'sender').subscribe((data) => {
-          console.log(data);
-          this.messages = data.data;
-          // this.selectedMessage = this.messages[0];
-        });
+        this.chatService
+          .fetchConvo(this.userInfo.id, 'sender')
+          .subscribe((data) => {
+            this.messages = data.data;
+            // this.selectedMessage = this.messages[0];
+          });
 
         break;
     }

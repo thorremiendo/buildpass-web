@@ -196,7 +196,6 @@ export class CbaoEvaluatorComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.ngOnInit();
     });
   }
@@ -607,7 +606,6 @@ export class CbaoEvaluatorComponent implements OnInit {
     // this.dataSource.forEach((element) => {
     //   this.isLoading = true;
     //   if (element.document_id !== 50) {
-    //     console.log(element);
     //     this.waterMark
     //       .insertWaterMark(element.document_path, 'compliant')
     //       .then((blob) => {
@@ -618,7 +616,6 @@ export class CbaoEvaluatorComponent implements OnInit {
     //         this.newApplicationService
     //           .updateDocumentFile(updateFileData, element.id)
     //           .subscribe((res) => {
-    //             console.log('COMPLIANT ADDED', res);
     //           });
     //       });
     //   }
@@ -628,7 +625,6 @@ export class CbaoEvaluatorComponent implements OnInit {
       this.dataSource.forEach((element, index, array) => {
         this.isLoading = true;
         if (element.document_id !== 50) {
-          console.log(element);
           this.waterMark
             .insertWaterMark(element.document_path, 'compliant')
             .then((blob) => {
@@ -639,11 +635,8 @@ export class CbaoEvaluatorComponent implements OnInit {
               this.newApplicationService
                 .updateDocumentFile(updateFileData, element.id)
                 .subscribe((res) => {
-                  console.log('COMPLIANT ADDED', res);
                   count = count + 1;
-                  console.log(count, array.length - 1);
                   if (count === array.length - 1) {
-                    console.log('DONE!');
                     this.isLoading = false;
                     window.location.reload();
                   }
@@ -759,7 +752,6 @@ export class CbaoEvaluatorComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.ngOnInit();
     });
   }
@@ -776,7 +768,6 @@ export class CbaoEvaluatorComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.ngOnInit();
     });
   }

@@ -25,9 +25,7 @@ export class UploadSupportingDocumentsComponent implements OnInit {
     public data
   ) {}
 
-  ngOnInit(): void {
-    console.log("DATA", this.data);
-  }
+  ngOnInit(): void {}
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
     switch (type) {
@@ -54,7 +52,6 @@ export class UploadSupportingDocumentsComponent implements OnInit {
       title: this.fileName.value,
       file_path: this.selectedFile,
     };
-    console.log({ body });
     this.applicationInfoService
       .uploadSupportingFiles(body, id)
       .subscribe((res) => {

@@ -2,7 +2,7 @@ import { environment } from '../../environments/environment';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Map } from 'mapbox-gl/dist/mapbox-gl';
 import * as mapboxgl from 'mapbox-gl/dist/mapbox-gl';
-import { Marker } from 'mapbox-gl/dist/mapbox-gl'
+import { Marker } from 'mapbox-gl/dist/mapbox-gl';
 
 @Component({
   selector: 'app-map',
@@ -14,7 +14,7 @@ export class MapComponent implements OnInit {
   style = 'mapbox://styles/mapbox/streets-v11';
   lat = 16.4136559;
   lng = 120.5893339;
-  marker: mapboxgl.Marker
+  marker: mapboxgl.Marker;
   public lnglat;
   constructor() {}
   ngOnInit() {
@@ -38,6 +38,6 @@ export class MapComponent implements OnInit {
   }
 
   onDragEnd() {
-    console.log("Marker")
+    // console.log("Marker")
   }
 }

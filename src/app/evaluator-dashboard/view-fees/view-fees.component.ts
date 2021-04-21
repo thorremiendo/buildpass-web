@@ -93,7 +93,6 @@ export class ViewFeesComponent implements OnInit {
     this.applicationFeeService
       .downloadFees(this.applicationId)
       .subscribe((res) => {
-        console.log(res);
         window.open(res.data);
       });
   }

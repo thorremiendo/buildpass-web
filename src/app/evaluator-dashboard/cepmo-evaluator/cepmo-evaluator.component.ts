@@ -62,7 +62,6 @@ export class CepmoEvaluatorComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
-    console.log('Evaluator Details', this.evaluatorDetails);
     this.isLoading = false;
   }
   generateCepmoForms() {
@@ -95,13 +94,11 @@ export class CepmoEvaluatorComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.ngOnInit();
     });
   }
 
   openFormDialog(element): void {
-    console.log(element);
     const dialogRef = this.dialog.open(FormDetailsComponent, {
       width: '1500px',
       height: '2000px',
@@ -113,7 +110,6 @@ export class CepmoEvaluatorComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.ngOnInit();
     });
   }
@@ -188,7 +184,6 @@ export class CepmoEvaluatorComponent implements OnInit {
     return find;
   }
   openRemarksHistory(e) {
-    console.log(e);
     const dialogRef = this.dialog.open(RemarksHistoryTableComponent, {
       width: '1000px',
       height: '800px',
@@ -200,7 +195,6 @@ export class CepmoEvaluatorComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.ngOnInit();
     });
   }

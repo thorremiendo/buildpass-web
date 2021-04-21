@@ -36,7 +36,6 @@ export class FireClearanceComponent implements OnInit {
     private watermark: WaterMarkService
   ) {}
   ngOnInit(): void {
-    console.log(this.data);
     this.applicationId = this.data.route.snapshot.params.id;
     this.newApplicationService
       .fetchUserInfo(this.applicationId)
@@ -45,13 +44,11 @@ export class FireClearanceComponent implements OnInit {
         this.userId = this.userInfo.user_detail.id;
         (this.viewSDKClient.userId = this.userId),
           (this.viewSDKClient.applicationId = this.applicationId);
-        console.log(this.userId);
       });
     this.applicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
-        console.log(this.applicationDetails);
         this.formData = {
           name_of_owner: `${this.applicationDetails.applicant_detail.first_name} ${this.applicationDetails.applicant_detail.middle_name} ${this.applicationDetails.applicant_detail.last_name}`,
           building_name: this.applicationDetails.project_detail.project_title,
@@ -59,7 +56,6 @@ export class FireClearanceComponent implements OnInit {
           no_of_storeys: this.applicationDetails.project_detail
             .number_of_storey,
         };
-        console.log(this.formData);
       });
   }
   //adobe sdk functions
@@ -139,7 +135,6 @@ export class FireClearanceComponent implements OnInit {
               this.newApplicationService
                 .updateDocumentFile(updateFileData, id)
                 .subscribe((res) => {
-                  console.log(res);
                   Swal.fire('Success!', `FSEC Uploaded`, 'success').then(
                     (result) => {
                       this.isSubmitting = true;

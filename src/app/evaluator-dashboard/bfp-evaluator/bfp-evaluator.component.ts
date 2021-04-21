@@ -65,14 +65,12 @@ export class BfpEvaluatorComponent implements OnInit {
   fetchEvaluatorDetails() {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
-    console.log('Evaluator Details', this.evaluatorDetails);
     this.isLoading = false;
   }
   fetchApplicationDetails() {
     this.applicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
-        console.log('Application Info:', res);
         this.applicationDetails = res.data;
       });
   }
@@ -108,7 +106,6 @@ export class BfpEvaluatorComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.ngOnInit();
     });
   }
@@ -124,13 +121,11 @@ export class BfpEvaluatorComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.ngOnInit();
     });
   }
 
   openFormDialog(element): void {
-    console.log(element);
     const dialogRef = this.dialog.open(FormDetailsComponent, {
       width: '1500px',
       height: '2000px',
@@ -142,7 +137,6 @@ export class BfpEvaluatorComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.ngOnInit();
     });
   }
@@ -215,7 +209,6 @@ export class BfpEvaluatorComponent implements OnInit {
   }
 
   openRemarksHistory(e) {
-    console.log(e);
     const dialogRef = this.dialog.open(RemarksHistoryTableComponent, {
       width: '1000px',
       height: '800px',
@@ -227,7 +220,6 @@ export class BfpEvaluatorComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.ngOnInit();
     });
   }

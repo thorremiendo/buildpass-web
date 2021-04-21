@@ -80,7 +80,6 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
         .asObservable()
         .subscribe((commonFieldsSubject) => {
           this.applicationDetails = commonFieldsSubject;
-          console.log(this.applicationDetails);
         });
       this.isLoading = false;
     }
@@ -149,7 +148,6 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
         ...this.representativeDetails,
         ...this.applicationDetails,
       };
-      console.log(body);
       this.newApplicationService.submitApplication(body).subscribe((res) => {
         Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
           (result) => {

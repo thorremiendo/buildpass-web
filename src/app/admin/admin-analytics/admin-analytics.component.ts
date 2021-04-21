@@ -9,40 +9,32 @@ import { WaterMarkService } from '../../core';
 export class AdminAnalyticsComponent implements OnInit {
   private testDoc: string =
     //'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/bldg-permit-certificate.pdf';
-   //'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/Certificate-of-Zoning-Compliance-Form-BLANK-FORM.doc.pdf';
-  // 'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/fsec.pdf';
-  // 'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/wwms.pdf';
-  'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/checklist_for_building.pdf';
+    //'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/Certificate-of-Zoning-Compliance-Form-BLANK-FORM.doc.pdf';
+    // 'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/fsec.pdf';
+    // 'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/wwms.pdf';
+    'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/checklist_for_building.pdf';
 
-  
-  private doc_type: string = 
+  private doc_type: string =
     //'building-permit';
     //'zoning-permit';
     //'fire-permit';
     //'wwms-permit';
-    'checklist-bldg'
+    'checklist-bldg';
 
-
-
-  private id = 1
+  private id = 1;
   constructor(private watermark: WaterMarkService) {}
 
   ngOnInit(): void {}
 
   compliant() {
-    // this.watermark.insertWaterMark(this.testDoc, 'compliant').then((blob) => {
-    //   console.log(blob);
-    // });
-
-    this.watermark.generateQrCode(this.id).subscribe(res =>{
-      this.watermark.insertQrCode(this.testDoc, res.data, this.doc_type)
-      console.log(res.data)
-    })
+    this.watermark.generateQrCode(this.id).subscribe((res) => {
+      this.watermark.insertQrCode(this.testDoc, res.data, this.doc_type);
+    });
   }
 
   noncompliant() {
-    this.watermark.insertWaterMark(this.testDoc, 'non-compliant').then((blob) => {
-      console.log(blob);
-    });
+    this.watermark
+      .insertWaterMark(this.testDoc, 'non-compliant')
+      .then((blob) => {});
   }
 }

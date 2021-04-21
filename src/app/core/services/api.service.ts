@@ -20,8 +20,7 @@ export class ApiService {
   post(url, body): Observable<any> {
     const completeUrl = this.generateUrl(url);
     const formData = this.createFormData(body);
-    console.log(completeUrl, formData)
-;    return this.httpClient.post(completeUrl, formData);
+    return this.httpClient.post(completeUrl, formData);
   }
   delete(url: string, params: HttpParams = null): Observable<any> {
     const completeUrl = this.generateUrl(url);
