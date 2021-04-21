@@ -94,7 +94,6 @@ export class DataFormBindingService {
   }
 
   handleSaveFormData(applicationId, formId, data) {
-    debugger;
     switch (formId) {
       case 1:
         const zoningBody = {
@@ -432,12 +431,293 @@ export class DataFormBindingService {
         ).subscribe((res) => {});
         break;
       case 3:
+        const sanitaryBody = {
+          // application_number: data.application_number,
+          application_date: data.application_date,
+          permit_number: data.permit_number,
+          date_issued: data.date_issued,
+          project_house_number: data.project_house_number,
+          project_street_name: data.project_street_name,
+          project_barangay: data.project_barangay,
+          project_city: data.project_city,
+          applicant_contact_number: data.applicant_contact_number,
+          location_of_installation: data.location_of_installation,
+          scope_of_work: data.scope_of_work,
+          scope_of_work_addition: data.scope_of_work_addition,
+          scope_of_work_repair: data.scope_of_work_repair,
+          scope_of_work_removal: data.scope_of_work_removal,
+          scope_of_work_other_one: data.scope_of_work_other_one,
+          scope_of_work_other_two: data.scope_of_work_other_two,
+          scope_of_work_other_one_of: data.scope_of_work_other_one_of,
+          scope_of_work_other_two_of: data.scope_of_work_other_two_of,
+          new_fixtures: data.new_fixtures,
+          existing_fixtures: data.existing_fixtures,
+          fixtures: data.fixtures,
+          fixtures_qty_water_closet: data.fixtures_qty_water_closet,
+          fixtures_qty_floor_drain: data.fixtures_qty_floor_drain,
+          fixtures_qty_lavatories: data.fixtures_qty_lavatories,
+          fixtures_qty_kitchen_sink: data.fixtures_qty_kitchen_sink,
+          fixtures_qty_faucet: data.fixtures_qty_faucet,
+          fixtures_qty_shower_head: data.fixtures_qty_shower_head,
+          fixtures_qty_water_meter: data.fixtures_qty_water_meter,
+          fixtures_qty_grease_trap: data.fixtures_qty_grease_trap,
+          fixtures_qty_bath_tubs: data.fixtures_qty_bath_tubs,
+          fixtures_qty_slap_sink: data.fixtures_qty_slap_sink,
+          fixtures_qty_urinal: data.fixtures_qty_urinal,
+          fixtures_qty_air_condition: data.fixtures_qty_air_condition,
+          fixtures_qty_water_tank: data.fixtures_qty_water_tank,
+          fixtures_qty_bidette: data.fixtures_qty_bidette,
+          fixtures_qty_laundry: data.fixtures_qty_laundry,
+          fixtures_qty_dental: data.fixtures_qty_dental,
+          fixtures_qty_electrical: data.fixtures_qty_electrical,
+          fixtures_qty_water_boil: data.fixtures_qty_water_boil,
+          fixtures_qty_drinking: data.fixtures_qty_drinking,
+          fixtures_qty_bar_sink: data.fixtures_qty_bar_sink,
+          fixtures_qty_soda_fountain: data.fixtures_qty_soda_fountain,
+          fixtures_qty_laboratory_sink: data.fixtures_qty_laboratory_sink,
+          fixtures_qty_sterilizer: data.fixtures_qty_sterilizer,
+          fixtures_qty_swimming_pool: data.fixtures_qty_swimming_pool,
+          fixtures_qty_others: data.fixtures_qty_others,
+          fixtures_qty_total_one: data.fixtures_qty_total_one,
+          fixtures_qty_total_two: data.fixtures_qty_total_two,
+          water_supply: data.water_supply,
+          system_supply: data.system_supply,
+          project_number_of_storey: data.project_number_of_storey,
+          project_total_floor_area: data.project_total_floor_area,
+          start_of_installation: data.start_of_installation,
+          total_cost_of_installation: data.total_cost_of_installation,
+          completion: data.completion,
+          prepared_by: data.prepared_by,
+          city_building_official: data.city_building_official,
+          city_building_date: data.city_building_date,
+          building_documents: data.building_documents,
+          building_documents_others: data.building_documents_others,
+          assessed_amount_one: data.assessed_amount_one,
+          assessed_assessed_one: data.assessed_assessed_one,
+          assessed_or_one: data.assessed_or_one,
+          assessed_date_paid_one: data.assessed_date_paid_one,
+          assessed_amount_two: data.assessed_amount_two,
+          assessed_assessed_two: data.assessed_assessed_two,
+          assessed_or_two: data.assessed_or_two,
+          assessed_date_paid_two: data.assessed_date_paid_two,
+          receiving_time_in: data.receiving_time_in,
+          receiving_date_in: data.receiving_date_in,
+          receiving_time_out: data.receiving_time_out,
+          receiving_date_out: data.receiving_date_out,
+          receiving_action: data.receiving_action,
+          receiving_processed: data.receiving_processed,
+          geodetic_time_in: data.geodetic_time_in,
+          geodetic_date_in: data.geodetic_date_in,
+          geodetic_time_out: data.geodetic_time_out,
+          geodetic_date_out: data.geodetic_date_out,
+          geodetic_action: data.geodetic_action,
+          geodetic_processed: data.geodetic_processed,
+          sanitary_time_in: data.sanitary_time_in,
+          sanitary_date_in: data.sanitary_date_in,
+          sanitary_time_out: data.sanitary_time_out,
+          sanitary_date_out: data.sanitary_date_out,
+          sanitary_action: data.sanitary_action,
+          sanitary_processed: data.sanitary_processed,
+          sanitary_engineer_name: data.sanitary_engineer_name,
+          sanitary_engineer_address: data.sanitary_engineer_address,
+          sanitary_engineer_ptr_no: data.sanitary_engineer_ptr_no,
+          sanitary_engineer_date_issued: data.sanitary_engineer_date_issued,
+          sanitary_engineer_tin: data.sanitary_engineer_tin,
+          construction_prc_no: data.construction_prc_no,
+          construction_name: data.construction_name,
+          construction_address: data.construction_address,
+          construction_ptr_no: data.construction_ptr_no,
+          construction_date_issued: data.construction_date_issued,
+          construction_tin_no: data.construction_tin_no,
+          applicant_full_name: data.applicant_full_name,
+          res_cert_no: data.res_cert_no,
+          applicant_date_issued: data.applicant_date_issued,
+          applicant_place_issued: data.applicant_place_issued,
+        };
+        this.submitSanitaryFormData(
+          sanitaryBody,
+          applicationId
+        ).subscribe((res) => {});
+        break;
+      case 4:
+        const electricalBody = {
+          application_number: data.application_number,
+          ep_number: data.ep_number,
+          building_permit_number: data.building_permit_number,
+          applicant_last_name: data.applicant_last_name,
+          applicant_first_name: data.applicant_first_name,
+          applicant_middle_name: data.applicant_middle_name,
+          applicant_tin_number: data.applicant_tin_number,
+          for_construction: data.for_construction,
+          form_of_ownership: data.form_of_ownership,
+          char_of_occupancy: data.char_of_occupancy,
+          applicant_house_number: data.applicant_house_number,
+          applicant_street_name: data.applicant_street_name,
+          applicant_barangay: data.applicant_barangay,
+          applicant_contact_number: data.applicant_contact_number,
+          project_lot_number: data.project_lot_number,
+          project_block_number: data.project_block_number,
+          project_tct_number: data.project_tct_number,
+          project_tax_dec_number: data.project_tax_dec_number,
+          project_street_name: data.project_street_name,
+          project_barangay: data.project_barangay,
+          // SCOPE OF WORK
+          scope_of_work: data.scope_of_work,
+          scope_of_work_others: data.scope_of_work_others,
+          // SUMARRY OF ELECTRICAL LOADS CAPACITIES APPLIED FOR
+          total_connected_load: data.total_connected_load,
+          total_transformer_capacity: data.total_transformer_capacity,
+          total_generator_capacity: data.total_generator_capacity,
+          // BOX 2
+          professional_electrical_engineer:
+            data.professional_electrical_engineer,
+          professional_electrical_engineer_date:
+            data.professional_electrical_engineer_date,
+          professional_electrical_engineer_address:
+            data.professional_electrical_engineer_address,
+          professional_electrical_engineer_pcr_no:
+            data.professional_electrical_engineer_pcr_no,
+          professional_electrical_engineer_ptr_no:
+            data.professional_electrical_engineer_ptr_no,
+          professional_electrical_engineer_issued_at:
+            data.professional_electrical_engineer_issued_at,
+          professional_electrical_engineer_validity:
+            data.professional_electrical_engineer_validity,
+          professional_electrical_engineer_date_issued:
+            data.professional_electrical_engineer_date_issued,
+          professional_electrical_engineer_tin_no:
+            data.professional_electrical_engineer_tin_no,
+          // BOX 3
+          supervisor: data.supervisor,
+          supervisor_full_name: data.supervisor_full_name,
+          supervisor_date: data.supervisor_date,
+          supervisor_prc_no: data.supervisor_prc_no,
+          supervisor_ptr_no: data.supervisor_ptr_no,
+          supervisor_issued_at: data.supervisor_issued_at,
+          supervisor_address: data.supervisor_address,
+          supervisor_validity: data.supervisor_validity,
+          supervisor_date_issued: data.supervisor_date_issued,
+          supervisor_tin_no: data.supervisor_tin_no,
+          // BOX 4
+          applicant_full_name: data.applicant_full_name,
+          building_owner_date: data.building_owner_date,
+          applicant_full_address: data.applicant_full_address,
+          building_owner_ctc_no: data.building_owner_ctc_no,
+          building_owner_date_issued: data.building_owner_date_issued,
+          building_owner_place_issued: data.building_owner_place_issued,
+          // BOX 5
+          lot_owner_full_name: data.lot_owner_full_name,
+          lot_owner_date: data.lot_owner_date,
+          lot_owner_address: data.lot_owner_address,
+          lot_owner_ctc_no: data.lot_owner_ctc_no,
+          lot_owner_date_issued: data.lot_owner_date_issued,
+          lot_owner_place_issued: data.lot_owner_place_issued,
+          // BOX 6
+          received_by: data.received_by,
+          received_by_date: data.received_by_date,
+          electrical_documents: data.electrical_documents,
+          electrical_documents_expected_date:
+            data.electrical_documents_expected_date,
+          electrical_documents_others: data.electrical_documents_others,
+          progress_flow_electrical_date_in:
+            data.progress_flow_electrical_date_in,
+          progress_flow_electrical_time_in:
+            data.progress_flow_electrical_time_in,
+          progress_flow_electrical_date_out:
+            data.progress_flow_electrical_date_out,
+          progress_flow_electrical_time_out:
+            data.progress_flow_electrical_time_out,
+          progress_flow_others_date_in: data.progress_flow_others_date_in,
+          progress_flow_others_time_in: data.progress_flow_others_time_in,
+          progress_flow_others_date_out: data.progress_flow_others_date_out,
+          progress_flow_others_time_out: data.progress_flow_others_time_out,
+          // BOX 8
+          building_official: data.building_official,
+          building_official_date: data.building_official_date,
+        };
+        this.submitElectricalFormData(
+          electricalBody,
+          applicationId
+        ).subscribe((res) => {});
+        break;
+      case 5:
+        const noticeBody = {};
         break;
       default:
         break;
     }
   }
 
+  handleSaveExcavationForm(applicationId, data) {
+    const body = {
+      application_no: data.application_no,
+      egpp_no: data.egpp_no,
+      building_permit_no: data.building_permit_no,
+      applicant_last_name: data.applicant_last_name,
+      applicant_first_name: data.applicant_first_name,
+      applicant_middle_name: data.applicant_middle_name,
+      applicant_tin_number: data.applicant_tin_number,
+      for_construction: data.for_construction,
+      form_of_ownership: data.form_of_ownership,
+      char_of_occupancy: data.char_of_occupancy,
+      applicant_house_number: data.applicant_house_number,
+      applicant_street_name: data.applicant_street_name,
+      applicant_barangay: data.applicant_barangay,
+      applicant_contact_number: data.applicant_contact_number,
+      project_lot_number: data.project_lot_number,
+      project_block_number: data.project_block_number,
+      project_tct_number: data.project_tct_number,
+      project_tax_dec_number: data.project_tax_dec_number,
+      project_street_name: data.project_street_name,
+      project_barangay: data.project_barangay,
+      scope_of_work: data.scope_of_work,
+      scope_of_work_renovation: data.scope_of_work_renovation,
+      scope_of_work_repair: data.scope_of_work_repair,
+      scope_of_work_others: data.scope_of_work_others,
+      character_of_occupancy: data.character_of_occupancy,
+      character_of_occupancy_others: data.character_of_occupancy_others,
+      // BOX 2
+      design_professional_name: data.design_professional_name,
+      design_professional_date: data.design_professional_date,
+      design_professional_address: data.design_professional_address,
+      design_professional_prc_no: data.design_professional_prc_no,
+      design_professional_ptr_no: data.design_professional_ptr_no,
+      design_professional_validity: data.design_professional_validity,
+      design_professional_date_issued: data.design_professional_date_issued,
+      design_professional_tin_no: data.design_professional_tin_no,
+      // BOX 3
+      construction_of_works_name: data.construction_of_works_name,
+      construction_of_works_date: data.construction_of_works_date,
+      construction_of_works_address: data.construction_of_works_address,
+      construction_of_works_pcr_no: data.construction_of_works_pcr_no,
+      construction_of_works_ptr_no: data.construction_of_works_ptr_no,
+      construction_of_works_issued_at: data.construction_of_works_issued_at,
+      construction_of_works_validity: data.construction_of_works_validity,
+      construction_of_works_date_issued: data.construction_of_works_date_issued,
+      construction_of_works_tin_no: data.construction_of_works_tin_no,
+      // BOX 4
+      applicant_full_name: data.applicant_full_name,
+      building_owner_date: data.building_owner_date,
+      applicant_full_address: data.applicant_full_address,
+      building_owner_ctc_no: data.building_owner_ctc_no,
+      building_owner_date_issued: data.building_owner_date_issued,
+      building_owner_place_issued: data.building_owner_place_issued,
+      lot_owner_full_name: data.lot_owner_full_name,
+      lot_owner_date: data.lot_owner_date,
+      lot_owner_address: data.lot_owner_address,
+      lot_owner_ctc_no: data.lot_owner_ctc_no,
+      lot_owner_date_issued: data.lot_owner_date_issued,
+      lot_owner_place_issued: data.lot_owner_place_issued,
+      // BOX 6
+      design_professional: data.design_professional,
+      design_professional_others: data.design_professional_others,
+      design_professional_others_one: data.design_professional_others_one,
+      design_professional_others_two: data.design_professional_others_two,
+      building_official: data.building_official,
+      building_official_date: data.building_official_date,
+    };
+    this.submitExcavationFormData(body, applicationId).subscribe((res) => {});
+  }
   //FIRE SAFETY EVALUATION CLEARANCE
   getFireClearanceData(a) {
     const applicantDetails = a.applicant_detail;

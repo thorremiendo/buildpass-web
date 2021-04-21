@@ -4,7 +4,8 @@ import { NewApplicationService } from 'src/app/core/services/new-application.ser
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { DataFormBindingService } from 'src/app/core/services/data-form-binding.service';
 import { documentTypes } from '../../../core/enums/document-type.enum';
-import Swal from 'sweetalert2';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
 
 @Component({
   selector: 'app-occupancy-permit',
@@ -18,6 +19,7 @@ export class OccupancyPermitComponent implements OnInit {
   public applicationId;
   public applicationDetails;
   public isLoading: boolean = false;
+  public isSubmitting: boolean = false;
 
   public forms: any = [
     {
@@ -45,7 +47,9 @@ export class OccupancyPermitComponent implements OnInit {
     private newApplicationService: NewApplicationService,
     private applicationService: ApplicationInfoService,
     private dataBindingService: DataFormBindingService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService
   ) {}
 
   ngOnInit(): void {
@@ -112,6 +116,7 @@ export class OccupancyPermitComponent implements OnInit {
   initData() {
     for (let i = 0; i < this.forms.length; i++) {
       this.forms[i] = {
+        label: `Step ${i + 1}`,
         id: this.forms[i].id,
         src: this.forms[i].src,
         description: this.getDocType(this.forms[i].id),
@@ -172,11 +177,97 @@ export class OccupancyPermitComponent implements OnInit {
           });
         });
 
-        Swal.fire('Success!', 'File uploaded!', 'success').then((result) => {});
+        this.updateFilePath();
       });
+  }
+
+  public async upload(form): Promise<void> {
+    const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    if (!form.path) {
+      if (blob) {
+        this.isLoading = true;
+        const uploadDocumentData = {
+          application_id: this.applicationId,
+          user_id: this.user.id,
+          document_id: form.id,
+          document_path: blob,
+          document_status: '0',
+        };
+
+        this.newApplicationService
+          .submitDocument(uploadDocumentData)
+          .subscribe((res) => {
+            this.isLoading = false;
+            this.updateApplicationInfoWithFormData();
+            this.updateFilePath();
+          });
+      } else {
+        console.log('Blob failed');
+      }
+    } else {
+      const uploadDocumentData = {
+        document_status_id: 0,
+      };
+      if (blob) {
+        uploadDocumentData['document_path'] = blob;
+      }
+      this.newApplicationService
+        .updateDocumentFile(uploadDocumentData, form.doc_id)
+        .subscribe((res) => {
+          this.updateApplicationInfoWithFormData();
+          this.openSnackBar('Saved!');
+        });
+    }
+  }
+
+  updateApplicationInfoWithFormData() {
+    const body = {
+      applicant_first_name: this.formData.applicant_first_name,
+      applicant_middle_name: this.formData.applicant_middle_name,
+      applicant_last_name: this.formData.applicant_last_name,
+      applicant_tin_number: this.formData.applicant_tin_number,
+      applicant_house_number: this.formData.applicant_house_number,
+      applicant_street_name: this.formData.applicant_street_name,
+      applicant_barangay: this.formData.applicant_barangay,
+      applicant_contact_number: this.formData.applicant_contact_number,
+      project_lot_number: this.formData.project_lot_number,
+      project_block_number: this.formData.project_block_number,
+      project_street_name: this.formData.project_street_name,
+      project_barangay: this.formData.project_barangay,
+      project_tct_number: this.formData.project_tct_number,
+      project_tax_dec_number: this.formData.project_tax_dec_number,
+    };
+    this.applicationService
+      .updateApplicationInfo(body, this.applicationId)
+      .subscribe((res) => {});
+  }
+
+  updateFilePath() {
+    this.applicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((res) => {
+        this.applicationDetails = res.data;
+        this.setFilePaths();
+        this.openSnackBar('Uploaded!');
+      });
+  }
+
+  getFieldSetsLength() {
+    const length = [];
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+    Object.keys(this.fieldSets).forEach((element) => {
+      length.push(this.fieldSets[element].documents.length);
+    });
+
+    return length.reduce(reducer);
   }
 
   submitApplication() {
     this.router.navigate(['dashboard/new/summary', this.applicationId]);
+  }
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 2000,
+    });
   }
 }
