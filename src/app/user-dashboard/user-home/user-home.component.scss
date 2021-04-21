@@ -99,11 +99,8 @@
     }
   }
   .tutorial {
-    display: flex;
-    justify-content: center;
-    &-content {
-      max-width: 70%;
-    }
+    max-width: 1000px;
+    margin: 0 auto;
   }
   &__header {
     div:first-of-type {
@@ -124,27 +121,37 @@
     }
     &-cards {
       display: flex;
-      align-items: center;
-      margin: 40px 0;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 20px 0;
       mat-card {
-        border-radius: 20px;
-        width: 25%;
+        border-radius: 10px;
+        height: 200px;
+        width: 250px;
+        transition: transform .2s;
         &:hover {
           transform: scale(1.1);
           cursor: pointer;
         }
 
         mat-card-content {
-          padding: 10px;
+          height: 100%;
+          padding: 20px;
 
           mat-icon {
             color: maroon;
             font-size: 30px;
           }
+
           img {
             margin-bottom: 5px;
             width: 35px;
             height: auto;
+          }
+
+          h6 {
+            position: absolute;
+            bottom: 10px;
           }
         }
       }

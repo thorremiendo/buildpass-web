@@ -17,6 +17,17 @@
         padding-bottom: 30px;
     }
 
+    .application-type {
+        margin: 20px 0;
+
+        div:first-of-type {
+            font-size: 18px;
+            font-weight: 700;
+            padding: 5px 0;
+        }
+    }
+
+
     @media (max-width: 767.5px) {
         max-width: 90%;
 
