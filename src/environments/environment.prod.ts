@@ -21,7 +21,7 @@ export const environment = {
   },
   adobe_key: '3ff0dea6d3f6421b98eb54c89d3c274a',
   pusher: {
-    key: 'a6ade48d9acbba1dd2e7',
+    key: '5aaab0a1fdf76144a6ff',
     cluster: 'ap1',
   }
 };
