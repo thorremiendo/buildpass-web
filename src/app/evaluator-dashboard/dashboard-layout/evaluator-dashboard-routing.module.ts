@@ -13,6 +13,7 @@ import { TableViewComponent } from '../table-view/table-view.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EvaluatorGuard } from 'src/app/core/guard/evaluator.guard';
 import { EvaluatorAuthGuard } from 'src/app/core/guard/evaluator-guard';
+import { FeedbackComponent } from 'src/app/shared/feedback/feedback.component';
 
 const routes: Routes = [
   {
@@ -54,6 +55,11 @@ const routes: Routes = [
       {
         path: 'edit-profile',
         component: EvaluatorEditProfileComponent,
+      }, 
+      {
+        path: 'feedback',
+        component: FeedbackComponent,
+        outlet: 'modal',
       },
     ],
   },
