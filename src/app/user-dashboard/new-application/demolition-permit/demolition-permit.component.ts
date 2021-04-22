@@ -331,7 +331,7 @@ export class DemolitionPermitComponent implements OnInit {
     ) {
       this.isSubmitting = true;
       const data = {
-        application_status_id: 7,
+        application_status_id: 9,
       };
       this.applicationService
         .updateApplicationStatus(data, this.applicationId)
