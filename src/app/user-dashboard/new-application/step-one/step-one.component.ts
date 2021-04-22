@@ -37,6 +37,7 @@ export class StepOneComponent implements OnInit {
   public isLoading: boolean = false;
   public userBuildingPermits = [];
   public selectedBuildingPermit;
+  public isSubmitting: boolean = false;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -92,6 +93,7 @@ export class StepOneComponent implements OnInit {
   }
 
   callNext() {
+    this.isSubmitting = true;
     if (this.selectedPermitType == '1') {
       if (this.permitStepOneForm.valid) {
         const value = this.permitStepOneForm.value;
@@ -110,10 +112,13 @@ export class StepOneComponent implements OnInit {
 
         this.newApplicationFormService.setApplicationInfo(body);
         this.router.navigateByUrl('/dashboard/new/step-two/lot-owner');
+        this.isSubmitting = false;
       } else {
         Swal.fire('Error!', 'Fill out all required information!', 'error');
+        this.isSubmitting = false;
       }
     } else if (this.selectedPermitType == '2') {
+      this.isSubmitting = false;
       this.router.navigate([
         '/dashboard/new/details',
         this.selectedBuildingPermit,
@@ -156,6 +161,7 @@ export class StepOneComponent implements OnInit {
             'success'
           ).then((result) => {
             this.isLoading = false;
+            this.isSubmitting = false;
             switch (this.selectedPermitType) {
               case '3':
                 this.router.navigateByUrl('/dashboard/new/excavation-permit');
@@ -170,9 +176,11 @@ export class StepOneComponent implements OnInit {
           });
         });
       } else {
+        this.isSubmitting = false;
         Swal.fire('Error!', 'Fill out all required information!', 'error');
       }
     } else {
+      this.isSubmitting = false;
       Swal.fire('Error!', 'Fill out all required information!', 'error');
     }
   }

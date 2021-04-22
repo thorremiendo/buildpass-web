@@ -74,6 +74,7 @@
           color="primary"
           matStepperNext
           (click)="upload(form)"
+          [disabled]="isSubmitting"
         >
           Next
         </button>
@@ -104,6 +105,7 @@
           color="primary"
           matStepperNext
           *ngIf="i != renderFields.length - 1; else submit_button"
+          [disabled]="isSubmitting"
         >
           Next
         </button>
