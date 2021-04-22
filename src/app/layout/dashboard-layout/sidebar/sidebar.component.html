@@ -65,7 +65,7 @@
     <a
       class=""
       appAccordionToggle
-      [routerLink]="getItemState(menuitem.state)"
+      [routerLink]="getItemState(menuitem.state, menuitem.outlet)"
       *ngIf="menuitem.type === 'link'"
     >
       <mat-icon>{{ menuitem.icon }}</mat-icon>
