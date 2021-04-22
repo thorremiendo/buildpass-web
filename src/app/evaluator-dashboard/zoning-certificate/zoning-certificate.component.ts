@@ -37,14 +37,12 @@ export class ZoningCertificateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
     this.applicationId = this.data.route.snapshot.params.id;
     this.newApplicationService
       .fetchUserInfo(this.applicationId)
       .subscribe((res) => {
         this.userInfo = res.data[0];
         this.userId = this.userInfo.user_detail.id;
-        console.log('User', this.userId);
       });
   }
 
@@ -80,7 +78,6 @@ export class ZoningCertificateComponent implements OnInit {
       uploadDocumentData['document_path'] = this.zoningComplianceForm;
     }
 
-    console.log(uploadDocumentData);
     this.newApplicationService
       .submitDocument(uploadDocumentData)
       .subscribe((res) => {
@@ -97,7 +94,6 @@ export class ZoningCertificateComponent implements OnInit {
               this.newApplicationService
                 .updateDocumentFile(updateFileData, id)
                 .subscribe((res) => {
-                  console.log(res);
                   Swal.fire(
                     'Success!',
                     `Certificate of Zoning Compliance Uploaded`,

@@ -183,9 +183,7 @@ export class DemolitionPermitComponent implements OnInit {
     };
     this.applicationService
       .updateApplicationInfo(body, this.applicationId)
-      .subscribe((res) => {
-        console.log(res);
-      });
+      .subscribe((res) => {});
   }
 
   initPdfViewer(event) {
@@ -242,11 +240,9 @@ export class DemolitionPermitComponent implements OnInit {
   }
 
   public async upload(form): Promise<void> {
-    console.log(form);
     const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     if (!form.path) {
       if (blob) {
-        console.log({ blob });
         this.isLoading = true;
         const uploadDocumentData = {
           application_id: this.applicationId,
@@ -267,7 +263,6 @@ export class DemolitionPermitComponent implements OnInit {
         console.log('Blob failed');
       }
     } else {
-      console.log('exists!');
       const uploadDocumentData = {
         document_status_id: 0,
       };
@@ -330,15 +325,13 @@ export class DemolitionPermitComponent implements OnInit {
   }
 
   submitApplication() {
-    console.log(this.getFieldSetsLength() + 1);
-    console.log(this.applicationDetails.user_docs.length);
     if (
       this.getFieldSetsLength() + 1 ==
       this.applicationDetails.user_docs.length
     ) {
       this.isSubmitting = true;
       const data = {
-        application_status_id: 7,
+        application_status_id: 9,
       };
       this.applicationService
         .updateApplicationStatus(data, this.applicationId)

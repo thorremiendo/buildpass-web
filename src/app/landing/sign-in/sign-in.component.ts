@@ -8,8 +8,6 @@ import {
 } from '@angular/fire/firestore';
 import { RegisterAccountFormService, User } from '../../core';
 
-
-
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
@@ -23,7 +21,6 @@ export class SignInComponent implements OnInit {
   public user;
   private _submitted: boolean = false;
   public userDetails;
- 
 
   constructor(
     private _authService: AuthService,
@@ -31,9 +28,7 @@ export class SignInComponent implements OnInit {
     private _fb: FormBuilder,
     private _ngZone: NgZone,
     private _afs: AngularFirestore,
-    private _registerAccountFormService: RegisterAccountFormService,
-  
-    
+    private _registerAccountFormService: RegisterAccountFormService
   ) {
     this.createForm();
   }
@@ -53,10 +48,10 @@ export class SignInComponent implements OnInit {
         .then((result) => {
           if (result.user.emailVerified == true) {
             this.SetUserDataFire(result.user.uid, result.user.emailVerified);
-            this._authService.getToken(result.user.uid)
-            } else {
-              window.alert('Email not yet verified');
-            }
+            this._authService.getToken(result.user.uid);
+          } else {
+            window.alert('Email not yet verified');
+          }
         })
         .catch((error) => {
           window.alert(error.message);
@@ -71,17 +66,16 @@ export class SignInComponent implements OnInit {
         this._ngZone.run(() => {
           if (result.additionalUserInfo.isNewUser != true) {
             this.SetUserDataFire(result.user.uid, result.user.emailVerified);
-            this._authService.getToken(result.user.uid)
+            this._authService.getToken(result.user.uid);
           } else {
             const user = result.additionalUserInfo.profile;
             this.fireBaseUid = result.user;
             this.fireBaseUser = user;
-            console.log("firebase UID" + this.fireBaseUid.value);
-            console.log("firebase USer" + this.fireBaseUid.value);
-          
             this.SetUserDataFireGoogle(this.fireBaseUser);
             this.createUserDetailsGoogle(this.fireBaseUser);
-            this._registerAccountFormService.setRegisterAccountInfo(this.userDetails);
+            this._registerAccountFormService.setRegisterAccountInfo(
+              this.userDetails
+            );
             this._router.navigateByUrl('registration');
           }
         });
@@ -105,11 +99,12 @@ export class SignInComponent implements OnInit {
   }
 
   SetUserDataFireGoogle(user) {
-    const userRef: AngularFirestoreDocument<any> = this._afs.doc(`users/${this.fireBaseUid.uid}`
+    const userRef: AngularFirestoreDocument<any> = this._afs.doc(
+      `users/${this.fireBaseUid.uid}`
     );
     const userData: User = {
       firebase_uid: this.fireBaseUid.uid,
-      email: user.email, 
+      email: user.email,
       first_name: user.given_name,
       last_name: user.family_name,
       emailVerified: user.verified_email,
@@ -120,26 +115,25 @@ export class SignInComponent implements OnInit {
     });
   }
 
-
   createUserDetails(value) {
-    this.userDetails ={
-      "firebase_uid": this.fireBaseUser.uid,
-      "first_name": value.first_name,
-      "last_name":  value.last_name,
-      "email_address": value.email,
-      "is_evaluator": false,
-      "emailVerified": this.fireBaseUser.emailVerified
+    this.userDetails = {
+      firebase_uid: this.fireBaseUser.uid,
+      first_name: value.first_name,
+      last_name: value.last_name,
+      email_address: value.email,
+      is_evaluator: false,
+      emailVerified: this.fireBaseUser.emailVerified,
     };
   }
 
   createUserDetailsGoogle(user) {
-    this.userDetails ={
-      "firebase_uid": this.fireBaseUid.uid,
-      "first_name": user.given_name,
-      "last_name":  user.family_name,
-      "email_address": user.email,
-      "is_evaluator": false,
-      "emailVerified": user.verified_email,
+    this.userDetails = {
+      firebase_uid: this.fireBaseUid.uid,
+      first_name: user.given_name,
+      last_name: user.family_name,
+      email_address: user.email,
+      is_evaluator: false,
+      emailVerified: user.verified_email,
     };
   }
 

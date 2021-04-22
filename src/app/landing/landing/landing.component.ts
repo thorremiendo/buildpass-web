@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
-  styleUrls: ['./landing.component.scss']
+  styleUrls: ['./landing.component.scss'],
 })
 export class LandingComponent implements OnInit {
   panelOpenState = false;
 
-  constructor(
-    private router: Router
-  ) { }
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+  goToServices() {
+    this.router.navigateByUrl('/services');
   }
-
 }

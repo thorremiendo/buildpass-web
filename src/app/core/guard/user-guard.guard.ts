@@ -33,9 +33,9 @@ export class UserGuardGuard implements CanActivate {
       this.user = currentUser;
     });
     if (this.user || localStorage.getItem('user')) {
-      console.log('authenticated');
       return true;
     } else {
+      this.authService.purgeAuth();
       this.router.navigateByUrl('user/sign-in');
       return false;
     }

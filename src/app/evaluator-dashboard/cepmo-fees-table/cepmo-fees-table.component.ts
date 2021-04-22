@@ -49,7 +49,6 @@ export class CepmoFeesTableComponent implements OnInit {
       .fetchFeesByOffice(application_id, office_id)
       .subscribe((res) => {
         this.dataSource = res.data;
-        console.log('datasource', this.dataSource);
       });
   }
   getOfficeType(id): string {
@@ -66,21 +65,17 @@ export class CepmoFeesTableComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.ngOnInit();
     });
   }
   onRemove(id) {
-    this.applicationFeeService.deleteFee(id).subscribe((res) => {
-      console.log(res);
-    });
+    this.applicationFeeService.deleteFee(id).subscribe((res) => {});
     this.ngOnInit();
   }
 
   fetchEvaluatorDetails() {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
-    console.log('Evaluator Details', this.evaluatorDetails);
     if (this.evaluatorDetails !== undefined) {
       this.fetchApplicationFees();
     }

@@ -5,6 +5,7 @@ import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { AdminUsersCreateComponent } from '../admin-users-create/admin-users-create.component';
 import { AdminUsersViewComponent } from '../admin-users-view/admin-users-view.component';
+import { EmployeeResetPasswordComponent } from '../../../employee-reset-password/employee-reset-password.component'
 
 @Component({
   selector: 'app-admin-users-list',
@@ -12,8 +13,7 @@ import { AdminUsersViewComponent } from '../admin-users-view/admin-users-view.co
   styleUrls: ['./admin-users-list.component.scss'],
 })
 export class AdminUsersListComponent implements OnInit {
- 
-  public dataSource;;
+  public dataSource;
   public message: String;
   public isFetching = true;
   public displayedColumns: string[] = [
@@ -24,8 +24,11 @@ export class AdminUsersListComponent implements OnInit {
     'is_admin',
     'action',
   ];
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
-  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator = Object.create(null);
+  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(
+    null
+  );
 
   constructor(
     private _adminUserservice: AdminUserService,
@@ -33,16 +36,16 @@ export class AdminUsersListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this._adminUserservice.getData().subscribe((data) => {
+    this._adminUserservice.getData().subscribe((data) => {      
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.paginator;
       this.isFetching = false;
     });
   }
 
-applyFilter(filterValue: string): void {
-  this.dataSource.filter = filterValue.trim().toLowerCase();
-}
+  applyFilter(filterValue: string): void {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
   createUser() {
     const dialogConfig = new MatDialogConfig();
@@ -56,26 +59,34 @@ applyFilter(filterValue: string): void {
     );
   }
 
-  editUser(uid) {
+  editUser(data) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.id = 'create-user';
     dialogConfig.height = '90%';
     dialogConfig.width = '1000px';
-    dialogConfig.data = { uid: uid };
+    dialogConfig.data = { data:data };
     const modalDialog = this.matDialog.open(
       AdminUsersViewComponent,
       dialogConfig
     );
   }
 
-  
- 
-
+  sendEmailResetPassword(employee) {
+    this.matDialog.open(EmployeeResetPasswordComponent, {
+      data: {
+        first_name: employee.first_name,
+        last_name: employee.last_name,
+        middle_name: employee.middle_name,
+        employeeId: employee.id,
+      },
+      height: '220px',
+      width: '600px',
+    });
+  }
 
   approveFillingFee(value) {
     this._adminUserservice.approveFillingFee(value).subscribe((res) => {
-      console.log(res);
       this.message = res;
     });
   }

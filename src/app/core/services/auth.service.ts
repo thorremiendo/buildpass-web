@@ -49,10 +49,11 @@ export class AuthService {
   }
 
   purgeAuth() {
-    console.log('PURGE AUTH');
     this.jwtService.removeToken();
     this.currentUserSubject.next(null);
     this.isAuthenticatedSubject.next(false);
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('user');
   }
 
   updateUserInfo(user) {
@@ -67,7 +68,6 @@ export class AuthService {
         .auth()
         .signInWithEmailAndPassword(value.email, value.password)
         .then((result) => {
-          console.log(result);
           resolve(result);
         })
         .catch((error) => {
@@ -161,7 +161,6 @@ export class AuthService {
   }
 
   getToken(uid) {
-    console.log(JSON.stringify(uid));
     const url = `/auth/firebase/login`;
     const body = {
       firebase_uid: `${uid}`,

@@ -14,7 +14,6 @@ export class SuccessPageComponent implements OnInit {
     this.applicationNumber = this.route.snapshot.paramMap.get(
       'application_number'
     );
-    console.log(this.applicationNumber);
   }
   goToHome() {
     this.router.navigateByUrl('/dashboard/home');

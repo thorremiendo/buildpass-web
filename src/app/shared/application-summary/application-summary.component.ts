@@ -47,7 +47,6 @@ export class ApplicationSummaryComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationInfo = res.data;
-        console.log(this.applicationInfo);
       });
   }
 }

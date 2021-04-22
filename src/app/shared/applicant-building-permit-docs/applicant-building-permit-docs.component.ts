@@ -28,7 +28,6 @@ export class ApplicantBuildingPermitDocsComponent implements OnInit {
         obj.document_id == 14
     );
     this.applicantForms = forms;
-    console.log(this.applicantForms);
   }
 
   getDocType(id): string {

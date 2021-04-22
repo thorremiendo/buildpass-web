@@ -13,16 +13,13 @@ export class NewApplicationService {
 
   submitApplication(body) {
     const url = `/application`;
-    console.log(body);
     return this.api.post(url, body).pipe(
       map((data: any) => {
-        console.log('submitApplication result:', data);
         this.applicationId.next(data.data.id);
         localStorage.setItem('app_id', data.data.id);
         return data;
       }),
       catchError((error) => {
-        console.log(error);
         return throwError('Something went wrong.');
       })
     );
@@ -73,7 +70,6 @@ export class NewApplicationService {
     const url = `/application/${id}`;
     return this.api.get(url).pipe(
       map((data: any) => {
-        console.log('fetchApplicationInfo Result:', data);
         return data;
       }),
       catchError((error) => {

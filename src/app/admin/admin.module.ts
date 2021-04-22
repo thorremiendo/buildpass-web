@@ -15,12 +15,15 @@ import { CoreModule } from '@angular/flex-layout';
 import { AdminDashboardModule } from './dashboard-layout/dashboard-layout.module';
 import { AdminSignInComponent } from './admin-sign-in/admin-sign-in.component';
 import { MaterialModule } from '../material-module';
+import { EmployeeResetPasswordComponent } from './employee-reset-password/employee-reset-password.component';
+
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 
 
 @NgModule({
-  declarations: [ AdminSignInComponent],
+  declarations: [ AdminSignInComponent, EmployeeResetPasswordComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -36,6 +39,7 @@ import { MaterialModule } from '../material-module';
     AdminUsersModule,
     AdminDashboardModule,
     MaterialModule,
+    MatDialogModule,
    
     
     

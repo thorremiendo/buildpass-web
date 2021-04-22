@@ -6,6 +6,7 @@
           <div
             class="box p-20 text-center cursor-pointer"
             style="background-color: #800000"
+            (click)="chooseApplicationStatus(0)"
           >
             <h1 class="font-light text-white m-0">{{ application }}</h1>
             <h6 class="text-white m-0">Application</h6>
@@ -17,6 +18,7 @@
           <div
             class="box p-20 text-center cursor-pointer"
             style="background-color: #c32148"
+            (click)="chooseApplicationStatus(1)"
           >
             <h1 class="font-light text-white m-0">{{ pending }}</h1>
             <h6 class="text-white m-0">Pending</h6>
@@ -42,6 +44,7 @@
           <div
             class="box p-20 text-center cursor-pointer"
             style="background-color: #f2ba49"
+            (click)="chooseApplicationStatus(2)"
           >
             <h1 class="font-light text-white m-0">{{ current }}</h1>
             <h6 class="text-white m-0">Current</h6>
@@ -53,6 +56,7 @@
           <div
             class="box p-20 text-center cursor-pointer"
             style="background-color: #ff8c00"
+            (click)="chooseApplicationStatus(3)"
           >
             <h1 class="font-light text-white m-0">{{ completed }}</h1>
             <h6 class="text-white m-0">Completed</h6>
