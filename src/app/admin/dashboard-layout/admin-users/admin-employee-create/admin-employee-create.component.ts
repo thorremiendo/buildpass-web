@@ -9,11 +9,11 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { RegisterAccountEvaluatorFormService } from '../../../../core/services/register-account-evaluator-form.service';
 
 @Component({
-  selector: 'app-admin-users-create',
-  templateUrl: './admin-users-create.component.html',
-  styleUrls: ['./admin-users-create.component.scss'],
+  selector: 'app-admin-employee-create',
+  templateUrl: './admin-employee-create.component.html',
+  styleUrls: ['./admin-employee-create.component.scss'],
 })
-export class AdminUsersCreateComponent implements OnInit {
+export class AdminEmployeeCreateComponent implements OnInit {
   public selectedFile: File = null;
   public selectedPhoto: File = null;
   public maxLength: number = 11;
@@ -54,7 +54,7 @@ export class AdminUsersCreateComponent implements OnInit {
     private _barangayService: BarangayService,
     private _authService: AuthService,
     private _registerAccountEvaluatorFormService: RegisterAccountEvaluatorFormService,
-    public dialogRef: MatDialogRef<AdminUsersCreateComponent>
+    public dialogRef: MatDialogRef<AdminEmployeeCreateComponent>
   ) {}
 
   closeModal() {

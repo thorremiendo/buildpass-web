@@ -42,7 +42,7 @@ export class AdminUserService {
   }
 
 
-  getData(){
+  fetchEmployees(){
     const url = `/user/employee`;
     return this.apiService.get(url).pipe(
       map(res => res.data));

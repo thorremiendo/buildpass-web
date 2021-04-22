@@ -9,11 +9,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AdminUserService } from '../../../../core';
 
 @Component({
-  selector: 'app-admin-users-view',
-  templateUrl: './admin-users-view.component.html',
-  styleUrls: ['./admin-users-view.component.scss'],
+  selector: 'app-admin-employee-view',
+  templateUrl: './admin-employee-view.component.html',
+  styleUrls: ['./admin-employee-view.component.scss'],
 })
-export class AdminUsersViewComponent implements OnInit {
+export class AdminEmployeeViewComponent implements OnInit {
   public selectedFile: File = null;
   public selectedPhoto: File = null;
   public maxLength: number = 11;
@@ -54,7 +54,7 @@ export class AdminUsersViewComponent implements OnInit {
     private _userService: UserService,
     private _barangayService: BarangayService,
     private _adminUserService: AdminUserService,
-    public dialogRef: MatDialogRef<AdminUsersViewComponent>,
+    public dialogRef: MatDialogRef<AdminEmployeeViewComponent>,
     @Inject(MAT_DIALOG_DATA) public data
   ) {}
 

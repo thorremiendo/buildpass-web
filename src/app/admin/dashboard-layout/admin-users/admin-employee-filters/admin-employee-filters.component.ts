@@ -8,11 +8,11 @@ import { debounceTime } from 'rxjs/operators';
 import { AdminUserParams, UserService } from 'src/app/core';
 
 @Component({
-  selector: 'app-admin-users-filters',
-  templateUrl: './admin-users-filters.component.html',
-  styleUrls: ['./admin-users-filters.component.scss']
+  selector: 'app-admin-employee-filters',
+  templateUrl: './admin-employee-filters.component.html',
+  styleUrls: ['./admin-employee-filters.component.scss']
 })
-export class AdminUsersFiltersComponent {
+export class AdminEmployeeFiltersComponent {
 
   public searchTerm: FormControl = new FormControl('');
   @Output() filterChanged: EventEmitter<AdminUserParams> = new EventEmitter();
