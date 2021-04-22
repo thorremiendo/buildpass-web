@@ -81,8 +81,15 @@ const EVALUATORMENUITEMS = [
 
 const ADMINMENUITEMS = [
   {
-    state: 'admin/dashboard/users',
+    state: 'admin/dashboard/users/employees',
     name: 'Evaluator List',
+    type: 'link',
+    icon: 'badge',
+  },
+
+  {
+    state: 'admin/dashboard/users/applicants',
+    name: 'Applicant List',
     type: 'link',
     icon: 'badge',
   },

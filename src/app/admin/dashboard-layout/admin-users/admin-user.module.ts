@@ -7,23 +7,23 @@ import { RouterModule } from '@angular/router';
 import { DashboardLayoutModule } from 'src/app/layout/dashboard-layout/dashboard-layout.module';
 import { AdminEmployeeListComponent } from './admin-employee-list/admin-employee-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AdminEmployeeFiltersComponent } from './admin-employee-filters/admin-employee-filters.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AdminUserInfoComponent } from '../../admin-user-info/admin-user-info.component';
 import { AdminEmployeeCreateComponent } from './admin-employee-create/admin-employee-create.component';
 import { AdminEmployeeViewComponent } from './admin-employee-view/admin-employee-view.component';
 import { MaterialModule } from 'src/app/material-module';
+import { AdminApplicantListComponent } from './admin-applicant-list/admin-applicant-list.component';
 
 
 @NgModule({
   declarations: [
     UsersComponent,
     AdminEmployeeListComponent,
-    AdminEmployeeFiltersComponent,
     AdminUserInfoComponent,
     AdminEmployeeCreateComponent,
     AdminEmployeeViewComponent,
+    AdminApplicantListComponent,
   ],
   imports: [
     CommonModule,
