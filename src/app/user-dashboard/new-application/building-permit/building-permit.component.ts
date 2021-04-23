@@ -25,7 +25,7 @@ export class BuildingPermitComponent implements OnInit {
   public sanitaryFormData;
   public noticeOfConstructionFormData;
   public electricalFormData;
-
+  public situationalReportFormData;
   public forms: any = [
     {
       id: 1,
@@ -54,32 +54,37 @@ export class BuildingPermitComponent implements OnInit {
       src: '../../../../assets/forms/Notice_of_Construction.pdf',
       label: 'Step 5',
     },
+    {
+      id: 106,
+      src: '../../../../assets/forms/situational-report.pdf',
+      label: 'Step 6',
+    },
   ];
 
   public fieldSets: any = [
     {
-      label: 'Step 6',
+      label: 'Step 7',
       title: 'Documentary Requirements',
       documents: [26, 104, 23, 24, 25],
     },
     {
-      label: 'Step 7',
+      label: 'Step 8',
       title: 'Plans',
       documents: [59, 61, 63, 62],
     },
     {
-      label: 'Step 8',
+      label: 'Step 9',
       title: 'Designs, Specifications, Cost Estimate',
       documents: [30, 32, 33],
     },
     {
-      label: 'Step 9',
+      label: 'Step 10',
       title:
         'Professional Tax Receipt and Professional Regulations Commission ID',
       documents: [34, 35, 36, 46],
     },
     {
-      label: 'Step 10',
+      label: 'Step 11',
       title: 'Other Requirements',
       documents: [39, 42],
     },
@@ -134,6 +139,9 @@ export class BuildingPermitComponent implements OnInit {
               this.applicationDetails
             );
             this.noticeOfConstructionFormData = this.dataBindingService.getFormData(
+              this.applicationDetails
+            );
+            this.situationalReportFormData = this.dataBindingService.getFormData(
               this.applicationDetails
             );
 
@@ -260,6 +268,7 @@ export class BuildingPermitComponent implements OnInit {
     this.forms[2] ? (this.formData = this.sanitaryFormData) : null;
     this.forms[3] ? (this.formData = this.noticeOfConstructionFormData) : null;
     this.forms[4] ? (this.formData = this.electricalFormData) : null;
+    this.forms[5] ? (this.formData = this.situationalReportFormData) : null;
     pdfContainer ? pdfContainer.appendChild(pdfViewer) : null;
   }
 
@@ -349,7 +358,7 @@ export class BuildingPermitComponent implements OnInit {
 
   submitApplication() {
     if (
-      this.getFieldSetsLength() + 5 ==
+      this.getFieldSetsLength() + 6 ==
       this.applicationDetails.user_docs.length
     ) {
       this.isLoading = true;

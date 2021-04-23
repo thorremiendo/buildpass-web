@@ -106,4 +106,5 @@ export enum documentTypes {
   'Absolute Deed of Sale or Conditional Deed of Sale' = 103,
   'Copy of award w/ approved surveyed plan signed and sealed by Geodetic Engineer' = 104,
   'Plans showing the lot boundaries and the existing building/s to be demolished with complete dimensions and indicating the number of storeys/floor' = 105,
+  'Situational Report' = 106,
 }
