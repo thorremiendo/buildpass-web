@@ -237,6 +237,7 @@ export class ExcavationPermitComponent implements OnInit {
   }
 
   public async upload(form): Promise<void> {
+    this.isSubmitting = true;
     const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     this.dataBindingService.handleSaveExcavationForm(
       this.applicationId,
@@ -257,10 +258,12 @@ export class ExcavationPermitComponent implements OnInit {
           .submitDocument(uploadDocumentData)
           .subscribe((res) => {
             this.isLoading = false;
+            this.isSubmitting = false;
             this.updateApplicationInfoWithFormData();
             this.updateFilePath();
           });
       } else {
+        this.isSubmitting = false;
         console.log('Blob failed');
       }
     } else {
@@ -275,6 +278,7 @@ export class ExcavationPermitComponent implements OnInit {
         .subscribe((res) => {
           this.updateApplicationInfoWithFormData();
           this.openSnackBar('Saved!');
+          this.isSubmitting = false;
         });
     }
   }

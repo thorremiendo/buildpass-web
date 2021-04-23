@@ -1,3 +1,4 @@
+import { MaterialModule } from './../material-module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -37,7 +38,23 @@ import { RegistrationComponent } from './registration/registration.component';
 import { DataPrivacyComponent } from './data-privacy/data-privacy.component';
 
 @NgModule({
-  declarations: [LandingComponent, NavigationComponent, AboutComponent, BannerComponent, ServicesComponent, NewsComponent, ContactComponent, FooterComponent, SignInComponent, SignUpComponent, SignInUpComponent, VerifyEmailComponent, ForgotPasswordComponent, RegistrationComponent, DataPrivacyComponent],
+  declarations: [
+    LandingComponent,
+    NavigationComponent,
+    AboutComponent,
+    BannerComponent,
+    ServicesComponent,
+    NewsComponent,
+    ContactComponent,
+    FooterComponent,
+    SignInComponent,
+    SignUpComponent,
+    SignInUpComponent,
+    VerifyEmailComponent,
+    ForgotPasswordComponent,
+    RegistrationComponent,
+    DataPrivacyComponent,
+  ],
   imports: [
     CommonModule,
     LayoutModule,
@@ -59,11 +76,8 @@ import { DataPrivacyComponent } from './data-privacy/data-privacy.component';
     MatDatepickerModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    MaterialModule,
   ],
-  exports: [
-    NavigationComponent,
-    BannerComponent,
-    FooterComponent
-  ]
+  exports: [NavigationComponent, BannerComponent, FooterComponent],
 })
-export class LandingModule { }
+export class LandingModule {}

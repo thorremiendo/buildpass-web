@@ -21,6 +21,7 @@ export class SignInComponent implements OnInit {
   public user;
   private _submitted: boolean = false;
   public userDetails;
+  public isSubmitting: boolean = false;
 
   constructor(
     private _authService: AuthService,
@@ -41,16 +42,18 @@ export class SignInComponent implements OnInit {
   }
 
   tryLogin(value) {
-    this._submitted = true;
     if (this._signinForm.valid) {
+      this.isSubmitting = true;
       this._authService
         .SignIn(value)
         .then((result) => {
           if (result.user.emailVerified == true) {
             this.SetUserDataFire(result.user.uid, result.user.emailVerified);
             this._authService.getToken(result.user.uid);
+            this.isSubmitting = false;
           } else {
             window.alert('Email not yet verified');
+            this.isSubmitting = false;
           }
         })
         .catch((error) => {
@@ -60,6 +63,7 @@ export class SignInComponent implements OnInit {
   }
 
   tryGoogle() {
+    this.isSubmitting = true;
     this._authService
       .GoogleAuth()
       .then((result) => {
@@ -67,6 +71,7 @@ export class SignInComponent implements OnInit {
           if (result.additionalUserInfo.isNewUser != true) {
             this.SetUserDataFire(result.user.uid, result.user.emailVerified);
             this._authService.getToken(result.user.uid);
+            this.isSubmitting = false;
           } else {
             const user = result.additionalUserInfo.profile;
             this.fireBaseUid = result.user;
@@ -76,6 +81,7 @@ export class SignInComponent implements OnInit {
             this._registerAccountFormService.setRegisterAccountInfo(
               this.userDetails
             );
+            this.isSubmitting = false;
             this._router.navigateByUrl('registration');
           }
         });

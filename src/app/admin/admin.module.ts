@@ -9,7 +9,6 @@ import { AdminRoutingModule } from './admin-routing.service';
 import { AdminDashboardRoutingModule } from './dashboard-layout/admin-dashboard-layout.routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { LayoutModule } from '../layout/layout.module';
-import { UsersComponent } from './dashboard-layout/admin-users/users.component';
 import { AdminUsersModule } from './dashboard-layout/admin-users/admin-user.module';
 import { CoreModule } from '@angular/flex-layout';
 import { AdminDashboardModule } from './dashboard-layout/dashboard-layout.module';

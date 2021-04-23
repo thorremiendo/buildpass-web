@@ -29,6 +29,7 @@ import { ProjectDetailsComponent } from './project-details/project-details.compo
 import { ApplicantBuildingPermitDocsComponent } from './applicant-building-permit-docs/applicant-building-permit-docs.component';
 import { ApplicationsListComponent } from './applications-list/applications-list.component';
 import { MatSelectModule } from '@angular/material/select';
+import { FeedbackComponent } from './feedback/feedback.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { MatSelectModule } from '@angular/material/select';
     ProjectDetailsComponent,
     ApplicantBuildingPermitDocsComponent,
     ApplicationsListComponent,
+    FeedbackComponent,
   ],
   imports: [
     CommonModule,

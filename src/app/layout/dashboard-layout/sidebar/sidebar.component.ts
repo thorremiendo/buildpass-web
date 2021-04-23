@@ -81,10 +81,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
     // tslint:disable-next-line: deprecation
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
-  getItemState(state): Array<string> {
+  getItemState(state, outlet): Array<any> {
     const navigateTo = state.split('/');
-
-    return ['/', ...navigateTo];
+    if (outlet) return [`/${navigateTo[0]}`, {outlets: {[outlet]: [navigateTo[1]]}}];
+    else return ['/', ...navigateTo];
   }
 
   logout() {

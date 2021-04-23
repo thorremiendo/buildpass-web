@@ -5,11 +5,19 @@
       <div class="horizontal-line"></div>
     </div>
   </div>
-
+  <ng-container *ngIf="!applications">
+    <div class="spinner">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-container>
   <app-applications-list
     *ngIf="applications"
     [applications]="applications"
-    (emitApplication)="$event.application_status_id !== 6 ? viewApplication($event.id) : continueApplication($event.user_id, $event.id)"
+    (emitApplication)="
+      $event.application_status_id !== 6
+        ? viewApplication($event.id)
+        : continueApplication($event.user_id, $event.id)
+    "
   >
   </app-applications-list>
 </div>

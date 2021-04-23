@@ -3,16 +3,16 @@ import { AdminUserService } from 'src/app/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { AdminUsersCreateComponent } from '../admin-users-create/admin-users-create.component';
-import { AdminUsersViewComponent } from '../admin-users-view/admin-users-view.component';
+import { AdminEmployeeCreateComponent } from '../admin-employee-create/admin-employee-create.component';
+import { AdminEmployeeViewComponent } from '../admin-employee-view/admin-employee-view.component';
 import { EmployeeResetPasswordComponent } from '../../../employee-reset-password/employee-reset-password.component'
 
 @Component({
-  selector: 'app-admin-users-list',
-  templateUrl: './admin-users-list.component.html',
-  styleUrls: ['./admin-users-list.component.scss'],
+  selector: 'app-admin-employee-list',
+  templateUrl: './admin-employee-list.component.html',
+  styleUrls: ['./admin-employee-list.component.scss'],
 })
-export class AdminUsersListComponent implements OnInit {
+export class AdminEmployeeListComponent implements OnInit {
   public dataSource;
   public message: String;
   public isFetching = true;
@@ -36,7 +36,7 @@ export class AdminUsersListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this._adminUserservice.getData().subscribe((data) => {      
+    this._adminUserservice.fetchEmployees().subscribe((data) => {      
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.paginator;
       this.isFetching = false;
@@ -54,7 +54,7 @@ export class AdminUsersListComponent implements OnInit {
     dialogConfig.height = '90%';
     dialogConfig.width = '1000px';
     const modalDialog = this.matDialog.open(
-      AdminUsersCreateComponent,
+      AdminEmployeeCreateComponent,
       dialogConfig
     );
   }
@@ -67,7 +67,7 @@ export class AdminUsersListComponent implements OnInit {
     dialogConfig.width = '1000px';
     dialogConfig.data = { data:data };
     const modalDialog = this.matDialog.open(
-      AdminUsersViewComponent,
+      AdminEmployeeViewComponent,
       dialogConfig
     );
   }

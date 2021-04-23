@@ -55,6 +55,13 @@ const USERMENUITEMS = [
     type: 'link',
     icon: 'manage_accounts',
   },
+  {
+    state: 'dashboard/feedback',
+    name: 'Feedback',
+    type: 'link',
+    icon: 'feedback',
+    outlet: 'modal',
+  }
 ];
 const EVALUATORMENUITEMS = [
   {
@@ -70,19 +77,32 @@ const EVALUATORMENUITEMS = [
     icon: 'textsms',
     // badge: [{ type:"warning", value:'5'}]
   },
-
   {
     state: 'evaluator/edit-profile',
     name: 'Edit Profile',
     type: 'link',
     icon: 'manage_accounts',
   },
+  {
+    state: 'evaluator/feedback',
+    name: 'Feedback',
+    type: 'link',
+    icon: 'feedback',
+    outlet: 'modal',
+  }
 ];
 
 const ADMINMENUITEMS = [
   {
-    state: 'admin/dashboard/users',
+    state: 'admin/dashboard/users/employees',
     name: 'Evaluator List',
+    type: 'link',
+    icon: 'badge',
+  },
+
+  {
+    state: 'admin/dashboard/users/applicants',
+    name: 'Applicant List',
     type: 'link',
     icon: 'badge',
   },
