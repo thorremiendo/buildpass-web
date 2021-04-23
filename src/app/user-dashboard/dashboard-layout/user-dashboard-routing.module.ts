@@ -24,6 +24,7 @@ import { DemolitionPermitComponent } from '../new-application/demolition-permit/
 import { NewApplicationPageComponent } from '../new-application/new-application-page/new-application-page.component';
 import { NewApplicationRouterComponent } from '../new-application/new-application-router/new-application-router.component';
 import { ApplicationSummaryComponent } from 'src/app/shared/application-summary/application-summary.component';
+import { FeedbackComponent } from 'src/app/shared/feedback/feedback.component';
 
 const routes: Routes = [
   {
@@ -149,6 +150,11 @@ const routes: Routes = [
       {
         path: 'edit-profile',
         component: UserEditProfileComponent,
+      },
+      {
+        path: 'feedback',
+        component: FeedbackComponent,
+        outlet: 'modal',
       },
     ],
   },

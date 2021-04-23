@@ -103,14 +103,17 @@
                 </button>
                 <mat-menu #actionsMenu>
                   <button
-                    mat-button
                     color="primary"
                     mat-menu-item
                     (click)="sendEmailResetPassword(user)"
                   >
                     Reset Password
                   </button>
-                  <button mat-button color="primary" (click)="editUser(user)">
+                  <button
+                    mat-menu-item
+                    color="primary"
+                    (click)="editUser(user)"
+                  >
                     Edit
                   </button>
                 </mat-menu>

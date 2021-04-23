@@ -1,0 +1,99 @@
+<div fxLayout="row wrap">
+    <div fxFlex="100">
+      <mat-card>
+        <mat-card-content>
+          <div fxLayout="row wrap" class="align-items-center">
+            <div fxFlex.gt-md="25" fxFlex.gt-lg="25" fxFlex="100">
+              <mat-form-field>
+                <input
+                  matInput
+                  (keyup)="applyFilter($event.target.value)"
+                  placeholder="Search Applicant"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  
+  <div fxLayout="row wrap">
+    <div fxFlex="100">
+      <mat-card>
+        <mat-card-content>
+          <div class="table-responsive">
+            <table
+              mat-table
+              [dataSource]="dataSource"
+              class="class=&quot;table employee-list no-wrap&quot;"
+            >
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>#</th>
+                <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+              </ng-container>
+  
+              <ng-container matColumnDef="full_name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let user">
+                  <div class="d-flex">
+                    <img class="mat-card-avatar" [src]="user.photo_path" />
+                    <div class="m-l-15">
+                      <p class="font-medium m-b-0 m-t-0">
+                        {{ user.first_name }} {{ user.last_name }}
+                      </p>
+                      <small class="text-muted">{{
+                        user.email_address
+                      }}</small>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="address">
+                <th mat-header-cell *matHeaderCellDef>Address</th>
+                <td mat-cell *matCellDef="let user">{{ user.barangay }} {{ user.home_address }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="created_at">
+                <th mat-header-cell *matHeaderCellDef>Created At</th>
+                <td mat-cell *matCellDef="let user">{{ user.created_at | date: 'medium' }}</td>
+              </ng-container>
+  
+            
+           
+  
+        
+  
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+  
+            <div
+              class="applicant-list__empty text-center py-5"
+              *ngIf="!isFetching && dataSource.length === 0"
+            >
+              <h2>No Applicant yet....</h2>
+            </div>
+            <div
+              class="applicant-list__loader text-center py-5"
+              *ngIf="isFetching"
+            >
+              <p>Fetching Applicants...</p>
+              <mat-progress-spinner
+                mode="indeterminate"
+                diameter="40"
+              ></mat-progress-spinner>
+            </div>
+  
+            <mat-paginator
+              [pageSizeOptions]="[5, 10, 20]"
+              showFirstLastButtons
+            ></mat-paginator>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  
+  

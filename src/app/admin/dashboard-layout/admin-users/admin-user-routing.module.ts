@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminUserInfoComponent } from '../../admin-user-info/admin-user-info.component';
-import { AdminUsersListComponent } from './admin-users-list/admin-users-list.component';
+import { AdminApplicantListComponent } from './admin-applicant-list/admin-applicant-list.component';
+import { AdminEmployeeListComponent } from './admin-employee-list/admin-employee-list.component';
 import { UsersComponent } from './users.component';
 
 const routes: Routes = [
@@ -10,8 +11,13 @@ const routes: Routes = [
     component: UsersComponent,
     children: [
       {
-        path: '',
-        component: AdminUsersListComponent,
+        path: 'employees',
+        component: AdminEmployeeListComponent,
+      },
+
+      {
+        path: 'applicants',
+        component: AdminApplicantListComponent,
       },
 
       {
