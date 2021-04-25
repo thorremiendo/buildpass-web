@@ -299,6 +299,7 @@ export class BuildingPermitComponent implements OnInit {
 
   setFilePaths() {
     const docs = this.applicationDetails.user_docs;
+    console.log({ docs });
     this.forms.forEach((form) => {
       docs.forEach((doc) => {
         if (form.id == doc.document_id) {
@@ -355,12 +356,17 @@ export class BuildingPermitComponent implements OnInit {
 
     return length.reduce(reducer);
   }
+  getUniqueUserDocs() {
+    const unique = [
+      ...new Set(
+        this.applicationDetails.user_docs.map((item) => item.document_id)
+      ),
+    ];
+    return unique.length;
+  }
 
   submitApplication() {
-    if (
-      this.getFieldSetsLength() + 6 ==
-      this.applicationDetails.user_docs.length
-    ) {
+    if (this.getFieldSetsLength() + 6 == this.getUniqueUserDocs()) {
       this.isLoading = true;
       const body = {
         application_status_id: 9,
