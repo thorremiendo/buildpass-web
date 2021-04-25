@@ -5,7 +5,7 @@
     Excavation Permit Application.
   </p>
   <h4 style="font-weight: bold; color: grey">
-    Uploaded Documents: {{ applicationDetails.user_docs.length }}/
+    Uploaded Documents: {{ getUniqueUserDocs() }}/
     {{ getFieldSetsLength() + 1 }}
   </h4>
   <mat-horizontal-stepper

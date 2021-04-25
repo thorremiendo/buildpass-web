@@ -225,6 +225,14 @@ export class ExcavationPermitComponent implements OnInit {
 
     return length.reduce(reducer);
   }
+  getUniqueUserDocs() {
+    const unique = [
+      ...new Set(
+        this.applicationDetails.user_docs.map((item) => item.document_id)
+      ),
+    ];
+    return unique.length;
+  }
 
   updateFilePath() {
     this.applicationService
@@ -464,10 +472,7 @@ export class ExcavationPermitComponent implements OnInit {
   }
 
   submitApplication() {
-    if (
-      this.getFieldSetsLength() + 1 ==
-      this.applicationDetails.user_docs.length
-    ) {
+    if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
       this.isSubmitting = true;
       const id = this.excavationId ? this.excavationId : this.applicationId;
 
