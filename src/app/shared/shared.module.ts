@@ -30,6 +30,7 @@ import { ApplicantBuildingPermitDocsComponent } from './applicant-building-permi
 import { ApplicationsListComponent } from './applications-list/applications-list.component';
 import { MatSelectModule } from '@angular/material/select';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { UpdatePasswordDialogComponent } from './update-password-dialog/update-password-dialog.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
     ApplicantBuildingPermitDocsComponent,
     ApplicationsListComponent,
     FeedbackComponent,
+    UpdatePasswordDialogComponent,
   ],
   imports: [
     CommonModule,
