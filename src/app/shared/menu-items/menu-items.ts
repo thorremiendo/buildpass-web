@@ -61,7 +61,13 @@ const USERMENUITEMS = [
     type: 'link',
     icon: 'feedback',
     outlet: 'modal',
-  }
+  },
+  {
+    state: 'dashboard/checklists',
+    name: 'Forms',
+    type: 'link',
+    icon: 'file_download',
+  },
 ];
 const EVALUATORMENUITEMS = [
   {
@@ -89,7 +95,7 @@ const EVALUATORMENUITEMS = [
     type: 'link',
     icon: 'feedback',
     outlet: 'modal',
-  }
+  },
 ];
 
 const ADMINMENUITEMS = [

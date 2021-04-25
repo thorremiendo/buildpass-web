@@ -27,7 +27,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ViewApplicationComponent implements OnInit {
   panelOpenState = false;
-
+  public isAuthorized: boolean = false;
   public isLoading = true;
   public applicationId;
   public evaluatorDetails;
@@ -82,10 +82,17 @@ export class ViewApplicationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isLoading = true;
+    this.isAuthorized = false;
     this.applicationId = this.route.snapshot.params.id;
-    this.fetchApplicationInfo();
-    this.fetchUserDocs();
+    this.user = JSON.parse(localStorage.getItem('user'));
+    this.applicationService
+      .verifyUserApplication(this.applicationId, this.user.id)
+      .subscribe((res) => {
+        this.isLoading = true;
+        this.isAuthorized = true;
+        this.fetchApplicationInfo();
+        this.fetchUserDocs();
+      });
   }
 
   fetchApplicationInfo() {

@@ -157,27 +157,33 @@
               mode="indeterminate"
               *ngIf="isLoading"
             ></mat-progress-bar>
-
-            <div class="d-flex justify-content-between mt-5">
-              <div>
+            <ng-container
+              *ngIf="
+                evaluatorRole.code == 'BFP-CFD' ||
+                evaluatorRole.code == 'BFP-CHF'
+              "
+            >
+              <div class="d-flex justify-content-between mt-5">
+                <div>
+                  <button
+                    mat-raised-button
+                    color="warn"
+                    (click)="nonCompliant()"
+                    [disabled]="checkFormsCompliant()"
+                  >
+                    Review Done (Non-Compliant)
+                  </button>
+                </div>
                 <button
                   mat-raised-button
-                  color="warn"
-                  (click)="nonCompliant()"
-                  [disabled]="checkFormsCompliant()"
+                  color="primary"
+                  [disabled]="!checkFormsCompliant()"
+                  (click)="compliant()"
                 >
-                  Review Done (Non-Compliant)
+                  Review Done (Compliant)
                 </button>
               </div>
-              <button
-                mat-raised-button
-                color="primary"
-                [disabled]="!checkFormsCompliant()"
-                (click)="compliant()"
-              >
-                Review Done (Compliant)
-              </button>
-            </div>
+            </ng-container>
           </div>
         </div>
       </mat-tab>

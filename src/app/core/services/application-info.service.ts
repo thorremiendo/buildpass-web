@@ -21,7 +21,17 @@ export class ApplicationInfoService {
       })
     );
   }
-
+  verifyUserApplication(application_id, user_id) {
+    const url = `/application/${application_id}/${user_id}/user/verify`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError(error.message);
+      })
+    );
+  }
   updateApplicationInfo(body, id) {
     const url = `/application/${id}/update`;
     return this.api.post(url, body);
