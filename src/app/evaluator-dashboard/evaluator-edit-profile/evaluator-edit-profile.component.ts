@@ -5,7 +5,10 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { BarangayService } from '../../core/services/barangay.service';
 import { Position, Office } from '../../core/enums/department.enum';
+import { UpdatePasswordDialogComponent } from '../../shared/update-password-dialog/update-password-dialog.component'
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
+import { EvaluatorService } from 'src/app/core';
 
 @Component({
   selector: 'app-evaluator-edit-profile',
@@ -45,7 +48,9 @@ export class EvaluatorEditProfileComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _userService: UserService,
-    private _barangayService: BarangayService
+    private _evaluatorService: EvaluatorService,
+    private _barangayService: BarangayService,
+    private _matDialog: MatDialog,
   ) {}
 
   createForm() {
@@ -66,6 +71,20 @@ export class EvaluatorEditProfileComponent implements OnInit {
       id_number:[this.userInfo.id_number, Validators.required],
       id_type:[this.userInfo.id_type, Validators.required],
     });
+  }
+
+  openDialog(userCredentials) {
+   
+      this._matDialog.open(UpdatePasswordDialogComponent, {
+        data: userCredentials,
+        height: '350px',
+        width: '600px',
+      });
+       console.log(userCredentials)
+  
+  
+
+  
   }
 
   openFileChooser() {
@@ -147,6 +166,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
       this.userInfo = JSON.parse(localStorage.getItem('user'));
       this.userInfo.marital_status_id = String(this.userInfo.marital_status_id);
       this.userInfo.employee_detail.office_id = String(this.userInfo.employee_detail.office_id);
+
       this.createForm();
     }
     this._barangayService.getBarangayInfo().subscribe(data => {
