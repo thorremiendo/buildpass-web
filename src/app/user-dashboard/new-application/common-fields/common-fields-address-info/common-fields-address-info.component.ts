@@ -284,7 +284,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
         });
       } else {
         this.newApplicationFormService.setCommonFields(body);
-        this._router.navigateByUrl('/dashboard/new/step-two/representative');
+        this._router.navigateByUrl('/dashboard/new/step-two/in-charge');
       }
     }
   }

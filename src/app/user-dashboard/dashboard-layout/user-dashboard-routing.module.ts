@@ -72,7 +72,7 @@ const routes: Routes = [
                     component: CommonFieldsAddressInfoComponent,
                   },
                   {
-                    path: 'representative',
+                    path: 'in-charge',
                     component: CommonFieldsRepresentativeComponent,
                   },
                 ],

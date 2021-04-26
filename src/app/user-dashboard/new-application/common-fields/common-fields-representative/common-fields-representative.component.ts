@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { AuthService, BarangayService } from 'src/app/core';
 import { map, startWith } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 
 export interface Barangay {
   id: number;
@@ -39,6 +40,10 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
   public representativeDetailsForm: FormGroup;
   _submitted = false;
   public maxLength: number = 11;
+  public prcFront: File;
+  public prcBack: File;
+  public validIdFront: File;
+  public validIdBack: File;
 
   get representativeDetailsFormControl() {
     return this.representativeDetailsForm.controls;
@@ -131,11 +136,17 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
       rep_barangay: value.representative_barangay,
       rep_contact_number: value.representative_contact_no,
       rep_email_address: value.representative_email_address,
+      prc_id_front_photo_path: this.prcFront,
+      prc_id_back_photo_path: this.prcBack,
+      id_front_photo_path: this.validIdFront,
+      id_back_photo_path: this.validIdBack,
+      id_type: '3',
     };
   }
   onSubmit() {
     this.isLoading = true;
     this._submitted = true;
+
     this.createRepresentativeDetails();
     if (!this.representativeDetailsForm.valid) {
       Swal.fire('Notice!', 'Please fill out all required fields!', 'info').then(
@@ -148,10 +159,12 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
         ...this.representativeDetails,
         ...this.applicationDetails,
       };
+      debugger;
       this.newApplicationService.submitApplication(body).subscribe((res) => {
         Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
           (result) => {
             this.isLoading = false;
+            console.log(result);
             switch (this.applicationDetails.permit_type_id) {
               case '1':
                 this._router.navigateByUrl('/dashboard/new/building-permit');
@@ -172,6 +185,40 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
           }
         );
       });
+    }
+  }
+
+  onSelect($event: NgxDropzoneChangeEvent, type) {
+    const file = $event.addedFiles[0];
+    switch (type) {
+      case 'prcFront':
+        this.prcFront = file;
+        break;
+      case 'prcBack':
+        this.prcBack = file;
+        break;
+      case 'validIdFront':
+        this.validIdFront = file;
+        break;
+      case 'validIdBack':
+        this.validIdBack = file;
+        break;
+    }
+  }
+  onRemove(type) {
+    switch (type) {
+      case 'prcFront':
+        this.prcFront = null;
+        break;
+      case 'prcBack':
+        this.prcBack = null;
+        break;
+      case 'validIdFront':
+        this.validIdFront = null;
+        break;
+      case 'validIdBack':
+        this.validIdBack = null;
+        break;
     }
   }
 }

@@ -90,7 +90,6 @@ export class BuildingPermitComponent implements OnInit {
     },
   ];
 
-  public representativeDocs: Array<any> = [21];
   public lesseeDocs: Array<any> = [27];
   public registeredDocs: Array<any> = [];
   public notRegisteredDocs: Array<any> = [103];
@@ -145,8 +144,6 @@ export class BuildingPermitComponent implements OnInit {
               this.applicationDetails
             );
 
-            const isRepresentative =
-              this.applicationDetails.is_representative == 1 ? true : false;
             const isLessee =
               this.applicationDetails.rol_status_id == 2 ? true : false;
             const isRegisteredOwner =
@@ -188,9 +185,6 @@ export class BuildingPermitComponent implements OnInit {
 
             if10000sqm
               ? this.fieldSets[4].documents.push(...this.if10000sqm)
-              : null;
-            isRepresentative
-              ? this.fieldSets[0].documents.push(...this.representativeDocs)
               : null;
             isLessee
               ? this.fieldSets[0].documents.push(...this.lesseeDocs)
