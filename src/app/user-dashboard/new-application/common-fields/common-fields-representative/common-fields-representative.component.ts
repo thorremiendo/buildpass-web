@@ -159,12 +159,12 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
         ...this.representativeDetails,
         ...this.applicationDetails,
       };
-      debugger;
+
       this.newApplicationService.submitApplication(body).subscribe((res) => {
         Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
           (result) => {
             this.isLoading = false;
-            console.log(result);
+
             switch (this.applicationDetails.permit_type_id) {
               case '1':
                 this._router.navigateByUrl('/dashboard/new/building-permit');

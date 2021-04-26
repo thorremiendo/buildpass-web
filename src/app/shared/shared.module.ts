@@ -31,6 +31,7 @@ import { ApplicationsListComponent } from './applications-list/applications-list
 import { MatSelectModule } from '@angular/material/select';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { UpdatePasswordDialogComponent } from './update-password-dialog/update-password-dialog.component';
+import { ImageViewerModule } from 'ngx-image-viewer';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { UpdatePasswordDialogComponent } from './update-password-dialog/update-p
     PerfectScrollbarModule,
     ReactiveFormsModule,
     MatSelectModule,
+    ImageViewerModule.forRoot(),
   ],
   exports: [
     AccordionAnchorDirective,

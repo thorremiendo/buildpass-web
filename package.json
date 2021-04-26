@@ -50,6 +50,7 @@
     "ng2-search-filter": "^0.5.1",
     "ngx-dropzone": "^2.3.0",
     "ngx-extended-pdf-viewer": "^7.1.0",
+    "ngx-image-viewer": "^1.0.13",
     "ngx-mapbox-gl": "^4.8.1",
     "ngx-pagination": "^5.0.0",
     "ngx-perfect-scrollbar": "^10.0.1",
