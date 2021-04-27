@@ -3,13 +3,12 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DashboardLayoutModule } from '../layout/dashboard-layout/dashboard-layout.module';
-import { DashboardComponent } from './dashboard-layout/dashboard/dashboard.component';
 import { RouterModule } from '@angular/router';
 import { AdminRoutingModule } from './admin-routing.service';
 import { AdminDashboardRoutingModule } from './dashboard-layout/admin-dashboard-layout.routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { LayoutModule } from '../layout/layout.module';
-import { AdminUsersModule } from './dashboard-layout/admin-users/admin-user.module';
+import { AdminUsersModule } from './admin-users/admin-user.module';
 import { CoreModule } from '@angular/flex-layout';
 import { AdminDashboardModule } from './dashboard-layout/dashboard-layout.module';
 import { AdminSignInComponent } from './admin-sign-in/admin-sign-in.component';
@@ -17,9 +16,6 @@ import { MaterialModule } from '../material-module';
 import { EmployeeResetPasswordComponent } from './employee-reset-password/employee-reset-password.component';
 
 import {MatDialogModule} from '@angular/material/dialog';
-
-
-
 
 @NgModule({
   declarations: [ AdminSignInComponent, EmployeeResetPasswordComponent],
@@ -39,14 +35,10 @@ import {MatDialogModule} from '@angular/material/dialog';
     AdminDashboardModule,
     MaterialModule,
     MatDialogModule,
-   
-    
-    
   ],
 
   providers: [
     AdminRoutingModule,
-
   ]
 })
 export class AdminModule { }

@@ -1,0 +1,114 @@
+<div fxLayout="row wrap">
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <div
+        class="box p-20 text-center cursor-pointer"
+        (click)="btnCategoryClick('problem')"
+        style="background-color: #800000"
+      >
+        <h1 class="font-light text-white m-0">{{ problem }}</h1>
+        <h6 class="text-white m-0">Problem</h6>
+      </div>
+    </mat-card>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <div
+        class="box p-20 text-center cursor-pointer"
+        (click)="btnCategoryClick('suggestion')"
+        style="background-color: #ff8c00"
+      >
+        <h1 class="font-light text-white m-0">{{ suggestion }}</h1>
+        <h6 class="text-white m-0">Suggestion</h6>
+      </div>
+    </mat-card>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <div
+        class="box p-20 text-center cursor-pointer"
+        (click)="btnCategoryClick('question')"
+        style="background-color: #c32148"
+      >
+        <h1 class="font-light text-white m-0">{{ question }}</h1>
+        <h6 class="text-white m-0">Question</h6>
+      </div>
+    </mat-card>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <div
+        class="box p-20 text-center cursor-pointer"
+        (click)="btnCategoryClick('compliment')"
+        style="background-color: #f2ba49"
+      >
+        <h1 class="font-light text-white m-0">{{ compliment }}</h1>
+        <h6 class="text-white m-0">Compliment</h6>
+      </div>
+    </mat-card>
+  </div>
+</div>
+<div fxLayout="row wrap">
+  <div fxFlex="100">
+    <div class="table-responsive p-3">
+      <table mat-table [dataSource]="dataSource" class="no-wrap">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>#</th>
+          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="page">
+          <th mat-header-cell *matHeaderCellDef>Category</th>
+          <td mat-cell *matCellDef="let element">{{ element.page }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="feedback">
+          <th mat-header-cell *matHeaderCellDef>FeedBack</th>
+          <td mat-cell *matCellDef="let element">{{ element.feedback }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.created_at | date: "mediumDate" }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element" class="action-link">
+            <a
+              (click)="openDialog(element)"
+              class="m-r-10 cursor-pointer"
+              ><span class="material-icons" style="color: maroon">
+                visibility
+              </span></a
+            >
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <div
+        class="feedback__empty text-center py-5"
+        *ngIf="!isFetching && dataSource.length === 0"
+      >
+        <h2>No Feedback yet....</h2>
+      </div>
+      <div class="feedback__loader text-center py-5" *ngIf="isFetching">
+        <p>Fetching Feedbacks...</p>
+        <mat-progress-spinner
+          mode="indeterminate"
+          diameter="40"
+        ></mat-progress-spinner>
+      </div>
+
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</div>
