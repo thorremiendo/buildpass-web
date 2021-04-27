@@ -41,6 +41,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
   public barangay: Barangay[];
   public isLoading: boolean = true;
   public formChange;
+  tinMask = [/\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
   _personalInfoFormCommonFields: FormGroup;
   _submitted = false;
 
@@ -120,7 +121,10 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
       owner_middle_name: [''],
       owner_last_name: ['', Validators.required],
       owner_suffix: [''],
-      owner_tin_number: ['', Validators.required],
+      owner_tin_number: [
+        '',
+        [Validators.required, Validators.pattern('[0-9 -]{11}')],
+      ],
       owner_contact_number: [
         '',
         [

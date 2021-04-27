@@ -50,6 +50,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { UserModule } from '../user-dashboard.module';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { TextMaskModule } from 'angular2-text-mask';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -107,6 +108,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     BrowserModule,
     BrowserAnimationsModule,
     NgxDropzoneModule,
+    TextMaskModule,
   ],
 
   providers: [
