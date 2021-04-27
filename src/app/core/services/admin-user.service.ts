@@ -38,7 +38,7 @@ export class AdminUserService {
   }
 
   fetchApplicant() {
-    const url = '/user';
+    const url = '/user/applicant';
     return this.apiService.get(url).pipe(map((res) => res.data));
   }
 
