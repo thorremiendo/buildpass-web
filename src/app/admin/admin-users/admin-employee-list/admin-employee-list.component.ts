@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AdminUserService } from 'src/app/core';
+import { AdminUserService } from '../../../core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { AdminEmployeeCreateComponent } from '../admin-employee-create/admin-employee-create.component';
 import { AdminEmployeeViewComponent } from '../admin-employee-view/admin-employee-view.component';
-import { EmployeeResetPasswordComponent } from '../../../employee-reset-password/employee-reset-password.component'
+import { EmployeeResetPasswordComponent } from '../../employee-reset-password/employee-reset-password.component'
 
 @Component({
   selector: 'app-admin-employee-list',

@@ -110,7 +110,7 @@ const ADMINMENUITEMS = [
     state: 'admin/dashboard/users/applicants',
     name: 'Applicant List',
     type: 'link',
-    icon: 'badge',
+    icon: 'people',
   },
 
   {
@@ -118,6 +118,12 @@ const ADMINMENUITEMS = [
     name: 'Analytics',
     type: 'link',
     icon: 'analytics',
+  },
+  {
+    state: 'admin/dashboard/feedback',
+    name: 'Feedback',
+    type: 'link',
+    icon: 'feedback',
   },
 ];
 

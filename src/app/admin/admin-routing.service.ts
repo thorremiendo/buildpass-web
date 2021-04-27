@@ -9,9 +9,10 @@ const routes: Routes = [
     path: 'admin',
     children: [
       {
-        path: '',
+        path: 'dashboard',
         component: DashboardComponent,
-        canActivate: [EvaluatorAuthGuard]
+        canActivate: [EvaluatorAuthGuard],
+        
       },
 
       {

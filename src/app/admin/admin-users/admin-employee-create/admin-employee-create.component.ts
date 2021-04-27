@@ -2,11 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { BarangayService } from '../../../../core/services/barangay.service';
-import { Position, Office } from '../../../../core/enums/department.enum';
 import { MatDialogRef } from '@angular/material/dialog';
-import { AuthService } from '../../../../core/services/auth.service';
-import { RegisterAccountEvaluatorFormService } from '../../../../core/services/register-account-evaluator-form.service';
+import { 
+  RegisterAccountEvaluatorFormService,
+  BarangayService,
+  AuthService,
+  Position, Office
+
+ } from '../../../core';
+
 
 @Component({
   selector: 'app-admin-employee-create',
