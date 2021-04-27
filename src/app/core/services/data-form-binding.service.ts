@@ -966,7 +966,10 @@ export class DataFormBindingService {
         representativeDetails == null
           ? 'N/A'
           : `${representativeDetails.first_name.toUpperCase()} ${representativeDetails.last_name.toUpperCase()}`,
-      fulltime_inspector_address: `${representativeDetails.house_number} ${representativeDetails.street_name} ${representativeDetails.barangay}`,
+      fulltime_inspector_address:
+        representativeDetails == null
+          ? 'N/A'
+          : `${representativeDetails.house_number} ${representativeDetails.street_name} ${representativeDetails.barangay}`,
       name_of_corporation: 'N/A',
       corporation_contact_number: 'N/A',
       corporation_address_no: 'N/A',
