@@ -831,6 +831,11 @@ export class DataFormBindingService {
 
     const formData = {
       applicant_full_name: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      applicant_full_address: `${
+        applicantDetails.house_number ? applicantDetails.house_number : ''
+      } ${applicantDetails.lot_number ? applicantDetails.lot_number : ''} ${
+        applicantDetails.street_name ? applicantDetails.street_name : ''
+      } ${applicantDetails.barangay}`.toUpperCase(),
       applicant_first_name:
         applicantDetails.first_name == 'undefined'
           ? 'N/A'
@@ -953,39 +958,18 @@ export class DataFormBindingService {
                 ? 0
                 : projectDetails.project_cost_cap
             ).toUpperCase()} PESOS`,
-      rep_first_name:
+      fulltime_inspector_name:
         representativeDetails == null
           ? 'N/A'
-          : representativeDetails.first_name.toUpperCase(),
-      rep_last_name:
+          : `${representativeDetails.first_name.toUpperCase()} ${representativeDetails.last_name.toUpperCase()}`,
+      box_5_licensed_architect_full_name:
         representativeDetails == null
           ? 'N/A'
-          : representativeDetails.last_name.toUpperCase(),
-      rep_middle_name:
-        representativeDetails == null || representativeDetails.middle_name == ''
-          ? 'N/A'
-          : representativeDetails.middle_name.toUpperCase(),
-      rep_suffix_name:
+          : `${representativeDetails.first_name.toUpperCase()} ${representativeDetails.last_name.toUpperCase()}`,
+      fulltime_inspector_address:
         representativeDetails == null
           ? 'N/A'
-          : representativeDetails.suffix_name,
-      rep_house_number:
-        representativeDetails == null
-          ? 'N/A'
-          : representativeDetails.house_number,
-      rep_street_name:
-        representativeDetails == null || representativeDetails.street_name == ''
-          ? 'N/A'
-          : representativeDetails.street_name.toUpperCase(),
-      rep_barangay:
-        representativeDetails == null ? 'N/A' : representativeDetails.barangay,
-      rep_contact_number:
-        representativeDetails == null
-          ? 'N/A'
-          : representativeDetails.contact_number,
-      rep_province: 'BENGUET',
-      rep_city: 'BAGUIO CITY',
-      rep_zipcode: '2600',
+          : `${representativeDetails.house_number} ${representativeDetails.street_name} ${representativeDetails.barangay}`,
       name_of_corporation: 'N/A',
       corporation_contact_number: 'N/A',
       corporation_address_no: 'N/A',

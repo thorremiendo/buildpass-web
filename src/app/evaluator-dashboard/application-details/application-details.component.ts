@@ -1,3 +1,4 @@
+import { RepresentativeDetailsComponent } from './../../shared/representative-details/representative-details.component';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Data } from '@angular/router';
 import { applicationStatus } from '../../core/enums/application-status.enum';
@@ -59,6 +60,17 @@ export class ApplicationDetailsComponent implements OnInit {
       });
   }
 
+  openRepresentativeDialog() {
+    const dialogRef = this.dialog.open(RepresentativeDetailsComponent, {
+      width: '1200px',
+      height: '1200px',
+      data: {
+        representativeDetails: this.applicationDetails.representative_detail,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
   fetchUserDocs() {
     this.applicationService
       .fetchUserDocs(this.applicationId)

@@ -70,8 +70,8 @@ export class CommonFieldsComponent implements OnInit {
           index: 1,
         },
         {
-          label: 'Representative Information',
-          link: './representative',
+          label: 'Engineer/Architect Information',
+          link: './in-charge',
           index: 2,
         },
       ];

@@ -49,14 +49,13 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { UserModule } from '../user-dashboard.module';
-
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelSpeed: 2,
-  wheelPropagation: true
+  wheelPropagation: true,
 };
-
 
 @NgModule({
   declarations: [
@@ -107,15 +106,15 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     PerfectScrollbarModule,
     BrowserModule,
     BrowserAnimationsModule,
- 
-
+    NgxDropzoneModule,
   ],
 
-
-  providers: [CurrencyPipe,
+  providers: [
+    CurrencyPipe,
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-  }],
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+    },
+  ],
 })
 export class UserDashboardModule {}

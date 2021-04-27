@@ -324,11 +324,17 @@ export class DemolitionPermitComponent implements OnInit {
     return length.reduce(reducer);
   }
 
+  getUniqueUserDocs() {
+    const unique = [
+      ...new Set(
+        this.applicationDetails.user_docs.map((item) => item.document_id)
+      ),
+    ];
+    return unique.length;
+  }
+
   submitApplication() {
-    if (
-      this.getFieldSetsLength() + 1 ==
-      this.applicationDetails.user_docs.length
-    ) {
+    if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
       this.isSubmitting = true;
       const data = {
         application_status_id: 9,

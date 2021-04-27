@@ -61,7 +61,13 @@ const USERMENUITEMS = [
     type: 'link',
     icon: 'feedback',
     outlet: 'modal',
-  }
+  },
+  {
+    state: 'dashboard/checklists',
+    name: 'Forms',
+    type: 'link',
+    icon: 'file_download',
+  },
 ];
 const EVALUATORMENUITEMS = [
   {
@@ -89,7 +95,7 @@ const EVALUATORMENUITEMS = [
     type: 'link',
     icon: 'feedback',
     outlet: 'modal',
-  }
+  },
 ];
 
 const ADMINMENUITEMS = [
@@ -104,7 +110,7 @@ const ADMINMENUITEMS = [
     state: 'admin/dashboard/users/applicants',
     name: 'Applicant List',
     type: 'link',
-    icon: 'badge',
+    icon: 'people',
   },
 
   {
@@ -112,6 +118,12 @@ const ADMINMENUITEMS = [
     name: 'Analytics',
     type: 'link',
     icon: 'analytics',
+  },
+  {
+    state: 'admin/dashboard/feedback',
+    name: 'Feedback',
+    type: 'link',
+    icon: 'feedback',
   },
 ];
 

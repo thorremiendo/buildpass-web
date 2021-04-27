@@ -14,3 +14,4 @@ export * from './register-account-evaluator-form.service';
 export * from './register-account-form.service';
 export * from './application-info.service';
 export * from './evaluator.service';
+export * from './admin-feedback.service';

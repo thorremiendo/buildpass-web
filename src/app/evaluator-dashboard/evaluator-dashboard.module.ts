@@ -82,6 +82,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MaterialModule } from '../material-module';
 import { UploadSupportingDocumentsComponent } from './upload-supporting-documents/upload-supporting-documents.component';
 import { TechnicalEvaluationComponent } from './technical-evaluation/technical-evaluation.component';
+import { DownloadableFormsComponent } from './downloadable-forms/downloadable-forms.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +122,7 @@ import { TechnicalEvaluationComponent } from './technical-evaluation/technical-e
     BfpResidentialChecklistComponent,
     UploadSupportingDocumentsComponent,
     TechnicalEvaluationComponent,
+    DownloadableFormsComponent,
   ],
 
   imports: [
