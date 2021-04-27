@@ -100,19 +100,20 @@
         <button
           mat-raised-button
           color="primary"
-          (click)="openRepresentativeDialog()"
-          *ngIf="applicationDetails.is_representative == 1"
-        >
-          Engineer/Architect In-charge Details
-        </button>
-        <button
-          mat-raised-button
-          color="primary"
           (click)="openProjectDialog()"
           class="ml-2"
           *ngIf="applicationDetails.permit_type_id == 1"
         >
           Project Details
+        </button>
+
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="openRepresentativeDialog()"
+          *ngIf="applicationDetails.is_representative == 1"
+        >
+          Engineer/Architect In-charge Details
         </button>
         <button
           mat-raised-button
