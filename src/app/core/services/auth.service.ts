@@ -11,6 +11,7 @@ import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { UserService } from './user.service';
 import { ApiService } from '../services/api.service';
+import * as LogRocket from "logrocket";
 
 @Injectable({
   providedIn: 'root',
@@ -38,8 +39,16 @@ export class AuthService {
     logged in and setting up null when logged out */
     this.currentUser.subscribe((user) => {
       if (user) {
+        console.log("this"+user.first_name);
         localStorage.setItem('user', JSON.stringify(user));
         this.isAuthenticatedSubject.next(true);
+        LogRocket.identify('bblmhh/buildpass-staging', {
+          name: `${user.first_name} ${user.middle_name} ${user.last_name} `,
+          email: `${user.email_address}`,
+        
+          // Add your own custom user variables here, ie:
+        
+        });
       }
     });
   }
