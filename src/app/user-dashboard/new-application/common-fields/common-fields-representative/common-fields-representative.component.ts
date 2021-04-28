@@ -148,18 +148,25 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
     this._submitted = true;
 
     this.createRepresentativeDetails();
-    if (
-      !this.representativeDetailsForm.valid ||
-      !this.prcFront ||
-      !this.prcBack ||
-      !this.validIdBack ||
-      !this.validIdFront
-    ) {
+    if (!this.representativeDetailsForm.valid) {
       Swal.fire('Notice!', 'Please fill out all required fields!', 'info').then(
         (result) => {
           this.isLoading = false;
         }
       );
+    } else if (
+      !this.prcFront ||
+      !this.prcBack ||
+      !this.validIdBack ||
+      !this.validIdFront
+    ) {
+      Swal.fire(
+        'Notice!',
+        'Please upload all required ID photos!',
+        'info'
+      ).then((result) => {
+        this.isLoading = false;
+      });
     } else {
       const body = {
         ...this.representativeDetails,

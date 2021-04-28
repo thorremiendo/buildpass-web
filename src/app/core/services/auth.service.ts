@@ -42,13 +42,13 @@ export class AuthService {
         console.log("this"+user.first_name);
         localStorage.setItem('user', JSON.stringify(user));
         this.isAuthenticatedSubject.next(true);
-        LogRocket.identify('bblmhh/buildpass-staging', {
-          name: `${user.first_name} ${user.middle_name} ${user.last_name} `,
-          email: `${user.email_address}`,
-        
-          // Add your own custom user variables here, ie:
-        
-        });
+        // LogRocket.identify('bblmhh/buildpass-staging', {
+        //   name: `${user.first_name} ${user.middle_name} ${user.last_name} `,
+        //   email: `${user.email_address}`,
+
+        //   // Add your own custom user variables here, ie:
+
+        // });
       }
     });
   }
