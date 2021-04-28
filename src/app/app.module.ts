@@ -1,3 +1,4 @@
+import * as LogRocket from "logrocket";
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -67,6 +68,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   wheelSpeed: 2,
   wheelPropagation: true,
 };
+
+LogRocket.init('bblmhh/buildpass-staging');
 
 @NgModule({
   declarations: [AppComponent],

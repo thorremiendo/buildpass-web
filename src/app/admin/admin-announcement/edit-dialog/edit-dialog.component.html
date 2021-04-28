@@ -1,0 +1,46 @@
+<h2 mat-dialog-title>Update Announcement</h2>
+<mat-dialog-content class="py-3">
+  <quill-editor style="height: 400px" [(ngModel)]="body"></quill-editor>
+</mat-dialog-content>
+<mat-dialog-content class="py-3">
+  <div fxLayout="row">
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+      <button mat-button>
+        <input type="file" #fileUploader (change)="fileChangeEvent($event)" />
+        {{ btnName }}
+      </button>
+      <button mat-button>
+        <mat-icon
+          matTooltip="delete"
+          class="pointer"
+          aria-hidden="false"
+          aria-label="delete"
+          (click)="handleDelete()"
+          >delete</mat-icon
+        >
+      </button>
+    </div>
+  </div>
+
+  <image-cropper
+    [imageBase64]="originalImage"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="4 / 3"
+    [resizeToWidth]="128"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+  ></image-cropper>
+
+  <img [src]="croppedImage" />
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button
+    mat-button
+    [mat-dialog-close]="true"
+    cdkFocusInitial
+    (click)="submit()"
+  >
+    submit
+  </button>
+</mat-dialog-actions>
