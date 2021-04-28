@@ -1,52 +1,10 @@
 <h3>Breakdown of Fees</h3>
-<mat-tab-group>
-  <mat-tab label="CBAO">
-    <table mat-table [dataSource]="cbaoFees" class="full-width" #itemsTable>
-      <ng-container matColumnDef="number">
-        <th mat-header-cell *matHeaderCellDef>No.</th>
-        <td mat-cell *matCellDef="let item; let i = index">
-          {{ item.name ? i + 1 : "Total" }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef>Description</th>
-        <td mat-cell *matCellDef="let item">
-          {{ item.name ? item.name : "----------------------" }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="evaluator">
-        <th mat-header-cell *matHeaderCellDef>Assessed By</th>
-        <td mat-cell *matCellDef="let item">
-          {{ item.evaluator_detail ? item.evaluator_detail.first_name : "" }}
-          {{ item.evaluator_detail ? item.evaluator_detail.last_name : "" }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="amount">
-        <th mat-header-cell *matHeaderCellDef>Amount</th>
-        <td mat-cell *matCellDef="let item">
-          Php {{ item.amount ? item.amount : item.office }}
-        </td>
-      </ng-container>
-
-      <tr
-        mat-header-row
-        *matHeaderRowDef="columnsToDisplay"
-        style="background-color: maroon"
-      ></tr>
-      <tr mat-row *matRowDef="let items; columns: columnsToDisplay"></tr>
-    </table>
-    <div class="text-center" *ngIf="cbaoFees.length === 0">
-      <div class="mt-3">
-        <h3>No Fees to display..</h3>
-      </div>
-    </div>
-  </mat-tab>
-  <ng-container *ngIf="applicationDetails.permit_type_id == 1">
-    <mat-tab label="CPDO">
-      <table mat-table [dataSource]="cpdoFees" class="full-width" #itemsTable>
+<ng-container
+  *ngIf="cbaoFees && cpdoFees && bfpFees && cepmoFees && applicationFee; else showLoader"
+>
+  <mat-tab-group>
+    <mat-tab label="CBAO">
+      <table mat-table [dataSource]="cbaoFees" class="full-width" #itemsTable>
         <ng-container matColumnDef="number">
           <th mat-header-cell *matHeaderCellDef>No.</th>
           <td mat-cell *matCellDef="let item; let i = index">
@@ -83,205 +41,266 @@
         ></tr>
         <tr mat-row *matRowDef="let items; columns: columnsToDisplay"></tr>
       </table>
-      <div class="text-center" *ngIf="cpdoFees.length === 0">
+      <div class="text-center" *ngIf="cbaoFees.length === 0">
         <div class="mt-3">
           <h3>No Fees to display..</h3>
         </div>
       </div>
     </mat-tab>
-    <mat-tab label="BFP">
-      <table mat-table [dataSource]="bfpFees" class="full-width" #itemsTable>
-        <ng-container matColumnDef="number">
-          <th mat-header-cell *matHeaderCellDef>No.</th>
-          <td mat-cell *matCellDef="let item; let i = index">
-            {{ item.name ? i + 1 : "Total" }}
-          </td>
-        </ng-container>
+    <ng-container *ngIf="applicationDetails.permit_type_id == 1">
+      <mat-tab label="CPDO">
+        <table mat-table [dataSource]="cpdoFees" class="full-width" #itemsTable>
+          <ng-container matColumnDef="number">
+            <th mat-header-cell *matHeaderCellDef>No.</th>
+            <td mat-cell *matCellDef="let item; let i = index">
+              {{ item.name ? i + 1 : "Total" }}
+            </td>
+          </ng-container>
 
-        <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef>Description</th>
-          <td mat-cell *matCellDef="let item">
-            {{ item.name ? item.name : "----------------------" }}
-          </td>
-        </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Description</th>
+            <td mat-cell *matCellDef="let item">
+              {{ item.name ? item.name : "----------------------" }}
+            </td>
+          </ng-container>
 
-        <ng-container matColumnDef="evaluator">
-          <th mat-header-cell *matHeaderCellDef>Assessed By</th>
-          <td mat-cell *matCellDef="let item">
-            {{ item.evaluator_detail ? item.evaluator_detail.first_name : "" }}
-            {{ item.evaluator_detail ? item.evaluator_detail.last_name : "" }}
-          </td>
-        </ng-container>
+          <ng-container matColumnDef="evaluator">
+            <th mat-header-cell *matHeaderCellDef>Assessed By</th>
+            <td mat-cell *matCellDef="let item">
+              {{
+                item.evaluator_detail ? item.evaluator_detail.first_name : ""
+              }}
+              {{ item.evaluator_detail ? item.evaluator_detail.last_name : "" }}
+            </td>
+          </ng-container>
 
-        <ng-container matColumnDef="amount">
-          <th mat-header-cell *matHeaderCellDef>Amount</th>
-          <td mat-cell *matCellDef="let item">
-            Php {{ item.amount ? item.amount : item.office }}
-          </td>
-        </ng-container>
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef>Amount</th>
+            <td mat-cell *matCellDef="let item">
+              Php {{ item.amount ? item.amount : item.office }}
+            </td>
+          </ng-container>
 
-        <tr
-          mat-header-row
-          *matHeaderRowDef="columnsToDisplay"
-          style="background-color: maroon"
-        ></tr>
-        <tr mat-row *matRowDef="let items; columns: columnsToDisplay"></tr>
-      </table>
-      <div class="text-center" *ngIf="bfpFees.length === 0">
-        <div class="mt-3">
-          <h3>No Fees to display..</h3>
-        </div>
-      </div></mat-tab
-    >
-
-    <mat-tab label="CEPMO">
-      <table mat-table [dataSource]="cepmoFees" class="full-width" #itemsTable>
-        <ng-container matColumnDef="number">
-          <th mat-header-cell *matHeaderCellDef>No.</th>
-          <td mat-cell *matCellDef="let item; let i = index">
-            {{ item.name ? i + 1 : "Total" }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef>Description</th>
-          <td mat-cell *matCellDef="let item">
-            {{ item.name ? item.name : "----------------------" }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="evaluator">
-          <th mat-header-cell *matHeaderCellDef>Assessed By</th>
-          <td mat-cell *matCellDef="let item">
-            {{ item.evaluator_detail ? item.evaluator_detail.first_name : "" }}
-            {{ item.evaluator_detail ? item.evaluator_detail.last_name : "" }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="amount">
-          <th mat-header-cell *matHeaderCellDef>Amount</th>
-          <td mat-cell *matCellDef="let item">
-            Php {{ item.amount ? item.amount : item.office }}
-          </td>
-        </ng-container>
-
-        <tr
-          mat-header-row
-          *matHeaderRowDef="columnsToDisplay"
-          style="background-color: maroon"
-        ></tr>
-        <tr mat-row *matRowDef="let items; columns: columnsToDisplay"></tr>
-      </table>
-      <div class="text-center" *ngIf="cepmoFees.length === 0">
-        <div class="mt-3">
-          <h3>No Fees to display..</h3>
-        </div>
-      </div>
-    </mat-tab>
-  </ng-container>
-
-  <mat-tab label="Summary">
-    <div class="card">
-      <div class="card-body">
-        <div class="row mb-4">
-          <div class="col-sm-6">
-            <h3>
-              {{ applicationDetails.ocpas_code }}
-            </h3>
-            <h3 class="text-dark mb-1">
-              {{ applicationDetails.applicant_detail.first_name }}
-              {{ applicationDetails.applicant_detail.last_name }}
-            </h3>
-            <div>
-              {{ applicationDetails.applicant_detail.barangay }}
-            </div>
-            <div>
-              {{ applicationDetails.applicant_detail.email_address }}
-            </div>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="columnsToDisplay"
+            style="background-color: maroon"
+          ></tr>
+          <tr mat-row *matRowDef="let items; columns: columnsToDisplay"></tr>
+        </table>
+        <div class="text-center" *ngIf="cpdoFees.length === 0">
+          <div class="mt-3">
+            <h3>No Fees to display..</h3>
           </div>
         </div>
-        <div class="table-responsive-sm">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th class="center">#</th>
-                <th>Office</th>
-                <th class="right">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="center">1</td>
-                <td class="left strong">
-                  City Building and Architecture Office
-                </td>
+      </mat-tab>
+      <mat-tab label="BFP">
+        <table mat-table [dataSource]="bfpFees" class="full-width" #itemsTable>
+          <ng-container matColumnDef="number">
+            <th mat-header-cell *matHeaderCellDef>No.</th>
+            <td mat-cell *matCellDef="let item; let i = index">
+              {{ item.name ? i + 1 : "Total" }}
+            </td>
+          </ng-container>
 
-                <td class="right">Php {{ applicationFee.cbao }}</td>
-              </tr>
-              <ng-container *ngIf="applicationDetails.permit_type_id == 1">
-                <tr>
-                  <td class="center">2</td>
-                  <td class="left">City Planning and Development Office</td>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Description</th>
+            <td mat-cell *matCellDef="let item">
+              {{ item.name ? item.name : "----------------------" }}
+            </td>
+          </ng-container>
 
-                  <td class="right">Php {{ applicationFee.cpdo }}</td>
-                </tr>
-                <tr>
-                  <td class="center">3</td>
-                  <td class="left">Bureau of Fire Protection</td>
+          <ng-container matColumnDef="evaluator">
+            <th mat-header-cell *matHeaderCellDef>Assessed By</th>
+            <td mat-cell *matCellDef="let item">
+              {{
+                item.evaluator_detail ? item.evaluator_detail.first_name : ""
+              }}
+              {{ item.evaluator_detail ? item.evaluator_detail.last_name : "" }}
+            </td>
+          </ng-container>
 
-                  <td class="right">Php {{ applicationFee.bfp }}</td>
-                </tr>
-                <tr>
-                  <td class="center">4</td>
-                  <td class="left">
-                    City Environment and Parks Management Office
-                  </td>
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef>Amount</th>
+            <td mat-cell *matCellDef="let item">
+              Php {{ item.amount ? item.amount : item.office }}
+            </td>
+          </ng-container>
 
-                  <td class="right">Php {{ applicationFee.cepmo }}</td>
-                </tr>
-              </ng-container>
-            </tbody>
-          </table>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="columnsToDisplay"
+            style="background-color: maroon"
+          ></tr>
+          <tr mat-row *matRowDef="let items; columns: columnsToDisplay"></tr>
+        </table>
+        <div class="text-center" *ngIf="bfpFees.length === 0">
+          <div class="mt-3">
+            <h3>No Fees to display..</h3>
+          </div>
+        </div></mat-tab
+      >
+
+      <mat-tab label="CEPMO">
+        <table
+          mat-table
+          [dataSource]="cepmoFees"
+          class="full-width"
+          #itemsTable
+        >
+          <ng-container matColumnDef="number">
+            <th mat-header-cell *matHeaderCellDef>No.</th>
+            <td mat-cell *matCellDef="let item; let i = index">
+              {{ item.name ? i + 1 : "Total" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Description</th>
+            <td mat-cell *matCellDef="let item">
+              {{ item.name ? item.name : "----------------------" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="evaluator">
+            <th mat-header-cell *matHeaderCellDef>Assessed By</th>
+            <td mat-cell *matCellDef="let item">
+              {{
+                item.evaluator_detail ? item.evaluator_detail.first_name : ""
+              }}
+              {{ item.evaluator_detail ? item.evaluator_detail.last_name : "" }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef>Amount</th>
+            <td mat-cell *matCellDef="let item">
+              Php {{ item.amount ? item.amount : item.office }}
+            </td>
+          </ng-container>
+
+          <tr
+            mat-header-row
+            *matHeaderRowDef="columnsToDisplay"
+            style="background-color: maroon"
+          ></tr>
+          <tr mat-row *matRowDef="let items; columns: columnsToDisplay"></tr>
+        </table>
+        <div class="text-center" *ngIf="cepmoFees.length === 0">
+          <div class="mt-3">
+            <h3>No Fees to display..</h3>
+          </div>
         </div>
-        <div class="row">
-          <div class="col-lg-4 col-sm-5"></div>
-          <div class="col-lg-4 col-sm-5 ml-auto">
-            <table class="table table-clear">
+      </mat-tab>
+    </ng-container>
+
+    <mat-tab label="Summary">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mb-4">
+            <div class="col-sm-6">
+              <h3>
+                {{ applicationDetails.ocpas_code }}
+              </h3>
+              <h3 class="text-dark mb-1">
+                {{ applicationDetails.applicant_detail.first_name }}
+                {{ applicationDetails.applicant_detail.last_name }}
+              </h3>
+              <div>
+                {{ applicationDetails.applicant_detail.barangay }}
+              </div>
+              <div>
+                {{ applicationDetails.applicant_detail.email_address }}
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive-sm">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th class="center">#</th>
+                  <th>Office</th>
+                  <th class="right">Total</th>
+                </tr>
+              </thead>
               <tbody>
                 <tr>
-                  <td class="left">
-                    <strong class="text-dark">Subtotal</strong>
+                  <td class="center">1</td>
+                  <td class="left strong">
+                    City Building and Architecture Office
                   </td>
-                  <td class="right">Php {{ applicationFee.total }}</td>
-                </tr>
 
-                <tr>
-                  <td class="left">
-                    <strong class="text-dark">Total</strong>
-                  </td>
-                  <td class="right">
-                    <strong class="text-dark"
-                      >Php {{ applicationFee.total }}</strong
-                    >
-                  </td>
+                  <td class="right">Php {{ applicationFee.cbao }}</td>
                 </tr>
+                <ng-container *ngIf="applicationDetails.permit_type_id == 1">
+                  <tr>
+                    <td class="center">2</td>
+                    <td class="left">City Planning and Development Office</td>
+
+                    <td class="right">Php {{ applicationFee.cpdo }}</td>
+                  </tr>
+                  <tr>
+                    <td class="center">3</td>
+                    <td class="left">Bureau of Fire Protection</td>
+
+                    <td class="right">Php {{ applicationFee.bfp }}</td>
+                  </tr>
+                  <tr>
+                    <td class="center">4</td>
+                    <td class="left">
+                      City Environment and Parks Management Office
+                    </td>
+
+                    <td class="right">Php {{ applicationFee.cepmo }}</td>
+                  </tr>
+                </ng-container>
               </tbody>
             </table>
           </div>
-        </div>
-        <div>
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="handleDownloadFees()"
-          >
-            Download
-          </button>
+          <div class="row">
+            <div class="col-lg-4 col-sm-5"></div>
+            <div class="col-lg-4 col-sm-5 ml-auto">
+              <table class="table table-clear">
+                <tbody>
+                  <tr>
+                    <td class="left">
+                      <strong class="text-dark">Subtotal</strong>
+                    </td>
+                    <td class="right">Php {{ applicationFee.total }}</td>
+                  </tr>
+
+                  <tr>
+                    <td class="left">
+                      <strong class="text-dark">Total</strong>
+                    </td>
+                    <td class="right">
+                      <strong class="text-dark"
+                        >Php {{ applicationFee.total }}</strong
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="handleDownloadFees()"
+            >
+              Download
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  </mat-tab>
-</mat-tab-group>
+    </mat-tab>
+  </mat-tab-group>
+</ng-container>
+<ng-template #showLoader>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>
+
 <div class="text-right mt-5">
   <button mat-raised-button (click)="onClose()" color="primary">Close</button>
 </div>

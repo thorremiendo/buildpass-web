@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-top-card-two',
@@ -12,9 +12,16 @@ export class TopCardTwoComponent implements OnInit {
   @Input() public current: string | number;
   @Input() public completed: string | number;
 
+  @Output() emitApplicationStatus: EventEmitter<object> = new EventEmitter<object>();
+
   constructor() { }
 
   ngOnInit(): void {
   }
+
+  chooseApplicationStatus($event) {
+    this.emitApplicationStatus.emit($event);
+  }
+
 
 }

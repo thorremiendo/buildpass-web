@@ -37,7 +37,6 @@ export class ReleaseBldgPermitComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
     this.applicationId = this.data.route.snapshot.params.id;
     this.newApplicationService
       .fetchUserInfo(this.applicationId)
@@ -46,13 +45,11 @@ export class ReleaseBldgPermitComponent implements OnInit {
         this.userId = this.userInfo.user_detail.id;
         (this.viewSDKClient.userId = this.userId),
           (this.viewSDKClient.applicationId = this.applicationId);
-        console.log(this.userId);
       });
     this.applicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
-        console.log(this.applicationDetails);
         this.formData = {
           owner_address: `${this.applicationDetails.applicant_detail.house_number}  ${this.applicationDetails.applicant_detail.street_name} ${this.applicationDetails.applicant_detail.barangay}`,
           owner_permitee: `${this.applicationDetails.applicant_detail.first_name} ${this.applicationDetails.applicant_detail.middle_name} ${this.applicationDetails.applicant_detail.last_name}`,
@@ -73,7 +70,6 @@ export class ReleaseBldgPermitComponent implements OnInit {
             .number_of_storey,
           contact_no: this.applicationDetails.applicant_detail.contact_number,
         };
-        console.log(this.formData);
       });
   }
   //adobe sdk functions
@@ -136,7 +132,6 @@ export class ReleaseBldgPermitComponent implements OnInit {
       uploadDocumentData['document_path'] = this.bpCertificate;
     }
 
-    console.log(uploadDocumentData);
     this.newApplicationService
       .submitDocument(uploadDocumentData)
       .subscribe((res) => {
@@ -153,7 +148,6 @@ export class ReleaseBldgPermitComponent implements OnInit {
               this.newApplicationService
                 .updateDocumentFile(updateFileData, id)
                 .subscribe((res) => {
-                  console.log(res);
                   Swal.fire(
                     'Success!',
                     `Building Permit Uploaded`,

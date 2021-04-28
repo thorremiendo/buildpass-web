@@ -98,10 +98,8 @@ export class ChecklistSummaryComponent implements OnInit {
           };
 
           this.applicantForms.forEach((element) => {
-            console.log(this.documentTypes[element.document_id]);
             const docType = this.documentTypes[element.document_id - 1]
               .document_category_id;
-            console.log(docType);
             switch (docType) {
               case 1:
                 this.sortedForms.documents.data.push(element);
@@ -143,7 +141,6 @@ export class ChecklistSummaryComponent implements OnInit {
     this.newApplicationService
       .fetchDraftDetails(this.applicationInfo.user_id, this.applicationInfo.id)
       .subscribe((res) => {
-        console.log('here', res.data);
         localStorage.setItem(
           'app_id',
           res.data[res.data.length - 1].application_id

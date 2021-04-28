@@ -110,6 +110,15 @@
             >
               Project Details
             </button>
+            <button
+              mat-raised-button
+              color="accent"
+              class="ml-5"
+              (click)="openRepresentativeDialog()"
+              *ngIf="applicationDetails.is_representative == 1"
+            >
+              Engineer/Architect In-charge Details
+            </button>
           </div>
         </div>
       </mat-card-content>

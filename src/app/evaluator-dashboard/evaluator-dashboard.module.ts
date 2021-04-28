@@ -36,7 +36,6 @@ import { MatBadgeModule } from '@angular/material/badge';
 
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -73,8 +72,6 @@ import { CpdoFeesTableComponent } from './cpdo-fees-table/cpdo-fees-table.compon
 import { BfpFeesTableComponent } from './bfp-fees-table/bfp-fees-table.component';
 import { CepmoFeesTableComponent } from './cepmo-fees-table/cepmo-fees-table.component';
 import { LocaleCurrencyInputModule } from 'locale-currency-input';
-
-import { ChartsModule } from 'ng2-charts';
 import { RemarksHistoryTableComponent } from './remarks-history-table/remarks-history-table.component';
 import { DashboardComponentsModule } from '../dashboard-components/dashboard-components.module';
 import { BfpResidentialChecklistComponent } from './bfp-residential-checklist/bfp-residential-checklist.component';
@@ -82,6 +79,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MaterialModule } from '../material-module';
 import { UploadSupportingDocumentsComponent } from './upload-supporting-documents/upload-supporting-documents.component';
 import { TechnicalEvaluationComponent } from './technical-evaluation/technical-evaluation.component';
+import { DownloadableFormsComponent } from './downloadable-forms/downloadable-forms.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +119,7 @@ import { TechnicalEvaluationComponent } from './technical-evaluation/technical-e
     BfpResidentialChecklistComponent,
     UploadSupportingDocumentsComponent,
     TechnicalEvaluationComponent,
+    DownloadableFormsComponent,
   ],
 
   imports: [
@@ -148,7 +147,6 @@ import { TechnicalEvaluationComponent } from './technical-evaluation/technical-e
     MatIconModule,
     MatSidenavModule,
     BrowserAnimationsModule,
-    NgxChartsModule,
     MatTableModule,
     MatButtonModule,
     MatInputModule,
@@ -171,8 +169,6 @@ import { TechnicalEvaluationComponent } from './technical-evaluation/technical-e
     MatDialogModule,
     DashboardComponentsModule,
     MaterialModule,
-
-    ChartsModule,
   ],
 
   exports: [TechnicalEvaluationComponent],

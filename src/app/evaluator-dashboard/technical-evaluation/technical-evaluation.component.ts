@@ -18,7 +18,6 @@ export class TechnicalEvaluationComponent implements OnInit {
       .fetchCbaoTimeline(this.applicationDetails.id)
       .subscribe((res) => {
         this.cbaoTimeline = res.data;
-        console.log('cbao', this.cbaoTimeline);
       });
   }
 }

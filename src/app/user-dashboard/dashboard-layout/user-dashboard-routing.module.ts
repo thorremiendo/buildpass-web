@@ -1,3 +1,4 @@
+import { DownloadableFormsComponent } from './../../evaluator-dashboard/downloadable-forms/downloadable-forms.component';
 import { UserGuardGuard } from './../../core/guard/user-guard.guard';
 import { UserGuardService } from './../../core/guard/user-guard.service';
 import { UserResolver } from './../../core/guard/user.resolver';
@@ -24,6 +25,7 @@ import { DemolitionPermitComponent } from '../new-application/demolition-permit/
 import { NewApplicationPageComponent } from '../new-application/new-application-page/new-application-page.component';
 import { NewApplicationRouterComponent } from '../new-application/new-application-router/new-application-router.component';
 import { ApplicationSummaryComponent } from 'src/app/shared/application-summary/application-summary.component';
+import { FeedbackComponent } from 'src/app/shared/feedback/feedback.component';
 
 const routes: Routes = [
   {
@@ -70,7 +72,7 @@ const routes: Routes = [
                     component: CommonFieldsAddressInfoComponent,
                   },
                   {
-                    path: 'representative',
+                    path: 'in-charge',
                     component: CommonFieldsRepresentativeComponent,
                   },
                 ],
@@ -149,6 +151,15 @@ const routes: Routes = [
       {
         path: 'edit-profile',
         component: UserEditProfileComponent,
+      },
+      {
+        path: 'feedback',
+        component: FeedbackComponent,
+        outlet: 'modal',
+      },
+      {
+        path: 'checklists',
+        component: DownloadableFormsComponent,
       },
     ],
   },

@@ -44,7 +44,6 @@ export class OtherRequirementsComponent implements OnInit {
       .subscribe((result) => {
         this.applicationInfo = result.data;
         this.isLoading = false;
-        console.log(this.applicationInfo);
       });
   }
   callSaveAsDraft() {

@@ -1,54 +1,81 @@
 .landing {
+  display: flex;
+  flex-direction: column;
+  background-image: url("../../../assets/images/landing/landing-bg.png");
+  background-size: cover;
+
+  .landing-nav {
+    flex: 1;
     display: flex;
-    flex-direction: column;
-    background-image: url('../../../assets/images/landing/landing-bg.png');
-    background-size: cover;
+    justify-content: center;
 
-    .landing-nav {
-        flex: 1;
+    align-items: center;
+    margin: 70px 0 60px 0;
+
+    > div {
+      text-align: center;
+    }
+
+    .mat-card {
+      height: 250px;
+      width: 300px;
+      margin: 35px 60px;
+      transition: transform 0.2s;
+      border-radius: 20px;
+      &:hover {
+        transform: scale(1.2);
+        cursor: pointer;
+      }
+
+      .mat-card-content {
         display: flex;
-        align-items: center;
-        margin: 70px 0 60px 0;
+        flex-wrap: wrap;
+        flex-direction: column;
+        padding: 30px 25px;
 
-        > div {
-            text-align: center;
+        img {
+          width: 60px;
+          margin: 0 auto;
         }
 
-        input {
-            height: 250px;
-            width: auto;
-            margin: 35px;
-            transition: transform .2s;
-
-            &:hover {
-                transform: scale(1.2);
-            }
+        h3 {
+          padding-top: 10px;
+          text-align: center;
         }
+
+        h6 {
+          position: absolute;
+          bottom: 25px;
+          right: 25px;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+
+  .faq {
+    text-align: left;
+
+    .mat-card-content {
+      padding-top: 0;
     }
 
-    .faq {
-        text-align: left;
+    .mat-expansion-panel {
+      margin-bottom: 5px;
+    }
+  }
 
-        .mat-card-content {
-            padding-top: 0;
-        }
+  .ordinances {
+    text-align: left;
+    margin-bottom: 50px;
 
-        .mat-expansion-panel {
-            margin-bottom: 5px;
-        }
+    .mat-card-content {
+      padding-top: 0;
     }
 
-    .ordinances {
-        text-align: left;
-        margin-bottom: 50px;
-
-        .mat-card-content {
-            padding-top: 0;
-        }
-
-        ul {
-            list-style-type: none;
-            padding-left: 5px;
-        }
+    ul {
+      list-style-type: none;
+      padding-left: 5px;
     }
+  }
 }

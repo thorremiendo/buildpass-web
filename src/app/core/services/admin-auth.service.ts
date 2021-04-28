@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import { JwtService } from './jwt.service';
 import { AuthService } from './auth.service';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -13,8 +12,7 @@ export class AdminAuthService {
   constructor(
     private api: ApiService,
     private authService: AuthService,
-    private jwtService: JwtService,
-
+    private jwtService: JwtService
   ) {}
 
   loginAdmin(username: string, password: string): Observable<any> {
@@ -27,10 +25,9 @@ export class AdminAuthService {
       })
       .pipe(
         map((res) => {
-          console.log(res)
           const user = res.data.user;
-          const token = res.data.token
-          this.authService.currentUserSubject.next(user);        
+          const token = res.data.token;
+          this.authService.currentUserSubject.next(user);
           this.jwtService.saveToken(token);
         })
       );
@@ -46,10 +43,9 @@ export class AdminAuthService {
       })
       .pipe(
         map((res) => {
-          console.log(res)
           const user = res.data.user;
-          const token = res.data.token
-          this.authService.currentUserSubject.next(user);        
+          const token = res.data.token;
+          this.authService.currentUserSubject.next(user);
           this.jwtService.saveToken(token);
         })
       );

@@ -8,7 +8,6 @@ import { UserDashboardRoutingModule } from './user-dashboard-routing.module';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DashboardLayoutModule } from '../../layout/dashboard-layout/dashboard-layout.module';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
 import { MatCardModule } from '@angular/material/card';
@@ -32,8 +31,6 @@ import { CommonFieldsComponent } from '../new-application/common-fields/common-f
 import { CommonFieldsPersonalInfoComponent } from '../new-application/common-fields/common-fields-personal-info/common-fields-personal-info.component';
 import { CommonFieldsAddressInfoComponent } from '../new-application/common-fields/common-fields-address-info/common-fields-address-info.component';
 import { CommonFieldsRepresentativeComponent } from '../new-application/common-fields/common-fields-representative/common-fields-representative.component';
-import { environment } from '../../../environments/environment';
-import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatRadioModule } from '@angular/material/radio';
@@ -49,14 +46,14 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { UserModule } from '../user-dashboard.module';
-
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { TextMaskModule } from 'angular2-text-mask';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelSpeed: 2,
-  wheelPropagation: true
+  wheelPropagation: true,
 };
-
 
 @NgModule({
   declarations: [
@@ -77,7 +74,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     RouterModule,
     SharedModule,
     ReactiveFormsModule,
-    NgbModule,
     FormsModule,
     MatCarouselModule.forRoot(),
     MatCardModule,
@@ -93,9 +89,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatInputModule,
     MatNativeDateModule,
     MatRippleModule,
-    NgxMapboxGLModule.withConfig({
-      accessToken: environment.mapbox.accessToken,
-    }),
     MatAutocompleteModule,
     MatCheckboxModule,
     MatRadioModule,
@@ -107,15 +100,16 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     PerfectScrollbarModule,
     BrowserModule,
     BrowserAnimationsModule,
- 
-
+    NgxDropzoneModule,
+    TextMaskModule,
   ],
 
-
-  providers: [CurrencyPipe,
+  providers: [
+    CurrencyPipe,
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-  }],
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+    },
+  ],
 })
 export class UserDashboardModule {}

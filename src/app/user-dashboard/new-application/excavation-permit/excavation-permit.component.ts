@@ -115,7 +115,6 @@ export class ExcavationPermitComponent implements OnInit {
       )
       .subscribe((res) => {
         this.applicationDetails = res.data;
-        console.log(this.applicationDetails);
         this.saveRoute();
         if (this.applicationDetails.main_permit_id == null) {
           this.fieldSets[3].documents.push(18);
@@ -182,7 +181,6 @@ export class ExcavationPermitComponent implements OnInit {
         this.setFilePaths();
         this.pdfSource = this.forms[0].src;
         this.isLoading = false;
-        console.log(this.formData);
       });
   }
   checkBuildingPermitExcavation() {
@@ -190,7 +188,6 @@ export class ExcavationPermitComponent implements OnInit {
       this.exisitingApplicationInfo = JSON.parse(
         localStorage.getItem('application_details_for_excavation')
       );
-      console.log('EXISTING', this.exisitingApplicationInfo);
       this.submitExcavationDetails();
     } else {
       this.fetchApplicationInfo();
@@ -216,9 +213,7 @@ export class ExcavationPermitComponent implements OnInit {
     };
     this.applicationService
       .updateApplicationInfo(body, this.applicationId)
-      .subscribe((res) => {
-        console.log(res);
-      });
+      .subscribe((res) => {});
   }
 
   getFieldSetsLength() {
@@ -229,6 +224,14 @@ export class ExcavationPermitComponent implements OnInit {
     });
 
     return length.reduce(reducer);
+  }
+  getUniqueUserDocs() {
+    const unique = [
+      ...new Set(
+        this.applicationDetails.user_docs.map((item) => item.document_id)
+      ),
+    ];
+    return unique.length;
   }
 
   updateFilePath() {
@@ -242,11 +245,14 @@ export class ExcavationPermitComponent implements OnInit {
   }
 
   public async upload(form): Promise<void> {
-    console.log(form);
+    this.isSubmitting = true;
     const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    this.dataBindingService.handleSaveExcavationForm(
+      this.applicationId,
+      this.formData
+    );
     if (!form.path) {
       if (blob) {
-        console.log({ blob });
         this.isLoading = true;
         const uploadDocumentData = {
           application_id: this.applicationId,
@@ -260,14 +266,15 @@ export class ExcavationPermitComponent implements OnInit {
           .submitDocument(uploadDocumentData)
           .subscribe((res) => {
             this.isLoading = false;
+            this.isSubmitting = false;
             this.updateApplicationInfoWithFormData();
             this.updateFilePath();
           });
       } else {
+        this.isSubmitting = false;
         console.log('Blob failed');
       }
     } else {
-      console.log('exists!');
       const uploadDocumentData = {
         document_status_id: 0,
       };
@@ -279,6 +286,7 @@ export class ExcavationPermitComponent implements OnInit {
         .subscribe((res) => {
           this.updateApplicationInfoWithFormData();
           this.openSnackBar('Saved!');
+          this.isSubmitting = false;
         });
     }
   }
@@ -464,12 +472,7 @@ export class ExcavationPermitComponent implements OnInit {
   }
 
   submitApplication() {
-    console.log(this.getFieldSetsLength() + 1);
-    console.log(this.applicationDetails.user_docs.length);
-    if (
-      this.getFieldSetsLength() + 1 ==
-      this.applicationDetails.user_docs.length
-    ) {
+    if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
       this.isSubmitting = true;
       const id = this.excavationId ? this.excavationId : this.applicationId;
 

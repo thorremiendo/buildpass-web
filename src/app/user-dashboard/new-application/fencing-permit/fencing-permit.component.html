@@ -5,7 +5,7 @@
     Fencing Permit Application.
   </p>
   <h4 style="font-weight: bold; color: grey">
-    Uploaded Documents: {{ applicationDetails.user_docs.length }}/
+    Uploaded Documents: {{ getUniqueUserDocs() }}/
     {{ getFieldSetsLength() + 1 }}
   </h4>
   <mat-horizontal-stepper
@@ -19,8 +19,7 @@
 
       <div class="fillable-form">
         <div class="step-label">
-          1. After filling out the form, please click the download/save button
-          on the right.
+          After filling out the form, please click the next button to proceed
         </div>
         <mat-card>
           <mat-card-content>
@@ -46,7 +45,7 @@
                   [showPropertiesButton]="false"
                   [useBrowserLocale]="true"
                   height="1000px"
-                  zoom="80%"
+                  zoom="100%"
                   [(formData)]="formData"
                 >
                 </ngx-extended-pdf-viewer>

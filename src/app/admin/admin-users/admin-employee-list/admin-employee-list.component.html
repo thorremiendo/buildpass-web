@@ -1,0 +1,180 @@
+<div fxLayout="row wrap">
+  <div fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div fxLayout="row wrap" class="align-items-center">
+          <div fxFlex.gt-md="25" fxFlex.gt-lg="25" fxFlex="100">
+            <mat-form-field>
+              <input
+                matInput
+                (keyup)="applyFilter($event.target.value)"
+                placeholder="Search Evaluator"
+              />
+            </mat-form-field>
+          </div>
+          <div fxFlex.gt-md="75" class="text-right">
+            <button
+              mat-stroked-button
+              (click)="createUser()"
+              class="create-button"
+            >
+              Add Evaluator
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div fxLayout="row wrap">
+  <div fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <div class="table-responsive">
+          <table
+            mat-table
+            [dataSource]="dataSource"
+            class="class=&quot;table employee-list no-wrap&quot;"
+          >
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef>#</th>
+              <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="full_name">
+              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let user">
+                <div class="d-flex">
+                  <img class="mat-card-avatar" [src]="user.photo_path" />
+                  <div class="m-l-15">
+                    <p class="font-medium m-b-0 m-t-0">
+                      {{ user.first_name }} {{ user.last_name }}
+                    </p>
+                    <small class="text-muted">{{
+                      user.employee_detail.position
+                    }}</small>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="employee_number">
+              <th mat-header-cell *matHeaderCellDef>Employee Number</th>
+              <td mat-cell *matCellDef="let user">
+                {{ user.employee_detail.employee_no }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="is_admin">
+              <th mat-header-cell *matHeaderCellDef>Admin</th>
+              <td mat-cell *matCellDef="let user">
+                {{
+                  user.employee_detail.is_enabled == 1
+                    ? "Approved"
+                    : "To Verify"
+                }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="office">
+              <th mat-header-cell *matHeaderCellDef>Office</th>
+              <td mat-cell *matCellDef="let user">
+                {{
+                  user.employee_detail.office_id == 1
+                    ? "City Planning and
+                Development Office"
+                    : user.employee_detail.office_id == 2
+                    ? "City Environment and Park Office"
+                    : user.employee_detail.office_id == 3
+                    ? "Bureau of Fire Protection"
+                    : user.employee_detail.office_id == 4
+                    ? "City Buildings and Architecture Office"
+                    : "Assessors Office"
+                }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>Action</th>
+              <td mat-cell *matCellDef="let user">
+                <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+                  <mat-icon>more_horiz</mat-icon>
+                </button>
+                <mat-menu #actionsMenu>
+                  <button
+                    color="primary"
+                    mat-menu-item
+                    (click)="sendEmailResetPassword(user)"
+                  >
+                    Reset Password
+                  </button>
+                  <button
+                    mat-menu-item
+                    color="primary"
+                    (click)="editUser(user)"
+                  >
+                    Edit
+                  </button>
+                </mat-menu>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+
+          <div
+            class="evaluator-list__empty text-center py-5"
+            *ngIf="!isFetching && dataSource.length === 0"
+          >
+            <h2>No Evaluator yet....</h2>
+          </div>
+          <div
+            class="evaluator-list__loader text-center py-5"
+            *ngIf="isFetching"
+          >
+            <p>Fetching Evaluators...</p>
+            <mat-progress-spinner
+              mode="indeterminate"
+              diameter="40"
+            ></mat-progress-spinner>
+          </div>
+
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 20]"
+            showFirstLastButtons
+          ></mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<mat-card>
+  <div class="row py-3 px-3">
+    <div class="col-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Input</mat-label>
+        <input matInput #ocpasCode />
+      </mat-form-field>
+    </div>
+    <div class="col-9">
+      <button
+        mat-stroked-button
+        class="create-button ml-2"
+        (click)="approveFillingFee(ocpasCode.value)"
+      >
+        Approve Filling Fee
+      </button>
+      <button
+        mat-stroked-button
+        class="create-button ml-2"
+        (click)="approvePermitFee(ocpasCode.value)"
+      >
+        Approve Permit Fees
+      </button>
+    </div>
+  </div>
+  <p>{{ message | json }}</p>
+</mat-card>

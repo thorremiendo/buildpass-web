@@ -1,0 +1,18 @@
+<div class="content">
+  <h1>Downloadable Forms</h1>
+  <p>Showing {{ docs.length }} documents</p>
+  <ng-container *ngFor="let doc of docs">
+    <div class="content__cards" (click)="open(doc.src)">
+      <div class="content__cards__img">
+        <img src="../../../assets/illustrations/pdf.svg" />
+      </div>
+      <div class="content__cards__details">
+        <h3>{{ doc.title }}</h3>
+        <h5>{{ doc.caption }}</h5>
+      </div>
+      <div class="content__cards__download">
+        <img src="../../../assets/illustrations/download.svg" />
+      </div>
+    </div>
+  </ng-container>
+</div>

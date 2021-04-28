@@ -5,8 +5,8 @@
     Building Permit Application.
   </p>
   <h4 style="font-weight: bold; color: grey">
-    Uploaded Documents: {{ applicationDetails.user_docs.length }}/
-    {{ getFieldSetsLength() + 5 }}
+    Uploaded Documents: {{ getUniqueUserDocs() }}/
+    {{ getFieldSetsLength() + 6 }}
   </h4>
   <mat-horizontal-stepper
     linear
@@ -18,8 +18,7 @@
       <h1>{{ form.description }}</h1>
       <div class="fillable-form">
         <div class="step-label">
-          1. After filling out the form, please click the download/save button
-          on the right.
+          After filling out the form, please click the next button to proceed
         </div>
 
         <div id="form-{{ i }}">
@@ -44,7 +43,7 @@
               [showPropertiesButton]="false"
               [useBrowserLocale]="true"
               height="1000px"
-              zoom="80%"
+              zoom="100%"
               [(formData)]="formData"
             >
             </ngx-extended-pdf-viewer>
@@ -81,6 +80,7 @@
           mat-raised-button
           color="accent"
           [routerLink]="['/dashboard/applications']"
+          [disabled]="isLoading"
         >
           Save as Draft
         </button>
@@ -130,6 +130,7 @@
           mat-raised-button
           color="accent"
           [routerLink]="['/dashboard/applications']"
+          [disabled]="isLoading"
         >
           Save as Draft
         </button>

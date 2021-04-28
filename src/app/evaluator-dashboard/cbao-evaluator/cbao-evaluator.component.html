@@ -184,7 +184,51 @@
                         <mat-icon class="action">mode_edit</mat-icon>
                       </button>
                     </ng-container>
-
+                    <ng-container
+                      *ngIf="
+                        evaluatorRole.code == 'CBAO-REC' &&
+                        applicationInfo.application_status_id !== 1
+                      "
+                    >
+                      <a href="{{ element.document_path }}" target="_blank"
+                        >View</a
+                      >
+                    </ng-container>
+                    <ng-container
+                      *ngIf="
+                        evaluatorRole.code == 'CBAO-DC' &&
+                        applicationInfo.application_status_id !== 12
+                      "
+                    >
+                      <a href="{{ element.document_path }}" target="_blank"
+                        >View</a
+                      >
+                    </ng-container>
+                    <ng-container
+                      *ngIf="
+                        evaluatorRole.code == 'CBAO-BO' &&
+                        applicationInfo.application_status_id !== 13
+                      "
+                    >
+                      <a href="{{ element.document_path }}" target="_blank"
+                        >View</a
+                      >
+                    </ng-container>
+                    <ng-container
+                      *ngIf="
+                        (evaluatorRole.code == 'CBAO-LG' ||
+                          evaluatorRole.code == 'CBAO-ARCH' ||
+                          evaluatorRole.code == 'CBAO-STR' ||
+                          evaluatorRole.code == 'CBAO-SAN' ||
+                          evaluatorRole.code == 'CBAO-ELEC' ||
+                          evaluatorRole.code == 'CBAO-MEC') &&
+                        applicationInfo.application_status_id !== 3
+                      "
+                    >
+                      <a href="{{ element.document_path }}" target="_blank"
+                        >View</a
+                      >
+                    </ng-container>
                     <a
                       href="{{ element.document_path }}"
                       target="_blank"

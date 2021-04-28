@@ -33,18 +33,19 @@
           <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
       </mat-form-field>
-      <a routerLink="/forgot-password">
-        forgot password?
-      </a>
+      <a routerLink="/forgot-password"> forgot password? </a>
     </div>
   </div>
   <div class="row justify-content-center pt-3 pb-3">
     <div class="col-md-4 sign-in-button">
-      <button mat-stroked-button>
-        Sign in
-      </button>
+      <button mat-stroked-button>Sign in</button>
     </div>
   </div>
+  <ng-container *ngIf="isSubmitting">
+    <div>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </ng-container>
   <hr />
   <div class="row justify-content-center pt-2 pb-5">
     <div class="col-md-4 google-login">

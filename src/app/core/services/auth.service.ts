@@ -11,6 +11,7 @@ import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { UserService } from './user.service';
 import { ApiService } from '../services/api.service';
+import * as LogRocket from "logrocket";
 
 @Injectable({
   providedIn: 'root',
@@ -38,8 +39,16 @@ export class AuthService {
     logged in and setting up null when logged out */
     this.currentUser.subscribe((user) => {
       if (user) {
+        console.log("this"+user.first_name);
         localStorage.setItem('user', JSON.stringify(user));
         this.isAuthenticatedSubject.next(true);
+        // LogRocket.identify('bblmhh/buildpass-staging', {
+        //   name: `${user.first_name} ${user.middle_name} ${user.last_name} `,
+        //   email: `${user.email_address}`,
+
+        //   // Add your own custom user variables here, ie:
+
+        // });
       }
     });
   }
@@ -49,10 +58,11 @@ export class AuthService {
   }
 
   purgeAuth() {
-    console.log('PURGE AUTH');
     this.jwtService.removeToken();
     this.currentUserSubject.next(null);
     this.isAuthenticatedSubject.next(false);
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('user');
   }
 
   updateUserInfo(user) {
@@ -67,7 +77,6 @@ export class AuthService {
         .auth()
         .signInWithEmailAndPassword(value.email, value.password)
         .then((result) => {
-          console.log(result);
           resolve(result);
         })
         .catch((error) => {
@@ -161,7 +170,6 @@ export class AuthService {
   }
 
   getToken(uid) {
-    console.log(JSON.stringify(uid));
     const url = `/auth/firebase/login`;
     const body = {
       firebase_uid: `${uid}`,

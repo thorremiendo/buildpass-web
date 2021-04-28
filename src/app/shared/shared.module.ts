@@ -29,7 +29,9 @@ import { ProjectDetailsComponent } from './project-details/project-details.compo
 import { ApplicantBuildingPermitDocsComponent } from './applicant-building-permit-docs/applicant-building-permit-docs.component';
 import { ApplicationsListComponent } from './applications-list/applications-list.component';
 import { MatSelectModule } from '@angular/material/select';
-import { ESignatureComponent } from './e-signature/e-signature.component';
+import { FeedbackComponent } from './feedback/feedback.component';
+import { UpdatePasswordDialogComponent } from './update-password-dialog/update-password-dialog.component';
+import { ImageViewerModule } from 'ngx-image-viewer';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,8 @@ import { ESignatureComponent } from './e-signature/e-signature.component';
     ProjectDetailsComponent,
     ApplicantBuildingPermitDocsComponent,
     ApplicationsListComponent,
-    ESignatureComponent,
+    FeedbackComponent,
+    UpdatePasswordDialogComponent,
   ],
   imports: [
     NgxExtendedPdfViewerModule,
@@ -58,6 +61,7 @@ import { ESignatureComponent } from './e-signature/e-signature.component';
     PerfectScrollbarModule,
     ReactiveFormsModule,
     MatSelectModule,
+    ImageViewerModule.forRoot(),
   ],
   exports: [
     AccordionAnchorDirective,

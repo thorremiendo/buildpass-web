@@ -19,7 +19,6 @@ export class ApplicationFeesService {
     const url = `/fee/${id}`;
     return this.api.get(url).pipe(
       map((data: any) => {
-        console.log('fetchFees Result:', data);
         return data;
       }),
       catchError((error) => {
@@ -32,7 +31,6 @@ export class ApplicationFeesService {
     const url = `/fee`;
     return this.api.get(url).pipe(
       map((data: any) => {
-        console.log('Fee Types:', data);
         return data;
       }),
       catchError((error) => {
@@ -44,7 +42,6 @@ export class ApplicationFeesService {
     const url = `/fee/office/${office_id}`;
     return this.api.get(url).pipe(
       map((data: any) => {
-        console.log('fetchFeesByOffice Result:', data);
         return data;
       }),
       catchError((error) => {
@@ -56,7 +53,6 @@ export class ApplicationFeesService {
     const url = `/fee/${application_id}/office/${office_id}`;
     return this.api.get(url).pipe(
       map((data: any) => {
-        console.log('fetchFeesByOffice Result:', data);
         return data;
       }),
       catchError((error) => {

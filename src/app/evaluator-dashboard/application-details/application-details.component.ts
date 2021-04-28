@@ -1,3 +1,4 @@
+import { RepresentativeDetailsComponent } from './../../shared/representative-details/representative-details.component';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Data } from '@angular/router';
 import { applicationStatus } from '../../core/enums/application-status.enum';
@@ -44,9 +45,7 @@ export class ApplicationDetailsComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   ngOnInit(): void {
@@ -61,6 +60,17 @@ export class ApplicationDetailsComponent implements OnInit {
       });
   }
 
+  openRepresentativeDialog() {
+    const dialogRef = this.dialog.open(RepresentativeDetailsComponent, {
+      width: '1200px',
+      height: '1200px',
+      data: {
+        representativeDetails: this.applicationDetails.representative_detail,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
   fetchUserDocs() {
     this.applicationService
       .fetchUserDocs(this.applicationId)
@@ -146,7 +156,6 @@ export class ApplicationDetailsComponent implements OnInit {
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
     this.isLoading = false;
-    console.log('evaluator details', this.evaluatorDetails);
   }
   getApplicationStatus(id): string {
     return applicationStatus[id];
@@ -167,7 +176,6 @@ export class ApplicationDetailsComponent implements OnInit {
       },
     ];
     const isReviewed = status.every((dep) => dep.id == 1 || dep.id == 2);
-    console.log('every', isReviewed);
     return isReviewed;
   }
   checkOfficeNonCompliant() {

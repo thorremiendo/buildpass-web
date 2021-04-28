@@ -82,6 +82,7 @@
             matInput
             formControlName="owner_tin_number"
             required
+            [textMask]="{ mask: tinMask }"
           />
           <mat-error
             *ngIf="
@@ -92,6 +93,16 @@
             "
           >
             TIN Number is Required
+          </mat-error>
+          <mat-error
+            *ngIf="
+              (personalInfoFormCommonFieldControl.owner_tin_number.touched ||
+                _submitted) &&
+              personalInfoFormCommonFieldControl.owner_tin_number.errors
+                ?.pattern
+            "
+          >
+            Invalid TIN Number format
           </mat-error>
         </mat-form-field>
       </div>
@@ -186,13 +197,13 @@
       <div class="col-md-6">
         <mat-form-field appearance="outline">
           <mat-label>House Number</mat-label>
-          <input type="text" matInput formControlName="owner_house_number" />
+          <input type="number" matInput formControlName="owner_house_number" />
         </mat-form-field>
       </div>
       <div class="col-md-6">
         <mat-form-field appearance="outline">
           <mat-label>Unit Number</mat-label>
-          <input matInput formControlName="owner_unit_number" />
+          <input type="number" matInput formControlName="owner_unit_number" />
         </mat-form-field>
       </div>
     </div>
@@ -200,7 +211,7 @@
       <div class="col-md-6">
         <mat-form-field appearance="outline">
           <mat-label>Floor Number</mat-label>
-          <input matInput formControlName="owner_floor_number" />
+          <input type="number" matInput formControlName="owner_floor_number" />
         </mat-form-field>
       </div>
       <div class="col-md-6">

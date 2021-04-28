@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import { ApiService } from '../services';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root',

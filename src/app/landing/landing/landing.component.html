@@ -1,193 +1,275 @@
 <app-navigation></app-navigation>
 <app-banner></app-banner>
 <div class="landing container-fluid">
-    <div class="row landing-nav">
-        <div class="col-12 col-lg-4">
-            <input type="image" src="../../../assets/images/landing/building-permit.png" alt="Building Permit" class="landing-nav-button" />
-        </div>
-        <div class="col-12 col-lg-4">
-            <input type="image" src="../../../assets/images/landing/occupancy-permit.png" alt="Occupancy Permit" class="landing-nav-button" />
-        </div>
-        <div class="col-12 col-lg-4">
-            <input type="image" src="../../../assets/images/landing/other-permits.png" alt="Other Permits" class="landing-nav-button" />
-        </div>
+  <div class="row landing-nav">
+    <mat-card (click)="goToServices()">
+      <mat-card-content>
+        <img src="../../../assets/illustrations/building.svg" alt="" />
+        <h3>Building Permit Application</h3>
+        <h6>See more ></h6>
+      </mat-card-content>
+    </mat-card>
+    <mat-card (click)="goToServices()">
+      <mat-card-content>
+        <img src="../../../assets/illustrations/home.svg" alt="" />
+        <h3>Certificate of Occupancy Application</h3>
+        <h6>See more ></h6>
+      </mat-card-content>
+    </mat-card>
+    <mat-card (click)="goToServices()">
+      <mat-card-content>
+        <img src="../../../assets/illustrations/excavation.svg" alt="" />
+        <h3>Other Permits</h3>
+        <h6>See more ></h6>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="row faq">
+    <div class="col-12">
+      <mat-card class="faq">
+        <mat-card-header>
+          <mat-card-title>Frequently Asked Questions</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-expansion-panel
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon
+                  aria-hidden="false"
+                  class="mr-2"
+                  style="color: maroon"
+                >
+                  rounded_corner
+                </mat-icon>
+                Line and Grade
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>
+              <strong>
+                Q: Can my Building Permit Application progress if my Land Title
+                is 211?
+              </strong>
+              <br />
+              A: No, Land titles that are indicated as 211 are invalidated, and
+              are considered as public land.
+              <br /><br />
+
+              <strong>
+                Q: My existing Structure/Building or a portion of it is situated
+                and/or is within an easement/Road Right of Way, can I be issued
+                a building permit/Occupancy Certificate?
+              </strong>
+              <br />
+              A: No, unless the minimum easement of THREE (3.00) meters will be
+              respected, or the minimum required setbacks under the code are
+              met.
+              <br /><br />
+
+              <strong>
+                Q: There is an annotation in my Land Title indicating “Lis
+                Pendens” or “Adverse Claim”, can my Building Permit application
+                prosper?
+              </strong>
+              <br />
+              A: No, however, it is recommended that these annotations should be
+              resolved first prior to application.
+              <br /><br />
+
+              <strong>
+                Q: What attachments are needed if the property is owned by a
+                corporation?
+              </strong>
+              <br />
+              A: Attach original copy of Secretary Certificate and/or Articles
+              of Incorporation
+              <br /><br />
+
+              <strong>
+                Q: I would like to construct a building however the property is
+                owned by several individuals. What document do I need to submit
+                to support my building permit application?
+              </strong>
+              <br />
+              A: You will need to submit a duly notarized
+              Authorization/Non-Objection or Consent from the co-owners
+              <br /><br />
+
+              <strong>
+                Q: Follow-up question, what if the co-owner is abroad? How can
+                he/she sign the Authorization/Non-Objection, or Consent?
+              </strong>
+              <br />
+              A: If that is the case, he/she must provide you with that written
+              consent or authorization duly Authenticated/Apostille by their
+              consulate.
+              <br /><br />
+
+              <strong>
+                Q: My family is planning to construct a building on our titled
+                property, however, my father/mother (or both) whom the property
+                is/are named is/are already deceased. What document do I need to
+                support my Building permit application?
+              </strong>
+              <br />
+              A: To support your application, you will need to submit original
+              copy of the Extra Judicial Settlement.
+              <br /><br />
+
+              <strong>
+                Q: I would like to build on our titled property, however,
+                indicated in the title are fraction of shares for each co-owner.
+                What do I need to do?
+              </strong>
+              <br />
+              A: You need to identify your fraction of share on a survey plan.
+              This survey plan will be your supporting document for your
+              application. You will also need to attach a duly notarized written
+              consent from the co-owners.
+              <br /><br />
+
+              <strong>
+                Q: My property is situated in the NIPAS Zone. What clearance do
+                I need to secure?
+              </strong>
+              <br />
+              A: You have to apply for an Environmental Compliance Certificate
+              from MGB-DENR.
+              <br /><br />
+
+              <strong>
+                Q: Our property is located near an air strip. What clearance do
+                I need to submit to support my application?
+              </strong>
+              <br />
+              A: You need to apply and secure first a CAAP clearance.
+              <br /><br />
+
+              <strong>
+                Q: My property is under mortgage. What document do I need to
+                submit to support my application?
+              </strong>
+              <br />
+              A: You need to submit Consent from the Bank, or with your loan
+              provider. (eg: Pagibig)
+            </p>
+          </mat-expansion-panel>
+          <mat-expansion-panel
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon
+                  aria-hidden="false"
+                  class="mr-2"
+                  style="color: maroon"
+                >
+                  architecture
+                </mat-icon>
+                Architectural
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>
+              <strong>
+                Q: My lot is too small to provide minimum setbacks around it. Is
+                it allowed to introduce three or four firewalls on its sides?
+              </strong>
+              <br />
+              A: No, Only TWO (2) Firewalls are allowed, and it should not be
+              located or constructed on the front side of the structure.
+              <br /><br />
+              <strong>
+                Q: My property is classified as interior lot, however the
+                existing alley/access way leading to my property is tight and is
+                not passable by vehicular means (4-wheel vehicles), do I still
+                need to provide a garage or a parking space?
+              </strong>
+              <br />
+              A: For residential use: No need to provide For Commercial use:
+              Yes, at least within a 200-meter distance.
+            </p>
+          </mat-expansion-panel>
+          <mat-expansion-panel
+            (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon
+                  aria-hidden="false"
+                  class="mr-2"
+                  style="color: maroon"
+                >
+                  roofing
+                </mat-icon>
+                Structural
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>
+              <strong>
+                Q: I would like to apply for an Occupancy Certificate however, I
+                recently added One (1) or more storey/s on the structure which
+                is not included in the issued Building Permit. What are the
+                requirements so that my application will be complete and
+                complying?
+              </strong>
+              <br />
+              A: The requirements are:
+              <br />
+              - Amended Structural plans conforming to the actual number of
+              storeys <br />
+              - Structural Design Analysis for the as built structure <br />
+              - In case of an Additional Storey for an existing structure,
+              Structural Review conducted by a Structural Engineer (must be a
+              member of ASEP) is required. <br />
+              - Submit Affidavit of a Civil Engineer, certifying that he
+              supervised the construction, and that the structure is in
+              accordance with the Structural Design Analysis.
+            </p>
+          </mat-expansion-panel>
+        </mat-card-content>
+      </mat-card>
     </div>
-    <div class="row faq">
-        <div class="col-12">
-            <mat-card class="faq">
-                <mat-card-header>
-                    <mat-card-title>Frequently Asked Questions</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <mat-expansion-panel
-                        (opened)="panelOpenState = true"
-                        (closed)="panelOpenState = false"
-                    >
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            <mat-icon aria-hidden="false" class="mr-2" style="color: maroon">
-                                rounded_corner
-                            </mat-icon>
-                            Line and Grade
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <p>
-                        <strong>
-                            Q: Can my Building Permit Application progress if my Land Title is 211?
-                        </strong>
-                        <br />
-                        A: No, Land titles that are indicated as 211 are invalidated, and are considered as public land.
-                        <br /><br />
-
-                        <strong>
-                            Q: My existing Structure/Building or a portion of it is situated and/or is within an easement/Road Right of Way, can I be issued a building permit/Occupancy Certificate?
-                        </strong>
-                        <br />
-                        A: No, unless the minimum easement of THREE (3.00) meters will be respected, or the minimum required setbacks under the code are met.
-                        <br /><br />
-
-                        <strong>
-                            Q: There is an annotation in my Land Title indicating “Lis Pendens” or “Adverse Claim”, can my Building Permit application prosper?
-                        </strong>
-                        <br />
-                        A: No, however, it is recommended that these annotations should be resolved first prior to application.
-                        <br /><br />
-
-                        <strong>
-                            Q: What attachments are needed if the property is owned by a corporation?
-                        </strong>
-                        <br />
-                        A: Attach original copy of Secretary Certificate and/or Articles of Incorporation
-                        <br /><br />
-
-                        <strong>
-                            Q: I would like to construct a building however the property is owned by several individuals. What document do I need to submit to support my building permit application?
-                        </strong>
-                        <br />
-                        A: You will need to submit a duly notarized Authorization/Non-Objection or Consent from the co-owners
-                        <br /><br />
-
-                        <strong>
-                            Q: Follow-up question, what if the co-owner is abroad? How can he/she sign the Authorization/Non-Objection, or Consent?
-                        </strong>
-                        <br />
-                        A: If that is the case, he/she must provide you with that written consent or authorization duly Authenticated/Apostille by their consulate.
-                        <br /><br />
-
-                        <strong>
-                            Q: My family is planning to construct a building on our titled property, however, my father/mother (or both) whom the property is/are named is/are already deceased. What document do I need to support my Building permit application?
-                        </strong>
-                        <br />
-                        A: To support your application, you will need to submit original copy of the Extra Judicial Settlement.
-                        <br /><br />
-
-                        <strong>
-                            Q: I would like to build on our titled property, however, indicated in the title are fraction of shares for each co-owner. What do I need to do?
-                        </strong>
-                        <br />
-                        A: You need to identify your fraction of share on a survey plan. This survey plan will be your supporting document for your application. You will also need to attach a duly notarized written consent from the co-owners.
-                        <br /><br />
-
-                        <strong>
-                            Q: My property is situated in the NIPAS Zone. What clearance do I need to secure?
-                        </strong>
-                        <br />
-                        A: You have to apply for an Environmental Compliance Certificate from MGB-DENR.
-                        <br /><br />
-
-                        <strong>
-                            Q: Our property is located near an air strip. What clearance do I need to submit to support my application?
-                        </strong>
-                        <br />
-                        A: You need to apply and secure first a CAAP clearance.
-                        <br /><br />
-
-                        <strong>
-                            Q: My property is under mortgage. What document do I need to submit to support my application?
-                        </strong>
-                        <br />
-                        A: You need to submit Consent from the Bank, or with your loan provider. (eg: Pagibig)
-                    </p>
-                    </mat-expansion-panel>
-                    <mat-expansion-panel
-                        (opened)="panelOpenState = true"
-                        (closed)="panelOpenState = false"
-                    >
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            <mat-icon aria-hidden="false" class="mr-2" style="color: maroon">
-                                architecture
-                            </mat-icon>
-                            Architectural
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <p>
-                        <strong>
-                            Q: My lot is too small to provide minimum setbacks around it. Is it allowed to introduce three or four firewalls on its sides?
-                        </strong>
-                        <br />
-                        A: No, Only TWO (2) Firewalls are allowed, and it should not be located or constructed on the front side of the structure.
-                        <br /><br />
-                        <strong>
-                            Q: My property is classified as interior lot, however the existing alley/access way leading to my property is tight and is not passable by vehicular means (4-wheel vehicles), do I still need to provide a garage or a parking space?
-                        </strong >
-                        <br />
-                        A: For residential use: No need to provide For Commercial use: Yes, at least within a 200-meter distance.
-                    </p>
-                    </mat-expansion-panel>
-                    <mat-expansion-panel
-                        (opened)="panelOpenState = true"
-                        (closed)="panelOpenState = false"
-                    >
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            <mat-icon aria-hidden="false" class="mr-2" style="color: maroon">
-                                roofing
-                            </mat-icon>
-                            Structural
-                        </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <p>
-                        <strong>
-                            Q: I would like to apply for an Occupancy Certificate however, I recently added One (1) or more storey/s on the structure which is not included in the issued Building Permit. What are the requirements so that my application will be complete and complying?
-                        </strong >
-                        <br />
-                        A: The requirements are:
-                        <br />
-                        - Amended Structural plans conforming to the actual number of storeys <br />
-                        - Structural Design Analysis for the as built structure <br />
-                        - In case for a Four (4) storey or more, Structural Review conducted by a Structural Engineer and must be a member of ASEP is required. <br />
-                        - Submit Affidavit of a Civil Engineer, certifying that he supervised the construction, and that the structure is in accordance with the Structural Design Analysis.
-                    </p>
-                    </mat-expansion-panel>
-                </mat-card-content>
-            </mat-card>
-        </div>
+  </div>
+  <div class="row ordinances">
+    <div class="col-12">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Ordinances</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <ul>
+            <li>
+              <a href="assets/ordinances/Ord-051-2001.pdf" target="_blank"
+                >Ordinance Number 51, Series of 2001</a
+              >
+            </li>
+            <li>
+              <a href="assets/ordinances/Ord-052-2003.pdf" target="_blank"
+                >Ordinance Number 52, Series of 2003</a
+              >
+            </li>
+            <li>
+              <a
+                href="assets/ordinances/Ord-063-2016-zoning.pdf"
+                target="_blank"
+                >Ordinance Number 62, Series of 2016</a
+              >
+            </li>
+            <li>
+              <a
+                href="assets/ordinances/Ord-116-2018-amnesty-beneco.pdf"
+                target="_blank"
+                >Ordinance Number 116, Series of 2018</a
+              >
+            </li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
     </div>
-    <div class="row ordinances">
-        <div class="col-12">
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>Ordinances</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <ul>
-                        <li>
-                            <a href="assets/ordinances/Ord-051-2001.pdf" target="_blank">Ordinance Number 51, Series of 2001</a>
-                        </li>
-                        <li>
-                            <a href="assets/ordinances/Ord-052-2003.pdf" target="_blank">Ordinance Number 52, Series of 2003</a>
-                        </li>
-                        <li>
-                            <a href="assets/ordinances/Ord-063-2016-zoning.pdf" target="_blank">Ordinance Number 62, Series of 2016</a>
-                        </li>
-                        <li>
-                            <a href="assets/ordinances/Ord-116-2018-amnesty-beneco.pdf" target="_blank">Ordinance Number 116, Series of 2018</a>
-                        </li>
-                    </ul>
-                </mat-card-content>
-            </mat-card>
-        </div>
-    </div>
+  </div>
 </div>
 <app-footer></app-footer>

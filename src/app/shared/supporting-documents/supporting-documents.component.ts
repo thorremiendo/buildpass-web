@@ -37,7 +37,6 @@ export class SupportingDocumentsComponent implements OnInit {
       .fetchApplicationSupportingFiles(this.applicationDetails.id)
       .subscribe((res) => {
         this.applicantSupportingDocs = res.data;
-        console.log('DOCS', this.applicantSupportingDocs);
         this.isLoading = false;
       });
   }
@@ -53,7 +52,6 @@ export class SupportingDocumentsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.ngOnInit();
     });
   }

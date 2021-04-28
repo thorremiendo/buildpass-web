@@ -27,7 +27,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ViewApplicationComponent implements OnInit {
   panelOpenState = false;
-
+  public isAuthorized: boolean = false;
   public isLoading = true;
   public applicationId;
   public evaluatorDetails;
@@ -54,21 +54,18 @@ export class ViewApplicationComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
   openRepresentativeDialog() {
     const dialogRef = this.dialog.open(RepresentativeDetailsComponent, {
-      width: '1600px',
+      width: '1200px',
+      height: '1200px',
       data: {
         representativeDetails: this.applicationDetails.representative_detail,
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
   openFeesDialog() {
     this.applicationFeeService
@@ -81,17 +78,22 @@ export class ViewApplicationComponent implements OnInit {
             applicationId: this.applicationId,
           },
         });
-        dialogRef.afterClosed().subscribe((result) => {
-          console.log('The dialog was closed');
-        });
+        dialogRef.afterClosed().subscribe((result) => {});
       });
   }
 
   ngOnInit(): void {
-    this.isLoading = true;
+    this.isAuthorized = false;
     this.applicationId = this.route.snapshot.params.id;
-    this.fetchApplicationInfo();
-    this.fetchUserDocs();
+    this.user = JSON.parse(localStorage.getItem('user'));
+    this.applicationService
+      .verifyUserApplication(this.applicationId, this.user.id)
+      .subscribe((res) => {
+        this.isLoading = true;
+        this.isAuthorized = true;
+        this.fetchApplicationInfo();
+        this.fetchUserDocs();
+      });
   }
 
   fetchApplicationInfo() {
@@ -100,7 +102,6 @@ export class ViewApplicationComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
-        console.log(this.applicationDetails);
         this.isLoading = false;
       });
   }
@@ -109,9 +110,13 @@ export class ViewApplicationComponent implements OnInit {
     this.applicationService
       .fetchUserDocs(this.applicationId)
       .subscribe((result) => {
-        this.dataSource = result.data;
-        this.isLoading = false;
+        this.filterUserDocs(result.data);
       });
+  }
+  filterUserDocs(forms) {
+    const USER_FORMS = forms.filter((doc) => doc.document_id !== 50);
+    this.isLoading = false;
+    this.dataSource = USER_FORMS;
   }
 
   getDocType(id): string {
@@ -323,7 +328,6 @@ export class ViewApplicationComponent implements OnInit {
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
-        console.log(res);
         Swal.fire('Success!', `Forwarded for Re-Evaluation!`, 'success').then(
           (result) => {
             this.isLoading = false;
@@ -352,7 +356,6 @@ export class ViewApplicationComponent implements OnInit {
   }
 
   openFormDialog(element): void {
-    console.log(element);
     const dialogRef = this.dialog.open(FormDetailsComponent, {
       width: '1500px',
       height: '2000px',
@@ -364,13 +367,11 @@ export class ViewApplicationComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.ngOnInit();
     });
   }
 
   openRemarksHistory(e) {
-    console.log(e);
     const dialogRef = this.dialog.open(RemarksHistoryTableComponent, {
       width: '1000px',
       height: '800px',
@@ -382,7 +383,6 @@ export class ViewApplicationComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
       this.ngOnInit();
     });
   }
