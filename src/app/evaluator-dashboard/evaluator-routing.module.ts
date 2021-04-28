@@ -1,3 +1,4 @@
+import { ESignatureComponent } from './../shared/e-signature/e-signature.component';
 import { UserGuardGuard } from './../core/guard/user-guard.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -11,7 +12,6 @@ import { EvaluatorsSummaryComponent } from './evaluators-summary/evaluators-summ
 import { EvaluatorAuthGuard } from '../core/guard/evaluator-guard';
 import { UserGuardService } from '../core/guard/user-guard.service';
 import { EvaluatorIdentificationComponent } from './evaluator-identification/evaluator-identification.component';
-
 
 const routes: Routes = [
   {
@@ -31,6 +31,10 @@ const routes: Routes = [
       {
         path: 'sign-up',
         component: EvaluatorSignUpComponent,
+      },
+      {
+        path: 'esig',
+        component: ESignatureComponent,
       },
 
       {

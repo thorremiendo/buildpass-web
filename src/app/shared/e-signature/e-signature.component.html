@@ -1,16 +1,15 @@
-<div id="html2Pdf">
-  <img
-    src="https://www.docsketch.com/assets/vip-signatures/muhammad-ali-signature-6a40cd5a6c27559411db066f62d64886c42bbeb03b347237ffae98b0b15e0005.svg"
-    style="width: 200px; height: 200px; z-index: 1"
-    cdkDrag
-  />
-
-  <iframe
-    src="../../../assets/forms/bldg-permit-certificate.pdf#toolbar=0"
-    width="100%"
-    height="2000px"
-  >
-  </iframe>
+<div id="html2Pdf" style="width: 500px;">
+  <div class="col-md-12">
+    <img
+      src="../../../assets/test-sig.svg"
+      style="width: 200px; height: 200px; z-index: 1"
+      cdkDrag
+    />
+    <!-- <iframe src="../../../assets/forms/bldg-permit-certificate.pdf#toolbar=0"> -->
+    <!-- </iframe> -->
+    <!-- <embed src="../../../assets/forms/bldg-permit-certificate.pdf#toolbar=0" /> -->
+    <img src="../../../assets/test-pdfimg.jpg" style="width: 100%" />
+  </div>
 </div>
 
 <button (click)="generatePdf()">Save</button>

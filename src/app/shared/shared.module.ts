@@ -1,3 +1,4 @@
+import { ESignatureComponent } from './e-signature/e-signature.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaterialModule } from './../material-module';
 import { NgModule } from '@angular/core';
@@ -32,6 +33,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { UpdatePasswordDialogComponent } from './update-password-dialog/update-password-dialog.component';
 import { ImageViewerModule } from 'ngx-image-viewer';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,7 @@ import { ImageViewerModule } from 'ngx-image-viewer';
     ApplicationsListComponent,
     FeedbackComponent,
     UpdatePasswordDialogComponent,
+    ESignatureComponent,
   ],
   imports: [
     NgxExtendedPdfViewerModule,
@@ -62,6 +65,7 @@ import { ImageViewerModule } from 'ngx-image-viewer';
     ReactiveFormsModule,
     MatSelectModule,
     ImageViewerModule.forRoot(),
+    DragDropModule,
   ],
   exports: [
     AccordionAnchorDirective,
