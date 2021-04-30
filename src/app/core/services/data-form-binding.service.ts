@@ -822,7 +822,6 @@ export class DataFormBindingService {
 
   //GENERTAL FORM DATA
   getFormData(a) {
-    console.log(a);
     const applicantDetails = a.applicant_detail;
     const projectDetails = a.project_detail;
     const representativeDetails = a.representative_detail;
