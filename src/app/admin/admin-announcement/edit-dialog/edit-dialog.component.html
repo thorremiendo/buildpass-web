@@ -1,12 +1,31 @@
 <h2 mat-dialog-title>Update Announcement</h2>
 <mat-dialog-content class="py-3">
-  <quill-editor style="height: 400px" [(ngModel)]="body"></quill-editor>
+    <mat-form-field appearance="outline">
+        <mat-label>Subject</mat-label>
+        <input  [(ngModel)]="data.subject"matInput>
+      </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Short Discription</mat-label>
+        <textarea 
+          [(ngModel)]="data.short_description" 
+          style="height: 100px;" 
+          [maxlength]="maxLength"
+          #short_description
+          matInput>
+        </textarea>
+        <mat-hint align="end"
+        >{{ short_description.value.length }} / {{ maxLength }}</mat-hint
+        >
+      </mat-form-field>
+      <div style="height: 300px; padding-top: 20px;">
+        <quill-editor  matTooltip="Enter Full Details here" [modules]="modules" [(ngModel)]="data.body"></quill-editor>
+      </div>
 </mat-dialog-content>
 <mat-dialog-content class="py-3">
   <div fxLayout="row">
     <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
       <button mat-button>
-        <input type="file" #fileUploader (change)="fileChangeEvent($event)" />
+        <input type="file" (change)="fileChangeEvent($event)" />
         {{ btnName }}
       </button>
       <button mat-button>
@@ -23,7 +42,7 @@
   </div>
 
   <image-cropper
-    [imageBase64]="originalImage"
+    [imageBase64]="data.photo_path_original"
     [maintainAspectRatio]="true"
     [aspectRatio]="4 / 3"
     [resizeToWidth]="128"
@@ -31,16 +50,15 @@
     (imageCropped)="imageCropped($event)"
   ></image-cropper>
 
-  <img [src]="croppedImage" />
+  <img [src]="data.photo_path_crop" />
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
   <button
     mat-button
-    [mat-dialog-close]="true"
+    [mat-dialog-close]="data"
     cdkFocusInitial
-    (click)="submit()"
   >
-    submit
+    Update
   </button>
 </mat-dialog-actions>

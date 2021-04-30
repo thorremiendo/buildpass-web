@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { messages, chatBotMessage } from '../../chat-box/chat-data-sample';
 import { ChatService } from '../../../core';
 import { tr } from 'date-fns/locale';
+import da from 'date-fns/locale/da';
 
 @Component({
   selector: 'app-chat-body',
@@ -16,6 +17,7 @@ export class ChatBodyComponent implements OnInit {
   public msg: string = '';
   public chatId: number;
   private channel: string;
+  private currentDay = new Date().getDay();
 
   public talkWithChatbot: boolean = false;
   public talkWithEvaluator: boolean = false;
@@ -35,6 +37,7 @@ export class ChatBodyComponent implements OnInit {
   constructor(private chatService: ChatService) {}
 
   ngOnInit(): void {
+    this.checkDate();
     if (localStorage.getItem('user') != null) {
       this.userInfo = JSON.parse(localStorage.getItem('user'));
 
@@ -50,12 +53,14 @@ export class ChatBodyComponent implements OnInit {
           this.messages = data.data;
           if (this.messages.length != 0) {
             this.hasMessage = true;
+            console.log(data)
           }
         });
     }
   }
 
   mainChat() {
+    this.hasMessage = true;
     this.showContacts = false;
     this.talkWithEvaluator = false;
     this.talkWithChatbot = false;
@@ -91,6 +96,7 @@ export class ChatBodyComponent implements OnInit {
     this.chatService.createConvo(newConvo).subscribe((data) => {
       this.chatId = data.data;
     });
+    
   }
 
   OnAddMsg(): void {
@@ -101,6 +107,17 @@ export class ChatBodyComponent implements OnInit {
     }
 
     this.myInput.nativeElement.value = '';
+  }
+
+  checkDate(){
+  
+    if(this.currentDay == 6 || this.currentDay == 7){
+      console.log("Weekend");
+    }
+    else{
+      console.log("not weekend")
+    }
+
   }
 
   chatbotMessage(question) {

@@ -19,7 +19,7 @@ export class SignInComponent implements OnInit {
   public fireBaseUid: any;
   public _signinForm: FormGroup;
   public user;
-  private _submitted: boolean = false;
+  public _submitted: boolean = false;
   public userDetails;
   public isSubmitting: boolean = false;
 
@@ -32,6 +32,10 @@ export class SignInComponent implements OnInit {
     private _registerAccountFormService: RegisterAccountFormService
   ) {
     this.createForm();
+  }
+
+  get signinFormControl() {
+    return this._signinForm.controls;
   }
 
   createForm() {
@@ -47,6 +51,7 @@ export class SignInComponent implements OnInit {
       this._authService
         .SignIn(value)
         .then((result) => {
+          console.log("res"+result)
           if (result.user.emailVerified == true) {
             this.SetUserDataFire(result.user.uid, result.user.emailVerified);
             this._authService.getToken(result.user.uid);
@@ -57,7 +62,8 @@ export class SignInComponent implements OnInit {
           }
         })
         .catch((error) => {
-          window.alert(error.message);
+          this.isSubmitting = false;
+         
         });
     }
   }
@@ -87,7 +93,8 @@ export class SignInComponent implements OnInit {
         });
       })
       .catch((error) => {
-        window.alert(error.message);
+        this.isSubmitting = false;
+        
       });
   }
 

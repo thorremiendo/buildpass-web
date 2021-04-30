@@ -1,57 +1,50 @@
-import { Component, OnInit, Inject, Optional, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { Announcement } from '../announcement';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import * as QuillNamespace from 'quill';
+let Quill: any = QuillNamespace;
+import ImageResize from 'quill-image-resize-module';
+Quill.register('modules/imageResize', ImageResize);
+
+import { Announcement } from '../announcement'
 
 @Component({
   selector: 'app-edit-dialog',
   templateUrl: './edit-dialog.component.html',
-  styleUrls: ['./edit-dialog.component.scss']
+  styleUrls: ['./edit-dialog.component.scss'],
 })
 export class EditDialogComponent implements OnInit {
-
-  public announcements: Object[] = Announcement;
-  public body: string = '';
+  public maxLength = 360;
   public imageChangedEvent: any = '';
-  public originalImage: any = ''; 
-  public croppedImage: any = '';
-  public savedImage: any = '';
-  public btnName: string = "Upload image"
-  public hasPhoto: boolean = false;
+  public btnName: string = 'Upload thumbnail';
+  public modules = {
+    // toolbar: {
+    //   container: [
+    //     [{ 'font': [] }],
+    //     [{ 'size': ['small', false, 'large', 'huge'] }],
+    //     ['bold', 'italic', 'underline', 'strike'],
+    //     [{ 'header': 1 }, { 'header': 2 }],
+    //     [{ 'color': [] }, { 'background': [] }],
+    //     [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    //     [{ 'align': [] }],
+    //     ['link', 'image']
+    //   ]
+    // },
+    imageResize: true
+  };
 
 
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Announcement) {}
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data) {
-    let i = this.data.index;
-    let announcement = this.data.data[i];
-    this.body = announcement.body;
-    this.croppedImage = announcement.photo_path_crop;
-    this.originalImage = announcement.photo_path_original;
-    console.log(data);
-  }
-
-  ngOnInit(){
-    if(this.originalImage){
-      this.btnName = "Change image"
+  ngOnInit() {
+    if (this.data.photo_path_original) {
+      this.btnName = 'Change thumbnail';
     }
-
-  }
-
-  submit() {
-    this.announcements[this.data.index] = {
-      body: this.body,
-      active: 0,
-      photo_path_original: this.originalImage,
-      photo_path_crop: this.croppedImage,
-      isDisable: false,
-    };
   }
 
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
     this.handleUpload(event);
-    console.log(this.imageChangedEvent)
-   
   }
 
   handleUpload(event) {
@@ -59,21 +52,18 @@ export class EditDialogComponent implements OnInit {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-        this.originalImage = reader.result;
-        this.btnName = "Change image"
-        console.log(this.originalImage);
+      this.data.photo_path_original = reader.result;
+      this.btnName = 'Change image';
     };
-}
+  }
 
-handleDelete(){
-  this.originalImage = '';
-  this.croppedImage = '';
-  this.btnName = "Upload image"
-}
+  handleDelete() {
+    this.data.photo_path_original = '';
+    this.data.photo_path_crop = '';
+    this.btnName = 'Upload image';
+  }
+
   imageCropped(event: ImageCroppedEvent) {
-    this.croppedImage = event.base64;
-    
-    // this.savedImage = event
-    console.log(event);
+    this.data.photo_path_crop = event.base64;
   }
 }

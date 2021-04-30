@@ -18,6 +18,7 @@ import { AdminSignInComponent } from './admin-sign-in/admin-sign-in.component';
 import { EmployeeResetPasswordComponent } from './employee-reset-password/employee-reset-password.component';
 import { AdminAnnouncementComponent} from './admin-announcement/admin-announcement.component';
 import { EditDialogComponent } from './admin-announcement/edit-dialog/edit-dialog.component';
+import { PreviewDialogComponent } from './admin-announcement/preview-dialog/preview-dialog.component';
 
 @NgModule({
   declarations: [ 
@@ -25,6 +26,7 @@ import { EditDialogComponent } from './admin-announcement/edit-dialog/edit-dialo
     EmployeeResetPasswordComponent, 
     AdminAnnouncementComponent,
     EditDialogComponent,
+    PreviewDialogComponent,
   ],
   imports: [
     CommonModule,
