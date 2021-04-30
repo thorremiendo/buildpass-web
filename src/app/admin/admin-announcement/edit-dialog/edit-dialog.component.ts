@@ -6,12 +6,15 @@ let Quill: any = QuillNamespace;
 import ImageResize from 'quill-image-resize-module';
 Quill.register('modules/imageResize', ImageResize);
 
+import { Announcement } from '../announcement'
+
 @Component({
   selector: 'app-edit-dialog',
   templateUrl: './edit-dialog.component.html',
   styleUrls: ['./edit-dialog.component.scss'],
 })
 export class EditDialogComponent implements OnInit {
+  public maxLength = 360;
   public imageChangedEvent: any = '';
   public btnName: string = 'Upload thumbnail';
   public modules = {
@@ -31,7 +34,7 @@ export class EditDialogComponent implements OnInit {
   };
 
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Announcement) {}
 
   ngOnInit() {
     if (this.data.photo_path_original) {
@@ -42,7 +45,6 @@ export class EditDialogComponent implements OnInit {
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
     this.handleUpload(event);
-    console.log(this.imageChangedEvent);
   }
 
   handleUpload(event) {

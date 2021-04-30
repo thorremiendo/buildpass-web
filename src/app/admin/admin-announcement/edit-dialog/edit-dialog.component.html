@@ -6,9 +6,18 @@
       </mat-form-field>
     <mat-form-field appearance="outline">
         <mat-label>Short Discription</mat-label>
-        <textarea [(ngModel)]="data.short_description" style="height: 100px;" matInput></textarea>
+        <textarea 
+          [(ngModel)]="data.short_description" 
+          style="height: 100px;" 
+          [maxlength]="maxLength"
+          #short_description
+          matInput>
+        </textarea>
+        <mat-hint align="end"
+        >{{ short_description.value.length }} / {{ maxLength }}</mat-hint
+        >
       </mat-form-field>
-      <div style="height: 300px;">
+      <div style="height: 300px; padding-top: 20px;">
         <quill-editor  matTooltip="Enter Full Details here" [modules]="modules" [(ngModel)]="data.body"></quill-editor>
       </div>
 </mat-dialog-content>

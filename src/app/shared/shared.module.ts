@@ -32,6 +32,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { UpdatePasswordDialogComponent } from './update-password-dialog/update-password-dialog.component';
 import { ImageViewerModule } from 'ngx-image-viewer';
+import { AnnouncementListComponent } from './announcement/announcement-list/announcement-list.component';
+import { AnnouncementFullComponent } from './announcement/announcement-full/announcement-full.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -52,6 +55,8 @@ import { ImageViewerModule } from 'ngx-image-viewer';
     ApplicationsListComponent,
     FeedbackComponent,
     UpdatePasswordDialogComponent,
+    AnnouncementListComponent,
+    AnnouncementFullComponent,
   ],
   imports: [
     CommonModule,
@@ -60,6 +65,8 @@ import { ImageViewerModule } from 'ngx-image-viewer';
     PerfectScrollbarModule,
     ReactiveFormsModule,
     MatSelectModule,
+    FlexLayoutModule,
+  
     ImageViewerModule.forRoot(),
   ],
   exports: [
@@ -78,6 +85,7 @@ import { ImageViewerModule } from 'ngx-image-viewer';
     ProjectDetailsComponent,
     ApplicantBuildingPermitDocsComponent,
     ApplicationsListComponent,
+    AnnouncementListComponent,
   ],
   providers: [
     {

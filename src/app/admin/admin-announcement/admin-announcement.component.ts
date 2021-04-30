@@ -21,12 +21,21 @@ export class AdminAnnouncementComponent {
     this.announcements.splice(index, 1);
   }
 
-  editDialog(data) {
-   this.dialog.open(EditDialogComponent, {
+  editDialog(data, index) {
+    console.log(index)
+    const dialogRef = this.dialog.open(EditDialogComponent, {
       data: data,
       height: '600px',
       width: '800px',
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("After closed"+result.subject);
+      this.announcements[index] = result;
+      
+    });
+    
+    
   }
 
   previewDialog(data){
@@ -49,6 +58,7 @@ export class AdminAnnouncementComponent {
       body: 'New Announcement 1 ',
       isActive: false,
       photo_path: '',
+      date: new Date(),
     });
   }
 
