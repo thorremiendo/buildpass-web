@@ -334,7 +334,10 @@
                       color="primary"
                       (click)="notifyBuildingOfficial()"
                       *ngIf="evaluatorRole.code == 'CBAO-DC'"
-                      [disabled]="checkFormNonCompliant()"
+                      [disabled]="
+                        !checkFormsCompliant() ||
+                        applicationInfo.application_status_id !== 12
+                      "
                     >
                       Forward to Building Official
                     </button>
