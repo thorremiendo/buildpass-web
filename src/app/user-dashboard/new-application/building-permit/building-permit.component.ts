@@ -86,7 +86,7 @@ export class BuildingPermitComponent implements OnInit {
     {
       label: 'Step 11',
       title: 'Other Requirements',
-      documents: [39, 42],
+      documents: [39],
     },
   ];
 
@@ -101,6 +101,7 @@ export class BuildingPermitComponent implements OnInit {
   public if10000sqm: Array<any> = [40];
   public is3storeysOrMore: Array<any> = [31];
   public ifFloorArea20sqmOrMore: Array<any> = [29];
+  public isNotAsBuilt: Array<any> = [42];
 
   constructor(
     private newApplicationService: NewApplicationService,
@@ -182,7 +183,13 @@ export class BuildingPermitComponent implements OnInit {
               this.applicationDetails.project_detail.total_floor_area > 20
                 ? true
                 : false;
-
+            const isNoAsBuilt =
+              this.applicationDetails.construction_status_id !== 3
+                ? true
+                : false;
+            isNoAsBuilt
+              ? this.fieldSets[4].documents.push(...this.isNotAsBuilt)
+              : null;
             if10000sqm
               ? this.fieldSets[4].documents.push(...this.if10000sqm)
               : null;
@@ -293,7 +300,6 @@ export class BuildingPermitComponent implements OnInit {
 
   setFilePaths() {
     const docs = this.applicationDetails.user_docs;
-    console.log({ docs });
     this.forms.forEach((form) => {
       docs.forEach((doc) => {
         if (form.id == doc.document_id) {

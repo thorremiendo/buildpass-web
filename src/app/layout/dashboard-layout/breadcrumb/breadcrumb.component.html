@@ -3,30 +3,52 @@
 <div
   class="page-breadcrumb col p-t-20 p-b-20 p-l-30 p-r-30 shadow p-3 mb-3 bg-white rounded"
 >
-<div class="row">
-  <div class="col-9">
-    <div
-      fxFlex.gt-sm="60"
-      fxFlex.gt-xs="60"
-      fxFlex="100"
-      class="align-self-center"
-    >
-      <h4 class="page-title text-themecolor m-0">
-        Building Permit Application Services System (BuildPASS)
-      </h4>
+  <div class="row">
+    <div class="col-9">
       <div
-        class="breadcrumb d-flex align-items-center float-right float-sm-left"
+        fxFlex.gt-sm="60"
+        fxFlex.gt-xs="60"
+        fxFlex="100"
+        class="align-self-center"
       >
-        <ul class="list-style-none d-flex align-items-center">
-          <ng-template ngFor let-url [ngForOf]="pageInfo?.urls" let-last="last">
-            <li class="breadcrumb-item" *ngIf="!last" [routerLink]="url.url">
-              <a href="javascript:void(0)">{{ url.title }}</a>
-            </li>
-            <li class="breadcrumb-item active" *ngIf="last">{{ url.title }}</li>
-          </ng-template>
-        </ul>
+        <h4 class="page-title text-themecolor m-0">
+          Building Permit Application Services System (BuildPASS)
+        </h4>
+        <div
+          style="
+            background-color: #fca650;
+            width: 50px;
+            text-align: center;
+            border-radius: 8px;
+          "
+        >
+          <p
+            style="font-weight: 600; font-size: 12px; color: white"
+            class="m-0"
+          >
+            BETA
+          </p>
+        </div>
+        <div
+          class="breadcrumb d-flex align-items-center float-right float-sm-left"
+        >
+          <ul class="list-style-none d-flex align-items-center">
+            <ng-template
+              ngFor
+              let-url
+              [ngForOf]="pageInfo?.urls"
+              let-last="last"
+            >
+              <li class="breadcrumb-item" *ngIf="!last" [routerLink]="url.url">
+                <a href="javascript:void(0)">{{ url.title }}</a>
+              </li>
+              <li class="breadcrumb-item active" *ngIf="last">
+                {{ url.title }}
+              </li>
+            </ng-template>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>

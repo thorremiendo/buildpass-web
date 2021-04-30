@@ -837,15 +837,15 @@ export class DataFormBindingService {
         applicantDetails.street_name ? applicantDetails.street_name : ''
       } ${applicantDetails.barangay}`.toUpperCase(),
       applicant_first_name:
-        applicantDetails.first_name == 'undefined'
+        applicantDetails.first_name == ''
           ? 'N/A'
           : applicantDetails.first_name.toUpperCase(),
       applicant_last_name:
-        applicantDetails.last_name == 'undefined'
+        applicantDetails.last_name == ''
           ? 'N/A'
           : applicantDetails.last_name.toUpperCase(),
       applicant_middle_name:
-        applicantDetails.middle_name == 'undefined'
+        applicantDetails.middle_name == ''
           ? 'N/A'
           : applicantDetails.middle_name.toUpperCase(),
       applicant_suffix_name:
@@ -853,102 +853,89 @@ export class DataFormBindingService {
           ? ' '
           : applicantDetails.suffix_name.toUpperCase(),
       applicant_tin_number:
-        applicantDetails.tin_number == 'undefined'
-          ? 'N/A'
-          : applicantDetails.tin_number,
+        applicantDetails.tin_number == '' ? 'N/A' : applicantDetails.tin_number,
       applicant_contact_number:
-        applicantDetails.contact_number == 'undefined'
+        applicantDetails.contact_number == ''
           ? 'N/A'
           : applicantDetails.contact_number,
       applicant_email_address:
-        applicantDetails.email_address == 'undefined'
+        applicantDetails.email_address == ''
           ? 'N/A'
           : applicantDetails.email_address.toUpperCase(),
       applicant_house_number:
-        applicantDetails.house_number == 'undefined'
+        applicantDetails.house_number == ''
           ? 'N/A'
           : applicantDetails.house_number.toUpperCase(),
       applicant_unit_number:
-        applicantDetails.unit_number == 'undefined'
+        applicantDetails.unit_number == ''
           ? 'N/A'
           : applicantDetails.unit_number,
       applicant_floor_number:
-        applicantDetails.floor_number == 'undefined'
+        applicantDetails.floor_number == ''
           ? 'N/A'
           : applicantDetails.floor_number,
       applicant_street_name:
-        applicantDetails.street_name == 'undefined'
+        applicantDetails.street_name == ''
           ? 'N/A'
           : applicantDetails.street_name.toUpperCase(),
       applicant_barangay:
-        applicantDetails.barangay == 'undefined'
+        applicantDetails.barangay == ''
           ? 'N/A'
           : applicantDetails.barangay.toUpperCase(),
       applicant_province: 'BENGUET',
       applicant_city: 'BAGUIO CITY',
       appicant_zipcode: '2600',
       project_house_number:
-        projectDetails.house_number == 'undefined'
-          ? 'N/A'
-          : projectDetails.house_number,
+        projectDetails.house_number == '' ? '' : projectDetails.house_number,
       project_lot_number:
-        projectDetails.lot_number == 'undefined'
-          ? 'N/A'
-          : projectDetails.lot_number,
+        projectDetails.lot_number == '' ? '' : projectDetails.lot_number,
       project_block_number:
-        projectDetails.block_number == 'undefined'
-          ? 'N/A'
-          : projectDetails.block_number,
+        projectDetails.block_number == '' ? '' : projectDetails.block_number,
       project_street_name:
-        projectDetails.street_name == 'undefined'
-          ? 'N/A'
+        projectDetails.street_name == ''
+          ? ''
           : projectDetails.street_name.toUpperCase(),
       project_number_of_units:
-        projectDetails.number_of_units == 'undefined'
-          ? 'N/A'
+        projectDetails.number_of_units == ''
+          ? ''
           : projectDetails.number_of_units,
       project_barangay:
-        projectDetails.barangay == 'undefined'
-          ? 'N/A'
+        projectDetails.barangay == ''
+          ? ''
           : projectDetails.barangay.toUpperCase(),
       project_number_of_basement:
-        projectDetails.number_of_basement == 'undefined'
-          ? 'N/A'
+        projectDetails.number_of_basement == ''
+          ? ''
           : projectDetails.number_of_basement,
       project_lot_area:
-        projectDetails.lot_area == 'undefined'
-          ? 'N/A'
-          : projectDetails.lot_area,
+        projectDetails.lot_area == '' ? '' : projectDetails.lot_area,
       project_total_floor_area:
-        projectDetails.total_floor_area == 'undefined'
-          ? 'N/A'
+        projectDetails.total_floor_area == ''
+          ? ''
           : projectDetails.total_floor_area,
       project_units:
-        projectDetails.number_of_units == 'undefined'
-          ? 'N/A'
+        projectDetails.number_of_units == ''
+          ? ''
           : projectDetails.number_of_units,
       project_number_of_storey:
-        projectDetails.number_of_storey == 'undefined'
-          ? 'N/A'
+        projectDetails.number_of_storey == ''
+          ? ''
           : projectDetails.number_of_storey,
       project_type:
-        projectDetails.project_title == 'undefined'
-          ? 'N/A'
+        projectDetails.project_title == ''
+          ? ''
           : projectDetails.project_title.toUpperCase(),
-      project_cost_cap:
-        projectCostCap == 'undefined' ? 'N/A' : `${projectCostCap}.00`,
+      project_cost_cap: projectCostCap == '' ? '' : `${projectCostCap}.00`,
       project_tct_number:
-        projectDetails.tct_number == 'undefined'
-          ? 'N/A'
-          : projectDetails.tct_number,
+        projectDetails.tct_number == '' ? '' : projectDetails.tct_number,
       project_tax_dec_number:
-        projectDetails.tax_dec_number == 'undefined'
-          ? 'N/A'
+        projectDetails.tax_dec_number == ''
+          ? ''
           : projectDetails.tax_dec_number,
       project_province: 'BENGUET',
       project_city: 'BAGUIO CITY',
       project_zipcode: '2600',
-      project_complete_address: `${projectDetails.house_number} ${projectDetails.lot_number} ${projectDetails.street_name} ${projectDetails.barangay}`.toUpperCase(),
+      project_complete_address: `${projectDetails.house_number} ${projectDetails.street_name} ${projectDetails.barangay}`.toUpperCase(),
 
       amount_in_words:
         projectDetails.project_cost_cap == ''

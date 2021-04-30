@@ -56,17 +56,17 @@ const USERMENUITEMS = [
     icon: 'manage_accounts',
   },
   {
+    state: 'dashboard/checklists',
+    name: 'Forms',
+    type: 'link',
+    icon: 'file_download',
+  },
+  {
     state: 'dashboard/feedback',
     name: 'Feedback',
     type: 'link',
     icon: 'feedback',
     outlet: 'modal',
-  },
-  {
-    state: 'dashboard/checklists',
-    name: 'Forms',
-    type: 'link',
-    icon: 'file_download',
   },
 ];
 const EVALUATORMENUITEMS = [

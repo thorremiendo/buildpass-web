@@ -8,7 +8,6 @@ import { DashboardLayoutModule } from '../layout/dashboard-layout/dashboard-layo
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LayoutModule } from '../layout/layout.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -42,7 +41,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { UserEditProfileComponent } from './user-edit-profile/user-edit-profile.component';
-import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from '../../environments/environment';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -86,7 +84,6 @@ import { DemolitionPermitComponent } from './new-application/demolition-permit/d
     RouterModule,
     SharedModule,
     ReactiveFormsModule,
-    NgbModule,
     MatToolbarModule,
     FormsModule,
     LayoutModule,
@@ -110,9 +107,6 @@ import { DemolitionPermitComponent } from './new-application/demolition-permit/d
     PdfJsViewerModule,
     MatTabsModule,
     MatDatepickerModule,
-    NgxMapboxGLModule.withConfig({
-      accessToken: environment.mapbox.accessToken,
-    }),
     MatAutocompleteModule,
     MatCheckboxModule,
     MatProgressBarModule,
