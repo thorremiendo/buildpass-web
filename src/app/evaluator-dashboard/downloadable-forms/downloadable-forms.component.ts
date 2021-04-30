@@ -17,21 +17,21 @@ export class DownloadableFormsComponent implements OnInit {
     {
       title: 'Fencing Permit Checklist',
       src:
-        '../../../assets/applicant-checklists/Checklist_in_Securing_Fencing_Permit_(LATEST)_0_(1).pdf',
+        '../../../assets/applicant-checklists/Checklist_in_securing_fencing_permit.pdf',
       caption:
         'CHECKLIST IN SECURING FENCING PERMIT Pursuant to P.D. 1096, National Building Code of the Philippines and its IRR',
     },
     {
       title: 'Excavation Permit Checklist',
       src:
-        '../../../assets/applicant-checklists/Checklist_in_securing_excavation_permit_(LATEST)_0_0_(1).pdf',
+        '../../../assets/applicant-checklists/Checklist_in_securing_excavation_permit.pdf',
       caption:
         'CHECKLIST IN SECURING EXCAVATION PERMIT Pursuant to P.D. 1096, National Building Code of the Philippines and its IRR',
     },
     {
       title: 'Demolition Permit Checklist',
       src:
-        '../../../assets/applicant-checklists/Checklist_in_Securing_Demolition_Permit_(LATEST)_0_(3).pdf',
+        '../../../assets/applicant-checklists/Checklist_in_Securing_Demolition_Permit.pdf',
       caption:
         'CHECKLIST IN SECURING DEMOLITION PERMIT Pursuant to P.D. 1096, National Building Code of the Philippines and it’s IRR',
     },
