@@ -4,25 +4,25 @@
 
 export const environment = {
   production: false,
-    api_url: `http://ocpas-api.test/api`,
+   // api_url: `http://ocpas-api.test/api`,
   //api_url: `http://localhost:8000/api`,
-  // api_url: `https://api.staging.buildpass.baguio.gov.ph/api`,
+  api_url: `https://api.staging.buildpass.baguio.gov.ph/api`,
 
   firebase: {
-    apiKey: 'AIzaSyA2KX_f0SKSYcJhqdDGdBK5yfnlxYYWuHU',
-    authDomain: 'baguio-ocpas.firebaseapp.com',
-    databaseURL: 'https://baguio-ocpas.firebaseio.com',
-    projectId: 'baguio-ocpas',
-    storageBucket: 'baguio-ocpas.appspot.com',
-    messagingSenderId: '555420675385',
-    appId: '1:555420675385:web:9c6c47107f6b9695fa8ce8',
-    measurementId: 'G-CC0KM4S06Z',
+    apiKey: "AIzaSyCTCQAnOkASHslp8No3KbiiPuwMaJPixjM",
+    authDomain: "ocpas-staging.firebaseapp.com",
+    projectId: "ocpas-staging",
+    storageBucket: "ocpas-staging.appspot.com",
+    messagingSenderId: "707588667518",
+    appId: "1:707588667518:web:fe86b240301f7700b1802f",
+    measurementId: "G-39X06XCXLX"
   },
   mapbox: {
     accessToken:
       'pk.eyJ1IjoidGhvcnJlbWllbmRvIiwiYSI6ImNraGs1MnF4MDFsZG4yeW53M3U3ZjJ4ZTMifQ.a5GU9EWk45shfNxhK07G-w',
   },
-  adobe_key: '8c0cd670273d451cbc9b351b11d22318',
+  //adobe_key: '8c0cd670273d451cbc9b351b11d22318', //local
+  adobe_key: '3ff0dea6d3f6421b98eb54c89d3c274a',  //staging
   pusher: {
     key: '5aaab0a1fdf76144a6ff',
     cluster: 'ap1',

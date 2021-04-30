@@ -69,7 +69,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   wheelPropagation: true,
 };
 
-LogRocket.init('bblmhh/buildpass-staging');
+//LogRocket.init('bblmhh/buildpass-staging');
 
 @NgModule({
   declarations: [AppComponent,],
