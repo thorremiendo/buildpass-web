@@ -4,9 +4,7 @@
 
 export const environment = {
   production: false,
-   // api_url: `http://ocpas-api.test/api`,
-  //api_url: `http://localhost:8000/api`,
-  api_url: `https://api.staging.buildpass.baguio.gov.ph/api`,
+  api_url: `http://localhost:8000/api`,
 
   firebase: {
     apiKey: "AIzaSyCTCQAnOkASHslp8No3KbiiPuwMaJPixjM",
@@ -21,8 +19,7 @@ export const environment = {
     accessToken:
       'pk.eyJ1IjoidGhvcnJlbWllbmRvIiwiYSI6ImNraGs1MnF4MDFsZG4yeW53M3U3ZjJ4ZTMifQ.a5GU9EWk45shfNxhK07G-w',
   },
-  //adobe_key: '8c0cd670273d451cbc9b351b11d22318', //local
-  adobe_key: '3ff0dea6d3f6421b98eb54c89d3c274a',  //staging
+  adobe_key: '8c0cd670273d451cbc9b351b11d22318',
   pusher: {
     key: '5aaab0a1fdf76144a6ff',
     cluster: 'ap1',

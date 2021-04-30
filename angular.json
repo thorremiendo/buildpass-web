@@ -78,6 +78,14 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.staging.ts"
+                }
+              ]
             }
           }
         },
@@ -89,7 +97,11 @@
           "configurations": {
             "production": {
               "browserTarget": "ocpas-web:build:production"
+            },
+            "staging": {
+              "browserTarget": "ocpas-web:build:staging"
             }
+            
           }
         },
         "extract-i18n": {
