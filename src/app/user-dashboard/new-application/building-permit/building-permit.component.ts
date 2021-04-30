@@ -1,3 +1,4 @@
+import { GetDateService } from './../../../core/services/get-date.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, Data } from '@angular/router';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
@@ -109,7 +110,8 @@ export class BuildingPermitComponent implements OnInit {
     private dataBindingService: DataFormBindingService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService
+    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService,
+    private dateService: GetDateService
   ) {}
 
   ngOnInit(): void {
@@ -368,15 +370,31 @@ export class BuildingPermitComponent implements OnInit {
   submitApplication() {
     if (this.getFieldSetsLength() + 6 == this.getUniqueUserDocs()) {
       this.isLoading = true;
-      const body = {
-        application_status_id: 9,
-      };
-      this.applicationService
-        .updateApplicationStatus(body, this.applicationId)
-        .subscribe((res) => {
+      if (this.dateService.isWeekend() === false) {
+        console.log(this.dateService.isWorkHours());
+        if (this.dateService.isWorkHours() === true) {
+          const body = {
+            application_status_id: 9,
+          };
+          this.applicationService
+            .updateApplicationStatus(body, this.applicationId)
+            .subscribe((res) => {
+              this.isLoading = false;
+              this.router.navigate([
+                'dashboard/new/summary',
+                this.applicationId,
+              ]);
+            });
+        } else {
           this.isLoading = false;
-          this.router.navigate(['dashboard/new/summary', this.applicationId]);
-        });
+          this.openSnackBar(
+            'You can only submit applications during Working Hours (8am - 5pm).'
+          );
+        }
+      } else {
+        this.openSnackBar('You can only submit applications on Weekdays.');
+        this.isLoading = false;
+      }
     } else {
       this.openSnackBar('Please upload all necessary documents!');
     }

@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-    // api_url: `http://ocpas-api.test/api`,
-  // api_url: `http://localhost:8000/api`,
-  api_url: `https://api.staging.buildpass.baguio.gov.ph/api`,
+  // api_url: `http://ocpas-api.test/api`,
+  api_url: `http://localhost:8000/api`,
+  // api_url: `https://api.staging.buildpass.baguio.gov.ph/api`,
 
   firebase: {
     apiKey: 'AIzaSyA2KX_f0SKSYcJhqdDGdBK5yfnlxYYWuHU',
