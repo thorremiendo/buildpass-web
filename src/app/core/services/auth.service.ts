@@ -1,4 +1,5 @@
 import firebase from 'firebase/app';
+import "firebase/auth";
 import { Injectable, NgZone } from '@angular/core';
 import { JwtService } from './jwt.service';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -111,6 +112,21 @@ export class AuthService {
         this.router.navigate(['verify-email']);
       });
   }
+
+  handleVerifyEmail(actionCode) {
+    return firebase.
+        auth()
+        .applyActionCode(actionCode)
+        .then(() => {
+          window.alert("Email Verified");
+
+      }).catch((error) => {
+          window.alert(error.message);
+      });
+    
+   
+  }
+  
 
   // Reset Forggot password
   ForgotPassword(passwordResetEmail) {

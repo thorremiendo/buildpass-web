@@ -1,7 +1,7 @@
 <div *ngFor="let announcement of announcements; index as i">
-    <mat-card>
+    <mat-card *ngIf="announcement.isActive == true">
         <mat-card-content >
-            <div  fxLayout="row">
+            <div  fxLayout="row wrap">
               <div fxFlex.gt-sm="20" fxFlex.gt-xs="100" fxFlex="100">
                 <img class="img" [src]="announcement.photo_path_crop"/>
               </div>

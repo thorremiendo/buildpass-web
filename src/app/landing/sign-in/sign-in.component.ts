@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   AngularFirestore,
@@ -23,13 +23,17 @@ export class SignInComponent implements OnInit {
   public userDetails;
   public isSubmitting: boolean = false;
 
+  
+
   constructor(
     private _authService: AuthService,
     private _router: Router,
+    private _route :ActivatedRoute,
     private _fb: FormBuilder,
     private _ngZone: NgZone,
     private _afs: AngularFirestore,
     private _registerAccountFormService: RegisterAccountFormService
+    
   ) {
     this.createForm();
   }
@@ -151,6 +155,17 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit(): void {
+   
+    this._route.queryParamMap.subscribe(queryParams => {
+      var lang = queryParams.get('lang');
+      var mode =   queryParams.get('mode');
+      var actionCode = queryParams.get('oobCode');
+
+      if(actionCode){
+        this._authService.handleVerifyEmail(actionCode);
+      }
+    });
+
     localStorage.removeItem('currentUser');
     localStorage.removeItem('user');
   }
