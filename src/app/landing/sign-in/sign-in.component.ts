@@ -126,6 +126,7 @@ export class SignInComponent implements OnInit {
       last_name: user.family_name,
       emailVerified: user.verified_email,
       is_evaluator: false,
+      provider:'google'
     };
     return userRef.set(userData, {
       merge: true,
@@ -148,9 +149,10 @@ export class SignInComponent implements OnInit {
       firebase_uid: this.fireBaseUid.uid,
       first_name: user.given_name,
       last_name: user.family_name,
-      email_address: user.email,
+      email: user.email,
       is_evaluator: false,
       emailVerified: user.verified_email,
+      provider: 'google',
     };
   }
 

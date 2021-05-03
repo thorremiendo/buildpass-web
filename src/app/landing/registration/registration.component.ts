@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
+  public user;
   public selectedFile: File = null;
   public selectedPhoto: File = null;
   public maxLength: number = 11;
@@ -132,6 +133,7 @@ export class RegistrationComponent implements OnInit {
           first_name: this.registrationDetails.first_name,
           last_name: this.registrationDetails.last_name
         });
+        console.log(this.registrationDetails);
       } else {
         this._router.navigateByUrl('/user/sign-up');
       }
@@ -156,10 +158,35 @@ export class RegistrationComponent implements OnInit {
         if (dataPrivacyFlag) {
           this.isUpdating = true;
 
-          this._authService
+          if(this.registrationDetails.provider == 'google'){
+            this.user = {
+              first_name: this._registrationForm.value.first_name,
+              middle_name: this._registrationForm.value.middle_name,
+              last_name: this._registrationForm.value.last_name,
+              suffix_name: this._registrationForm.value.suffix_name,
+              birthdate: this.dateToString(this._registrationForm.value.birthdate),
+              marital_status_id: this._registrationForm.value.marital_status,
+              gender: this._registrationForm.value.gender,
+              home_address: this._registrationForm.value.home_address,
+              barangay: this._registrationForm.value.barangay,
+              contact_number: this._registrationForm.value.contact_number,
+              id_number: this._registrationForm.value.id_number,
+              id_type: this._registrationForm.value.id_type,
+              photo_path: this.selectedPhoto ? this.selectedPhoto : null,
+              id_photo_path: this.selectedFile ? this.selectedFile : null,
+              firebase_uid: this.registrationDetails.firebase_uid,
+              email_address: this.registrationDetails.email,
+              emailVerified: this.registrationDetails.emailVerified,
+              is_evaluator: false,
+            };
+           
+          }
+          else{
+
+            this._authService
             .SignUp(this.registrationDetails)
             .then(result => {
-              const user = {
+              this.user = {
                 first_name: this._registrationForm.value.first_name,
                 middle_name: this._registrationForm.value.middle_name,
                 last_name: this._registrationForm.value.last_name,
@@ -179,11 +206,16 @@ export class RegistrationComponent implements OnInit {
                 emailVerified: result.user.emailVerified,
                 is_evaluator: false,
               };
-
-              this._registerAccountFormService.submitRegisterAccountInfo(user).subscribe((res) => {
-                this._authService.SendVerificationMail();
-              });
             });
+
+          }
+
+          this._registerAccountFormService.submitRegisterAccountInfo(this.user).subscribe((res) => {
+            this._authService.SendVerificationMail();
+          });
+
+
+          
         }
       });
     }
