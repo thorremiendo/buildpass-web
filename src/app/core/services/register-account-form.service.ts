@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { RegisterAccountModel } from '../models/user.model';
 import { ApiService } from './api.service';
+import firebase from 'firebase/app';
 
 @Injectable({
   providedIn: 'root',
@@ -33,5 +34,9 @@ export class RegisterAccountFormService {
   submitRegisterAccountInfo(body): Observable<RegisterAccountModel> {
     const url = '/user';
     return this._api.post(url, body);
+  }
+
+  checkIfEmailRegistered(email): Promise<string[]> {
+    return firebase.auth().fetchSignInMethodsForEmail(email);
   }
 }
