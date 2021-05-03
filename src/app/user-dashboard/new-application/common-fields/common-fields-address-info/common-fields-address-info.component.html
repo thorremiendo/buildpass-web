@@ -7,7 +7,11 @@
       <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>House Number</mat-label>
-          <input type="text" matInput formControlName="project_house_number" />
+          <input
+            type="number"
+            matInput
+            formControlName="project_house_number"
+          />
         </mat-form-field>
       </div>
       <div class="col-md-3">
@@ -148,26 +152,10 @@
       </div>
       <div class="col-md-3">
         <mat-form-field appearance="outline">
-          <mat-label>Project Title</mat-label>
-          <input matInput formControlName="project_title" required />
-          <mat-error
-            *ngIf="
-              (projectDetailsFormControl.project_title.touched || _submitted) &&
-              projectDetailsFormControl.project_title.errors?.required
-            "
-          >
-            Project Title is required
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="col-md-3">
-        <mat-form-field appearance="outline">
           <mat-label>Number of Basement</mat-label>
           <input matInput formControlName="project_basement" />
         </mat-form-field>
       </div>
-    </div>
-    <div class="row justify-content-center px-3">
       <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Project Cost</mat-label>
@@ -191,7 +179,9 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <div class="col-md-3">
+    </div>
+    <div class="row justify-content-center px-3">
+      <div class="col-md-6">
         <mat-form-field appearance="outline">
           <mat-label>TCT Number</mat-label>
           <input
@@ -228,6 +218,22 @@
             "
           >
             Tax Dec. Number is Required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row justify-content-center px-3">
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Project Title</mat-label>
+          <input matInput formControlName="project_title" required />
+          <mat-error
+            *ngIf="
+              (projectDetailsFormControl.project_title.touched || _submitted) &&
+              projectDetailsFormControl.project_title.errors?.required
+            "
+          >
+            Project Title is required
           </mat-error>
         </mat-form-field>
       </div>

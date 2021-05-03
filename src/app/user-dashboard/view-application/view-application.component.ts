@@ -110,9 +110,13 @@ export class ViewApplicationComponent implements OnInit {
     this.applicationService
       .fetchUserDocs(this.applicationId)
       .subscribe((result) => {
-        this.dataSource = result.data;
-        this.isLoading = false;
+        this.filterUserDocs(result.data);
       });
+  }
+  filterUserDocs(forms) {
+    const USER_FORMS = forms.filter((doc) => doc.document_id !== 50);
+    this.isLoading = false;
+    this.dataSource = USER_FORMS;
   }
 
   getDocType(id): string {

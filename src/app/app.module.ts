@@ -1,10 +1,11 @@
+import * as LogRocket from "logrocket";
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -68,10 +69,11 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   wheelPropagation: true,
 };
 
+LogRocket.init('bblmhh/buildpass-staging');
+
 @NgModule({
-  declarations: [AppComponent,],
+  declarations: [AppComponent],
   imports: [
-    NgbModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

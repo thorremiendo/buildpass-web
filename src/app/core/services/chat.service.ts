@@ -20,7 +20,6 @@ export class ChatService {
   public pusher: Pusher;
 
   constructor(private api: ApiService) {
-    Pusher.logToConsole = true;
     const { key, cluster } = environment.pusher;
     this.pusher = new Pusher(key, { cluster });
   }
@@ -31,7 +30,6 @@ export class ChatService {
   }
 
   applicantChatSubscribe(channel) {
-    // let channelName = "chat-1"
     let pusherBind = 'RealTimeMessagingEvent';
     this.channel = this.pusher.subscribe(channel);
     this.channel.bind(

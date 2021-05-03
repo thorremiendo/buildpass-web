@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from    '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TopCardComponent } from './top-card/top-card.component';
 import { SharedModule } from '../shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,7 +9,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MaterialModule } from '../material-module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 //import { ChartistModule } from 'ng-chartist';
-import { ChartsModule } from 'ng2-charts';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
@@ -30,7 +29,7 @@ import { MatCarouselModule } from '@ngmodule/material-carousel';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelSpeed: 2,
-  wheelPropagation: true
+  wheelPropagation: true,
 };
 
 @NgModule({
@@ -43,7 +42,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ChatBoxComponent,
     RemindersComponent,
     FaqExpansionPanelComponent,
-    TutorialComponent,],
+    TutorialComponent,
+  ],
 
   imports: [
     CommonModule,
@@ -51,21 +51,20 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    
+
     MatIconModule,
     MatCardModule,
     MaterialModule,
     MatCarouselModule.forRoot(),
 
     FlexLayoutModule,
-    ChartsModule,
+
     NgApexchartsModule,
     PerfectScrollbarModule,
     ChatModule,
-
   ],
 
-  exports:[
+  exports: [
     TopCardComponent,
     BarChartComponent,
     DonutChartComponent,
@@ -80,11 +79,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
   providers: [
     {
-        provide: PERFECT_SCROLLBAR_CONFIG,
-        useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-    }, 
-    
-],
-   
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+    },
+  ],
 })
-export class DashboardComponentsModule { }
+export class DashboardComponentsModule {}

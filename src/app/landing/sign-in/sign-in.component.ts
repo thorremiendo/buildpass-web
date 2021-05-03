@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   AngularFirestore,
@@ -19,19 +19,27 @@ export class SignInComponent implements OnInit {
   public fireBaseUid: any;
   public _signinForm: FormGroup;
   public user;
-  private _submitted: boolean = false;
+  public _submitted: boolean = false;
   public userDetails;
   public isSubmitting: boolean = false;
+
+  
 
   constructor(
     private _authService: AuthService,
     private _router: Router,
+    private _route :ActivatedRoute,
     private _fb: FormBuilder,
     private _ngZone: NgZone,
     private _afs: AngularFirestore,
     private _registerAccountFormService: RegisterAccountFormService
+    
   ) {
     this.createForm();
+  }
+
+  get signinFormControl() {
+    return this._signinForm.controls;
   }
 
   createForm() {
@@ -47,6 +55,7 @@ export class SignInComponent implements OnInit {
       this._authService
         .SignIn(value)
         .then((result) => {
+          console.log("res"+result)
           if (result.user.emailVerified == true) {
             this.SetUserDataFire(result.user.uid, result.user.emailVerified);
             this._authService.getToken(result.user.uid);
@@ -57,7 +66,8 @@ export class SignInComponent implements OnInit {
           }
         })
         .catch((error) => {
-          window.alert(error.message);
+          this.isSubmitting = false;
+         
         });
     }
   }
@@ -87,7 +97,8 @@ export class SignInComponent implements OnInit {
         });
       })
       .catch((error) => {
-        window.alert(error.message);
+        this.isSubmitting = false;
+        
       });
   }
 
@@ -144,6 +155,17 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit(): void {
+   
+    this._route.queryParamMap.subscribe(queryParams => {
+      var lang = queryParams.get('lang');
+      var mode =   queryParams.get('mode');
+      var actionCode = queryParams.get('oobCode');
+
+      if(actionCode){
+        this._authService.handleVerifyEmail(actionCode);
+      }
+    });
+
     localStorage.removeItem('currentUser');
     localStorage.removeItem('user');
   }

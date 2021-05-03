@@ -1,0 +1,79 @@
+<div fxLayout="row">
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <button mat-raised-button color="primary" class="mt-40" (click)="addNew()">
+            Add New <i class="material-icons">add_circle_outline</i>
+          </button>
+    </div>
+ 
+</div>
+
+<div fxLayout="row">
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+        <div
+        cdkDropList
+        class="example-list mt-20"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div
+          class="list-unstyled m-t-40"
+          *ngFor="let announcement of announcements; index as i"
+          cdkDrag
+        >
+          <mat-card cdkDragHandle>
+            <mat-card-content>
+              <div fxLayout="row">
+                <div fxFlex.gt-sm="5" fxFlex.gt-xs="100" fxFlex="100">
+                  <p class="drag-index">{{ i + 1 }}</p>
+                </div>
+                <div fxFlex.gt-sm="5" fxFlex.gt-xs="100" fxFlex="100">
+                    <mat-icon class="">   
+                        <mat-checkbox 
+                        [(ngModel)]="announcement.isActive"
+                        >
+                        </mat-checkbox>
+                    </mat-icon>
+                   
+                  </div>
+                <div fxFlex.gt-sm="70" fxFlex.gt-xs="100" fxFlex="100">
+                    <h3 >
+                       {{ announcement.subject }}
+                    </h3>
+                    <p style="text-align: justify;">{{ announcement.short_description }}  <a *ngIf="announcement.body"class="more" (click)="previewDialog(announcement)">  more....</a></p>
+                </div>
+                <div
+                  fxFlex.gt-sm="20"
+                  fxFlex.gt-xs="100"
+                  fxFlex="100"
+                  fxLayoutAlign="end start"
+                >
+                    <mat-icon  matTooltip="view" class="pr-5 pointer" aria-hidden="false" aria-label="view" (click)="previewDialog(announcement)">visibility</mat-icon>
+                    <mat-icon  matTooltip="edit" class="pr-5 pointer" aria-hidden="false" aria-label="edit" (click)="editDialog(announcement, i)">edit</mat-icon>
+                    <mat-icon  matTooltip="delete" class="pointer" aria-hidden="false" aria-label="delete" (click)="delete(i)" >delete</mat-icon>
+                </div>
+              </div>
+              <div fxLayout="row">
+                <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                    <img class="img" [src]="announcement.photo_path_crop" />
+                  </div>
+              
+              </div>
+             
+            </mat-card-content>
+          </mat-card>
+         
+        </div>
+      </div>
+    </div>
+</div>
+<div fxLayout="row mb-5">
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"  fxLayoutAlign="end start">
+        <button mat-raised-button color="primary" class="mt-40" (click)="submit()">
+            Submit
+          </button>
+    </div>
+ 
+</div>
+<app-announcement-list
+  [announcements] = "announcements"
+></app-announcement-list>
+ 
