@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from 'src/app/admin/dashboard-layout/dashboard/dashboard.component';
+import { ApplicationDetailsComponent } from 'src/app/evaluator-dashboard/application-details/application-details.component';
 import { ApplicationsListComponent } from 'src/app/shared/applications-list/applications-list.component';
 import { AdminAnalyticsComponent } from '../admin-analytics/admin-analytics.component';
 import { AdminAnnouncementComponent } from '../admin-announcement/admin-announcement.component';
@@ -30,11 +31,17 @@ const routes: Routes = [
       {
         path: 'application',
         component: AdminApplicationListComponent,
-        children:[{
-          path: ':id',
-          component:ApplicationsListComponent,
-        }]
+        // children:[{
+         
+        // }]
+        
       },
+      
+      {
+        path: 'application/:id',
+        component:ApplicationDetailsComponent,
+
+      }
     ],
   },
 ];

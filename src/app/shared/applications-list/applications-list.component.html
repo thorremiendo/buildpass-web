@@ -52,7 +52,7 @@
     />
   </div>
   <div class="application-details">
-    <div class="application-type">
+    <div class="application-type" *ngIf="application.permit_type_id">
       <div>
         {{ application.permit_type_id == 1 ? "Building Permit" : "" }}
         {{ application.permit_type_id == 2 ? "Certificate of Occupancy" : "" }}
@@ -60,17 +60,17 @@
         {{ application.permit_type_id == 4 ? "Fencing Permit" : "" }}
         {{ application.permit_type_id == 5 ? "Demolition Permit" : "" }}
       </div>
-      <div>
+      <div *ngIf="application.applicant_detail?.created_at">
         {{ application.applicant_detail.created_at | date: "MMMM dd, yyyy" }}
       </div>
     </div>
     <div class="application-code">
       {{ application.permit_application_code }}
     </div>
-    <div class="application-status">
+    <div class="application-status" *ngIf="application.application_status_id" >
       {{ getApplicationStatus(application.application_status_id) }}
     </div>
-    <div class="application-applicant">
+    <div class="application-applicant" *ngIf="application.applicant_detail">
       <mat-icon [inline]="true">person</mat-icon>
       {{ application.applicant_detail.first_name }}
       {{
@@ -85,7 +85,7 @@
           : ""
       }}
     </div>
-    <div class="application-location">
+    <div class="application-location" *ngIf="application.project_detail">
       <mat-icon [inline]="true">location_on</mat-icon>
       {{
         application.project_detail.house_number

@@ -28,7 +28,7 @@ export class UserFeedbackComponent implements OnInit {
     null
   );
 
-  displayedColumns: string[] = ['id', 'page', 'feedback', 'date', 'action'];
+  displayedColumns: string[] = ['id', 'full_name', 'role', 'page', 'feedback', 'date', 'action'];
   public dataSource: any;
 
   constructor(
@@ -62,7 +62,7 @@ export class UserFeedbackComponent implements OnInit {
   btnCategoryClick(val: string){
     this.isFetching = true;
     this.adminFeedbackService.fetchFeedBackFilter(val).subscribe((data) => {
-      console.log('Categorry' + data.data);
+      console.log('Categorry' + JSON.stringify(data.data));
       this.dataSource = new MatTableDataSource(data.data);
       this.dataSource.paginator = this.paginator;
       this.isFetching = false;
@@ -72,8 +72,8 @@ export class UserFeedbackComponent implements OnInit {
   openDialog(data) {
     this.dialog.open(FeedbackDialogComponent, {
       data:data,
-      height: '300px',
-      width: '500px'
+      height: '400px',
+      width: '600px'
 
     });
   }
@@ -82,8 +82,17 @@ export class UserFeedbackComponent implements OnInit {
 @Component({
   selector: 'feedback-dialog',
   templateUrl: 'feedback-dialog.component.html',
+  styleUrls: ['./user-feedback.component.scss'],
 })
 export class FeedbackDialogComponent {
+  public fullName: string;
+  public contact: string;
+  public email: string;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: FeedbackModel) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data) {
+    this.fullName = `${data.user_detail.first_name}` + ' ' + `${data.user_detail.last_name}`
+    this.contact = data.contact_number;
+    this.email = data.email_address;
+
+  }
 }

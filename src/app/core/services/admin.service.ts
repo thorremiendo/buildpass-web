@@ -16,7 +16,7 @@ export class AdminService  {
   ) {}
 
   fetchAllApplication(){
-    const url = `/application/get`;
+    const url = `/application`;
 
     return this.api.get(url);
   }
