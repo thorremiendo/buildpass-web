@@ -28,7 +28,7 @@ export class UserFeedbackComponent implements OnInit {
     null
   );
 
-  displayedColumns: string[] = ['id', 'role', 'page', 'feedback', 'date', 'action'];
+  displayedColumns: string[] = ['id', 'page', 'feedback', 'date', 'action'];
   public dataSource: any;
 
   constructor(
@@ -49,7 +49,6 @@ export class UserFeedbackComponent implements OnInit {
       
       this.dataSource = new MatTableDataSource(data.data);
       this.dataSource.paginator = this.paginator;
-      console.log(data);
 
     });
    
@@ -85,14 +84,6 @@ export class UserFeedbackComponent implements OnInit {
   templateUrl: 'feedback-dialog.component.html',
 })
 export class FeedbackDialogComponent {
-  public fullName: string;
-  public contact: string;
-  public email: string;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data) {
-    this.fullName = `${data.user_detail.first_name}` + ' ' + `${data.user_detail.last_name}`
-    this.contact = data.contact_number;
-    this.email = data.email_address;
-
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: FeedbackModel) {}
 }

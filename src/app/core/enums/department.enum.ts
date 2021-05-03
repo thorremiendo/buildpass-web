@@ -1,6 +1,6 @@
 export enum Office {
     "City Planning and Development Office",
-    "City Environment and Park Office",
+    "City Environment and Parks Management Office",
     "Bureau of Fire Protection",
     "City Buildings and Architecture Office",
 }

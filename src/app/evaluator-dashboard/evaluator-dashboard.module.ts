@@ -46,7 +46,6 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ApplicationDetailsComponent } from './application-details/application-details.component';
 import { EvaluatorRegistrationComponent } from './evaluator-registration/evaluator-registration.component';
 import { EvaluatorSignInComponent } from './evaluator-sign-in/evaluator-sign-in.component';
-import { EvaluatorSignUpComponent } from './evaluator-sing-up/evaluator-sign-up.component';
 import { EvaluatorPersonalInfoComponent } from './evaluator-personal-info/evaluator-personal-info.component';
 import { EvaluatorEmployeeInfoComponent } from './evaluator-employee-info/evaluator-employee-info.component';
 import { EvaluatorsSummaryComponent } from './evaluators-summary/evaluators-summary.component';
@@ -92,7 +91,6 @@ import { DownloadableFormsComponent } from './downloadable-forms/downloadable-fo
     ApplicationDetailsComponent,
     EvaluatorRegistrationComponent,
     EvaluatorSignInComponent,
-    EvaluatorSignUpComponent,
     EvaluatorPersonalInfoComponent,
     EvaluatorEmployeeInfoComponent,
     EvaluatorsSummaryComponent,

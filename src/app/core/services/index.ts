@@ -15,3 +15,4 @@ export * from './register-account-form.service';
 export * from './application-info.service';
 export * from './evaluator.service';
 export * from './admin-feedback.service';
+export * from './admin.service';

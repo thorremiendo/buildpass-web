@@ -8,6 +8,7 @@ export interface User {
     last_name:string;
     emailVerified:boolean;
     is_evaluator:boolean;
+    provider: string,
 
    
  }
