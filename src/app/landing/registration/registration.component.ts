@@ -7,6 +7,7 @@ import { RegisterAccountFormService } from '../../core/services/register-account
 import { AuthService } from '../../core/services/auth.service';
 import { DataPrivacyComponent } from '../data-privacy/data-privacy.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -18,7 +19,7 @@ export class RegistrationComponent implements OnInit {
   public selectedPhoto: File = null;
   public maxLength: number = 11;
   public isUpdating: boolean = false;
-  private firebaseDetails;
+  private registrationDetails;
 
   _registrationForm: FormGroup;
   _barangay: Barangay[];
@@ -45,6 +46,7 @@ export class RegistrationComponent implements OnInit {
     private _registerAccountFormService: RegisterAccountFormService,
     private _authService: AuthService,
     private _dialog: MatDialog,
+    private _router: Router,
   ) {
     this._registrationForm = this._fb.group({
       first_name:['', Validators.required],
@@ -124,11 +126,15 @@ export class RegistrationComponent implements OnInit {
   
   ngOnInit(): void {
     this._registerAccountFormService.cast.subscribe(registerAccountSubject => {
-      this.firebaseDetails = registerAccountSubject;
-      this._registrationForm.patchValue({
-        first_name: this.firebaseDetails.first_name,
-        last_name: this.firebaseDetails.last_name
-      });
+      if (Object.keys(registerAccountSubject).length > 0) {
+        this.registrationDetails = registerAccountSubject;
+        this._registrationForm.patchValue({
+          first_name: this.registrationDetails.first_name,
+          last_name: this.registrationDetails.last_name
+        });
+      } else {
+        this._router.navigateByUrl('/user/sign-up');
+      }
     });
 
     this._barangayService.getBarangayInfo().subscribe(data => {
@@ -146,33 +152,39 @@ export class RegistrationComponent implements OnInit {
 
     if (this._registrationForm.valid && this.selectedFile && this.selectedPhoto) {
       const dialogRef = this._dialog.open(DataPrivacyComponent);
-      dialogRef.afterClosed().subscribe(result => {
-        this.isUpdating = true;
-        
-        const user = {
-          first_name: this._registrationForm.value.first_name,
-          middle_name: this._registrationForm.value.middle_name,
-          last_name: this._registrationForm.value.last_name,
-          suffix_name: this._registrationForm.value.suffix_name,
-          birthdate: this.dateToString(this._registrationForm.value.birthdate),
-          marital_status_id: this._registrationForm.value.marital_status,
-          gender: this._registrationForm.value.gender,
-          home_address: this._registrationForm.value.home_address,
-          barangay: this._registrationForm.value.barangay,
-          contact_number: this._registrationForm.value.contact_number,
-          id_number: this._registrationForm.value.id_number,
-          id_type: this._registrationForm.value.id_type,
-          photo_path: this.selectedPhoto ? this.selectedPhoto : null,
-          id_photo_path: this.selectedFile ? this.selectedFile : null,
-          firebase_uid: this.firebaseDetails.firebase_uid,
-          email_address: this.firebaseDetails.email_address,
-          emailVerified: this.firebaseDetails.emailVerified,
-          is_evaluator: this.firebaseDetails.is_evaluator,
-        };
+      dialogRef.afterClosed().subscribe(dataPrivacyFlag => {
+        if (dataPrivacyFlag) {
+          this.isUpdating = true;
 
-        this._registerAccountFormService.submitRegisterAccountInfo(user).subscribe((res) => {
-          this._authService.SendVerificationMail();
-        });
+          this._authService
+            .SignUp(this.registrationDetails)
+            .then(result => {
+              const user = {
+                first_name: this._registrationForm.value.first_name,
+                middle_name: this._registrationForm.value.middle_name,
+                last_name: this._registrationForm.value.last_name,
+                suffix_name: this._registrationForm.value.suffix_name,
+                birthdate: this.dateToString(this._registrationForm.value.birthdate),
+                marital_status_id: this._registrationForm.value.marital_status,
+                gender: this._registrationForm.value.gender,
+                home_address: this._registrationForm.value.home_address,
+                barangay: this._registrationForm.value.barangay,
+                contact_number: this._registrationForm.value.contact_number,
+                id_number: this._registrationForm.value.id_number,
+                id_type: this._registrationForm.value.id_type,
+                photo_path: this.selectedPhoto ? this.selectedPhoto : null,
+                id_photo_path: this.selectedFile ? this.selectedFile : null,
+                firebase_uid: result.user.uid,
+                email_address: result.user.email_address,
+                emailVerified: result.user.emailVerified,
+                is_evaluator: false,
+              };
+
+              this._registerAccountFormService.submitRegisterAccountInfo(user).subscribe((res) => {
+                this._authService.SendVerificationMail();
+              });
+            });
+        }
       });
     }
   }

@@ -73,22 +73,14 @@ export class SignUpComponent implements OnInit {
     this._submitted = true;
 
     if (this._signupForm.valid) {
-      this._authService
-        .SignUp(value)
-        .then((result) => {
-          const user = result.user;
-          this.fireBaseUser = user;
-
-          this.SetUserDataFire(value);
-          this.createUserDetails(value);
-          this._registerAccountFormService.setRegisterAccountInfo(
-            this.userDetails
-          );
+      this._registerAccountFormService.checkIfEmailRegistered(value.email).then(res => {
+        if (res.length > 0) {
+          this._signupForm.controls.email.setErrors({emailAlreadyUsed : true});
+        } else {
+          this._registerAccountFormService.setRegisterAccountInfo(value);
           this._router.navigateByUrl('registration');
-        })
-        .catch((error) => {
-          window.alert(error.message);
-        });
+        }
+      });
     }
   }
 
@@ -122,34 +114,6 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
-  }
-
-  SetUserDataFire(value) {
-    const userRef: AngularFirestoreDocument<any> = this._afs.doc(
-      `users/${this.fireBaseUser.uid}`
-    );
-    const userData: User = {
-      firebase_uid: this.fireBaseUser.uid,
-      email: value.email,
-      first_name: value.first_name,
-      last_name: value.last_name,
-      emailVerified: this.fireBaseUser.emailVerified,
-      is_evaluator: false,
-    };
-    return userRef.set(userData, {
-      merge: true,
-    });
-  }
-
-  createUserDetails(value) {
-    this.userDetails = {
-      firebase_uid: this.fireBaseUser.uid,
-      first_name: value.first_name,
-      last_name: value.last_name,
-      email_address: value.email,
-      is_evaluator: false,
-      emailVerified: this.fireBaseUser.emailVerified,
-    };
   }
 
   SetUserDataFireGoogle(user) {
