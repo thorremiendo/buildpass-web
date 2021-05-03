@@ -1,5 +1,13 @@
 <h2 mat-dialog-title>{{data.page | uppercase}}</h2>
 <mat-dialog-content class="mat-typography" style="height:150px ;">
+  <div fxLayout="row">
+    <div fxFlex.gt-sm="50" fxFlex.gt-xs="100" fxFlex="100">
+      <p><span style="font-size: medium;">Name: </span> {{fullName}}</p>
+      <p> <span style="font-size: medium;">Contact Number: </span> {{contact}}</p>
+      <p> <span style="font-size: medium;">Email Address: </span> {{email}}</p>
+    </div>
+  </div>
+  
     <p>{{data.feedback}}</p>
   
 </mat-dialog-content>
