@@ -175,7 +175,7 @@ export class RegistrationComponent implements OnInit {
                 photo_path: this.selectedPhoto ? this.selectedPhoto : null,
                 id_photo_path: this.selectedFile ? this.selectedFile : null,
                 firebase_uid: result.user.uid,
-                email_address: result.user.email_address,
+                email_address: result.user.email,
                 emailVerified: result.user.emailVerified,
                 is_evaluator: false,
               };
