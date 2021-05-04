@@ -18,7 +18,9 @@
         {{ userInfo.first_name }} {{ userInfo.last_name }}
       </h3>
       <p style="color: #400c06">{{ userInfo.email }}</p>
-      <p style="color: #400c06">Applicant</p>
+      <p style="color: #400c06">
+        {{ userInfo.first_name ? "Applicant" : "CBAO Treasury" }}
+      </p>
     </div>
     <div class="col text-center p-3" *ngIf="employeeDetails">
       <div class="mb-3">

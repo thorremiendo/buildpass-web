@@ -50,4 +50,22 @@ export class AdminAuthService {
         })
       );
   }
+
+  loginOffice(username: string, password: string): Observable<any> {
+    const url = `/office/login`;
+
+    return this.api
+      .post(url, {
+        username,
+        password,
+      })
+      .pipe(
+        map((res) => {
+          const user = 'treasury-cbao';
+          const token = res.data.token;
+          this.authService.currentUserSubject.next(user);
+          this.jwtService.saveToken(token);
+        })
+      );
+  }
 }

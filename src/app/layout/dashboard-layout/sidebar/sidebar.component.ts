@@ -89,7 +89,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    if (this.employeeDetails == undefined) {
+    if (this.userInfo == 'treasury-cbao') {
+      this._authService.treasurySignOut();
+    } else if (this.employeeDetails == undefined) {
       this._authService.userSignOut();
     } else {
       this._authService.evaluatorSignOut();

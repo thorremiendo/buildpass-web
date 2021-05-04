@@ -31,7 +31,7 @@ export class TreasurySignInComponent implements OnInit {
 
   tryLogin(value) {
     this._submitted = true;
-    this._adminAuth.loginEvaluator(value.username, value.password).subscribe(
+    this._adminAuth.loginOffice(value.username, value.password).subscribe(
       (res) => {
         this._router.navigateByUrl('/treasury/dashboard/home');
       },

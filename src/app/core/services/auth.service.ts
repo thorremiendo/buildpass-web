@@ -1,5 +1,5 @@
 import firebase from 'firebase/app';
-import "firebase/auth";
+import 'firebase/auth';
 import { Injectable, NgZone } from '@angular/core';
 import { JwtService } from './jwt.service';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -114,7 +114,7 @@ export class AuthService {
   }
 
   handleVerifyEmail(actionCode) {
-    console.log("verify email");
+    console.log('verify email');
     return firebase
       .auth()
       .applyActionCode(actionCode)
@@ -127,7 +127,7 @@ export class AuthService {
   }
 
   handleResetPassword(actionCode) {
-    console.log("reset password")
+    console.log('reset password');
     localStorage.setItem('actionCode', JSON.stringify(actionCode));
     this.router.navigate(['change-password']);
   }
@@ -135,16 +135,15 @@ export class AuthService {
   verifyPasswordResetCode(actionCode) {
     return new Promise<any>((resolve) => {
       firebase
-      .auth()
-      .verifyPasswordResetCode(actionCode)
-      .then((email) => {
-         resolve(email);
-      })
-      .catch((error) => {
-        window.alert(error.message);
-      });
-      
-    });  
+        .auth()
+        .verifyPasswordResetCode(actionCode)
+        .then((email) => {
+          resolve(email);
+        })
+        .catch((error) => {
+          window.alert(error.message);
+        });
+    });
   }
 
   confirmPasswordReset(actionCode, newPassword) {
@@ -152,10 +151,9 @@ export class AuthService {
       .auth()
       .confirmPasswordReset(actionCode, newPassword)
       .then((resp) => {
-        window.alert('Success')
-        this.router.navigate(['user/sign-in'])
+        window.alert('Success');
+        this.router.navigate(['user/sign-in']);
         localStorage.removeItem('actionCode');
-
       })
       .catch((error) => {
         window.alert(error.message);
@@ -261,6 +259,19 @@ export class AuthService {
         this.jwtService.removeToken();
         this.isAuthenticatedSubject.next(false);
         this.router.navigateByUrl('/evaluator/sign-in');
+      });
+  }
+  treasurySignOut() {
+    return firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('app_id');
+        localStorage.removeItem('applicationDetails');
+        this.jwtService.removeToken();
+        this.isAuthenticatedSubject.next(false);
+        this.router.navigateByUrl('/treasury/sign-in');
       });
   }
 }
