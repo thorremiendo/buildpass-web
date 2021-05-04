@@ -8,6 +8,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { DataPrivacyComponent } from '../data-privacy/data-privacy.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-registration',
@@ -48,6 +49,7 @@ export class RegistrationComponent implements OnInit {
     private _authService: AuthService,
     private _dialog: MatDialog,
     private _router: Router,
+    private _snackbar: MatSnackBar,
   ) {
     this._registrationForm = this._fb.group({
       first_name:['', Validators.required],
@@ -110,7 +112,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   displayBarangayName(value: number) {
-    if (value != null) {
+    if (value) {
       return this._barangay[value-1].name;
     }
   }
@@ -133,7 +135,6 @@ export class RegistrationComponent implements OnInit {
           first_name: this.registrationDetails.first_name,
           last_name: this.registrationDetails.last_name
         });
-        console.log(this.registrationDetails);
       } else {
         this._router.navigateByUrl('/user/sign-up');
       }
@@ -158,7 +159,7 @@ export class RegistrationComponent implements OnInit {
         if (dataPrivacyFlag) {
           this.isUpdating = true;
 
-          if(this.registrationDetails.provider == 'google'){
+          if (this.registrationDetails.provider == 'google') {
             const user = {
               first_name: this._registrationForm.value.first_name,
               middle_name: this._registrationForm.value.middle_name,
@@ -183,9 +184,7 @@ export class RegistrationComponent implements OnInit {
             this._registerAccountFormService.submitRegisterAccountInfo(user).subscribe((res) => {
               this._authService.SendVerificationMail();
             });
-           
-          }
-          else{
+          } else {
             this._authService
             .SignUp(this.registrationDetails)
             .then(result => {
@@ -209,15 +208,26 @@ export class RegistrationComponent implements OnInit {
                 emailVerified: result.user.emailVerified,
                 is_evaluator: false,
               };
+
               this._registerAccountFormService.submitRegisterAccountInfo(user).subscribe((res) => {
                 this._authService.SendVerificationMail();
               });
-  
             });
-
           }
-
         }
+      });
+    } else {
+      setTimeout(function() {
+        const noFile = document.querySelectorAll('.no-file');
+        const invalidInput = document.querySelectorAll('.mat-form-field-invalid');
+        if (noFile.length) {
+          noFile[0].scrollIntoView();
+        } else if (invalidInput.length) {
+          invalidInput[0].scrollIntoView();
+        }
+      }, 50);
+      this._snackbar.open('Please fill all required fields.', 'close', {
+        duration: 3000,
       });
     }
   }
