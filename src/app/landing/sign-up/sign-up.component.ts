@@ -78,6 +78,7 @@ export class SignUpComponent implements OnInit {
           this._signupForm.controls.email.setErrors({emailAlreadyUsed : true});
         } else {
           this._registerAccountFormService.setRegisterAccountInfo(value);
+          console.log(value);
           this._router.navigateByUrl('registration');
         }
       });

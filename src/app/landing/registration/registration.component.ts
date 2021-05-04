@@ -159,7 +159,7 @@ export class RegistrationComponent implements OnInit {
           this.isUpdating = true;
 
           if(this.registrationDetails.provider == 'google'){
-            this.user = {
+            const user = {
               first_name: this._registrationForm.value.first_name,
               middle_name: this._registrationForm.value.middle_name,
               last_name: this._registrationForm.value.last_name,
@@ -179,14 +179,17 @@ export class RegistrationComponent implements OnInit {
               emailVerified: this.registrationDetails.emailVerified,
               is_evaluator: false,
             };
+
+            this._registerAccountFormService.submitRegisterAccountInfo(user).subscribe((res) => {
+              this._authService.SendVerificationMail();
+            });
            
           }
           else{
-
             this._authService
             .SignUp(this.registrationDetails)
             .then(result => {
-              this.user = {
+              const user = {
                 first_name: this._registrationForm.value.first_name,
                 middle_name: this._registrationForm.value.middle_name,
                 last_name: this._registrationForm.value.last_name,
@@ -206,16 +209,14 @@ export class RegistrationComponent implements OnInit {
                 emailVerified: result.user.emailVerified,
                 is_evaluator: false,
               };
+              this._registerAccountFormService.submitRegisterAccountInfo(user).subscribe((res) => {
+                this._authService.SendVerificationMail();
+              });
+  
             });
 
           }
 
-          this._registerAccountFormService.submitRegisterAccountInfo(this.user).subscribe((res) => {
-            this._authService.SendVerificationMail();
-          });
-
-
-          
         }
       });
     }
