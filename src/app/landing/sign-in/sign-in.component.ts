@@ -55,7 +55,6 @@ export class SignInComponent implements OnInit {
       this._authService
         .SignIn(value)
         .then((result) => {
-          console.log("res"+result)
           if (result.user.emailVerified == true) {
             this.SetUserDataFire(result.user.uid, result.user.emailVerified);
             this._authService.getToken(result.user.uid);
@@ -157,17 +156,22 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
     this._route.queryParamMap.subscribe(queryParams => {
-      var lang = queryParams.get('lang');
+      //var lang = queryParams.get('lang');
       var mode =   queryParams.get('mode');
       var actionCode = queryParams.get('oobCode');
+      
+      switch (mode) {
+        case 'resetPassword':
+          this._authService.handleResetPassword(actionCode);
+          break;
+        case 'verifyEmail':
+          this._authService.handleVerifyEmail(actionCode);
+          break;
+        default:
 
-      if(actionCode){
-        this._authService.handleVerifyEmail(actionCode);
       }
     });
-
     localStorage.removeItem('currentUser');
     localStorage.removeItem('user');
   }

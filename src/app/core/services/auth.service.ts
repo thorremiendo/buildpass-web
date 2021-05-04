@@ -1,5 +1,5 @@
 import firebase from 'firebase/app';
-import "firebase/auth";
+import 'firebase/auth';
 import { Injectable, NgZone } from '@angular/core';
 import { JwtService } from './jwt.service';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -13,6 +13,7 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 import { UserService } from './user.service';
 import { ApiService } from '../services/api.service';
 import * as LogRocket from 'logrocket';
+import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
 
 @Injectable({
   providedIn: 'root',
@@ -46,9 +47,8 @@ export class AuthService {
         LogRocket.identify('bblmhh/buildpass-production', {
           name: `${user.first_name} ${user.middle_name} ${user.last_name} `,
           email: `${user.email_address}`,
-        
+
           // Add your own custom user variables here, ie:
-        
         });
       }
     });
@@ -114,19 +114,51 @@ export class AuthService {
   }
 
   handleVerifyEmail(actionCode) {
-    return firebase.
-        auth()
-        .applyActionCode(actionCode)
-        .then(() => {
-          window.alert("Email Verified");
-
-      }).catch((error) => {
-          window.alert(error.message);
+    console.log('verify email');
+    return firebase
+      .auth()
+      .applyActionCode(actionCode)
+      .then(() => {
+        window.alert('Email Verified');
+      })
+      .catch((error) => {
+        window.alert(error.message);
       });
-    
-   
   }
-  
+
+  handleResetPassword(actionCode) {
+    console.log('reset password');
+    localStorage.setItem('actionCode', JSON.stringify(actionCode));
+    this.router.navigate(['change-password']);
+  }
+
+  verifyPasswordResetCode(actionCode) {
+    return new Promise<any>((resolve) => {
+      firebase
+        .auth()
+        .verifyPasswordResetCode(actionCode)
+        .then((email) => {
+          resolve(email);
+        })
+        .catch((error) => {
+          window.alert(error.message);
+        });
+    });
+  }
+
+  confirmPasswordReset(actionCode, newPassword) {
+    firebase
+      .auth()
+      .confirmPasswordReset(actionCode, newPassword)
+      .then((resp) => {
+        window.alert('Success');
+        this.router.navigate(['user/sign-in']);
+        localStorage.removeItem('actionCode');
+      })
+      .catch((error) => {
+        window.alert(error.message);
+      });
+  }
 
   // Reset Forggot password
   ForgotPassword(passwordResetEmail) {

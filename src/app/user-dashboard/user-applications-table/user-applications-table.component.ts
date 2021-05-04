@@ -15,7 +15,7 @@ export class UserApplicationsTableComponent implements OnInit {
   constructor(
     private userService: UserService,
     private newApplicationService: NewApplicationService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {

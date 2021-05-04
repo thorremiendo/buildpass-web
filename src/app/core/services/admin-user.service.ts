@@ -59,6 +59,12 @@ export class AdminUserService {
     return this.apiService.post(url, uid);
   }
 
+  deleteUser(id){
+    const url = `/user/${id}/delete`;
+    return this.apiService.delete(url);
+
+  }
+
   approveFillingFee(ocpasCode) {
     const url = `/treasury/${ocpasCode}/updatePayment`;
     const body = {

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AdminUserService } from '../../../core';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin-applicant-list',
@@ -17,6 +18,7 @@ export class AdminApplicantListComponent implements OnInit {
     'full_name',
     'address',
     'created_at',
+    'action'
 
     
   ];
@@ -28,6 +30,7 @@ export class AdminApplicantListComponent implements OnInit {
 
   constructor(
     private adminUserservice: AdminUserService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -36,6 +39,19 @@ export class AdminApplicantListComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.isFetching = false;
     });
+  }
+
+  deleteUser(id){
+    this.adminUserservice.deleteUser(id).subscribe( result =>{
+      const index = this.dataSource.data.indexOf(id);
+
+      this.snackBar.open('User Deleted', 'close');
+      this.dataSource.data.splice(index, 1);
+      this.dataSource._updateChangeSubscription(); 
+      this.dataSource.paginator = this.paginator; 
+
+    })
+
   }
 
   applyFilter(filterValue: string): void {

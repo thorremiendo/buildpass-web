@@ -36,6 +36,7 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { DataPrivacyComponent } from './data-privacy/data-privacy.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { DataPrivacyComponent } from './data-privacy/data-privacy.component';
     ForgotPasswordComponent,
     RegistrationComponent,
     DataPrivacyComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     CommonModule,
