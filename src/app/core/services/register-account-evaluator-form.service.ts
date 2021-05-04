@@ -36,7 +36,7 @@ export class RegisterAccountEvaluatorFormService {
   }
 
   submitRegisterAccountInfo(body): Observable<RegisterAccountEvaluatorModel> {
-    const url = '/user';
+    const url = '/user/employee';
     return this.api.post(url, body);
   }
 }

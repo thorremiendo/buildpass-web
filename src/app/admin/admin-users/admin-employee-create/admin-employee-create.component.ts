@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatDialogRef } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 import { 
   RegisterAccountEvaluatorFormService,
   BarangayService,
@@ -21,6 +22,7 @@ export class AdminEmployeeCreateComponent implements OnInit {
   public selectedFile: File = null;
   public selectedPhoto: File = null;
   public maxLength: number = 11;
+  public isUpdating: boolean = false;
 
   _adminCreateUserForm: FormGroup;
   _barangay: Barangay[];
@@ -56,7 +58,6 @@ export class AdminEmployeeCreateComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _barangayService: BarangayService,
-    private _authService: AuthService,
     private _registerAccountEvaluatorFormService: RegisterAccountEvaluatorFormService,
     public dialogRef: MatDialogRef<AdminEmployeeCreateComponent>
   ) {}
@@ -83,6 +84,7 @@ export class AdminEmployeeCreateComponent implements OnInit {
       id_number: ['', Validators.required],
       id_type: ['', Validators.required],
       email: ['', Validators.required],
+      role_id: ['', Validators.required]
     });
   }
 
@@ -154,6 +156,12 @@ export class AdminEmployeeCreateComponent implements OnInit {
     }
   }
 
+  displayOfficeName(value: number) {
+    if (value != null) {
+      return this._office[value];
+    }
+  }
+
   dateToString(dateObject) {
     if (dateObject != null) {
       const birthdate = new Date(dateObject);
@@ -165,6 +173,7 @@ export class AdminEmployeeCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this._filteredOfficeOptions)
     this.createForm();
 
     this._barangayService.getBarangayInfo().subscribe((data) => {
@@ -190,14 +199,7 @@ export class AdminEmployeeCreateComponent implements OnInit {
 
   onSubmit() {
     this._submitted = true;
-
-    const firebaseUser = {
-      first_name: this._adminCreateUserForm.value.first_name,
-      middle_name: this._adminCreateUserForm.value.middle_name,
-      email: this._adminCreateUserForm.value.email,
-      password: 'Password99!@#',
-      confirmPassword: 'Password99!@#',
-    };
+    this.isUpdating = true;
 
     const user = {
       first_name: this._adminCreateUserForm.value.first_name,
@@ -217,19 +219,22 @@ export class AdminEmployeeCreateComponent implements OnInit {
       id_type: this._adminCreateUserForm.value.id_type,
       photo_path: this.selectedPhoto,
       id_photo_path: this.selectedFile,
-      firebase_uid: '',
-      emailVerified: '',
-      is_evaluator: true,
+      is_evaluator: 1,
+      role_id:this._adminCreateUserForm.value.role_id,
     };
 
-    this._authService.SignUp(firebaseUser).then((result) => {
-      user.firebase_uid = result.user.uid;
-      user.emailVerified = result.user.emailVerified;
+    this._registerAccountEvaluatorFormService
+    .submitRegisterAccountInfo(user)
+    .subscribe((res) => {
+      this.isUpdating = false;
+      Swal.fire('Success!', `Evaluator Created`, 'success').then(
+        (result) => {
+          window.location.reload();
+        }
+      );
 
-      this._registerAccountEvaluatorFormService
-        .submitRegisterAccountInfo(user)
-        .subscribe((res) => {});
     });
+
   }
 }
 

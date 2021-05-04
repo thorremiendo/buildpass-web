@@ -49,6 +49,7 @@ export class ApplicationDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     this.isLoading = true;
     this.applicationId = this.route.snapshot.params.id;
     this.applicationService
