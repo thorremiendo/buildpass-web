@@ -255,37 +255,47 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       );
     } else {
       if (this.isRepresentative == '2') {
-
         this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
-          Swal.fire(
-            'Success!',
-            'Application Details Submitted!',
-            'success'
-          ).then((result) => {
-            this.isLoading = false;
-            switch (this.permitTypeId) {
-              case '1':
-                this._router.navigateByUrl('/dashboard/new/building-permit');
-                break;
-              case '2':
-                this._router.navigateByUrl('/dashboard/new/occupancy-permit');
-                break;
-              case '3':
-                this._router.navigateByUrl('/dashboard/new/excavation-permit');
-                break;
-              case '4':
-                this._router.navigateByUrl('/dashboard/new/fencing-permit');
-                break;
-              case '5':
-                this._router.navigateByUrl('/dashboard/new/demolition-permit');
-                break;
-            }
-          });
+          localStorage.setItem('app_id', res.data.id);
+          this.saveRoute(res.data.id);
         });
       } else {
         this.newApplicationFormService.setCommonFields(body);
         this._router.navigateByUrl('/dashboard/new/step-two/in-charge');
       }
     }
+  }
+  saveRoute(id) {
+    const body = {
+      user_id: this.user.id,
+      application_id: id,
+      url: '/dashboard/new/building-permit',
+    };
+    this.newApplicationSerivce.saveAsDraft(body).subscribe((res) => {
+      Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
+        (result) => {
+          localStorage.removeItem('newApplicationInfo');
+          localStorage.removeItem('commonFieldsInfo');
+          this.isLoading = false;
+          switch (this.permitTypeId) {
+            case '1':
+              this._router.navigateByUrl('/dashboard/new/building-permit');
+              break;
+            case '2':
+              this._router.navigateByUrl('/dashboard/new/occupancy-permit');
+              break;
+            case '3':
+              this._router.navigateByUrl('/dashboard/new/excavation-permit');
+              break;
+            case '4':
+              this._router.navigateByUrl('/dashboard/new/fencing-permit');
+              break;
+            case '5':
+              this._router.navigateByUrl('/dashboard/new/demolition-permit');
+              break;
+          }
+        }
+      );
+    });
   }
 }
