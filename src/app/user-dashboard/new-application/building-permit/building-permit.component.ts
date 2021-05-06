@@ -37,7 +37,7 @@ export class BuildingPermitComponent implements OnInit {
     {
       id: 2,
       src:
-        '../../../../assets/forms/Unified_Application_for_Building_Permit.pdf',
+        '../../../../assets/forms/updated/Unified_Application_for_Bldg_Permit.pdf',
       label: 'Step 2',
     },
     {
