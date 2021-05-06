@@ -42,12 +42,14 @@ export class BuildingPermitComponent implements OnInit {
     },
     {
       id: 3,
-      src: '../../../../assets/forms/Sanitary_Plumbing_Permit.pdf',
+      src:
+        '../../../../assets/forms/updated/Sanitary-Plumbing_Permit_(BUILDING_PERMIT)_(1).pdf',
       label: 'Step 3',
     },
     {
       id: 4,
-      src: '../../../../assets/forms/Electrical_Permit.pdf',
+      src:
+        '../../../../assets/forms/updated/Electrical_Permit_(for_building_permit).pdf',
       label: 'Step 4',
     },
     {
@@ -57,7 +59,7 @@ export class BuildingPermitComponent implements OnInit {
     },
     {
       id: 106,
-      src: '../../../../assets/forms/situational-report.pdf',
+      src: '../../../../assets/forms/updated/situational_report.pdf',
       label: 'Step 6',
     },
   ];

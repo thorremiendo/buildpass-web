@@ -822,6 +822,7 @@ export class DataFormBindingService {
 
   //GENERTAL FORM DATA
   getFormData(a) {
+    console.log(a);
     const applicantDetails = a.applicant_detail;
     const projectDetails = a.project_detail;
     const representativeDetails = a.representative_detail;
@@ -831,56 +832,58 @@ export class DataFormBindingService {
 
     const formData = {
       applicant_full_name: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
-      applicant_full_address: `${
+      applicant_complete_address: `${
         applicantDetails.house_number ? applicantDetails.house_number : ''
-      } ${applicantDetails.lot_number ? applicantDetails.lot_number : ''} ${
-        applicantDetails.street_name ? applicantDetails.street_name : ''
-      } ${applicantDetails.barangay}`.toUpperCase(),
+      }  ${applicantDetails.street_name ? applicantDetails.street_name : ''} ${
+        applicantDetails.barangay
+      }`.toUpperCase(),
       applicant_first_name:
         applicantDetails.first_name == ''
-          ? 'N/A'
+          ? ''
           : applicantDetails.first_name.toUpperCase(),
       applicant_last_name:
         applicantDetails.last_name == ''
-          ? 'N/A'
+          ? ''
           : applicantDetails.last_name.toUpperCase(),
       applicant_middle_name:
         applicantDetails.middle_name == ''
-          ? 'N/A'
+          ? ''
           : applicantDetails.middle_name.toUpperCase(),
+      applicant_middle_initial:
+        applicantDetails.middle_name == ''
+          ? ''
+          : applicantDetails.middle_name.charAt(0).toUpperCase(),
       applicant_suffix_name:
         applicantDetails.suffix_name == 'na'
           ? ' '
           : applicantDetails.suffix_name.toUpperCase(),
       applicant_tin_number:
-        applicantDetails.tin_number == '' ? 'N/A' : applicantDetails.tin_number,
+        applicantDetails.tin_number == '' ? '' : applicantDetails.tin_number,
       applicant_contact_number:
         applicantDetails.contact_number == ''
-          ? 'N/A'
+          ? ''
           : applicantDetails.contact_number,
       applicant_email_address:
         applicantDetails.email_address == ''
-          ? 'N/A'
+          ? ''
           : applicantDetails.email_address.toUpperCase(),
       applicant_house_number:
         applicantDetails.house_number == ''
-          ? 'N/A'
+          ? ''
           : applicantDetails.house_number.toUpperCase(),
       applicant_unit_number:
-        applicantDetails.unit_number == ''
-          ? 'N/A'
-          : applicantDetails.unit_number,
+        applicantDetails.unit_number == '' ? '' : applicantDetails.unit_number,
       applicant_floor_number:
         applicantDetails.floor_number == ''
-          ? 'N/A'
+          ? ''
           : applicantDetails.floor_number,
       applicant_street_name:
         applicantDetails.street_name == ''
-          ? 'N/A'
+          ? ''
           : applicantDetails.street_name.toUpperCase(),
       applicant_barangay:
         applicantDetails.barangay == ''
-          ? 'N/A'
+          ? ''
           : applicantDetails.barangay.toUpperCase(),
       applicant_province: 'BENGUET',
       applicant_city: 'BAGUIO CITY',
@@ -925,6 +928,10 @@ export class DataFormBindingService {
         projectDetails.project_title == ''
           ? ''
           : projectDetails.project_title.toUpperCase(),
+      project_title:
+        projectDetails.project_title == ''
+          ? ''
+          : projectDetails.project_title.toUpperCase(),
       project_cost_cap: projectCostCap == '' ? '' : `${projectCostCap}.00`,
       project_tct_number:
         projectDetails.tct_number == '' ? '' : projectDetails.tct_number,
@@ -935,7 +942,7 @@ export class DataFormBindingService {
       project_province: 'BENGUET',
       project_city: 'BAGUIO CITY',
       project_zipcode: '2600',
-      project_complete_address: `${projectDetails.house_number} ${projectDetails.street_name} ${projectDetails.barangay}`.toUpperCase(),
+      complete_project_location: `${projectDetails.house_number} ${projectDetails.street_name} ${projectDetails.barangay}`.toUpperCase(),
 
       amount_in_words:
         projectDetails.project_cost_cap == ''
@@ -969,6 +976,7 @@ export class DataFormBindingService {
       project_tenure_temporary: 'N/A',
       project_nature_others: 'N/A',
     };
+    console.log(formData);
     return formData;
   }
 }

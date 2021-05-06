@@ -9,7 +9,7 @@
     {{ getFieldSetsLength() + 6 }}
   </h4>
   <mat-horizontal-stepper
-    linear
+    linear="false"
     #stepper
     (selectionChange)="initPdfViewer($event)"
   >

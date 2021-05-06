@@ -25,7 +25,7 @@ export class DemolitionPermitComponent implements OnInit {
   public forms: any = [
     {
       id: 99,
-      src: '../../../../assets/forms/Demolition_Permit.pdf',
+      src: '../../../../assets/forms/updated/Demolition_Permit.pdf',
     },
   ];
 
