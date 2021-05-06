@@ -55,7 +55,6 @@ export class SignInComponent implements OnInit {
       this._authService
         .SignIn(value)
         .then((result) => {
-          console.log("res"+result)
           if (result.user.emailVerified == true) {
             this.SetUserDataFire(result.user.uid, result.user.emailVerified);
             this._authService.getToken(result.user.uid);
