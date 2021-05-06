@@ -1,3 +1,4 @@
+import { TreasuryAuthGuard } from './../treasury-guard';
 import { TreasuryHomeComponent } from './../treasury-home/treasury-home.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -7,6 +8,7 @@ const routes: Routes = [
   {
     path: 'treasury/dashboard',
     component: DashboardComponent,
+    canActivate: [TreasuryAuthGuard],
     children: [
       {
         path: 'home',
