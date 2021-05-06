@@ -942,7 +942,7 @@ export class DataFormBindingService {
       project_province: 'BENGUET',
       project_city: 'BAGUIO CITY',
       project_zipcode: '2600',
-      complete_project_location: `${projectDetails.house_number} ${projectDetails.street_name} ${projectDetails.barangay}`.toUpperCase(),
+      complete_project_location: `${projectDetails.house_number} Lot#${projectDetails.lot_number} ${projectDetails.block_number} ${projectDetails.barangay}`.toUpperCase(),
 
       amount_in_words:
         projectDetails.project_cost_cap == ''
