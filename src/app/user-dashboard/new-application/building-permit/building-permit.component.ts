@@ -31,7 +31,7 @@ export class BuildingPermitComponent implements OnInit {
     {
       id: 1,
       src:
-        '../../../../assets/forms/Application_Form_for_Certificate_of_Zoning_Compliance.pdf',
+        '../../../../assets/forms/updated/Application_Form_for_Certificate_of_Zoning_Compliance.pdf',
       label: 'Step 1',
     },
     {
@@ -54,7 +54,7 @@ export class BuildingPermitComponent implements OnInit {
     },
     {
       id: 48,
-      src: '../../../../assets/forms/Notice_of_Construction.pdf',
+      src: '../../../../assets/forms/updated/notice_of_construction.pdf',
       label: 'Step 5',
     },
     {

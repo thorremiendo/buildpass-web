@@ -831,6 +831,7 @@ export class DataFormBindingService {
     ).toLocaleString();
 
     const formData = {
+      owner_or_rep: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       applicant_full_name: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       applicant_complete_address: `${
         applicantDetails.house_number ? applicantDetails.house_number : ''
@@ -964,6 +965,13 @@ export class DataFormBindingService {
         representativeDetails == null
           ? 'N/A'
           : `${representativeDetails.house_number} ${representativeDetails.street_name} ${representativeDetails.barangay}`,
+      rep_first_name: 'N/A',
+      rep_middle_name: 'N/A',
+      rep_last_name: 'N/A',
+      rep_house_number: 'N/A',
+      rep_street_name: 'N/A',
+      rep_barangay: 'N/A',
+      rep_province: 'N/A',
       name_of_corporation: 'N/A',
       corporation_contact_number: 'N/A',
       corporation_address_no: 'N/A',

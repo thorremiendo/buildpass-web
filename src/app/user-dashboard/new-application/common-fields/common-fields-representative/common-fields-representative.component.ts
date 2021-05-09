@@ -53,12 +53,9 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
-    private _registerAccountFormService: RegisterAccountFormService,
     private newApplicationFormService: NewApplicationFormService,
     private newApplicationService: NewApplicationService,
-    private barangayService: BarangayService,
-    private authService: AuthService,
-    private userService: UserService
+    private barangayService: BarangayService
   ) {
     this.createForm();
     this.barangayService.getBarangayInfo().subscribe((data) => {

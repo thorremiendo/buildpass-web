@@ -1,0 +1,116 @@
+<form
+  [formGroup]="technicalFindingsForm"
+  (ngSubmit)="onSubmit()"
+  *ngIf="!isLoading"
+>
+  <div class="col-md-12 pt-3 px-3">
+    <div class="d-flex align-items-center">
+      <h5>Zone:</h5>
+      <div class="ml-3">
+        <mat-radio-group aria-label="Select an option">
+          <mat-radio-button value="1">R1</mat-radio-button>
+          <mat-radio-button value="2">R2</mat-radio-button>
+          <mat-radio-button value="3">R3</mat-radio-button>
+          <mat-radio-button value="4">C1</mat-radio-button>
+          <mat-radio-button value="5">C2</mat-radio-button>
+          <mat-radio-button value="6">C3</mat-radio-button>
+          <mat-radio-button value="7">GIZ</mat-radio-button>
+          <mat-radio-button value="8">IND</mat-radio-button>
+          <mat-radio-button value="9">UTILITIES</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <div class="d-flex align-items-center">
+      <h5>Conforming to Zonal Classification:</h5>
+      <div class="ml-3">
+        <mat-radio-group aria-label="Select an option">
+          <mat-radio-button value="1">Yes</mat-radio-button>
+          <mat-radio-button value="2">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <div class="d-flex align-items-center">
+      <h5>Setback:</h5>
+      <div class="ml-3">
+        <div class="d-flex justify-content-md-between align-content-center">
+          <mat-form-field appearance="legacy">
+            <mat-label>Front:</mat-label>
+            <input matInput />
+            <p matSuffix>meter(s)</p>
+          </mat-form-field>
+          <mat-form-field appearance="legacy">
+            <mat-label>Rear:</mat-label>
+            <input matInput />
+          </mat-form-field>
+          <mat-form-field appearance="legacy">
+            <mat-label>Right:</mat-label>
+            <input matInput />
+          </mat-form-field>
+          <mat-form-field appearance="legacy">
+            <mat-label>Left:</mat-label>
+            <input matInput />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center">
+      <h5>Building Height Reckoned from Road Level:</h5>
+      <div class="ml-3">
+        <mat-form-field appearance="legacy">
+          <input matInput />
+          <p matSuffix>meter(s)</p>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="d-flex align-items-center">
+      <h5>Allowable Building Height:</h5>
+      <div class="ml-3">
+        <div class="d-flex justify-content-md-between align-content-center">
+          <mat-form-field appearance="legacy">
+            <input matInput />
+            <p matSuffix>meter(s)</p>
+          </mat-form-field>
+          <mat-form-field appearance="legacy">
+            <mat-label>Within:</mat-label>
+            <input matInput />
+            <p matSuffix>zone</p>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center">
+      <h5>Parking Requirement:</h5>
+      <div class="ml-3">
+        <div class="d-flex justify-content-md-between align-content-center">
+          <mat-form-field appearance="legacy">
+            <input matInput />
+            <p matSuffix>slots/space</p>
+          </mat-form-field>
+          <mat-form-field appearance="legacy">
+            <mat-label>Within:</mat-label>
+            <input matInput />
+            <p matSuffix>zone</p>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center">
+      <h5>Parking Space Provided in Building Plan:</h5>
+      <div class="ml-3">
+        <mat-form-field appearance="legacy">
+          <input matInput />
+          <p matSuffix>slots/space</p>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center py-3">
+    <div class="col-md-3 col-3 text-left mb-3">
+      <button mat-raised-button type="submit" color="primary">Save</button>
+    </div>
+  </div>
+</form>
+<div class="d-flex justify-content-center mt-5" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>
