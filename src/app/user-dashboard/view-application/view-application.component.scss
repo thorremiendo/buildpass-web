@@ -136,3 +136,17 @@ mat-icon:hover {
 .action {
   color: #f9c232;
 }
+
+.notif-card {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  background: linear-gradient(225deg, #d6dde0, #ffffff);
+  box-shadow: -5px 5px 13px #cad0d4, 5px -5px 13px #ffffff;
+
+  p {
+    font-size: 14px;
+    color: maroon;
+    font-weight: bold;
+  }
+}
