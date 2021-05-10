@@ -15,6 +15,7 @@
   >
     <mat-step *ngFor="let form of forms; let i = index">
       <ng-template matStepLabel>{{ form.label }}</ng-template>
+
       <div class="row">
         <h1>{{ form.description }}</h1>
         <mat-icon class="info" [tooltip]="tolTemplate" placement="bottom"
@@ -22,7 +23,7 @@
         >
       </div>
       <ng-template #tolTemplate>
-        <img src="../../../../assets/forms/sample/notice_of_construction.PNG" />
+        <img [src]="sampleForm" />
       </ng-template>
       <div class="fillable-form">
         <div class="step-label">

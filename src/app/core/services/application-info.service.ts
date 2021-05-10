@@ -75,6 +75,11 @@ export class ApplicationInfoService {
     return this.api.post(url, body);
   }
 
+  submitTechnicalFindings(body, id) {
+    const url = `/application/${id}/technical-findings`;
+    return this.api.post(url, body);
+  }
+
   fetchUserBuildingPermit(id) {
     const url = `/user/${id}/building-permit`;
     return this.api.get(url).pipe(

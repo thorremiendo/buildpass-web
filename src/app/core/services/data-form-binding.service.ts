@@ -822,7 +822,6 @@ export class DataFormBindingService {
 
   //GENERTAL FORM DATA
   getFormData(a) {
-    console.log(a);
     const applicantDetails = a.applicant_detail;
     const projectDetails = a.project_detail;
     const representativeDetails = a.representative_detail;
@@ -925,10 +924,7 @@ export class DataFormBindingService {
         projectDetails.number_of_storey == ''
           ? ''
           : projectDetails.number_of_storey,
-      project_type:
-        projectDetails.project_title == ''
-          ? ''
-          : projectDetails.project_title.toUpperCase(),
+      project_type: '',
       project_title:
         projectDetails.project_title == ''
           ? ''
@@ -965,6 +961,10 @@ export class DataFormBindingService {
         representativeDetails == null
           ? 'N/A'
           : `${representativeDetails.house_number} ${representativeDetails.street_name} ${representativeDetails.barangay}`,
+      fulltime_inspector_prc_no:
+        representativeDetails == null ? 'N/A' : representativeDetails.prc_no,
+      fulltime_inspector_ptr_no:
+        representativeDetails == null ? 'N/A' : representativeDetails.ptc_no,
       rep_first_name: 'N/A',
       rep_middle_name: 'N/A',
       rep_last_name: 'N/A',
@@ -984,7 +984,6 @@ export class DataFormBindingService {
       project_tenure_temporary: 'N/A',
       project_nature_others: 'N/A',
     };
-    console.log(formData);
     return formData;
   }
 }

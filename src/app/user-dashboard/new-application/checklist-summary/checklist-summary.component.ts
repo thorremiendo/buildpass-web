@@ -23,6 +23,7 @@ export class ChecklistSummaryComponent implements OnInit {
   public sortedForms;
   public isLoading;
   public documentTypes;
+  public isAuthorized: boolean = false;
 
   constructor(
     private router: Router,
@@ -34,101 +35,107 @@ export class ChecklistSummaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isAuthorized = false;
     this.isLoading = true;
     this.applicationId = this.route.snapshot.params.id;
     this.user = JSON.parse(localStorage.getItem('user'));
+    this.applicationService
+      .verifyUserApplication(this.applicationId, this.user.id)
+      .subscribe((res) => {
+        this.isLoading = true;
+        this.isAuthorized = true;
+        this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
+          this.documentTypes = res.data;
+          this.newApplicationService
+            .fetchApplicationInfo(this.applicationId)
+            .subscribe((result) => {
+              this.applicationInfo = result.data;
 
-    this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
-      this.documentTypes = res.data;
-      this.newApplicationService
-        .fetchApplicationInfo(this.applicationId)
-        .subscribe((result) => {
-          this.applicationInfo = result.data;
+              this.applicantCompleteName = `${this.applicationInfo.applicant_detail.first_name} ${this.applicationInfo.applicant_detail.last_name}`;
+              this.applicantForms = this.applicationInfo.user_docs;
+              switch (this.applicationInfo.permit_type_id) {
+                case 1:
+                  this.permitType = 'Building Permit';
+                  break;
+                case 2:
+                  this.permitType = 'Certificate of Occupancy';
+                  break;
+                case 3:
+                  this.permitType = 'Excavation Permit';
+                  break;
+                case 4:
+                  this.permitType = 'Fencing Permit';
+                  break;
+                case 5:
+                  this.permitType = 'Demolition Permit';
+                  break;
+              }
 
-          this.applicantCompleteName = `${this.applicationInfo.applicant_detail.first_name} ${this.applicationInfo.applicant_detail.last_name}`;
-          this.applicantForms = this.applicationInfo.user_docs;
-          switch (this.applicationInfo.permit_type_id) {
-            case 1:
-              this.permitType = 'Building Permit';
-              break;
-            case 2:
-              this.permitType = 'Certificate of Occupancy';
-              break;
-            case 3:
-              this.permitType = 'Excavation Permit';
-              break;
-            case 4:
-              this.permitType = 'Fencing Permit';
-              break;
-            case 5:
-              this.permitType = 'Demolition Permit';
-              break;
-          }
+              this.sortedForms = {
+                documents: {
+                  label: 'Documents',
+                  data: [],
+                },
+                permits: {
+                  label: 'Duly Accomplished Building Permit Forms',
+                  data: [],
+                },
+                plans: {
+                  label: 'Plans, Designs, Specifications, Cost Estimate',
+                  data: [],
+                },
+                professional: {
+                  label:
+                    'Porfessional Details (Professional Tax Receipt and Professional Regulation Commission ID, signed and sealed)',
+                  data: [],
+                },
+                affidavits: {
+                  label: 'Affidavits',
+                  data: [],
+                },
+                clearances: {
+                  label: 'Clearances (CPDO, CEPMO, BFP)',
+                  data: [],
+                },
+                others: {
+                  label: 'Other Requirements',
+                  data: [],
+                },
+              };
 
-          this.sortedForms = {
-            documents: {
-              label: 'Documents',
-              data: [],
-            },
-            permits: {
-              label: 'Duly Accomplished Building Permit Forms',
-              data: [],
-            },
-            plans: {
-              label: 'Plans, Designs, Specifications, Cost Estimate',
-              data: [],
-            },
-            professional: {
-              label:
-                'Porfessional Details (Professional Tax Receipt and Professional Regulation Commission ID, signed and sealed)',
-              data: [],
-            },
-            affidavits: {
-              label: 'Affidavits',
-              data: [],
-            },
-            clearances: {
-              label: 'Clearances (CPDO, CEPMO, BFP)',
-              data: [],
-            },
-            others: {
-              label: 'Other Requirements',
-              data: [],
-            },
-          };
-
-          this.applicantForms.forEach((element) => {
-            const docType = this.documentTypes[element.document_id - 1]
-              .document_category_id;
-            switch (docType) {
-              case 1:
-                this.sortedForms.documents.data.push(element);
-                break;
-              case 2:
-                this.sortedForms.permits.data.push(element);
-                break;
-              case 3:
-                this.sortedForms.plans.data.push(element);
-                break;
-              case 4:
-                this.sortedForms.professional.data.push(element);
-                break;
-              case 5:
-                this.sortedForms.affidavits.data.push(element);
-                break;
-              case 6:
-                this.sortedForms.clearances.data.push(element);
-                break;
-              //case 7:
-              default:
-                this.sortedForms.others.data.push(element);
-                break;
-            }
-          });
-          this.sortedForms = Object.values(this.sortedForms);
-          this.isLoading = false;
+              this.applicantForms.forEach((element) => {
+                const docType = this.documentTypes[element.document_id - 1]
+                  .document_category_id;
+                switch (docType) {
+                  case 1:
+                    this.sortedForms.documents.data.push(element);
+                    break;
+                  case 2:
+                    this.sortedForms.permits.data.push(element);
+                    break;
+                  case 3:
+                    this.sortedForms.plans.data.push(element);
+                    break;
+                  case 4:
+                    this.sortedForms.professional.data.push(element);
+                    break;
+                  case 5:
+                    this.sortedForms.affidavits.data.push(element);
+                    break;
+                  case 6:
+                    this.sortedForms.clearances.data.push(element);
+                    break;
+                  //case 7:
+                  default:
+                    this.sortedForms.others.data.push(element);
+                    break;
+                }
+              });
+              this.sortedForms = Object.values(this.sortedForms);
+              this.isLoading = false;
+            });
         });
-    });
+      });
   }
   goToLink(url: string) {
     window.open(url, '_blank');
@@ -166,7 +173,7 @@ export class ChecklistSummaryComponent implements OnInit {
         } else if (result.isDenied) {
           this.isLoading = true;
           const body = {
-            application_status_id: 7,
+            application_status_id: 1,
           };
           this.applicationService
             .updateApplicationStatus(body, this.applicationId)
@@ -179,7 +186,7 @@ export class ChecklistSummaryComponent implements OnInit {
     } else {
       this.isLoading = true;
       const body = {
-        application_status_id: 7,
+        application_status_id: 1,
       };
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
@@ -192,7 +199,7 @@ export class ChecklistSummaryComponent implements OnInit {
 
   updateApplicationWithExcavation() {
     const data = {
-      application_status_id: 7,
+      application_status_id: 1,
       is_excavation: 1,
     };
     this.applicationService

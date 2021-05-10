@@ -1,4 +1,4 @@
-<div class="container" *ngIf="!isLoading">
+<div class="container" *ngIf="!isLoading && isAuthorized">
   <div class="row">
     <div class="d-flex justify-content-between w-100">
       <div>
@@ -64,6 +64,23 @@
     </div>
   </div>
 </div>
-<div class="d-flex justify-content-center mt-5" *ngIf="isLoading">
+<div
+  class="d-flex justify-content-center mt-5"
+  *ngIf="isLoading && isAuthorized"
+>
   <mat-spinner></mat-spinner>
 </div>
+
+<ng-container *ngIf="!isAuthorized">
+  <div
+    class="d-flex justify-content-center align-items-center w-100 flex-column mt-5"
+  >
+    <img src="../../../assets/illustrations/stop.svg" style="width: 100px" />
+    <h3 class="mt-5" style="font-weight: bold; color: maroon">
+      You are not allowed to view this page.
+    </h3>
+    <p style="font-weight: bold">
+      Click <a routerLink="../../../applications">here</a> to go back.
+    </p>
+  </div>
+</ng-container>

@@ -7,23 +7,26 @@
     <div class="d-flex align-items-center">
       <h5>Zone:</h5>
       <div class="ml-3">
-        <mat-radio-group aria-label="Select an option">
-          <mat-radio-button value="1">R1</mat-radio-button>
-          <mat-radio-button value="2">R2</mat-radio-button>
-          <mat-radio-button value="3">R3</mat-radio-button>
-          <mat-radio-button value="4">C1</mat-radio-button>
-          <mat-radio-button value="5">C2</mat-radio-button>
-          <mat-radio-button value="6">C3</mat-radio-button>
-          <mat-radio-button value="7">GIZ</mat-radio-button>
-          <mat-radio-button value="8">IND</mat-radio-button>
-          <mat-radio-button value="9">UTILITIES</mat-radio-button>
+        <mat-radio-group aria-label="Select an option" formControlName="zone">
+          <mat-radio-button value="R1">R1</mat-radio-button>
+          <mat-radio-button value="R2">R2</mat-radio-button>
+          <mat-radio-button value="R3">R3</mat-radio-button>
+          <mat-radio-button value="C1">C1</mat-radio-button>
+          <mat-radio-button value="C2">C2</mat-radio-button>
+          <mat-radio-button value="C3">C3</mat-radio-button>
+          <mat-radio-button value="GIZ">GIZ</mat-radio-button>
+          <mat-radio-button value="IND">IND</mat-radio-button>
+          <mat-radio-button value="UTILITIES">UTILITIES</mat-radio-button>
         </mat-radio-group>
       </div>
     </div>
     <div class="d-flex align-items-center">
       <h5>Conforming to Zonal Classification:</h5>
       <div class="ml-3">
-        <mat-radio-group aria-label="Select an option">
+        <mat-radio-group
+          aria-label="Select an option"
+          formControlName="isZonal"
+        >
           <mat-radio-button value="1">Yes</mat-radio-button>
           <mat-radio-button value="2">No</mat-radio-button>
         </mat-radio-group>
@@ -35,20 +38,20 @@
         <div class="d-flex justify-content-md-between align-content-center">
           <mat-form-field appearance="legacy">
             <mat-label>Front:</mat-label>
-            <input matInput />
+            <input matInput formControlName="setBackFront" />
             <p matSuffix>meter(s)</p>
           </mat-form-field>
           <mat-form-field appearance="legacy">
             <mat-label>Rear:</mat-label>
-            <input matInput />
+            <input matInput formControlName="setBackRear" />
           </mat-form-field>
           <mat-form-field appearance="legacy">
             <mat-label>Right:</mat-label>
-            <input matInput />
+            <input matInput formControlName="setBackRight" />
           </mat-form-field>
           <mat-form-field appearance="legacy">
             <mat-label>Left:</mat-label>
-            <input matInput />
+            <input matInput formControlName="setBackLeft" />
           </mat-form-field>
         </div>
       </div>
@@ -57,7 +60,7 @@
       <h5>Building Height Reckoned from Road Level:</h5>
       <div class="ml-3">
         <mat-form-field appearance="legacy">
-          <input matInput />
+          <input matInput formControlName="roadLevel" />
           <p matSuffix>meter(s)</p>
         </mat-form-field>
       </div>
@@ -67,12 +70,12 @@
       <div class="ml-3">
         <div class="d-flex justify-content-md-between align-content-center">
           <mat-form-field appearance="legacy">
-            <input matInput />
+            <input matInput formControlName="allowable" />
             <p matSuffix>meter(s)</p>
           </mat-form-field>
           <mat-form-field appearance="legacy">
             <mat-label>Within:</mat-label>
-            <input matInput />
+            <input matInput formControlName="allowableWithin" />
             <p matSuffix>zone</p>
           </mat-form-field>
         </div>
@@ -83,12 +86,12 @@
       <div class="ml-3">
         <div class="d-flex justify-content-md-between align-content-center">
           <mat-form-field appearance="legacy">
-            <input matInput />
+            <input matInput formControlName="parkingReq" />
             <p matSuffix>slots/space</p>
           </mat-form-field>
           <mat-form-field appearance="legacy">
             <mat-label>Within:</mat-label>
-            <input matInput />
+            <input matInput formControlName="parkingReqWithin" />
             <p matSuffix>zone</p>
           </mat-form-field>
         </div>
@@ -98,7 +101,7 @@
       <h5>Parking Space Provided in Building Plan:</h5>
       <div class="ml-3">
         <mat-form-field appearance="legacy">
-          <input matInput />
+          <input matInput formControlName="parkingSpace" />
           <p matSuffix>slots/space</p>
         </mat-form-field>
       </div>

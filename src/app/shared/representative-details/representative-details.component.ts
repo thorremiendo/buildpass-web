@@ -24,7 +24,6 @@ export class RepresentativeDetailsComponent implements OnInit {
       ? this.dataFromParent
       : this.data.representativeDetails;
     this.representativeDetails = info;
-    console.log(this.representativeDetails);
     this.images.push(
       this.representativeDetails.prc_id_back_photo_path,
       this.representativeDetails.prc_id_front_photo_path,
