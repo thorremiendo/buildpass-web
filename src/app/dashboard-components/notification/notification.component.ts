@@ -41,7 +41,7 @@ export class NotificationComponent implements OnInit {
   }
 
   openNotif(index, id) {
-    this.feeds.splice(index, 1);
+    //this.feeds.splice(index, 1);
     if (this.user.is_evaluator == 1) {
       this.router.navigate(['evaluator/application', id]).then(() => {});
     } else {

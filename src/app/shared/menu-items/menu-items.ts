@@ -107,18 +107,28 @@ const ADMINMENUITEMS = [
   },
 
   {
-    state: 'admin/dashboard/users/employees',
-    name: 'Evaluator',
-    type: 'link',
-    icon: 'badge',
+    state: 'admin',
+    name: 'Users',
+    type: 'sub',
+    icon: 'people',
+
+    children: [
+      {
+        state: "employees",
+        name: 'Evaluator',
+        type: 'link',
+        icon: 'badge',
+      },
+
+      {
+        state: 'applicants',
+        name: 'Applicant',
+        type: 'link',
+        icon: 'people',
+      },
+    ],
   },
 
-  {
-    state: 'admin/dashboard/users/applicants',
-    name: 'Applicant',
-    type: 'link',
-    icon: 'people',
-  },
   {
     state: 'admin/dashboard/announcement',
     name: 'Announcement',
