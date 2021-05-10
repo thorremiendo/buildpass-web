@@ -98,6 +98,8 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
   createForm() {
     this.representativeDetailsForm = this._fb.group({
       representative_first_name: ['', Validators.required],
+      prcNo: ['', Validators.required],
+      ptcNo: ['', Validators.required],
       representative_last_name: ['', Validators.required],
       representative_middle_name: [''],
       representative_suffix: [''],
@@ -133,6 +135,8 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
       rep_barangay: value.representative_barangay,
       rep_contact_number: value.representative_contact_no,
       rep_email_address: value.representative_email_address,
+      prc_no: value.prcNo,
+      ptc_no: value.ptcNo,
       prc_id_front_photo_path: this.prcFront,
       prc_id_back_photo_path: this.prcBack,
       id_front_photo_path: this.validIdFront,
@@ -173,6 +177,7 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
       this.newApplicationService.submitApplication(body).subscribe((res) => {
         Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
           (result) => {
+            console.log(result);
             this.isLoading = false;
 
             switch (this.applicationDetails.permit_type_id) {

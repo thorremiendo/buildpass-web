@@ -961,6 +961,10 @@ export class DataFormBindingService {
         representativeDetails == null
           ? 'N/A'
           : `${representativeDetails.house_number} ${representativeDetails.street_name} ${representativeDetails.barangay}`,
+      fulltime_inspector_prc_no:
+        representativeDetails == null ? 'N/A' : representativeDetails.prc_no,
+      fulltime_inspector_ptr_no:
+        representativeDetails == null ? 'N/A' : representativeDetails.ptc_no,
       rep_first_name: 'N/A',
       rep_middle_name: 'N/A',
       rep_last_name: 'N/A',
