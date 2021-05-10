@@ -169,6 +169,15 @@
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
+          <mat-icon>find_in_page</mat-icon>
+          Technical Findings
+        </ng-template>
+        <ng-container *ngIf="evaluatorDetails && applicationDetails">
+          <app-technical-findings></app-technical-findings>
+        </ng-container>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
           <mat-icon>folder</mat-icon>
           Supporting Documents
         </ng-template>
