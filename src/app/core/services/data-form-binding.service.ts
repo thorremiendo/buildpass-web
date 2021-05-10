@@ -822,7 +822,6 @@ export class DataFormBindingService {
 
   //GENERTAL FORM DATA
   getFormData(a) {
-    console.log(a);
     const applicantDetails = a.applicant_detail;
     const projectDetails = a.project_detail;
     const representativeDetails = a.representative_detail;
@@ -981,7 +980,6 @@ export class DataFormBindingService {
       project_tenure_temporary: 'N/A',
       project_nature_others: 'N/A',
     };
-    console.log(formData);
     return formData;
   }
 }
