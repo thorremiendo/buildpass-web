@@ -24,7 +24,7 @@ export class FencingPermitComponent implements OnInit {
   public forms: any = [
     {
       id: 98,
-      src: '../../../../assets/forms/fencing_permit.pdf',
+      src: '../../../../assets/forms/updated/Fencing_Permit.pdf',
     },
   ];
 

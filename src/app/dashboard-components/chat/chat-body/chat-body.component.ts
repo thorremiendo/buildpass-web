@@ -53,7 +53,7 @@ export class ChatBodyComponent implements OnInit {
           this.messages = data.data;
           if (this.messages.length != 0) {
             this.hasMessage = true;
-            console.log(data)
+
           }
         });
     }
@@ -96,7 +96,7 @@ export class ChatBodyComponent implements OnInit {
     this.chatService.createConvo(newConvo).subscribe((data) => {
       this.chatId = data.data;
     });
-    
+
   }
 
   OnAddMsg(): void {
@@ -110,12 +110,12 @@ export class ChatBodyComponent implements OnInit {
   }
 
   checkDate(){
-  
+
     if(this.currentDay == 6 || this.currentDay == 7){
-      console.log("Weekend");
+
     }
     else{
-      console.log("not weekend")
+
     }
 
   }

@@ -6,8 +6,9 @@ import { AdminEmployeeListComponent } from './admin-employee-list/admin-employee
 import { UsersComponent } from './users.component';
 
 const routes: Routes = [
+ 
   {
-    path: "admin/dashboard/users",
+    path: 'admin/dashboard/users',
     component: UsersComponent,
     children: [
       {
@@ -23,15 +24,26 @@ const routes: Routes = [
       {
         path: ':uid',
         component: AdminUserInfoComponent,
-      }
+      },
+    ],
+  },
+ 
+  {
+    path: 'admin/employees',
+    redirectTo: 'admin/dashboard/users/employees',
+    pathMatch: 'full',
+  },
 
-     
-    ]
-  }
+  {
+    path: 'admin/applicants',
+    redirectTo: 'admin/dashboard/users/applicants',
+    pathMatch: 'full',
+  },
+
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AdminUsersRoutingModule { }
+export class AdminUsersRoutingModule {}

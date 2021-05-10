@@ -40,4 +40,7 @@ export class UserApplicationsTableComponent implements OnInit {
   viewApplication(id) {
     this.router.navigate(['dashboard/applications/view', id]);
   }
+  applicationSummary(id) {
+    this.router.navigate(['dashboard/new/summary/', id]);
+  }
 }

@@ -18,13 +18,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatRadioModule } from '@angular/material/radio';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { MatStepperModule } from '@angular/material/stepper';
 import { FileUploadComponent } from './forms/file-upload/file-upload.component';
 
@@ -39,7 +37,6 @@ import { FileUploadComponent } from './forms/file-upload/file-upload.component';
   imports: [
     CommonModule,
     RouterModule,
-    NgbModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatDatepickerModule,
@@ -57,10 +54,6 @@ import { FileUploadComponent } from './forms/file-upload/file-upload.component';
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatStepperModule,
-    NgxMapboxGLModule.withConfig({
-      accessToken: environment.mapbox.accessToken,
-      geocoderAccessToken: environment.mapbox.accessToken,
-    }),
   ],
 })
 export class NewApplicationModule {}

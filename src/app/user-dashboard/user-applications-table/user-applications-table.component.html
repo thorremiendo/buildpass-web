@@ -18,7 +18,11 @@
       (emitApplication)="
         $event.application_status_id !== 6 && $event.application_status_id !== 9
           ? viewApplication($event.id)
-          : continueApplication($event.user_id, $event.id)
+          : $event.application_status_id == 6
+          ? continueApplication($event.user_id, $event.id)
+          : $event.application_status_id == 9
+          ? applicationSummary($event.id)
+          : null
       "
     >
     </app-applications-list>

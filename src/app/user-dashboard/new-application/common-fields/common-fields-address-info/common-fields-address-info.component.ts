@@ -168,6 +168,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_lot_number: ['', Validators.required],
       project_block_number: [''],
       project_unit_number: [''],
+      project_subdivision: [''],
+      project_purok: [''],
       project_street: [''],
       project_barangay: ['', Validators.required],
       project_lot_area: ['', Validators.required],

@@ -75,7 +75,7 @@ export class EvaluatorHomeComponent implements OnInit {
 
   sendDataToTableView(status_id){
     this.applicationStatusId = status_id;
-    console.log("Status ID "+status_id);
+
 
   }
 

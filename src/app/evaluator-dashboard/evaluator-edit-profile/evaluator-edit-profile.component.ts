@@ -74,17 +74,17 @@ export class EvaluatorEditProfileComponent implements OnInit {
   }
 
   openDialog(userCredentials) {
-   
+
       this._matDialog.open(UpdatePasswordDialogComponent, {
         data: userCredentials,
         height: '350px',
         width: '600px',
       });
-       console.log(userCredentials)
-  
-  
 
-  
+
+
+
+
   }
 
   openFileChooser() {
@@ -160,7 +160,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
       return `${yyyy}-${mm}-${dd}`;
     }
   }
-  
+
   ngOnInit(): void {
     if (localStorage.getItem('user') != null) {
       this.userInfo = JSON.parse(localStorage.getItem('user'));
@@ -182,7 +182,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
       startWith(''),
       map(value => this.filterOffice(value))
     );
-    
+
     this._filteredPositionOptions = this.evaluatorEditProfileFormControl.position.valueChanges.pipe(
       startWith(''),
       map(value => this.filterPosition(value))
@@ -194,7 +194,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
 
     if (this._evaluatorEditProfileForm.valid) {
       this.isUpdating = true;
-      
+
       const user = {
         first_name: this._evaluatorEditProfileForm.value.first_name,
         middle_name: this._evaluatorEditProfileForm.value.middle_name,
@@ -207,14 +207,14 @@ export class EvaluatorEditProfileComponent implements OnInit {
         barangay: this._evaluatorEditProfileForm.value.barangay,
         employee_no: this._evaluatorEditProfileForm.value.employee_no,
         office_id: this._evaluatorEditProfileForm.value.office,
-        position: this._evaluatorEditProfileForm.value.position, 
+        position: this._evaluatorEditProfileForm.value.position,
         contact_number: this._evaluatorEditProfileForm.value.contact_number,
         id_number: this._evaluatorEditProfileForm.value.id_number,
         id_type: this._evaluatorEditProfileForm.value.id_type,
         photo_path: this.selectedPhoto ? this.selectedPhoto : null,
         id_photo_path: this.selectedFile ? this.selectedFile : null
       };
-      
+
       this._userService
         .updateUserInfo(user, this.userInfo.id)
         .subscribe((result) => {
@@ -231,7 +231,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
             }
           };
           localStorage.setItem('user', JSON.stringify(update));
-          
+
           Swal.fire('Success!', `Updated profile information.`, 'success').then(
             (result) => {
               window.location.reload();
@@ -247,10 +247,10 @@ export interface Barangay {
   b_id: number,
   name:string,
   locality_id: number;
-  province_id: number; 
+  province_id: number;
   zip_code: number;
   region_id: number;
-  country_id: number; 
+  country_id: number;
   created_at: string,
   updated_at: string;
 }

@@ -79,6 +79,7 @@ import { MaterialModule } from '../material-module';
 import { UploadSupportingDocumentsComponent } from './upload-supporting-documents/upload-supporting-documents.component';
 import { TechnicalEvaluationComponent } from './technical-evaluation/technical-evaluation.component';
 import { DownloadableFormsComponent } from './downloadable-forms/downloadable-forms.component';
+import { TechnicalFindingsComponent } from './technical-findings/technical-findings.component';
 
 @NgModule({
   declarations: [
@@ -118,6 +119,7 @@ import { DownloadableFormsComponent } from './downloadable-forms/downloadable-fo
     UploadSupportingDocumentsComponent,
     TechnicalEvaluationComponent,
     DownloadableFormsComponent,
+    TechnicalFindingsComponent,
   ],
 
   imports: [
