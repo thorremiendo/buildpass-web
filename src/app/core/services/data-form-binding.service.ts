@@ -925,10 +925,7 @@ export class DataFormBindingService {
         projectDetails.number_of_storey == ''
           ? ''
           : projectDetails.number_of_storey,
-      project_type:
-        projectDetails.project_title == ''
-          ? ''
-          : projectDetails.project_title.toUpperCase(),
+      project_type: '',
       project_title:
         projectDetails.project_title == ''
           ? ''

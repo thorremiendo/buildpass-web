@@ -173,7 +173,9 @@
           Technical Findings
         </ng-template>
         <ng-container *ngIf="evaluatorDetails && applicationDetails">
-          <app-technical-findings></app-technical-findings>
+          <app-technical-findings
+            [applicationDetails]="applicationDetails"
+          ></app-technical-findings>
         </ng-container>
       </mat-tab>
       <mat-tab>
