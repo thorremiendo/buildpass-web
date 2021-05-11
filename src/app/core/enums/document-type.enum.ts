@@ -23,7 +23,7 @@ export enum documentTypes {
   'Filing Fee proof of payment (receipt)' = 22,
   "Tax Declaration from City Assessor's Office with Documentary Stamp from City Treasurers Office" = 23,
   'Latest Quarter of the Real Property Tax Receipt, or Certificate of Non-Tax Deliquency w/ documentary stamp from City Treasurers Office' = 24,
-  'Clear Latest picture of site/area' = 25,
+  'Clear Latest picture of site/area (in PDF format)' = 25,
   'Certified True Copy of the Title (updated not more than 6 months), or Copy of award' = 26,
   'Contract of Lease or Certified Copy of Authority to Construct on the subject property' = 27,
   'Building Plans (to be signed by applicant/owner)' = 28,
