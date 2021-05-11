@@ -209,6 +209,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_tct_number: data.project_tct_number,
       project_tax_dec_number: data.project_td_number,
       project_landmark: data.project_landmark,
+      project_subdivision: data.project_subdivision,
     };
   }
 
@@ -247,6 +248,11 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       applicant_floor_number: this.ownerDetails.owner_floor_number,
       applicant_street_name: this.ownerDetails.owner_street,
       applicant_barangay: this.ownerDetails.owner_barangay,
+      applicant_lot_number: this.ownerDetails.owner_lot_number,
+      applicant_block_number: this.ownerDetails.owner_block_number,
+      applicant_subdivision: this.ownerDetails.owner_subdivision,
+      applicant_purok: this.ownerDetails.owner_purok,
+
       ...this.projectDetails,
     };
     if (!this.projectDetailsForm.valid) {

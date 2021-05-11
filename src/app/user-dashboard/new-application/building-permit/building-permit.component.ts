@@ -113,7 +113,7 @@ export class BuildingPermitComponent implements OnInit {
   public is3storeysOrMore: Array<any> = [31];
   public ifFloorArea20sqmOrMore: Array<any> = [29];
   public isNotAsBuilt: Array<any> = [42];
-
+  public isEnginnerArchictect: Array<any> = [21];
   constructor(
     private newApplicationService: NewApplicationService,
     private applicationService: ApplicationInfoService,
@@ -188,6 +188,8 @@ export class BuildingPermitComponent implements OnInit {
             : false;
         const isNoAsBuilt =
           this.applicationDetails.construction_status_id !== 3 ? true : false;
+        const isEngineerArchitect =
+          this.applicationDetails.is_representative == 1 ? true : false;
         isNoAsBuilt
           ? this.fieldSets[4].documents.push(...this.isNotAsBuilt)
           : null;
@@ -224,6 +226,9 @@ export class BuildingPermitComponent implements OnInit {
           : null;
         ifFloorArea20sqmOrMore
           ? this.fieldSets[2].documents.push(...this.ifFloorArea20sqmOrMore)
+          : null;
+        isEngineerArchitect
+          ? this.fieldSets[4].documents.push(...this.isEnginnerArchictect)
           : null;
         this.initData();
         this.setFilePaths();
