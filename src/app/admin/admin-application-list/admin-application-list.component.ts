@@ -19,7 +19,6 @@ export class AdminApplicationListComponent implements OnInit {
 
   ngOnInit(): void {
     this.adminService.fetchAllApplication().subscribe((data) => {
-      console.log(data.data);
       this.applications = data.data;
     });
   }
