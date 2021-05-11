@@ -19,7 +19,7 @@ export enum documentTypes {
   'Excavation Certificate of Construction Safety Health Program (CSHP) from DOLE' = 18,
   'Picture and location of dump site with consent from the lot owner (With lot ownership documents - Title)' = 19,
   'Letter of applicant notifying the adjacent property owner/s' = 20,
-  "Authorization Letter of Special Power of Attorney from Owner to Submit, follow-up, and receive approved permits (for representative only)'" = 21,
+  'Authorization Letter of Special Power of Attorney from Owner to Submit, follow-up, and receive approved permits' = 21,
   'Filing Fee proof of payment (receipt)' = 22,
   "Tax Declaration from City Assessor's Office with Documentary Stamp from City Treasurers Office" = 23,
   'Latest Quarter of the Real Property Tax Receipt, or Certificate of Non-Tax Deliquency w/ documentary stamp from City Treasurers Office' = 24,

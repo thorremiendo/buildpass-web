@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 })
 export class TechnicalFindingsComponent implements OnInit {
   @Input() applicationDetails;
+  @Input() evaluatorDetails;
 
   public technicalFindingsForm: FormGroup;
   public isLoading: boolean = false;
@@ -25,7 +26,7 @@ export class TechnicalFindingsComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.technicalFindings = this.applicationDetails.technical_finding_detail;
-    console.log(this.technicalFindings);
+    this.checkIfCpdo();
     if (this.technicalFindings) {
       this.technicalFindingsForm.patchValue({
         zone: this.technicalFindings.zone,
@@ -41,6 +42,14 @@ export class TechnicalFindingsComponent implements OnInit {
         parkingReqWithin: this.technicalFindings.parking_req_within,
         parkingSpace: this.technicalFindings.parking_space,
       });
+      this.technicalFindingsForm.disable();
+    }
+  }
+  checkIfCpdo() {
+    if (this.evaluatorDetails.office_id == 1) {
+      return true;
+    } else {
+      return false;
     }
   }
   createForm() {
@@ -80,11 +89,11 @@ export class TechnicalFindingsComponent implements OnInit {
       this.applicationService
         .submitTechnicalFindings(body, this.applicationDetails.id)
         .subscribe((res) => {
-          Swal.fire(
-            'Success!',
-            `Information Saved!.`,
-            'success'
-          ).then((result) => {});
+          Swal.fire('Success!', `Information Saved!.`, 'success').then(
+            (result) => {
+              this.ngOnInit();
+            }
+          );
         });
     } else {
       Swal.fire(

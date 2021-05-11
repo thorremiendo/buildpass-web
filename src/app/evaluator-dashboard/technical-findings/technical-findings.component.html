@@ -44,14 +44,17 @@
           <mat-form-field appearance="legacy">
             <mat-label>Rear:</mat-label>
             <input matInput formControlName="setBackRear" />
+            <p matSuffix>meter(s)</p>
           </mat-form-field>
           <mat-form-field appearance="legacy">
             <mat-label>Right:</mat-label>
             <input matInput formControlName="setBackRight" />
+            <p matSuffix>meter(s)</p>
           </mat-form-field>
           <mat-form-field appearance="legacy">
             <mat-label>Left:</mat-label>
             <input matInput formControlName="setBackLeft" />
+            <p matSuffix>meter(s)</p>
           </mat-form-field>
         </div>
       </div>
@@ -110,7 +113,15 @@
 
   <div class="row justify-content-center py-3">
     <div class="col-md-3 col-3 text-left mb-3">
-      <button mat-raised-button type="submit" color="primary">Save</button>
+      <button
+        mat-raised-button
+        type="submit"
+        color="primary"
+        [disabled]="technicalFindings"
+        *ngIf="checkIfCpdo()"
+      >
+        Save
+      </button>
     </div>
   </div>
 </form>

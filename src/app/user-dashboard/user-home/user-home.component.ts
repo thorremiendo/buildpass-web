@@ -36,6 +36,7 @@ export class UserHomeComponent implements OnInit {
         .fetchOngoingApplication(this.userInfo.id)
         .subscribe((data) => {
           this.applications = data.data;
+          console.log(this.applications);
         });
     }
     this.timer = setInterval(() => {
