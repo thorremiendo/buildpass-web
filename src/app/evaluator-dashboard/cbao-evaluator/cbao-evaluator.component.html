@@ -487,6 +487,18 @@
             [applicationDetails]="applicationInfo"
           ></app-technical-evaluation>
         </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>find_in_page</mat-icon>
+            Technical Findings
+          </ng-template>
+          <ng-container *ngIf="evaluatorDetails && applicationInfo">
+            <app-technical-findings
+              [evaluatorDetails]="evaluatorDetails"
+              [applicationDetails]="applicationInfo"
+            ></app-technical-findings>
+          </ng-container>
+        </mat-tab>
       </mat-tab-group>
     </mat-card-content>
   </mat-card>

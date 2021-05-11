@@ -822,6 +822,7 @@ export class DataFormBindingService {
 
   //GENERTAL FORM DATA
   getFormData(a) {
+    console.log(a);
     const applicantDetails = a.applicant_detail;
     const projectDetails = a.project_detail;
     const representativeDetails = a.representative_detail;
@@ -834,9 +835,12 @@ export class DataFormBindingService {
       applicant_full_name: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       applicant_complete_address: `${
         applicantDetails.house_number ? applicantDetails.house_number : ''
-      }  ${applicantDetails.street_name ? applicantDetails.street_name : ''} ${
-        applicantDetails.barangay
-      }`.toUpperCase(),
+      }  ${applicantDetails.lot_number ? applicantDetails.lot_number : ''} ${
+        applicantDetails.block_number ? applicantDetails.block_number : ''
+      } ${applicantDetails.street_name ? applicantDetails.street_name : ''}
+      ${applicantDetails.purok ? applicantDetails.purok : ''} ${
+        applicantDetails.subdivision ? applicantDetails.subdivision : ''
+      } ${applicantDetails.barangay}`.toUpperCase(),
       applicant_first_name:
         applicantDetails.first_name == ''
           ? ''
@@ -939,7 +943,14 @@ export class DataFormBindingService {
       project_province: 'BENGUET',
       project_city: 'BAGUIO CITY',
       project_zipcode: '2600',
-      complete_project_location: `${projectDetails.house_number} Lot#${projectDetails.lot_number} ${projectDetails.block_number} ${projectDetails.barangay}`.toUpperCase(),
+      complete_project_location: ` ${
+        projectDetails.lot_number ? projectDetails.lot_number : ''
+      } ${projectDetails.block_number ? projectDetails.block_number : ''} ${
+        projectDetails.street_name ? projectDetails.street_name : ''
+      }
+      ${projectDetails.subdivision ? projectDetails.subdivision : ''} ${
+        projectDetails.barangay
+      }`.toUpperCase(),
 
       amount_in_words:
         projectDetails.project_cost_cap == ''
