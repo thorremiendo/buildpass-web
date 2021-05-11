@@ -13,34 +13,12 @@
     </div>
   </div>
 
-  <ng-container *ngIf="checkIfPicture() == false">
+  <ng-container>
     <ngx-dropzone
       *ngIf="!filePath || editMode"
       (change)="onSelect($event)"
       [multiple]="false"
       accept="application/pdf"
-      [disabled]="loading"
-    >
-      <ngx-dropzone-label> Click here to upload your file. </ngx-dropzone-label>
-      <ngx-dropzone-preview
-        *ngIf="file"
-        [removable]="true"
-        (removed)="onRemove()"
-        class="mx-auto"
-      >
-        <ngx-dropzone-label>
-          {{ file.name }}
-          ({{ file.type }})
-        </ngx-dropzone-label>
-      </ngx-dropzone-preview>
-    </ngx-dropzone>
-  </ng-container>
-  <ng-container *ngIf="checkIfPicture() == true">
-    <ngx-dropzone
-      *ngIf="!filePath || editMode"
-      (change)="onSelect($event)"
-      [multiple]="false"
-      accept="application/pdf, image/*"
       [disabled]="loading"
     >
       <ngx-dropzone-label> Click here to upload your file. </ngx-dropzone-label>

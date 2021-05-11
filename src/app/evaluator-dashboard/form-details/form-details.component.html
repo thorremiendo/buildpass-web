@@ -9,9 +9,12 @@
       else officeForms
     "
   >
-    <div class="container">
-      <div id="pdf-div" class="pdf-view"></div></div
-  ></ng-container>
+    <div class="pdf-container">
+      <div class="container">
+        <div id="pdf-div" class="pdf-view"></div>
+      </div>
+    </div>
+  </ng-container>
   <ng-template #officeForms>
     <ngx-extended-pdf-viewer
       [src]="data.form.document_path"

@@ -325,11 +325,9 @@ export class CbaoEvaluatorComponent implements OnInit {
       }
     } else {
       this.isLoading = false;
-      Swal.fire(
-        'Notice!',
-        `Please review all documents first!`,
-        'info'
-      ).then((result) => {});
+      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+        (result) => {}
+      );
     }
   }
 
@@ -402,9 +400,13 @@ export class CbaoEvaluatorComponent implements OnInit {
           obj.document_id == 27 ||
           obj.document_id == 23 ||
           obj.document_id == 24 ||
+          obj.document_id == 25 ||
           obj.document_id == 27 ||
           obj.document_id == 43 ||
-          obj.document_id == 59
+          obj.document_id == 59 ||
+          obj.document_id == 74 ||
+          obj.document_id == 75 ||
+          obj.document_id == 72
       );
       const forReview = CPDO_FORMS.forEach((element) => {
         let body = {
