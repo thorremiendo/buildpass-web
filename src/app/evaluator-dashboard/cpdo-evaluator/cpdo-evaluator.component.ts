@@ -86,6 +86,7 @@ export class CpdoEvaluatorComponent implements OnInit {
         doc.document_id == 27 ||
         doc.document_id == 23 ||
         doc.document_id == 24 ||
+        doc.document_id == 25 ||
         doc.document_id == 27 ||
         doc.document_id == 43 ||
         doc.document_id == 59 ||
@@ -189,11 +190,9 @@ export class CpdoEvaluatorComponent implements OnInit {
       }
     } else {
       this.isLoading = false;
-      Swal.fire(
-        'Notice!',
-        `Please review all documents first!`,
-        'info'
-      ).then((result) => {});
+      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+        (result) => {}
+      );
     }
   }
   checkFormsReviewed() {
@@ -318,11 +317,9 @@ export class CpdoEvaluatorComponent implements OnInit {
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
         this.isLoading = false;
-        Swal.fire(
-          'Success!',
-          `BFP, CEPMO, CBAO Notified`,
-          'success'
-        ).then((result) => {});
+        Swal.fire('Success!', `BFP, CEPMO, CBAO Notified`, 'success').then(
+          (result) => {}
+        );
         this.ngOnInit();
       });
   }

@@ -74,18 +74,19 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     this.barangayService.getBarangayInfo().subscribe((data) => {
       this.barangay = data;
 
-      this._filteredBarangayOptions = this.projectDetailsFormControl.project_barangay.valueChanges.pipe(
-        startWith(''),
-        map((barangay) =>
-          barangay ? this._filter(barangay) : this.barangay.slice()
-        )
-      );
+      this._filteredBarangayOptions =
+        this.projectDetailsFormControl.project_barangay.valueChanges.pipe(
+          startWith(''),
+          map((barangay) =>
+            barangay ? this._filter(barangay) : this.barangay.slice()
+          )
+        );
     });
   }
 
   ngOnInit(): void {
     this.createForm();
-    this.initializeMap();
+    // this.initializeMap();
     this.user = JSON.parse(localStorage.getItem('user'));
     this.getCommonDetails();
     this.getApplicationDetails();
@@ -116,7 +117,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
         .asObservable()
         .subscribe((newApplicationSubject) => {
           this.applicationDetailsFromService = newApplicationSubject;
-          this.permitTypeId = this.applicationDetailsFromService.application_type;
+          this.permitTypeId =
+            this.applicationDetailsFromService.application_type;
         });
     }
     this.isLoading = false;
@@ -134,33 +136,33 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     );
   }
 
-  initializeMap() {
-    mapboxgl.accessToken = environment.mapbox.accessToken;
-    this.map = new Map({
-      container: 'map',
-      style: this.style,
-      zoom: 16,
-      center: [this.lng, this.lat],
-    });
-    // Add map controls
-    this.marker = new Marker({
-      draggable: true,
-    })
-      .setLngLat([this.lng, this.lat])
-      .addTo(this.map); //
+  // initializeMap() {
+  //   mapboxgl.accessToken = environment.mapbox.accessToken;
+  //   this.map = new Map({
+  //     container: 'map',
+  //     style: this.style,
+  //     zoom: 16,
+  //     center: [this.lng, this.lat],
+  //   });
+  //   // Add map controls
+  //   this.marker = new Marker({
+  //     draggable: true,
+  //   })
+  //     .setLngLat([this.lng, this.lat])
+  //     .addTo(this.map); //
 
-    this.map.addControl(new mapboxgl.NavigationControl());
-    this.map.addControl(
-      new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl,
-        marker: {
-          draggable: true,
-        },
-      })
-    );
-    this.marker.on('dragend', this.onDragEnd);
-  }
+  //   this.map.addControl(new mapboxgl.NavigationControl());
+  //   this.map.addControl(
+  //     new MapboxGeocoder({
+  //       accessToken: mapboxgl.accessToken,
+  //       mapboxgl: mapboxgl,
+  //       marker: {
+  //         draggable: true,
+  //       },
+  //     })
+  //   );
+  //   this.marker.on('dragend', this.onDragEnd);
+  // }
 
   createForm() {
     this.projectDetailsForm = this._fb.group({
@@ -182,6 +184,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_td_number: ['', Validators.required],
       project_basement: [''],
       project_landmark: [''],
+      inspector_name: ['', Validators.required],
+      inspector_profession: ['', Validators.required],
     });
     this.projectDetailsForm.valueChanges.subscribe((data) => {
       this.projectFormChange = data;
@@ -224,18 +228,18 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       permit_type_id: this.applicationDetailsFromService.application_type,
       is_representative: this.applicationDetailsFromService.is_representative,
       rol_status_id: this.applicationDetailsFromService.is_lot_owner,
-      construction_status_id: this.applicationDetailsFromService
-        .construction_status,
+      construction_status_id:
+        this.applicationDetailsFromService.construction_status,
       is_registered_owner: this.applicationDetailsFromService.registered_owner,
-      is_owned_by_corporation: this.applicationDetailsFromService
-        .is_owned_by_corporation,
-      is_property_have_coowners: this.applicationDetailsFromService
-        .is_property_have_coowners,
+      is_owned_by_corporation:
+        this.applicationDetailsFromService.is_owned_by_corporation,
+      is_property_have_coowners:
+        this.applicationDetailsFromService.is_property_have_coowners,
       is_under_mortgage: this.applicationDetailsFromService.is_under_mortgage,
-      is_within_subdivision: this.applicationDetailsFromService
-        .is_within_subdivision,
-      occupancy_classification_id: this.applicationDetailsFromService
-        .occupancy_classification_id,
+      is_within_subdivision:
+        this.applicationDetailsFromService.is_within_subdivision,
+      occupancy_classification_id:
+        this.applicationDetailsFromService.occupancy_classification_id,
       applicant_first_name: this.ownerDetails.owner_first_name,
       applicant_middle_name: this.ownerDetails.owner_middle_name,
       applicant_last_name: this.ownerDetails.owner_last_name,

@@ -51,11 +51,12 @@ export class UserHomeComponent implements OnInit {
     this._router.navigate(['dashboard/applications/view', id]);
   }
   goToNewApplication(id) {
-    this._router.navigate([
-      'dashboard/new/step-one',
-      {
-        new_application: id,
-      },
-    ]);
+    // this._router.navigate([
+    //   'dashboard/new/step-one',
+    //   {
+    //     new_application: id,
+    //   },
+    // ]);
+    this._router.navigate(['dashboard/new/step-one', {}]);
   }
 }
