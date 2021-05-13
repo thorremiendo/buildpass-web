@@ -5,15 +5,16 @@
 export const environment = {
   production: false,
   api_url: `http://localhost:8000/api`,
+  // api_url: `https://api.staging.buildpass.baguio.gov.ph/api`,
 
   firebase: {
-    apiKey: "AIzaSyCTCQAnOkASHslp8No3KbiiPuwMaJPixjM",
-    authDomain: "ocpas-staging.firebaseapp.com",
-    projectId: "ocpas-staging",
-    storageBucket: "ocpas-staging.appspot.com",
-    messagingSenderId: "707588667518",
-    appId: "1:707588667518:web:fe86b240301f7700b1802f",
-    measurementId: "G-39X06XCXLX"
+    apiKey: 'AIzaSyCTCQAnOkASHslp8No3KbiiPuwMaJPixjM',
+    authDomain: 'ocpas-staging.firebaseapp.com',
+    projectId: 'ocpas-staging',
+    storageBucket: 'ocpas-staging.appspot.com',
+    messagingSenderId: '707588667518',
+    appId: '1:707588667518:web:fe86b240301f7700b1802f',
+    measurementId: 'G-39X06XCXLX',
   },
   mapbox: {
     accessToken:

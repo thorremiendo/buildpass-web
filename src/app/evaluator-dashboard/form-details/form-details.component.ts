@@ -19,6 +19,8 @@ import { UserService } from 'src/app/core/services/user.service';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { ViewSDKClient } from 'src/app/core/services/view-sdk.service';
 import { WaterMarkService } from '../../core';
+import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
+import { documentTypes } from '../../core/enums/document-type.enum';
 
 @Component({
   selector: 'app-form-details',
@@ -34,6 +36,7 @@ export class FormDetailsComponent implements OnInit {
   public applicationId;
   public selectedForm: File;
   public isSubmitting: boolean = false;
+  public isLoading: boolean = false;
   //adobe sdk
   previewFilePromise: any;
   annotationManager: any;
@@ -43,10 +46,8 @@ export class FormDetailsComponent implements OnInit {
     includePDFAnnotations: true,
   };
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
+    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService,
     private newApplicationService: NewApplicationService,
-    private authService: AuthService,
     private userService: UserService,
     private fb: FormBuilder,
     private viewSDKClient: ViewSDKClient,
@@ -73,6 +74,7 @@ export class FormDetailsComponent implements OnInit {
   }
   //adobe sdk functions
   ngAfterViewInit() {
+    this.isLoading = true;
     this.viewSDKClient.url = this.data.form.document_path;
     this.viewSDKClient.ready().then(() => {
       /* Invoke the file preview and get the Promise object */
@@ -81,6 +83,7 @@ export class FormDetailsComponent implements OnInit {
         this.viewerConfig
       );
       /* Use the annotation manager interface to invoke the commenting APIs */
+
       this.previewFilePromise.then((adobeViewer: any) => {
         adobeViewer.getAnnotationManager().then((annotManager: any) => {
           this.annotationManager = annotManager;
@@ -95,20 +98,37 @@ export class FormDetailsComponent implements OnInit {
           this.viewSDKClient.registerSaveApiHandler('update');
         });
       });
+      this.isLoading = false;
     });
   }
+
   removeAnnotations() {
     this.annotationManager
       .removeAnnotationsFromPDF()
-      .then((result: any) => {
-        console.log(
-          'Annotations removed from PDF successfully and updated PDF bufferand annotation list returned.',
-          result
-        );
+      .then((result) => {
+        console.log(result);
       })
-      .catch((error: any) => {
-        console.log(error);
-      });
+      .catch((error) => console.log(error));
+  }
+
+  isDocumentAForm() {
+    if (
+      this.data.form.document_id == 1 ||
+      this.data.form.document_id == 2 ||
+      this.data.form.document_id == 3 ||
+      this.data.form.document_id == 4 ||
+      this.data.form.document_id == 5 ||
+      this.data.form.document_id == 48 ||
+      this.data.form.document_id == 106 ||
+      this.data.form.document_id == 98 ||
+      this.data.form.document_id == 99
+    ) {
+      return true;
+    } else return false;
+  }
+
+  getDocType(id): string {
+    return documentTypes[id];
   }
 
   onSelect($event: NgxDropzoneChangeEvent, type) {
@@ -139,15 +159,35 @@ export class FormDetailsComponent implements OnInit {
       .updateUserDocs(revisionData, id)
       .subscribe((res) => {
         if (this.permitDetails.value.is_compliant == 1) {
-          this.compliant(this.data.form.document_path, id);
+          this.compliant(this.data.form, id);
         } else if (this.permitDetails.value.is_compliant == 2) {
-          this.noncompliant(this.data.form.document_path, id);
+          this.noncompliant(this.data.form, id);
         }
       });
   }
+
   onNoClick(): void {
     this.dialogRef.close();
   }
+
+  public async updateForm(): Promise<void> {
+    this.isSubmitting = true;
+    const blob =
+      await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    const uploadDocumentData = {
+      document_status_id: 0,
+      document_path: blob,
+    };
+    this.newApplicationService
+      .updateDocumentFile(uploadDocumentData, this.data.form.id)
+      .subscribe((res) => {
+        this.isSubmitting = false;
+        Swal.fire('Success!', `File Updated!`, 'success').then((result) => {
+          this.onNoClick();
+        });
+      });
+  }
+
   callUpdate() {
     this.isSubmitting = true;
     const uploadDocumentData = {
@@ -167,26 +207,37 @@ export class FormDetailsComponent implements OnInit {
   }
 
   compliant(form, id) {
-    this.waterMark.insertWaterMark(form, 'compliant').then((blob) => {
-      const updateFileData = {
-        document_status_id: this.permitDetails.value.is_compliant,
-      };
-      this.newApplicationService
-        .updateDocumentFile(updateFileData, id)
-        .subscribe((res) => {
-          this.isSubmitting = false;
-          Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
-            this.onNoClick();
+    this.waterMark
+      .insertWaterMark(form.document_path, 'compliant')
+      .then((blob) => {
+        const updateFileData = {
+          document_status_id: this.permitDetails.value.is_compliant,
+        };
+        this.newApplicationService
+          .updateDocumentFile(updateFileData, id)
+          .subscribe((res) => {
+            this.isSubmitting = false;
+            Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
+              this.onNoClick();
+            });
           });
-        });
-    });
+      });
   }
 
   noncompliant(form, id) {
-    this.waterMark.insertWaterMark(form, 'non-compliant').then((blob) => {
+    if (
+      form.document_id == 1 ||
+      form.document_id == 2 ||
+      form.document_id == 3 ||
+      form.document_id == 4 ||
+      form.document_id == 5 ||
+      form.document_id == 48 ||
+      form.document_id == 106 ||
+      form.document_id == 98 ||
+      form.document_id == 99
+    ) {
       const updateFileData = {
         document_status_id: this.permitDetails.value.is_compliant,
-        document_path: blob,
       };
       this.newApplicationService
         .updateDocumentFile(updateFileData, id)
@@ -196,6 +247,25 @@ export class FormDetailsComponent implements OnInit {
             this.onNoClick();
           });
         });
-    });
+    } else {
+      this.waterMark
+        .insertWaterMark(form.document_path, 'non-compliant')
+        .then((blob) => {
+          const updateFileData = {
+            document_status_id: this.permitDetails.value.is_compliant,
+            document_path: blob,
+          };
+          this.newApplicationService
+            .updateDocumentFile(updateFileData, id)
+            .subscribe((res) => {
+              this.isSubmitting = false;
+              Swal.fire('Success!', `Review saved!`, 'success').then(
+                (result) => {
+                  this.onNoClick();
+                }
+              );
+            });
+        });
+    }
   }
 }
