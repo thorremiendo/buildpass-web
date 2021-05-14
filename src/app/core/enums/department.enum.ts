@@ -6,7 +6,7 @@ export enum Office {
 }
 
 export enum Position{
-    "Adimnistrative Assistant",
+    "Administrative Assistant",
     "Administrative Aide",
     "Administrative Officer I",
     "Administrative Officer II",
@@ -72,4 +72,6 @@ export enum Position{
     "Mechanical Engineer VI",
     "Civil Engineer VI",
 
+    "City Building Official",
+    "Assistant Building Official",
 }
