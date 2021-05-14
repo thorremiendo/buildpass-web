@@ -74,32 +74,33 @@ export class FormDetailsComponent implements OnInit {
   }
   //adobe sdk functions
   ngAfterViewInit() {
-    this.isLoading = true;
-    this.viewSDKClient.url = this.data.form.document_path;
-    this.viewSDKClient.ready().then(() => {
-      /* Invoke the file preview and get the Promise object */
-      this.previewFilePromise = this.viewSDKClient.previewFile(
-        'pdf-div',
-        this.viewerConfig
-      );
-      /* Use the annotation manager interface to invoke the commenting APIs */
+    console.log(this.user);
+    if (this.user.employee_detail) {
+      this.viewSDKClient.url = this.data.form.document_path;
+      this.viewSDKClient.ready().then(() => {
+        /* Invoke the file preview and get the Promise object */
+        this.previewFilePromise = this.viewSDKClient.previewFile(
+          'pdf-div',
+          this.viewerConfig
+        );
+        /* Use the annotation manager interface to invoke the commenting APIs */
 
-      this.previewFilePromise.then((adobeViewer: any) => {
-        adobeViewer.getAnnotationManager().then((annotManager: any) => {
-          this.annotationManager = annotManager;
-          /* Set UI configurations */
-          const customFlags = {
-            /* showToolbar: false,   /* Default value is true */
-            showCommentsPanel: false /* Default value is true */,
-            downloadWithAnnotations: true /* Default value is false */,
-            printWithAnnotations: true /* Default value is false */,
-          };
-          this.annotationManager.setConfig(customFlags);
-          this.viewSDKClient.registerSaveApiHandler('update');
+        this.previewFilePromise.then((adobeViewer: any) => {
+          adobeViewer.getAnnotationManager().then((annotManager: any) => {
+            this.annotationManager = annotManager;
+            /* Set UI configurations */
+            const customFlags = {
+              /* showToolbar: false,   /* Default value is true */
+              showCommentsPanel: false /* Default value is true */,
+              downloadWithAnnotations: true /* Default value is false */,
+              printWithAnnotations: true /* Default value is false */,
+            };
+            this.annotationManager.setConfig(customFlags);
+            this.viewSDKClient.registerSaveApiHandler('update');
+          });
         });
       });
-      this.isLoading = false;
-    });
+    }
   }
 
   removeAnnotations() {
