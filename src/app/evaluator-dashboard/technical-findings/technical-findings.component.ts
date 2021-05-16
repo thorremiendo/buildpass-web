@@ -62,9 +62,7 @@ export class TechnicalFindingsComponent implements OnInit {
       setBackLeft: ['', Validators.required],
       roadLevel: ['', Validators.required],
       allowable: ['', Validators.required],
-      allowableWithin: ['', Validators.required],
       parkingReq: ['', Validators.required],
-      parkingReqWithin: ['', Validators.required],
       parkingSpace: ['', Validators.required],
     });
   }
@@ -81,9 +79,9 @@ export class TechnicalFindingsComponent implements OnInit {
         setback_left: value.setBackLeft,
         road_level: value.roadLevel,
         allowable: value.allowable,
-        allowable_within: value.allowableWithin,
+        allowable_within: value.zone,
         parking_req: value.parkingReq,
-        parking_req_within: value.parkingReqWithin,
+        parking_req_within: value.zone,
         parking_space: value.parkingSpace,
       };
       this.applicationService

@@ -12,7 +12,7 @@ import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { applicationStatus } from '../../core/enums/application-status.enum';
 import { applicationTypes } from '../../core/enums/application-type.enum';
-import { EvaluatorService } from '../../core';
+import { ApplicationInfoService, EvaluatorService } from '../../core';
 
 @Component({
   selector: 'app-applications-list',
@@ -32,7 +32,10 @@ export class ApplicationsListComponent implements OnInit, OnChanges {
   public applicationNumber = new FormControl('');
   public permitType = new FormControl('');
 
-  constructor(private evaluatorService: EvaluatorService) {}
+  constructor(
+    private evaluatorService: EvaluatorService,
+    private applicationService: ApplicationInfoService,
+  ) {}
 
   ngOnInit(): void {
     this.userInfo = JSON.parse(localStorage.getItem('user'));
@@ -103,6 +106,12 @@ export class ApplicationsListComponent implements OnInit, OnChanges {
 
   chooseApplication($event) {
     this.emitApplication.emit($event);
+  }
+
+  deleteApplication(id) {
+    this.applicationService.deleteApplication(id).subscribe(res => {
+      console.log(res);
+    });
   }
 
   //   btnCategoryClick(status_id: number ){

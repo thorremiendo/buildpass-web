@@ -147,4 +147,9 @@ export class ApplicationInfoService {
     const url = `/application/${id}/update-status-cbao`;
     return this.api.post(url, body);
   }
+
+  deleteApplication(id) {
+    const url = `/application/${id}/delete`;
+    return this.api.delete(url);
+  }
 }
