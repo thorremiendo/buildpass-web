@@ -13,6 +13,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { applicationStatus } from '../../core/enums/application-status.enum';
 import { applicationTypes } from '../../core/enums/application-type.enum';
 import { ApplicationInfoService, EvaluatorService } from '../../core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-applications-list',
@@ -109,8 +110,23 @@ export class ApplicationsListComponent implements OnInit, OnChanges {
   }
 
   deleteApplication(id) {
-    this.applicationService.deleteApplication(id).subscribe(res => {
-      console.log(res);
+    Swal.fire({
+      title: 'Are you sure you want to delete application?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: `Delete`,
+      denyButtonText: `Cancel`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.applicationService.deleteApplication(id).subscribe(res => {
+          Swal.fire('Success!', `Application deleted.`, 'success').then(res => {
+              window.location.reload();
+            }
+          );
+        });
+      } else if (result.isDenied) {
+        
+      }
     });
   }
 
