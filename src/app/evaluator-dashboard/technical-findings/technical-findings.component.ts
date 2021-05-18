@@ -15,9 +15,12 @@ export class TechnicalFindingsComponent implements OnInit {
   public technicalFindingsForm: FormGroup;
   public isLoading: boolean = false;
   public technicalFindings;
+  public submitted: boolean = false;
+
   get technicalFindingsFormControl() {
     return this.technicalFindingsForm.controls;
   }
+
   constructor(
     private fb: FormBuilder,
     private applicationService: ApplicationInfoService
@@ -56,18 +59,19 @@ export class TechnicalFindingsComponent implements OnInit {
     this.technicalFindingsForm = this.fb.group({
       zone: ['', Validators.required],
       isZonal: ['', Validators.required],
-      setBackFront: ['', Validators.required],
-      setBackRear: ['', Validators.required],
-      setBackRight: ['', Validators.required],
-      setBackLeft: ['', Validators.required],
-      roadLevel: ['', Validators.required],
-      allowable: ['', Validators.required],
-      parkingReq: ['', Validators.required],
-      parkingSpace: ['', Validators.required],
+      setBackFront: [''],
+      setBackRear: [''],
+      setBackRight: [''],
+      setBackLeft: [''],
+      roadLevel: [''],
+      allowable: [''],
+      parkingReq: [''],
+      parkingSpace: [''],
     });
   }
 
   onSubmit() {
+    this.submitted = true;
     if (this.technicalFindingsForm.valid) {
       const value = this.technicalFindingsForm.value;
       const body = {
