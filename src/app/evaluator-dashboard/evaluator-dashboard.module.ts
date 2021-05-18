@@ -80,6 +80,7 @@ import { UploadSupportingDocumentsComponent } from './upload-supporting-document
 import { TechnicalEvaluationComponent } from './technical-evaluation/technical-evaluation.component';
 import { DownloadableFormsComponent } from './downloadable-forms/downloadable-forms.component';
 import { TechnicalFindingsComponent } from './technical-findings/technical-findings.component';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -169,6 +170,7 @@ import { TechnicalFindingsComponent } from './technical-findings/technical-findi
     MatDialogModule,
     DashboardComponentsModule,
     MaterialModule,
+    MatSortModule,
   ],
 
   exports: [TechnicalEvaluationComponent],

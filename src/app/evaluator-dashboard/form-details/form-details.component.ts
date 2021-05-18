@@ -74,33 +74,39 @@ export class FormDetailsComponent implements OnInit {
   }
   //adobe sdk functions
   ngAfterViewInit() {
-    console.log(this.user);
-    if (this.user.employee_detail) {
-      this.viewSDKClient.url = this.data.form.document_path;
-      this.viewSDKClient.ready().then(() => {
-        /* Invoke the file preview and get the Promise object */
-        this.previewFilePromise = this.viewSDKClient.previewFile(
-          'pdf-div',
-          this.viewerConfig
-        );
-        /* Use the annotation manager interface to invoke the commenting APIs */
+    this.viewSDKClient.url = this.data.form.document_path;
+    this.viewSDKClient.ready().then(() => {
+      /* Invoke the file preview and get the Promise object */
+      if (this.user.employee_detail) {
+        this.previewFilePromise = this.viewSDKClient.previewFile('pdf-div', {
+          ...this.viewerConfig,
+          showPageControls: true,
+          enableFormFilling: false,
+        });
+      } else {
+        this.previewFilePromise = this.viewSDKClient.previewFile('pdf-div', {
+          ...this.viewerConfig,
+          showPageControls: true,
+        });
+      }
 
-        this.previewFilePromise.then((adobeViewer: any) => {
-          adobeViewer.getAnnotationManager().then((annotManager: any) => {
-            this.annotationManager = annotManager;
-            /* Set UI configurations */
-            const customFlags = {
-              /* showToolbar: false,   /* Default value is true */
-              showCommentsPanel: false /* Default value is true */,
-              downloadWithAnnotations: true /* Default value is false */,
-              printWithAnnotations: true /* Default value is false */,
-            };
-            this.annotationManager.setConfig(customFlags);
-            this.viewSDKClient.registerSaveApiHandler('update');
-          });
+      /* Use the annotation manager interface to invoke the commenting APIs */
+
+      this.previewFilePromise.then((adobeViewer: any) => {
+        adobeViewer.getAnnotationManager().then((annotManager: any) => {
+          this.annotationManager = annotManager;
+          /* Set UI configurations */
+          const customFlags = {
+            showToolbar: true /* Default value is true */,
+            showCommentsPanel: false /* Default value is true */,
+            downloadWithAnnotations: true /* Default value is false */,
+            printWithAnnotations: true /* Default value is false */,
+          };
+          this.annotationManager.setConfig(customFlags);
+          this.viewSDKClient.registerSaveApiHandler('update');
         });
       });
-    }
+    });
   }
 
   removeAnnotations() {
@@ -173,11 +179,11 @@ export class FormDetailsComponent implements OnInit {
 
   public async updateForm(): Promise<void> {
     this.isSubmitting = true;
-    const blob =
-      await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    // const blob =
+    //   await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     const uploadDocumentData = {
       document_status_id: 0,
-      document_path: blob,
+      // document_path: blob,
     };
     this.newApplicationService
       .updateDocumentFile(uploadDocumentData, this.data.form.id)
