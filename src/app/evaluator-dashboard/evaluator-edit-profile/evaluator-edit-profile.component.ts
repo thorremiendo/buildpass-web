@@ -65,7 +65,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
       home_address:[this.userInfo.home_address, Validators.required],
       barangay:[this.userInfo.barangay, Validators.required],
       employee_no:[this.userInfo.employee_detail.employee_no, Validators.required],
-      office:[this.userInfo.employee_detail.office_id, Validators.required],
+      office:[this.userInfo.employee_detail.office_id - 1, Validators.required],
       position:[this.userInfo.employee_detail.position, Validators.required],
       contact_number:[this.userInfo.contact_number, [Validators.required, Validators.maxLength(11),]],
       id_number:[this.userInfo.id_number, Validators.required],
@@ -141,7 +141,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
 
   displayBarangayName(value: number) {
     if (value != null) {
-      return this._barangay[value-1].name;
+      return this._barangay[value].name;
     }
   }
 
@@ -206,7 +206,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
         home_address: this._evaluatorEditProfileForm.value.home_address,
         barangay: this._evaluatorEditProfileForm.value.barangay,
         employee_no: this._evaluatorEditProfileForm.value.employee_no,
-        office_id: this._evaluatorEditProfileForm.value.office,
+        office_id: this._evaluatorEditProfileForm.value.office + 1,
         position: this._evaluatorEditProfileForm.value.position,
         contact_number: this._evaluatorEditProfileForm.value.contact_number,
         id_number: this._evaluatorEditProfileForm.value.id_number,
@@ -226,7 +226,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
             employee_detail: {
               ...user.employee_detail,
               employee_no: this._evaluatorEditProfileForm.value.employee_no,
-              office_id: this._evaluatorEditProfileForm.value.office,
+              office_id: this._evaluatorEditProfileForm.value.office + 1,
               position: this._evaluatorEditProfileForm.value.position
             }
           };

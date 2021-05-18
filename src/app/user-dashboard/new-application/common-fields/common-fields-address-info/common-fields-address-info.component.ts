@@ -186,6 +186,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_landmark: [''],
       inspector_name: ['', Validators.required],
       inspector_profession: ['', Validators.required],
+      inspector_prc_no: ['', Validators.required],
     });
     this.projectDetailsForm.valueChanges.subscribe((data) => {
       this.projectFormChange = data;
