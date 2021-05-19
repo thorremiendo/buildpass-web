@@ -25,6 +25,14 @@
           </mat-form-field>
         </div>
       </div>
+      <mat-error class="col-12"
+        *ngIf="
+        (technicalFindingsFormControl.zone.touched || submitted) &&
+        technicalFindingsFormControl.zone.errors?.required
+        "
+      >
+        Zonal Classification is Required
+      </mat-error>
 
       <div class="form-input col-12">
         <div class="input-label">Conforming to Zonal Classification?</div>
@@ -37,6 +45,14 @@
           </mat-form-field>
         </div>
       </div>
+      <mat-error class="col-12"
+        *ngIf="
+        (technicalFindingsFormControl.isZonal.touched || submitted) &&
+        technicalFindingsFormControl.isZonal.errors?.required
+        "
+      >
+        Conforming to Zonal Classification? is Required
+      </mat-error>
     </div>
 
     <div class="row">
@@ -143,7 +159,6 @@
           mat-raised-button
           type="submit"
           color="primary"
-          [disabled]="technicalFindings"
           *ngIf="checkIfCpdo()"
         >
           Save

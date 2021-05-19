@@ -28,8 +28,15 @@
     </div>
   </div>
   <ng-container *ngIf="user.employee_detail">
-    <div class="text-right m-3">
-      <button mat-button (click)="removeAnnotations()" color="primary">
+    <div class="d-flex justify-content-md-between">
+      <button mat-button (click)="resetWatermark()" color="primary">
+        Remove Watermark
+      </button>
+      <button
+        mat-button
+        (click)="removeAnnotations('evaluator')"
+        color="primary"
+      >
         Clear Annotations
       </button>
     </div>
@@ -77,29 +84,47 @@
     </ng-template>
   </ng-container>
   <ng-container *ngIf="!user.employee_detail">
-    <ngx-extended-pdf-viewer
-      [src]="data.form.document_path"
-      [showToolbar]="true"
-      [showSidebarButton]="false"
-      [showFindButton]="false"
-      [showPagingButtons]="false"
-      [showZoomButtons]="true"
-      [showPresentationModeButton]="true"
-      [showOpenFileButton]="false"
-      [showPrintButton]="false"
-      [showDownloadButton]="true"
-      [showBookmarkButton]="false"
-      [showSecondaryToolbarButton]="true"
-      [showRotateButton]="false"
-      [showHandToolButton]="false"
-      [showScrollingButton]="false"
-      [showSpreadButton]="false"
-      [showPropertiesButton]="false"
-      [useBrowserLocale]="true"
-      height="1000px"
-      zoom="100%"
-    >
-    </ngx-extended-pdf-viewer>
+    <ng-container *ngIf="isDocumentAForm(); else notAForm">
+      <div class="text-right m-3">
+        <button
+          mat-button
+          (click)="removeAnnotations('applicant')"
+          color="primary"
+        >
+          Clear Annotations
+        </button>
+      </div>
+      <div class="pdf-container">
+        <div class="container">
+          <div id="pdf-div" class="pdf-view"></div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #notAForm>
+      <ngx-extended-pdf-viewer
+        [src]="data.form.document_path"
+        [showToolbar]="true"
+        [showSidebarButton]="false"
+        [showFindButton]="false"
+        [showPagingButtons]="false"
+        [showZoomButtons]="true"
+        [showPresentationModeButton]="true"
+        [showOpenFileButton]="false"
+        [showPrintButton]="false"
+        [showDownloadButton]="true"
+        [showBookmarkButton]="false"
+        [showSecondaryToolbarButton]="true"
+        [showRotateButton]="false"
+        [showHandToolButton]="false"
+        [showScrollingButton]="false"
+        [showSpreadButton]="false"
+        [showPropertiesButton]="false"
+        [useBrowserLocale]="true"
+        height="1000px"
+        zoom="100%"
+      >
+      </ngx-extended-pdf-viewer>
+    </ng-template>
   </ng-container>
 
   <div [formGroup]="permitDetails" *ngIf="user.employee_detail">

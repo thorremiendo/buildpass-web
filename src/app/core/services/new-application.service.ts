@@ -82,4 +82,14 @@ export class NewApplicationService {
     const url = '/document';
     return this.api.get(url);
   }
+
+  fetchDocumentPath(id) {
+    const url = `/userdocs/${id}/path`;
+    return this.api.get(url);
+  }
+
+  resetDocumentWatermark(body, id) {
+    const url = `/userdocs/${id}/reset-document`;
+    return this.api.post(url, body);
+  }
 }
