@@ -28,7 +28,10 @@
     </div>
   </div>
   <ng-container *ngIf="user.employee_detail">
-    <div class="text-right m-3">
+    <div class="d-flex justify-content-md-between">
+      <button mat-button (click)="resetWatermark()" color="primary">
+        Remove Watermark
+      </button>
       <button
         mat-button
         (click)="removeAnnotations('evaluator')"

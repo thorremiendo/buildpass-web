@@ -231,48 +231,67 @@ export class FormDetailsComponent implements OnInit {
       });
   }
 
-  noncompliant(form, id) {
-    if (
-      form.document_id == 1 ||
-      form.document_id == 2 ||
-      form.document_id == 3 ||
-      form.document_id == 4 ||
-      form.document_id == 5 ||
-      form.document_id == 48 ||
-      form.document_id == 106 ||
-      form.document_id == 98 ||
-      form.document_id == 99
-    ) {
-      const updateFileData = {
-        document_status_id: this.permitDetails.value.is_compliant,
-      };
-      this.newApplicationService
-        .updateDocumentFile(updateFileData, id)
-        .subscribe((res) => {
-          this.isSubmitting = false;
-          Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
+  resetWatermark() {
+    this.isSubmitting = true;
+    var body = {};
+    this.newApplicationService
+      .resetDocumentWatermark(body, this.data.form.id)
+      .subscribe((res) => {
+        Swal.fire('Success!', `Watermark Removed!`, 'success').then(
+          (result) => {
             this.onNoClick();
-          });
-        });
-    } else {
-      this.waterMark
-        .insertWaterMark(form.document_path, 'non-compliant')
-        .then((blob) => {
-          const updateFileData = {
-            document_status_id: this.permitDetails.value.is_compliant,
-            document_path: blob,
-          };
-          this.newApplicationService
-            .updateDocumentFile(updateFileData, id)
-            .subscribe((res) => {
-              this.isSubmitting = false;
-              Swal.fire('Success!', `Review saved!`, 'success').then(
-                (result) => {
-                  this.onNoClick();
-                }
-              );
+          }
+        );
+      });
+  }
+
+  noncompliant(form, id) {
+    this.isSubmitting = true;
+    this.newApplicationService.fetchDocumentPath(id).subscribe((res) => {
+      console.log(res);
+      var docPath = res.data.document_path;
+      if (
+        form.document_id == 1 ||
+        form.document_id == 2 ||
+        form.document_id == 3 ||
+        form.document_id == 4 ||
+        form.document_id == 5 ||
+        form.document_id == 48 ||
+        form.document_id == 106 ||
+        form.document_id == 98 ||
+        form.document_id == 99
+      ) {
+        const updateFileData = {
+          document_status_id: this.permitDetails.value.is_compliant,
+        };
+        this.newApplicationService
+          .updateDocumentFile(updateFileData, id)
+          .subscribe((res) => {
+            this.isSubmitting = false;
+            Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
+              this.onNoClick();
             });
-        });
-    }
+          });
+      } else {
+        this.waterMark
+          .insertWaterMark(docPath, 'non-compliant')
+          .then((blob) => {
+            const updateFileData = {
+              document_status_id: this.permitDetails.value.is_compliant,
+              document_path: blob,
+            };
+            this.newApplicationService
+              .updateDocumentFile(updateFileData, id)
+              .subscribe((res) => {
+                this.isSubmitting = false;
+                Swal.fire('Success!', `Review saved!`, 'success').then(
+                  (result) => {
+                    this.onNoClick();
+                  }
+                );
+              });
+          });
+      }
+    });
   }
 }
