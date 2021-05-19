@@ -823,14 +823,12 @@ export class DataFormBindingService {
 
   //GENERTAL FORM DATA
   getFormData(a) {
-    console.log(a);
     const applicantDetails = a.applicant_detail;
     const projectDetails = a.project_detail;
     const representativeDetails = a.representative_detail;
     const projectCostCap = parseFloat(
       a.project_detail.project_cost_cap
     ).toLocaleString();
-    console.log(a);
 
     const formData = {
       owner_or_rep:
