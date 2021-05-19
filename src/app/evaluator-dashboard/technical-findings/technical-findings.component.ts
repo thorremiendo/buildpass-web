@@ -29,7 +29,8 @@ export class TechnicalFindingsComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.technicalFindings = this.applicationDetails.technical_finding_detail;
-    this.checkIfCpdo();
+    const isCpdo = this.checkIfCpdo();
+    if (!isCpdo) this.technicalFindingsForm.disable();
     if (this.technicalFindings) {
       this.technicalFindingsForm.patchValue({
         zone: this.technicalFindings.zone,
@@ -45,7 +46,6 @@ export class TechnicalFindingsComponent implements OnInit {
         parkingReqWithin: this.technicalFindings.parking_req_within,
         parkingSpace: this.technicalFindings.parking_space,
       });
-      this.technicalFindingsForm.disable();
     }
   }
   checkIfCpdo() {
@@ -93,7 +93,6 @@ export class TechnicalFindingsComponent implements OnInit {
         .subscribe((res) => {
           Swal.fire('Success!', `Information Saved!.`, 'success').then(
             (result) => {
-              this.ngOnInit();
             }
           );
         });
