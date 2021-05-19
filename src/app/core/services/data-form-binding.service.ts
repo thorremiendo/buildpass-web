@@ -185,10 +185,9 @@ export class DataFormBindingService {
             : '',
           position_title: data.position_title ? data.position_title : '',
         };
-        this.submitZoningFormData(
-          zoningBody,
-          applicationId
-        ).subscribe((res) => {});
+        this.submitZoningFormData(zoningBody, applicationId).subscribe(
+          (res) => {}
+        );
         break;
       case 2:
         const buildingPermitBody = {
@@ -534,10 +533,9 @@ export class DataFormBindingService {
           applicant_date_issued: data.applicant_date_issued,
           applicant_place_issued: data.applicant_place_issued,
         };
-        this.submitSanitaryFormData(
-          sanitaryBody,
-          applicationId
-        ).subscribe((res) => {});
+        this.submitSanitaryFormData(sanitaryBody, applicationId).subscribe(
+          (res) => {}
+        );
         break;
       case 4:
         const electricalBody = {
@@ -635,10 +633,9 @@ export class DataFormBindingService {
           building_official: data.building_official,
           building_official_date: data.building_official_date,
         };
-        this.submitElectricalFormData(
-          electricalBody,
-          applicationId
-        ).subscribe((res) => {});
+        this.submitElectricalFormData(electricalBody, applicationId).subscribe(
+          (res) => {}
+        );
         break;
       case 5:
         const noticeBody = {};
@@ -733,7 +730,8 @@ export class DataFormBindingService {
         projectDetails.barangay == 'undefined'
           ? 'N/A'
           : projectDetails.barangay.toUpperCase(),
-      owner_name: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      owner_name:
+        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
     };
 
     return formData;
@@ -749,7 +747,8 @@ export class DataFormBindingService {
     ).toLocaleString();
 
     const formData = {
-      owner_permitee: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      owner_permitee:
+        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       project_title:
         projectDetails.project_title == 'undefined'
           ? 'N/A'
@@ -809,8 +808,10 @@ export class DataFormBindingService {
         projectDetails.barangay == 'undefined'
           ? 'N/A'
           : projectDetails.barangay.toUpperCase(),
-      business_owner: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
-      owner_address: `${applicantDetails.house_number} ${applicantDetails.street_name} ${applicantDetails.barangay}`.toUpperCase(),
+      business_owner:
+        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      owner_address:
+        `${applicantDetails.house_number} ${applicantDetails.street_name} ${applicantDetails.barangay}`.toUpperCase(),
       contact_no:
         applicantDetails.contact_number == 'undefined'
           ? 'N/A'
@@ -831,8 +832,10 @@ export class DataFormBindingService {
     ).toLocaleString();
 
     const formData = {
-      owner_or_rep: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
-      applicant_full_name: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      owner_or_rep:
+        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      applicant_full_name:
+        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       applicant_complete_address: `${
         applicantDetails.house_number ? applicantDetails.house_number : ''
       }  ${applicantDetails.lot_number ? applicantDetails.lot_number : ''} ${
@@ -943,11 +946,11 @@ export class DataFormBindingService {
       project_province: 'BENGUET',
       project_city: 'BAGUIO CITY',
       project_zipcode: '2600',
-      complete_project_location: ` ${
-        projectDetails.lot_number ? projectDetails.lot_number : ''
-      } ${projectDetails.block_number ? projectDetails.block_number : ''} ${
-        projectDetails.street_name ? projectDetails.street_name : ''
-      }
+      complete_project_location: `${
+        projectDetails.house_number ? projectDetails.house_number : ''
+      } ${projectDetails.lot_number ? projectDetails.lot_number : ''} ${
+        projectDetails.block_number ? projectDetails.block_number : ''
+      } ${projectDetails.street_name ? projectDetails.street_name : ''}
       ${projectDetails.subdivision ? projectDetails.subdivision : ''} ${
         projectDetails.barangay
       }`.toUpperCase(),

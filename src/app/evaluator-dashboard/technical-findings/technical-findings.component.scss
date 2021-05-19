@@ -1,6 +1,59 @@
-.mat-radio-button ~ .mat-radio-button {
-  margin-left: 16px;
-}
-.mat-form-field {
-  margin-inline: 4px;
+.technical-findings {
+  max-width: 800px;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 30px;
+
+  form {
+    margin: 20px 0;
+
+   .row {
+      margin-bottom: 30px;
+    }
+  }
+
+  .form-input {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .input-label {
+      display: flex;
+      align-items: flex-end;
+
+      &.indent {
+        margin-left: 20px;
+      }
+    }
+
+    .value-input {
+      display: flex;
+      align-items: flex-end;
+      width: 275px;
+
+      div {
+        margin-left: 10px;
+        min-width: 50px;
+      }
+    }
+
+    ::ng-deep .mat-form-field {
+      margin-bottom: -1.25em;
+      text-align: right;
+
+      .mat-select-value {
+        padding-right: 10px;
+      }
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  mat-error {
+    font-size: 12px;
+  }
 }

@@ -15,9 +15,12 @@ export class TechnicalFindingsComponent implements OnInit {
   public technicalFindingsForm: FormGroup;
   public isLoading: boolean = false;
   public technicalFindings;
+  public submitted: boolean = false;
+
   get technicalFindingsFormControl() {
     return this.technicalFindingsForm.controls;
   }
+
   constructor(
     private fb: FormBuilder,
     private applicationService: ApplicationInfoService
@@ -26,7 +29,8 @@ export class TechnicalFindingsComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.technicalFindings = this.applicationDetails.technical_finding_detail;
-    this.checkIfCpdo();
+    const isCpdo = this.checkIfCpdo();
+    if (!isCpdo) this.technicalFindingsForm.disable();
     if (this.technicalFindings) {
       this.technicalFindingsForm.patchValue({
         zone: this.technicalFindings.zone,
@@ -42,7 +46,6 @@ export class TechnicalFindingsComponent implements OnInit {
         parkingReqWithin: this.technicalFindings.parking_req_within,
         parkingSpace: this.technicalFindings.parking_space,
       });
-      this.technicalFindingsForm.disable();
     }
   }
   checkIfCpdo() {
@@ -56,20 +59,19 @@ export class TechnicalFindingsComponent implements OnInit {
     this.technicalFindingsForm = this.fb.group({
       zone: ['', Validators.required],
       isZonal: ['', Validators.required],
-      setBackFront: ['', Validators.required],
-      setBackRear: ['', Validators.required],
-      setBackRight: ['', Validators.required],
-      setBackLeft: ['', Validators.required],
-      roadLevel: ['', Validators.required],
-      allowable: ['', Validators.required],
-      allowableWithin: ['', Validators.required],
-      parkingReq: ['', Validators.required],
-      parkingReqWithin: ['', Validators.required],
-      parkingSpace: ['', Validators.required],
+      setBackFront: [''],
+      setBackRear: [''],
+      setBackRight: [''],
+      setBackLeft: [''],
+      roadLevel: [''],
+      allowable: [''],
+      parkingReq: [''],
+      parkingSpace: [''],
     });
   }
 
   onSubmit() {
+    this.submitted = true;
     if (this.technicalFindingsForm.valid) {
       const value = this.technicalFindingsForm.value;
       const body = {
@@ -81,9 +83,9 @@ export class TechnicalFindingsComponent implements OnInit {
         setback_left: value.setBackLeft,
         road_level: value.roadLevel,
         allowable: value.allowable,
-        allowable_within: value.allowableWithin,
+        allowable_within: value.zone,
         parking_req: value.parkingReq,
-        parking_req_within: value.parkingReqWithin,
+        parking_req_within: value.zone,
         parking_space: value.parkingSpace,
       };
       this.applicationService
@@ -91,7 +93,6 @@ export class TechnicalFindingsComponent implements OnInit {
         .subscribe((res) => {
           Swal.fire('Success!', `Information Saved!.`, 'success').then(
             (result) => {
-              this.ngOnInit();
             }
           );
         });

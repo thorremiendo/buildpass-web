@@ -1,130 +1,173 @@
-<form
-  [formGroup]="technicalFindingsForm"
-  (ngSubmit)="onSubmit()"
-  *ngIf="!isLoading"
->
-  <div class="col-md-12 pt-3 px-3">
-    <div class="d-flex align-items-center">
-      <h5>Zone:</h5>
-      <div class="ml-3">
-        <mat-radio-group aria-label="Select an option" formControlName="zone">
-          <mat-radio-button value="R1">R1</mat-radio-button>
-          <mat-radio-button value="R2">R2</mat-radio-button>
-          <mat-radio-button value="R3">R3</mat-radio-button>
-          <mat-radio-button value="C1">C1</mat-radio-button>
-          <mat-radio-button value="C2">C2</mat-radio-button>
-          <mat-radio-button value="C3">C3</mat-radio-button>
-          <mat-radio-button value="GIZ">GIZ</mat-radio-button>
-          <mat-radio-button value="IND">IND</mat-radio-button>
-          <mat-radio-button value="UTILITIES">UTILITIES</mat-radio-button>
-        </mat-radio-group>
-      </div>
-    </div>
-    <div class="d-flex align-items-center">
-      <h5>Conforming to Zonal Classification:</h5>
-      <div class="ml-3">
-        <mat-radio-group
-          aria-label="Select an option"
-          formControlName="isZonal"
-        >
-          <mat-radio-button value="1">Yes</mat-radio-button>
-          <mat-radio-button value="2">No</mat-radio-button>
-        </mat-radio-group>
-      </div>
-    </div>
-    <div class="d-flex align-items-center">
-      <h5>Setback:</h5>
-      <div class="ml-3">
-        <div class="d-flex justify-content-md-between align-content-center">
+<div class="technical-findings container-fluid">
+  <form
+    [formGroup]="technicalFindingsForm"
+    (ngSubmit)="onSubmit()"
+    *ngIf="!isLoading"
+  >
+    <div class="row">
+      <div class="form-input col-12">
+        <div class="input-label">
+          Zonal Classification
+        </div>
+        <div class="value-input">
           <mat-form-field appearance="legacy">
-            <mat-label>Front:</mat-label>
+            <mat-select formControlName="zone">
+                <mat-option value="R1">R1 - Low Density Residential</mat-option>
+                <mat-option value="R2">R2 - Medium Density Residential</mat-option>
+                <mat-option value="R3">R3 - High Density Residential</mat-option>
+                <mat-option value="C1">C1 - Low Density Commercial</mat-option>
+                <mat-option value="C2">C2 - Medium Density Commercial</mat-option>
+                <mat-option value="C3">C3 - High Density Commercial</mat-option>
+                <mat-option value="GIZ">Institutional</mat-option>
+                <mat-option value="IND">Industrial</mat-option>
+                <mat-option value="UTILITIES">Utilities</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <mat-error class="col-12"
+        *ngIf="
+        (technicalFindingsFormControl.zone.touched || submitted) &&
+        technicalFindingsFormControl.zone.errors?.required
+        "
+      >
+        Zonal Classification is Required
+      </mat-error>
+
+      <div class="form-input col-12">
+        <div class="input-label">Conforming to Zonal Classification?</div>
+        <div class="value-input">
+          <mat-form-field appearance="legacy">
+            <mat-select formControlName="isZonal">
+              <mat-option value="1">Yes</mat-option>
+              <mat-option value="2">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <mat-error class="col-12"
+        *ngIf="
+        (technicalFindingsFormControl.isZonal.touched || submitted) &&
+        technicalFindingsFormControl.isZonal.errors?.required
+        "
+      >
+        Conforming to Zonal Classification? is Required
+      </mat-error>
+    </div>
+
+    <div class="row">
+      <div class="form-input col-12">
+        <div class="input-label">
+          Setback
+        </div>
+      </div>
+
+      <div class="form-input col-12">
+        <div class="input-label indent">Front</div>
+        <div class="value-input">
+          <mat-form-field appearance="legacy">
             <input matInput formControlName="setBackFront" />
-            <p matSuffix>meter(s)</p>
           </mat-form-field>
+          <div>meters</div>
+        </div>
+      </div>
+
+      <div class="form-input col-12">
+        <div class="input-label indent">Rear</div>
+        <div class="value-input">
           <mat-form-field appearance="legacy">
-            <mat-label>Rear:</mat-label>
             <input matInput formControlName="setBackRear" />
-            <p matSuffix>meter(s)</p>
           </mat-form-field>
+          <div>meters</div>
+        </div>
+      </div>
+
+      <div class="form-input col-12">
+        <div class="input-label indent">Left</div>
+        <div class="value-input">
           <mat-form-field appearance="legacy">
-            <mat-label>Right:</mat-label>
-            <input matInput formControlName="setBackRight" />
-            <p matSuffix>meter(s)</p>
-          </mat-form-field>
-          <mat-form-field appearance="legacy">
-            <mat-label>Left:</mat-label>
             <input matInput formControlName="setBackLeft" />
-            <p matSuffix>meter(s)</p>
           </mat-form-field>
+          <div>meters</div>
+        </div>
+      </div>
+
+      <div class="form-input col-12">
+        <div class="input-label indent">Right</div>
+        <div class="value-input">
+          <mat-form-field appearance="legacy">
+            <input matInput formControlName="setBackRight" />
+          </mat-form-field>
+          <div>meters</div>
         </div>
       </div>
     </div>
-    <div class="d-flex align-items-center">
-      <h5>Building Height Reckoned from Road Level:</h5>
-      <div class="ml-3">
-        <mat-form-field appearance="legacy">
-          <input matInput formControlName="roadLevel" />
-          <p matSuffix>meter(s)</p>
-        </mat-form-field>
+
+    <div class="row">
+      <div class="form-input col-12">
+        <div class="input-label">
+          Building height reckoned from road level
+        </div>
+        <div class="value-input">
+          <mat-form-field appearance="legacy">
+            <input matInput formControlName="roadLevel" />
+          </mat-form-field>
+          <div>meters</div>
+        </div>
       </div>
-    </div>
-    <div class="d-flex align-items-center">
-      <h5>Allowable Building Height:</h5>
-      <div class="ml-3">
-        <div class="d-flex justify-content-md-between align-content-center">
-          <mat-form-field appearance="legacy">
-            <input matInput formControlName="allowable" />
-            <p matSuffix>meter(s)</p>
-          </mat-form-field>
-          <mat-form-field appearance="legacy">
-            <mat-label>Within:</mat-label>
-            <input matInput formControlName="allowableWithin" />
-            <p matSuffix>zone</p>
-          </mat-form-field>
+
+      <div class="form-input col-12">
+        <div class="input-label">
+          Allowable building height
+        </div>
+        <div class="value-input">
+            <mat-form-field appearance="legacy">
+              <input matInput formControlName="allowable" />
+            </mat-form-field>
+            <div>meters</div>
         </div>
       </div>
     </div>
-    <div class="d-flex align-items-center">
-      <h5>Parking Requirement:</h5>
-      <div class="ml-3">
-        <div class="d-flex justify-content-md-between align-content-center">
+
+    <div class="row">
+      <div class="form-input col-12">
+        <div class="input-label">Parking space provided in building plan</div>
+        <div class="value-input">
+          <mat-form-field appearance="legacy">
+            <input matInput formControlName="parkingSpace" />
+          </mat-form-field>
+          <div>slots</div>
+        </div>
+      </div>
+
+      <div class="form-input col-12">
+        <div class="input-label">
+          Parking requirement
+        </div>
+        <div class="value-input">
           <mat-form-field appearance="legacy">
             <input matInput formControlName="parkingReq" />
-            <p matSuffix>slots/space</p>
           </mat-form-field>
-          <mat-form-field appearance="legacy">
-            <mat-label>Within:</mat-label>
-            <input matInput formControlName="parkingReqWithin" />
-            <p matSuffix>zone</p>
-          </mat-form-field>
+          <div>slots</div>
         </div>
+      </div> 
+    </div>
+    
+    <div class="row">
+      <div class="buttons col-12">
+        <button
+          mat-raised-button
+          type="submit"
+          color="primary"
+          *ngIf="checkIfCpdo()"
+        >
+          Save
+        </button>
       </div>
     </div>
-    <div class="d-flex align-items-center">
-      <h5>Parking Space Provided in Building Plan:</h5>
-      <div class="ml-3">
-        <mat-form-field appearance="legacy">
-          <input matInput formControlName="parkingSpace" />
-          <p matSuffix>slots/space</p>
-        </mat-form-field>
-      </div>
-    </div>
+  </form>
+  
+  <div class="d-flex justify-content-center mt-5" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
   </div>
-
-  <div class="row justify-content-center py-3">
-    <div class="col-md-3 col-3 text-left mb-3">
-      <button
-        mat-raised-button
-        type="submit"
-        color="primary"
-        [disabled]="technicalFindings"
-        *ngIf="checkIfCpdo()"
-      >
-        Save
-      </button>
-    </div>
-  </div>
-</form>
-<div class="d-flex justify-content-center mt-5" *ngIf="isLoading">
-  <mat-spinner></mat-spinner>
 </div>
