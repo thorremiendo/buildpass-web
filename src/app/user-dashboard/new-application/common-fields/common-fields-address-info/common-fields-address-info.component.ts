@@ -215,6 +215,9 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_tax_dec_number: data.project_td_number,
       project_landmark: data.project_landmark,
       project_subdivision: data.project_subdivision,
+      inspector_name: data.inspector_name,
+      inspector_profession: data.inspector_profession,
+      inspector_prc_no: data.inspector_prc_no,
     };
   }
 

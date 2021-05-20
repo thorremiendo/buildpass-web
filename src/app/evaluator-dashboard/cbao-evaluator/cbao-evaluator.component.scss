@@ -92,23 +92,7 @@ table {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
-.action__buttons {
-  button {
-    min-width: 250px;
-  }
-}
 
-a:hover {
-  cursor: pointer;
-}
-
-mat-icon {
-  margin-right: 10px;
-}
-mat-icon:hover {
-  cursor: pointer;
-  transform: scale(1.1);
-}
 .remark {
   color: maroon;
 }
