@@ -128,11 +128,8 @@
           <mat-label>Project Cost</mat-label>
           <input
             style="text-align: right"
-            type="text"
+            type="number"
             matInput
-            localeCurrencyInput
-            [allowNegative]="false"
-            [currencyCode]="'₱'"
             formControlName="project_cost"
             required
           />
