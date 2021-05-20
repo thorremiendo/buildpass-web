@@ -823,7 +823,6 @@ export class DataFormBindingService {
 
   //GENERTAL FORM DATA
   getFormData(a) {
-    console.log(a);
     const applicantDetails = a.applicant_detail;
     const projectDetails = a.project_detail;
     const representativeDetails = a.representative_detail;
@@ -979,13 +978,27 @@ export class DataFormBindingService {
         representativeDetails == null ? 'N/A' : representativeDetails.prc_no,
       fulltime_inspector_ptr_no:
         representativeDetails == null ? 'N/A' : representativeDetails.ptc_no,
-      rep_first_name: 'N/A',
-      rep_middle_name: 'N/A',
-      rep_last_name: 'N/A',
-      rep_house_number: 'N/A',
-      rep_street_name: 'N/A',
-      rep_barangay: 'N/A',
-      rep_province: 'N/A',
+      rep_first_name:
+        representativeDetails == null
+          ? 'N/A'
+          : representativeDetails.first_name,
+      rep_middle_name:
+        representativeDetails == null
+          ? 'N/A'
+          : representativeDetails.middle_name,
+      rep_last_name:
+        representativeDetails == null ? 'N/A' : representativeDetails.last_name,
+      rep_house_number:
+        representativeDetails == null
+          ? 'N/A'
+          : representativeDetails.house_number,
+      rep_street_name:
+        representativeDetails == null
+          ? 'N/A'
+          : representativeDetails.street_name,
+      rep_barangay:
+        representativeDetails == null ? 'N/A' : representativeDetails.barangay,
+      rep_province: representativeDetails == null ? 'N/A' : 'Baguio City',
       name_of_corporation: 'N/A',
       corporation_contact_number: 'N/A',
       corporation_address_no: 'N/A',

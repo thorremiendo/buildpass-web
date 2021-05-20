@@ -47,36 +47,26 @@ export class EvaluatorHomeComponent implements OnInit {
     if (this.userInfo) {
       this.fetchTaskCount(this.userInfo.id);
     }
-
-    // this._router.events.subscribe((res) => {
-    //   this.activeLinkIndex = this.navLinks.indexOf(
-    //     this.navLinks.find((tab) => tab.link === '.' + this._router.url)
-    //   );
-    // });
-
-    // this.applicationInfoService.fetchApplications().subscribe((res) => {
-    //   this.applications = res.data;
-    // });
   }
 
   fetchTaskCount(id) {
-    this.evaluatorService.fetchTaskCount(id).subscribe((res) => {
-      let data = res.data[0];
-      this.application = data.application;
-      this.pending = data.pending;
-      this.current = data.current;
-      this.completed = data.completed;
-      this.loading = false;
-    },
-    (err)=>{
-      console.log(err);
-    });
+    this.evaluatorService.fetchTaskCount(id).subscribe(
+      (res) => {
+        let data = res.data[0];
+        this.application = data.application;
+        this.pending = data.pending;
+        this.current = data.current;
+        this.completed = data.completed;
+        this.loading = false;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
-  sendDataToTableView(status_id){
+  sendDataToTableView(status_id) {
     this.applicationStatusId = status_id;
-
-
   }
 
   // openApplication(id) {
@@ -97,6 +87,4 @@ export class EvaluatorHomeComponent implements OnInit {
   // handleView() {
   //   this._router.navigateByUrl('evaluator/application');
   // }
-
-
 }

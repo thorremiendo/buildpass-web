@@ -10,8 +10,8 @@ import { map, catchError } from 'rxjs/operators';
 export class ApplicationInfoService {
   constructor(private api: ApiService) {}
 
-  fetchApplications() {
-    const url = `/application/`;
+  fetchApplications(id) {
+    const url = `/application/${id}/evaluator/0/filter`;
     return this.api.get(url).pipe(
       map((data: any) => {
         return data;

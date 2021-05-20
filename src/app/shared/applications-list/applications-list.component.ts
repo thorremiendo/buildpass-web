@@ -35,7 +35,7 @@ export class ApplicationsListComponent implements OnInit, OnChanges {
 
   constructor(
     private evaluatorService: EvaluatorService,
-    private applicationService: ApplicationInfoService,
+    private applicationService: ApplicationInfoService
   ) {}
 
   ngOnInit(): void {
@@ -111,21 +111,21 @@ export class ApplicationsListComponent implements OnInit, OnChanges {
 
   deleteApplication(id) {
     Swal.fire({
-      title: 'Are you sure you want to delete application?',
+      title: 'Are you sure you want to delete your application?',
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: `Delete`,
       denyButtonText: `Cancel`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.applicationService.deleteApplication(id).subscribe(res => {
-          Swal.fire('Success!', `Application deleted.`, 'success').then(res => {
+        this.applicationService.deleteApplication(id).subscribe((res) => {
+          Swal.fire('Success!', `Application deleted.`, 'success').then(
+            (res) => {
               window.location.reload();
             }
           );
         });
       } else if (result.isDenied) {
-        
       }
     });
   }

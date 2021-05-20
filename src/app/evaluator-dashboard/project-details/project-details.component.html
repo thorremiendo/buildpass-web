@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="!isLoading">
   <h4 style="color: maroon; font-weight: bold" class="mb-4">
     <strong>Project Details</strong>
     <hr />
@@ -178,7 +178,7 @@
                 &nbsp;{{
                   data.projectDetails.project_cost_cap == ""
                     ? "--"
-                    : (data.projectDetails.project_cost_cap | currency: "PHP")
+                    : (projectCost | currency: "PHP")
                 }}
               </h5>
             </div>
@@ -229,9 +229,7 @@
             <div class="d-flex">
               <h5>1% of Project Cost:</h5>
               <h5 style="color: maroon; font-weight: bold">
-                &nbsp;{{
-                  data.projectDetails.project_cost_cap * 0.01 | currency: "PHP"
-                }}
+                &nbsp;{{ projectCost * 0.01 | currency: "PHP" }}
               </h5>
             </div>
           </div>

@@ -76,7 +76,19 @@
                 <a *ngIf="form.path" [href]="form.path" target="_blank"
                   >View File</a
                 >
-                <span *ngIf="form.path" (click)="toggleEditMode()">Change</span>
+                <span
+                  *ngIf="
+                    form.path &&
+                    form.id !== 1 &&
+                    form.id !== 2 &&
+                    form.id !== 3 &&
+                    form.id !== 4 &&
+                    form.id !== 48 &&
+                    form.id !== 106
+                  "
+                  (click)="toggleEditMode()"
+                  >Change</span
+                >
                 <mat-icon *ngIf="file || form.path"> check_circle </mat-icon>
               </div>
               <mat-spinner *ngIf="isLoading" [diameter]="20"> </mat-spinner>

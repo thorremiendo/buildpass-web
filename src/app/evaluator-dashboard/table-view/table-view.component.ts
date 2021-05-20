@@ -29,12 +29,14 @@ export class TableViewComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
-    this.applicationService.fetchApplications().subscribe((result) => {
-      this.applications = result.data.filter(
-        (application) => application.application_status_id != 6
-      );
-      this.fetchEvaluatorDetails();
-    });
+    this.applicationService
+      .fetchApplications(this.user.id)
+      .subscribe((result) => {
+        this.applications = result.data.filter(
+          (application) => application.application_status_id != 6
+        );
+        this.fetchEvaluatorDetails();
+      });
   }
 
   ngOnChanges(changes: SimpleChanges) {
