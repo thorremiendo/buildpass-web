@@ -148,7 +148,6 @@
             color="accent"
             *ngIf="!checkChecklistUploaded()"
             (click)="openChecklistDialog()"
-            [disabled]="!checkFormsCompliant()"
           >
             Upload Checklist
           </button>
@@ -159,7 +158,6 @@
               color="accent"
               (click)="openFsecDialog()"
               *ngIf="!checkFireSecUploaded()"
-              [disabled]="!checkFormsCompliant()"
             >
               Upload Fire Safety Evaluation Clearance
             </button>
