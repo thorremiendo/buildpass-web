@@ -5,6 +5,7 @@
     </div>
     <div class="file-actions col-4">
       <div *ngIf="!loading">
+        <a *ngIf="infoPath" [href]="infoPath" target="_blank">Info</a>
         <a *ngIf="filePath" [href]="filePath" target="_blank">View File</a>
         <span *ngIf="filePath" (click)="toggleEditMode()">Change</span>
         <mat-icon *ngIf="file || filePath"> check_circle </mat-icon>

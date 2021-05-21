@@ -5,6 +5,7 @@ import { NewApplicationService } from 'src/app/core/services/new-application.ser
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { DataFormBindingService } from 'src/app/core/services/data-form-binding.service';
 import { documentTypes } from '../../../core/enums/document-type.enum';
+import { documentInfo } from '../../../core/enums/document-info.enum';
 import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
@@ -299,6 +300,7 @@ export class BuildingPermitComponent implements OnInit {
           id: this.fieldSets[i].documents[j],
           description: this.getDocType(this.fieldSets[i].documents[j]),
           path: '',
+          info: this.getDocumentInfoPath(this.fieldSets[i].documents[j]),
         };
       }
     }
@@ -473,5 +475,9 @@ export class BuildingPermitComponent implements OnInit {
     this.snackBar.open(message, 'Close', {
       duration: 2000,
     });
+  }
+
+  getDocumentInfoPath(id) {
+    return documentInfo[id];
   }
 }
