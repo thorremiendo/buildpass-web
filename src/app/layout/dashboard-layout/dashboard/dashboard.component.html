@@ -1,8 +1,18 @@
 <!-- ============================================================== -->
 <!-- Main wrapper - style you can find in pages.scss -->
 <!-- ============================================================== -->
-<div class="main-container" [dir]="dir"
-  [ngClass]="{'minisidebar': minisidebar, 'boxed': boxed, 'danger': danger, 'blue': blue, 'green': green, 'dark': dark }">
+<div
+  class="main-container"
+  [dir]="dir"
+  [ngClass]="{
+    minisidebar: minisidebar,
+    boxed: boxed,
+    danger: danger,
+    blue: blue,
+    green: green,
+    dark: dark
+  }"
+>
   <!-- ============================================================== -->
   <!-- Topbar - style you can find in header.scss -->
   <!-- ============================================================== -->
@@ -11,7 +21,7 @@
     <!-- Logo - style you can find in header.scss -->
     <!-- ============================================================== -->
     <div class="navbar-header">
-      <a class="navbar-brand" href="/">
+      <a class="navbar-brand">
         <!-- Logo icon -->
         <b>
           <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
@@ -19,8 +29,8 @@
           <!-- <img src="assets/images/logo-icon.png" alt="homepage" class="dark-logo"> -->
           <!-- Light Logo icon -->
           <!-- <img src="assets/images/logo-light-icon.png" alt="homepage" class="light-logo"> -->
-          <span class='light-logo'>Dashboard</span>
-          <span class='dark-logo'>Dashboard</span>
+          <span class="light-logo">Dashboard</span>
+          <span class="dark-logo">Dashboard</span>
         </b>
         <!--End Logo icon -->
         <!-- Logo text -->
@@ -38,7 +48,11 @@
     <!-- sidebar toggle -->
     <!-- ============================================================== -->
 
-    <button mat-icon-button (click)="snav.toggle() && clickEvent()" value="sidebarclosed">
+    <button
+      mat-icon-button
+      (click)="snav.toggle() && clickEvent()"
+      value="sidebarclosed"
+    >
       <mat-icon>menu</mat-icon>
     </button>
     <!-- ============================================================== -->
@@ -64,27 +78,32 @@
     <!-- <button (click)="end.toggle()" mat-icon-button class="ml-xs overflow-visible">
       <mat-icon>settings</mat-icon>
     </button> -->
-    <app-notification
-    [type]='type'>
-  </app-notification>
- 
+    <app-notification [type]="type"> </app-notification>
   </mat-toolbar>
   <!-- ============================================================== -->
   <!-- End Topbar - style you can find in pages.scss -->
   <!-- ============================================================== -->
-  <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0"
-    [ngClass]="{'minisidebar': minisidebar}">
+  <mat-sidenav-container
+    class="example-sidenav-container"
+    [style.marginTop.px]="mobileQuery.matches ? 0 : 0"
+    [ngClass]="{ minisidebar: minisidebar }"
+  >
     <!-- ============================================================== -->
     <!-- Sidebar - style you can find in sidebar.scss -->
     <!-- ============================================================== -->
-    <mat-sidenav #snav id="snav" class="pl-xs" [mode]="mobileQuery.matches ? 'side' : 'over'" fixedTopGap="0"
-      [opened]="mobileQuery.matches" [disableClose]="mobileQuery.matches" (open)="sidebarOpened = true"
-      (close)="sidebarOpened = false" [perfectScrollbar]="config">
-
-      <app-dashboard-sidebar 
-        class="app-sidebar"
-        [type]='type'
-      >
+    <mat-sidenav
+      #snav
+      id="snav"
+      class="pl-xs"
+      [mode]="mobileQuery.matches ? 'side' : 'over'"
+      fixedTopGap="0"
+      [opened]="mobileQuery.matches"
+      [disableClose]="mobileQuery.matches"
+      (open)="sidebarOpened = true"
+      (close)="sidebarOpened = false"
+      [perfectScrollbar]="config"
+    >
+      <app-dashboard-sidebar class="app-sidebar" [type]="type">
       </app-dashboard-sidebar>
     </mat-sidenav>
     <!-- ============================================================== -->
@@ -93,10 +112,15 @@
     <!-- ============================================================== -->
     <!-- Right Sidebar - style you can find in rightsidebar.component.scss -->
     <!-- ============================================================== -->
-    <mat-sidenav #end position="end" class="chat-panel" mode="over" opened="false">
+    <mat-sidenav
+      #end
+      position="end"
+      class="chat-panel"
+      mode="over"
+      opened="false"
+    >
       <div class="scroll">
         <mat-nav-list>
-
           <!-- <h3 mat-subheader class="text-uppercase font-weight-bold">Settings</h3>
           <mat-list-item>
             <mat-slide-toggle color="warn" (change)="dir = (dir == 'rtl' ? 'ltr' : 'rtl')">RTL</mat-slide-toggle>
@@ -131,17 +155,17 @@
     <!-- ============================================================== -->
     <!-- Page container - style you can find in pages.scss -->
     <!-- ============================================================== -->
-    <mat-sidenav-content class="page-wrapper" [ngClass]="status ? 'minitoggle' : ''">
-
+    <mat-sidenav-content
+      class="page-wrapper"
+      [ngClass]="status ? 'minitoggle' : ''"
+    >
       <app-breadcrumb></app-breadcrumb>
       <div class="page-content">
         <!-- <router-outlet>
           <app-spinner></app-spinner>
         </router-outlet> -->
         <ng-content></ng-content>
-
       </div>
-
     </mat-sidenav-content>
     <!-- ============================================================== -->
     <!-- Page container - style you can find in pages.scss -->

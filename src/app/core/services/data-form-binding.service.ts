@@ -937,7 +937,7 @@ export class DataFormBindingService {
         projectDetails.project_title == ''
           ? ''
           : projectDetails.project_title.toUpperCase(),
-      project_cost_cap: projectCostCap == '' ? '' : `${projectCostCap}.00`,
+      project_cost_cap: projectCostCap == '' ? '' : `${projectCostCap}`,
       project_tct_number:
         projectDetails.tct_number == '' ? '' : projectDetails.tct_number,
       project_tax_dec_number:
