@@ -10,11 +10,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class FileUploadComponent implements OnInit {
   @Input() description: string;
   @Input() path: string;
+  @Input() info: string;
   @Output() emitFile: EventEmitter<File> = new EventEmitter<File>();
 
   public fileDescription: string;
   public filePath: string;
   public file: File;
+  public infoPath: string;
   public editMode: boolean = false;
   public loading: boolean = false;
 
@@ -23,6 +25,7 @@ export class FileUploadComponent implements OnInit {
   ngOnInit(): void {
     this.fileDescription = this.description;
     this.filePath = this.path;
+    this.infoPath = this.info;
     this.checkIfPicture();
   }
   checkIfPicture() {
@@ -30,6 +33,7 @@ export class FileUploadComponent implements OnInit {
   }
   ngOnChanges() {
     this.filePath = this.path;
+    this.infoPath = this.info;
     this.loading = false;
   }
 

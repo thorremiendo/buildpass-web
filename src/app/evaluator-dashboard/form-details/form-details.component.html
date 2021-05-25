@@ -32,6 +32,17 @@
       <button mat-button (click)="resetWatermark()" color="primary">
         Remove Watermark
       </button>
+      <div class="rotation-buttons">
+        <button mat-button (click)="rotateLeft()">
+          <mat-icon>rotate_left</mat-icon>
+        </button>
+        <button mat-button (click)="resetRotate()">
+          <mat-icon>crop_portrait</mat-icon>
+        </button>
+        <button mat-button (click)="rotateRight()">
+          <mat-icon>rotate_right</mat-icon>
+        </button>
+      </div>
       <button
         mat-button
         (click)="removeAnnotations('evaluator')"
