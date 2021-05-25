@@ -1,0 +1,70 @@
+<div *ngIf="!isLoading">
+  <ng-container>
+    <table mat-table [dataSource]="remarksData" class="full-width" #itemsTable>
+      <ng-container matColumnDef="index">
+        <th mat-header-cell *matHeaderCellDef>No.</th>
+        <td mat-cell *matCellDef="let item; let i = index">
+          {{ i + 1 }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let item">
+          {{ item.created_at | date: "MMMM dd, yyyy hh:mm:ss a":"+0800" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="remark">
+        <th mat-header-cell *matHeaderCellDef>Remark</th>
+        <td mat-cell *matCellDef="let item">
+          {{ item.remarks ? item.remarks : "Compliant" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="evaluator">
+        <th mat-header-cell *matHeaderCellDef>Evaluated By</th>
+        <td mat-cell *matCellDef="let item">
+          {{ item.evaluator_detail.first_name }}&nbsp;
+          {{ item.evaluator_detail.last_name }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let items; columns: displayedColumns"></tr>
+    </table>
+    <ng-container *ngIf="evaluatorDetails">
+      <form [formGroup]="remarksForm">
+        <div class="mt-5">
+          <div>
+            <mat-form-field class="example-full-width">
+              <mat-label>Add a General Remark</mat-label>
+              <input matInput formControlName="remarks" />
+            </mat-form-field>
+          </div>
+          <div>
+            <button
+              mat-raised-button
+              color="primary"
+              type="button"
+              (click)="addRemarks()"
+              [disabled]="isSubmitting"
+            >
+              Add general remark
+            </button>
+          </div>
+        </div>
+      </form>
+      <!-- <div class="mt-5 text-right">
+  <button mat-raised-button color="accent" (click)="onNoClick()">
+    Close
+  </button>
+</div> -->
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="isLoading || isSubmitting">
+    <div>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </ng-container>
+</div>

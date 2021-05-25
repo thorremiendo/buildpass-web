@@ -491,15 +491,19 @@
             </div>
           </div>
         </mat-tab>
+
         <mat-tab>
           <ng-template mat-tab-label>
-            <mat-icon>folder</mat-icon>
-            Supporting Documents
+            <mat-icon>report</mat-icon>
+            General Remarks
+            <mat-icon
+              [matBadge]="applicationInfo.remarks.length"
+              matBadgeColor="warn"
+            ></mat-icon>
           </ng-template>
-          <app-supporting-documents
+          <app-general-remarks
             [evaluatorDetails]="evaluatorDetails"
-            [applicationDetails]="applicationInfo"
-          ></app-supporting-documents>
+          ></app-general-remarks>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
@@ -522,6 +526,16 @@
               [applicationDetails]="applicationInfo"
             ></app-technical-findings>
           </ng-container>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>folder</mat-icon>
+            Supporting Documents
+          </ng-template>
+          <app-supporting-documents
+            [evaluatorDetails]="evaluatorDetails"
+            [applicationDetails]="applicationInfo"
+          ></app-supporting-documents>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

@@ -50,6 +50,7 @@
           color="primary"
           type="button"
           (click)="addRemarks()"
+          [disabled]="!canAddRemark()"
         >
           Add a remark
         </button>

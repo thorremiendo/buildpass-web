@@ -343,6 +343,8 @@ export class CpdoEvaluatorComponent implements OnInit {
       height: '800px',
       data: {
         evaluator: this.evaluatorDetails,
+        evaluatorRole: this.evaluatorRole,
+        applicationInfo: this.applicationDetails,
         form: e,
         route: this.route,
       },

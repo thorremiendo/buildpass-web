@@ -152,4 +152,14 @@ export class ApplicationInfoService {
     const url = `/application/${id}/delete`;
     return this.api.delete(url);
   }
+
+  submitGeneralRemark(body, id) {
+    const url = `/application/${id}/remark`;
+    return this.api.post(url, body);
+  }
+
+  uploadUserSupportingDoc(body) {
+    const url = `/userdocs/supporting-file`;
+    return this.api.post(url, body);
+  }
 }
