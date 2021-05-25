@@ -44,8 +44,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.applicationService
       .fetchUserDocs(this.applicationId)
       .subscribe((result) => {
-        this.dataSource = result.data;
-
+        this.filterUserDocs(result.data);
         this.fetchEvaluatorDetails();
         this.checkFormsCompliant();
         this.checkFormsReviewed();
@@ -54,7 +53,11 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.fetchApplicationInfo();
     this.changeDetectorRefs.detectChanges();
   }
-
+  filterUserDocs(forms) {
+    const USER_FORMS = forms.filter((doc) => doc.document_id !== 107);
+    this.dataSource = USER_FORMS;
+    this.isLoading = false;
+  }
   fetchApplicationInfo() {
     this.isLoading = true;
     this.applicationService
