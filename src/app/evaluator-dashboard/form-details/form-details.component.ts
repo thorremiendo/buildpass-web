@@ -294,4 +294,37 @@ export class FormDetailsComponent implements OnInit {
       }
     });
   }
+
+  getCurrentRotation(){
+    var st = window.getComputedStyle(document.getElementById('iframe-pdf-div'), null);
+    var tm = st.getPropertyValue("-webkit-transform") ||
+             st.getPropertyValue("-moz-transform") ||
+             st.getPropertyValue("-ms-transform") ||
+             st.getPropertyValue("-o-transform") ||
+             st.getPropertyValue("transform") ||
+             "none";
+    if (tm != "none") {
+      var values = tm.split('(')[1].split(')')[0].split(',');
+      var angle = Math.round(Math.atan2(Number(values[1]),Number(values[0])) * (180/Math.PI));
+      return angle;
+    }
+    return 0;
+  }
+
+  resetRotate() {
+    const pdfViewer = document.getElementById('iframe-pdf-div');
+    pdfViewer.style.transform = 'rotate(0deg)';
+  }
+
+  rotateRight() {
+    const angle = this.getCurrentRotation() + 90;
+    const pdfViewer = document.getElementById('iframe-pdf-div');
+    pdfViewer.style.transform = `rotate(${angle}deg)`;
+  }
+
+  rotateLeft() {
+    const angle = this.getCurrentRotation() - 90;
+    const pdfViewer = document.getElementById('iframe-pdf-div');
+    pdfViewer.style.transform = `rotate(${angle}deg)`;
+  }
 }
