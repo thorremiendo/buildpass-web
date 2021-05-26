@@ -9,6 +9,10 @@
       <mat-label>File Name</mat-label>
       <input matInput [formControl]="fileName" />
     </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>File Description</mat-label>
+      <input matInput [formControl]="fileDesc" />
+    </mat-form-field>
   </div>
   <ngx-dropzone
     (change)="onSelect($event, 'selectedFile')"
@@ -48,7 +52,7 @@
       (click)="handleUploadSupportingFiles()"
       [disabled]="isSubmitting || !fileName.value || !selectedFile"
     >
-      Save
+      Submit
     </button>
   </div>
 </div>

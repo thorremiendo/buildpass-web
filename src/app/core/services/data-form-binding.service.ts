@@ -786,7 +786,6 @@ export class DataFormBindingService {
     const applicantDetails = a.applicant_detail;
     const projectDetails = a.project_detail;
     const representativeDetails = a.representative_detail;
-
     const formData = {
       project_name:
         projectDetails.project_title == 'undefined'
@@ -821,7 +820,7 @@ export class DataFormBindingService {
     return formData;
   }
 
-  //GENERTAL FORM DATA
+  //GENERAL FORM DATA
   getFormData(a) {
     const applicantDetails = a.applicant_detail;
     const projectDetails = a.project_detail;
@@ -829,7 +828,10 @@ export class DataFormBindingService {
     const projectCostCap = parseFloat(
       a.project_detail.project_cost_cap
     ).toLocaleString();
-
+    const projectLot = `Lot #${projectDetails.lot_number}`;
+    const projectBlock = `Block #${projectDetails.block_number}`;
+    const applicantLot = `Lot #${applicantDetails.lot_number}`;
+    const applicantBlock = `Block #${applicantDetails.block_number}`;
     const formData = {
       owner_or_rep:
         `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
@@ -837,8 +839,8 @@ export class DataFormBindingService {
         `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       applicant_complete_address: `${
         applicantDetails.house_number ? applicantDetails.house_number : ''
-      }  ${applicantDetails.lot_number ? applicantDetails.lot_number : ''} ${
-        applicantDetails.block_number ? applicantDetails.block_number : ''
+      }  ${applicantDetails.lot_number ? applicantLot : ''} ${
+        applicantDetails.block_number ? applicantBlock : ''
       } ${applicantDetails.street_name ? applicantDetails.street_name : ''}
       ${applicantDetails.purok ? applicantDetails.purok : ''} ${
         applicantDetails.subdivision ? applicantDetails.subdivision : ''
@@ -935,7 +937,7 @@ export class DataFormBindingService {
         projectDetails.project_title == ''
           ? ''
           : projectDetails.project_title.toUpperCase(),
-      project_cost_cap: projectCostCap == '' ? '' : `${projectCostCap}.00`,
+      project_cost_cap: projectCostCap == '' ? '' : `${projectCostCap}`,
       project_tct_number:
         projectDetails.tct_number == '' ? '' : projectDetails.tct_number,
       project_tax_dec_number:
@@ -945,10 +947,13 @@ export class DataFormBindingService {
       project_province: 'BENGUET',
       project_city: 'BAGUIO CITY',
       project_zipcode: '2600',
+      inspector_name: projectDetails.inspector_name,
+      inspector_profession: projectDetails.inspector_profession,
+      inspector_prc_no: projectDetails.inspector_prc_no,
       complete_project_location: `${
         projectDetails.house_number ? projectDetails.house_number : ''
-      } ${projectDetails.lot_number ? projectDetails.lot_number : ''} ${
-        projectDetails.block_number ? projectDetails.block_number : ''
+      } ${projectDetails.lot_number ? projectLot : ''} ${
+        projectDetails.block_number ? projectBlock : ''
       } ${projectDetails.street_name ? projectDetails.street_name : ''}
       ${projectDetails.subdivision ? projectDetails.subdivision : ''} ${
         projectDetails.barangay

@@ -114,7 +114,9 @@ export class ViewApplicationComponent implements OnInit {
       });
   }
   filterUserDocs(forms) {
-    const USER_FORMS = forms.filter((doc) => doc.document_id !== 50);
+    const USER_FORMS = forms.filter(
+      (doc) => doc.document_id !== 50 && doc.document_id !== 107
+    );
     this.isLoading = false;
     this.dataSource = USER_FORMS;
   }

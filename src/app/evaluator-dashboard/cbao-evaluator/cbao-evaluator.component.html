@@ -116,125 +116,149 @@
                 <ng-container matColumnDef="action">
                   <th mat-header-cell *matHeaderCellDef>Action</th>
                   <td mat-cell *matCellDef="let element">
-                    <ng-container *ngIf="applicationInfo.permit_type_id == 1">
-                      <button
-                        mat-button
-                        color="accent"
-                        (click)="openFormDialog(element)"
-                        [disabled]="applicationInfo.application_status_id !== 1"
-                        *ngIf="evaluatorRole.code == 'CBAO-REC'"
+                    <button mat-button [matMenuTriggerFor]="menu">
+                      Select <mat-icon> arrow_drop_down </mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <ng-container *ngIf="applicationInfo.permit_type_id == 1">
+                        <button
+                          mat-menu-item
+                          color="accent"
+                          (click)="openFormDialog(element)"
+                          [disabled]="
+                            applicationInfo.application_status_id !== 1
+                          "
+                          *ngIf="evaluatorRole.code == 'CBAO-REC'"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          mat-menu-item
+                          color="accent"
+                          (click)="openFormDialog(element)"
+                          [disabled]="
+                            applicationInfo.application_status_id !== 3
+                          "
+                          *ngIf="
+                            evaluatorRole.code == 'CBAO-LG' ||
+                            evaluatorRole.code == 'CBAO-ARCH' ||
+                            evaluatorRole.code == 'CBAO-STR' ||
+                            evaluatorRole.code == 'CBAO-SAN' ||
+                            evaluatorRole.code == 'CBAO-ELEC' ||
+                            evaluatorRole.code == 'CBAO-MEC'
+                          "
+                        >
+                          Edit
+                        </button>
+                        <button
+                          mat-menu-item
+                          color="accent"
+                          (click)="openFormDialog(element)"
+                          [disabled]="
+                            applicationInfo.application_status_id !== 12
+                          "
+                          *ngIf="evaluatorRole.code == 'CBAO-DC'"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          mat-menu-item
+                          color="accent"
+                          (click)="openFormDialog(element)"
+                          [disabled]="
+                            applicationInfo.application_status_id !== 13
+                          "
+                          *ngIf="evaluatorRole.code == 'CBAO-BO'"
+                        >
+                          Edit
+                        </button>
+                      </ng-container>
+                      <ng-container
+                        *ngIf="applicationInfo.permit_type_id !== 1"
                       >
-                        <mat-icon class="action">mode_edit</mat-icon>
-                      </button>
-                      <button
-                        mat-button
-                        color="accent"
-                        (click)="openFormDialog(element)"
-                        [disabled]="applicationInfo.application_status_id !== 3"
+                        <button
+                          mat-menu-item
+                          color="accent"
+                          (click)="openFormDialog(element)"
+                          *ngIf="evaluatorRole.code !== 'CBAO-REL'"
+                          [disabled]="
+                            (applicationInfo.application_status_id !== 1 &&
+                              evaluatorRole.code == 'CBAO-REC') ||
+                            (applicationInfo.application_status_id == 12 &&
+                              evaluatorRole.code !== 'CBAO-DC') ||
+                            applicationInfo.application_status_id == 5 ||
+                            (applicationInfo.application_status_id == 13 &&
+                              evaluatorRole.code !== 'CBAO-BO')
+                          "
+                        >
+                          Edit
+                        </button>
+                      </ng-container>
+                      <ng-container
                         *ngIf="
-                          evaluatorRole.code == 'CBAO-LG' ||
-                          evaluatorRole.code == 'CBAO-ARCH' ||
-                          evaluatorRole.code == 'CBAO-STR' ||
-                          evaluatorRole.code == 'CBAO-SAN' ||
-                          evaluatorRole.code == 'CBAO-ELEC' ||
-                          evaluatorRole.code == 'CBAO-MEC'
+                          evaluatorRole.code == 'CBAO-REC' &&
+                          applicationInfo.application_status_id !== 1
                         "
                       >
-                        <mat-icon class="action">mode_edit</mat-icon>
-                      </button>
-                      <button
-                        mat-button
-                        color="accent"
-                        (click)="openFormDialog(element)"
-                        [disabled]="
+                        <a
+                          mat-menu-item
+                          href="{{ element.document_path }}"
+                          target="_blank"
+                          >View</a
+                        >
+                      </ng-container>
+                      <ng-container
+                        *ngIf="
+                          evaluatorRole.code == 'CBAO-DC' &&
                           applicationInfo.application_status_id !== 12
                         "
-                        *ngIf="evaluatorRole.code == 'CBAO-DC'"
                       >
-                        <mat-icon class="action">mode_edit</mat-icon>
-                      </button>
-                      <button
-                        mat-button
-                        color="accent"
-                        (click)="openFormDialog(element)"
-                        [disabled]="
+                        <a
+                          mat-menu-item
+                          href="{{ element.document_path }}"
+                          target="_blank"
+                          >View</a
+                        >
+                      </ng-container>
+                      <ng-container
+                        *ngIf="
+                          evaluatorRole.code == 'CBAO-BO' &&
                           applicationInfo.application_status_id !== 13
                         "
-                        *ngIf="evaluatorRole.code == 'CBAO-BO'"
                       >
-                        <mat-icon class="action">mode_edit</mat-icon>
-                      </button>
-                    </ng-container>
-                    <ng-container *ngIf="applicationInfo.permit_type_id !== 1">
-                      <button
-                        mat-button
-                        color="accent"
-                        (click)="openFormDialog(element)"
-                        *ngIf="evaluatorRole.code !== 'CBAO-REL'"
-                        [disabled]="
-                          (applicationInfo.application_status_id !== 1 &&
-                            evaluatorRole.code == 'CBAO-REC') ||
-                          (applicationInfo.application_status_id == 12 &&
-                            evaluatorRole.code !== 'CBAO-DC') ||
-                          applicationInfo.application_status_id == 5 ||
-                          (applicationInfo.application_status_id == 13 &&
-                            evaluatorRole.code !== 'CBAO-BO')
+                        <a
+                          mat-menu-item
+                          href="{{ element.document_path }}"
+                          target="_blank"
+                          >View</a
+                        >
+                      </ng-container>
+                      <ng-container
+                        *ngIf="
+                          (evaluatorRole.code == 'CBAO-LG' ||
+                            evaluatorRole.code == 'CBAO-ARCH' ||
+                            evaluatorRole.code == 'CBAO-STR' ||
+                            evaluatorRole.code == 'CBAO-SAN' ||
+                            evaluatorRole.code == 'CBAO-ELEC' ||
+                            evaluatorRole.code == 'CBAO-MEC') &&
+                          applicationInfo.application_status_id !== 3
                         "
                       >
-                        <mat-icon class="action">mode_edit</mat-icon>
-                      </button>
-                    </ng-container>
-                    <ng-container
-                      *ngIf="
-                        evaluatorRole.code == 'CBAO-REC' &&
-                        applicationInfo.application_status_id !== 1
-                      "
-                    >
-                      <a href="{{ element.document_path }}" target="_blank"
-                        >View</a
+                        <a
+                          mat-menu-item
+                          href="{{ element.document_path }}"
+                          target="_blank"
+                          >View</a
+                        >
+                      </ng-container>
+                      <a
+                        mat-menu-item
+                        href="{{ element.document_path }}"
+                        target="_blank"
+                        *ngIf="evaluatorRole.code == 'CBAO-REL'"
+                        >Print</a
                       >
-                    </ng-container>
-                    <ng-container
-                      *ngIf="
-                        evaluatorRole.code == 'CBAO-DC' &&
-                        applicationInfo.application_status_id !== 12
-                      "
-                    >
-                      <a href="{{ element.document_path }}" target="_blank"
-                        >View</a
-                      >
-                    </ng-container>
-                    <ng-container
-                      *ngIf="
-                        evaluatorRole.code == 'CBAO-BO' &&
-                        applicationInfo.application_status_id !== 13
-                      "
-                    >
-                      <a href="{{ element.document_path }}" target="_blank"
-                        >View</a
-                      >
-                    </ng-container>
-                    <ng-container
-                      *ngIf="
-                        (evaluatorRole.code == 'CBAO-LG' ||
-                          evaluatorRole.code == 'CBAO-ARCH' ||
-                          evaluatorRole.code == 'CBAO-STR' ||
-                          evaluatorRole.code == 'CBAO-SAN' ||
-                          evaluatorRole.code == 'CBAO-ELEC' ||
-                          evaluatorRole.code == 'CBAO-MEC') &&
-                        applicationInfo.application_status_id !== 3
-                      "
-                    >
-                      <a href="{{ element.document_path }}" target="_blank"
-                        >View</a
-                      >
-                    </ng-container>
-                    <a
-                      href="{{ element.document_path }}"
-                      target="_blank"
-                      *ngIf="evaluatorRole.code == 'CBAO-REL'"
-                      >Print</a
-                    >
+                    </mat-menu>
                   </td>
                 </ng-container>
 
@@ -467,15 +491,19 @@
             </div>
           </div>
         </mat-tab>
+
         <mat-tab>
           <ng-template mat-tab-label>
-            <mat-icon>folder</mat-icon>
-            Supporting Documents
+            <mat-icon>report</mat-icon>
+            General Remarks
+            <mat-icon
+              [matBadge]="applicationInfo.remarks.length"
+              matBadgeColor="warn"
+            ></mat-icon>
           </ng-template>
-          <app-supporting-documents
+          <app-general-remarks
             [evaluatorDetails]="evaluatorDetails"
-            [applicationDetails]="applicationInfo"
-          ></app-supporting-documents>
+          ></app-general-remarks>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
@@ -487,7 +515,7 @@
             [applicationDetails]="applicationInfo"
           ></app-technical-evaluation>
         </mat-tab>
-        <mat-tab>
+        <mat-tab *ngIf="applicationInfo.permit_type_id == 1">
           <ng-template mat-tab-label>
             <mat-icon>find_in_page</mat-icon>
             Technical Findings
@@ -498,6 +526,16 @@
               [applicationDetails]="applicationInfo"
             ></app-technical-findings>
           </ng-container>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>folder</mat-icon>
+            Supporting Documents
+          </ng-template>
+          <app-supporting-documents
+            [evaluatorDetails]="evaluatorDetails"
+            [applicationDetails]="applicationInfo"
+          ></app-supporting-documents>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

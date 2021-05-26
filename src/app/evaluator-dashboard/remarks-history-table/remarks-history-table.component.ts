@@ -38,12 +38,49 @@ export class RemarksHistoryTableComponent implements OnInit {
     this.remarksForm = this.fb.group({
       remarks: new FormControl('', [Validators.required]),
     });
+    console.log(this.data);
   }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
+  canAddRemark() {
+    const status = this.data.applicationInfo.application_status_id;
+    const role = this.data.evaluatorRole.code;
 
+    if (status == 1 && role == 'CBAO-REC') {
+      return true;
+    } else if (status == 2 && (role == 'CPDO-ADM' || role == 'CPDO-ZI')) {
+      return true;
+    } else if (status == 10 && role == 'CPDO-COD') {
+      return true;
+    } else if (
+      (status == 3 || status == 18) &&
+      (role == 'DH-CEPMO' ||
+        role == 'CEPMO-ENGR' ||
+        role == 'CEPMO-DV' ||
+        role == 'DH-BFP' ||
+        role == 'BFP-FCA' ||
+        role == 'BFP-INS' ||
+        role == 'BFP-CHF' ||
+        role == 'BFP-CFD' ||
+        role == 'CBAO-LG' ||
+        role == 'CBAO-ARCH' ||
+        role == 'CBAO-STR' ||
+        role == 'CBAO-SAN' ||
+        role == 'CBAO-ELEC' ||
+        role == 'CBAO-MEC' ||
+        role == 'CBAO-REL')
+    ) {
+      return true;
+    } else if (status == 12 && role == 'CBAO-DC') {
+      return true;
+    } else if (status == 13 && role == 'CBAO-BO') {
+      return true;
+    } else {
+      return false;
+    }
+  }
   addRemarks() {
     const id = this.data.form.id;
     const revisionData = {

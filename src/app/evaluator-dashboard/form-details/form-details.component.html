@@ -15,8 +15,14 @@
       <ng-container *ngIf="isDocumentAForm(); else noteForFile">
         <p style="font-size: 14px" class="m-0 p-0">
           <strong
-            >Please click the "Update" button below to save your
-            changes.</strong
+            >1. Please click the "Save" to save your changes on the
+            form.</strong
+          >
+        </p>
+        <p style="font-size: 14px" class="m-0 p-0">
+          <strong
+            >2. Lastly, click the "Update" button at the bottom of the page to
+            proceed.</strong
           >
         </p>
       </ng-container>
@@ -32,6 +38,17 @@
       <button mat-button (click)="resetWatermark()" color="primary">
         Remove Watermark
       </button>
+      <div class="rotation-buttons">
+        <button mat-button (click)="rotateLeft()">
+          <mat-icon>rotate_left</mat-icon>
+        </button>
+        <button mat-button (click)="resetRotate()">
+          <mat-icon>crop_portrait</mat-icon>
+        </button>
+        <button mat-button (click)="rotateRight()">
+          <mat-icon>rotate_right</mat-icon>
+        </button>
+      </div>
       <button
         mat-button
         (click)="removeAnnotations('evaluator')"

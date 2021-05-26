@@ -1,19 +1,9 @@
 table {
   width: 100%;
+
   th {
-    background-color: #400c06e0;
-    font-weight: bold;
+    background-color: #572a24;
     color: white;
-  }
-}
-
-.table-container {
-  margin: 20px 0;
-  // height: 600px;
-  // overflow: auto;
-
-  h5 {
-    font-weight: bold;
   }
 }
 
@@ -32,11 +22,11 @@ table {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
-.mat-column-name {
+.mat-column-remark {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 55% !important;
-  width: 55% !important;
+  flex: 0 0 50% !important;
+  width: 50% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -47,7 +37,7 @@ table {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
-.mat-column-status {
+.mat-column-evaluator {
   word-wrap: break-word !important;
   white-space: unset !important;
   flex: 0 0 20% !important;
@@ -62,11 +52,11 @@ table {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
-.mat-column-remarks {
+.mat-column-date {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 10% !important;
-  width: 10% !important;
+  flex: 0 0 20% !important;
+  width: 20% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -76,44 +66,4 @@ table {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
-}
-.mat-column-action {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 10% !important;
-  width: 10% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-
-  word-break: break-word;
-
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-}
-
-.remark {
-  color: maroon;
-}
-.remark:hover {
-  cursor: pointer;
-}
-
-.action {
-  color: #f9c232;
-}
-.reject {
-  button {
-    background-color: rgb(172, 17, 17);
-    color: whitesmoke;
-  }
-}
-.other__permit {
-  margin: 20px 0;
-  &__buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
 }

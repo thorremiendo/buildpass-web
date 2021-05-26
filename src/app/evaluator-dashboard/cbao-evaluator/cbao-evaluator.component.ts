@@ -44,8 +44,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.applicationService
       .fetchUserDocs(this.applicationId)
       .subscribe((result) => {
-        this.dataSource = result.data;
-
+        this.filterUserDocs(result.data);
         this.fetchEvaluatorDetails();
         this.checkFormsCompliant();
         this.checkFormsReviewed();
@@ -54,7 +53,11 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.fetchApplicationInfo();
     this.changeDetectorRefs.detectChanges();
   }
-
+  filterUserDocs(forms) {
+    const USER_FORMS = forms.filter((doc) => doc.document_id !== 107);
+    this.dataSource = USER_FORMS;
+    this.isLoading = false;
+  }
   fetchApplicationInfo() {
     this.isLoading = true;
     this.applicationService
@@ -406,7 +409,8 @@ export class CbaoEvaluatorComponent implements OnInit {
           obj.document_id == 59 ||
           obj.document_id == 74 ||
           obj.document_id == 75 ||
-          obj.document_id == 72
+          obj.document_id == 72 ||
+          obj.document_id == 33
       );
       const forReview = CPDO_FORMS.forEach((element) => {
         let body = {
@@ -764,6 +768,8 @@ export class CbaoEvaluatorComponent implements OnInit {
       height: '800px',
       data: {
         evaluator: this.evaluatorDetails,
+        evaluatorRole: this.evaluatorRole,
+        applicationInfo: this.applicationInfo,
         form: e,
         route: this.route,
       },

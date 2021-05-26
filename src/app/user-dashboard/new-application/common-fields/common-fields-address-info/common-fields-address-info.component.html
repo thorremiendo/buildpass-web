@@ -33,11 +33,7 @@
       <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Block Number</mat-label>
-          <input
-            type="number"
-            matInput
-            formControlName="project_block_number"
-          />
+          <input type="text" matInput formControlName="project_block_number" />
         </mat-form-field>
       </div>
       <div class="col-md-3">
@@ -128,11 +124,8 @@
           <mat-label>Project Cost</mat-label>
           <input
             style="text-align: right"
-            type="text"
+            type="number"
             matInput
-            localeCurrencyInput
-            [allowNegative]="false"
-            [currencyCode]="'₱'"
             formControlName="project_cost"
             required
           />
