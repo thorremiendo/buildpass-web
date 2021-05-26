@@ -68,7 +68,7 @@
           {{ application.permit_application_code }}
         </div>
         <div>
-          <span *ngIf="application.application_status_id == 6" (click)="deleteApplication(application.id); $event.stopPropagation()">Delete</span>
+          <button mat-button *ngIf="application.application_status_id == 6 && userInfo.id == application.user_id" (click)="deleteApplication(application.id); $event.stopPropagation()">Delete</button>
         </div>
       </div>
       <div class="application-status" *ngIf="application.application_status_id">
@@ -94,13 +94,18 @@
       <div class="application-location" *ngIf="application.project_detail">
         <mat-icon [inline]="true">location_on</mat-icon>
         {{
-          application.project_detail.lot_number
-            ? application.project_detail.lot_number
+          application.project_detail.block_number
+            ? "BLOCK " + application.project_detail.block_number
             : ""
         }}
         {{
-          application.project_detail.block_number
-            ? application.project_detail.block_number
+          application.project_detail.lot_number
+            ? "LOT " + application.project_detail.lot_number
+            : ""
+        }}
+        {{
+          application.project_detail.house_number
+            ? "#" + application.project_detail.house_number
             : ""
         }}
         {{
