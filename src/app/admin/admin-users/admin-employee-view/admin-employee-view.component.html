@@ -1,360 +1,432 @@
 <div class="modal-container container-fluid">
-    <div class="row">
-        <mat-icon class="close-button" (click)="closeModal()">close</mat-icon>
+  <div class="row">
+    <mat-icon class="close-button" (click)="closeModal()">close</mat-icon>
+  </div>
+  <div class="row" *ngIf="userInfo.employee_detail">
+    <button class="approve-button" mat-stroked-button (click)="approveUser()">
+      Approve
+    </button>
+  </div>
+  <div class="row edit-profile">
+    <div class="col-12">
+      <div *ngIf="this.userInfo">
+        <div class="user-avatar-container">
+          <div class="user-avatar">
+            <img [src]="displayProfilePhoto" alt="" />
+          </div>
+          <div class="edit-avatar">
+            <button
+              class="btn btn-dark btn-sm"
+              type="button"
+              (click)="openFileChooser()"
+            >
+              <i class="fa fa-edit"></i>
+            </button>
+          </div>
+        </div>
+        <div class="avatar-label">Profile Picture</div>
+        <input
+          type="file"
+          class="sr-only"
+          id="photo"
+          accept="image/*"
+          (change)="handlePhotoFileChange($event)"
+        />
+      </div>
     </div>
-    <div class="row">
-        <button class="approve-button" mat-stroked-button (click)='approveUser()'>
-            Approve
-        </button>
-    </div>
-    <div class="row edit-profile">
-        <div class="col-12">
-        <div *ngIf="this.userInfo">
-            <div class="user-avatar-container">
-            <div class="user-avatar">
-                <img [src]="displayProfilePhoto" alt="" />
+    <div class="col-12">
+      <mat-card *ngIf="_adminUpdateUserForm">
+        <mat-card-content>
+          <form [formGroup]="_adminUpdateUserForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-12 section-header">Personal Info</div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>First Name</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    formControlName="first_name"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      (adminUpdateUserFormControl.first_name.touched ||
+                        _submitted) &&
+                      adminUpdateUserFormControl.first_name.errors?.required
+                    "
+                  >
+                    First Name is Required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline">
+                  <mat-label>Middle Name</mat-label>
+                  <input type="text" matInput formControlName="middle_name" />
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="outline">
+                  <mat-label>Last name</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    formControlName="last_name"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      (adminUpdateUserFormControl.last_name.touched ||
+                        _submitted) &&
+                      adminUpdateUserFormControl.last_name.errors?.required
+                    "
+                  >
+                    Last Name is Required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <mat-label>Suffix</mat-label>
+                  <mat-select formControlName="suffix_name">
+                    <mat-option value=" "></mat-option>
+                    <mat-option value="Jr">Jr</mat-option>
+                    <mat-option value="Sr">Sr</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
             </div>
-            <div class="edit-avatar">
-                <button
-                class="btn btn-dark btn-sm"
-                type="button"
-                (click)="openFileChooser()"
+
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>Birthday</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="picker"
+                    formControlName="birthdate"
+                    placeholder="click the calendar icon"
+                    readonly
+                    required
+                  />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker touchUi #picker></mat-datepicker>
+                  <mat-error
+                    *ngIf="
+                      (adminUpdateUserFormControl.birthdate.touched ||
+                        _submitted) &&
+                      adminUpdateUserFormControl.birthdate.errors?.required
+                    "
+                  >
+                    Birthdate is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Marital Status</mat-label>
+                  <mat-select formControlName="marital_status" required>
+                    <mat-option value="1">Single</mat-option>
+                    <mat-option value="2">Married</mat-option>
+                    <mat-option value="3">Divorced</mat-option>
+                    <mat-option value="4">Widowed</mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      (adminUpdateUserFormControl.marital_status.touched ||
+                        _submitted) &&
+                      adminUpdateUserFormControl.marital_status.errors?.required
+                    "
+                  >
+                    Marital Status is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline">
+                  <mat-label>Gender</mat-label>
+                  <mat-select formControlName="gender">
+                    <mat-option value="M">Male</mat-option>
+                    <mat-option value="F">Female</mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      (adminUpdateUserFormControl.gender.touched ||
+                        _submitted) &&
+                      adminUpdateUserFormControl.gender.errors?.required
+                    "
+                  >
+                    Gender is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>House No., Bldg, Street</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    formControlName="home_address"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      (adminUpdateUserFormControl.home_address.touched ||
+                        _submitted) &&
+                      adminUpdateUserFormControl.home_address.errors?.required
+                    "
+                  >
+                    Home Address is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" *ngIf="this._barangay">
+                  <mat-label>Barangay</mat-label>
+                  <input
+                    type="text"
+                    placeholder="Select Barangay"
+                    aria-label="Barangay"
+                    matInput
+                    formControlName="barangay"
+                    [matAutocomplete]="auto_barangay"
+                    required
+                  />
+                  <mat-icon matSuffix>arrow_drop_down</mat-icon>
+                  <mat-autocomplete
+                    #auto_barangay="matAutocomplete"
+                    [displayWith]="displayBarangayName.bind(this)"
+                  >
+                    <mat-option
+                      *ngFor="let barangays of _filteredBarangayOptions | async"
+                      [value]="barangays.id"
+                    >
+                      {{ barangays.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error
+                    *ngIf="
+                      (adminUpdateUserFormControl.barangay.touched ||
+                        _submitted) &&
+                      adminUpdateUserFormControl.barangay.errors?.required
+                    "
+                  >
+                    Barangay is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="userInfo.employee_detail">
+              <div class="col-12 section-header">Employee Info</div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Employee Number</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    formControlName="employee_no"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      (adminUpdateUserFormControl.employee_no.touched ||
+                        _submitted) &&
+                      adminUpdateUserFormControl.employee_no.errors?.required
+                    "
+                  >
+                    Employee Number is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Office</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    formControlName="office"
+                    [matAutocomplete]="auto_office"
+                    required
+                  />
+                  <mat-icon matSuffix>arrow_drop_down</mat-icon>
+                  <mat-autocomplete
+                    #auto_office="matAutocomplete"
+                    [displayWith]="displayOfficeName.bind(this)"
+                  >
+                    <mat-option
+                      *ngFor="
+                        let office of _filteredOfficeOptions | async;
+                        let i = index
+                      "
+                      [value]="i"
+                    >
+                      {{ office }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error
+                    *ngIf="
+                      (adminUpdateUserFormControl.office.touched ||
+                        _submitted) &&
+                      adminUpdateUserFormControl.office.errors?.required
+                    "
+                  >
+                    Office is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row" >
+              <div class="col-md-6" *ngIf="userInfo.employee_detail">
+                <mat-form-field appearance="outline">
+                  <mat-label>Position</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    formControlName="position"
+                    [matAutocomplete]="auto_position"
+                    required
+                  />
+                  <mat-icon matSuffix>arrow_drop_down</mat-icon>
+                  <mat-autocomplete #auto_position="matAutocomplete">
+                    <mat-option
+                      *ngFor="let position of _filteredPositionOptions | async"
+                      [value]="position"
+                    >
+                      {{ position }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error
+                    *ngIf="
+                      (adminUpdateUserFormControl.position.touched ||
+                        _submitted) &&
+                      adminUpdateUserFormControl.position.errors?.required
+                    "
+                  >
+                    Position is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Contact Number</mat-label>
+                  <input
+                    type="tel"
+                    matInput
+                    formControlName="contact_number"
+                    [maxLength]="maxLength"
+                    placeholder="Ex. 09123456789"
+                    #contact
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      (adminUpdateUserFormControl.contact_number.touched ||
+                        _submitted) &&
+                      adminUpdateUserFormControl.contact_number.errors?.required
+                    "
+                  >
+                    Contact Number is required
+                  </mat-error>
+                  <mat-hint align="end"
+                    >{{ contact.value.length }} / {{ maxLength }}</mat-hint
+                  >
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 section-header">Identification</div>
+              <div class="col-md-6">
+                <mat-card
+                  class="id-upload"
+                  (click)="openIdChooser()"
+                  *ngIf="this.userInfo"
                 >
-                <i class="fa fa-edit"></i>
-                </button>
-            </div>
-            </div>
-            <div class="avatar-label">Profile Picture</div>
-            <input
-            type="file"
-            class="sr-only"
-            id="photo"
-            accept="image/*"
-            (change)="handlePhotoFileChange($event)"
-            />
-        </div>
-        </div>
-        <div class="col-12">
-        <mat-card *ngIf="_adminUpdateUserForm">
-            <mat-card-content>
-            <form [formGroup]="_adminUpdateUserForm" (ngSubmit)="onSubmit()">
+                  <p>UPLOAD PHOTO</p>
+                  <div>
+                    <img [src]="displayIDPhoto" alt="" />
+                  </div>
+                  <input
+                    type="file"
+                    class="sr-only"
+                    id="id-photo"
+                    accept="image/*"
+                    (change)="handleIDFileChange($event)"
+                  />
+                </mat-card>
+              </div>
+              <div class="col-md-6">
                 <div class="row">
-                <div class="col-12 section-header">
-                    Personal Info
-                </div>
-                <div class="col-md-4">
+                  <div class="col-md-12">
                     <mat-form-field appearance="outline">
-                    <mat-label>First Name</mat-label>
-                    <input type="text" matInput formControlName="first_name" required />
-                    <mat-error
-                        *ngIf="
-                        (adminUpdateUserFormControl.first_name.touched || _submitted) &&
-                        adminUpdateUserFormControl.first_name.errors?.required
-                        "
-                    >
-                        First Name is Required
-                    </mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="col-md-3">
-                    <mat-form-field appearance="outline">
-                    <mat-label>Middle Name</mat-label>
-                    <input type="text" matInput formControlName="middle_name" />
-                    </mat-form-field>
-                </div>
-                <div class="col-md-3">
-                    <mat-form-field appearance="outline">
-                    <mat-label>Last name</mat-label>
-                    <input type="text" matInput formControlName="last_name" required />
-                    <mat-error
-                        *ngIf="
-                        (adminUpdateUserFormControl.last_name.touched || _submitted) &&
-                        adminUpdateUserFormControl.last_name.errors?.required
-                        "
-                    >
-                        Last Name is Required
-                    </mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="col-md-2">
-                    <mat-form-field appearance="outline">
-                    <mat-label>Suffix</mat-label>
-                    <mat-select formControlName="suffix_name">
-                        <mat-option value=" "></mat-option>
-                        <mat-option value="Jr">Jr</mat-option>
-                        <mat-option value="Sr">Sr</mat-option>
-                    </mat-select>
-                    </mat-form-field>
-                </div>
-                </div>
-            
-                <div class="row">
-                <div class="col-md-4">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Birthday</mat-label>
-                    <input
-                        matInput
-                        [matDatepicker]="picker"
-                        formControlName="birthdate"
-                        placeholder="click the calendar icon"
-                        readonly
-                        required
-                    />
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker touchUi #picker></mat-datepicker>
-                    <mat-error
-                        *ngIf="
-                        (adminUpdateUserFormControl.birthdate.touched || _submitted) &&
-                        adminUpdateUserFormControl.birthdate.errors?.required
-                        "
-                    >
-                        Birthdate is required
-                    </mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="col-md-4">
-                    <mat-form-field appearance="outline">
-                    <mat-label>Marital Status</mat-label>
-                    <mat-select formControlName="marital_status" required>
-                        <mat-option value="1">Single</mat-option>
-                        <mat-option value="2">Married</mat-option>
-                        <mat-option value="3">Divorced</mat-option>
-                        <mat-option value="4">Widowed</mat-option>
-                    </mat-select>
-                    <mat-error
-                        *ngIf="
-                        (adminUpdateUserFormControl.marital_status.touched || _submitted) &&
-                        adminUpdateUserFormControl.marital_status.errors?.required
-                        "
-                    >
-                        Marital Status is required
-                    </mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="col-md-4">
-                    <mat-form-field appearance="outline">
-                    <mat-label>Gender</mat-label>
-                    <mat-select formControlName="gender">
-                        <mat-option value="M">Male</mat-option>
-                        <mat-option value="F">Female</mat-option>
-                    </mat-select>
-                    <mat-error
-                        *ngIf="
-                        (adminUpdateUserFormControl.gender.touched || _submitted) &&
-                        adminUpdateUserFormControl.gender.errors?.required
-                        "
-                    >
-                        Gender is required
-                    </mat-error>
-                    </mat-form-field>
-                </div>
-                </div>
-            
-                <div class="row">
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                    <mat-label>House No., Bldg, Street</mat-label>
-                    <input type="text" matInput formControlName="home_address" required />
-                    <mat-error
-                        *ngIf="
-                        (adminUpdateUserFormControl.home_address.touched || _submitted) &&
-                        adminUpdateUserFormControl.home_address.errors?.required
-                        "
-                    >
-                        Home Address is required
-                    </mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline" *ngIf="this._barangay">
-                    <mat-label>Barangay</mat-label>
-                    <input type="text" placeholder="Select Barangay" aria-label="Barangay" matInput formControlName="barangay"
-                        [matAutocomplete]="auto_barangay" required>
-                    <mat-icon matSuffix>arrow_drop_down</mat-icon>
-                    <mat-autocomplete #auto_barangay="matAutocomplete" [displayWith]="displayBarangayName.bind(this)" >
-                        <mat-option *ngFor="let barangays of _filteredBarangayOptions | async" [value]="barangays.id">
-                        {{barangays.name}}
-                        </mat-option>
-                    </mat-autocomplete>
-                    <mat-error *ngIf="
-                        (adminUpdateUserFormControl.barangay.touched || _submitted) &&
-                        adminUpdateUserFormControl.barangay.errors?.required
-                    ">
-                        Barangay is required
-                    </mat-error>
-                    </mat-form-field>
-                </div>
-                </div>
-            
-                <div class="row">
-                <div class="col-12 section-header">
-                    Employee Info
-                </div>
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                    <mat-label>Employee Number</mat-label>
-                    <input type="text" matInput formControlName="employee_no" required />
-                    <mat-error
-                        *ngIf="
-                        (adminUpdateUserFormControl.employee_no.touched || _submitted) &&
-                        adminUpdateUserFormControl.employee_no.errors?.required
-                        "
-                    >
-                        Employee Number is required
-                    </mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                    <mat-label>Office</mat-label>
-                    <input 
-                        type="text" 
-                        matInput 
-                        formControlName="office" 
-                        [matAutocomplete]="auto_office" 
-                        required />
-                    <mat-icon matSuffix>arrow_drop_down</mat-icon>
-                    <mat-autocomplete #auto_office="matAutocomplete" [displayWith]="displayOfficeName.bind(this)">
-                        <mat-option *ngFor="let office of _filteredOfficeOptions | async; let i = index;" [value]="i">
-                            {{office}}
-                        </mat-option>
-                    </mat-autocomplete>  
-                    <mat-error *ngIf="
-                        (adminUpdateUserFormControl.office.touched || _submitted) &&
-                        adminUpdateUserFormControl.office.errors?.required"
-                    >
-                        Office is required
-                    </mat-error>
-                    </mat-form-field>
-                </div>
-                </div>
-    
-                <div class="row">
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                    <mat-label>Position</mat-label>
-                    <input 
-                        type="text" 
-                        matInput 
-                        formControlName="position" 
-                        [matAutocomplete]="auto_position" 
-                        required />
-                    <mat-icon matSuffix>arrow_drop_down</mat-icon>
-                    <mat-autocomplete #auto_position="matAutocomplete">
-                        <mat-option *ngFor="let position of _filteredPositionOptions | async" [value]="position">
-                            {{position}}
-                        </mat-option>
-                    </mat-autocomplete>  
-                    <mat-error *ngIf="
-                        (adminUpdateUserFormControl.position.touched || _submitted) &&
-                        adminUpdateUserFormControl.position.errors?.required"
-                    >
-                        Position is required
-                    </mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                    <mat-label>Contact Number</mat-label>
-                    <input
-                        type="tel"
-                        matInput
-                        formControlName="contact_number"
-                        [maxLength]="maxLength"
-                        placeholder="Ex. 09123456789"
-                        #contact
-                        required
-                    />
-                    <mat-error
-                        *ngIf="
-                        (adminUpdateUserFormControl.contact_number.touched || _submitted) &&
-                        adminUpdateUserFormControl.contact_number.errors?.required
-                        "
-                    >
-                        Contact Number is required
-                    </mat-error>
-                    <mat-hint align="end"
-                        >{{ contact.value.length }} / {{ maxLength }}</mat-hint
-                    >
-                    </mat-form-field>
-                </div>
-                </div>
-            
-                <div class="row">
-                <div class="col-12 section-header">
-                    Identification
-                </div>
-                <div class="col-md-6">
-                    <mat-card class="id-upload" (click)="openIdChooser()" *ngIf="this.userInfo">
-                        <p>UPLOAD PHOTO</p>
-                        <div>
-                        <img [src]="displayIDPhoto" alt="" />
-                        </div>
-                        <input
-                        type="file"
-                        class="sr-only"
-                        id="id-photo"
-                        accept="image/*"
-                        (change)="handleIDFileChange($event)"
-                        />
-                    </mat-card>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                    <div class="col-md-12">
-                        <mat-form-field appearance="outline">
-                        <mat-label for="id-type">ID Type</mat-label>
-                        <mat-select formControlName="id_type" required>
-                            <mat-option value="1">Passport</mat-option>
-                            <mat-option value="2">Driver's License</mat-option>
-                            <mat-option value="3">PRCID</mat-option>
-                            <mat-option value="4">School ID</mat-option>
-                            <mat-option value="5">SSS/UMID ID</mat-option>
-                            <mat-option value="6">Senior Citizen's ID</mat-option>
-                            <mat-option value="7">PWD ID</mat-option>
-                            <mat-option value="8">Parent or Legal Guardian's ID</mat-option>
-                            <mat-option value="9">Others</mat-option>
-                        </mat-select>
-                        <mat-error
-                            *ngIf="
-                            (adminUpdateUserFormControl.id_type.touched || _submitted) &&
-                            adminUpdateUserFormControl.id_type.errors?.required
-                            "
+                      <mat-label for="id-type">ID Type</mat-label>
+                      <mat-select formControlName="id_type" required>
+                        <mat-option value="1">Passport</mat-option>
+                        <mat-option value="2">Driver's License</mat-option>
+                        <mat-option value="3">PRCID</mat-option>
+                        <mat-option value="4">School ID</mat-option>
+                        <mat-option value="5">SSS/UMID ID</mat-option>
+                        <mat-option value="6">Senior Citizen's ID</mat-option>
+                        <mat-option value="7">PWD ID</mat-option>
+                        <mat-option value="8"
+                          >Parent or Legal Guardian's ID</mat-option
                         >
-                            ID Type is required
-                        </mat-error>
-                        </mat-form-field>
-                    </div>
-                    </div>
-                    <div class="row">
-                    <div class="col-md-12">
-                        <mat-form-field appearance="outline">
-                        <mat-label>ID Number</mat-label>
-                        <input matInput type="text" formControlName="id_number" required />
-                        <mat-error
-                            *ngIf="
-                            (adminUpdateUserFormControl.id_number.touched || _submitted) &&
-                            adminUpdateUserFormControl.id_number.errors?.required
-                            "
-                        >
-                            ID Number is required
-                        </mat-error>
-                        </mat-form-field>
-                    </div>
-                    </div>
+                        <mat-option value="9">Others</mat-option>
+                      </mat-select>
+                      <mat-error
+                        *ngIf="
+                          (adminUpdateUserFormControl.id_type.touched ||
+                            _submitted) &&
+                          adminUpdateUserFormControl.id_type.errors?.required
+                        "
+                      >
+                        ID Type is required
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
                 </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <mat-form-field appearance="outline">
+                      <mat-label>ID Number</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        formControlName="id_number"
+                        required
+                      />
+                      <mat-error
+                        *ngIf="
+                          (adminUpdateUserFormControl.id_number.touched ||
+                            _submitted) &&
+                          adminUpdateUserFormControl.id_number.errors?.required
+                        "
+                      >
+                        ID Number is required
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
                 </div>
-    
-                <div class="row justify-content-center mt-5 mb-3">
-                <div class="col-md-3">
-                    <button mat-stroked-button type="submit">
-                    Update
-                    </button>
-                </div>
-                </div>
-            </form>
-            </mat-card-content>
-        </mat-card>
-        </div>
+              </div>
+            </div>
+
+            <div class="row justify-content-center mt-5 mb-3">
+              <div class="col-md-3">
+                <button mat-stroked-button type="submit">Update</button>
+              </div>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
     </div>
+  </div>
 </div>
