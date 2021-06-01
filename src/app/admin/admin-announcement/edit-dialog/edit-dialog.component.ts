@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AnnouncementService, ConvertImage } from '../../../core';
+import imageToBase64 from 'image-to-base64/browser'
 import * as QuillNamespace from 'quill';
 let Quill: any = QuillNamespace;
 import ImageResize from 'quill-image-resize-module';
@@ -17,6 +19,7 @@ export class EditDialogComponent implements OnInit {
   public maxLength = 360;
   public imageChangedEvent: any = '';
   public btnName: string = 'Upload thumbnail';
+  public isLoading: boolean = true;
   public modules = {
     // toolbar: {
     //   container: [
@@ -34,12 +37,25 @@ export class EditDialogComponent implements OnInit {
   };
 
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Announcement) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data,
+    private announcementService: AnnouncementService,
+    private convertImage: ConvertImage) {}
 
   ngOnInit() {
-    if (this.data.photo_path_original) {
-      this.btnName = 'Change thumbnail';
-    }
+    
+    this.announcementService.fethAnnouncementById(this.data.id).subscribe( data =>{
+      this.data = data.data;
+      this.isLoading = false;
+
+      if (this.isLoading = false && this.data.photo_path_original) {
+        this.btnName = 'Change thumbnail';
+      }
+    })
+
+   
+
+   
   }
 
   fileChangeEvent(event: any): void {
@@ -48,11 +64,13 @@ export class EditDialogComponent implements OnInit {
   }
 
   handleUpload(event) {
+    console.log(event);
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
       this.data.photo_path_original = reader.result;
+      console.log(reader.result);
       this.btnName = 'Change image';
     };
   }
@@ -65,5 +83,7 @@ export class EditDialogComponent implements OnInit {
 
   imageCropped(event: ImageCroppedEvent) {
     this.data.photo_path_crop = event.base64;
+    console.log(event);
   }
+  
 }
