@@ -1,4 +1,4 @@
-<div *ngIf ="!isLoading">
+<div>
     <div class="avatar-upload text-center">
         <div class="text-center avatar-block d-inline-block">
           <img [src]="userInfo.photo_path" alt="" class="user-avatar" />
@@ -58,7 +58,7 @@
        
       </mat-card>
     
-      <mat-card >
+      <mat-card *ngIf="userInfo.employee_detail">
         <mat-card-header>
             <mat-card-title>Employee Info</mat-card-title>
           </mat-card-header>
