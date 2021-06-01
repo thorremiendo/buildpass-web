@@ -21,5 +21,7 @@ export const environment = {
   pusher: {
     key: 'a6ade48d9acbba1dd2e7',
     cluster: 'ap1',
-  }
+  },
+  weekend: true,
+  receiveApplications: false,
 };
