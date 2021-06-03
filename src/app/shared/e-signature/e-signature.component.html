@@ -1,15 +1,19 @@
-<div id="html2Pdf" style="width: 500px;">
-  <div class="col-md-12">
-    <img
-      src="../../../assets/test-sig.svg"
-      style="width: 200px; height: 200px; z-index: 1"
-      cdkDrag
-    />
-    <!-- <iframe src="../../../assets/forms/bldg-permit-certificate.pdf#toolbar=0"> -->
-    <!-- </iframe> -->
-    <!-- <embed src="../../../assets/forms/bldg-permit-certificate.pdf#toolbar=0" /> -->
-    <img src="../../../assets/test-pdfimg.jpg" style="width: 100%" />
+<div class="boundary">
+  <div class="example-box" cdkDrag (cdkDragEnded)="dragEnded($event)">
+    <img src="../../../assets/esig.png" style="width: 200px" />
+  </div>
+  <div class="pdf-container">
+    <pdf-viewer
+      [show-all]="true"
+      [render-text]="true"
+      [original-size]="true"
+      [fit-to-page]="false"
+      [src]="src"
+      [show-borders]="true"
+    >
+      ></pdf-viewer
+    >
   </div>
 </div>
 
-<button (click)="generatePdf()">Save</button>
+<button (click)="insertQrCode()">Save</button>

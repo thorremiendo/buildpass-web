@@ -34,6 +34,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { UpdatePasswordDialogComponent } from './update-password-dialog/update-password-dialog.component';
 import { ImageViewerModule } from 'ngx-image-viewer';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatSelectModule,
     ImageViewerModule.forRoot(),
     DragDropModule,
+    PdfViewerModule,
   ],
   exports: [
     AccordionAnchorDirective,
