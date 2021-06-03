@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { UserService } from 'src/app/core/services/user.service';
 import Swal from 'sweetalert2';
+import { environment } from './../../../../environments/environment.prod';
 
 @Component({
   selector: 'app-checklist-summary',
@@ -24,6 +25,7 @@ export class ChecklistSummaryComponent implements OnInit {
   public isLoading;
   public documentTypes;
   public isAuthorized: boolean = false;
+  public receiveApplications: boolean;
 
   constructor(
     private router: Router,
@@ -35,6 +37,7 @@ export class ChecklistSummaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.receiveApplications = environment.receiveApplications
     this.isAuthorized = false;
     this.isLoading = true;
     this.applicationId = this.route.snapshot.params.id;
@@ -104,8 +107,9 @@ export class ChecklistSummaryComponent implements OnInit {
               };
 
               this.applicantForms.forEach((element) => {
-                const docType = this.documentTypes[element.document_id - 1]
-                  .document_category_id;
+                const docType =
+                  this.documentTypes[element.document_id - 1]
+                    .document_category_id;
                 switch (docType) {
                   case 1:
                     this.sortedForms.documents.data.push(element);

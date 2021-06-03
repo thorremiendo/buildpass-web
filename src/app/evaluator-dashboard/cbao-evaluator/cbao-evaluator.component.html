@@ -507,6 +507,16 @@
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
+            <mat-icon>folder</mat-icon>
+            Supporting Documents
+          </ng-template>
+          <app-supporting-documents
+            [evaluatorDetails]="evaluatorDetails"
+            [applicationDetails]="applicationInfo"
+          ></app-supporting-documents>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
             <mat-icon>engineering</mat-icon>
             Technical Evaluation
           </ng-template>
@@ -526,16 +536,6 @@
               [applicationDetails]="applicationInfo"
             ></app-technical-findings>
           </ng-container>
-        </mat-tab>
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <mat-icon>folder</mat-icon>
-            Supporting Documents
-          </ng-template>
-          <app-supporting-documents
-            [evaluatorDetails]="evaluatorDetails"
-            [applicationDetails]="applicationInfo"
-          ></app-supporting-documents>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

@@ -49,7 +49,7 @@
           color="primary"
           (click)="proceed()"
           *ngIf="applicationInfo.application_status_id == 6"
-          disabled
+          [disabled]="!receiveApplications"
         >
           Continue
         </button>
@@ -58,7 +58,7 @@
           color="primary"
           (click)="submit()"
           *ngIf="applicationInfo.application_status_id == 9"
-          disabled
+          [disabled]="!receiveApplications"
         >
           Submit
         </button>

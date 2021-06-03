@@ -330,7 +330,21 @@
             <app-supporting-documents
               [evaluatorDetails]="evaluatorDetails"
               [applicationDetails]="applicationDetails"
+              [userDetails]="user"
             ></app-supporting-documents>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon>report</mat-icon>
+              General Remarks
+              <mat-icon
+                [matBadge]="applicationDetails.remarks.length"
+                matBadgeColor="warn"
+              ></mat-icon>
+            </ng-template>
+            <app-general-remarks
+              [evaluatorDetails]="evaluatorDetails"
+            ></app-general-remarks>
           </mat-tab>
         </mat-tab-group>
       </mat-card-content>

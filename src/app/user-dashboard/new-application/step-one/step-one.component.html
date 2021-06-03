@@ -23,11 +23,21 @@
             formControlName="application_type"
             selected="1"
           >
-            <mat-option value="1" disabled>Building Permit</mat-option>
-            <mat-option value="2" disabled>Certificate of Occupancy</mat-option>
-            <mat-option value="3" disabled>Excavation Permit</mat-option>
-            <mat-option value="4" disabled>Fencing Permit</mat-option>
-            <mat-option value="5" disabled>Demolition Permit</mat-option>
+            <mat-option value="1" [disabled]="!receiveApplications"
+              >Building Permit</mat-option
+            >
+            <mat-option value="2" [disabled]="!receiveApplications"
+              >Certificate of Occupancy</mat-option
+            >
+            <mat-option value="3" [disabled]="!receiveApplications"
+              >Excavation Permit</mat-option
+            >
+            <mat-option value="4" [disabled]="!receiveApplications"
+              >Fencing Permit</mat-option
+            >
+            <mat-option value="5" [disabled]="!receiveApplications"
+              >Demolition Permit</mat-option
+            >
           </mat-select>
         </mat-form-field>
       </div>
