@@ -23,5 +23,5 @@ export const environment = {
     cluster: 'ap1',
   },
   weekend: true,
-  receiveApplications: true,
+  receiveApplications: false,
 };
