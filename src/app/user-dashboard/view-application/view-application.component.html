@@ -269,7 +269,12 @@
                             >Print</a
                           >
                         </ng-container>
-                        <ng-container *ngIf="element.document_status_id == 0">
+                        <ng-container
+                          *ngIf="
+                            element.document_status_id == 0 ||
+                            element.document_status_id == 2
+                          "
+                        >
                           <a
                             href="{{ element.document_path }}"
                             target="_blank"
@@ -330,7 +335,21 @@
             <app-supporting-documents
               [evaluatorDetails]="evaluatorDetails"
               [applicationDetails]="applicationDetails"
+              [userDetails]="user"
             ></app-supporting-documents>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon>report</mat-icon>
+              General Remarks
+              <mat-icon
+                [matBadge]="applicationDetails.remarks.length"
+                matBadgeColor="warn"
+              ></mat-icon>
+            </ng-template>
+            <app-general-remarks
+              [evaluatorDetails]="evaluatorDetails"
+            ></app-general-remarks>
           </mat-tab>
         </mat-tab-group>
       </mat-card-content>
