@@ -353,7 +353,7 @@ export class DemolitionPermitComponent implements OnInit {
     //   this.openSnackBar('Please upload all necessary documents!');
     // }
     if (environment.receiveApplications == true) {
-      if (this.getFieldSetsLength() + 6 == this.getUniqueUserDocs()) {
+      if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
         this.isLoading = true;
         const body = {
           application_status_id: 9,
