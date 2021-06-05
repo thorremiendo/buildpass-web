@@ -65,7 +65,7 @@ export class DonutChartComponent implements OnInit {
       legend: {
         show: false,
       },
-      labels: [ 'Pending', 'Current', 'Completed'],
+      labels: [ 'Incoming', 'Current', 'Completed'],
       colors: ['#C32148', '#F2BA49', '#FF8C00'],
       responsive: [
         {
