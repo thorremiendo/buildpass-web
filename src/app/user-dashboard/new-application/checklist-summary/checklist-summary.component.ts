@@ -5,7 +5,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { UserService } from 'src/app/core/services/user.service';
 import Swal from 'sweetalert2';
-import { environment } from './../../../../environments/environment.prod';
+import { environment } from './../../../../environments/environment';
 
 @Component({
   selector: 'app-checklist-summary',

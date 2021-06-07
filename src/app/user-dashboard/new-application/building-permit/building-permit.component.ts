@@ -1,4 +1,4 @@
-import { environment } from './../../../../environments/environment.prod';
+import { environment } from './../../../../environments/environment';
 import { GetDateService } from './../../../core/services/get-date.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, Data } from '@angular/router';

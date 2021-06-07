@@ -6,7 +6,7 @@ import { DataFormBindingService } from 'src/app/core/services/data-form-binding.
 import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
-import { environment } from './../../../../environments/environment.prod';
+import { environment } from './../../../../environments/environment';
 
 @Component({
   selector: 'app-demolition-permit',
