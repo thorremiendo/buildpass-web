@@ -4,15 +4,18 @@
       <h2 class="mb-5">
         Hi, {{ userInfo.first_name }}! Let's get started with your application.
       </h2>
+      <span *ngIf="!selectedPermitType"
+        ><p style="color: maroon; font-size: 16px; font-weight: 500">
+          Good day! This is to inform you that BuildPASS is currently undergoing
+          maintenance. Please submit your application by June 15, 2021. The
+          maintenance will fix issues in the system to better prepare for the
+          transition period. Thank you for understanding!
+        </p>
+      </span>
       <p style="color: #767676"><strong>STEP 1</strong></p>
       <div>
         <h4>What type of permit do you want to apply?</h4>
-        <span *ngIf="!selectedPermitType"
-          ><p style="color: maroon; font-size: 12px">
-            Sorry, application for other permits isn't available at the moment
-            due to system improvement. Please try again soon.*
-          </p>
-        </span>
+
         <mat-form-field appearance="outline">
           <mat-label>Application Type</mat-label>
           <mat-select
@@ -20,11 +23,21 @@
             formControlName="application_type"
             selected="1"
           >
-            <mat-option value="1">Building Permit</mat-option>
-            <mat-option value="2" disabled>Certificate of Occupancy</mat-option>
-            <mat-option value="3">Excavation Permit</mat-option>
-            <mat-option value="4">Fencing Permit</mat-option>
-            <mat-option value="5">Demolition Permit</mat-option>
+            <mat-option value="1" [disabled]="!receiveApplications"
+              >Building Permit</mat-option
+            >
+            <mat-option value="2" [disabled]="!receiveApplications"
+              >Certificate of Occupancy</mat-option
+            >
+            <mat-option value="3" [disabled]="!receiveApplications"
+              >Excavation Permit</mat-option
+            >
+            <mat-option value="4" [disabled]="!receiveApplications"
+              >Fencing Permit</mat-option
+            >
+            <mat-option value="5" [disabled]="!receiveApplications"
+              >Demolition Permit</mat-option
+            >
           </mat-select>
         </mat-form-field>
       </div>

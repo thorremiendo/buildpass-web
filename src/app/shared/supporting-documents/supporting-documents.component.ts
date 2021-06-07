@@ -15,6 +15,7 @@ export class SupportingDocumentsComponent implements OnInit {
   @Input() evaluatorDetails;
   @Input() applicationDetails;
   @Input() route;
+  @Input() userDetails;
   public applicantSupportingDocs;
   public isLoading: boolean = true;
   displayedColumns: string[] = [
@@ -37,6 +38,7 @@ export class SupportingDocumentsComponent implements OnInit {
       .fetchApplicationSupportingFiles(this.applicationDetails.id)
       .subscribe((res) => {
         this.applicantSupportingDocs = res.data;
+        console.log("supps",this.applicantSupportingDocs);
         this.isLoading = false;
       });
   }
@@ -46,6 +48,7 @@ export class SupportingDocumentsComponent implements OnInit {
       width: '1000px',
       height: '600px',
       data: {
+        user: this.userDetails,
         evaluator: this.evaluatorDetails,
         applicationDetails: this.applicationDetails,
       },

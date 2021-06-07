@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  api_url: `http://localhost:8000/api`,
-  // api_url: `https://api.staging.buildpass.baguio.gov.ph/api`,
+  // api_url: `http://localhost:8000/api`,
+  api_url: `https://api.staging.buildpass.baguio.gov.ph/api`,
 
   firebase: {
     apiKey: 'AIzaSyCTCQAnOkASHslp8No3KbiiPuwMaJPixjM',
@@ -25,6 +25,8 @@ export const environment = {
     key: '5aaab0a1fdf76144a6ff',
     cluster: 'ap1',
   },
+  weekend: false,
+  receiveApplications: true,
 };
 
 /*

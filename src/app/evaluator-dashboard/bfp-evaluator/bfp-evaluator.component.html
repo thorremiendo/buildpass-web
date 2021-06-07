@@ -209,6 +209,19 @@
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
+          <mat-icon>report</mat-icon>
+          General Remarks
+          <mat-icon
+            [matBadge]="applicationDetails.remarks.length"
+            matBadgeColor="warn"
+          ></mat-icon>
+        </ng-template>
+        <app-general-remarks
+          [evaluatorDetails]="evaluatorDetails"
+        ></app-general-remarks>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
           <mat-icon>folder</mat-icon>
           Supporting Documents
         </ng-template>
