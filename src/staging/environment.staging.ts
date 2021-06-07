@@ -26,6 +26,8 @@ export const environment = {
       key: '5aaab0a1fdf76144a6ff',
       cluster: 'ap1',
     },
+    weekend: false,
+    receiveApplications: true,
   };
   
   
