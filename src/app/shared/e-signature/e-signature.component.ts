@@ -65,8 +65,10 @@ export class ESignatureComponent implements OnInit {
     const pngDims = qr_code.scale(0.5);
 
     pages[0].drawImage(qr_code, {
-      x: this.xAxis,
-      y: this.yAxis,
+      x: this.xAxis - 100,
+      y: this.yAxis - 800,
+      // x: 0,
+      // y: 0,
       width: pngDims.width / 2.5,
       height: pngDims.height / 2.5,
     });
@@ -74,8 +76,8 @@ export class ESignatureComponent implements OnInit {
     const pdfBytes = await pdfDocLoad.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
-    window.open(file); // open in new window
-
+    // window.open(file); // open in new window
+    window.open('../../../assets/bldg-permit-certificate.pdf')
     return blob;
   }
 }
