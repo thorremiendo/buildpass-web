@@ -408,86 +408,12 @@
                   applicationInfo.permit_type_id !== 2
                 "
               >
-                <div class="other__permit">
-                  <div class="other__permit__buttons">
-                    <button
-                      mat-raised-button
-                      color="accent"
-                      [disabled]="checkFormsCompliant()"
-                      (click)="otherPermitsReturnToApplicant()"
-                    >
-                      <mat-icon>cancel</mat-icon> Return to Applicant
-                    </button>
-                    <button
-                      mat-raised-button
-                      color="primary"
-                      (click)="updateApplicationStatus()"
-                      [disabled]="
-                        applicationInfo.application_status_id !== 1 ||
-                        !checkFormsCompliant()
-                      "
-                      *ngIf="evaluatorRole.code == 'CBAO-REC'"
-                    >
-                      Forward to Technical Evaluators
-                      <mat-icon>arrow_right</mat-icon>
-                    </button>
-                    <button
-                      mat-raised-button
-                      color="primary"
-                      (click)="forwardToDivisionChief()"
-                      [disabled]="
-                        !checkFormsCompliant() ||
-                        applicationInfo.application_status_id !== 18
-                      "
-                      *ngIf="
-                        evaluatorRole.code !== 'CBAO-REC' &&
-                        evaluatorRole.code !== 'CBAO-DC' &&
-                        evaluatorRole.code !== 'CBAO-BO' &&
-                        evaluatorRole.code !== 'CBAO-REL'
-                      "
-                    >
-                      Forward to Division Chief <mat-icon>arrow_right</mat-icon>
-                    </button>
-                    <button
-                      mat-raised-button
-                      color="primary"
-                      (click)="notifyBuildingOfficial()"
-                      [disabled]="
-                        !checkFormsCompliant() ||
-                        applicationInfo.application_status_id !== 12
-                      "
-                      *ngIf="evaluatorRole.code == 'CBAO-DC'"
-                    >
-                      Forward to Building Official
-                      <mat-icon>arrow_forward</mat-icon>
-                    </button>
-                    <button
-                      mat-raised-button
-                      (click)="forPayment()"
-                      color="primary"
-                      *ngIf="evaluatorRole.code == 'CBAO-BO'"
-                      [disabled]="
-                        !checkFormsCompliant() ||
-                        applicationInfo.application_status_id !== 13
-                      "
-                    >
-                      Approve
-                      <mat-icon>check</mat-icon>
-                    </button>
-                    <button
-                      mat-raised-button
-                      color="primary"
-                      (click)="handleRelease()"
-                      *ngIf="
-                        evaluatorRole.code == 'CBAO-REL' &&
-                        applicationInfo.application_status_id == '4'
-                      "
-                    >
-                      Release Permit
-                    </button>
-                  </div>
-                </div></ng-container
-              >
+                <app-other-permits
+                  [applicationInfo]="applicationInfo"
+                  [evaluatorRole]="evaluatorRole"
+                  [dataSource]="dataSource"
+                ></app-other-permits>
+              </ng-container>
             </div>
           </div>
         </mat-tab>

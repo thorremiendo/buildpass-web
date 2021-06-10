@@ -334,64 +334,6 @@ export class CbaoEvaluatorComponent implements OnInit {
     }
   }
 
-  otherPermitsReturnToApplicant() {
-    if (this.checkFormsReviewed()) {
-      this.isLoading = true;
-      if (this.evaluatorRole.code == 'CBAO-REC') {
-        const body = {
-          application_status_id: 5,
-          receiving_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            this.openSnackBar('Returned to Applicant!');
-            window.location.reload();
-          });
-      } else if (this.evaluatorRole.code == 'CBAO-DC') {
-        const body = {
-          application_status_id: 5,
-          dc_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            this.openSnackBar('Returned to Applicant!');
-            window.location.reload();
-          });
-      } else if (this.evaluatorRole.code == 'CBAO-BO') {
-        const body = {
-          application_status_id: 5,
-          bo_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            this.openSnackBar('Returned to Applicant!');
-            window.location.reload();
-          });
-      } else {
-        //IF TECHNICAL EVALUATORS\
-        const body = {
-          application_status_id: 5,
-          cbao_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            this.openSnackBar('Returned to Applicant!');
-            window.location.reload();
-          });
-      }
-    } else {
-      this.isLoading = false;
-      this.openSnackBar('Review all documents first!');
-    }
-  }
   updateFormStatus() {
     if (this.applicationInfo.permit_type_id == 1) {
       this.isLoading = true;

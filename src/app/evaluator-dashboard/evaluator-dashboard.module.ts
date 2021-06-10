@@ -81,6 +81,7 @@ import { TechnicalEvaluationComponent } from './technical-evaluation/technical-e
 import { DownloadableFormsComponent } from './downloadable-forms/downloadable-forms.component';
 import { TechnicalFindingsComponent } from './technical-findings/technical-findings.component';
 import { MatSortModule } from '@angular/material/sort';
+import { OtherPermitsComponent } from './other-permits/other-permits.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +122,7 @@ import { MatSortModule } from '@angular/material/sort';
     TechnicalEvaluationComponent,
     DownloadableFormsComponent,
     TechnicalFindingsComponent,
+    OtherPermitsComponent,
   ],
 
   imports: [
