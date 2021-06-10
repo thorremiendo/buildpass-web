@@ -443,6 +443,7 @@ export class CbaoEvaluatorComponent implements OnInit {
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
         .subscribe((res) => {
+          console.log('division chief');
           Swal.fire(
             'All documents are compliant!!',
             `Notified Division Chief for Evaluation!`,
@@ -475,6 +476,7 @@ export class CbaoEvaluatorComponent implements OnInit {
           this.applicationService
             .updateApplicationStatus(body, this.applicationId)
             .subscribe((res) => {
+              console.log('division chief');
               Swal.fire(
                 'All documents are compliant!!',
                 `Notified Division Chief for Evaluation!`,

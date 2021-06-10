@@ -1,4 +1,4 @@
-<ng-container *ngIf="applicationInfo">
+<ng-container *ngIf="applicationInfo && evaluatorRole">
   <mat-card *ngIf="!isLoading">
     <mat-card-content>
       <div class="d-flex justify-content-between align-items-center">
@@ -410,6 +410,7 @@
               >
                 <app-other-permits
                   [applicationInfo]="applicationInfo"
+                  [evaluatorDetails]="evaluatorDetails"
                   [evaluatorRole]="evaluatorRole"
                   [dataSource]="dataSource"
                 ></app-other-permits>

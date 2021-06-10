@@ -3,15 +3,40 @@
     <button
       mat-raised-button
       color="accent"
-      [disabled]="checkFormsCompliant()"
-      (click)="otherPermitsReturnToApplicant()"
+      [disabled]="
+        checkFormsCompliant() || applicationInfo.application_status_id !== 18
+      "
+      (click)="handleTechnicalStatus(2)"
+      *ngIf="
+        evaluatorRole.code !== 'CBAO-REC' &&
+        evaluatorRole.code !== 'CBAO-DC' &&
+        evaluatorRole.code !== 'CBAO-BO' &&
+        evaluatorRole.code !== 'CBAO-REL'
+      "
+    >
+      <mat-icon>cancel</mat-icon> Review Done (Non-Compliant)
+    </button>
+    <button
+      mat-raised-button
+      color="accent"
+      [disabled]="
+        applicationInfo.application_status_id == 5 ||
+        checkFormsCompliant() ||
+        !checkFormsReviewed()
+      "
+      (click)="returnToApplicant()"
+      *ngIf="
+        evaluatorRole.code == 'CBAO-REC' ||
+        evaluatorRole.code == 'CBAO-DC' ||
+        evaluatorRole.code == 'CBAO-BO'
+      "
     >
       <mat-icon>cancel</mat-icon> Return to Applicant
     </button>
     <button
       mat-raised-button
       color="primary"
-      (click)="updateApplicationStatus()"
+      (click)="forwardToTechnicalEvalautors()"
       [disabled]="
         applicationInfo.application_status_id !== 1 || !checkFormsCompliant()
       "
@@ -23,10 +48,8 @@
     <button
       mat-raised-button
       color="primary"
-      (click)="forwardToDivisionChief()"
-      [disabled]="
-        !checkFormsCompliant() || applicationInfo.application_status_id !== 18
-      "
+      (click)="handleTechnicalStatus(1)"
+      [disabled]="applicationInfo.application_status_id !== 18"
       *ngIf="
         evaluatorRole.code !== 'CBAO-REC' &&
         evaluatorRole.code !== 'CBAO-DC' &&
@@ -34,7 +57,7 @@
         evaluatorRole.code !== 'CBAO-REL'
       "
     >
-      Forward to Division Chief <mat-icon>arrow_right</mat-icon>
+      Review Done (Compliant) <mat-icon>arrow_right</mat-icon>
     </button>
     <button
       mat-raised-button
@@ -73,3 +96,8 @@
     </button>
   </div>
 </div>
+<ng-container *ngIf="isLoading">
+  <div>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+</ng-container>
