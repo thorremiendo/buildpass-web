@@ -159,6 +159,18 @@ export class ApplicationInfoService {
     return this.api.post(url, body);
   }
 
+  fetchTechnicalStatus(id) {
+    const url = `/application/${id}/technical-status`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+
   deleteApplication(id) {
     const url = `/application/${id}/delete`;
     return this.api.delete(url);
