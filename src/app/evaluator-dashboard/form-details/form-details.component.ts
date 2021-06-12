@@ -37,6 +37,10 @@ export class FormDetailsComponent implements OnInit {
   public selectedForm: File;
   public isSubmitting: boolean = false;
   public isLoading: boolean = false;
+  public revisionData;
+  displayedColumns: string[] = ['index', 'remark', 'date'];
+  public remarksForm: FormGroup;
+
   //adobe sdk
   previewFilePromise: any;
   annotationManager: any;
@@ -71,6 +75,11 @@ export class FormDetailsComponent implements OnInit {
     });
     this.viewSDKClient.form = this.data.form;
     this.viewSDKClient.formId = this.data.form.id;
+    this.revisionData = this.data.form.document_revision;
+    console.log(this.revisionData);
+    this.remarksForm = this.fb.group({
+      remarks: new FormControl(''),
+    });
   }
   //adobe sdk functions
   ngAfterViewInit() {
@@ -154,23 +163,30 @@ export class FormDetailsComponent implements OnInit {
     }
   }
 
-  callSave() {
+  addRemarks() {
     this.isSubmitting = true;
     const id = this.data.form.id;
     const revisionData = {
       evaluator_user_id: this.data.evaluator.user_id,
-      remarks: this.permitDetails.value.form_remarks,
+      remarks: this.remarksForm.value.remarks,
     };
-
     this.newApplicationService
       .updateUserDocs(revisionData, id)
       .subscribe((res) => {
-        if (this.permitDetails.value.is_compliant == 1) {
-          this.compliant(this.data.form, id);
-        } else if (this.permitDetails.value.is_compliant == 2) {
-          this.noncompliant(this.data.form, id);
-        }
+        this.isSubmitting = false;
+        this.fetchRevisionData();
       });
+  }
+  fetchRevisionData() {}
+
+  callSave() {
+    this.isSubmitting = true;
+    const id = this.data.form.id;
+    if (this.permitDetails.value.is_compliant == 1) {
+      this.compliant(this.data.form, id);
+    } else if (this.permitDetails.value.is_compliant == 2) {
+      this.noncompliant(this.data.form, id);
+    }
   }
 
   onNoClick(): void {
@@ -295,17 +311,23 @@ export class FormDetailsComponent implements OnInit {
     });
   }
 
-  getCurrentRotation(){
-    var st = window.getComputedStyle(document.getElementById('iframe-pdf-div'), null);
-    var tm = st.getPropertyValue("-webkit-transform") ||
-             st.getPropertyValue("-moz-transform") ||
-             st.getPropertyValue("-ms-transform") ||
-             st.getPropertyValue("-o-transform") ||
-             st.getPropertyValue("transform") ||
-             "none";
-    if (tm != "none") {
+  getCurrentRotation() {
+    var st = window.getComputedStyle(
+      document.getElementById('iframe-pdf-div'),
+      null
+    );
+    var tm =
+      st.getPropertyValue('-webkit-transform') ||
+      st.getPropertyValue('-moz-transform') ||
+      st.getPropertyValue('-ms-transform') ||
+      st.getPropertyValue('-o-transform') ||
+      st.getPropertyValue('transform') ||
+      'none';
+    if (tm != 'none') {
       var values = tm.split('(')[1].split(')')[0].split(',');
-      var angle = Math.round(Math.atan2(Number(values[1]),Number(values[0])) * (180/Math.PI));
+      var angle = Math.round(
+        Math.atan2(Number(values[1]), Number(values[0])) * (180 / Math.PI)
+      );
       return angle;
     }
     return 0;

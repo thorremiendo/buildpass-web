@@ -45,7 +45,6 @@ export class RemarksHistoryTableComponent implements OnInit {
     this.remarksForm = this.fb.group({
       remarks: new FormControl('', [Validators.required]),
     });
-    console.log(this.revisionData);
   }
   getOfficeType(id): string {
     return officeTypes[id];

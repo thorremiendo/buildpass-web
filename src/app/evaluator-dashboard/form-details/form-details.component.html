@@ -163,20 +163,77 @@
             <mat-option value="2"> Non-Compliant </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field
-          class="example-full-width mt-3"
-          *ngIf="this.permitDetails.value.is_compliant == '2'"
+        <ng-container
+          *ngIf="
+            revisionData !== undefined &&
+            permitDetails.value.is_compliant == '2'
+          "
         >
-          <mat-label>Leave a comment</mat-label>
-          <textarea
-            matInput
-            formControlName="form_remarks"
-            placeholder="Comment"
-          ></textarea>
-        </mat-form-field>
+          <div *ngIf="!isLoading">
+            <table
+              mat-table
+              [dataSource]="revisionData"
+              class="full-width"
+              #itemsTable
+            >
+              <ng-container matColumnDef="index">
+                <th mat-header-cell *matHeaderCellDef>No.</th>
+                <td mat-cell *matCellDef="let item; let i = index">
+                  {{ i + 1 }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="remark">
+                <th mat-header-cell *matHeaderCellDef>Remark</th>
+                <td mat-cell *matCellDef="let item">
+                  {{ item.remarks == "" ? "Compliant" : item.remarks }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let item">
+                  {{
+                    item.created_at | date: "MMMM dd, yyyy hh:mm:ss a":"+0800"
+                  }}
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr
+                mat-row
+                *matRowDef="let items; columns: displayedColumns"
+              ></tr>
+            </table>
+
+            <form
+              *ngIf="revisionData.length >= 1 && data.evaluator"
+              [formGroup]="remarksForm"
+            >
+              <div class="row mt-5 mx-2">
+                <div>
+                  <mat-form-field style="width: 800px">
+                    <mat-label>Add a Remark</mat-label>
+                    <input matInput formControlName="remarks" />
+                  </mat-form-field>
+                </div>
+                <div class="ml-5">
+                  <button
+                    mat-raised-button
+                    color="warn"
+                    type="button"
+                    [disabled]="!remarksForm.value.remarks || isSubmitting"
+                    (click)="addRemarks()"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </ng-container>
       </div>
     </div>
-    <div class="d-flex justify-content-between align-items-center my-4">
+    <div class="d-flex justify-content-between align-items-center my-5">
       <div class="text-left">
         <button
           mat-raised-button
@@ -212,7 +269,7 @@
             mat-raised-button
             color="primary"
             (click)="callSave()"
-            [disabled]="isSubmitting || !permitDetails.value.form_remarks"
+            [disabled]="isSubmitting"
           >
             Save
           </button>
