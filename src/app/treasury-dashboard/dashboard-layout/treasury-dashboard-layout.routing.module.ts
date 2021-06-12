@@ -1,3 +1,4 @@
+import { ApplicationDetailsComponent } from 'src/app/evaluator-dashboard/application-details/application-details.component';
 import { TreasuryAuthGuard } from './../treasury-guard';
 import { TreasuryHomeComponent } from './../treasury-home/treasury-home.component';
 import { NgModule } from '@angular/core';
@@ -13,6 +14,10 @@ const routes: Routes = [
       {
         path: 'home',
         component: TreasuryHomeComponent,
+      },
+      {
+        path: 'application/:id',
+        component: ApplicationDetailsComponent,
       },
     ],
   },

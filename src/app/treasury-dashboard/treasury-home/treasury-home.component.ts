@@ -1,3 +1,5 @@
+import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
+import { Router } from '@angular/router';
 import { TreasuryService } from './../treasury-service.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -7,7 +9,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./treasury-home.component.scss'],
 })
 export class TreasuryHomeComponent implements OnInit {
-  constructor(private treasuryService: TreasuryService) {}
+  public applications;
 
-  ngOnInit(): void {}
+  constructor(
+    private treasuryService: TreasuryService,
+    private router: Router,
+    private applicationService: ApplicationInfoService
+  ) {}
+
+  ngOnInit(): void {
+    this.treasuryService.fetchPermitFeeApplications().subscribe((res) => {
+      this.applications = res.data;
+      console.log(this.applications);
+    });
+    // this.treasuryService.fetchAllApplication().subscribe((result) => {
+    //   this.applications = result.data.filter(
+    //     (application) => application.application_status_id == 8
+    //   );
+    // });
+  }
+  viewApplication(id) {
+    this.router.navigate(['treasury/dashboard/application', id]);
+  }
 }

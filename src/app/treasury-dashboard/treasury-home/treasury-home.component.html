@@ -1,1 +1,6 @@
-<p>treasury-home works!</p>
+<app-applications-list
+  *ngIf="applications"
+  [applications]="applications"
+  (emitApplication)="viewApplication($event.id)"
+>
+</app-applications-list>

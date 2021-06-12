@@ -8,7 +8,11 @@ import { BehaviorSubject, from, Observable, throwError } from 'rxjs';
 })
 export class TreasuryService {
   constructor(private api: ApiService) {}
+  fetchAllApplication() {
+    const url = `/application`;
 
+    return this.api.get(url);
+  }
   fetchFilingFeeApplications() {
     const url = `/treasury/applications/filing`;
     return this.api.get(url).pipe(

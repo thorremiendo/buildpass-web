@@ -1,3 +1,4 @@
+import { ApplicationDetailsComponent } from 'src/app/evaluator-dashboard/application-details/application-details.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { EvaluatorAuthGuard } from '../core/guard/evaluator-guard';
@@ -13,7 +14,6 @@ const routes: Routes = [
         component: DashboardComponent,
         canActivate: [EvaluatorAuthGuard],
       },
-
       {
         path: 'sign-in',
         component: TreasurySignInComponent,
