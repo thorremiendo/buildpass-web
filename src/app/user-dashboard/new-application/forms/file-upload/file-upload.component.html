@@ -5,6 +5,7 @@
     </div>
     <div class="file-actions col-4">
       <div *ngIf="!loading">
+        <a *ngIf="infoPath" [href]="infoPath" target="_blank">Info</a>
         <a *ngIf="filePath" [href]="filePath" target="_blank">View File</a>
         <span *ngIf="filePath" (click)="toggleEditMode()">Change</span>
         <mat-icon *ngIf="file || filePath"> check_circle </mat-icon>
@@ -12,26 +13,27 @@
       <mat-spinner *ngIf="loading" [diameter]="20"> </mat-spinner>
     </div>
   </div>
-  <ngx-dropzone
-    *ngIf="!filePath || editMode"
-    (change)="onSelect($event)"
-    [multiple]="false"
-    accept="application/pdf"
-    [disabled]="loading"
-  >
-    <ngx-dropzone-label>
-      Click here or drag and drop a file to upload.
-    </ngx-dropzone-label>
-    <ngx-dropzone-preview
-      *ngIf="file"
-      [removable]="true"
-      (removed)="onRemove()"
-      class="mx-auto"
+
+  <ng-container>
+    <ngx-dropzone
+      *ngIf="!filePath || editMode"
+      (change)="onSelect($event)"
+      [multiple]="false"
+      accept="application/pdf"
+      [disabled]="loading"
     >
-      <ngx-dropzone-label>
-        {{ file.name }}
-        ({{ file.type }})
-      </ngx-dropzone-label>
-    </ngx-dropzone-preview>
-  </ngx-dropzone>
+      <ngx-dropzone-label> Click here to upload your file. </ngx-dropzone-label>
+      <ngx-dropzone-preview
+        *ngIf="file"
+        [removable]="true"
+        (removed)="onRemove()"
+        class="mx-auto"
+      >
+        <ngx-dropzone-label>
+          {{ file.name }}
+          ({{ file.type }})
+        </ngx-dropzone-label>
+      </ngx-dropzone-preview>
+    </ngx-dropzone>
+  </ng-container>
 </div>

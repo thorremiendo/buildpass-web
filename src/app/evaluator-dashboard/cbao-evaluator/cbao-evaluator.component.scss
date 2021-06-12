@@ -92,23 +92,7 @@ table {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
-.action__buttons {
-  button {
-    min-width: 250px;
-  }
-}
 
-a:hover {
-  cursor: pointer;
-}
-
-mat-icon {
-  margin-right: 10px;
-}
-mat-icon:hover {
-  cursor: pointer;
-  transform: scale(1.1);
-}
 .remark {
   color: maroon;
 }
@@ -123,13 +107,5 @@ mat-icon:hover {
   button {
     background-color: rgb(172, 17, 17);
     color: whitesmoke;
-  }
-}
-.other__permit {
-  margin: 20px 0;
-  &__buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
   }
 }

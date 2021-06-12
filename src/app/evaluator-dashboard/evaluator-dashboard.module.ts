@@ -79,6 +79,9 @@ import { MaterialModule } from '../material-module';
 import { UploadSupportingDocumentsComponent } from './upload-supporting-documents/upload-supporting-documents.component';
 import { TechnicalEvaluationComponent } from './technical-evaluation/technical-evaluation.component';
 import { DownloadableFormsComponent } from './downloadable-forms/downloadable-forms.component';
+import { TechnicalFindingsComponent } from './technical-findings/technical-findings.component';
+import { MatSortModule } from '@angular/material/sort';
+import { OtherPermitsComponent } from './other-permits/other-permits.component';
 
 @NgModule({
   declarations: [
@@ -118,6 +121,8 @@ import { DownloadableFormsComponent } from './downloadable-forms/downloadable-fo
     UploadSupportingDocumentsComponent,
     TechnicalEvaluationComponent,
     DownloadableFormsComponent,
+    TechnicalFindingsComponent,
+    OtherPermitsComponent,
   ],
 
   imports: [
@@ -167,6 +172,7 @@ import { DownloadableFormsComponent } from './downloadable-forms/downloadable-fo
     MatDialogModule,
     DashboardComponentsModule,
     MaterialModule,
+    MatSortModule,
   ],
 
   exports: [TechnicalEvaluationComponent],

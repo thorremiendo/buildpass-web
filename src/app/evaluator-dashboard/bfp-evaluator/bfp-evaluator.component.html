@@ -148,7 +148,6 @@
             color="accent"
             *ngIf="!checkChecklistUploaded()"
             (click)="openChecklistDialog()"
-            [disabled]="!checkFormsCompliant()"
           >
             Upload Checklist
           </button>
@@ -159,7 +158,6 @@
               color="accent"
               (click)="openFsecDialog()"
               *ngIf="!checkFireSecUploaded()"
-              [disabled]="!checkFormsCompliant()"
             >
               Upload Fire Safety Evaluation Clearance
             </button>
@@ -196,6 +194,31 @@
             </ng-container>
           </div>
         </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>find_in_page</mat-icon>
+          Technical Findings
+        </ng-template>
+        <ng-container *ngIf="evaluatorDetails && applicationDetails">
+          <app-technical-findings
+            [evaluatorDetails]="evaluatorDetails"
+            [applicationDetails]="applicationDetails"
+          ></app-technical-findings>
+        </ng-container>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>report</mat-icon>
+          General Remarks
+          <mat-icon
+            [matBadge]="applicationDetails.remarks.length"
+            matBadgeColor="warn"
+          ></mat-icon>
+        </ng-template>
+        <app-general-remarks
+          [evaluatorDetails]="evaluatorDetails"
+        ></app-general-remarks>
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>

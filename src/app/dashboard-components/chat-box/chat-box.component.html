@@ -1,6 +1,10 @@
-<div fxLayout="row" fxLayoutAlign="center start">
+<div fxLayout="row" fxLayoutAlign="center start" >
     <div fxFlex.gt-md="100" fxFlex.gt-sm="100" fxFlex="100">
-      <mat-card class="mat-card-top chat-app">
+      <div *ngIf="messages?.length == 0">
+        <h2>No Message</h2>
+      </div>
+     
+      <mat-card class="mat-card-top chat-app" *ngIf="messages?.length != 0">
         <mat-sidenav-container
           [ngClass]="{ 'side-panel-opened': sidePanelOpened, 'side-panel-closed': !sidePanelOpened }">
           <mat-sidenav #chatnav [mode]="isOver() ? 'over' : 'side'" [opened]="!isOver()" (open)="sidePanelOpened = true"
@@ -85,6 +89,7 @@
           </mat-card-actions>
         </mat-sidenav-container>
       </mat-card>
+     
     </div>
   </div>
   

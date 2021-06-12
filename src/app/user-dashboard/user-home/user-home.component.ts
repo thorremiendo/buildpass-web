@@ -36,6 +36,7 @@ export class UserHomeComponent implements OnInit {
         .fetchOngoingApplication(this.userInfo.id)
         .subscribe((data) => {
           this.applications = data.data;
+          console.log(this.applications);
         });
     }
     this.timer = setInterval(() => {
@@ -50,11 +51,12 @@ export class UserHomeComponent implements OnInit {
     this._router.navigate(['dashboard/applications/view', id]);
   }
   goToNewApplication(id) {
-    this._router.navigate([
-      'dashboard/new/step-one',
-      {
-        new_application: id,
-      },
-    ]);
+    // this._router.navigate([
+    //   'dashboard/new/step-one',
+    //   {
+    //     new_application: id,
+    //   },
+    // ]);
+    this._router.navigate(['dashboard/new/step-one', {}]);
   }
 }

@@ -1,7 +1,9 @@
 import { Component, OnInit, Inject, Optional, ViewChild } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Announcement } from './announcement';
 import { MatDialog } from '@angular/material/dialog';
+import { AnnouncementService } from '../../core';
 import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
 import { PreviewDialogComponent } from './preview-dialog/preview-dialog.component';
 
@@ -12,10 +14,36 @@ import { PreviewDialogComponent } from './preview-dialog/preview-dialog.componen
 })
 export class AdminAnnouncementComponent {
   public isActive: boolean;
-  public announcements: Object[] = Announcement;
-  constructor(public dialog: MatDialog) {
+  public announcements: Object[];
+ // public announcements: Object[] = Announcement;
+  constructor(
+    public dialog: MatDialog,
+    private announcementService: AnnouncementService,
+    ) {
     console.log(this.announcements);
   }
+
+  ngOnInit(): void {
+    this.fetchAllAnnouncements();
+  }
+
+  fetchAllAnnouncements(){
+    this.announcementService.fetchAnnouncements().subscribe( data => {
+      this.announcements = data.data;
+    })
+  }
+
+  fetchActiveAnnouncements(){
+    const key = 'is_active';
+    const value = '1';
+    const param = new HttpParams().set(key,value);
+
+    this.announcementService.fetchAnnouncements(param).subscribe( data => {
+      this.announcements = data.data;
+    })
+  }
+
+
 
   delete(index: any) {
     this.announcements.splice(index, 1);
@@ -30,8 +58,7 @@ export class AdminAnnouncementComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log("After closed"+result.subject);
-      this.announcements[index] = result;
+      window.location.reload();
       
     });
     

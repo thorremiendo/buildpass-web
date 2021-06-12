@@ -6,6 +6,8 @@ import { DataFormBindingService } from 'src/app/core/services/data-form-binding.
 import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
+import { environment } from './../../../../environments/environment';
+
 @Component({
   selector: 'app-fencing-permit',
   templateUrl: './fencing-permit.component.html',
@@ -24,7 +26,7 @@ export class FencingPermitComponent implements OnInit {
   public forms: any = [
     {
       id: 98,
-      src: '../../../../assets/forms/fencing_permit.pdf',
+      src: '../../../../assets/forms/updated/Fencing_Permit.pdf',
     },
   ];
 
@@ -233,7 +235,8 @@ export class FencingPermitComponent implements OnInit {
     });
   }
   public async upload(form): Promise<void> {
-    const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    const blob =
+      await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     if (!form.path) {
       if (blob) {
         this.isLoading = true;
@@ -324,21 +327,39 @@ export class FencingPermitComponent implements OnInit {
   }
 
   submitApplication() {
-    if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
-      this.isSubmitting = true;
-      const data = {
-        application_status_id: 9,
-      };
-      this.applicationService
-        .updateApplicationStatus(data, this.applicationId)
-        .subscribe((res) => {
-          this.isSubmitting = true;
-          this.router.navigate(['dashboard/new/summary', this.applicationId]);
-          localStorage.removeItem('app_id');
-          localStorage.removeItem('application_details_for_excavation');
-        });
+    // if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
+    //   this.isSubmitting = true;
+    //   const data = {
+    //     application_status_id: 9,
+    //   };
+    //   this.applicationService
+    //     .updateApplicationStatus(data, this.applicationId)
+    //     .subscribe((res) => {
+    //       this.isSubmitting = true;
+    //       this.router.navigate(['dashboard/new/summary', this.applicationId]);
+    //       localStorage.removeItem('app_id');
+    //       localStorage.removeItem('application_details_for_excavation');
+    //     });
+    // } else {
+    //   this.openSnackBar('Please upload all necessary documents!');
+    // }
+    if (environment.receiveApplications == true) {
+      if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
+        this.isLoading = true;
+        const body = {
+          application_status_id: 9,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.isLoading = false;
+            this.router.navigate(['dashboard/new/summary', this.applicationId]);
+          });
+      } else {
+        this.openSnackBar('Please upload all necessary documents!');
+      }
     } else {
-      this.openSnackBar('Please upload all necessary documents!');
+      this.openSnackBar('Sorry, system is under maintenance.');
     }
   }
   openSnackBar(message: string) {

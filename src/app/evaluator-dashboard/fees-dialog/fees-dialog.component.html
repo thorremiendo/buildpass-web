@@ -23,15 +23,7 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Amount</mat-label>
-      <input
-        type="text"
-        localeCurrencyInput
-        [allowNegative]="false"
-        [currencyCode]="'₱'"
-        matInput
-        formControlName="amount"
-        required
-      />
+      <input type="number" matInput formControlName="amount" required />
       <mat-error *ngIf="feesDetailsControl.amount.errors?.required">
         Amount is Required
       </mat-error>

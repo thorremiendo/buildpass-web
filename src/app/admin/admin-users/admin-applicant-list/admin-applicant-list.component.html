@@ -68,6 +68,10 @@
                     <mat-icon>more_horiz</mat-icon>
                   </button>
                   <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="viewUserInfo(user)">
+                      <mat-icon>visibility</mat-icon>
+                      <span>View user</span>
+                    </button>
                     <button mat-menu-item (click)="deleteUser(user.id)">
                       <mat-icon>delete</mat-icon>
                       <span>Delete User</span>

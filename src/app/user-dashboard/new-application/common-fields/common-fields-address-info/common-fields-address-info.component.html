@@ -7,18 +7,14 @@
       <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>House Number</mat-label>
-          <input
-            type="number"
-            matInput
-            formControlName="project_house_number"
-          />
+          <input type="text" matInput formControlName="project_house_number" />
         </mat-form-field>
       </div>
       <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Lot Number</mat-label>
           <input
-            type="number"
+            type="text"
             matInput
             formControlName="project_lot_number"
             required
@@ -37,11 +33,7 @@
       <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Block Number</mat-label>
-          <input
-            type="number"
-            matInput
-            formControlName="project_block_number"
-          />
+          <input type="text" matInput formControlName="project_block_number" />
         </mat-form-field>
       </div>
       <div class="col-md-3">
@@ -56,6 +48,18 @@
         <mat-form-field appearance="outline">
           <mat-label>Street</mat-label>
           <input type="text" matInput formControlName="project_street" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Purok</mat-label>
+          <input type="text" matInput formControlName="project_purok" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Subdivision</mat-label>
+          <input type="text" matInput formControlName="project_subdivision" />
         </mat-form-field>
       </div>
       <div class="col-md-3">
@@ -90,47 +94,6 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <div class="col-md-3">
-        <mat-form-field appearance="outline">
-          <mat-label>Lot Area (square meters)</mat-label>
-          <input
-            type="number"
-            matInput
-            formControlName="project_lot_area"
-            required
-          />
-          <p matSuffix>sqm</p>
-          <mat-error
-            *ngIf="
-              (projectDetailsFormControl.project_lot_area.touched ||
-                _submitted) &&
-              projectDetailsFormControl.project_lot_area.errors?.required
-            "
-          >
-            Lot Area (square meters) is Required
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="col-md-3">
-        <mat-form-field appearance="outline">
-          <mat-label>Total Floor Area (square meters)/Building Area</mat-label>
-          <input
-            type="number"
-            matInput
-            formControlName="project_floor_area"
-            required
-          />
-          <mat-error
-            *ngIf="
-              (projectDetailsFormControl.project_floor_area.touched ||
-                _submitted) &&
-              projectDetailsFormControl.project_floor_area.errors?.required
-            "
-          >
-            Total Floor Area (square meters)/Building Area is Required
-          </mat-error>
-        </mat-form-field>
-      </div>
     </div>
     <div class="row justify-content-center px-3">
       <div class="col-md-3">
@@ -161,11 +124,8 @@
           <mat-label>Project Cost</mat-label>
           <input
             style="text-align: right"
-            type="text"
+            type="number"
             matInput
-            localeCurrencyInput
-            [allowNegative]="false"
-            [currencyCode]="'₱'"
             formControlName="project_cost"
             required
           />
@@ -181,7 +141,49 @@
       </div>
     </div>
     <div class="row justify-content-center px-3">
-      <div class="col-md-6">
+      <div class="col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Lot Area</mat-label>
+          <input
+            type="number"
+            matInput
+            formControlName="project_lot_area"
+            required
+          />
+          <p matSuffix>sqm</p>
+          <mat-error
+            *ngIf="
+              (projectDetailsFormControl.project_lot_area.touched ||
+                _submitted) &&
+              projectDetailsFormControl.project_lot_area.errors?.required
+            "
+          >
+            Lot Area is Required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Total Floor Area/Building Area</mat-label>
+          <input
+            type="number"
+            matInput
+            formControlName="project_floor_area"
+            required
+          />
+          <p matSuffix>sqm</p>
+          <mat-error
+            *ngIf="
+              (projectDetailsFormControl.project_floor_area.touched ||
+                _submitted) &&
+              projectDetailsFormControl.project_floor_area.errors?.required
+            "
+          >
+            Total Floor Area/Building Area is Required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>TCT Number</mat-label>
           <input
@@ -201,7 +203,7 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Tax Declaration Number</mat-label>
           <input
@@ -246,8 +248,28 @@
         </mat-form-field>
       </div>
     </div>
+    <div class="row justify-content-center px-3">
+      <div class="col-md-4">
+        <mat-form-field appearance="outline">
+          <mat-label>Full-time Inspector/Supervisor Name: *</mat-label>
+          <input type="text" matInput formControlName="inspector_name" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline">
+          <mat-label>Full-time Inspector/Supervisor Profession: *</mat-label>
+          <input type="text" matInput formControlName="inspector_profession" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline">
+          <mat-label>Full-time Inspector/Supervisor PRC Reg No: *</mat-label>
+          <input type="text" matInput formControlName="inspector_prc_no" />
+        </mat-form-field>
+      </div>
+    </div>
   </div>
-  <div class="col-md-12 mb-4">
+  <!-- <div class="col-md-12 mb-4">
     <h5>Project Location</h5>
     <ng-container *ngIf="projectFormChange">
       <p style="font-weight: bold">
@@ -266,7 +288,7 @@
     </ng-container>
 
     <div class="map" id="map" class="match-parent" style="height: 400px"></div>
-  </div>
+  </div> -->
   <div class="row flex-row-reverse">
     <div class="m-4">
       <button mat-raised-button color="primary" type="submit">Proceed</button>

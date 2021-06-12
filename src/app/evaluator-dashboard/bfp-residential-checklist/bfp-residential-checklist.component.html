@@ -1,80 +1,76 @@
 <div *ngIf="applicationDetails">
-  <mat-card>
-    <mat-card-content>
-      <div>
-        <h4 style="color: #400c06" class="mb-4">
-          <strong>BFP Residential Checklist</strong>
-        </h4>
-      </div>
-      <ngx-extended-pdf-viewer
-        [src]="src"
-        [showToolbar]="true"
-        [showSidebarButton]="false"
-        [showFindButton]="false"
-        [showPagingButtons]="false"
-        [showZoomButtons]="true"
-        [showPresentationModeButton]="true"
-        [showOpenFileButton]="false"
-        [showPrintButton]="false"
-        [showDownloadButton]="true"
-        [showBookmarkButton]="false"
-        [showSecondaryToolbarButton]="true"
-        [showRotateButton]="false"
-        [showHandToolButton]="false"
-        [showScrollingButton]="false"
-        [showSpreadButton]="false"
-        [showPropertiesButton]="false"
-        [useBrowserLocale]="true"
-        height="1000px"
-        zoom="100%"
-        [(formData)]="formData"
+  <div>
+    <h4 style="color: #400c06" class="mb-4">
+      <strong>BFP Residential Checklist</strong>
+    </h4>
+  </div>
+  <ngx-extended-pdf-viewer
+    [src]="src"
+    [showToolbar]="true"
+    [showSidebarButton]="false"
+    [showFindButton]="false"
+    [showPagingButtons]="false"
+    [showZoomButtons]="true"
+    [showPresentationModeButton]="true"
+    [showOpenFileButton]="false"
+    [showPrintButton]="false"
+    [showDownloadButton]="true"
+    [showBookmarkButton]="false"
+    [showSecondaryToolbarButton]="true"
+    [showRotateButton]="false"
+    [showHandToolButton]="false"
+    [showScrollingButton]="false"
+    [showSpreadButton]="false"
+    [showPropertiesButton]="false"
+    [useBrowserLocale]="true"
+    height="1000px"
+    zoom="100%"
+    [(formData)]="formData"
+  >
+  </ngx-extended-pdf-viewer>
+  <ngx-dropzone
+    (change)="onSelect($event, 'checklistBuilding')"
+    [multiple]="false"
+    accept="application/pdf"
+    class="mt-3"
+  >
+    <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+    <ngx-dropzone-preview
+      *ngIf="checklistBuilding"
+      [removable]="true"
+      (removed)="onRemove('checklistBuilding')"
+      class="mx-auto"
+    >
+      <ngx-dropzone-label
+        >{{ checklistBuilding.name }} ({{
+          checklistBuilding.type
+        }})</ngx-dropzone-label
       >
-      </ngx-extended-pdf-viewer>
-      <ngx-dropzone
-        (change)="onSelect($event, 'checklistBuilding')"
-        [multiple]="false"
-        accept="application/pdf"
-        class="mt-3"
-      >
-        <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
-        <ngx-dropzone-preview
-          *ngIf="checklistBuilding"
-          [removable]="true"
-          (removed)="onRemove('checklistBuilding')"
-          class="mx-auto"
-        >
-          <ngx-dropzone-label
-            >{{ checklistBuilding.name }} ({{
-              checklistBuilding.type
-            }})</ngx-dropzone-label
-          >
-        </ngx-dropzone-preview>
-      </ngx-dropzone>
-      <ng-container *ngIf="isSubmitting">
-        <div>
-          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-        </div>
-      </ng-container>
-      <div class="d-flex justify-content-between">
-        <button
-          class="text-right mt-3"
-          mat-raised-button
-          color="accent"
-          (click)="onNoClick()"
-          [disabled]="isSubmitting"
-        >
-          Close
-        </button>
-        <button
-          class="text-right mt-3"
-          mat-raised-button
-          color="primary"
-          [disabled]="isSubmitting || !checklistBuilding"
-          (click)="callSave()"
-        >
-          Save
-        </button>
-      </div>
-    </mat-card-content>
-  </mat-card>
+    </ngx-dropzone-preview>
+  </ngx-dropzone>
+  <ng-container *ngIf="isSubmitting">
+    <div>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </ng-container>
+  <div class="d-flex justify-content-between">
+    <button
+      class="text-right mt-3"
+      mat-raised-button
+      color="accent"
+      (click)="onNoClick()"
+      [disabled]="isSubmitting"
+    >
+      Close
+    </button>
+    <button
+      class="text-right mt-3"
+      mat-raised-button
+      color="primary"
+      [disabled]="isSubmitting || !checklistBuilding"
+      (click)="callSave()"
+    >
+      Save
+    </button>
+  </div>
 </div>

@@ -8,7 +8,6 @@ export class GetDateService {
 
   isWeekend() {
     var date = new Date();
-    console.log(date);
     return date.getDay() === 6 || date.getDay() === 0;
   }
 

@@ -54,9 +54,7 @@
       <div class="application-type" *ngIf="application.permit_type_id">
         <div>
           {{ application.permit_type_id == 1 ? "Building Permit" : "" }}
-          {{
-            application.permit_type_id == 2 ? "Certificate of Occupancy" : ""
-          }}
+          {{ application.permit_type_id == 2 ? "Certificate of Occupancy" : "" }}
           {{ application.permit_type_id == 3 ? "Excavation Permit" : "" }}
           {{ application.permit_type_id == 4 ? "Fencing Permit" : "" }}
           {{ application.permit_type_id == 5 ? "Demolition Permit" : "" }}
@@ -66,7 +64,12 @@
         </div>
       </div>
       <div class="application-code">
-        {{ application.permit_application_code }}
+        <div>
+          {{ application.permit_application_code }}
+        </div>
+        <div>
+          <span *ngIf="application.application_status_id == 6" (click)="deleteApplication(application.id); $event.stopPropagation()">Delete</span>
+        </div>
       </div>
       <div class="application-status" *ngIf="application.application_status_id">
         {{ getApplicationStatus(application.application_status_id) }}
@@ -91,13 +94,23 @@
       <div class="application-location" *ngIf="application.project_detail">
         <mat-icon [inline]="true">location_on</mat-icon>
         {{
-          application.project_detail.house_number
-            ? application.project_detail.house_number
+          application.project_detail.lot_number
+            ? application.project_detail.lot_number
+            : ""
+        }}
+        {{
+          application.project_detail.block_number
+            ? application.project_detail.block_number
             : ""
         }}
         {{
           application.project_detail.street_name
             ? application.project_detail.street_name
+            : ""
+        }}
+        {{
+          application.project_detail.subdivision
+            ? application.project_detail.subdivision
             : ""
         }}
         {{

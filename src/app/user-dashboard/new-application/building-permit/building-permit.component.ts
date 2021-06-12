@@ -1,3 +1,4 @@
+import { environment } from './../../../../environments/environment';
 import { GetDateService } from './../../../core/services/get-date.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, Data } from '@angular/router';
@@ -5,6 +6,7 @@ import { NewApplicationService } from 'src/app/core/services/new-application.ser
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { DataFormBindingService } from 'src/app/core/services/data-form-binding.service';
 import { documentTypes } from '../../../core/enums/document-type.enum';
+import { documentInfo } from '../../../core/enums/document-info.enum';
 import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
@@ -27,38 +29,44 @@ export class BuildingPermitComponent implements OnInit {
   public noticeOfConstructionFormData;
   public electricalFormData;
   public situationalReportFormData;
+  public sampleForm;
   public forms: any = [
     {
       id: 1,
-      src:
-        '../../../../assets/forms/Application_Form_for_Certificate_of_Zoning_Compliance.pdf',
+      src: '../../../../assets/forms/updated/Application_Form_for_Certificate_of_Zoning_Compliance.pdf',
       label: 'Step 1',
+      sample:
+        '../../../../assets/forms/sample/Zoning_Clearance_Form_4.07.21_PM.png',
     },
     {
       id: 2,
-      src:
-        '../../../../assets/forms/Unified_Application_for_Building_Permit.pdf',
+      src: '../../../../assets/forms/updated/Unified_Application_for_Bldg_Permit.pdf',
       label: 'Step 2',
+      sample: '../../../../assets/forms/sample/Unified_Building_Front.png',
     },
     {
       id: 3,
-      src: '../../../../assets/forms/Sanitary_Plumbing_Permit.pdf',
+      src: '../../../../assets/forms/updated/Sanitary-Plumbing_Permit_(BUILDING_PERMIT)_(1).pdf',
       label: 'Step 3',
+      sample: '../../../../assets/forms/sample/Sanitary_Permit.png',
     },
     {
       id: 4,
-      src: '../../../../assets/forms/Electrical_Permit.pdf',
+      src: '../../../../assets/forms/updated/Electrical_Permit_(for_building_permit).pdf',
       label: 'Step 4',
+      sample: '../../../../assets/forms/sample/Electrical.png',
     },
     {
       id: 48,
-      src: '../../../../assets/forms/Notice_of_Construction.pdf',
+      src: '../../../../assets/forms/updated/notice_of_construction.pdf',
       label: 'Step 5',
+      sample: '',
     },
     {
       id: 106,
-      src: '../../../../assets/forms/situational-report.pdf',
+      src: '../../../../assets/forms/updated/situational_report.pdf',
       label: 'Step 6',
+      sample: '../../../../assets/forms/sample/Situational.png',
     },
   ];
 
@@ -103,7 +111,7 @@ export class BuildingPermitComponent implements OnInit {
   public is3storeysOrMore: Array<any> = [31];
   public ifFloorArea20sqmOrMore: Array<any> = [29];
   public isNotAsBuilt: Array<any> = [42];
-
+  public isEnginnerArchictect: Array<any> = [21];
   constructor(
     private newApplicationService: NewApplicationService,
     private applicationService: ApplicationInfoService,
@@ -122,7 +130,7 @@ export class BuildingPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
-
+        console.log(this.applicationDetails);
         this.saveRoute();
         this.zoningFormData = this.dataBindingService.getFormData(
           this.applicationDetails
@@ -178,6 +186,8 @@ export class BuildingPermitComponent implements OnInit {
             : false;
         const isNoAsBuilt =
           this.applicationDetails.construction_status_id !== 3 ? true : false;
+        const isEngineerArchitect =
+          this.applicationDetails.is_representative == 1 ? true : false;
         isNoAsBuilt
           ? this.fieldSets[4].documents.push(...this.isNotAsBuilt)
           : null;
@@ -215,9 +225,13 @@ export class BuildingPermitComponent implements OnInit {
         ifFloorArea20sqmOrMore
           ? this.fieldSets[2].documents.push(...this.ifFloorArea20sqmOrMore)
           : null;
+        isEngineerArchitect
+          ? this.fieldSets[4].documents.push(...this.isEnginnerArchictect)
+          : null;
         this.initData();
         this.setFilePaths();
         this.pdfSource = this.forms[0].src;
+        this.sampleForm = this.forms[0].sample;
       });
 
     this.isLoading = false;
@@ -252,6 +266,7 @@ export class BuildingPermitComponent implements OnInit {
     const pdfViewer = document.getElementById('pdf-viewer');
     const pdfContainer = document.getElementById(`form-${index}`);
     this.forms[index] ? (this.pdfSource = this.forms[index].src) : null;
+    this.forms[index] ? (this.sampleForm = this.forms[index].sample) : null;
     this.forms[0] ? (this.formData = this.zoningFormData) : null;
     this.forms[1] ? (this.formData = this.buildingFormData) : null;
     this.forms[2] ? (this.formData = this.sanitaryFormData) : null;
@@ -271,6 +286,7 @@ export class BuildingPermitComponent implements OnInit {
         label: `Step ${i + 1}`,
         id: this.forms[i].id,
         src: this.forms[i].src,
+        sample: this.forms[i].sample,
         description: this.getDocType(this.forms[i].id),
         path: '',
       };
@@ -281,6 +297,7 @@ export class BuildingPermitComponent implements OnInit {
           id: this.fieldSets[i].documents[j],
           description: this.getDocType(this.fieldSets[i].documents[j]),
           path: '',
+          info: this.getDocumentInfoPath(this.fieldSets[i].documents[j]),
         };
       }
     }
@@ -384,19 +401,23 @@ export class BuildingPermitComponent implements OnInit {
     // } else {
     //   this.openSnackBar('Please upload all necessary documents!');
     // }
-    if (this.getFieldSetsLength() + 6 == this.getUniqueUserDocs()) {
-      this.isLoading = true;
-      const body = {
-        application_status_id: 9,
-      };
-      this.applicationService
-        .updateApplicationStatus(body, this.applicationId)
-        .subscribe((res) => {
-          this.isLoading = false;
-          this.router.navigate(['dashboard/new/summary', this.applicationId]);
-        });
+    if (environment.receiveApplications == true) {
+      if (this.getFieldSetsLength() + 6 == this.getUniqueUserDocs()) {
+        this.isLoading = true;
+        const body = {
+          application_status_id: 9,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.isLoading = false;
+            this.router.navigate(['dashboard/new/summary', this.applicationId]);
+          });
+      } else {
+        this.openSnackBar('Please upload all necessary documents!');
+      }
     } else {
-      this.openSnackBar('Please upload all necessary documents!');
+      this.openSnackBar('Sorry, system is under maintenance.');
     }
   }
   checkExistingZoningFormData() {
@@ -410,7 +431,8 @@ export class BuildingPermitComponent implements OnInit {
   }
   public async upload(form): Promise<void> {
     const data = this.formData;
-    const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    const blob =
+      await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     this.dataBindingService.handleSaveFormData(
       this.applicationId,
       form.id,
@@ -455,5 +477,9 @@ export class BuildingPermitComponent implements OnInit {
     this.snackBar.open(message, 'Close', {
       duration: 2000,
     });
+  }
+
+  getDocumentInfoPath(id) {
+    return documentInfo[id];
   }
 }

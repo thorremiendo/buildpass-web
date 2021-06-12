@@ -60,31 +60,32 @@ export class EvaluatorEditProfileComponent implements OnInit {
       last_name:[this.userInfo.last_name, Validators.required],
       suffix_name:[this.userInfo.suffix_name],
       birthdate:[new Date(this.userInfo.birthdate), Validators.required],
-      marital_status:[this.userInfo.marital_status_id, Validators.required],
-      gender:[this.userInfo.gender, Validators.required],
+      marital_status:[this.userInfo.marital_status_id],
+      gender:[this.userInfo.gender],
       home_address:[this.userInfo.home_address, Validators.required],
       barangay:[this.userInfo.barangay, Validators.required],
       employee_no:[this.userInfo.employee_detail.employee_no, Validators.required],
-      office:[this.userInfo.employee_detail.office_id, Validators.required],
+      office:[this.userInfo.employee_detail.office_id - 1, Validators.required],
       position:[this.userInfo.employee_detail.position, Validators.required],
       contact_number:[this.userInfo.contact_number, [Validators.required, Validators.maxLength(11),]],
-      id_number:[this.userInfo.id_number, Validators.required],
-      id_type:[this.userInfo.id_type, Validators.required],
+      email_address:[this.userInfo.email_address, Validators.required],
+      //id_number:[this.userInfo.id_number, Validators.required],
+     // id_type:[this.userInfo.id_type, Validators.required],
     });
   }
 
   openDialog(userCredentials) {
-   
+
       this._matDialog.open(UpdatePasswordDialogComponent, {
         data: userCredentials,
         height: '350px',
         width: '600px',
       });
-       console.log(userCredentials)
-  
-  
 
-  
+
+
+
+
   }
 
   openFileChooser() {
@@ -141,7 +142,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
 
   displayBarangayName(value: number) {
     if (value != null) {
-      return this._barangay[value-1].name;
+      return this._barangay[value].name;
     }
   }
 
@@ -160,7 +161,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
       return `${yyyy}-${mm}-${dd}`;
     }
   }
-  
+
   ngOnInit(): void {
     if (localStorage.getItem('user') != null) {
       this.userInfo = JSON.parse(localStorage.getItem('user'));
@@ -182,7 +183,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
       startWith(''),
       map(value => this.filterOffice(value))
     );
-    
+
     this._filteredPositionOptions = this.evaluatorEditProfileFormControl.position.valueChanges.pipe(
       startWith(''),
       map(value => this.filterPosition(value))
@@ -194,7 +195,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
 
     if (this._evaluatorEditProfileForm.valid) {
       this.isUpdating = true;
-      
+
       const user = {
         first_name: this._evaluatorEditProfileForm.value.first_name,
         middle_name: this._evaluatorEditProfileForm.value.middle_name,
@@ -206,15 +207,16 @@ export class EvaluatorEditProfileComponent implements OnInit {
         home_address: this._evaluatorEditProfileForm.value.home_address,
         barangay: this._evaluatorEditProfileForm.value.barangay,
         employee_no: this._evaluatorEditProfileForm.value.employee_no,
-        office_id: this._evaluatorEditProfileForm.value.office,
-        position: this._evaluatorEditProfileForm.value.position, 
+        office_id: this._evaluatorEditProfileForm.value.office + 1,
+        position: this._evaluatorEditProfileForm.value.position,
         contact_number: this._evaluatorEditProfileForm.value.contact_number,
+        email_address: this._evaluatorEditProfileForm.value.email_address,
         id_number: this._evaluatorEditProfileForm.value.id_number,
         id_type: this._evaluatorEditProfileForm.value.id_type,
         photo_path: this.selectedPhoto ? this.selectedPhoto : null,
-        id_photo_path: this.selectedFile ? this.selectedFile : null
+        //id_photo_path: this.selectedFile ? this.selectedFile : null
       };
-      
+
       this._userService
         .updateUserInfo(user, this.userInfo.id)
         .subscribe((result) => {
@@ -226,12 +228,12 @@ export class EvaluatorEditProfileComponent implements OnInit {
             employee_detail: {
               ...user.employee_detail,
               employee_no: this._evaluatorEditProfileForm.value.employee_no,
-              office_id: this._evaluatorEditProfileForm.value.office,
+              office_id: this._evaluatorEditProfileForm.value.office + 1,
               position: this._evaluatorEditProfileForm.value.position
             }
           };
           localStorage.setItem('user', JSON.stringify(update));
-          
+
           Swal.fire('Success!', `Updated profile information.`, 'success').then(
             (result) => {
               window.location.reload();
@@ -247,10 +249,10 @@ export interface Barangay {
   b_id: number,
   name:string,
   locality_id: number;
-  province_id: number; 
+  province_id: number;
   zip_code: number;
   region_id: number;
-  country_id: number; 
+  country_id: number;
   created_at: string,
   updated_at: string;
 }

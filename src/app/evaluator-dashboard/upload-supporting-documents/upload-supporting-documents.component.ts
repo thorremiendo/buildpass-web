@@ -18,6 +18,7 @@ export class UploadSupportingDocumentsComponent implements OnInit {
   public isSubmitting: boolean = false;
   public selectedFile: File;
   fileName = new FormControl('', [Validators.required]);
+  fileDesc = new FormControl('');
   constructor(
     public dialogRef: MatDialogRef<UploadSupportingDocumentsComponent>,
     private applicationInfoService: ApplicationInfoService,
@@ -45,22 +46,40 @@ export class UploadSupportingDocumentsComponent implements OnInit {
     this.dialogRef.close();
   }
   handleUploadSupportingFiles() {
-    this.isSubmitting = true;
     const id = this.data.applicationDetails.id;
-    const body = {
-      evaluator_user_id: this.data.evaluator.user_id,
-      title: this.fileName.value,
-      file_path: this.selectedFile,
-    };
-    this.applicationInfoService
-      .uploadSupportingFiles(body, id)
-      .subscribe((res) => {
-        Swal.fire('Success!', `${body.title} uploaded!`, 'success').then(
-          (result) => {
-            this.onNoClick();
-            this.isSubmitting = false;
-          }
-        );
-      });
+    this.isSubmitting = true;
+    if (this.data.evaluator) {
+      const body = {
+        evaluator_user_id: this.data.evaluator.user_id,
+        title: this.fileName.value,
+        file_path: this.selectedFile,
+      };
+      this.applicationInfoService
+        .uploadSupportingFiles(body, id)
+        .subscribe((res) => {
+          Swal.fire('Success!', `${body.title} uploaded!`, 'success').then(
+            (result) => {
+              this.onNoClick();
+              this.isSubmitting = false;
+            }
+          );
+        });
+    } else {
+      const body = {
+        applicant_user_id: this.data.user.id,
+        title: this.fileName.value,
+        file_path: this.selectedFile,
+      };
+      this.applicationInfoService
+        .uploadSupportingFiles(body, id)
+        .subscribe((res) => {
+          Swal.fire('Success!', `${body.title} uploaded!`, 'success').then(
+            (result) => {
+              this.onNoClick();
+              this.isSubmitting = false;
+            }
+          );
+        });
+    }
   }
 }

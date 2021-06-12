@@ -1,3 +1,4 @@
+import { GeneralRemarksComponent } from '../shared/general-remarks/general-remarks.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaterialModule } from './../material-module';
 import { NgModule } from '@angular/core';
@@ -57,6 +58,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     UpdatePasswordDialogComponent,
     AnnouncementListComponent,
     AnnouncementFullComponent,
+    GeneralRemarksComponent,
   ],
   imports: [
     CommonModule,
@@ -66,7 +68,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ReactiveFormsModule,
     MatSelectModule,
     FlexLayoutModule,
-  
+
     ImageViewerModule.forRoot(),
   ],
   exports: [
@@ -86,6 +88,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ApplicantBuildingPermitDocsComponent,
     ApplicationsListComponent,
     AnnouncementListComponent,
+    GeneralRemarksComponent,
   ],
   providers: [
     {

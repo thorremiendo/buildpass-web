@@ -1,114 +1,152 @@
-<ng-container *ngIf="user.employee_detail">
-  <ng-container
-    *ngIf="
-      this.data.form.document_id !== 49 &&
-        this.data.form.document_id !== 44 &&
-        this.data.form.document_id !== 43 &&
-        this.data.form.document_id !== 45 &&
-        this.data.form.document_id !== 50;
-      else officeForms
-    "
-  >
-    <div class="container">
-      <div id="pdf-div" class="pdf-view"></div></div
-  ></ng-container>
-  <ng-template #officeForms>
-    <ngx-extended-pdf-viewer
-      [src]="data.form.document_path"
-      [showToolbar]="true"
-      [showSidebarButton]="false"
-      [showFindButton]="false"
-      [showPagingButtons]="false"
-      [showZoomButtons]="true"
-      [showPresentationModeButton]="true"
-      [showOpenFileButton]="false"
-      [showPrintButton]="false"
-      [showDownloadButton]="true"
-      [showBookmarkButton]="false"
-      [showSecondaryToolbarButton]="true"
-      [showRotateButton]="false"
-      [showHandToolButton]="false"
-      [showScrollingButton]="false"
-      [showSpreadButton]="false"
-      [showPropertiesButton]="false"
-      [useBrowserLocale]="true"
-      height="1000px"
-      zoom="100%"
+<ng-container>
+  <h2>{{ getDocType(data.form.document_id) }}</h2>
+  <div class="mt-3" *ngIf="!user.employee_detail">
+    <div
+      *ngIf="
+        data.form.document_status_id == 2 || data.form.document_status_id == 0
+      "
     >
-    </ngx-extended-pdf-viewer>
-  </ng-template>
-</ng-container>
-<ng-container *ngIf="!user.employee_detail">
-  <ngx-extended-pdf-viewer
-    [src]="data.form.document_path"
-    [showToolbar]="true"
-    [showSidebarButton]="false"
-    [showFindButton]="false"
-    [showPagingButtons]="false"
-    [showZoomButtons]="true"
-    [showPresentationModeButton]="true"
-    [showOpenFileButton]="false"
-    [showPrintButton]="false"
-    [showDownloadButton]="true"
-    [showBookmarkButton]="false"
-    [showSecondaryToolbarButton]="true"
-    [showRotateButton]="false"
-    [showHandToolButton]="false"
-    [showScrollingButton]="false"
-    [showSpreadButton]="false"
-    [showPropertiesButton]="false"
-    [useBrowserLocale]="true"
-    height="1000px"
-    zoom="100%"
-  >
-  </ngx-extended-pdf-viewer>
-</ng-container>
-
-<div [formGroup]="permitDetails" *ngIf="user.employee_detail">
-  <div
-    class="row"
-    *ngIf="
-      this.data.form.document_id !== 49 &&
-      this.data.form.document_id !== 44 &&
-      this.data.form.document_id !== 43 &&
-      this.data.form.document_id !== 45 &&
-      this.data.form.document_id !== 50
-    "
-  >
-    <div class="col-md-12 mt-5">
-      <mat-form-field appearance="fill">
-        <mat-label>Review</mat-label>
-        <mat-select formControlName="is_compliant">
-          <mat-option value="1"> Compliant </mat-option>
-          <mat-option value="2"> Non-Compliant </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field
-        class="example-full-width mt-3"
-        *ngIf="this.permitDetails.value.is_compliant == '2'"
-      >
-        <mat-label>Leave a comment</mat-label>
-        <textarea
-          matInput
-          formControlName="form_remarks"
-          placeholder="Comment"
-        ></textarea>
-      </mat-form-field>
+      <p style="font-size: 14px; color: maroon">
+        <strong
+          >Note: This is a non-compliant document, please review the evaluator
+          remarks below.</strong
+        >
+      </p>
+      <ng-container *ngIf="isDocumentAForm(); else noteForFile">
+        <p style="font-size: 14px" class="m-0 p-0">
+          <strong
+            >1. Please click the "Save" to save your changes on the
+            form.</strong
+          >
+        </p>
+        <p style="font-size: 14px" class="m-0 p-0">
+          <strong
+            >2. Lastly, click the "Update" button at the bottom of the page to
+            proceed.</strong
+          >
+        </p>
+      </ng-container>
+      <ng-template #noteForFile>
+        <p style="font-size: 14px" class="m-0 p-0">
+          <strong>Please upload your new file and click on "Update".</strong>
+        </p>
+      </ng-template>
     </div>
   </div>
-  <div class="d-flex justify-content-between align-items-center my-4">
-    <div class="text-left">
+  <ng-container *ngIf="user.employee_detail">
+    <div class="d-flex justify-content-md-between">
+      <button mat-button (click)="resetWatermark()" color="primary">
+        Remove Watermark
+      </button>
+      <div class="rotation-buttons">
+        <button mat-button (click)="rotateLeft()">
+          <mat-icon>rotate_left</mat-icon>
+        </button>
+        <button mat-button (click)="resetRotate()">
+          <mat-icon>crop_portrait</mat-icon>
+        </button>
+        <button mat-button (click)="rotateRight()">
+          <mat-icon>rotate_right</mat-icon>
+        </button>
+      </div>
       <button
-        mat-raised-button
-        color="accent"
-        (click)="onNoClick()"
-        [disabled]="isSubmitting"
+        mat-button
+        (click)="removeAnnotations('evaluator')"
+        color="primary"
       >
-        Close
+        Clear Annotations
       </button>
     </div>
+
+    <ng-container
+      *ngIf="
+        this.data.form.document_id !== 49 &&
+          this.data.form.document_id !== 44 &&
+          this.data.form.document_id !== 43 &&
+          this.data.form.document_id !== 45 &&
+          this.data.form.document_id !== 50;
+        else officeForms
+      "
+    >
+      <div class="pdf-container">
+        <div class="container">
+          <div id="pdf-div" class="pdf-view"></div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #officeForms>
+      <ngx-extended-pdf-viewer
+        [src]="data.form.document_path"
+        [showToolbar]="true"
+        [showSidebarButton]="false"
+        [showFindButton]="false"
+        [showPagingButtons]="false"
+        [showZoomButtons]="true"
+        [showPresentationModeButton]="true"
+        [showOpenFileButton]="false"
+        [showPrintButton]="false"
+        [showDownloadButton]="true"
+        [showBookmarkButton]="false"
+        [showSecondaryToolbarButton]="true"
+        [showRotateButton]="false"
+        [showHandToolButton]="false"
+        [showScrollingButton]="false"
+        [showSpreadButton]="false"
+        [showPropertiesButton]="false"
+        [useBrowserLocale]="true"
+        height="1000px"
+        zoom="100%"
+      >
+      </ngx-extended-pdf-viewer>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="!user.employee_detail">
+    <ng-container *ngIf="isDocumentAForm(); else notAForm">
+      <div class="text-right m-3">
+        <button
+          mat-button
+          (click)="removeAnnotations('applicant')"
+          color="primary"
+        >
+          Clear Annotations
+        </button>
+      </div>
+      <div class="pdf-container">
+        <div class="container">
+          <div id="pdf-div" class="pdf-view"></div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #notAForm>
+      <ngx-extended-pdf-viewer
+        [src]="data.form.document_path"
+        [showToolbar]="true"
+        [showSidebarButton]="false"
+        [showFindButton]="false"
+        [showPagingButtons]="false"
+        [showZoomButtons]="true"
+        [showPresentationModeButton]="true"
+        [showOpenFileButton]="false"
+        [showPrintButton]="false"
+        [showDownloadButton]="true"
+        [showBookmarkButton]="false"
+        [showSecondaryToolbarButton]="true"
+        [showRotateButton]="false"
+        [showHandToolButton]="false"
+        [showScrollingButton]="false"
+        [showSpreadButton]="false"
+        [showPropertiesButton]="false"
+        [useBrowserLocale]="true"
+        height="1000px"
+        zoom="100%"
+      >
+      </ngx-extended-pdf-viewer>
+    </ng-template>
+  </ng-container>
+
+  <div [formGroup]="permitDetails" *ngIf="user.employee_detail">
     <div
-      class="text-right"
+      class="row"
       *ngIf="
         this.data.form.document_id !== 49 &&
         this.data.form.document_id !== 44 &&
@@ -117,98 +155,159 @@
         this.data.form.document_id !== 50
       "
     >
-      <ng-container *ngIf="permitDetails.value.is_compliant == '1'">
+      <div class="col-md-12 mt-5">
+        <mat-form-field appearance="fill">
+          <mat-label>Review</mat-label>
+          <mat-select formControlName="is_compliant">
+            <mat-option value="1"> Compliant </mat-option>
+            <mat-option value="2"> Non-Compliant </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field
+          class="example-full-width mt-3"
+          *ngIf="this.permitDetails.value.is_compliant == '2'"
+        >
+          <mat-label>Leave a comment</mat-label>
+          <textarea
+            matInput
+            formControlName="form_remarks"
+            placeholder="Comment"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center my-4">
+      <div class="text-left">
         <button
           mat-raised-button
-          color="primary"
-          (click)="callSave()"
+          color="accent"
+          (click)="onNoClick()"
           [disabled]="isSubmitting"
         >
-          Save
+          Close
         </button>
-      </ng-container>
-      <ng-container *ngIf="permitDetails.value.is_compliant == '2'">
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="callSave()"
-          [disabled]="isSubmitting || !permitDetails.value.form_remarks"
-        >
-          Save
-        </button>
-      </ng-container>
+      </div>
+      <div
+        class="text-right"
+        *ngIf="
+          this.data.form.document_id !== 49 &&
+          this.data.form.document_id !== 44 &&
+          this.data.form.document_id !== 43 &&
+          this.data.form.document_id !== 45 &&
+          this.data.form.document_id !== 50
+        "
+      >
+        <ng-container *ngIf="permitDetails.value.is_compliant == '1'">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="callSave()"
+            [disabled]="isSubmitting"
+          >
+            Save
+          </button>
+        </ng-container>
+        <ng-container *ngIf="permitDetails.value.is_compliant == '2'">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="callSave()"
+            [disabled]="isSubmitting || !permitDetails.value.form_remarks"
+          >
+            Save
+          </button>
+        </ng-container>
+      </div>
     </div>
   </div>
-</div>
-<div class="mt-3" *ngIf="!user.employee_detail">
-  <div
-    *ngIf="
-      data.form.document_status_id == 2 || data.form.document_status_id == 0
-    "
-  >
-    <p style="font-size: 12px">
-      <strong
-        >Note: This is a non-compliant document, please review remarks and
-        upload the revised file.</strong
-      >
-    </p>
-
-    <mat-expansion-panel
-      (opened)="panelOpenState = true"
-      (closed)="panelOpenState = false"
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title
-          ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
-            >announcement</mat-icon
-          >Remarks</mat-panel-title
-        >
-      </mat-expansion-panel-header>
-      <app-remarks-history-table></app-remarks-history-table>
-    </mat-expansion-panel>
-    <ngx-dropzone
-      (change)="onSelect($event, 'selectedForm')"
-      [multiple]="false"
-      class="mt-3"
-      accept="application/pdf"
-    >
-      <ngx-dropzone-label>Click here to upload new file! </ngx-dropzone-label>
-      <ngx-dropzone-preview
-        *ngIf="selectedForm"
-        [removable]="true"
-        (removed)="onRemove('selectedForm')"
-        class="mx-auto"
-      >
-        <ngx-dropzone-label
-          >{{ selectedForm.name }} ({{ selectedForm.type }})</ngx-dropzone-label
-        >
-      </ngx-dropzone-preview>
-    </ngx-dropzone>
-  </div>
-</div>
-<div *ngIf="!user.employee_detail">
-  <div class="d-flex justify-content-between align-items-center mt-5">
-    <button
-      mat-raised-button
-      color="accent"
-      (click)="onNoClick()"
-      [disabled]="isSubmitting"
-    >
-      Close
-    </button>
-    <button
+  <div class="mt-3" *ngIf="!user.employee_detail">
+    <div
       *ngIf="
         data.form.document_status_id == 2 || data.form.document_status_id == 0
       "
-      mat-raised-button
-      color="primary"
-      [disabled]="isSubmitting || !selectedForm"
-      (click)="callUpdate()"
     >
-      Update
-    </button>
+      <mat-expansion-panel
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title
+            ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
+              >announcement</mat-icon
+            >Remarks</mat-panel-title
+          >
+        </mat-expansion-panel-header>
+        <app-remarks-history-table></app-remarks-history-table>
+      </mat-expansion-panel>
+      <ng-container *ngIf="isDocumentAForm(); else uploadFiles"> </ng-container>
+      <ng-template #uploadFiles>
+        <ngx-dropzone
+          (change)="onSelect($event, 'selectedForm')"
+          [multiple]="false"
+          class="mt-3"
+          accept="application/pdf"
+        >
+          <ngx-dropzone-label
+            >Click here to upload new file!
+          </ngx-dropzone-label>
+          <ngx-dropzone-preview
+            *ngIf="selectedForm"
+            [removable]="true"
+            (removed)="onRemove('selectedForm')"
+            class="mx-auto"
+          >
+            <ngx-dropzone-label
+              >{{ selectedForm.name }} ({{
+                selectedForm.type
+              }})</ngx-dropzone-label
+            >
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </ng-template>
+    </div>
   </div>
-</div>
+  <div *ngIf="!user.employee_detail">
+    <div class="d-flex justify-content-between align-items-center mt-5">
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="onNoClick()"
+        [disabled]="isSubmitting"
+      >
+        Close
+      </button>
+      <ng-container *ngIf="isDocumentAForm(); else fileButton">
+        <button
+          *ngIf="
+            data.form.document_status_id == 2 ||
+            data.form.document_status_id == 0
+          "
+          mat-raised-button
+          color="primary"
+          [disabled]="isSubmitting"
+          (click)="updateForm()"
+        >
+          Update
+        </button>
+      </ng-container>
+      <ng-template #fileButton>
+        <button
+          *ngIf="
+            data.form.document_status_id == 2 ||
+            data.form.document_status_id == 0
+          "
+          mat-raised-button
+          color="primary"
+          [disabled]="isSubmitting || !selectedForm"
+          (click)="callUpdate()"
+        >
+          Update
+        </button>
+      </ng-template>
+    </div>
+  </div>
+</ng-container>
+
 <ng-container *ngIf="isSubmitting">
   <div>
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>

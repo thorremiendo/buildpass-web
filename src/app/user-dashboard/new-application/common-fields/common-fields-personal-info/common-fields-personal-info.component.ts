@@ -144,6 +144,10 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
       owner_unit_number: [''],
       owner_floor_number: [''],
       owner_street: [''],
+      owner_lot_number: [''],
+      owner_block_number: [''],
+      owner_purok: [''],
+      owner_subdivision: [''],
       owner_barangay: ['', Validators.required],
       owner_province: [''],
       owner_municipality: [''],
@@ -174,6 +178,13 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
         .owner_email_address,
       owner_house_number: this._personalInfoFormCommonFields.value
         .owner_house_number,
+      owner_lot_number: this._personalInfoFormCommonFields.value
+        .owner_lot_number,
+      owner_block_number: this._personalInfoFormCommonFields.value
+        .owner_block_number,
+      owner_purok: this._personalInfoFormCommonFields.value.owner_purok,
+      owner_subdivision: this._personalInfoFormCommonFields.value
+        .owner_subdivision,
       owner_unit_number: this._personalInfoFormCommonFields.value
         .owner_unit_number,
       owner_floor_number: this._personalInfoFormCommonFields.value

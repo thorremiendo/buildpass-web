@@ -44,8 +44,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.applicationService
       .fetchUserDocs(this.applicationId)
       .subscribe((result) => {
-        this.dataSource = result.data;
-
+        this.filterUserDocs(result.data);
         this.fetchEvaluatorDetails();
         this.checkFormsCompliant();
         this.checkFormsReviewed();
@@ -54,7 +53,11 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.fetchApplicationInfo();
     this.changeDetectorRefs.detectChanges();
   }
-
+  filterUserDocs(forms) {
+    const USER_FORMS = forms.filter((doc) => doc.document_id !== 107);
+    this.dataSource = USER_FORMS;
+    this.isLoading = false;
+  }
   fetchApplicationInfo() {
     this.isLoading = true;
     this.applicationService
@@ -325,72 +328,12 @@ export class CbaoEvaluatorComponent implements OnInit {
       }
     } else {
       this.isLoading = false;
-      Swal.fire(
-        'Notice!',
-        `Please review all documents first!`,
-        'info'
-      ).then((result) => {});
+      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+        (result) => {}
+      );
     }
   }
 
-  otherPermitsReturnToApplicant() {
-    if (this.checkFormsReviewed()) {
-      this.isLoading = true;
-      if (this.evaluatorRole.code == 'CBAO-REC') {
-        const body = {
-          application_status_id: 5,
-          receiving_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            this.openSnackBar('Returned to Applicant!');
-            window.location.reload();
-          });
-      } else if (this.evaluatorRole.code == 'CBAO-DC') {
-        const body = {
-          application_status_id: 5,
-          dc_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            this.openSnackBar('Returned to Applicant!');
-            window.location.reload();
-          });
-      } else if (this.evaluatorRole.code == 'CBAO-BO') {
-        const body = {
-          application_status_id: 5,
-          bo_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            this.openSnackBar('Returned to Applicant!');
-            window.location.reload();
-          });
-      } else {
-        //IF TECHNICAL EVALUATORS\
-        const body = {
-          application_status_id: 5,
-          cbao_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            this.openSnackBar('Returned to Applicant!');
-            window.location.reload();
-          });
-      }
-    } else {
-      this.isLoading = false;
-      this.openSnackBar('Review all documents first!');
-    }
-  }
   updateFormStatus() {
     if (this.applicationInfo.permit_type_id == 1) {
       this.isLoading = true;
@@ -402,9 +345,14 @@ export class CbaoEvaluatorComponent implements OnInit {
           obj.document_id == 27 ||
           obj.document_id == 23 ||
           obj.document_id == 24 ||
+          obj.document_id == 25 ||
           obj.document_id == 27 ||
           obj.document_id == 43 ||
-          obj.document_id == 59
+          obj.document_id == 59 ||
+          obj.document_id == 74 ||
+          obj.document_id == 75 ||
+          obj.document_id == 72 ||
+          obj.document_id == 33
       );
       const forReview = CPDO_FORMS.forEach((element) => {
         let body = {
@@ -495,6 +443,7 @@ export class CbaoEvaluatorComponent implements OnInit {
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
         .subscribe((res) => {
+          console.log('division chief');
           Swal.fire(
             'All documents are compliant!!',
             `Notified Division Chief for Evaluation!`,
@@ -527,6 +476,7 @@ export class CbaoEvaluatorComponent implements OnInit {
           this.applicationService
             .updateApplicationStatus(body, this.applicationId)
             .subscribe((res) => {
+              console.log('division chief');
               Swal.fire(
                 'All documents are compliant!!',
                 `Notified Division Chief for Evaluation!`,
@@ -762,6 +712,8 @@ export class CbaoEvaluatorComponent implements OnInit {
       height: '800px',
       data: {
         evaluator: this.evaluatorDetails,
+        evaluatorRole: this.evaluatorRole,
+        applicationInfo: this.applicationInfo,
         form: e,
         route: this.route,
       },

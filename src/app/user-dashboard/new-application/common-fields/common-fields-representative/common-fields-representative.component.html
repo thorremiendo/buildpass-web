@@ -173,7 +173,7 @@
     </div>
   </div>
   <div class="row justify-content-center px-3">
-    <div class="col-md-3">
+    <div class="col-md-4">
       <mat-form-field appearance="outline">
         <mat-label>Barangay</mat-label>
         <input
@@ -206,15 +206,25 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <div class="col-md-3"></div>
-    <div class="col-md-3"></div>
-    <div class="col-md-3"></div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+        <mat-label>PRC No.</mat-label>
+        <input matInput formControlName="prcNo" required />
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+        <mat-label>PTR No.</mat-label>
+        <input matInput formControlName="ptcNo" required />
+      </mat-form-field>
+    </div>
   </div>
   <div class="row justify-content-center px-3 mb-5">
     <div class="col-md-6">
       <p>Please upload your PRC ID (front) *</p>
       <ngx-dropzone
         (change)="onSelect($event, 'prcFront')"
+        accept="image/*"
         [multiple]="false"
         class="mt-3"
       >
@@ -236,6 +246,7 @@
       <ngx-dropzone
         (change)="onSelect($event, 'prcBack')"
         [multiple]="false"
+        accept="image/*"
         class="mt-3"
       >
         <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
@@ -259,6 +270,7 @@
       <ngx-dropzone
         (change)="onSelect($event, 'validIdFront')"
         [multiple]="false"
+        accept="image/*"
         class="mt-3"
       >
         <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
@@ -280,6 +292,7 @@
       <p>Please upload your Valid Government ID (back) *</p>
       <ngx-dropzone
         (change)="onSelect($event, 'validIdBack')"
+        accept="image/*"
         [multiple]="false"
         class="mt-3"
       >

@@ -95,6 +95,10 @@ export class FeedService {
     return this.subject.asObservable();
   }
 
+  isViewed(){
+    
+  }
+
   getNotifTable(){
     const url =`/notification/${this.notifChannel}/${this.channelType}`;
     return this._api.get(url).pipe(
