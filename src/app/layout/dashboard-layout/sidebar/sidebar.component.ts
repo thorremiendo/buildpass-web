@@ -83,12 +83,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
   getItemState(state, outlet): Array<any> {
     const navigateTo = state.split('/');
-    if (outlet) return [`/${navigateTo[0]}`, {outlets: {[outlet]: [navigateTo[1]]}}];
+    if (outlet)
+      return [`/${navigateTo[0]}`, { outlets: { [outlet]: [navigateTo[1]] } }];
     else return ['/', ...navigateTo];
   }
 
   logout() {
-    if (this.employeeDetails == undefined) {
+    if (this.userInfo == 'treasury-cbao') {
+      this._authService.treasurySignOut();
+    } else if (this.employeeDetails == undefined) {
       this._authService.userSignOut();
     } else {
       this._authService.evaluatorSignOut();
@@ -101,7 +104,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.officeString = 'City Planning and Development Office';
         break;
       case 2:
-        this.officeString = 'City Environment and Park Office';
+        this.officeString = 'City Environment and Parks Management Office';
         break;
       case 3:
         this.officeString = 'Bureau of Fire Protection';
