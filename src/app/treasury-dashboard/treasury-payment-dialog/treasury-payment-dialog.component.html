@@ -16,7 +16,7 @@
       mat-raised-button
       color="primary"
       (click)="handlePaid()"
-      [disabled]="isLoading"
+      [disabled]="isLoading || !paymentDetails.value.receipt"
     >
       Submit
     </button>
