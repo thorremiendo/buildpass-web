@@ -21,6 +21,17 @@ export class ApplicationInfoService {
       })
     );
   }
+  fetchCurrentApplications(id) {
+    const url = `/application/${id}/evaluator/2/filter`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
   verifyUserApplication(application_id, user_id) {
     const url = `/application/${application_id}/${user_id}/user/verify`;
     return this.api.get(url).pipe(

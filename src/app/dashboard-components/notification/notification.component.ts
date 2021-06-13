@@ -34,18 +34,28 @@ export class NotificationComponent implements OnInit {
           this.feeds.push(feed);
         });
 
-      this.feedService.getNotifTable().subscribe((data) => {
-        this.feeds = data.data;
-      });
+        this. updateNotifTable();
+
+     
     }
   }
 
-  openNotif(index, id) {
-    //this.feeds.splice(index, 1);
+  updateNotifTable(){
+    this.feedService.getNotifTable().subscribe((data) => {
+      this.feeds = data.data;
+      console.log(this.feeds);
+    });
+    
+  }
+
+  openNotif(id, applicationId) {
+    this.feedService.isViewed(id).subscribe( res => {
+      this.updateNotifTable();
+    });
     if (this.user.is_evaluator == 1) {
-      this.router.navigate(['evaluator/application', id]).then(() => {});
+      this.router.navigate(['evaluator/application', applicationId]).then(() => {});
     } else {
-      this.router.navigate(['dashboard/applications/view', id]);
+      this.router.navigate(['dashboard/applications/view', applicationId]);
     }
   }
 }

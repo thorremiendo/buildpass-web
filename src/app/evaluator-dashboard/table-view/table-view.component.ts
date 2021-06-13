@@ -30,7 +30,7 @@ export class TableViewComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.applicationService
-      .fetchApplications(this.user.id)
+      .fetchCurrentApplications(this.user.id)
       .subscribe((result) => {
         this.applications = result.data.filter(
           (application) => application.application_status_id != 6
