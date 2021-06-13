@@ -174,4 +174,27 @@ export class ApplicationInfoService {
     const url = `/userdocs/supporting-file`;
     return this.api.post(url, body);
   }
+
+  fetchDocumentInfo(applicationId, documentId) {
+    const url = `/userdocs/${applicationId}/document/${documentId}`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+  fetchSpecificDocInfo(documentId) {
+    const url = `/userdocs/${documentId}/specific`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
 }

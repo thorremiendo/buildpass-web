@@ -204,11 +204,10 @@
                 *matRowDef="let items; columns: displayedColumns"
               ></tr>
             </table>
-
-            <form
-              *ngIf="revisionData.length >= 1 && data.evaluator"
-              [formGroup]="remarksForm"
-            >
+            <p class="text-center" *ngIf="revisionData.length == 0">
+              No remarks to show
+            </p>
+            <form [formGroup]="remarksForm">
               <div class="row mt-5 mx-2">
                 <div>
                   <mat-form-field style="width: 800px">

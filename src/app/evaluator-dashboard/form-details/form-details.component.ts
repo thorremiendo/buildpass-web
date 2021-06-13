@@ -1,3 +1,4 @@
+import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import {
   Component,
   OnInit,
@@ -57,6 +58,7 @@ export class FormDetailsComponent implements OnInit {
     private viewSDKClient: ViewSDKClient,
     private waterMark: WaterMarkService,
     public dialogRef: MatDialogRef<FormDetailsComponent>,
+    private applicationService: ApplicationInfoService,
     @Inject(MAT_DIALOG_DATA)
     public data
   ) {}
@@ -70,7 +72,6 @@ export class FormDetailsComponent implements OnInit {
     });
     this.applicationId = this.data.route.snapshot.params.id;
     this.permitDetails = this.fb.group({
-      form_remarks: new FormControl(''),
       is_compliant: new FormControl(''),
     });
     this.viewSDKClient.form = this.data.form;
@@ -80,6 +81,7 @@ export class FormDetailsComponent implements OnInit {
     this.remarksForm = this.fb.group({
       remarks: new FormControl(''),
     });
+    console.log('this', this.data);
   }
   //adobe sdk functions
   ngAfterViewInit() {
@@ -177,7 +179,14 @@ export class FormDetailsComponent implements OnInit {
         this.fetchRevisionData();
       });
   }
-  fetchRevisionData() {}
+  fetchRevisionData() {
+    this.applicationService
+      .fetchSpecificDocInfo(this.data.form.id)
+      .subscribe((res) => {
+        this.revisionData = res.data[0].document_revision;
+        this.remarksForm.reset();
+      });
+  }
 
   callSave() {
     this.isSubmitting = true;
