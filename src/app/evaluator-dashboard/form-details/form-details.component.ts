@@ -92,7 +92,7 @@ export class FormDetailsComponent implements OnInit {
         this.previewFilePromise = this.viewSDKClient.previewFile('pdf-div', {
           ...this.viewerConfig,
           showPageControls: true,
-          enableFormFilling: false,
+          enableFormFilling: true,
         });
       } else {
         this.previewFilePromise = this.viewSDKClient.previewFile('pdf-div', {
