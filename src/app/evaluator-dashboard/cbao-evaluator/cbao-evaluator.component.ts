@@ -203,6 +203,32 @@ export class CbaoEvaluatorComponent implements OnInit {
     });
   }
 
+  otherPermitsCanEdit() {
+    if (
+      this.applicationInfo.application_status_id == 1 &&
+      this.evaluatorRole.code == 'CBAO-REC'
+    ) {
+      return true;
+    } else if (
+      (this.applicationInfo.application_status_id == 18 &&
+        this.evaluatorRole.code == 'CBAO-LG') ||
+      this.evaluatorRole.code == 'CBAO-STR' ||
+      this.evaluatorRole.code == 'CBAO-ELEC'
+    ) {
+      return true;
+    } else if (
+      this.applicationInfo.application_status_id == 12 &&
+      this.evaluatorRole.code == 'CBAO-DC'
+    ) {
+      return true;
+    } else if (
+      this.applicationInfo.application_status_id == 13 &&
+      this.evaluatorRole.code == 'CBAO-BO'
+    ) {
+      return true;
+    }
+  }
+
   checkFormsCompliant() {
     const isCompliant = this.dataSource.every(
       (form) => form.document_status_id == 1
