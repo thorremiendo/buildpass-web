@@ -1,3 +1,4 @@
+import { TreasuryApplicationPageComponent } from './../treasury-application-page/treasury-application-page.component';
 import { ApplicationDetailsComponent } from 'src/app/evaluator-dashboard/application-details/application-details.component';
 import { TreasuryAuthGuard } from './../treasury-guard';
 import { TreasuryHomeComponent } from './../treasury-home/treasury-home.component';
@@ -17,7 +18,7 @@ const routes: Routes = [
       },
       {
         path: 'application/:id',
-        component: ApplicationDetailsComponent,
+        component: TreasuryApplicationPageComponent,
       },
     ],
   },

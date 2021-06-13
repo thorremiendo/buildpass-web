@@ -35,6 +35,17 @@ export class TreasuryService {
       })
     );
   }
+  fetchTreasuryApplications() {
+    const url = `/treasury/applications`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
   fetchApplicationInfo(code) {
     const url = `/treasury/${code}/application/`;
     return this.api.get(url).pipe(
@@ -46,7 +57,7 @@ export class TreasuryService {
       })
     );
   }
-  updateApplicationStatus(body, code) {
+  updatePaymentStatus(body, code) {
     const url = `/treasury/${code}/updatePayment`;
     return this.api.post(url, body);
   }

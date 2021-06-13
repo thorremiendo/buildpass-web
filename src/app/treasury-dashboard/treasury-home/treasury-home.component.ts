@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TreasuryHomeComponent implements OnInit {
   public applications;
-
+  public user;
   constructor(
     private treasuryService: TreasuryService,
     private router: Router,
@@ -18,15 +18,13 @@ export class TreasuryHomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.treasuryService.fetchPermitFeeApplications().subscribe((res) => {
+    this.treasuryService.fetchTreasuryApplications().subscribe((res) => {
       this.applications = res.data;
-      console.log(this.applications);
+
+      this.applications = res.data.filter(
+        (application) => application.application_status_id == 8
+      );
     });
-    // this.treasuryService.fetchAllApplication().subscribe((result) => {
-    //   this.applications = result.data.filter(
-    //     (application) => application.application_status_id == 8
-    //   );
-    // });
   }
   viewApplication(id) {
     this.router.navigate(['treasury/dashboard/application', id]);
