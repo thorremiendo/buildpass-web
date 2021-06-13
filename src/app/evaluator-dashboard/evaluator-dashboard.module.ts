@@ -175,6 +175,6 @@ import { OtherPermitsComponent } from './other-permits/other-permits.component';
     MatSortModule,
   ],
 
-  exports: [TechnicalEvaluationComponent],
+  exports: [TechnicalEvaluationComponent, CbaoFeesTableComponent],
 })
 export class EvaluatorModule {}
