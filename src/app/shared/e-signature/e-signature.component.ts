@@ -102,7 +102,7 @@ export class ESignatureComponent implements OnInit {
         const width = this.originalWidth + ($event.pageX - this.originalMouseX);
         if (height > this.minimumHeight && width > this.minimumWidth) {
           esigContainer.style.height = height + 'px';
-          esigContainer.style.top = this.originalY + ($event.pageY - this.originalMouseY) + 'px';
+          esigContainer.style.top = this.originalY + window.scrollY + ($event.pageY - this.originalMouseY) + 'px';
           esigContainer.style.width = width + 'px';
 
           if (Math.abs(offsetX) > Math.abs(offsetY)) {
@@ -118,7 +118,7 @@ export class ESignatureComponent implements OnInit {
         const width = this.originalWidth - ($event.pageX - this.originalMouseX);
         if (height > this.minimumHeight && width > this.minimumWidth) {
           esigContainer.style.height = height + 'px';
-          esigContainer.style.top = this.originalY + ($event.pageY - this.originalMouseY) + 'px';
+          esigContainer.style.top = this.originalY + window.scrollY + ($event.pageY - this.originalMouseY) + 'px';
           esigContainer.style.width = width + 'px';
           esigContainer.style.left = this.originalX + ($event.pageX - this.originalMouseX) + 'px';
 
