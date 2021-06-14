@@ -56,6 +56,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   filterUserDocs(forms) {
     const USER_FORMS = forms.filter((doc) => doc.document_id !== 107);
     this.dataSource = USER_FORMS;
+    console.log(this.dataSource)
     this.isLoading = false;
   }
   fetchApplicationInfo() {

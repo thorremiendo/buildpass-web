@@ -41,6 +41,7 @@ export class RemarksHistoryTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.revisionData = this.data.form.document_revision;
+    console.log(this.revisionData);
     this.isLoading = false;
     this.remarksForm = this.fb.group({
       remarks: new FormControl('', [Validators.required]),

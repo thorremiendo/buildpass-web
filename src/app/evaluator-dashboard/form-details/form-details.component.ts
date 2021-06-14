@@ -192,7 +192,19 @@ export class FormDetailsComponent implements OnInit {
     this.isSubmitting = true;
     const id = this.data.form.id;
     if (this.permitDetails.value.is_compliant == 1) {
-      this.compliant(this.data.form, id);
+      this.isSubmitting = true;
+      const id = this.data.form.id;
+      const revisionData = {
+        evaluator_user_id: this.data.evaluator.user_id,
+        remarks: this.remarksForm.value.remarks,
+        is_complied: this.permitDetails.value.is_compliant,
+      };
+      this.newApplicationService
+        .updateUserDocs(revisionData, id)
+        .subscribe((res) => {
+          this.isSubmitting = false;
+          this.compliant(this.data.form, id);
+        });
     } else if (this.permitDetails.value.is_compliant == 2) {
       this.noncompliant(this.data.form, id);
     }
