@@ -16,7 +16,7 @@ import {
   applicationTypes,
 } from '../../../core/enums/application-type.enum';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
-import { environment } from './../../../../environments/environment.prod';
+import { environment } from './../../../../environments/environment';
 
 @Component({
   selector: 'app-step-one',
@@ -52,6 +52,7 @@ export class StepOneComponent implements OnInit {
 
   ngOnInit(): void {
     this.receiveApplications = environment.receiveApplications;
+    console.log(this.receiveApplications);
     this.createForm();
     if (this.route.snapshot.paramMap.get('new_application')) {
       const type = this.route.snapshot.paramMap.get('new_application');

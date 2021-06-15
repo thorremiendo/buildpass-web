@@ -261,4 +261,17 @@ export class AuthService {
         this.router.navigateByUrl('/evaluator/sign-in');
       });
   }
+  treasurySignOut() {
+    return firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('app_id');
+        localStorage.removeItem('applicationDetails');
+        this.jwtService.removeToken();
+        this.isAuthenticatedSubject.next(false);
+        this.router.navigateByUrl('/treasury/sign-in');
+      });
+  }
 }

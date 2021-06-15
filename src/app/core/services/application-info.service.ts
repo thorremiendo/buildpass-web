@@ -21,6 +21,17 @@ export class ApplicationInfoService {
       })
     );
   }
+  fetchCurrentApplications(id) {
+    const url = `/application/${id}/evaluator/2/filter`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
   verifyUserApplication(application_id, user_id) {
     const url = `/application/${application_id}/${user_id}/user/verify`;
     return this.api.get(url).pipe(
@@ -148,6 +159,18 @@ export class ApplicationInfoService {
     return this.api.post(url, body);
   }
 
+  fetchTechnicalStatus(id) {
+    const url = `/application/${id}/technical-status`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+
   deleteApplication(id) {
     const url = `/application/${id}/delete`;
     return this.api.delete(url);
@@ -161,5 +184,28 @@ export class ApplicationInfoService {
   uploadUserSupportingDoc(body) {
     const url = `/userdocs/supporting-file`;
     return this.api.post(url, body);
+  }
+
+  fetchDocumentInfo(applicationId, documentId) {
+    const url = `/userdocs/${applicationId}/document/${documentId}`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+  fetchSpecificDocInfo(documentId) {
+    const url = `/userdocs/${documentId}/specific`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
   }
 }

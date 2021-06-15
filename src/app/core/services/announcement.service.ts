@@ -1,4 +1,5 @@
 
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,17 +16,37 @@ export class AnnouncementService  {
   
   ) {}
 
-  postAnnouncements(body){
+  postAnnouncement(body){
     const url = `/announcement`;
 
-    return this.api.get(url,body);
+    return this.api.post(url,body);
   }
 
-  fetchApplicationbyId(id){
-      const url = `/application/${id}`;
+  updateAnnouncementById(id, body){
+    const url = `/announcement/${id}`;
 
-      return this.api.get(url);
-    
+    return this.api.post(url,body);
+  
   }
+
+  fetchAnnouncements(param?){
+    const url = `/announcement`;
+  
+    return this.api.get(url,param);
+
+  }
+
+  fethAnnouncementById(id){
+    const url = `/announcement/${id}`;
+
+    return this.api.get(url);
+
+  }
+
+  removeAnnouncementById(id){
+    const url = `/announcement/${id}`;
+
+    return this.api.delete(url);
+  } 
 
 }

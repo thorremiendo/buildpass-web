@@ -410,8 +410,9 @@ export class ViewApplicationComponent implements OnInit {
             });
           });
       } else if (this.applicationDetails.cbao_status_id == 2) {
+        //other permits
         const body = {
-          application_status_id: 18,
+          application_status_id: 1,
           cbao_status_id: 0,
         };
         this.applicationService
@@ -419,7 +420,7 @@ export class ViewApplicationComponent implements OnInit {
           .subscribe((res) => {
             Swal.fire(
               'Success!',
-              `Forwarded to Technical Evaluators for Evaluation!`,
+              `Forwarded to CBAO Receiving for Evaluation!`,
               'success'
             ).then((result) => {
               this.isLoading = false;
@@ -428,15 +429,17 @@ export class ViewApplicationComponent implements OnInit {
           });
       } else if (this.applicationDetails.dc_status_id == 2) {
         const body = {
-          application_status_id: 12,
+          application_status_id: 18,
           dc_status_id: 0,
         };
+        this.updateTechnicalEvaluatorStatus();
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
+            console.log('division chief');
             Swal.fire(
               'Success!',
-              `Forwarded to Division Chief for Evaluation!`,
+              `Forwarded to Technical Evaluators for Re-Evaluation!`,
               'success'
             ).then((result) => {
               this.isLoading = false;

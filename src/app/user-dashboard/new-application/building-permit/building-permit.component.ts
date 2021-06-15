@@ -1,4 +1,4 @@
-import { environment } from './../../../../environments/environment.prod';
+import { environment } from './../../../../environments/environment';
 import { GetDateService } from './../../../core/services/get-date.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, Data } from '@angular/router';
@@ -74,12 +74,12 @@ export class BuildingPermitComponent implements OnInit {
     {
       label: 'Step 7',
       title: 'Documentary Requirements',
-      documents: [26, 104, 23, 24, 25],
+      documents: [26, 23, 24, 25],
     },
     {
       label: 'Step 8',
       title: 'Plans',
-      documents: [59, 61, 63, 62],
+      documents: [59, 61, 63, 62, 104],
     },
     {
       label: 'Step 9',

@@ -11,7 +11,7 @@ import { NewApplicationService } from 'src/app/core/services/new-application.ser
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { ViewSDKClient } from 'src/app/core/services/view-sdk.service';
 import { WaterMarkService } from './../../core/services/watermark.service';
-
+import { occupancyClassification } from './../../core/enums/occupancy-classification.enum';
 @Component({
   selector: 'app-release-bldg-permit',
   templateUrl: './release-bldg-permit.component.html',
@@ -50,24 +50,28 @@ export class ReleaseBldgPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
+        console.log(this.applicationDetails);
         this.formData = {
           owner_address: `${this.applicationDetails.applicant_detail.house_number}  ${this.applicationDetails.applicant_detail.street_name} ${this.applicationDetails.applicant_detail.barangay}`,
-          owner_permitee: `${this.applicationDetails.applicant_detail.first_name} ${this.applicationDetails.applicant_detail.middle_name} ${this.applicationDetails.applicant_detail.last_name}`,
-          projectproject_title_name: this.applicationDetails.project_detail
-            .project_title,
-          lot: this.applicationDetails.project_detail.lot_number,
-          block: this.applicationDetails.project_detail.block_number,
-          tct_no: this.applicationDetails.project_detail.tct_number,
-          street: this.applicationDetails.project_detail.street_name,
-          brgy: this.applicationDetails.project_detail.barangay,
+          complete_applicant_name: `${this.applicationDetails.applicant_detail.first_name} ${this.applicationDetails.applicant_detail.middle_name} ${this.applicationDetails.applicant_detail.last_name}`,
+          project_title: this.applicationDetails.project_detail.project_title,
+          project_lot_number: this.applicationDetails.project_detail.lot_number,
+          project_block_number:
+            this.applicationDetails.project_detail.block_number,
+          project_tct_number: this.applicationDetails.project_detail.tct_number,
+          project_street: this.applicationDetails.project_detail.street_name,
+          project_barangay: this.applicationDetails.project_detail.barangay,
           city: 'BAGUIO CITY',
           zip_code: '2600',
-          project_cost: parseFloat(
+          professional_in_charge_of_construction:
+            this.applicationDetails.project_detail.inspector_name,
+          bp_classified_as: this.getOccupancyClassification(),
+          total_project_cost: parseFloat(
             this.applicationDetails.project_detail.project_cost_cap
           ).toLocaleString(),
           building_address: `${this.applicationDetails.project_detail.house_number} ${this.applicationDetails.project_detail.lot_number} ${this.applicationDetails.project_detail.street_name} ${this.applicationDetails.project_detail.barangay}`,
-          no_of_storeys: this.applicationDetails.project_detail
-            .number_of_storey,
+          no_of_storeys:
+            this.applicationDetails.project_detail.number_of_storey,
           contact_no: this.applicationDetails.applicant_detail.contact_number,
         };
       });
@@ -103,6 +107,11 @@ export class ReleaseBldgPermitComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  getOccupancyClassification() {
+    return occupancyClassification[
+      this.applicationDetails.occupancy_classification_id
+    ];
+  }
   onSelect($event: NgxDropzoneChangeEvent, type) {
     const file = $event.addedFiles[0];
     switch (type) {

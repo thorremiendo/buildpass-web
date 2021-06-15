@@ -95,7 +95,13 @@ export class FeedService {
     return this.subject.asObservable();
   }
 
-  isViewed(){
+  isViewed(id){
+    const url = `/notification/${id}/viewed`;
+    const body = {
+      is_viewed: 1
+    }
+
+    return this._api.post(url, body);
     
   }
 

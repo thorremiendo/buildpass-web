@@ -1,3 +1,4 @@
+import { officeTypes } from './../../core/enums/offices.enum';
 import { NewApplicationService } from './../../core/services/new-application.service';
 import {
   FormGroup,
@@ -22,7 +23,13 @@ export class RemarksHistoryTableComponent implements OnInit {
   public remarksForm: FormGroup;
   public isLoading: boolean = true;
   public revisionData;
-  displayedColumns: string[] = ['index', 'date', 'remark', 'evaluator'];
+  displayedColumns: string[] = [
+    'index',
+    'date',
+    'remark',
+    'evaluator',
+    'office',
+  ];
 
   constructor(
     private newApplicationService: NewApplicationService,
@@ -34,13 +41,15 @@ export class RemarksHistoryTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.revisionData = this.data.form.document_revision;
+    console.log(this.revisionData);
     this.isLoading = false;
     this.remarksForm = this.fb.group({
       remarks: new FormControl('', [Validators.required]),
     });
-    console.log(this.data);
   }
-
+  getOfficeType(id): string {
+    return officeTypes[id];
+  }
   onNoClick(): void {
     this.dialogRef.close();
   }
