@@ -85,7 +85,6 @@ export class ApplicationsListComponent implements OnInit, OnChanges {
         this.paginator.pageIndex * this.paginator.pageSize +
           this.paginator.pageSize
       );
-      this.paginator.firstPage();
       this.loading = false;
     }, 3000);
   }
