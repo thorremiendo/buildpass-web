@@ -159,7 +159,20 @@ export class OtherPermitsComponent implements OnInit {
         window.location.reload();
       });
   }
-  handleRelease() {}
+  handleRelease() {
+    this.isLoading = true;
+    const body = {
+      application_status_id: 11,
+      releasing_status_id: 1,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        this.isLoading = false;
+        this.openSnackBar('Permit Released!');
+        window.location.reload();
+      });
+  }
   getTechnicalStatus() {
     this.applicationService
       .fetchTechnicalStatus(this.applicationId)
