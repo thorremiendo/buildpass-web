@@ -49,6 +49,13 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let items; columns: displayedColumns"></tr>
   </table>
+  <div class="d-flex align-items-center" *ngIf="data.evaluator">
+    <p class="m-0 p-0 mr-2" style="font-size: 12px">View All</p>
+    <mat-slide-toggle
+      [checked]="useDefault"
+      (change)="toggle($event)"
+    ></mat-slide-toggle>
+  </div>
 
   <!-- <form
     *ngIf="revisionData.length >= 1 && data.evaluator"

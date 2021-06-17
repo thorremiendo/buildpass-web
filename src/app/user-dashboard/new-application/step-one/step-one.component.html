@@ -33,6 +33,13 @@
             >
           </mat-select>
         </mat-form-field>
+        <P
+          style="color: maroon; font-weight: 400"
+          *ngIf="selectedPermitType == 2"
+        >
+          As of the moment, online application for Certificate of Occupancy is
+          only available for Building Permits processed through BuildPASS.
+        </P>
       </div>
       <div *ngIf="selectedPermitType">
         <ng-container *ngIf="selectedPermitType !== '2'">
