@@ -204,15 +204,16 @@
               </mat-form-field>
             </div>
             <div class="col-md-6">
-              <mat-form-field appearance="outline">
+              <mat-form-field appearance="outline" >
                 <mat-label>Office</mat-label>
                 <input 
                     type="text" 
                     matInput 
                     formControlName="office" 
                     [matAutocomplete]="auto_office" 
-                    required />
-                <mat-icon matSuffix>arrow_drop_down</mat-icon>
+                    readonly 
+                  />
+                <!-- <mat-icon matSuffix>arrow_drop_down</mat-icon> -->
                 <mat-autocomplete #auto_office="matAutocomplete" [displayWith]="displayOfficeName.bind(this)">
                     <mat-option *ngFor="let office of _filteredOfficeOptions | async; let i = index;" [value]="i">
                       {{office}}
