@@ -909,7 +909,7 @@ export class DataFormBindingService {
       project_number_of_units:
         projectDetails.number_of_units == ''
           ? ''
-          : projectDetails.number_of_units,
+          : `${projectDetails.number_of_units}`,
       project_barangay:
         projectDetails.barangay == ''
           ? ''
@@ -931,7 +931,7 @@ export class DataFormBindingService {
       project_number_of_storey:
         projectDetails.number_of_storey == ''
           ? ''
-          : projectDetails.number_of_storey,
+          : `${projectDetails.number_of_storey}`,
       project_type: '',
       project_title:
         projectDetails.project_title == ''
@@ -1016,6 +1016,7 @@ export class DataFormBindingService {
       project_tenure_temporary: 'N/A',
       project_nature_others: 'N/A',
     };
+    console.log(formData);
     return formData;
   }
 }
