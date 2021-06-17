@@ -65,7 +65,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
       home_address:[this.userInfo.home_address, Validators.required],
       barangay:[this.userInfo.barangay, Validators.required],
       employee_no:[this.userInfo.employee_detail.employee_no, Validators.required],
-      office:[this.userInfo.employee_detail.office_id - 1, Validators.required],
+      office:[this.userInfo.employee_detail.office_id - 1 ],
       position:[this.userInfo.employee_detail.position, Validators.required],
       contact_number:[this.userInfo.contact_number, [Validators.required, Validators.maxLength(11),]],
       email_address:[this.userInfo.email_address, Validators.required],
@@ -81,11 +81,6 @@ export class EvaluatorEditProfileComponent implements OnInit {
         height: '350px',
         width: '600px',
       });
-
-
-
-
-
   }
 
   openFileChooser() {

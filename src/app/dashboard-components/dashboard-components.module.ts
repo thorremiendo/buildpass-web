@@ -25,6 +25,7 @@ import { RemindersComponent } from './reminders/reminders.component';
 import { FaqExpansionPanelComponent } from './faq-expansion-panel/faq-expansion-panel.component';
 import { TutorialComponent } from './tutorial/tutorial.component';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
+import { MessageComponent } from './message/message.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -43,6 +44,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     RemindersComponent,
     FaqExpansionPanelComponent,
     TutorialComponent,
+    MessageComponent,
   ],
 
   imports: [
@@ -74,7 +76,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     RemindersComponent,
     FaqExpansionPanelComponent,
     TutorialComponent,
+    MessageComponent,
     ChatModule,
+    
+
   ],
 
   providers: [
