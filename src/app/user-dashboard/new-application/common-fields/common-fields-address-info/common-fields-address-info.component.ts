@@ -1,3 +1,4 @@
+import { MapService } from './../../../../core/services/mapbox.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -55,21 +56,13 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   }
   _filteredBarangayOptions: Observable<Barangay[]>;
 
-  //map
-  map: mapboxgl.Map;
-  style = 'mapbox://styles/mapbox/satellite-v9';
-  lat = 16.4136559;
-  lng = 120.5893339;
-  public marker: mapboxgl.Marker;
-  public lnglat;
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
     private newApplicationFormService: NewApplicationFormService,
     private newApplicationSerivce: NewApplicationService,
     private barangayService: BarangayService,
-    private userService: UserService,
-    private excavationService: ExcavationPermitService
+    private mapService: MapService
   ) {
     this.barangayService.getBarangayInfo().subscribe((data) => {
       this.barangay = data;
@@ -90,7 +83,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.getCommonDetails();
     this.getApplicationDetails();
-
+    this.mapService.buildMap();
     this.isLoading = false;
   }
   getCommonDetails() {
@@ -124,10 +117,6 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     this.isLoading = false;
   }
 
-  onDragEnd() {
-    console.log('marker dragged');
-  }
-
   private _filter(value: string): Barangay[] {
     const filterValue = value.toLowerCase();
 
@@ -135,34 +124,6 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       option.name.toLowerCase().includes(filterValue)
     );
   }
-
-  // initializeMap() {
-  //   mapboxgl.accessToken = environment.mapbox.accessToken;
-  //   this.map = new Map({
-  //     container: 'map',
-  //     style: this.style,
-  //     zoom: 16,
-  //     center: [this.lng, this.lat],
-  //   });
-  //   // Add map controls
-  //   this.marker = new Marker({
-  //     draggable: true,
-  //   })
-  //     .setLngLat([this.lng, this.lat])
-  //     .addTo(this.map); //
-
-  //   this.map.addControl(new mapboxgl.NavigationControl());
-  //   this.map.addControl(
-  //     new MapboxGeocoder({
-  //       accessToken: mapboxgl.accessToken,
-  //       mapboxgl: mapboxgl,
-  //       marker: {
-  //         draggable: true,
-  //       },
-  //     })
-  //   );
-  //   this.marker.on('dragend', this.onDragEnd);
-  // }
 
   createForm() {
     this.projectDetailsForm = this._fb.group({
@@ -190,6 +151,12 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     });
     this.projectDetailsForm.valueChanges.subscribe((data) => {
       this.projectFormChange = data;
+      console.log(this.projectDetailsForm.value.project_barangay);
+      setTimeout(() => {
+        this.mapService
+          .fetchProjectLocation(this.projectDetailsForm.value.project_barangay)
+          .subscribe((res) => console.log(res));
+      }, 2000);
     });
   }
 
