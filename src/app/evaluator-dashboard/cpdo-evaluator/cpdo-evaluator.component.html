@@ -106,7 +106,17 @@
               </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr
+              mat-row
+              [style.background-color]="
+                row.document_status_id == 1
+                  ? '#BFF4D1'
+                  : row.document_status_id == 2
+                  ? '#F7C0C0'
+                  : 'white'
+              "
+              *matRowDef="let row; columns: displayedColumns"
+            ></tr>
           </table>
           <div class="action__buttons">
             <ng-container
