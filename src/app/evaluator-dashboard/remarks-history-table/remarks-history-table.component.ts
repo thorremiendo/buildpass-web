@@ -1,3 +1,4 @@
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { officeTypes } from './../../core/enums/offices.enum';
 import { NewApplicationService } from './../../core/services/new-application.service';
 import {
@@ -23,6 +24,7 @@ export class RemarksHistoryTableComponent implements OnInit {
   public remarksForm: FormGroup;
   public isLoading: boolean = true;
   public revisionData;
+  public useDefault: boolean = false;
   displayedColumns: string[] = [
     'index',
     'date',
@@ -40,8 +42,10 @@ export class RemarksHistoryTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.revisionData = this.data.form.document_revision;
-    console.log(this.revisionData);
+    this.filterRemarksTable(
+      this.data.evaluator ? this.data.evaluator.office_id : 7
+    );
+    console.log(this.data);
     this.isLoading = false;
     this.remarksForm = this.fb.group({
       remarks: new FormControl('', [Validators.required]),
@@ -52,6 +56,41 @@ export class RemarksHistoryTableComponent implements OnInit {
   }
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  filterRemarksTable(officeId) {
+    if (officeId == 1) {
+      const CPDO_FORMS = this.data.form.document_revision.filter(
+        (form) => form.evaluator_detail.employee_detail.office_id == 1
+      );
+      this.revisionData = CPDO_FORMS;
+    } else if (officeId == 2) {
+      const CEPMO_FORMS = this.data.form.document_revision.filter(
+        (form) => form.evaluator_detail.employee_detail.office_id == 2
+      );
+      this.revisionData = CEPMO_FORMS;
+    } else if (officeId == 3) {
+      const BFP_FORMS = this.data.form.document_revision.filter(
+        (form) => form.evaluator_detail.employee_detail.office_id == 3
+      );
+      this.revisionData = BFP_FORMS;
+    } else if (officeId == 4) {
+      const CBAO_FORMS = this.data.form.document_revision.filter(
+        (form) => form.evaluator_detail.employee_detail.office_id == 4
+      );
+      this.revisionData = CBAO_FORMS;
+    } else if (officeId == 7) {
+      //APPLICANT
+      this.revisionData = this.data.form.document_revision;
+    }
+  }
+  toggle(event: MatSlideToggleChange) {
+    this.useDefault = event.checked;
+    if (this.useDefault == true) {
+      this.revisionData = this.data.form.document_revision;
+    } else {
+      this.filterRemarksTable(this.data.evaluator.office_id);
+    }
   }
   canAddRemark() {
     const status = this.data.applicationInfo.application_status_id;
