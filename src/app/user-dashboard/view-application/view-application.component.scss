@@ -1,5 +1,38 @@
 table {
   width: 100%;
+
+  .doc-category-header {
+    font-weight: 800;
+  }
+
+  .pending {
+    td:first-of-type {
+      color: lightgray;
+    }
+  }
+
+  .compliant {
+    background-color: #dcedc8;
+    
+    td:first-of-type {
+      color: green;
+    }
+    td:nth-of-type(3) {
+      color: green;
+      font-weight: 600;
+    }
+  }
+
+  .non-compliant {
+    background-color: #cf513d;
+
+    td {
+      color: #fff !important;
+    }
+    td:nth-of-type(3) {
+      font-weight: 600;
+    }
+  }
 }
 
 .mat-column-index {
