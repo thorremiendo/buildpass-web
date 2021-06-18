@@ -75,12 +75,12 @@ export class ChecklistSummaryComponent implements OnInit {
               }
 
               this.sortedForms = {
-                documents: {
-                  label: 'Documents',
+                forms: {
+                  label: 'Forms',
                   data: [],
                 },
-                permits: {
-                  label: 'Duly Accomplished Building Permit Forms',
+                documents: {
+                  label: 'Documentary Requirements',
                   data: [],
                 },
                 plans: {
@@ -88,34 +88,27 @@ export class ChecklistSummaryComponent implements OnInit {
                   data: [],
                 },
                 professional: {
-                  label:
-                    'Porfessional Details (Professional Tax Receipt and Professional Regulation Commission ID, signed and sealed)',
+                  label: 'Photocopy of Professional Details (Professional Tax Receipt and Professional Regulation Commission ID, signed and sealed)',
                   data: [],
                 },
                 affidavits: {
                   label: 'Affidavits',
                   data: [],
                 },
-                clearances: {
-                  label: 'Clearances (CPDO, CEPMO, BFP)',
-                  data: [],
-                },
                 others: {
-                  label: 'Other Requirements',
+                  label: 'Others',
                   data: [],
                 },
               };
 
               this.applicantForms.forEach((element) => {
-                const docType =
-                  this.documentTypes[element.document_id - 1]
-                    .document_category_id;
+                const docType = this.documentTypes[element.document_id - 1].document_category_id;
                 switch (docType) {
                   case 1:
-                    this.sortedForms.documents.data.push(element);
+                    this.sortedForms.forms.data.push(element);
                     break;
                   case 2:
-                    this.sortedForms.permits.data.push(element);
+                    this.sortedForms.documents.data.push(element);
                     break;
                   case 3:
                     this.sortedForms.plans.data.push(element);
@@ -126,10 +119,6 @@ export class ChecklistSummaryComponent implements OnInit {
                   case 5:
                     this.sortedForms.affidavits.data.push(element);
                     break;
-                  case 6:
-                    this.sortedForms.clearances.data.push(element);
-                    break;
-                  //case 7:
                   default:
                     this.sortedForms.others.data.push(element);
                     break;
