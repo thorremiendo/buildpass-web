@@ -130,6 +130,12 @@ const ADMINMENUITEMS = [
     type: 'link',
     icon: 'feedback',
   },
+  {
+    state: 'admin/dashboard/logs',
+    name: 'Activity Logs',
+    type: 'link',
+    icon: 'assignment_returned',
+  },
 ];
 
 @Injectable()

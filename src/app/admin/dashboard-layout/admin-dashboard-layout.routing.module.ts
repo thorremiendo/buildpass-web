@@ -1,3 +1,4 @@
+import { ActivityLogsComponent } from './../activity-logs/activity-logs.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from 'src/app/admin/dashboard-layout/dashboard/dashboard.component';
@@ -23,6 +24,10 @@ const routes: Routes = [
       {
         path: 'feedback',
         component: UserFeedbackComponent,
+      },
+      {
+        path: 'logs',
+        component: ActivityLogsComponent,
       },
     ],
   },

@@ -53,6 +53,12 @@ export class AdminUserService {
     return this.apiService.get(url);
   }
 
+  fetchActivityLogs() {
+    const url = `/user/38/logs`;
+
+    return this.apiService.get(url);
+  }
+
   approveEmployee(uid) {
     const url = `/admin/${uid}/approve`;
 
