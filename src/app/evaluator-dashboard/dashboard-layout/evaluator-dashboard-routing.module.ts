@@ -1,3 +1,4 @@
+import { ESignatureComponent } from './../../shared/e-signature/e-signature.component';
 import { DownloadableFormsComponent } from './../downloadable-forms/downloadable-forms.component';
 import { UserGuardGuard } from './../../core/guard/user-guard.guard';
 import { NgModule } from '@angular/core';
@@ -56,6 +57,10 @@ const routes: Routes = [
       {
         path: 'edit-profile',
         component: EvaluatorEditProfileComponent,
+      },
+      {
+        path: 'sign-document',
+        component: ESignatureComponent,
       },
       {
         path: 'feedback',

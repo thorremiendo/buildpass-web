@@ -35,6 +35,7 @@ import { UpdatePasswordDialogComponent } from './update-password-dialog/update-p
 import { ImageViewerModule } from 'ngx-image-viewer';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { PasswordPromptComponent } from './password-prompt/password-prompt.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     FeedbackComponent,
     UpdatePasswordDialogComponent,
     ESignatureComponent,
+    PasswordPromptComponent,
   ],
   imports: [
     NgxExtendedPdfViewerModule,
