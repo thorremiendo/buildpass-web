@@ -1,5 +1,86 @@
-.example-box {
-  cursor: move;
-  position: relative;
-  z-index: 1;
+#e-signature {
+  #e-sig-container {
+    cursor: move;
+    position: absolute;
+    z-index: 1;
+    top: 20px;
+    left: 20px;
+
+    #e-sig-image-container {
+      height: 100%;
+      width: 100%;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+
+      img {
+        height: 100%;
+      }
+    }
+
+    .resize-container {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      outline: 1px dotted maroon;
+      
+      .resize {
+        position: absolute;
+        height: 10px;
+        width: 10px;
+        border-radius: 10px;
+        background-color: maroon;
+
+        &.top-left-resize {
+          top: -5px;
+          left: -5px;
+          cursor: nw-resize;
+        }
+
+        &.top-right-resize {
+          top: -5px;
+          right: -5px;
+          cursor: ne-resize;
+        }
+
+        &.bottom-left-resize {
+          bottom: -5px;
+          left: -5px;
+          cursor: sw-resize;
+        }
+
+        &.bottom-right-resize {
+          bottom: -5px;
+          right: -5px;
+          cursor: se-resize;
+        }
+      }
+    }
+  }
+
+  ::ng-deep pdf-viewer {
+    .ng2-pdf-viewer-container {
+      overflow-x: hidden;
+    }
+
+    .page {
+      margin: 0;
+      border: 0;
+
+      & * {
+        -moz-user-select: -moz-none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+    }
+  }
+
+  button {
+    display: block;
+    margin: 0 auto 50px;
+    background-color: maroon;
+    color: #fff;
+  }
 }

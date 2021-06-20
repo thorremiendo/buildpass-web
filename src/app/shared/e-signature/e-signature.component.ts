@@ -1,13 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-import {
-  CdkDragEnd,
-  CdkDragStart,
-  CdkDragMove,
-  CdkDragDrop,
-} from '@angular/cdk/drag-drop';
-import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { CdkDragStart, CdkDragEnd, CdkDragMove, CdkDragDrop } from '@angular/cdk/drag-drop';
+import { PDFDocument } from 'pdf-lib';
 
 @Component({
   selector: 'app-e-signature',
@@ -15,69 +8,163 @@ import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
   styleUrls: ['./e-signature.component.scss'],
 })
 export class ESignatureComponent implements OnInit {
-  public src = '../../../assets/forms/bldg-permit-certificate.pdf';
-  dragDroppables: any[];
-  state = '';
-  position = '';
-  xAxis;
-  yAxis;
   @Input() props: [{ [key: string]: object | any }];
+  public src = '../../../assets/forms/bldg-permit-certificate.pdf';
+  private minimumHeight = null;
+  private minimumWidth = null;
+  private originalHeight = null;
+  private originalWidth = null;
+  private originalX = null;
+  private originalY = null;
+  private originalMouseX = null;
+  private originalMouseY = null;
+  private esigImage = null;
 
   constructor() {}
 
-  ngOnInit(): void {
-    this.dragDroppables = this.props;
+  ngOnInit() {}
+
+  ngAfterViewInit() {
+    const esigImageContainer = document.getElementById('e-sig-image-container');
+    const computedStyle = getComputedStyle(esigImageContainer);
+    const src = computedStyle.backgroundImage.replace(/url\((['"])?(.*?)\1\)/gi, '$2');
+    this.esigImage = new Image();
+    this.esigImage.src = src;
   }
 
-  public dragEnded(event: CdkDragEnd) {
-    let element = event.source.getRootElement();
-    let boundingClientRect = element.getBoundingClientRect();
-    let parentPosition = this.getPosition(element);
-    this.xAxis = boundingClientRect.x - parentPosition.left;
-    this.yAxis = boundingClientRect.y - parentPosition.top;
+  dragStart($event) {
+    const esigContainer = document.getElementById('e-sig-container');
+    this.originalHeight = parseFloat(getComputedStyle(esigContainer, null).getPropertyValue('height').replace('px', ''));
+    this.originalWidth = parseFloat(getComputedStyle(esigContainer, null).getPropertyValue('width').replace('px', ''));
+    this.originalX = esigContainer.getBoundingClientRect().left;
+    this.originalY = esigContainer.getBoundingClientRect().top;
+    this.originalMouseX = $event.pageX;
+    this.originalMouseY = $event.pageY;
 
-    alert(`x: ${this.xAxis} y:${this.yAxis}`);
-  }
-  getPosition(el) {
-    let x = 0;
-    let y = 0;
-    while (el && !isNaN(el.offsetLeft) && !isNaN(el.offsetTop)) {
-      x += el.offsetLeft - el.scrollLeft;
-      y += el.offsetTop - el.scrollTop;
-      el = el.offsetParent;
+    if (!this.minimumHeight && !this.minimumWidth) {
+      this.minimumHeight = this.originalHeight / 4;
+      this.minimumWidth = this.originalWidth / 4;
     }
-    return { top: y, left: x };
+  }
+
+  dragEnd(event: CdkDragEnd) {
+    const rootContainer = document.getElementById('e-signature').getBoundingClientRect();
+    const esigContainer = document.getElementById('e-sig-container');
+    const xCoordinate = esigContainer.getBoundingClientRect().left - rootContainer.left;
+    const yCoordinate = esigContainer.getBoundingClientRect().top - rootContainer.top;
+    esigContainer.style.top = `${yCoordinate}px`;
+    esigContainer.style.left = `${xCoordinate}px`;
+    esigContainer.style.transform = null;
+    event.source._dragRef.reset();
+  }
+
+  dragOver($event) {
+    $event.preventDefault();
+  }
+
+  resize($event) {
+    const esigContainer = document.getElementById('e-sig-container');
+    const offsetX = $event.pageX - this.originalMouseX;
+    const offsetY = $event.pageY - this.originalMouseY;
+    
+    if ($event.clientX != 0 && $event.clientY != 0) {
+      if ($event.target.classList.contains('bottom-right-resize')) {
+        const height = this.originalHeight + ($event.pageY - this.originalMouseY);
+        const width = this.originalWidth + ($event.pageX - this.originalMouseX);
+        if (height > this.minimumHeight && width > this.minimumWidth) {
+          esigContainer.style.height = height + 'px';
+          esigContainer.style.width = width + 'px';
+
+          if (Math.abs(offsetX) > Math.abs(offsetY)) {
+            esigContainer.style.height = (width * (this.esigImage.height / this.esigImage.width)) + 'px';
+          } else {
+            esigContainer.style.width = (height * (this.esigImage.width / this.esigImage.height)) + 'px';
+          }
+        }
+      } else if ($event.target.classList.contains('bottom-left-resize')) {
+        const height = this.originalHeight + ($event.pageY - this.originalMouseY);
+        const width = this.originalWidth - ($event.pageX - this.originalMouseX);
+        if (height > this.minimumHeight && width > this.minimumWidth) {
+          esigContainer.style.height = height + 'px';
+          esigContainer.style.width = width + 'px';
+          esigContainer.style.left = this.originalX + ($event.pageX - this.originalMouseX) + 'px';
+
+          if (Math.abs(offsetX) > Math.abs(offsetY)) {
+            esigContainer.style.height = (width * (this.esigImage.height / this.esigImage.width)) + 'px';
+          } else {
+            esigContainer.style.width = (height * (this.esigImage.width / this.esigImage.height)) + 'px';
+            const computedStyle = getComputedStyle(esigContainer);
+            esigContainer.style.left = (Number(computedStyle.left.replace('px', '')) + (width - Number(computedStyle.width.replace('px', '')))) + 'px';
+          }
+        }
+      } else if ($event.target.classList.contains('top-right-resize')) {
+        const height = this.originalHeight - ($event.pageY - this.originalMouseY);
+        const width = this.originalWidth + ($event.pageX - this.originalMouseX);
+        if (height > this.minimumHeight && width > this.minimumWidth) {
+          esigContainer.style.height = height + 'px';
+          esigContainer.style.top = this.originalY + window.scrollY + ($event.pageY - this.originalMouseY) + 'px';
+          esigContainer.style.width = width + 'px';
+
+          if (Math.abs(offsetX) > Math.abs(offsetY)) {
+            esigContainer.style.height = (width * (this.esigImage.height / this.esigImage.width)) + 'px';
+            const computedStyle = getComputedStyle(esigContainer);
+            esigContainer.style.top = (Number(computedStyle.top.replace('px', '')) + (height - Number(computedStyle.height.replace('px', '')))) + 'px';
+          } else {
+            esigContainer.style.width = (height * (this.esigImage.width / this.esigImage.height)) + 'px';
+          }
+        }
+      } else if ($event.target.classList.contains('top-left-resize')) {
+        const height = this.originalHeight - ($event.pageY - this.originalMouseY);
+        const width = this.originalWidth - ($event.pageX - this.originalMouseX);
+        if (height > this.minimumHeight && width > this.minimumWidth) {
+          esigContainer.style.height = height + 'px';
+          esigContainer.style.top = this.originalY + window.scrollY + ($event.pageY - this.originalMouseY) + 'px';
+          esigContainer.style.width = width + 'px';
+          esigContainer.style.left = this.originalX + ($event.pageX - this.originalMouseX) + 'px';
+
+          if (Math.abs(offsetX) > Math.abs(offsetY)) {
+            esigContainer.style.height = (width * (this.esigImage.height / this.esigImage.width)) + 'px';
+            const computedStyle = getComputedStyle(esigContainer);
+            esigContainer.style.top = (Number(computedStyle.top.replace('px', '')) + (height - Number(computedStyle.height.replace('px', '')))) + 'px';
+          } else {
+            esigContainer.style.width = (height * (this.esigImage.width / this.esigImage.height)) + 'px';
+            const computedStyle = getComputedStyle(esigContainer);
+            esigContainer.style.left = (Number(computedStyle.left.replace('px', '')) + (width - Number(computedStyle.width.replace('px', '')))) + 'px';
+          }
+        }
+      }
+    }
   }
 
   async insertQrCode() {
-    const url = this.src;
-    const qr_code_bytes = await fetch('../../../assets/esig.png').then((res) =>
-      res.arrayBuffer()
-    );
-
-    const existingPdfBytes = await fetch(url).then((res) => res.arrayBuffer());
+    const qrCodeBytes = await fetch('../../../assets/esig.png').then(res => res.arrayBuffer());
+    const existingPdfBytes = await fetch(this.src).then((res) => res.arrayBuffer());
     const pdfDocLoad = await PDFDocument.load(existingPdfBytes);
-    const qr_code = await pdfDocLoad.embedPng(qr_code_bytes);
+    const qrCode = await pdfDocLoad.embedPng(qrCodeBytes);
 
+    const DOMPages = document.getElementsByClassName('page');
     const pages = pdfDocLoad.getPages();
 
-    const { width, height } = pages[0].getSize();
-    const pngDims = qr_code.scale(0.5);
+    const rootContainer = document.getElementById('e-signature').getBoundingClientRect();
+    const esigImageContainer = document.getElementById('e-sig-image-container').getBoundingClientRect();
+    const pdfImageHeight = (esigImageContainer.height / DOMPages[0].getBoundingClientRect().height) * pages[0].getSize().height;
+    const pdfImageWidth = (esigImageContainer.width / DOMPages[0].getBoundingClientRect().width) * pages[0].getSize().width;
 
-    pages[0].drawImage(qr_code, {
-      x: this.xAxis - 100,
-      y: this.yAxis - 800,
-      // x: 0,
-      // y: 0,
-      width: pngDims.width / 2.5,
-      height: pngDims.height / 2.5,
+    const xPercent = (esigImageContainer.left - rootContainer.left) / DOMPages[0].getBoundingClientRect().width;
+    const yPercent = (esigImageContainer.top - rootContainer.top) / DOMPages[0].getBoundingClientRect().height;
+    const pdfXCoordinate = xPercent * pages[0].getSize().width;
+    const pdfYCoordinate = yPercent * pages[0].getSize().height;
+
+    pages[0].drawImage(qrCode, {
+      x: pdfXCoordinate,
+      y: pages[0].getSize().height - pdfYCoordinate - pdfImageHeight,
+      height: pdfImageHeight,
+      width: pdfImageWidth,
     });
 
     const pdfBytes = await pdfDocLoad.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
-    // window.open(file); // open in new window
-    window.open('../../../assets/bldg-permit-certificate.pdf')
-    return blob;
+    window.open(file);
   }
 }
