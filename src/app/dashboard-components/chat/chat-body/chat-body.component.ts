@@ -1,4 +1,4 @@
-import { OnInit, Component, ViewChild, ElementRef } from '@angular/core';
+import { OnInit, Component, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { messages, chatBotMessage } from '../../chat-box/chat-data-sample';
 import { ChatService } from '../../../core';
@@ -34,7 +34,11 @@ export class ChatBodyComponent implements OnInit {
     null
   );
 
-  constructor(private chatService: ChatService) {}
+  constructor(
+    private chatService: ChatService,
+    private changeDetectorRef: ChangeDetectorRef,) {
+   
+  }
 
   ngOnInit(): void {
     this.checkDate();
