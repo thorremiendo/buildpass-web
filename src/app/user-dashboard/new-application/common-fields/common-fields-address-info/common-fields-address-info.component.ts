@@ -8,6 +8,7 @@ import { BarangayService } from 'src/app/core/services/barangay.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 //map
 import { environment } from '../../../../../environments/environment';
@@ -62,7 +63,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     private newApplicationFormService: NewApplicationFormService,
     private newApplicationSerivce: NewApplicationService,
     private barangayService: BarangayService,
-    private mapService: MapService
+    private mapService: MapService,
+    private snackBar: MatSnackBar
   ) {
     this.barangayService.getBarangayInfo().subscribe((data) => {
       this.barangay = data;
@@ -255,8 +257,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       url: '/dashboard/new/building-permit',
     };
     this.newApplicationSerivce.saveAsDraft(body).subscribe((res) => {
-      Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
-        (result) => {
+      Swal.fire('Success!', 'Application Details Submitted!', 'success')
+        .then((result) => {
           localStorage.removeItem('newApplicationInfo');
           localStorage.removeItem('commonFieldsInfo');
           this.isLoading = false;
@@ -277,8 +279,17 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
               this._router.navigateByUrl('/dashboard/new/demolition-permit');
               break;
           }
-        }
-      );
+        })
+        .catch((e) => {
+          this.openSnackBar('An error occured. Please try again.');
+          this._router.navigateByUrl('dashboard/new/step-one');
+        });
+    });
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 2000,
     });
   }
 }
