@@ -67,11 +67,14 @@
       </div>
 
       <div *ngIf="!showContacts">
+      
         <ng-container *ngFor="let c of selectedMessage">
+          <perfect-scrollbar #chatPS>
           <ng-template
             [ngIf]="c.type == 'incoming' && !showContacts"
             [ngIfElse]="evenblock"
           >
+         
             <div class="chat-list odd">
               <div class="chat-message">
                 <div class="chat-block">
@@ -89,6 +92,8 @@
                 }}</span>
               </div>
             </div>
+       
+           
           </ng-template>
           <ng-template #evenblock>
             <!-- <div *ngIf="talkWithChatbot" class="chat-list even">
@@ -108,7 +113,9 @@
               <div *ngIf="talkWithEvaluator"></div>
             </div>
           </ng-template>
+        </perfect-scrollbar>
         </ng-container>
+      
       </div>
     </mat-card-content>
   </perfect-scrollbar>
