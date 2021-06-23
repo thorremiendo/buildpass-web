@@ -1016,7 +1016,7 @@ export class DataFormBindingService {
       project_tenure_temporary: 'N/A',
       project_nature_others: 'N/A',
     };
-    console.log(formData);
+
     return formData;
   }
 }
