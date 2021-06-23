@@ -59,14 +59,14 @@ export class BuildingPermitComponent implements OnInit {
     {
       id: 106,
       src: '../../../../assets/forms/updated/situational_report.pdf',
-      label: 'Step 6',
+      label: 'Step 5',
       sample: '../../../../assets/forms/sample/Situational.png',
     },
   ];
 
   public fieldSets: any = [
     {
-      label: `Step ${this.forms.length + 1}`,
+      label: `Step ${this.forms.length + 12323}`,
       title: 'Documentary Requirements',
       documents: [26, 23, 24, 25],
     },
@@ -207,12 +207,7 @@ export class BuildingPermitComponent implements OnInit {
           ? this.fieldSets[4].documents.push(...this.isHaveCoOwners)
           : null;
         isConstructionStatus
-          ? this.forms.push({
-              id: 48,
-              src: '../../../../assets/forms/updated/notice_of_construction.pdf',
-              label: 'Step 5',
-              sample: '',
-            })
+          ? this.updateForms()
           : this.fieldSets[0].documents.push(...this.isConstructionStatus);
         isOccupancyCommercial ? this.fieldSets[3].documents.push(47) : null;
         isOccupancyCommercial ? this.fieldSets[1].documents.push(64) : null;
@@ -233,6 +228,15 @@ export class BuildingPermitComponent implements OnInit {
       });
 
     this.isLoading = false;
+  }
+
+  updateForms() {
+    this.forms.push({
+      id: 48,
+      src: '../../../../assets/forms/updated/notice_of_construction.pdf',
+      label: 'Step 6',
+      sample: '',
+    });
   }
 
   // ngAfterViewInit() {
@@ -291,6 +295,11 @@ export class BuildingPermitComponent implements OnInit {
       };
     }
     for (let i = 0; i < this.fieldSets.length; i++) {
+      this.fieldSets[i] = {
+        label: `Step ${this.getFormsLength() + i + 1}`,
+        title: this.fieldSets[i].title,
+        documents: this.fieldSets[i].documents,
+      };
       for (let j = 0; j < this.fieldSets[i].documents.length; j++) {
         this.fieldSets[i].documents[j] = {
           id: this.fieldSets[i].documents[j],
