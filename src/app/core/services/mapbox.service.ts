@@ -16,6 +16,8 @@ export class MapService {
   lat = 16.416665;
   lng = 120.5999976;
   zoom = 15;
+  public currentMarkers = [];
+
   constructor(private httpClient: HttpClient) {
     mapboxgl.accessToken = environment.mapbox.accessToken;
   }
@@ -45,9 +47,19 @@ export class MapService {
     })
       .setLngLat([x, y])
       .addTo(this.map);
+    this.currentMarkers.push(this.marker);
     this.marker.on('dragend', () => {
       console.log(this.marker.getLngLat().lng, this.marker.getLngLat().lat);
     });
+  }
+
+  removeMarker() {
+    console.log(this.currentMarkers.length);
+    if (this.currentMarkers !== null) {
+      for (var i = this.currentMarkers.length - 1; i >= 0; i--) {
+        this.currentMarkers[i].remove();
+      }
+    }
   }
 
   buildMap() {

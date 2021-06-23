@@ -152,6 +152,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       inspector_prc_no: ['', Validators.required],
     });
     this.projectDetailsForm.valueChanges.subscribe((data) => {
+      this.mapService.removeMarker();
       this.projectFormChange = data;
       console.log(this.projectDetailsForm.value.project_barangay);
       setTimeout(() => {
