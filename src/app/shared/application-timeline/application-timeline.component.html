@@ -1,22 +1,172 @@
-<ng-container *ngIf="!isLoading">
-  <div *ngIf="applicationTimeline">
-    <section *ngFor="let item of applicationTimeline" class="timeline-area">
-      <div class="timeline">
-        <h4>
-          {{ item.name }}
-        </h4>
-        <h5 [style.color]="item.status.includes('Returned') ? 'red' : 'green'">
-          <strong>
-            {{ item.status }}
-          </strong>
-        </h5>
-        <h6>
-          {{ item.created_at | date: "MMMM dd, yyyy hh:mm:ss a":"+0800" }}
-        </h6>
+<div class="application-timeline stepper container-fluid">
+  <mat-horizontal-stepper #stepper>
+    <mat-step>
+      <ng-template matStepperIcon="edit">
+        <mat-icon>done</mat-icon>
+      </ng-template>
+      <div id="receiving-list">
+        <div class="timeline-box">
+          <div class="timeline-box-label">Receiving</div>
+          <ul></ul>
+        </div>
       </div>
-    </section>
+    </mat-step>
+    <mat-step>
+      <div id="cpdo-list">
+        <div class="timeline-box">
+          <div class="timeline-box-label">CPDO</div>
+          <div class="timeline-box-sublabel">Zoning Inspector</div>
+          <ul></ul>
+          <div class="timeline-box-sublabel">Coordinator</div>
+          <ul></ul>
+        </div>
+      </div>
+    </mat-step>
+    <mat-step>
+      <div id="cbao-list">
+        <div class="timeline-box">
+          <div class="timeline-box-label">CBAO</div>
+          <div class="timeline-box-sublabel">Line and Grade</div>
+          <ul></ul>
+          <div class="timeline-box-sublabel">Architectural</div>
+          <ul></ul>
+          <div class="timeline-box-sublabel">Structural</div>
+          <ul></ul>
+          <div class="timeline-box-sublabel">Sanitary</div>
+          <ul></ul>
+          <div class="timeline-box-sublabel">Electrical</div>
+          <ul></ul>
+        </div>
+      </div> 
+      <div id="bfp-list">
+        <div class="timeline-box">
+          <div class="timeline-box-label">BFP</div>
+          <ul></ul>
+        </div>
+      </div>
+      <div id="cepmo-list">
+        <div class="timeline-box">
+          <div class="timeline-box-label">CEPMO</div>
+          <ul></ul>
+        </div>
+      </div>
+    </mat-step>
+    <mat-step>
+      <div id="division-chief-list">
+        <div class="timeline-box">
+          <div class="timeline-box-label">Division Chief</div>
+          <ul></ul>
+        </div>
+      </div>
+    </mat-step>
+    <mat-step>
+      <div id="building-official-list">
+        <div class="timeline-box">
+          <div class="timeline-box-label">Building Official</div>
+          <ul></ul>
+        </div>
+      </div>
+    </mat-step>
+    <mat-step>
+      <div id="releasing-list">
+        <div class="timeline-box">
+          <div class="timeline-box-label">Releasing</div>
+          <ul></ul>
+        </div>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>
+
+<div class="application-timeline flowchart container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-4 column-1">
+      <div id="receiving">
+        <span class="step-label">1</span>
+        <div class="timeline-box">
+          <div class="timeline-box-label">Receiving</div>
+          <ul></ul>
+          <mat-icon class="compliant">check</mat-icon>
+          <mat-icon class="pending">assignment</mat-icon>
+        </div>
+      </div>
+      <div id="cpdo">
+        <span class="step-label">2</span>
+        <div class="timeline-box">
+          <div class="timeline-box-label">CPDO</div>
+          <div class="timeline-box-sublabel">Zoning Inspector</div>
+          <ul></ul>
+          <div class="timeline-box-sublabel">Coordinator</div>
+          <ul></ul>
+          <mat-icon class="compliant">check</mat-icon>
+          <mat-icon class="pending">assignment</mat-icon>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-4 column-2">
+      <div id="cbao">
+        <span class="step-label">3</span>
+        <div class="timeline-box">
+          <div class="timeline-box-label">CBAO</div>
+          <div class="timeline-box-sublabel">Line and Grade</div>
+          <ul></ul>
+          <div class="timeline-box-sublabel">Architectural</div>
+          <ul></ul>
+          <div class="timeline-box-sublabel">Structural</div>
+          <ul></ul>
+          <div class="timeline-box-sublabel">Sanitary</div>
+          <ul></ul>
+          <div class="timeline-box-sublabel">Electrical</div>
+          <ul></ul>
+          <mat-icon class="compliant">check</mat-icon>
+          <mat-icon class="pending">assignment</mat-icon>
+        </div>
+      </div> 
+      <div id="bfp">
+        <div class="timeline-box">
+          <div class="timeline-box-label">BFP</div>
+          <ul></ul>
+          <mat-icon class="compliant">check</mat-icon>
+          <mat-icon class="pending">assignment</mat-icon>
+        </div>
+      </div>
+      <div id="cepmo">
+        <div class="timeline-box">
+          <div class="timeline-box-label">CEPMO</div>
+          <ul></ul>
+          <mat-icon class="compliant">check</mat-icon>
+          <mat-icon class="pending">assignment</mat-icon>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-4 column-3">
+      <div id="division-chief">
+        <span class="step-label">4</span>
+        <div class="timeline-box">
+          <div class="timeline-box-label">Division Chief</div>
+          <ul></ul>
+          <mat-icon class="compliant">check</mat-icon>
+          <mat-icon class="pending">assignment</mat-icon>
+        </div>
+      </div>
+      <div id="building-official">
+        <span class="step-label">5</span>
+        <div class="timeline-box">
+          <div class="timeline-box-label">Building Official</div>
+          <ul></ul>
+          <mat-icon class="compliant">check</mat-icon>
+          <mat-icon class="pending">assignment</mat-icon>
+        </div>
+      </div>
+      <div id="releasing">
+        <span class="step-label">6</span>
+        <div class="timeline-box">
+          <div class="timeline-box-label">Releasing</div>
+          <ul></ul>
+          <mat-icon class="compliant">check</mat-icon>
+          <mat-icon class="pending">assignment</mat-icon>
+        </div>
+      </div>
+    </div>
   </div>
-  <ng-container *ngIf="applicationTimeline.length == 0">
-    <P>No activity... </P>
-  </ng-container>
-</ng-container>
+</div>

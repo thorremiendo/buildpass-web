@@ -102,7 +102,7 @@ export class ViewApplicationComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
-        this.isLoading = false;
+        console.log(this.applicationDetails);
       });
   }
   fetchUserDocs() {
