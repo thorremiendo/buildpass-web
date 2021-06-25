@@ -51,6 +51,12 @@ export class CpdoFeesTableComponent implements OnInit {
         this.cpdoFees = res.data;
       });
   }
+  canAddFee() {
+    const status = this.applicationDetails.application_status_id;
+    if (status == 2 || status == 10) {
+      return true;
+    } else return false;
+  }
   getOfficeType(id): string {
     return officeTypes[id];
   }

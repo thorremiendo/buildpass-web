@@ -1,14 +1,20 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import * as Rx from 'rxjs/Rx';
 import { BehaviorSubject, from, Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NewApplicationService {
-  constructor(private api: ApiService) {}
+  constructor(
+    private api: ApiService,
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) {}
   public applicationId = new BehaviorSubject<any>('');
 
   submitApplication(body) {
@@ -20,9 +26,17 @@ export class NewApplicationService {
         return data;
       }),
       catchError((error) => {
+        this.openSnackBar('An error occured. Please try again.');
+        this.router.navigateByUrl('dashboard/new/step-one');
         return throwError('Something went wrong.');
       })
     );
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 2000,
+    });
   }
 
   submitDocument(body) {

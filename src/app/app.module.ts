@@ -1,4 +1,5 @@
-import * as LogRocket from "logrocket";
+import { TreasuryModule } from './treasury-dashboard/treasury.module';
+import * as LogRocket from 'logrocket';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -103,7 +104,7 @@ LogRocket.init('bblmhh/buildpass-staging');
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
-
+    TreasuryModule,
     AdminModule,
     EvaluatorModule,
     LayoutModule,

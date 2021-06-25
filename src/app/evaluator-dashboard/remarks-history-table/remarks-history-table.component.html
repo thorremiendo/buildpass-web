@@ -17,7 +17,18 @@
     <ng-container matColumnDef="remark">
       <th mat-header-cell *matHeaderCellDef>Remark</th>
       <td mat-cell *matCellDef="let item">
-        {{ item.remarks ? item.remarks : "Compliant" }}
+        <ng-container *ngIf="data.evaluatorRole; else applicant">
+          <ng-container
+            *ngIf="data.evaluatorRole.code !== 'CBAO-REC'; else receving"
+            >{{ item.remarks ? item.remarks : "Compliant" }}</ng-container
+          >
+          <ng-template #receving>
+            {{ item.remarks ? item.remarks : "Submitted" }}
+          </ng-template>
+        </ng-container>
+        <ng-template #applicant>
+          {{ item.remarks ? item.remarks : "Compliant" }}
+        </ng-template>
       </td>
     </ng-container>
 
@@ -28,12 +39,25 @@
         {{ item.evaluator_detail.last_name }}
       </td>
     </ng-container>
+    <ng-container matColumnDef="office">
+      <th mat-header-cell *matHeaderCellDef>Office</th>
+      <td mat-cell *matCellDef="let item">
+        {{ getOfficeType(item.evaluator_detail.employee_detail.office_id) }}
+      </td>
+    </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let items; columns: displayedColumns"></tr>
   </table>
+  <div class="d-flex align-items-center" *ngIf="data.evaluator">
+    <p class="m-0 p-0 mr-2" style="font-size: 12px">View All</p>
+    <mat-slide-toggle
+      [checked]="useDefault"
+      (change)="toggle($event)"
+    ></mat-slide-toggle>
+  </div>
 
-  <form
+  <!-- <form
     *ngIf="revisionData.length >= 1 && data.evaluator"
     [formGroup]="remarksForm"
   >
@@ -56,7 +80,7 @@
         </button>
       </div>
     </div>
-  </form>
+  </form> -->
   <!-- <div class="mt-5 text-right">
     <button mat-raised-button color="accent" (click)="onNoClick()">
       Close

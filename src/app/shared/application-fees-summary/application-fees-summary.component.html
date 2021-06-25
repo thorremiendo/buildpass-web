@@ -36,19 +36,19 @@
 
               <td class="right">Php {{ applicationFee.cbao }}</td>
             </tr>
-            <tr>
+            <tr *ngIf="applicationDetails.permit_type_id == 1">
               <td class="center">2</td>
               <td class="left">City Planning and Development Office</td>
 
               <td class="right">Php {{ applicationFee.cpdo }}</td>
             </tr>
-            <tr>
+            <tr *ngIf="applicationDetails.permit_type_id == 1">
               <td class="center">3</td>
               <td class="left">Bureau of Fire Protection</td>
 
               <td class="right">Php {{ applicationFee.bfp }}</td>
             </tr>
-            <tr>
+            <tr *ngIf="applicationDetails.permit_type_id == 1">
               <td class="center">4</td>
               <td class="left">City Environment and Parks Management Office</td>
 

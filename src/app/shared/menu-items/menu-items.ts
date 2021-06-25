@@ -149,6 +149,15 @@ const ADMINMENUITEMS = [
   },
 ];
 
+const TREASURYMENUITEMS = [
+  {
+    state: 'treasury/dashboard/home',
+    name: 'Home',
+    type: 'link',
+    icon: 'description',
+  },
+];
+
 @Injectable()
 export class MenuItems {
   getMenuitem(type = ''): Menu[] {
@@ -163,6 +172,9 @@ export class MenuItems {
         break;
       case 'super admin':
         menu = ADMINMENUITEMS;
+        break;
+      case 'treasury':
+        menu = TREASURYMENUITEMS;
         break;
     }
 

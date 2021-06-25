@@ -95,6 +95,16 @@ export class FeedService {
     return this.subject.asObservable();
   }
 
+  isViewed(id){
+    const url = `/notification/${id}/viewed`;
+    const body = {
+      is_viewed: 1
+    }
+
+    return this._api.post(url, body);
+    
+  }
+
   getNotifTable(){
     const url =`/notification/${this.notifChannel}/${this.channelType}`;
     return this._api.get(url).pipe(

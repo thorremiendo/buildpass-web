@@ -56,6 +56,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   filterUserDocs(forms) {
     const USER_FORMS = forms.filter((doc) => doc.document_id !== 107);
     this.dataSource = USER_FORMS;
+    console.log(this.dataSource)
     this.isLoading = false;
   }
   fetchApplicationInfo() {
@@ -203,6 +204,32 @@ export class CbaoEvaluatorComponent implements OnInit {
     });
   }
 
+  otherPermitsCanEdit() {
+    if (
+      this.applicationInfo.application_status_id == 1 &&
+      this.evaluatorRole.code == 'CBAO-REC'
+    ) {
+      return true;
+    } else if (
+      (this.applicationInfo.application_status_id == 18 &&
+        this.evaluatorRole.code == 'CBAO-LG') ||
+      this.evaluatorRole.code == 'CBAO-STR' ||
+      this.evaluatorRole.code == 'CBAO-ELEC'
+    ) {
+      return true;
+    } else if (
+      this.applicationInfo.application_status_id == 12 &&
+      this.evaluatorRole.code == 'CBAO-DC'
+    ) {
+      return true;
+    } else if (
+      this.applicationInfo.application_status_id == 13 &&
+      this.evaluatorRole.code == 'CBAO-BO'
+    ) {
+      return true;
+    }
+  }
+
   checkFormsCompliant() {
     const isCompliant = this.dataSource.every(
       (form) => form.document_status_id == 1
@@ -334,64 +361,6 @@ export class CbaoEvaluatorComponent implements OnInit {
     }
   }
 
-  otherPermitsReturnToApplicant() {
-    if (this.checkFormsReviewed()) {
-      this.isLoading = true;
-      if (this.evaluatorRole.code == 'CBAO-REC') {
-        const body = {
-          application_status_id: 5,
-          receiving_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            this.openSnackBar('Returned to Applicant!');
-            window.location.reload();
-          });
-      } else if (this.evaluatorRole.code == 'CBAO-DC') {
-        const body = {
-          application_status_id: 5,
-          dc_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            this.openSnackBar('Returned to Applicant!');
-            window.location.reload();
-          });
-      } else if (this.evaluatorRole.code == 'CBAO-BO') {
-        const body = {
-          application_status_id: 5,
-          bo_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            this.openSnackBar('Returned to Applicant!');
-            window.location.reload();
-          });
-      } else {
-        //IF TECHNICAL EVALUATORS\
-        const body = {
-          application_status_id: 5,
-          cbao_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            this.openSnackBar('Returned to Applicant!');
-            window.location.reload();
-          });
-      }
-    } else {
-      this.isLoading = false;
-      this.openSnackBar('Review all documents first!');
-    }
-  }
   updateFormStatus() {
     if (this.applicationInfo.permit_type_id == 1) {
       this.isLoading = true;
@@ -501,6 +470,7 @@ export class CbaoEvaluatorComponent implements OnInit {
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
         .subscribe((res) => {
+          console.log('division chief');
           Swal.fire(
             'All documents are compliant!!',
             `Notified Division Chief for Evaluation!`,
@@ -533,6 +503,7 @@ export class CbaoEvaluatorComponent implements OnInit {
           this.applicationService
             .updateApplicationStatus(body, this.applicationId)
             .subscribe((res) => {
+              console.log('division chief');
               Swal.fire(
                 'All documents are compliant!!',
                 `Notified Division Chief for Evaluation!`,

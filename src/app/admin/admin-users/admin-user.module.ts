@@ -12,7 +12,7 @@ import { AdminUserInfoComponent } from '../admin-user-info/admin-user-info.compo
 import { AdminEmployeeCreateComponent } from './admin-employee-create/admin-employee-create.component';
 import { AdminEmployeeViewComponent } from './admin-employee-view/admin-employee-view.component';
 import { MaterialModule } from 'src/app/material-module';
-import { AdminApplicantListComponent } from './admin-applicant-list/admin-applicant-list.component';
+import { AdminApplicantListComponent, ApplicantDeleteDialog } from './admin-applicant-list/admin-applicant-list.component';
 
 
 @NgModule({
@@ -23,6 +23,7 @@ import { AdminApplicantListComponent } from './admin-applicant-list/admin-applic
     AdminEmployeeCreateComponent,
     AdminEmployeeViewComponent,
     AdminApplicantListComponent,
+    ApplicantDeleteDialog,
   ],
   imports: [
     CommonModule,

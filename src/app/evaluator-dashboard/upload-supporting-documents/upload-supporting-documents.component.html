@@ -9,10 +9,10 @@
       <mat-label>File Name</mat-label>
       <input matInput [formControl]="fileName" />
     </mat-form-field>
-    <mat-form-field class="example-full-width">
-      <mat-label>File Description</mat-label>
+    <!-- <mat-form-field class="example-full-width">
+      <mat-label>File Description (optional)</mat-label>
       <input matInput [formControl]="fileDesc" />
-    </mat-form-field>
+    </mat-form-field> -->
   </div>
   <ngx-dropzone
     (change)="onSelect($event, 'selectedFile')"

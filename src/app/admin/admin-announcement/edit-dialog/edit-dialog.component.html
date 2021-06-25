@@ -1,4 +1,5 @@
-<h2 mat-dialog-title>Update Announcement</h2>
+<div *ngIf="!isLoading">
+  <h2 mat-dialog-title>Update Announcement</h2>
 <mat-dialog-content class="py-3">
     <mat-form-field appearance="outline">
         <mat-label>Subject</mat-label>
@@ -41,24 +42,32 @@
     </div>
   </div>
 
-  <image-cropper
+  <!-- <image-cropper
     [imageBase64]="data.photo_path_original"
     [maintainAspectRatio]="true"
     [aspectRatio]="4 / 3"
     [resizeToWidth]="128"
     format="png"
     (imageCropped)="imageCropped($event)"
-  ></image-cropper>
-
-  <img [src]="data.photo_path_crop" />
+  ></image-cropper> -->
+  <div 
+    [ngStyle]="{'background-image': 'url(' + data.photo_path_original + ')'}"
+    class="img">
+    <!-- <img [src]="data.photo_path_original" /> -->
+    <p>fsfsf</p>
+  </div>
+ 
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
   <button
     mat-button
-    [mat-dialog-close]="data"
+    [mat-dialog-close]="true"
     cdkFocusInitial
   >
     Update
   </button>
 </mat-dialog-actions>
+
+
+</div>

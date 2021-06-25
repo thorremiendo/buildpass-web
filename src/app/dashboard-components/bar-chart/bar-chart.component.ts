@@ -69,7 +69,7 @@ export class BarChartComponent implements OnInit {
                 bar: {
                     horizontal: false,
                     columnWidth: '30%',
-                    endingShape: 'flat'
+                    // endingShape: 'flat'
                 },
 
             },

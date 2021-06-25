@@ -79,7 +79,9 @@
       type="button"
       (click)="showAddItem()"
       [disabled]="
-        evaluatorDetails.office_id !== 4 || evaluatorRole.code == 'CBAO-REC'
+        evaluatorDetails.office_id !== 4 ||
+        evaluatorRole.code == 'CBAO-REC' ||
+        !canAddFee()
       "
     >
       Add Another Item

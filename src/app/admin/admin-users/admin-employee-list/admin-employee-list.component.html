@@ -107,14 +107,16 @@
                     mat-menu-item
                     (click)="sendEmailResetPassword(user)"
                   >
-                    Reset Password
+                  <mat-icon>lock</mat-icon>
+                   <span>Reset Password</span> 
                   </button>
                   <button
                     mat-menu-item
                     color="primary"
                     (click)="editUser(user)"
                   >
-                    Edit
+                  <mat-icon>visibility</mat-icon>
+                  <span>View User</span>
                   </button>
                 </mat-menu>
               </td>

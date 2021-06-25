@@ -49,6 +49,7 @@
           color="primary"
           (click)="proceed()"
           *ngIf="applicationInfo.application_status_id == 6"
+          [disabled]="!receiveApplications"
         >
           Continue
         </button>
@@ -57,6 +58,7 @@
           color="primary"
           (click)="submit()"
           *ngIf="applicationInfo.application_status_id == 9"
+          [disabled]="!receiveApplications"
         >
           Submit
         </button>
@@ -73,7 +75,14 @@
 
 <ng-container *ngIf="!isAuthorized">
   <div
-    class="d-flex justify-content-center align-items-center w-100 flex-column mt-5"
+    class="
+      d-flex
+      justify-content-center
+      align-items-center
+      w-100
+      flex-column
+      mt-5
+    "
   >
     <img src="../../../assets/illustrations/stop.svg" style="width: 100px" />
     <h3 class="mt-5" style="font-weight: bold; color: maroon">

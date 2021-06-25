@@ -74,7 +74,7 @@
       color="primary"
       type="button"
       (click)="showAddItem()"
-      [disabled]="evaluatorDetails.office_id !== 1"
+      [disabled]="evaluatorDetails.office_id !== 1 || !canAddFee()"
     >
       Add Another Item
     </button>

@@ -10,6 +10,7 @@ import { AuthService, BarangayService } from 'src/app/core';
 import { map, startWith } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface Barangay {
   id: number;
@@ -55,18 +56,20 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
     private _router: Router,
     private newApplicationFormService: NewApplicationFormService,
     private newApplicationService: NewApplicationService,
-    private barangayService: BarangayService
+    private barangayService: BarangayService,
+    private snackBar: MatSnackBar
   ) {
     this.createForm();
     this.barangayService.getBarangayInfo().subscribe((data) => {
       this.barangay = data;
 
-      this._filteredBarangayOptions = this.representativeDetailsFormControl.representative_barangay.valueChanges.pipe(
-        startWith(''),
-        map((barangay) =>
-          barangay ? this._filter(barangay) : this.barangay.slice()
-        )
-      );
+      this._filteredBarangayOptions =
+        this.representativeDetailsFormControl.representative_barangay.valueChanges.pipe(
+          startWith(''),
+          map((barangay) =>
+            barangay ? this._filter(barangay) : this.barangay.slice()
+          )
+        );
     });
   }
 
@@ -175,8 +178,8 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
       };
 
       this.newApplicationService.submitApplication(body).subscribe((res) => {
-        Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
-          (result) => {
+        Swal.fire('Success!', 'Application Details Submitted!', 'success')
+          .then((result) => {
             console.log(result);
             this.isLoading = false;
 
@@ -197,10 +200,19 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
                 this._router.navigateByUrl('/dashboard/new/demolition-permit');
                 break;
             }
-          }
-        );
+          })
+          .catch((e) => {
+            this.openSnackBar('An error occured. Please try again.');
+            this._router.navigateByUrl('dashboard/new/step-one');
+          });
       });
     }
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 2000,
+    });
   }
 
   onSelect($event: NgxDropzoneChangeEvent, type) {

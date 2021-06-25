@@ -51,6 +51,12 @@ export class CepmoFeesTableComponent implements OnInit {
         this.dataSource = res.data;
       });
   }
+  canAddFee() {
+    const status = this.applicationDetails.application_status_id;
+    if (status == 3) {
+      return true;
+    } else return false;
+  }
   getOfficeType(id): string {
     return officeTypes[id];
   }

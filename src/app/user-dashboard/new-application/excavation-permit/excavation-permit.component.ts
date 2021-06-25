@@ -6,6 +6,7 @@ import { DataFormBindingService } from 'src/app/core/services/data-form-binding.
 import Swal from 'sweetalert2';
 import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from './../../../../environments/environment';
 
 @Component({
   selector: 'app-excavation-permit',
@@ -27,8 +28,7 @@ export class ExcavationPermitComponent implements OnInit {
   public forms: any = [
     {
       id: 5,
-      src:
-        '../../../../assets/forms/updated/Excavation_and_Ground_Preparation_Permit.pdf',
+      src: '../../../../assets/forms/updated/Excavation_and_Ground_Preparation_Permit.pdf',
     },
   ];
 
@@ -246,7 +246,8 @@ export class ExcavationPermitComponent implements OnInit {
 
   public async upload(form): Promise<void> {
     this.isSubmitting = true;
-    const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    const blob =
+      await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     this.dataBindingService.handleSaveExcavationForm(
       this.applicationId,
       this.formData
@@ -297,41 +298,41 @@ export class ExcavationPermitComponent implements OnInit {
       user_id: this.user.id,
       is_representative: this.exisitingApplicationInfo.is_representative,
       rol_status_id: this.exisitingApplicationInfo.rol_status_id,
-      construction_status_id: this.exisitingApplicationInfo
-        .construction_status_id,
+      construction_status_id:
+        this.exisitingApplicationInfo.construction_status_id,
       is_registered_owner: this.exisitingApplicationInfo.is_registered_owner,
-      applicant_first_name: this.exisitingApplicationInfo.applicant_detail
-        .first_name,
-      applicant_middle_name: this.exisitingApplicationInfo.applicant_detail
-        .middle_name,
-      applicant_last_name: this.exisitingApplicationInfo.applicant_detail
-        .last_name,
-      applicant_suffix_name: this.exisitingApplicationInfo.applicant_detail
-        .suffix_name,
-      applicant_tin_number: this.exisitingApplicationInfo.applicant_detail
-        .tin_number,
-      applicant_contact_number: this.exisitingApplicationInfo.applicant_detail
-        .contact_number,
-      applicant_email_address: this.exisitingApplicationInfo.applicant_detail
-        .email_address,
-      applicant_house_number: this.exisitingApplicationInfo.applicant_detail
-        .house_number,
-      applicant_unit_number: this.exisitingApplicationInfo.applicant_detail
-        .unit_number,
-      applicant_floor_number: this.exisitingApplicationInfo.applicant_detail
-        .floor_number,
-      applicant_street_name: this.exisitingApplicationInfo.applicant_detail
-        .street_name,
-      applicant_barangay: this.exisitingApplicationInfo.applicant_detail
-        .barangay,
-      project_house_number: this.exisitingApplicationInfo.project_detail
-        .house_number,
-      project_lot_number: this.exisitingApplicationInfo.project_detail
-        .lot_number,
-      project_block_number: this.exisitingApplicationInfo.project_detail
-        .block_number,
-      project_street_name: this.exisitingApplicationInfo.project_detail
-        .street_name,
+      applicant_first_name:
+        this.exisitingApplicationInfo.applicant_detail.first_name,
+      applicant_middle_name:
+        this.exisitingApplicationInfo.applicant_detail.middle_name,
+      applicant_last_name:
+        this.exisitingApplicationInfo.applicant_detail.last_name,
+      applicant_suffix_name:
+        this.exisitingApplicationInfo.applicant_detail.suffix_name,
+      applicant_tin_number:
+        this.exisitingApplicationInfo.applicant_detail.tin_number,
+      applicant_contact_number:
+        this.exisitingApplicationInfo.applicant_detail.contact_number,
+      applicant_email_address:
+        this.exisitingApplicationInfo.applicant_detail.email_address,
+      applicant_house_number:
+        this.exisitingApplicationInfo.applicant_detail.house_number,
+      applicant_unit_number:
+        this.exisitingApplicationInfo.applicant_detail.unit_number,
+      applicant_floor_number:
+        this.exisitingApplicationInfo.applicant_detail.floor_number,
+      applicant_street_name:
+        this.exisitingApplicationInfo.applicant_detail.street_name,
+      applicant_barangay:
+        this.exisitingApplicationInfo.applicant_detail.barangay,
+      project_house_number:
+        this.exisitingApplicationInfo.project_detail.house_number,
+      project_lot_number:
+        this.exisitingApplicationInfo.project_detail.lot_number,
+      project_block_number:
+        this.exisitingApplicationInfo.project_detail.block_number,
+      project_street_name:
+        this.exisitingApplicationInfo.project_detail.street_name,
       project_number_of_units: this.exisitingApplicationInfo.project_detail
         .number_of_units
         ? this.exisitingApplicationInfo.project_detail.number_of_units
@@ -342,8 +343,8 @@ export class ExcavationPermitComponent implements OnInit {
         ? this.exisitingApplicationInfo.project_detail.number_of_basement
         : 0,
       project_lot_area: this.exisitingApplicationInfo.project_detail.lot_area,
-      project_total_floor_area: this.exisitingApplicationInfo.project_detail
-        .total_floor_area,
+      project_total_floor_area:
+        this.exisitingApplicationInfo.project_detail.total_floor_area,
       project_units: this.exisitingApplicationInfo.project_detail.unit_number
         ? this.exisitingApplicationInfo.project_detail.unit_number
         : 0,
@@ -352,12 +353,12 @@ export class ExcavationPermitComponent implements OnInit {
         ? this.exisitingApplicationInfo.project_detail.number_of_storey
         : 0,
       project_title: this.exisitingApplicationInfo.project_detail.project_title,
-      project_cost_cap: this.exisitingApplicationInfo.project_detail
-        .project_cost_cap,
-      project_tct_number: this.exisitingApplicationInfo.project_detail
-        .tct_number,
-      project_tax_dec_number: this.exisitingApplicationInfo.project_detail
-        .tax_dec_number,
+      project_cost_cap:
+        this.exisitingApplicationInfo.project_detail.project_cost_cap,
+      project_tct_number:
+        this.exisitingApplicationInfo.project_detail.tct_number,
+      project_tax_dec_number:
+        this.exisitingApplicationInfo.project_detail.tax_dec_number,
       project_landmark: this.exisitingApplicationInfo.project_detail.landmark,
     };
     this.newApplicationService.submitApplication(body).subscribe((res) => {
@@ -472,23 +473,41 @@ export class ExcavationPermitComponent implements OnInit {
   }
 
   submitApplication() {
-    if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
-      this.isSubmitting = true;
-      const id = this.excavationId ? this.excavationId : this.applicationId;
+    // if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
+    //   this.isSubmitting = true;
+    //   const id = this.excavationId ? this.excavationId : this.applicationId;
 
-      const data = {
-        application_status_id: 9,
-      };
-      this.applicationService
-        .updateApplicationStatus(data, id)
-        .subscribe((res) => {
-          this.isSubmitting = true;
-          this.router.navigate(['dashboard/new/summary', id]);
-          localStorage.removeItem('app_id');
-          localStorage.removeItem('application_details_for_excavation');
-        });
+    //   const data = {
+    //     application_status_id: 9,
+    //   };
+    //   this.applicationService
+    //     .updateApplicationStatus(data, id)
+    //     .subscribe((res) => {
+    //       this.isSubmitting = true;
+    //       this.router.navigate(['dashboard/new/summary', id]);
+    //       localStorage.removeItem('app_id');
+    //       localStorage.removeItem('application_details_for_excavation');
+    //     });
+    // } else {
+    //   this.openSnackBar('Please upload all necessary documents!');
+    // }
+    if (environment.receiveApplications == true) {
+      if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
+        this.isLoading = true;
+        const body = {
+          application_status_id: 9,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.isLoading = false;
+            this.router.navigate(['dashboard/new/summary', this.applicationId]);
+          });
+      } else {
+        this.openSnackBar('Please upload all necessary documents!');
+      }
     } else {
-      this.openSnackBar('Please upload all necessary documents!');
+      this.openSnackBar('Sorry, system is under maintenance.');
     }
   }
   openSnackBar(message: string) {

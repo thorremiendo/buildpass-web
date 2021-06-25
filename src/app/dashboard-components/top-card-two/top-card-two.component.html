@@ -4,6 +4,7 @@
       <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card>
           <div
+          [ngClass]="{'activeBox': activeStatus == 0}"
             class="box p-20 text-center cursor-pointer"
             style="background-color: #800000"
             (click)="chooseApplicationStatus(0)"
@@ -16,12 +17,13 @@
       <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card>
           <div
+          [ngClass]="{'activeBox': activeStatus == 1}"
             class="box p-20 text-center cursor-pointer"
             style="background-color: #c32148"
             (click)="chooseApplicationStatus(1)"
           >
             <h1 class="font-light text-white m-0">{{ pending }}</h1>
-            <h6 class="text-white m-0">Pending</h6>
+            <h6 class="text-white m-0">Incoming</h6>
           </div>
         </mat-card>
       </div>
@@ -42,6 +44,7 @@
       <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card>
           <div
+          [ngClass]="{'activeBox': activeStatus == 2}"
             class="box p-20 text-center cursor-pointer"
             style="background-color: #f2ba49"
             (click)="chooseApplicationStatus(2)"
@@ -54,6 +57,7 @@
       <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <mat-card>
           <div
+          [ngClass]="{'activeBox': activeStatus == 3}"
             class="box p-20 text-center cursor-pointer"
             style="background-color: #ff8c00"
             (click)="chooseApplicationStatus(3)"

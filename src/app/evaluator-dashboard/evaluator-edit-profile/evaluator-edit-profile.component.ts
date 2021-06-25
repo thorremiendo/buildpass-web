@@ -60,16 +60,17 @@ export class EvaluatorEditProfileComponent implements OnInit {
       last_name:[this.userInfo.last_name, Validators.required],
       suffix_name:[this.userInfo.suffix_name],
       birthdate:[new Date(this.userInfo.birthdate), Validators.required],
-      marital_status:[this.userInfo.marital_status_id, Validators.required],
-      gender:[this.userInfo.gender, Validators.required],
+      marital_status:[this.userInfo.marital_status_id],
+      gender:[this.userInfo.gender],
       home_address:[this.userInfo.home_address, Validators.required],
       barangay:[this.userInfo.barangay, Validators.required],
       employee_no:[this.userInfo.employee_detail.employee_no, Validators.required],
-      office:[this.userInfo.employee_detail.office_id - 1, Validators.required],
+      office:[this.userInfo.employee_detail.office_id - 1 ],
       position:[this.userInfo.employee_detail.position, Validators.required],
       contact_number:[this.userInfo.contact_number, [Validators.required, Validators.maxLength(11),]],
-      id_number:[this.userInfo.id_number, Validators.required],
-      id_type:[this.userInfo.id_type, Validators.required],
+      email_address:[this.userInfo.email_address, Validators.required],
+      //id_number:[this.userInfo.id_number, Validators.required],
+     // id_type:[this.userInfo.id_type, Validators.required],
     });
   }
 
@@ -80,11 +81,6 @@ export class EvaluatorEditProfileComponent implements OnInit {
         height: '350px',
         width: '600px',
       });
-
-
-
-
-
   }
 
   openFileChooser() {
@@ -209,10 +205,11 @@ export class EvaluatorEditProfileComponent implements OnInit {
         office_id: this._evaluatorEditProfileForm.value.office + 1,
         position: this._evaluatorEditProfileForm.value.position,
         contact_number: this._evaluatorEditProfileForm.value.contact_number,
+        email_address: this._evaluatorEditProfileForm.value.email_address,
         id_number: this._evaluatorEditProfileForm.value.id_number,
         id_type: this._evaluatorEditProfileForm.value.id_type,
         photo_path: this.selectedPhoto ? this.selectedPhoto : null,
-        id_photo_path: this.selectedFile ? this.selectedFile : null
+        //id_photo_path: this.selectedFile ? this.selectedFile : null
       };
 
       this._userService

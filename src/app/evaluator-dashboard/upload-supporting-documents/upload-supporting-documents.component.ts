@@ -66,16 +66,14 @@ export class UploadSupportingDocumentsComponent implements OnInit {
         });
     } else {
       const body = {
-        user_id: this.data.user.id,
-        application_id: this.data.applicationDetails.id,
-        file_name: this.fileName.value,
-        file_desc: this.fileDesc.value,
+        applicant_user_id: this.data.user.id,
+        title: this.fileName.value,
         file_path: this.selectedFile,
       };
       this.applicationInfoService
-        .uploadUserSupportingDoc(body)
+        .uploadSupportingFiles(body, id)
         .subscribe((res) => {
-          Swal.fire('Success!', `${body.file_name} uploaded!`, 'success').then(
+          Swal.fire('Success!', `${body.title} uploaded!`, 'success').then(
             (result) => {
               this.onNoClick();
               this.isSubmitting = false;
