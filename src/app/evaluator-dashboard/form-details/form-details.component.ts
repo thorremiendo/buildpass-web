@@ -202,7 +202,6 @@ export class FormDetailsComponent implements OnInit {
       this.newApplicationService
         .updateUserDocs(revisionData, id)
         .subscribe((res) => {
-          this.isSubmitting = false;
           this.compliant(this.data.form, id);
         });
     } else if (this.permitDetails.value.is_compliant == 2) {
@@ -260,9 +259,9 @@ export class FormDetailsComponent implements OnInit {
         this.newApplicationService
           .updateDocumentFile(updateFileData, id)
           .subscribe((res) => {
-            this.isSubmitting = false;
             Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
               this.onNoClick();
+              this.isSubmitting = false;
             });
           });
       });
