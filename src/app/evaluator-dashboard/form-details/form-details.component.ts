@@ -255,11 +255,42 @@ export class FormDetailsComponent implements OnInit {
     this.waterMark
       .insertWaterMark(form.document_path, 'compliant')
       .then((blob) => {
-        const updateFileData = {
-          document_status_id: this.permitDetails.value.is_compliant,
-        };
+        let body = {};
+        const officeId = this.data.evaluator.office_id;
+        const permitType = this.data.application.permit_type_id;
+        if (officeId == 2) {
+          //CEPMO
+          body = {
+            cepmo_status_id: this.permitDetails.value.is_compliant,
+          };
+        } else if (officeId == 3) {
+          //BFP
+          body = {
+            bfp_status_id: this.permitDetails.value.is_compliant,
+          };
+        } else if (officeId == 4) {
+          //CBAO
+          if (
+            permitType == 1 &&
+            this.data.evaluator.position !== 'Admin Aide IV'
+          ) {
+            //BLDG PERMIT
+            body = {
+              cbao_status_id: this.permitDetails.value.is_compliant,
+            };
+          } else if (
+            (permitType == 3 || permitType == 4 || permitType == 5) &&
+            this.data.evaluator.position == 'Admin Aide IV'
+          ) {
+            //OTHER PERMITS
+            body = {
+              document_status_id: this.permitDetails.value.is_compliant,
+            };
+          }
+        }
+
         this.newApplicationService
-          .updateDocumentFile(updateFileData, id)
+          .updateDocumentFile(body, id)
           .subscribe((res) => {
             Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
               this.onNoClick();
@@ -314,12 +345,46 @@ export class FormDetailsComponent implements OnInit {
         this.waterMark
           .insertWaterMark(docPath, 'non-compliant')
           .then((blob) => {
-            const updateFileData = {
-              document_status_id: this.permitDetails.value.is_compliant,
-              document_path: blob,
-            };
+            let body = {};
+            const officeId = this.data.evaluator.office_id;
+            const permitType = this.data.application.permit_type_id;
+            if (officeId == 2) {
+              //CEPMO
+              body = {
+                cepmo_status_id: this.permitDetails.value.is_compliant,
+                document_path: blob,
+              };
+            } else if (officeId == 3) {
+              //BFP
+              body = {
+                bfp_status_id: this.permitDetails.value.is_compliant,
+                document_path: blob,
+              };
+            } else if (officeId == 4) {
+              //CBAO
+              if (
+                permitType == 1 &&
+                this.data.evaluator.position !== 'Admin Aide IV'
+              ) {
+                //BLDG PERMIT
+                body = {
+                  cbao_status_id: this.permitDetails.value.is_compliant,
+                  document_path: blob,
+                };
+              } else if (
+                (permitType == 3 || permitType == 4 || permitType == 5) &&
+                this.data.evaluator.position == 'Admin Aide IV'
+              ) {
+                //OTHER PERMITS
+                body = {
+                  document_status_id: this.permitDetails.value.is_compliant,
+                  document_path: blob,
+                };
+              }
+            }
+
             this.newApplicationService
-              .updateDocumentFile(updateFileData, id)
+              .updateDocumentFile(body, id)
               .subscribe((res) => {
                 this.isSubmitting = false;
                 Swal.fire('Success!', `Review saved!`, 'success').then(

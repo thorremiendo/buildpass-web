@@ -106,6 +106,7 @@ export class CepmoEvaluatorComponent implements OnInit {
         evaluator: this.evaluatorDetails,
         form: element,
         route: this.route,
+        application: this.applicationDetails,
       },
     });
 
@@ -131,9 +132,11 @@ export class CepmoEvaluatorComponent implements OnInit {
         });
     } else {
       this.isLoading = false;
-      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
-        (result) => {}
-      );
+      Swal.fire(
+        'Notice!',
+        `Please review all documents first!`,
+        'info'
+      ).then((result) => {});
     }
   }
 
