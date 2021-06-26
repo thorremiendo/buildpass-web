@@ -175,7 +175,6 @@ export class FormDetailsComponent implements OnInit {
     this.newApplicationService
       .updateUserDocs(revisionData, id)
       .subscribe((res) => {
-        this.isSubmitting = false;
         this.fetchRevisionData();
       });
   }
@@ -185,6 +184,9 @@ export class FormDetailsComponent implements OnInit {
       .subscribe((res) => {
         this.revisionData = res.data[0].document_revision;
         this.remarksForm.reset();
+        setTimeout(() => {
+          this.isSubmitting = false;
+        }, 1500);
       });
   }
 
