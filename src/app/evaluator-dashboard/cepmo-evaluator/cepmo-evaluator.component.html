@@ -92,10 +92,10 @@
                 mat-cell
                 *matCellDef="let element"
                 [style.color]="
-                  element.document_status_id == 1 ? 'green' : 'red'
+                  element.cepmo_status_id == 1 ? 'green' : 'red'
                 "
               >
-                {{ getDocStatus(element.document_status_id) }}
+                {{ getDocStatus(element.cepmo_status_id) }}
               </td>
             </ng-container>
 
@@ -138,9 +138,9 @@
             <tr
               mat-row
               [style.background-color]="
-                row.document_status_id == 1
+                row.cepmo_status_id == 1
                   ? '#BFF4D1'
-                  : row.document_status_id == 2
+                  : row.cepmo_status_id == 2
                   ? '#F7C0C0'
                   : 'white'
               "

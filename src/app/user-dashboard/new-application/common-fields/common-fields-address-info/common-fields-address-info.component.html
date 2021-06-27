@@ -65,7 +65,15 @@
       <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Barangay</mat-label>
-          <input
+          <mat-select formControlName="project_barangay">
+            <mat-option
+              *ngFor="let barangays of barangay"
+              [value]="barangays.name"
+            >
+              {{ barangays.name }}
+            </mat-option>
+          </mat-select>
+          <!-- <input
             type="text"
             placeholder="Select Barangay"
             aria-label="Barangay"
@@ -82,7 +90,7 @@
             >
               {{ barangays.name }}
             </mat-option>
-          </mat-autocomplete>
+          </mat-autocomplete> -->
           <mat-error
             *ngIf="
               (projectDetailsFormControl.project_barangay.touched ||

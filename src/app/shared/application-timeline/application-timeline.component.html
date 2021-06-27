@@ -1,22 +1,308 @@
-<ng-container *ngIf="!isLoading">
-  <div *ngIf="applicationTimeline">
-    <section *ngFor="let item of applicationTimeline" class="timeline-area">
-      <div class="timeline">
-        <h4>
-          {{ item.name }}
-        </h4>
-        <h5 [style.color]="item.status.includes('Returned') ? 'red' : 'green'">
-          <strong>
-            {{ item.status }}
-          </strong>
-        </h5>
-        <h6>
-          {{ item.created_at | date: "MMMM dd, yyyy hh:mm:ss a":"+0800" }}
-        </h6>
-      </div>
-    </section>
+<div *ngIf="!loading">
+  <div class="application-timeline stepper container-fluid">
+    <mat-horizontal-stepper #stepper [linear]="true" [selectedIndex]="currentStep">
+      <mat-step [completed]="applicationTimeline['4.1'] && applicationTimeline['4.1'][applicationTimeline['4.1'].length-1].color == 'green' ? true : false">
+        <ng-template matStepperIcon="edit">
+          <mat-icon>done</mat-icon>
+        </ng-template>
+        <div id="receiving-list">
+          <div class="timeline-box">
+            <div class="timeline-box-label">Receiving</div>
+            <ul>
+              <li *ngFor="let log of applicationTimeline['4.1']">
+                <div [ngClass]="log.color">{{log.status}}</div>
+                <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </mat-step>
+      <mat-step *ngIf="permitType == '1'" [completed]="applicationTimeline['1.1'] && applicationTimeline['1.2'] && applicationTimeline['1.1'][applicationTimeline['1.1'].length-1].color == 'green' && applicationTimeline['1.2'][applicationTimeline['1.2'].length-1].color == 'green' ? true : false">
+        <div id="cpdo-list">
+          <div class="timeline-box">
+            <div class="timeline-box-label">CPDO</div>
+            <div class="timeline-box-division-label">Zoning Inspector</div>
+            <ul>
+              <li *ngFor="let log of applicationTimeline['1.1']">
+                <div [ngClass]="log.color">{{log.status}}</div>
+                <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+              </li>
+            </ul>
+            <div class="timeline-box-division-label">Coordinator</div>
+            <ul>
+              <li *ngFor="let log of applicationTimeline['1.2']">
+                <div [ngClass]="log.color">{{log.status}}</div>
+                <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </mat-step>
+      <mat-step [completed]="cbaoStatus == 'compliant'">
+        <div id="cbao-list">
+          <div class="timeline-box">
+            <div class="timeline-box-label">CBAO</div>
+            <div class="timeline-box-division" *ngFor="let division of cbaoTimeline | keyvalue">
+              <div class="timeline-box-division-label">{{division.key.split('-')[1]}}</div>
+              <ul>
+                <li *ngFor="let log of division.value">
+                  <div [ngClass]="log.color">{{log.status}}</div>
+                  <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div> 
+        <div id="bfp-list" *ngIf="permitType == '1'">
+          <div class="timeline-box">
+            <div class="timeline-box-label">BFP</div>
+            <ul>
+              <li *ngFor="let log of applicationTimeline['2']">
+                <div [ngClass]="log.color">{{log.status}}</div>
+                <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div id="cepmo-list" *ngIf="permitType == '1'">
+          <div class="timeline-box">
+            <div class="timeline-box-label">CEPMO</div>
+            <ul>
+              <li *ngFor="let log of applicationTimeline['3']">
+                <div [ngClass]="log.color">{{log.status}}</div>
+                <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </mat-step>
+      <mat-step [completed]="applicationTimeline['4.3'] && applicationTimeline['4.3'][applicationTimeline['4.3'].length-1].color == 'green' ? true : false">
+        <div id="division-chief-list">
+          <div class="timeline-box">
+            <div class="timeline-box-label">Division Chief</div>
+            <ul>
+              <li *ngFor="let log of applicationTimeline['4.3']">
+                <div [ngClass]="log.color">{{log.status}}</div>
+                <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </mat-step>
+      <mat-step [completed]="applicationTimeline['4.4'] && applicationTimeline['4.4'][applicationTimeline['4.4'].length-1].color == 'green' ? true : false">
+        <div id="building-official-list">
+          <div class="timeline-box">
+            <div class="timeline-box-label">Building Official</div>
+            <ul>
+              <li *ngFor="let log of applicationTimeline['4.4']">
+                <div [ngClass]="log.color">{{log.status}}</div>
+                <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </mat-step>
+      <mat-step [completed]="applicationTimeline['4.6'] && applicationTimeline['4.6'][applicationTimeline['4.6'].length-1].color == 'green' ? true : false">
+        <div id="releasing-list">
+          <div class="timeline-box">
+            <div class="timeline-box-label">Releasing</div>
+            <ul>
+              <li *ngFor="let log of applicationTimeline['4.5']">
+                <div [ngClass]="log.color">{{log.status}}</div>
+                <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+              </li>
+              <li *ngFor="let log of applicationTimeline['4.6']">
+                <div [ngClass]="log.color">{{log.status}}</div>
+                <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
   </div>
-  <ng-container *ngIf="applicationTimeline.length == 0">
-    <P>No activity... </P>
-  </ng-container>
-</ng-container>
+
+  <div class="application-timeline flowchart container-fluid">
+    <div class="row justify-content-center" [ngClass]="{'cbao-only': permitType != 1}">
+      <div class="col-12 col-lg-4 column-1">
+        <div id="receiving">
+          <span class="step-label">1</span>
+          <div class="timeline-box"
+            [ngClass]="{
+              'compliant': applicationTimeline['4.1'] && applicationTimeline['4.1'][applicationTimeline['4.1'].length-1].color == 'green',
+              'non-compliant': applicationTimeline['4.1'] && applicationTimeline['4.1'][applicationTimeline['4.1'].length-1].color == 'red'
+            }"
+          >
+            <div class="timeline-box-label">Receiving</div>
+            <ul>
+              <li *ngFor="let log of applicationTimeline['4.1']">
+                <div [ngClass]="log.color">{{log.status}}</div>
+                <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+              </li>
+            </ul>
+            <mat-icon class="compliant">assignment_turned_in</mat-icon>
+            <mat-icon class="non-compliant">assignment_late</mat-icon>
+            <mat-icon class="pending">assignment</mat-icon>
+          </div>
+        </div>
+        <div id="cpdo">
+          <span class="step-label">2</span>
+          <div class="timeline-box"
+            [ngClass]="{
+              'compliant': applicationTimeline['1.1'] && applicationTimeline['1.2'] && applicationTimeline['1.1'][applicationTimeline['1.1'].length-1].color == 'green' && applicationTimeline['1.2'][applicationTimeline['1.2'].length-1].color == 'green',
+              'non-compliant': applicationTimeline['1.1'] && applicationTimeline['1.2'] && (applicationTimeline['1.1'][applicationTimeline['1.1'].length-1].color == 'red' || applicationTimeline['1.2'][applicationTimeline['1.2'].length-1].color == 'red')
+            }"
+          >
+            <div class="timeline-box-label">CPDO</div>
+            <div class="timeline-box-division-label">Zoning Inspector</div>
+            <ul>
+              <li *ngFor="let log of applicationTimeline['1.1']">
+                <div [ngClass]="log.color">{{log.status}}</div>
+                <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+              </li>
+            </ul>
+            <div class="timeline-box-division-label">Coordinator</div>
+            <ul>
+              <li *ngFor="let log of applicationTimeline['1.2']">
+                <div [ngClass]="log.color">{{log.status}}</div>
+                <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+              </li>
+            </ul>
+            <mat-icon class="compliant">assignment_turned_in</mat-icon>
+            <mat-icon class="non-compliant">assignment_late</mat-icon>
+            <mat-icon class="pending">assignment</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-4 column-2">
+        <div id="cbao">
+          <span class="step-label">{{permitType != '1' ? 2 : 3}}</span>
+          <div class="timeline-box"
+            [ngClass]="{
+              'compliant': cbaoStatus == 'compliant',
+              'non-compliant': cbaoStatus == 'non-compliant'
+            }"
+          >
+            <div class="timeline-box-label">CBAO</div>
+            <div class="timeline-box-division" *ngFor="let division of cbaoTimeline | keyvalue">
+              <div class="timeline-box-division-label">{{division.key.split('-')[1]}}</div>
+              <ul>
+                <li *ngFor="let log of division.value">
+                  <div [ngClass]="log.color">{{log.status}}</div>
+                  <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+                </li>
+              </ul>
+            </div>
+            <mat-icon class="compliant">assignment_turned_in</mat-icon>
+            <mat-icon class="non-compliant">assignment_late</mat-icon>
+            <mat-icon class="pending">assignment</mat-icon>
+          </div>
+        </div> 
+        <div id="bfp">
+          <div class="timeline-box"
+            [ngClass]="{
+              'compliant': applicationTimeline['2'] && applicationTimeline['2'][applicationTimeline['2'].length-1].color == 'green',
+              'non-compliant': applicationTimeline['2'] && applicationTimeline['2'][applicationTimeline['2'].length-1].color == 'red'
+            }"
+          >
+            <div class="timeline-box-label">BFP</div>
+            <ul>
+              <li *ngFor="let log of applicationTimeline['2']">
+                <div [ngClass]="log.color">{{log.status}}</div>
+                <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+              </li>
+            </ul>
+            <mat-icon class="compliant">assignment_turned_in</mat-icon>
+            <mat-icon class="non-compliant">assignment_late</mat-icon>
+            <mat-icon class="pending">assignment</mat-icon>
+          </div>
+        </div>
+        <div id="cepmo">
+          <div class="timeline-box"
+            [ngClass]="{
+              'compliant': applicationTimeline['3'] && applicationTimeline['3'][applicationTimeline['3'].length-1].color == 'green',
+              'non-compliant': applicationTimeline['3'] && applicationTimeline['3'][applicationTimeline['3'].length-1].color == 'red'
+            }"
+          >
+            <div class="timeline-box-label">CEPMO</div>
+            <ul>
+              <li *ngFor="let log of applicationTimeline['3']">
+                <div [ngClass]="log.color">{{log.status}}</div>
+                <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+              </li>
+            </ul>
+            <mat-icon class="compliant">assignment_turned_in</mat-icon>
+            <mat-icon class="non-compliant">assignment_late</mat-icon>
+            <mat-icon class="pending">assignment</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-4 column-3">
+        <div id="division-chief">
+          <span class="step-label">{{permitType != '1' ? 3 : 4}}</span>
+          <div class="timeline-box"
+            [ngClass]="{
+              'compliant': applicationTimeline['4.3'] && applicationTimeline['4.3'][applicationTimeline['4.3'].length-1].color == 'green',
+              'non-compliant': applicationTimeline['4.3'] && applicationTimeline['4.3'][applicationTimeline['4.3'].length-1].color == 'red'
+            }"
+          >
+            <div class="timeline-box-label">Division Chief</div>
+            <ul>
+              <li *ngFor="let log of applicationTimeline['4.3']">
+                <div [ngClass]="log.color">{{log.status}}</div>
+                <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+              </li>
+            </ul>
+            <mat-icon class="compliant">assignment_turned_in</mat-icon>
+            <mat-icon class="non-compliant">assignment_late</mat-icon>
+            <mat-icon class="pending">assignment</mat-icon>
+          </div>
+        </div>
+        <div id="building-official">
+          <span class="step-label">{{permitType != '1' ? 4 : 5}}</span>
+          <div class="timeline-box"
+            [ngClass]="{
+              'compliant': applicationTimeline['4.4'] && applicationTimeline['4.4'][applicationTimeline['4.4'].length-1].color == 'green',
+              'non-compliant': applicationTimeline['4.4'] && applicationTimeline['4.4'][applicationTimeline['4.4'].length-1].color == 'red'
+            }"
+          >
+            <div class="timeline-box-label">Building Official</div>
+            <ul>
+              <li *ngFor="let log of applicationTimeline['4.4']">
+                <div [ngClass]="log.color">{{log.status}}</div>
+                <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+              </li>
+            </ul>
+            <mat-icon class="compliant">assignment_turned_in</mat-icon>
+            <mat-icon class="non-compliant">assignment_late</mat-icon>
+            <mat-icon class="pending">assignment</mat-icon>
+          </div>
+        </div>
+        <div id="releasing">
+          <span class="step-label">{{permitType != '1' ? 5 : 6}}</span>
+          <div class="timeline-box"
+            [ngClass]="{
+              'compliant': applicationTimeline['4.6'] && applicationTimeline['4.6'][applicationTimeline['4.6'].length-1].color == 'green',
+              'non-compliant': applicationTimeline['4.6'] && applicationTimeline['4.6'][applicationTimeline['4.6'].length-1].color == 'red'
+            }"
+          >
+            <div class="timeline-box-label">Releasing</div>
+            <ul>
+              <li *ngFor="let log of applicationTimeline['4.5']">
+                <div [ngClass]="log.color">{{log.status}}</div>
+                <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+              </li>
+              <li *ngFor="let log of applicationTimeline['4.6']">
+                <div [ngClass]="log.color">{{log.status}}</div>
+                <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
+              </li>
+            </ul>
+            <mat-icon class="compliant">assignment_turned_in</mat-icon>
+            <mat-icon class="non-compliant">assignment_late</mat-icon>
+            <mat-icon class="pending">assignment</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

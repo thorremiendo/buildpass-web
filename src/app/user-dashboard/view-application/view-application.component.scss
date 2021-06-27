@@ -5,6 +5,10 @@ table {
     font-weight: 800;
   }
 
+  .hidden {
+    display: none;
+  }
+
   .pending {
     td:first-of-type {
       color: lightgray;
