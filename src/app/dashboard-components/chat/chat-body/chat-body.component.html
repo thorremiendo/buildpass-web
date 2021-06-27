@@ -58,7 +58,7 @@
               <div 
             
               class="mail-content ">
-                <h5 [ngClass]="message.is_viewed == 0 ? 'unseen' : 'seen' ">{{ message.office_detail.name }}</h5>
+                <h5 [style.color]="message.is_viewed == 0 ? 'maroon' : 'grey' ">{{ message.office_detail.name }}</h5>
                 <span class="mail-desc text-muted">{{ message.subject }}</span>
                 <span class="time text-muted">{{
                   message.created_at | date: "MMM d, y h:mm a"
