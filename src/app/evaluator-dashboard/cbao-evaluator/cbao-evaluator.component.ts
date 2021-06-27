@@ -56,7 +56,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   filterUserDocs(forms) {
     const USER_FORMS = forms.filter((doc) => doc.document_id !== 107);
     this.dataSource = USER_FORMS;
-    console.log(this.dataSource)
+    console.log(this.dataSource);
     this.isLoading = false;
   }
   fetchApplicationInfo() {
@@ -196,6 +196,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         evaluator: this.evaluatorDetails,
         form: element,
         route: this.route,
+        application: this.applicationInfo,
       },
     });
 
@@ -355,9 +356,11 @@ export class CbaoEvaluatorComponent implements OnInit {
       }
     } else {
       this.isLoading = false;
-      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
-        (result) => {}
-      );
+      Swal.fire(
+        'Notice!',
+        `Please review all documents first!`,
+        'info'
+      ).then((result) => {});
     }
   }
 

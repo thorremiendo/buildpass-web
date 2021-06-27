@@ -134,6 +134,7 @@ export class BfpEvaluatorComponent implements OnInit {
         evaluator: this.evaluatorDetails,
         form: element,
         route: this.route,
+        application: this.applicationDetails,
       },
     });
 
@@ -159,9 +160,11 @@ export class BfpEvaluatorComponent implements OnInit {
         });
     } else {
       this.isLoading = false;
-      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
-        (result) => {}
-      );
+      Swal.fire(
+        'Notice!',
+        `Please review all documents first!`,
+        'info'
+      ).then((result) => {});
     }
   }
   checkFormsReviewed() {

@@ -84,12 +84,12 @@
                 <!-- Status Column -->
                 <ng-container matColumnDef="status">
                   <th mat-header-cell *matHeaderCellDef>Status</th>
-                  <td
-                    mat-cell
-                   
-                    *matCellDef="let element"
-                  >
-                    {{ getDocStatus(element.document_status_id) }}
+                  <td mat-cell *matCellDef="let element">
+                    {{
+                      evaluatorRole.code == "CBAO-REC"
+                        ? getDocStatus(element.document_status_id)
+                        : getDocStatus(element.cbao_status_id)
+                    }}
                   </td>
                 </ng-container>
                 <ng-container matColumnDef="remarks">
@@ -254,9 +254,13 @@
                 <tr
                   mat-row
                   [style.background-color]="
-                    row.document_status_id == 1
+                    (evaluatorRole.code == 'CBAO-REC'
+                      ? row.document_status_id
+                      : row.cbao_status_id) == 1
                       ? '#BFF4D1'
-                      : row.document_status_id == 2
+                      : (evaluatorRole.code == 'CBAO-REC'
+                          ? row.document_status_id
+                          : row.cbao_status_id) == 2
                       ? '#F7C0C0'
                       : 'white'
                   "
