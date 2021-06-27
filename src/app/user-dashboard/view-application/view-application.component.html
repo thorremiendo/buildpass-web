@@ -284,11 +284,12 @@
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                   <tr
                     mat-row
-                    *matRowDef="let row; columns: displayedColumns"
+                    *matRowDef="let row; columns: displayedColumns;"
                     [ngClass]="{
                       'pending': row.document_status_id == 0,
                       'compliant': row.document_status_id == 1,
-                      'non-compliant': row.document_status_id == 2
+                      'non-compliant': row.document_status_id == 2,
+                      'hidden': row.label && row.label == 'hidden'
                     }"
                   ></tr>
                 </table>

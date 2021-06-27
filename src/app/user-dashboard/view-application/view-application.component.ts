@@ -178,24 +178,24 @@ export class ViewApplicationComponent implements OnInit {
     });
     this.dataSource = Object.values(sortedForms);
     this.dataSource = [
-      {label: this.dataSource[0].label},
+      {label: this.dataSource[0].data.length ? this.dataSource[0].label : 'hidden'},
       ...this.dataSource[0].data,
-      {label:  this.dataSource[1].label},
+      {label: this.dataSource[1].data.length ? this.dataSource[1].label : 'hidden'},
       ...this.dataSource[1].data,
-      {label: this.dataSource[2].label},
+      {label: this.dataSource[2].data.length ? this.dataSource[2].label : 'hidden'},
       ...this.dataSource[2].data,
-      {label: this.dataSource[3].label},
+      {label: this.dataSource[3].data.length ? this.dataSource[3].label : 'hidden'},
       ...this.dataSource[3].data,
-      {label: this.dataSource[4].label},
+      {label: this.dataSource[4].data.length ? this.dataSource[4].label : 'hidden'},
       ...this.dataSource[4].data,
-      {label: this.dataSource[5].label},
+      {label: this.dataSource[5].data.length ? this.dataSource[5].label : 'hidden'},
       ...this.dataSource[5].data,
     ];
     this.isLoading = false;
   }
 
   getDocName(id): string {
-    return this.documentTypes[id].name;
+    return this.documentTypes[id-1].name;
   }
   getDocStatus(id): string {
     return documentStatus[id];
