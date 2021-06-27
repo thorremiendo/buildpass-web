@@ -98,6 +98,19 @@ export class ChatService {
     );
   }
 
+  isViewed(chat_id){
+    const url = `/chat/${chat_id}/viewed`
+
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+
   subscribe(channelName) {
     this.pusher.subscribe(channelName);
   }

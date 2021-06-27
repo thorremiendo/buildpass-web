@@ -46,7 +46,8 @@
       <div *ngIf="showContacts">
         <div class="mailbox message-widget">
           <div class="message-center">
-            <a
+            <a 
+          
               *ngFor="let message of messages.slice().reverse()"
               (click)="onSelect(message)"
             >
@@ -54,12 +55,14 @@
                           <img src="{{message.receiver_detail.photo_path}}" alt="user" class="img-circle" width="40">
                            <span class="profile-status {{message.status}} pull-right"></span> 
                       </div> -->
-              <div class="mail-content">
-                <h5>{{ message.office_detail.name }}</h5>
+              <div 
+            
+              class="mail-content ">
+                <h5 [ngClass]="message.is_viewed == 0 ? 'unseen' : 'seen' ">{{ message.office_detail.name }}</h5>
                 <span class="mail-desc text-muted">{{ message.subject }}</span>
                 <span class="time text-muted">{{
                   message.created_at | date: "MMM d, y h:mm a"
-                }}</span>
+                }}</span> 
               </div>
             </a>
           </div>
@@ -78,18 +81,19 @@
             <div class="chat-list odd">
               <div class="chat-message">
                 <div class="chat-block">
-                  <span>
+                  <!-- <span>
                     <img
-                      src="{{ selectedMessage.photo }}"
+                      src="{{ c.photo }}"
                       class="img-circle"
                       width="40"
                     />
-                  </span>
+                  </span> -->
                   <span>{{ c.message }}</span>
                 </div>
                 <span class="chat-date">{{
                   c.created_at | date: "MMM d, y h:mm a"
                 }}</span>
+                <!-- <span ngIf="selectedMessage.is_viewed"> New Message</span> -->
               </div>
             </div>
        

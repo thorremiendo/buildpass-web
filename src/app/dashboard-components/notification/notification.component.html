@@ -27,8 +27,8 @@
                     {{ feed.application_number }} <br />
                     {{ feed.status }}
                   </h5>
-                  <span class="mail-desc"> {{ feed.message }} </span>
-                  <span class="time" [style.color] = "feed.is_viewed == 0 ? 'blue' : 'grey'"> {{ feed.currentTime | dateAgo }}</span>
+                  <span class="mail-desc"  [style.color] = "feed.is_viewed == 0 ? 'maroon' : 'grey'"> {{ feed.message }} </span>
+                  <span class="time" [style.color] = "feed.is_viewed == 0 ? 'maroon' : 'grey'"> {{ feed.currentTime | dateAgo }}</span>
                 </div>
               </a>
             </perfect-scrollbar>

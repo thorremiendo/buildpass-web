@@ -16,6 +16,7 @@ export class FeedService {
   public channel: Channel;
   private channelName:string;
   private channelType: string;
+  private user_sender_id: string | number;
   private notifChannel;
   private pusherBind:string;
 
@@ -46,6 +47,7 @@ export class FeedService {
     }
     else{
       this.user = user;
+      console.log(this.user);
       this.channelType = 'applicant'; 
       this.notifChannel = this.user.user_credentials[0]?.firebase_uid;
       this.channelName = `applicant-${this.user.user_credentials[0]?.firebase_uid}`;
@@ -116,4 +118,33 @@ export class FeedService {
       })
     );
   }
+
+  getNotifMessageTable(){
+    const url =`/chat/${this.user.id}/user-notif`;
+    return this._api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+
+  }
+
+  getTotalUnseenChat(){
+    const url =`/chat/${this.user.id}/unseen`;
+    return this._api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+
+
+      
+  }
+
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { FeedService } from '../../core';
 
 @Component({
   selector: 'app-message',
@@ -8,6 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class MessageComponent implements OnInit {
   @Input() type = '';
   private user;
+  public messageNotif: any;
   public show_message_notif:boolean;
   
   mymessages = [
@@ -35,16 +37,27 @@ export class MessageComponent implements OnInit {
    
   ];
 
-  constructor() { }
+  constructor(
+    private feedService: FeedService,
+  ) { }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
     if (this.type == 'super admin') {
       this.show_message_notif = false;
-    }  //else {
+    }  
+    else {
+      this.feedService.checkUser();
+      this.feedService.getNotifMessageTable().subscribe( data => {
+        console.log(data);
+        this.messageNotif = data.data;
+      })
+
+      
+
     
      
-    // }
+     }
   }
 
 }

@@ -55,6 +55,7 @@ export class ChatBodyComponent implements OnInit {
         .fetchConvo(this.userInfo.id, 'sender')
         .subscribe((data) => {
           this.messages = data.data;
+          console.log(this.messages);
           if (this.messages.length != 0) {
             this.hasMessage = true;
 
@@ -78,8 +79,11 @@ export class ChatBodyComponent implements OnInit {
     this.chatService.applicantChatSubscribe(this.channel);
     this.selectedMessage = message.convo;
     this.chatId = this.selectedMessage[0].chat_id;
+    this.chatService.isViewed(this.chatId);
     this.showContacts = false;
     this.talkWithEvaluator = true;
+    
+  
   }
 
   OnCreateMsg() {
