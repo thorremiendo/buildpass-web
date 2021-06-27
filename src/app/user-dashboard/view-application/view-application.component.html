@@ -153,16 +153,16 @@
               >
             </mat-expansion-panel-header>
             <div class="row">
-              <div class="col-md-6">
-                <app-application-timeline></app-application-timeline>
-              </div>
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div class="notif-card">
                   <div class="col">
                     <p>Reminder:</p>
                     <!-- <span>Lorem ipsum ipsum thor pogi</span> -->
                   </div>
                 </div>
+              </div>
+              <div class="col-md-12">
+                <app-application-timeline [permitType]="applicationDetails.permit_type_id"></app-application-timeline>
               </div>
             </div>
           </mat-expansion-panel>
@@ -304,11 +304,12 @@
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                   <tr
                     mat-row
-                    *matRowDef="let row; columns: displayedColumns"
+                    *matRowDef="let row; columns: displayedColumns;"
                     [ngClass]="{
-                      pending: row.document_status_id == 0,
-                      compliant: row.document_status_id == 1,
-                      'non-compliant': row.document_status_id == 2
+                      'pending': row.document_status_id == 0,
+                      'compliant': row.document_status_id == 1,
+                      'non-compliant': row.document_status_id == 2,
+                      'hidden': row.label && row.label == 'hidden'
                     }"
                   ></tr>
                 </table>
