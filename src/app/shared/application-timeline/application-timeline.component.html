@@ -1,5 +1,5 @@
 <div *ngIf="!loading">
-  <div class="application-timeline stepper container-fluid" *ngIf="!lite">
+  <!--<div class="application-timeline stepper container-fluid" *ngIf="!lite">
     <mat-horizontal-stepper #stepper [linear]="true" [selectedIndex]="currentStep">
       <mat-step [completed]="applicationTimeline['4.1'] && applicationTimeline['4.1'][applicationTimeline['4.1'].length-1].color == 'green' ? true : false">
         <ng-template matStepperIcon="edit">
@@ -120,7 +120,7 @@
         </div>
       </mat-step>
     </mat-horizontal-stepper>
-  </div>
+  </div>-->
 
   <div class="application-timeline flowchart container-fluid">
     <div class="row justify-content-center" [ngClass]="{'cbao-only': permitType != '1'}">
@@ -132,6 +132,7 @@
               'compliant': applicationTimeline['4.1'] && applicationTimeline['4.1'][applicationTimeline['4.1'].length-1].color == 'green',
               'non-compliant': applicationTimeline['4.1'] && applicationTimeline['4.1'][applicationTimeline['4.1'].length-1].color == 'red'
             }"
+            (click)="expandTimelineBox('receiving')"
           >
             <div class="timeline-box-label">Receiving</div>
             <ul>
@@ -143,6 +144,10 @@
             <mat-icon class="compliant">assignment_turned_in</mat-icon>
             <mat-icon class="non-compliant">assignment_late</mat-icon>
             <mat-icon class="pending">assignment</mat-icon>
+            <div class="expand" *ngIf="applicationTimeline['4.1'] && applicationTimeline['4.1'].length > 1">
+              <mat-icon [inline]="true">expand_more</mat-icon>
+              <mat-icon [inline]="true">expand_less</mat-icon>
+            </div>
           </div>
         </div>
         <div id="cpdo">
@@ -152,6 +157,7 @@
               'compliant': applicationTimeline['1.1'] && applicationTimeline['1.2'] && applicationTimeline['1.1'][applicationTimeline['1.1'].length-1].color == 'green' && applicationTimeline['1.2'][applicationTimeline['1.2'].length-1].color == 'green',
               'non-compliant': applicationTimeline['1.1'] && applicationTimeline['1.2'] && (applicationTimeline['1.1'][applicationTimeline['1.1'].length-1].color == 'red' || applicationTimeline['1.2'][applicationTimeline['1.2'].length-1].color == 'red')
             }"
+            (click)="expandTimelineBox('cpdo')"
           >
             <div class="timeline-box-label">CPDO</div>
             <div class="timeline-box-division-label">Zoning Inspector</div>
@@ -171,6 +177,10 @@
             <mat-icon class="compliant">assignment_turned_in</mat-icon>
             <mat-icon class="non-compliant">assignment_late</mat-icon>
             <mat-icon class="pending">assignment</mat-icon>
+            <div class="expand" *ngIf="(applicationTimeline['1.1'] && applicationTimeline['1.1'].length > 1) || (applicationTimeline['1.2'] && applicationTimeline['1.2'].length > 1)">
+              <mat-icon [inline]="true">expand_more</mat-icon>
+              <mat-icon [inline]="true">expand_less</mat-icon>
+            </div>
           </div>
         </div>
       </div>
@@ -182,6 +192,7 @@
               'compliant': cbaoStatus == 'compliant',
               'non-compliant': cbaoStatus == 'non-compliant'
             }"
+            (click)="expandTimelineBox('cbao')"
           >
             <div class="timeline-box-label">CBAO</div>
             <div class="timeline-box-division" *ngFor="let division of cbaoTimeline | keyvalue">
@@ -196,6 +207,10 @@
             <mat-icon class="compliant">assignment_turned_in</mat-icon>
             <mat-icon class="non-compliant">assignment_late</mat-icon>
             <mat-icon class="pending">assignment</mat-icon>
+            <div class="expand" *ngIf="cbaoExpandable">
+              <mat-icon [inline]="true">expand_more</mat-icon>
+              <mat-icon [inline]="true">expand_less</mat-icon>
+            </div>
           </div>
         </div> 
         <div id="bfp">
@@ -204,6 +219,7 @@
               'compliant': applicationTimeline['2'] && applicationTimeline['2'][applicationTimeline['2'].length-1].color == 'green',
               'non-compliant': applicationTimeline['2'] && applicationTimeline['2'][applicationTimeline['2'].length-1].color == 'red'
             }"
+            (click)="expandTimelineBox('bfp')"
           >
             <div class="timeline-box-label">BFP</div>
             <ul>
@@ -215,6 +231,10 @@
             <mat-icon class="compliant">assignment_turned_in</mat-icon>
             <mat-icon class="non-compliant">assignment_late</mat-icon>
             <mat-icon class="pending">assignment</mat-icon>
+            <div class="expand" *ngIf="applicationTimeline['2'] && applicationTimeline['2'].length > 1">
+              <mat-icon [inline]="true">expand_more</mat-icon>
+              <mat-icon [inline]="true">expand_less</mat-icon>
+            </div>
           </div>
         </div>
         <div id="cepmo">
@@ -223,6 +243,7 @@
               'compliant': applicationTimeline['3'] && applicationTimeline['3'][applicationTimeline['3'].length-1].color == 'green',
               'non-compliant': applicationTimeline['3'] && applicationTimeline['3'][applicationTimeline['3'].length-1].color == 'red'
             }"
+            (click)="expandTimelineBox('cepmo')"
           >
             <div class="timeline-box-label">CEPMO</div>
             <ul>
@@ -234,6 +255,10 @@
             <mat-icon class="compliant">assignment_turned_in</mat-icon>
             <mat-icon class="non-compliant">assignment_late</mat-icon>
             <mat-icon class="pending">assignment</mat-icon>
+            <div class="expand" *ngIf="applicationTimeline['3'] && applicationTimeline['3'].length > 1">
+              <mat-icon [inline]="true">expand_more</mat-icon>
+              <mat-icon [inline]="true">expand_less</mat-icon>
+            </div>
           </div>
         </div>
       </div>
@@ -245,6 +270,7 @@
               'compliant': applicationTimeline['4.3'] && applicationTimeline['4.3'][applicationTimeline['4.3'].length-1].color == 'green',
               'non-compliant': applicationTimeline['4.3'] && applicationTimeline['4.3'][applicationTimeline['4.3'].length-1].color == 'red'
             }"
+            (click)="expandTimelineBox('division-chief')"
           >
             <div class="timeline-box-label">Division Chief</div>
             <ul>
@@ -256,6 +282,10 @@
             <mat-icon class="compliant">assignment_turned_in</mat-icon>
             <mat-icon class="non-compliant">assignment_late</mat-icon>
             <mat-icon class="pending">assignment</mat-icon>
+            <div class="expand" *ngIf="applicationTimeline['4.3'] && applicationTimeline['4.3'].length > 1">
+              <mat-icon [inline]="true">expand_more</mat-icon>
+              <mat-icon [inline]="true">expand_less</mat-icon>
+            </div>
           </div>
         </div>
         <div id="building-official">
@@ -265,6 +295,7 @@
               'compliant': applicationTimeline['4.4'] && applicationTimeline['4.4'][applicationTimeline['4.4'].length-1].color == 'green',
               'non-compliant': applicationTimeline['4.4'] && applicationTimeline['4.4'][applicationTimeline['4.4'].length-1].color == 'red'
             }"
+            (click)="expandTimelineBox('building-official')"
           >
             <div class="timeline-box-label">Building Official</div>
             <ul>
@@ -276,6 +307,10 @@
             <mat-icon class="compliant">assignment_turned_in</mat-icon>
             <mat-icon class="non-compliant">assignment_late</mat-icon>
             <mat-icon class="pending">assignment</mat-icon>
+            <div class="expand" *ngIf="applicationTimeline['4.4'] && applicationTimeline['4.4'].length > 1">
+              <mat-icon [inline]="true">expand_more</mat-icon>
+              <mat-icon [inline]="true">expand_less</mat-icon>
+            </div>
           </div>
         </div>
         <div id="releasing">
@@ -285,6 +320,7 @@
               'compliant': applicationTimeline['4.6'] && applicationTimeline['4.6'][applicationTimeline['4.6'].length-1].color == 'green',
               'non-compliant': applicationTimeline['4.6'] && applicationTimeline['4.6'][applicationTimeline['4.6'].length-1].color == 'red'
             }"
+            (click)="expandTimelineBox('releasing')"
           >
             <div class="timeline-box-label">Releasing</div>
             <ul>
@@ -300,6 +336,10 @@
             <mat-icon class="compliant">assignment_turned_in</mat-icon>
             <mat-icon class="non-compliant">assignment_late</mat-icon>
             <mat-icon class="pending">assignment</mat-icon>
+            <div class="expand" *ngIf="(applicationTimeline['4.5'] && applicationTimeline['4.5'].length > 1) || (applicationTimeline['4.6'] && applicationTimeline['4.6'].length > 1) || (applicationTimeline['4.5'] && applicationTimeline['4.6'] && (applicationTimeline['4.5'].length + applicationTimeline['4.6'].length > 1))">
+              <mat-icon [inline]="true">expand_more</mat-icon>
+              <mat-icon [inline]="true">expand_less</mat-icon>
+            </div>
           </div>
         </div>
       </div>

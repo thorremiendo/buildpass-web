@@ -263,6 +263,7 @@
     padding: 25px;
     font-size: 16px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    cursor: pointer;
 
     &.compliant {
       background-color: #dcedc8;
@@ -365,6 +366,45 @@
       }
       &.pending {
         color: lightgray;
+      }
+    }
+
+    .expand {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+
+      .mat-icon {
+        display: initial;
+        position: relative;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        color: maroon;
+        font-size: 35px;
+        height: 10px;
+        line-height: 10px;
+
+        &:last-of-type {
+          display: none;
+        }
+      }
+    }
+
+    &.timeline-full {
+      ::ng-deep ul li:not(:last-of-type) {
+        display: block !important;
+      }
+
+      .expand .mat-icon {
+        &:first-of-type {
+          display: none;
+        }
+
+        &:last-of-type {
+          display: block;
+        }
       }
     }
   }
