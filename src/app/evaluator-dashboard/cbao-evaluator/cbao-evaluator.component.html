@@ -87,6 +87,10 @@
                   <td mat-cell *matCellDef="let element">
                     {{
                       evaluatorRole.code == "CBAO-REC"
+                        ? getDocStatus(element.receiving_status_id)
+                        : evaluatorRole.code == "CBAO-DC" ||
+                          evaluatorRole.code == "CBAO-BO" ||
+                          evaluatorRole.code == "CBAO-REL"
                         ? getDocStatus(element.document_status_id)
                         : getDocStatus(element.cbao_status_id)
                     }}
@@ -255,10 +259,18 @@
                   mat-row
                   [style.background-color]="
                     (evaluatorRole.code == 'CBAO-REC'
+                      ? row.receiving_status_id
+                      : evaluatorRole.code == 'CBAO-DC' ||
+                        evaluatorRole.code == 'CBAO-BO' ||
+                        evaluatorRole.code == 'CBAO-REL'
                       ? row.document_status_id
                       : row.cbao_status_id) == 1
                       ? '#BFF4D1'
                       : (evaluatorRole.code == 'CBAO-REC'
+                          ? row.receiving_status_id
+                          : evaluatorRole.code == 'CBAO-DC' ||
+                            evaluatorRole.code == 'CBAO-BO' ||
+                            evaluatorRole.code == 'CBAO-REL'
                           ? row.document_status_id
                           : row.cbao_status_id) == 2
                       ? '#F7C0C0'

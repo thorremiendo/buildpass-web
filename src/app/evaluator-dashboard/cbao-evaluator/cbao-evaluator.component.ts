@@ -173,6 +173,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
+    console.log(this.evaluatorRole);
   }
 
   getDocType(id): string {
@@ -181,9 +182,9 @@ export class CbaoEvaluatorComponent implements OnInit {
   getDocStatus(id): string {
     if (
       this.evaluatorRole.code == 'CBAO-REC' &&
-      this.applicationInfo.receiving_status_id == '1'
+      (this.applicationInfo.receiving_status_id == '1' || id == 1)
     ) {
-      return 'Compliant';
+      return 'Submitted';
     }
     return documentStatus[id];
   }
@@ -249,10 +250,17 @@ export class CbaoEvaluatorComponent implements OnInit {
     return isNonCompliant;
   }
   checkFormsReviewed() {
-    const isReviewed = this.dataSource.every(
-      (form) => form.document_status_id == 1 || form.document_status_id == 2
-    );
-    return isReviewed;
+    if (this.evaluatorRole.code == 'CBAO-REC') {
+      const isReviewed = this.dataSource.every(
+        (form) => form.receiving_status_id == 1 || form.receiving_status_id == 2
+      );
+      return isReviewed;
+    } else {
+      const isReviewed = this.dataSource.every(
+        (form) => form.document_status_id == 1 || form.document_status_id == 2
+      );
+      return isReviewed;
+    }
   }
 
   handleTechnicalEvaluatorNonCompliant() {
@@ -356,11 +364,9 @@ export class CbaoEvaluatorComponent implements OnInit {
       }
     } else {
       this.isLoading = false;
-      Swal.fire(
-        'Notice!',
-        `Please review all documents first!`,
-        'info'
-      ).then((result) => {});
+      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+        (result) => {}
+      );
     }
   }
 

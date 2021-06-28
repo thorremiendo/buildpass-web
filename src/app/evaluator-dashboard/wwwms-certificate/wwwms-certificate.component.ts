@@ -124,26 +124,44 @@ export class WwwmsCertificateComponent implements OnInit {
       .subscribe((res) => {
         const doc = res.data.document_path;
         const id = res.data.id;
-        this.watermark.generateQrCode(this.applicationId).subscribe((res) => {
-          this.watermark
-            .insertQrCode(doc, res.data, 'wwms-permit')
-            .then((blob) => {
-              const updateFileData = {
-                document_status_id: 1,
-                document_path: blob,
-              };
-              this.newApplicationService
-                .updateDocumentFile(updateFileData, id)
-                .subscribe((res) => {
-                  Swal.fire('Success!', `WWMS BP Uploaded`, 'success').then(
-                    (result) => {
-                      this.isSubmitting = true;
-                      this.onNoClick();
-                    }
-                  );
-                });
-            });
-        });
+        this.newApplicationService
+          .updateDocumentFile({ receiving_status_id: 1 }, id)
+          .subscribe((res) => {
+            this.newApplicationService
+              .updateDocumentFile({ bfp_status_id: 1 }, id)
+              .subscribe((res) => {
+                this.newApplicationService
+                  .updateDocumentFile({ cbao_status_id: 1 }, id)
+                  .subscribe((res) => {
+                    this.newApplicationService
+                      .updateDocumentFile({ cepmo_status_id: 1 }, id)
+                      .subscribe((res) => {
+                        this.addWaterMark(doc, id);
+                      });
+                  });
+              });
+          });
       });
+  }
+
+  addWaterMark(doc, id) {
+    this.watermark.generateQrCode(this.applicationId).subscribe((res) => {
+      this.watermark.insertQrCode(doc, res.data, 'wwms-permit').then((blob) => {
+        const updateFileData = {
+          document_status_id: 1,
+          document_path: blob,
+        };
+        this.newApplicationService
+          .updateDocumentFile(updateFileData, id)
+          .subscribe((res) => {
+            Swal.fire('Success!', `WWMS BP Uploaded`, 'success').then(
+              (result) => {
+                this.isSubmitting = true;
+                this.onNoClick();
+              }
+            );
+          });
+      });
+    });
   }
 }

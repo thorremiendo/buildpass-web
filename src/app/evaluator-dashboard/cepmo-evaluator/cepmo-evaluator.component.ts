@@ -142,7 +142,7 @@ export class CepmoEvaluatorComponent implements OnInit {
 
   checkFormsReviewed() {
     const isReviewed = this.dataSource.every(
-      (form) => form.document_status_id == 1 || form.document_status_id == 2
+      (form) => form.cepmo_status_id == 1 || form.cepmo_status_id == 2
     );
     return isReviewed;
   }
@@ -150,7 +150,7 @@ export class CepmoEvaluatorComponent implements OnInit {
   checkFormsCompliant() {
     this.generateCepmoForms;
     const isCompliant = this.dataSource.every(
-      (form) => form.document_status_id == 1
+      (form) => form.cepmo_status_id == 1
     );
     return isCompliant;
   }

@@ -151,16 +151,20 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       inspector_profession: ['', Validators.required],
       inspector_prc_no: ['', Validators.required],
     });
-    this.projectDetailsForm.valueChanges.subscribe((data) => {
-      this.mapService.removeMarker();
-      this.projectFormChange = data;
-      console.log(this.projectDetailsForm.value.project_barangay);
-      setTimeout(() => {
-        this.mapService
-          .fetchProjectLocation(this.projectDetailsForm.value.project_barangay)
-          .subscribe((res) => console.log(res));
-      }, 2000);
-    });
+    this.projectDetailsForm
+      .get('project_barangay')
+      .valueChanges.subscribe((data) => {
+        this.mapService.removeMarker();
+        this.projectFormChange = data;
+        console.log(this.projectDetailsForm.value.project_barangay);
+        setTimeout(() => {
+          this.mapService
+            .fetchProjectLocation(
+              this.projectDetailsForm.value.project_barangay
+            )
+            .subscribe((res) => console.log(res));
+        }, 2000);
+      });
   }
 
   createprojectDetails() {
@@ -188,6 +192,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       inspector_name: data.inspector_name,
       inspector_profession: data.inspector_profession,
       inspector_prc_no: data.inspector_prc_no,
+      project_long: this.mapService.lng,
+      project_lat: this.mapService.lat,
     };
   }
 

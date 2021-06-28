@@ -58,7 +58,7 @@ export class BfpEvaluatorComponent implements OnInit {
   checkFormsCompliant() {
     this.generateBfpForms();
     const isCompliant = this.dataSource.every(
-      (form) => form.document_status_id == 1
+      (form) => form.bfp_status_id == 1
     );
     return isCompliant;
   }
@@ -160,16 +160,14 @@ export class BfpEvaluatorComponent implements OnInit {
         });
     } else {
       this.isLoading = false;
-      Swal.fire(
-        'Notice!',
-        `Please review all documents first!`,
-        'info'
-      ).then((result) => {});
+      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+        (result) => {}
+      );
     }
   }
   checkFormsReviewed() {
     const isReviewed = this.dataSource.every(
-      (form) => form.document_status_id == 1 || form.document_status_id == 2
+      (form) => form.bfp_status_id == 1 || form.bfp_status_id == 2
     );
     return isReviewed;
   }

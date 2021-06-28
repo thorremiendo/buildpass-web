@@ -91,9 +91,8 @@
               <td
                 mat-cell
                 *matCellDef="let element"
-                [style.color]="
-                  element.cepmo_status_id == 1 ? 'green' : 'red'
-                "
+                [style.color]="element.cepmo_status_id == 1 ? 'green' : 'red'"
+                style="font-weight: bold"
               >
                 {{ getDocStatus(element.cepmo_status_id) }}
               </td>
@@ -139,7 +138,7 @@
               mat-row
               [style.background-color]="
                 row.cepmo_status_id == 1
-                  ? '#BFF4D1'
+                  ? '#DFEDCD'
                   : row.cepmo_status_id == 2
                   ? '#F7C0C0'
                   : 'white'
@@ -153,7 +152,11 @@
               mat-raised-button
               color="accent"
               (click)="openWwmsDialog()"
-              [disabled]="checkWwmsUploaded() || !checkFormsCompliant()"
+              [disabled]="
+                checkWwmsUploaded() ||
+                !checkFormsCompliant() ||
+                applicationDetails.application_status_id !== 3
+              "
             >
               Upload WWMS BP Certificate
             </button>
@@ -174,7 +177,10 @@
                 mat-raised-button
                 color="primary"
                 (click)="compliant()"
-                [disabled]="!checkFormsCompliant()"
+                [disabled]="
+                  !checkFormsCompliant() ||
+                  applicationDetails.application_status_id !== 3
+                "
               >
                 Review Done (Compliant)
               </button>
