@@ -1,5 +1,5 @@
 <div *ngIf="!loading">
-  <div class="application-timeline stepper container-fluid">
+  <div class="application-timeline stepper container-fluid" *ngIf="!lite">
     <mat-horizontal-stepper #stepper [linear]="true" [selectedIndex]="currentStep">
       <mat-step [completed]="applicationTimeline['4.1'] && applicationTimeline['4.1'][applicationTimeline['4.1'].length-1].color == 'green' ? true : false">
         <ng-template matStepperIcon="edit">
@@ -123,7 +123,7 @@
   </div>
 
   <div class="application-timeline flowchart container-fluid">
-    <div class="row justify-content-center" [ngClass]="{'cbao-only': permitType != 1}">
+    <div class="row justify-content-center" [ngClass]="{'cbao-only': permitType != '1'}">
       <div class="col-12 col-lg-4 column-1">
         <div id="receiving">
           <span class="step-label">1</span>

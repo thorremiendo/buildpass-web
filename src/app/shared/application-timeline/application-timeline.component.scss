@@ -1,15 +1,15 @@
 .application-timeline.stepper {
   margin-top: 30px;
 
+  ::ng-deep .mat-stepper-horizontal {
+    background-color: transparent;
+  }
+
   ::ng-deep .mat-horizontal-stepper-header-container {
     max-width: 650px;
     margin: 0 auto;
     
     .mat-step-header {
-      
-      /*&:not(.enable-pointer-events) {
-        pointer-events: none;
-      }*/
       .mat-step-label {
         display: none;
       }
@@ -155,7 +155,6 @@
     }
 
     &:after {
-      //outline: 2px solid maroon;
       content: "";
       position: absolute;
       right: -30px;
