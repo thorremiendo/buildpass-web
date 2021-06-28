@@ -75,7 +75,6 @@ export class EvaluatorEditProfileComponent implements OnInit {
   }
 
   openDialog(userCredentials) {
-
       this._matDialog.open(UpdatePasswordDialogComponent, {
         data: userCredentials,
         height: '350px',
@@ -124,7 +123,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
   }
 
   filterBarangays(value: string): Barangay[] {
-    return this._barangay.filter(option => option.name.toLowerCase().includes(value));
+    return this._barangay.filter(option => option.name.toLowerCase().includes(value.toLowerCase()));
   }
 
   filterOffice(value: string): string[] {
@@ -137,7 +136,7 @@ export class EvaluatorEditProfileComponent implements OnInit {
 
   displayBarangayName(value: number) {
     if (value != null) {
-      return this._barangay[value].name;
+      return this._barangay[value - 1].name;
     }
   }
 
