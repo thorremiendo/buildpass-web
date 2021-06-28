@@ -4,8 +4,6 @@ import {
   Component,
   OnInit,
   Input,
-  OnChanges,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { MatStepper } from '@angular/material/stepper';
@@ -16,12 +14,13 @@ import { MatStepper } from '@angular/material/stepper';
   styleUrls: ['./application-timeline.component.scss'],
 })
 export class ApplicationTimelineComponent implements OnInit {
-  @Input() id;
-  @Input() page;
-  @Input() permitType;
+  @Input() id: string;
+  @Input() type: string;
+  @Input() lite: string
   @ViewChild('stepper') stepper: MatStepper;
   public loading = true;
   public applicationId;
+  public permitType;
   public applicationTimeline = {};
   public cbaoTimeline = {};
   public cbaoStatus = 'compliant';
@@ -32,16 +31,17 @@ export class ApplicationTimelineComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.page == 'home') {
-      this.applicationId = this.id;
-    } else {
-      this.applicationId = this.route.snapshot.paramMap.get('id');
-    }
+    if (this.id) this.applicationId = this.id;
+    else this.applicationId = this.route.snapshot.paramMap.get('id');
+    if (this.type) this.permitType = this.type;
     this.getApplicationTimeline();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.applicationId = changes.id.currentValue;
+  ngOnChanges(): void {
+    if (this.id) this.applicationId = this.id;
+    if (this.type) this.permitType = this.type;
+    this.applicationTimeline = {};
+    this.cbaoTimeline = {};
     this.getApplicationTimeline();
   }
 
@@ -70,7 +70,7 @@ export class ApplicationTimelineComponent implements OnInit {
               else if (this.cbaoTimeline[division][this.cbaoTimeline[division].length-1].color != 'green') pendingFlag = true;
             });
             if (nonCompliantFlag) this.cbaoStatus = 'non-compliant';
-            else if (pendingFlag) this.cbaoStatus = 'pending';
+            else if (pendingFlag || !Object.keys(this.cbaoTimeline).length) this.cbaoStatus = 'pending';
             this.loading = false;
           });
       });
