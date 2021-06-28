@@ -174,6 +174,9 @@
     <h4 class="title">
       <mat-icon>pending_actions</mat-icon>Applications Tracker
     </h4>
+    <div class="spinner" *ngIf="!applications">
+      <mat-spinner [diameter]="40"></mat-spinner>
+    </div>
     <ng-container *ngIf="applications?.length >= 1">
       <mat-form-field appearance="outline">
         <mat-select 
