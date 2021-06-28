@@ -33,26 +33,30 @@ export class BuildingPermitComponent implements OnInit {
   public forms: any = [
     {
       id: 1,
-      src: '../../../../assets/forms/updated/Application_Form_for_Certificate_of_Zoning_Compliance.pdf',
+      src:
+        '../../../../assets/forms/updated/Application_Form_for_Certificate_of_Zoning_Compliance.pdf',
       label: 'Step 1',
       sample:
         '../../../../assets/forms/sample/Zoning_Clearance_Form_4.07.21_PM.png',
     },
     {
       id: 2,
-      src: '../../../../assets/forms/updated/Unified_Application_for_Bldg_Permit.pdf',
+      src:
+        '../../../../assets/forms/updated/Unified_Application_for_Bldg_Permit.pdf',
       label: 'Step 2',
       sample: '../../../../assets/forms/sample/Unified_Building_Front.png',
     },
     {
       id: 3,
-      src: '../../../../assets/forms/updated/Sanitary-Plumbing_Permit_(BUILDING_PERMIT)_(1).pdf',
+      src:
+        '../../../../assets/forms/updated/Sanitary-Plumbing_Permit_(BUILDING_PERMIT)_(1).pdf',
       label: 'Step 3',
       sample: '../../../../assets/forms/sample/Sanitary_Permit.png',
     },
     {
       id: 4,
-      src: '../../../../assets/forms/updated/Electrical_Permit_(for_building_permit).pdf',
+      src:
+        '../../../../assets/forms/updated/Electrical_Permit_(for_building_permit).pdf',
       label: 'Step 4',
       sample: '../../../../assets/forms/sample/Electrical.png',
     },
@@ -446,8 +450,7 @@ export class BuildingPermitComponent implements OnInit {
   }
   public async upload(form): Promise<void> {
     const data = this.formData;
-    const blob =
-      await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     this.dataBindingService.handleSaveFormData(
       this.applicationId,
       form.id,
@@ -491,6 +494,8 @@ export class BuildingPermitComponent implements OnInit {
   openSnackBar(message: string) {
     this.snackBar.open(message, 'Close', {
       duration: 2000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
     });
   }
 

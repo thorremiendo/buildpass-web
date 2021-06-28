@@ -284,10 +284,22 @@ export class FormDetailsComponent implements OnInit {
             this.data.evaluator.position !== 'Admin Aide IV'
           ) {
             //BLDG PERMIT EVALUATORS
-            body = {
-              cbao_status_id: this.permitDetails.value.is_compliant,
-            };
-            this.updateDoc(body, id);
+            const filters = [59, 63, 36, 62, 32, 33];
+            const findId = filters.find((e) => e == this.data.form.document_id);
+            if (findId) {
+              //PARALLEL DOC
+              body = {
+                cbao_status_id: this.permitDetails.value.is_compliant,
+              };
+              this.updateDoc(body, id);
+            } else if (!findId) {
+              //NOT PARALLEL DOC
+              body = {
+                document_status_id: this.permitDetails.value.is_compliant,
+                cbao_status_id: this.permitDetails.value.is_compliant,
+              };
+              this.updateDoc(body, id);
+            }
           } else if (this.data.evaluator.position == 'Admin Aide IV') {
             //BLDG PERMIT RECEIVING
             body = {
