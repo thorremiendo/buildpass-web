@@ -216,14 +216,14 @@
         <div id="bfp">
           <div class="timeline-box"
             [ngClass]="{
-              'compliant': applicationTimeline['2'] && applicationTimeline['2'][applicationTimeline['2'].length-1].color == 'green',
-              'non-compliant': applicationTimeline['2'] && applicationTimeline['2'][applicationTimeline['2'].length-1].color == 'red'
+              'compliant': applicationTimeline['3.0'] && applicationTimeline['3.0'][applicationTimeline['3.0'].length-1].color == 'green',
+              'non-compliant': applicationTimeline['3.0'] && applicationTimeline['3.0'][applicationTimeline['3.0'].length-1].color == 'red'
             }"
             (click)="expandTimelineBox('bfp')"
           >
             <div class="timeline-box-label">BFP</div>
             <ul>
-              <li *ngFor="let log of applicationTimeline['2']">
+              <li *ngFor="let log of applicationTimeline['3.0']">
                 <div [ngClass]="log.color">{{log.status}}</div>
                 <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
               </li>
@@ -231,7 +231,7 @@
             <mat-icon class="compliant">assignment_turned_in</mat-icon>
             <mat-icon class="non-compliant">assignment_late</mat-icon>
             <mat-icon class="pending">assignment</mat-icon>
-            <div class="expand" *ngIf="applicationTimeline['2'] && applicationTimeline['2'].length > 1">
+            <div class="expand" *ngIf="applicationTimeline['3.0'] && applicationTimeline['3.0'].length > 1">
               <mat-icon [inline]="true">expand_more</mat-icon>
               <mat-icon [inline]="true">expand_less</mat-icon>
             </div>
@@ -240,14 +240,14 @@
         <div id="cepmo">
           <div class="timeline-box"
             [ngClass]="{
-              'compliant': applicationTimeline['3'] && applicationTimeline['3'][applicationTimeline['3'].length-1].color == 'green',
-              'non-compliant': applicationTimeline['3'] && applicationTimeline['3'][applicationTimeline['3'].length-1].color == 'red'
+              'compliant': applicationTimeline['2.0'] && applicationTimeline['2.0'][applicationTimeline['2.0'].length-1].color == 'green',
+              'non-compliant': applicationTimeline['2.0'] && applicationTimeline['2.0'][applicationTimeline['2.0'].length-1].color == 'red'
             }"
             (click)="expandTimelineBox('cepmo')"
           >
             <div class="timeline-box-label">CEPMO</div>
             <ul>
-              <li *ngFor="let log of applicationTimeline['3']">
+              <li *ngFor="let log of applicationTimeline['2.0']">
                 <div [ngClass]="log.color">{{log.status}}</div>
                 <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
               </li>
@@ -255,7 +255,7 @@
             <mat-icon class="compliant">assignment_turned_in</mat-icon>
             <mat-icon class="non-compliant">assignment_late</mat-icon>
             <mat-icon class="pending">assignment</mat-icon>
-            <div class="expand" *ngIf="applicationTimeline['3'] && applicationTimeline['3'].length > 1">
+            <div class="expand" *ngIf="applicationTimeline['2.0'] && applicationTimeline['2.0'].length > 1">
               <mat-icon [inline]="true">expand_more</mat-icon>
               <mat-icon [inline]="true">expand_less</mat-icon>
             </div>
