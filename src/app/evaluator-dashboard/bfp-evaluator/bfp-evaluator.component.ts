@@ -71,7 +71,6 @@ export class BfpEvaluatorComponent implements OnInit {
             .updateDocumentFile(body, id)
             .subscribe((res) => {
               this.isLoading = false;
-              console.log('updated doc status');
             });
         }
       }

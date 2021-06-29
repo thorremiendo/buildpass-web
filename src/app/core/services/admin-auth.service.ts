@@ -61,7 +61,6 @@ export class AdminAuthService {
       })
       .pipe(
         map((res) => {
-          console.log(res);
           const token = res.data.token;
           const user = 'treasury-cbao';
 

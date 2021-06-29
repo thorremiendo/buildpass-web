@@ -110,7 +110,6 @@ export class ViewApplicationComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
-        console.log(this.applicationDetails);
       });
   }
   fetchUserDocs() {
@@ -535,7 +534,6 @@ export class ViewApplicationComponent implements OnInit {
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
-            console.log('division chief');
             Swal.fire(
               'Success!',
               `Forwarded to Technical Evaluators for Re-Evaluation!`,

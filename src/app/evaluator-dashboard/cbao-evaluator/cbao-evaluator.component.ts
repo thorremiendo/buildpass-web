@@ -69,7 +69,6 @@ export class CbaoEvaluatorComponent implements OnInit {
             .updateDocumentFile(body, id)
             .subscribe((res) => {
               this.isLoading = false;
-              console.log('updated doc status');
             });
         }
       }
@@ -88,7 +87,6 @@ export class CbaoEvaluatorComponent implements OnInit {
             .updateDocumentFile(body, id)
             .subscribe((res) => {
               this.isLoading = false;
-              console.log('updated doc status');
             });
         }
       }
@@ -98,7 +96,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   filterUserDocs(forms) {
     const USER_FORMS = forms.filter((doc) => doc.document_id !== 107);
     this.dataSource = USER_FORMS;
-    console.log(this.dataSource);
+
     this.isLoading = false;
   }
 
@@ -114,7 +112,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.isLoading = false;
       });
   }
-  
+
   checkTechnicalEvaluationDone() {
     const app = this.applicationInfo;
     const status = [
@@ -217,7 +215,6 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
-    console.log(this.evaluatorRole);
   }
 
   getDocType(id): string {
@@ -523,7 +520,6 @@ export class CbaoEvaluatorComponent implements OnInit {
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
         .subscribe((res) => {
-          console.log('division chief');
           Swal.fire(
             'All documents are compliant!!',
             `Notified Division Chief for Evaluation!`,
@@ -556,7 +552,6 @@ export class CbaoEvaluatorComponent implements OnInit {
           this.applicationService
             .updateApplicationStatus(body, this.applicationId)
             .subscribe((res) => {
-              console.log('division chief');
               Swal.fire(
                 'All documents are compliant!!',
                 `Notified Division Chief for Evaluation!`,

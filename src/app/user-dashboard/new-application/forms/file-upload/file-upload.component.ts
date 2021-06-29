@@ -38,7 +38,6 @@ export class FileUploadComponent implements OnInit {
   }
 
   onSelect($event: NgxDropzoneChangeEvent) {
-    console.log($event);
     if ($event.rejectedFiles.length == 0) {
       this.loading = true;
       this.editMode = false;

@@ -77,11 +77,10 @@ export class FormDetailsComponent implements OnInit {
     this.viewSDKClient.form = this.data.form;
     this.viewSDKClient.formId = this.data.form.id;
     this.revisionData = this.data.form.document_revision;
-    console.log(this.revisionData);
+
     this.remarksForm = this.fb.group({
       remarks: new FormControl(''),
     });
-    console.log('this', this.data);
   }
   //adobe sdk functions
   ngAfterViewInit() {
@@ -123,9 +122,7 @@ export class FormDetailsComponent implements OnInit {
   removeAnnotations() {
     this.annotationManager
       .removeAnnotationsFromPDF()
-      .then((result) => {
-        console.log(result);
-      })
+      .then((result) => {})
       .catch((error) => console.log(error));
   }
 
@@ -446,7 +443,6 @@ export class FormDetailsComponent implements OnInit {
   noncompliant(form, id) {
     this.isSubmitting = true;
     this.newApplicationService.fetchDocumentPath(id).subscribe((res) => {
-      console.log(res);
       var docPath = res.data.document_path;
       if (
         form.document_id == 1 ||

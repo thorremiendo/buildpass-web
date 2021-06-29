@@ -98,17 +98,13 @@ export class ChatService {
     );
   }
 
-  isViewed(chat_id){
+  isViewed(chat_id) {
     const url = `/chat/${chat_id}/viewed`;
     const body = {
-      is_viewed:1
-    }
-    console.log(chat_id);
+      is_viewed: 1,
+    };
 
-    return this.api.post(url, body).subscribe( res =>{
-      console.log(res);
-    });
-
+    return this.api.post(url, body).subscribe((res) => {});
   }
   subscribe(channelName) {
     this.pusher.subscribe(channelName);

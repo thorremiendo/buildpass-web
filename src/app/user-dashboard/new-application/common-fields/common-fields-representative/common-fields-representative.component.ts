@@ -180,7 +180,6 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
       this.newApplicationService.submitApplication(body).subscribe((res) => {
         Swal.fire('Success!', 'Application Details Submitted!', 'success')
           .then((result) => {
-            console.log(result);
             this.isLoading = false;
 
             switch (this.applicationDetails.permit_type_id) {

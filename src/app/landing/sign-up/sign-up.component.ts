@@ -73,15 +73,19 @@ export class SignUpComponent implements OnInit {
     this._submitted = true;
 
     if (this._signupForm.valid) {
-      this._registerAccountFormService.checkIfEmailRegistered(value.email).then(res => {
-        if (res.length > 0) {
-          this._signupForm.controls.email.setErrors({emailAlreadyUsed : true});
-        } else {
-          this._registerAccountFormService.setRegisterAccountInfo(value);
-          console.log(value);
-          this._router.navigateByUrl('registration');
-        }
-      });
+      this._registerAccountFormService
+        .checkIfEmailRegistered(value.email)
+        .then((res) => {
+          if (res.length > 0) {
+            this._signupForm.controls.email.setErrors({
+              emailAlreadyUsed: true,
+            });
+          } else {
+            this._registerAccountFormService.setRegisterAccountInfo(value);
+
+            this._router.navigateByUrl('registration');
+          }
+        });
     }
   }
 

@@ -48,13 +48,10 @@ export class MapService {
       .setLngLat([x, y])
       .addTo(this.map);
     this.currentMarkers.push(this.marker);
-    this.marker.on('dragend', () => {
-      console.log(this.marker.getLngLat().lng, this.marker.getLngLat().lat);
-    });
+    this.marker.on('dragend', () => {});
   }
 
   removeMarker() {
-    console.log(this.currentMarkers.length);
     if (this.currentMarkers !== null) {
       for (var i = this.currentMarkers.length - 1; i >= 0; i--) {
         this.currentMarkers[i].remove();

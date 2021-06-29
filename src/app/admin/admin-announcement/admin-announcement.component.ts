@@ -15,73 +15,61 @@ import { PreviewDialogComponent } from './preview-dialog/preview-dialog.componen
 export class AdminAnnouncementComponent {
   public isActive: boolean;
   public announcements: Object[];
- // public announcements: Object[] = Announcement;
+  // public announcements: Object[] = Announcement;
   constructor(
     public dialog: MatDialog,
-    private announcementService: AnnouncementService,
-    ) {
-    console.log(this.announcements);
-  }
+    private announcementService: AnnouncementService
+  ) {}
 
   ngOnInit(): void {
     this.fetchAllAnnouncements();
   }
 
-  fetchAllAnnouncements(){
-    this.announcementService.fetchAnnouncements().subscribe( data => {
+  fetchAllAnnouncements() {
+    this.announcementService.fetchAnnouncements().subscribe((data) => {
       this.announcements = data.data;
-    })
+    });
   }
 
-  fetchActiveAnnouncements(){
+  fetchActiveAnnouncements() {
     const key = 'is_active';
     const value = '1';
-    const param = new HttpParams().set(key,value);
+    const param = new HttpParams().set(key, value);
 
-    this.announcementService.fetchAnnouncements(param).subscribe( data => {
+    this.announcementService.fetchAnnouncements(param).subscribe((data) => {
       this.announcements = data.data;
-    })
+    });
   }
-
-
 
   delete(index: any) {
     this.announcements.splice(index, 1);
   }
 
   editDialog(data, index) {
-    console.log(index)
     const dialogRef = this.dialog.open(EditDialogComponent, {
       data: data,
       height: '600px',
       width: '800px',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       window.location.reload();
-      
     });
-    
-    
   }
 
-  previewDialog(data){
-    console.log(data)
-   this.dialog.open(PreviewDialogComponent, {
+  previewDialog(data) {
+    this.dialog.open(PreviewDialogComponent, {
       data: data,
       height: '600px',
       width: '800px',
     });
-
-    
-
   }
 
-  
-  addNew(){
+  addNew() {
     this.announcements.push({
       subject: 'Test Announcement',
-      short_description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed semper rutrum velit nec hendrerit. Nullam quis dui a sapien venenatis elementum. Phasellus euismod, magna a interdum blandit, ex velit imperdiet ligula, eu vestibulum justo nisi sed nunc. Praesent sed ex nec eros volutpat maximus vitae quis mi. Sed dictum fermentum nulla, eget sagittis diam mattis ac.',
+      short_description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed semper rutrum velit nec hendrerit. Nullam quis dui a sapien venenatis elementum. Phasellus euismod, magna a interdum blandit, ex velit imperdiet ligula, eu vestibulum justo nisi sed nunc. Praesent sed ex nec eros volutpat maximus vitae quis mi. Sed dictum fermentum nulla, eget sagittis diam mattis ac.',
       body: 'New Announcement 1 ',
       isActive: false,
       photo_path: '',
@@ -89,9 +77,7 @@ export class AdminAnnouncementComponent {
     });
   }
 
-  preview(){
-
-  }
+  preview() {}
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(
@@ -101,8 +87,5 @@ export class AdminAnnouncementComponent {
     );
   }
 
-  submit(){
-    console.log(this.announcements);
-  }
+  submit() {}
 }
-

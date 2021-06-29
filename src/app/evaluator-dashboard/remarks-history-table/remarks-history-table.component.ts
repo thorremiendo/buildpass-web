@@ -45,7 +45,7 @@ export class RemarksHistoryTableComponent implements OnInit {
     this.filterRemarksTable(
       this.data.evaluator ? this.data.evaluator.office_id : 7
     );
-    console.log(this.data);
+
     this.isLoading = false;
     this.remarksForm = this.fb.group({
       remarks: new FormControl('', [Validators.required]),

@@ -50,7 +50,7 @@ export class ReleaseBldgPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
-        console.log(this.applicationDetails);
+
         this.formData = {
           owner_address: `${this.applicationDetails.applicant_detail.house_number}  ${this.applicationDetails.applicant_detail.street_name} ${this.applicationDetails.applicant_detail.barangay}`,
           complete_applicant_name: `${this.applicationDetails.applicant_detail.first_name} ${this.applicationDetails.applicant_detail.middle_name} ${this.applicationDetails.applicant_detail.last_name}`,
