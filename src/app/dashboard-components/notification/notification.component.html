@@ -1,7 +1,7 @@
 <div *ngIf="show_notif == true">
   <button [matMenuTriggerFor]="notification" mat-icon-button class="m-r-5">
     <p class="pt-2">
-      <mat-icon matBadge="{{ feeds.length }}" matBadgeColor="secondary"
+      <mat-icon matBadge="{{ totalUnseenNotif }}" matBadgeColor="secondary"
         >notifications_none
       </mat-icon>
     </p>
