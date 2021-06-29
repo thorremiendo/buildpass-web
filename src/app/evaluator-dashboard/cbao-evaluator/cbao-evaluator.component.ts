@@ -48,17 +48,60 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.fetchEvaluatorDetails();
         this.checkFormsCompliant();
         this.checkFormsReviewed();
+        this.checkCepmoParallelDocs();
+        this.checkBfpParallelDocs();
         this.isLoading = false;
       });
     this.fetchApplicationInfo();
     this.changeDetectorRefs.detectChanges();
   }
+
+  checkCepmoParallelDocs() {
+    this.isLoading = true;
+    const findDoc = this.dataSource.forEach((e) => {
+      if (e.document_id == 36 || e.document_id == 63) {
+        if (e.cbao_status_id == 1 && e.cepmo_status_id == 1) {
+          const id = e.id;
+          const body = {
+            document_status_id: 1,
+          };
+          this.newApplicationService
+            .updateDocumentFile(body, id)
+            .subscribe((res) => {
+              this.isLoading = false;
+              console.log('updated doc status');
+            });
+        }
+      }
+    });
+  }
+  checkBfpParallelDocs() {
+    this.isLoading = true;
+    const findDoc = this.dataSource.forEach((e) => {
+      if (e.document_id == 62 || e.document_id == 32 || e.document_id == 33) {
+        if (e.cbao_status_id == 1 && e.bfp_status_id == 1) {
+          const id = e.id;
+          const body = {
+            document_status_id: 1,
+          };
+          this.newApplicationService
+            .updateDocumentFile(body, id)
+            .subscribe((res) => {
+              this.isLoading = false;
+              console.log('updated doc status');
+            });
+        }
+      }
+    });
+  }
+
   filterUserDocs(forms) {
     const USER_FORMS = forms.filter((doc) => doc.document_id !== 107);
     this.dataSource = USER_FORMS;
     console.log(this.dataSource);
     this.isLoading = false;
   }
+
   fetchApplicationInfo() {
     this.isLoading = true;
     this.applicationService
@@ -71,6 +114,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.isLoading = false;
       });
   }
+  
   checkTechnicalEvaluationDone() {
     const app = this.applicationInfo;
     const status = [

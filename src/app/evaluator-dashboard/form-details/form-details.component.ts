@@ -217,6 +217,8 @@ export class FormDetailsComponent implements OnInit {
 
   public async updateForm(): Promise<void> {
     this.isSubmitting = true;
+    const filters = [59, 63, 36, 62, 32, 33];
+    const findId = filters.find((e) => e == this.data.form.document_id);
     // const blob =
     //   await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     const uploadDocumentData = {
@@ -225,6 +227,45 @@ export class FormDetailsComponent implements OnInit {
     };
     if (this.data.application.receiving_status_id == 2) {
       uploadDocumentData['receiving_status_id'] = 0;
+    }
+    if (!findId) {
+      uploadDocumentData['cbao_status_id'] = 0;
+    }
+    if (findId) {
+      const doc = this.data.form;
+      const id = this.data.form.id;
+      const status = [
+        {
+          cbao_status_id: doc.cbao_status_id,
+        },
+        {
+          cepmo_status_id: doc.cepmo_status_id,
+        },
+        {
+          bfp_status_id: doc.bfp_status_id,
+        },
+      ];
+      status.forEach((e) => {
+        if (e.cbao_status_id == 2) {
+          const body = {
+            cbao_status_id: 0,
+            document_status_id: 0,
+          };
+          this.updateDoc(body, id);
+        } else if (e.cepmo_status_id == 2) {
+          const body = {
+            cepmo_status_id: 0,
+            document_status_id: 0,
+          };
+          this.updateDoc(body, id);
+        } else if (e.bfp_status_id == 2) {
+          const body = {
+            bfp_status_id: 0,
+            document_status_id: 0,
+          };
+          this.updateDoc(body, id);
+        }
+      });
     }
 
     this.newApplicationService
@@ -239,6 +280,8 @@ export class FormDetailsComponent implements OnInit {
 
   callUpdate() {
     this.isSubmitting = true;
+    const filters = [59, 63, 36, 62, 32, 33];
+    const findId = filters.find((e) => e == this.data.form.document_id);
     const uploadDocumentData = {
       document_status_id: 0,
     };
@@ -248,6 +291,46 @@ export class FormDetailsComponent implements OnInit {
     if (this.data.application.receiving_status_id == 2) {
       uploadDocumentData['receiving_status_id'] = 0;
     }
+    if (!findId) {
+      uploadDocumentData['cbao_status_id'] = 0;
+    }
+    if (findId) {
+      const doc = this.data.form;
+      const id = this.data.form.id;
+      const status = [
+        {
+          cbao_status_id: doc.cbao_status_id,
+        },
+        {
+          cepmo_status_id: doc.cepmo_status_id,
+        },
+        {
+          bfp_status_id: doc.bfp_status_id,
+        },
+      ];
+      status.forEach((e) => {
+        if (e.cbao_status_id == 2) {
+          const body = {
+            cbao_status_id: 0,
+            document_status_id: 0,
+          };
+          this.updateDoc(body, id);
+        } else if (e.cepmo_status_id == 2) {
+          const body = {
+            cepmo_status_id: 0,
+            document_status_id: 0,
+          };
+          this.updateDoc(body, id);
+        } else if (e.bfp_status_id == 2) {
+          const body = {
+            bfp_status_id: 0,
+            document_status_id: 0,
+          };
+          this.updateDoc(body, id);
+        }
+      });
+    }
+
     this.newApplicationService
       .updateDocumentFile(uploadDocumentData, this.data.form.id)
       .subscribe((res) => {
@@ -269,12 +352,14 @@ export class FormDetailsComponent implements OnInit {
           //CEPMO
           body = {
             cepmo_status_id: this.permitDetails.value.is_compliant,
+            is_override: 1,
           };
           this.updateDoc(body, id);
         } else if (officeId == 3) {
           //BFP
           body = {
             bfp_status_id: this.permitDetails.value.is_compliant,
+            is_override: 1,
           };
           this.updateDoc(body, id);
         } else if (officeId == 4) {
@@ -290,6 +375,7 @@ export class FormDetailsComponent implements OnInit {
               //PARALLEL DOC
               body = {
                 cbao_status_id: this.permitDetails.value.is_compliant,
+                is_override: 1,
               };
               this.updateDoc(body, id);
             } else if (!findId) {
@@ -380,12 +466,14 @@ export class FormDetailsComponent implements OnInit {
           //CEPMO
           body = {
             cepmo_status_id: this.permitDetails.value.is_compliant,
+            is_override: 1,
           };
           this.updateDoc(body, id);
         } else if (officeId == 3) {
           //BFP
           body = {
             bfp_status_id: this.permitDetails.value.is_compliant,
+            is_override: 1,
           };
           this.updateDoc(body, id);
         } else if (officeId == 4) {
@@ -394,11 +482,24 @@ export class FormDetailsComponent implements OnInit {
             permitType == 1 &&
             this.data.evaluator.position !== 'Admin Aide IV'
           ) {
-            //BLDG PERMIT
-            body = {
-              cbao_status_id: this.permitDetails.value.is_compliant,
-            };
-            this.updateDoc(body, id);
+            //BLDG PERMIT EVALUATORS
+            const filters = [59, 63, 36, 62, 32, 33];
+            const findId = filters.find((e) => e == this.data.form.document_id);
+            if (findId) {
+              //PARALLEL DOC
+              body = {
+                cbao_status_id: this.permitDetails.value.is_compliant,
+                is_override: 1,
+              };
+              this.updateDoc(body, id);
+            } else if (!findId) {
+              //NOT PARALLEL DOC
+              body = {
+                document_status_id: this.permitDetails.value.is_compliant,
+                cbao_status_id: this.permitDetails.value.is_compliant,
+              };
+              this.updateDoc(body, id);
+            }
           } else if (this.data.evaluator.position == 'Admin Aide IV') {
             //BLDG PERMIT RECEIVING
             body = {
@@ -441,6 +542,7 @@ export class FormDetailsComponent implements OnInit {
               //CEPMO
               body = {
                 cepmo_status_id: this.permitDetails.value.is_compliant,
+                is_override: 1,
                 document_path: blob,
               };
               this.updateDoc(body, id);
@@ -448,6 +550,7 @@ export class FormDetailsComponent implements OnInit {
               //BFP
               body = {
                 bfp_status_id: this.permitDetails.value.is_compliant,
+                is_override: 1,
                 document_path: blob,
               };
               this.updateDoc(body, id);
@@ -457,12 +560,28 @@ export class FormDetailsComponent implements OnInit {
                 permitType == 1 &&
                 this.data.evaluator.position !== 'Admin Aide IV'
               ) {
-                //BLDG PERMIT
-                body = {
-                  cbao_status_id: this.permitDetails.value.is_compliant,
-                  document_path: blob,
-                };
-                this.updateDoc(body, id);
+                //BLDG PERMIT EVALUATORS
+                const filters = [59, 63, 36, 62, 32, 33];
+                const findId = filters.find(
+                  (e) => e == this.data.form.document_id
+                );
+                if (findId) {
+                  //PARALLEL DOC
+                  body = {
+                    cbao_status_id: this.permitDetails.value.is_compliant,
+                    document_path: blob,
+                    is_override: 1,
+                  };
+                  this.updateDoc(body, id);
+                } else if (!findId) {
+                  //NOT PARALLEL DOC
+                  body = {
+                    document_status_id: this.permitDetails.value.is_compliant,
+                    cbao_status_id: this.permitDetails.value.is_compliant,
+                    document_path: blob,
+                  };
+                  this.updateDoc(body, id);
+                }
               } else if (this.data.evaluator.position == 'Admin Aide IV') {
                 //BLDG PERMIT RECEIVING
                 body = {
