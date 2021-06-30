@@ -50,7 +50,7 @@ export class ReleaseBldgPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
-        console.log(this.applicationDetails);
+
         this.formData = {
           owner_address: `${this.applicationDetails.applicant_detail.house_number}  ${this.applicationDetails.applicant_detail.street_name} ${this.applicationDetails.applicant_detail.barangay}`,
           complete_applicant_name: `${this.applicationDetails.applicant_detail.first_name} ${this.applicationDetails.applicant_detail.middle_name} ${this.applicationDetails.applicant_detail.last_name}`,
@@ -146,28 +146,46 @@ export class ReleaseBldgPermitComponent implements OnInit {
       .subscribe((res) => {
         const doc = res.data.document_path;
         const id = res.data.id;
-        this.watermark.generateQrCode(this.applicationId).subscribe((res) => {
-          this.watermark
-            .insertQrCode(doc, res.data, 'building-permit')
-            .then((blob) => {
-              const updateFileData = {
-                document_status_id: 1,
-                document_path: blob,
-              };
-              this.newApplicationService
-                .updateDocumentFile(updateFileData, id)
-                .subscribe((res) => {
-                  Swal.fire(
-                    'Success!',
-                    `Building Permit Uploaded`,
-                    'success'
-                  ).then((result) => {
-                    this.isSubmitting = true;
-                    this.onNoClick();
+        this.newApplicationService
+          .updateDocumentFile({ receiving_status_id: 1 }, id)
+          .subscribe((res) => {
+            this.newApplicationService
+              .updateDocumentFile({ bfp_status_id: 1 }, id)
+              .subscribe((res) => {
+                this.newApplicationService
+                  .updateDocumentFile({ cbao_status_id: 1 }, id)
+                  .subscribe((res) => {
+                    this.newApplicationService
+                      .updateDocumentFile({ cepmo_status_id: 1 }, id)
+                      .subscribe((res) => {
+                        this.addWaterMark(doc, id);
+                      });
                   });
-                });
+              });
+          });
+      });
+  }
+
+  addWaterMark(doc, id) {
+    this.watermark.generateQrCode(this.applicationId).subscribe((res) => {
+      this.watermark
+        .insertQrCode(doc, res.data, 'building-permit')
+        .then((blob) => {
+          const updateFileData = {
+            document_status_id: 1,
+            document_path: blob,
+          };
+          this.newApplicationService
+            .updateDocumentFile(updateFileData, id)
+            .subscribe((res) => {
+              Swal.fire('Success!', `Building Permit Uploaded`, 'success').then(
+                (result) => {
+                  this.isSubmitting = true;
+                  this.onNoClick();
+                }
+              );
             });
         });
-      });
+    });
   }
 }

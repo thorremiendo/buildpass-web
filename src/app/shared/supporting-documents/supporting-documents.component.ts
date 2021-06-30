@@ -38,7 +38,7 @@ export class SupportingDocumentsComponent implements OnInit {
       .fetchApplicationSupportingFiles(this.applicationDetails.id)
       .subscribe((res) => {
         this.applicantSupportingDocs = res.data;
-        console.log("supps",this.applicantSupportingDocs);
+
         this.isLoading = false;
       });
   }

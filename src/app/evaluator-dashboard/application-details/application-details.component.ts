@@ -95,7 +95,6 @@ export class ApplicationDetailsComponent implements OnInit {
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
-            console.log('division chief');
             Swal.fire(
               'Non Compliant',
               `Forwarded to Division Chief for Evaluation!`,
@@ -130,8 +129,6 @@ export class ApplicationDetailsComponent implements OnInit {
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
         .subscribe((res) => {
-          console.log('division chief');
-
           Swal.fire(
             'All documents are compliant!!',
             `Notified Division Chief for Evaluation!`,

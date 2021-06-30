@@ -4,14 +4,13 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatDialogRef } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
-import { 
+import {
   RegisterAccountEvaluatorFormService,
   BarangayService,
   AuthService,
-  Position, Office
-
- } from '../../../core';
-
+  Position,
+  Office,
+} from '../../../core';
 
 @Component({
   selector: 'app-admin-employee-create',
@@ -84,7 +83,7 @@ export class AdminEmployeeCreateComponent implements OnInit {
       id_number: ['', Validators.required],
       id_type: ['', Validators.required],
       email: ['', Validators.required],
-      role_id: ['', Validators.required]
+      role_id: ['', Validators.required],
     });
   }
 
@@ -134,7 +133,7 @@ export class AdminEmployeeCreateComponent implements OnInit {
 
   filterBarangays(value: string): Barangay[] {
     return this._barangay.filter((option) =>
-      option.name.toLowerCase().includes(value)
+      option.name.toLowerCase().includes(value.toLowerCase())
     );
   }
 
@@ -173,28 +172,30 @@ export class AdminEmployeeCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this._filteredOfficeOptions)
     this.createForm();
 
     this._barangayService.getBarangayInfo().subscribe((data) => {
       this._barangay = data;
-      this._filteredBarangayOptions = this.adminCreateUserFormControl.barangay.valueChanges.pipe(
-        startWith(''),
-        map((barangay) =>
-          barangay ? this.filterBarangays(barangay) : this._barangay.slice()
-        )
-      );
+      this._filteredBarangayOptions =
+        this.adminCreateUserFormControl.barangay.valueChanges.pipe(
+          startWith(''),
+          map((barangay) =>
+            barangay ? this.filterBarangays(barangay) : this._barangay.slice()
+          )
+        );
     });
 
-    this._filteredOfficeOptions = this.adminCreateUserFormControl.office.valueChanges.pipe(
-      startWith(''),
-      map((value) => this.filterOffice(value))
-    );
+    this._filteredOfficeOptions =
+      this.adminCreateUserFormControl.office.valueChanges.pipe(
+        startWith(''),
+        map((value) => this.filterOffice(value))
+      );
 
-    this._filteredPositionOptions = this.adminCreateUserFormControl.position.valueChanges.pipe(
-      startWith(''),
-      map((value) => this.filterPosition(value))
-    );
+    this._filteredPositionOptions =
+      this.adminCreateUserFormControl.position.valueChanges.pipe(
+        startWith(''),
+        map((value) => this.filterPosition(value))
+      );
   }
 
   onSubmit() {
@@ -220,21 +221,17 @@ export class AdminEmployeeCreateComponent implements OnInit {
       photo_path: this.selectedPhoto,
       id_photo_path: this.selectedFile,
       is_evaluator: 1,
-      role_id:this._adminCreateUserForm.value.role_id,
+      role_id: this._adminCreateUserForm.value.role_id,
     };
 
     this._registerAccountEvaluatorFormService
-    .submitRegisterAccountInfo(user)
-    .subscribe((res) => {
-      this.isUpdating = false;
-      Swal.fire('Success!', `Evaluator Created`, 'success').then(
-        (result) => {
+      .submitRegisterAccountInfo(user)
+      .subscribe((res) => {
+        this.isUpdating = false;
+        Swal.fire('Success!', `Evaluator Created`, 'success').then((result) => {
           window.location.reload();
-        }
-      );
-
-    });
-
+        });
+      });
   }
 }
 

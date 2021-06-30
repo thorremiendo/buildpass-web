@@ -57,7 +57,7 @@ export class TreasuryApplicationPageComponent implements OnInit {
       .fetchFeesByOffice(application_id, office_id)
       .subscribe((res) => {
         this.cbaoFees = res.data;
-        console.log(this.cbaoFees);
+
         this.isLoading = false;
       });
   }

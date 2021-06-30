@@ -48,17 +48,58 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.fetchEvaluatorDetails();
         this.checkFormsCompliant();
         this.checkFormsReviewed();
+        this.checkCepmoParallelDocs();
+        this.checkBfpParallelDocs();
         this.isLoading = false;
       });
     this.fetchApplicationInfo();
     this.changeDetectorRefs.detectChanges();
   }
+
+  checkCepmoParallelDocs() {
+    this.isLoading = true;
+    const findDoc = this.dataSource.forEach((e) => {
+      if (e.document_id == 36 || e.document_id == 63) {
+        if (e.cbao_status_id == 1 && e.cepmo_status_id == 1) {
+          const id = e.id;
+          const body = {
+            document_status_id: 1,
+          };
+          this.newApplicationService
+            .updateDocumentFile(body, id)
+            .subscribe((res) => {
+              this.isLoading = false;
+            });
+        }
+      }
+    });
+  }
+  checkBfpParallelDocs() {
+    this.isLoading = true;
+    const findDoc = this.dataSource.forEach((e) => {
+      if (e.document_id == 62 || e.document_id == 32 || e.document_id == 33) {
+        if (e.cbao_status_id == 1 && e.bfp_status_id == 1) {
+          const id = e.id;
+          const body = {
+            document_status_id: 1,
+          };
+          this.newApplicationService
+            .updateDocumentFile(body, id)
+            .subscribe((res) => {
+              this.isLoading = false;
+            });
+        }
+      }
+    });
+  }
+
   filterUserDocs(forms) {
     const USER_FORMS = forms.filter((doc) => doc.document_id !== 107);
     this.dataSource = USER_FORMS;
-    console.log(this.dataSource)
+
     this.isLoading = false;
   }
+
   fetchApplicationInfo() {
     this.isLoading = true;
     this.applicationService
@@ -71,6 +112,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.isLoading = false;
       });
   }
+
   checkTechnicalEvaluationDone() {
     const app = this.applicationInfo;
     const status = [
@@ -181,9 +223,9 @@ export class CbaoEvaluatorComponent implements OnInit {
   getDocStatus(id): string {
     if (
       this.evaluatorRole.code == 'CBAO-REC' &&
-      this.applicationInfo.receiving_status_id == '1'
+      (this.applicationInfo.receiving_status_id == '1' || id == 1)
     ) {
-      return 'Compliant';
+      return 'Submitted';
     }
     return documentStatus[id];
   }
@@ -196,6 +238,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         evaluator: this.evaluatorDetails,
         form: element,
         route: this.route,
+        application: this.applicationInfo,
       },
     });
 
@@ -248,10 +291,17 @@ export class CbaoEvaluatorComponent implements OnInit {
     return isNonCompliant;
   }
   checkFormsReviewed() {
-    const isReviewed = this.dataSource.every(
-      (form) => form.document_status_id == 1 || form.document_status_id == 2
-    );
-    return isReviewed;
+    if (this.evaluatorRole.code == 'CBAO-REC') {
+      const isReviewed = this.dataSource.every(
+        (form) => form.receiving_status_id == 1 || form.receiving_status_id == 2
+      );
+      return isReviewed;
+    } else {
+      const isReviewed = this.dataSource.every(
+        (form) => form.document_status_id == 1 || form.document_status_id == 2
+      );
+      return isReviewed;
+    }
   }
 
   handleTechnicalEvaluatorNonCompliant() {
@@ -470,7 +520,6 @@ export class CbaoEvaluatorComponent implements OnInit {
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
         .subscribe((res) => {
-          console.log('division chief');
           Swal.fire(
             'All documents are compliant!!',
             `Notified Division Chief for Evaluation!`,
@@ -503,7 +552,6 @@ export class CbaoEvaluatorComponent implements OnInit {
           this.applicationService
             .updateApplicationStatus(body, this.applicationId)
             .subscribe((res) => {
-              console.log('division chief');
               Swal.fire(
                 'All documents are compliant!!',
                 `Notified Division Chief for Evaluation!`,
@@ -675,6 +723,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   handleRelease() {
     const body = {
       application_status_id: 11,
+      releasing_status_id: 1,
     };
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)

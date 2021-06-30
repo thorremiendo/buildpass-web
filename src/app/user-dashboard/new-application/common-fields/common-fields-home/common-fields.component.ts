@@ -47,7 +47,7 @@ export class CommonFieldsComponent implements OnInit {
     if (this.applicationInfo.is_representative == '2') {
       this.navLinks = [
         {
-          label: 'Owner/Applicant Information',
+          label: 'Owner Information',
           link: './lot-owner',
           index: 0,
         },
@@ -60,7 +60,7 @@ export class CommonFieldsComponent implements OnInit {
     } else {
       this.navLinks = [
         {
-          label: 'Owner/Applicant Information',
+          label: 'Owner Information',
           link: './lot-owner',
           index: 0,
         },

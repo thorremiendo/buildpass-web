@@ -125,6 +125,7 @@ export class CpdoEvaluatorComponent implements OnInit {
           evaluator: this.evaluatorDetails,
           form: element,
           route: this.route,
+          application: this.applicationDetails,
         },
       });
 

@@ -41,7 +41,6 @@ export class AuthService {
     logged in and setting up null when logged out */
     this.currentUser.subscribe((user) => {
       if (user) {
-        console.log('this' + user.first_name);
         localStorage.setItem('user', JSON.stringify(user));
         this.isAuthenticatedSubject.next(true);
         LogRocket.identify('bblmhh/buildpass-production', {
@@ -114,7 +113,6 @@ export class AuthService {
   }
 
   handleVerifyEmail(actionCode) {
-    console.log('verify email');
     return firebase
       .auth()
       .applyActionCode(actionCode)

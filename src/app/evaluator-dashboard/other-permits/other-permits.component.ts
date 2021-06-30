@@ -29,7 +29,6 @@ export class OtherPermitsComponent implements OnInit {
   ngOnInit(): void {
     this.applicationId = this.route.snapshot.params.id;
     this.getTechnicalStatus();
-    console.log(this.evaluatorRole);
   }
 
   checkFormsCompliant() {
@@ -177,7 +176,6 @@ export class OtherPermitsComponent implements OnInit {
     this.applicationService
       .fetchTechnicalStatus(this.applicationId)
       .subscribe((res) => {
-        console.log(res.data);
         this.validateTechnicalStatus(res.data);
         if (this.validateTechnicalStatus(res.data) == true) {
           console.log('ready to forward');

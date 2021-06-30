@@ -1,3 +1,4 @@
+import { DataFormBindingService } from 'src/app/core/services/data-form-binding.service';
 import { ApplicationInfoService } from './../../core/services/application-info.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
@@ -19,7 +20,7 @@ import { WaterMarkService } from './../../core/services/watermark.service';
 })
 export class FireClearanceComponent implements OnInit {
   public applicationDetails;
-  public src = '../../../assets/forms/fsec_obo_copy.pdf';
+  public src = '../../../assets/forms/updated/fsec_bfp_copy.pdf';
   public formData = {};
   public userId;
   public applicationId;
@@ -33,7 +34,8 @@ export class FireClearanceComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     public data,
     private viewSDKClient: ViewSDKClient,
-    private watermark: WaterMarkService
+    private watermark: WaterMarkService,
+    private formBinding: DataFormBindingService
   ) {}
   ngOnInit(): void {
     this.applicationId = this.data.route.snapshot.params.id;
@@ -49,13 +51,7 @@ export class FireClearanceComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
-        this.formData = {
-          name_of_owner: `${this.applicationDetails.applicant_detail.first_name} ${this.applicationDetails.applicant_detail.middle_name} ${this.applicationDetails.applicant_detail.last_name}`,
-          building_name: this.applicationDetails.project_detail.project_title,
-          address: `${this.applicationDetails.project_detail.house_number} ${this.applicationDetails.project_detail.lot_number} ${this.applicationDetails.project_detail.street_name} ${this.applicationDetails.project_detail.barangay}`,
-          no_of_storeys: this.applicationDetails.project_detail
-            .number_of_storey,
-        };
+        this.formData = this.formBinding.getFormData(this.applicationDetails);
       });
   }
   //adobe sdk functions
@@ -122,26 +118,42 @@ export class FireClearanceComponent implements OnInit {
       .subscribe((res) => {
         const doc = res.data.document_path;
         const id = res.data.id;
-        this.watermark.generateQrCode(this.applicationId).subscribe((res) => {
-          this.watermark
-            .insertQrCode(doc, res.data, 'fire-permit')
-            .then((blob) => {
-              const updateFileData = {
-                document_status_id: 1,
-                document_path: blob,
-              };
-              this.newApplicationService
-                .updateDocumentFile(updateFileData, id)
-                .subscribe((res) => {
-                  Swal.fire('Success!', `FSEC Uploaded`, 'success').then(
-                    (result) => {
-                      this.isSubmitting = true;
-                      this.onNoClick();
-                    }
-                  );
-                });
-            });
-        });
+        this.newApplicationService
+          .updateDocumentFile({ receiving_status_id: 1 }, id)
+          .subscribe((res) => {
+            this.newApplicationService
+              .updateDocumentFile({ bfp_status_id: 1 }, id)
+              .subscribe((res) => {
+                this.newApplicationService
+                  .updateDocumentFile({ cbao_status_id: 1 }, id)
+                  .subscribe((res) => {
+                    this.newApplicationService
+                      .updateDocumentFile({ cepmo_status_id: 1 }, id)
+                      .subscribe((res) => {
+                        this.addWaterMark(doc, id);
+                      });
+                  });
+              });
+          });
       });
+  }
+
+  addWaterMark(doc, id) {
+    this.watermark.generateQrCode(this.applicationId).subscribe((res) => {
+      this.watermark.insertQrCode(doc, res.data, 'fire-permit').then((blob) => {
+        const updateFileData = {
+          document_status_id: 1,
+          document_path: blob,
+        };
+        this.newApplicationService
+          .updateDocumentFile(updateFileData, id)
+          .subscribe((res) => {
+            Swal.fire('Success!', `FSEC Uploaded`, 'success').then((result) => {
+              this.isSubmitting = false;
+              this.onNoClick();
+            });
+          });
+      });
+    });
   }
 }

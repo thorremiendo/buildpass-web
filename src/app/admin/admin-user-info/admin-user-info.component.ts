@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject} from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService, AdminUserService } from '../../core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -30,7 +30,6 @@ export class AdminUserInfoComponent implements OnInit {
 
   fetchUserInfo() {
     this._userService.getUserInfo(this._id).subscribe((data) => {
-      console.log(data)
       this.userInfo = data;
       //this.isLoading = false;
     });

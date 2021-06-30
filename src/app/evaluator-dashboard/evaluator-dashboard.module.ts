@@ -82,6 +82,7 @@ import { DownloadableFormsComponent } from './downloadable-forms/downloadable-fo
 import { TechnicalFindingsComponent } from './technical-findings/technical-findings.component';
 import { MatSortModule } from '@angular/material/sort';
 import { OtherPermitsComponent } from './other-permits/other-permits.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -173,6 +174,7 @@ import { OtherPermitsComponent } from './other-permits/other-permits.component';
     DashboardComponentsModule,
     MaterialModule,
     MatSortModule,
+    MatSlideToggleModule,
   ],
 
   exports: [TechnicalEvaluationComponent, CbaoFeesTableComponent],

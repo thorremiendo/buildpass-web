@@ -11,6 +11,7 @@ import { NewApplicationService } from 'src/app/core/services/new-application.ser
 export class UserApplicationsTableComponent implements OnInit {
   public user;
   public applications;
+  public applicationCount;
 
   constructor(
     private userService: UserService,
@@ -22,6 +23,7 @@ export class UserApplicationsTableComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.userService.fetchUserApplications(this.user.id).subscribe((result) => {
       this.applications = result.data;
+      this.applicationCount = this.applications.length;
     });
   }
 

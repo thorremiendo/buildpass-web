@@ -46,7 +46,7 @@
               </h5>
             </div>
             <div class="col">
-              <h5 style="color: #7b7b7b">Application Date:</h5>
+              <h5 style="color: #7b7b7b">Date Submitted:</h5>
               <h5>
                 <strong
                   >&nbsp;{{
@@ -115,7 +115,7 @@
                 View Timeline</mat-panel-title
               >
             </mat-expansion-panel-header>
-            <app-application-timeline></app-application-timeline>
+            <app-application-timeline [type]="applicationDetails.permit_type_id"></app-application-timeline>
           </mat-expansion-panel>
         </div>
       </mat-card-content>

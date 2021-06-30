@@ -24,11 +24,18 @@ export class UserFeedbackComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator = Object.create(null);
-  @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(
-    null
-  );
+  @ViewChild(MatTable, { static: true }) table: MatTable<any> =
+    Object.create(null);
 
-  displayedColumns: string[] = ['id', 'full_name', 'role', 'page', 'feedback', 'date', 'action'];
+  displayedColumns: string[] = [
+    'id',
+    'full_name',
+    'role',
+    'page',
+    'feedback',
+    'date',
+    'action',
+  ];
   public dataSource: any;
 
   constructor(
@@ -46,23 +53,20 @@ export class UserFeedbackComponent implements OnInit {
       this.problem = this.fetchFeedbackCount('problem');
       this.question = this.fetchFeedbackCount('question');
       this.compliment = this.fetchFeedbackCount('compliment');
-      
+
       this.dataSource = new MatTableDataSource(data.data);
       this.dataSource.paginator = this.paginator;
-
     });
-   
   }
 
-  fetchFeedbackCount(val: string): number{
+  fetchFeedbackCount(val: string): number {
     this.dataSource.filter = val.trim().toLowerCase();
     return this.dataSource.filteredData.length;
   }
 
-  btnCategoryClick(val: string){
+  btnCategoryClick(val: string) {
     this.isFetching = true;
     this.adminFeedbackService.fetchFeedBackFilter(val).subscribe((data) => {
-      console.log('Categorry' + JSON.stringify(data.data));
       this.dataSource = new MatTableDataSource(data.data);
       this.dataSource.paginator = this.paginator;
       this.isFetching = false;
@@ -71,10 +75,9 @@ export class UserFeedbackComponent implements OnInit {
 
   openDialog(data) {
     this.dialog.open(FeedbackDialogComponent, {
-      data:data,
+      data: data,
       height: '400px',
-      width: '600px'
-
+      width: '600px',
     });
   }
 }
@@ -90,9 +93,9 @@ export class FeedbackDialogComponent {
   public email: string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data) {
-    this.fullName = `${data.user_detail.first_name}` + ' ' + `${data.user_detail.last_name}`
+    this.fullName =
+      `${data.user_detail.first_name}` + ' ' + `${data.user_detail.last_name}`;
     this.contact = data.contact_number;
     this.email = data.email_address;
-
   }
 }

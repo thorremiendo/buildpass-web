@@ -44,7 +44,7 @@ export class GeneralRemarksComponent implements OnInit {
       .subscribe((result) => {
         this.applicationDetails = result.data;
         this.remarksData = this.applicationDetails.remarks;
-        console.log(this.remarksData);
+
         this.isLoading = false;
       });
   }

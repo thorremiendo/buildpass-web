@@ -1,0 +1,35 @@
+<button [matMenuTriggerFor]="message" mat-icon-button class="m-r-5">
+        <p class="pt-2">
+          <mat-icon matBadge="3" matBadgeColor="secondary"
+            >mail
+          </mat-icon>
+        </p>
+</button>
+<mat-menu #message="matMenu" class="mymessage">
+    <div class="mailbox">
+        <ul>
+            <li>
+                <div class="drop-title">New Messages</div>
+            </li>
+            <li>
+                <div class="message-center">
+                    <perfect-scrollbar>
+                        <!-- Message -->
+                        <a href="#" *ngFor="let mymessage of messageNotif">
+                            <div class="user-img">
+                                <img src="{{mymessage.useravatar}}" alt="user" class="img-circle" width="40">
+                                <span class="profile-status {{mymessage.status}} pull-right"></span>
+                            </div>
+                            <div class="mail-content">
+                                <h5>{{mymessage.from}}</h5>
+                                <span class="mail-desc">{{mymessage.subject}}</span>
+                                <span class="time" [style.color] = "feed.is_viewed == 0 ? 'blue' : 'grey'"> {{ myMessage.created_at | dateAgo }}</span>
+                            </div>
+                        </a>
+                        <!-- Message -->
+                    </perfect-scrollbar>
+                </div>
+            </li>
+        </ul>
+    </div>
+</mat-menu>

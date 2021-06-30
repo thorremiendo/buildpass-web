@@ -1,55 +1,461 @@
-.timeline-area {
-  margin: 10px auto;
-  width: 300px;
-  border-left: 2px solid #ccc;
-  padding: 0 20px 0 30px;
-  transform: scale(.8);
+.application-timeline.stepper {
+  margin-top: 30px;
 
-  div {
+  ::ng-deep .mat-stepper-horizontal {
+    background-color: transparent;
+  }
+
+  ::ng-deep .mat-horizontal-stepper-header-container {
+    max-width: 650px;
+    margin: 0 auto;
+    
+    .mat-step-header {
+      .mat-step-label {
+        display: none;
+      }
+      .mat-step-icon {
+        margin: 10px;
+        padding: 20px;
+        font-size: 20px;
+      }
+      .mat-step-icon-state-edit,
+      .mat-step-icon-selected {
+        background-color: maroon;
+      }
+    }
+  }
+
+  ::ng-deep .mat-horizontal-content-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .timeline-box {
+    padding: 25px;  
+    font-size: 16px;
+
+    &.compliant {
+      background-color: #dcedc8;
+    }
+
+    &.non-compliant {
+      background-color: #ef7564;
+    }
+
+    .timeline-box-label {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      background-color: maroon;
+      color: #fff;
+      border-radius: 5px;
+      padding: 15px;
+      text-align: center;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .timeline-box-division-label {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 15px;
+      padding: 0 10px;
+    }
+
+    ul {
+      list-style: none;
+      margin: 15px 20px;
+      padding: 0;
+
+      ::ng-deep li {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+
+        div:first-of-type {
+          font-weight: 500;
+
+          &.green {
+            color: green;
+          }
+          &.red {
+            color: red;
+          }
+        }
+
+        div:last-of-type {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+.application-timeline.flowchart {
+  .row > .col-12 {
+    padding: 30px;
+  }
+
+  .column-1 > div {
+    position: relative;
+    padding-bottom: 20px;
+
+    &:not(:last-of-type) > div::after {
+      outline: 2px solid maroon;
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      height: 17px;
+    }
+
+    &:last-of-type > div::after {
+      outline: 2px solid maroon;
+      content: "";
+      position: absolute;
+      right: -30px;
+      top: 50px;
+      width: 27px;
+    }
+  }
+
+  .column-2 > div {
+    position: relative;
+    padding-bottom: 20px;
+
+    &:before {
+      outline: 2px solid maroon;
+      content: "";
+      position: absolute;
+      left: -30px;
+      top: 0;
+      height: 100%;
+    }
+
+    &:first-child::before {
+      top: 50px;
+      height: calc(100% - 50px);
+    }
+
+    &:last-child::before {
+      height: 50px;
+    }
+
+    > div::before {
+      outline: 2px solid maroon;
+      content: "";
+      position: absolute;
+      left: -30px;
+      top: 50px;
+      width: 27px;
+    }
+
+    > div:first-child::before {
+      top: 50px;
+    }
+
+    &:after {
+      content: "";
+      position: absolute;
+      right: -30px;
+      top: 0;
+      height: 100%;
+    }
+
+    &:first-child::after {
+      top: 50px;
+      height: calc(100% - 50px);
+    }
+
+    &:last-child::after {
+      height: 50px;
+    }
+
+    > div:not(:first-child)::after {
+      outline: 2px solid maroon;
+      content: "";
+      position: absolute;
+      right: -30px;
+      top: 50px;
+      width: 27px;
+    }
+
+    > div:first-child::after {
+      top: 50px;
+    }
+  }
+
+  .column-3 > div {
+    position: relative;
+    padding-bottom: 20px;
+
+    &:first-of-type > div::before {
+      outline: 2px solid maroon;
+      content: "";
+      position: absolute;
+      left: -30px;
+      top: 50px;
+      width: 27px;
+    }
+
+    &:not(:last-of-type) > div::after {
+      outline: 2px solid maroon;
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      height: 17px;
+    }
+  }
+  
+  /*.row {
+    margin: 20px 0;
+  }
+  .row .col-4:before {
+    outline: solid 2px maroon;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: -12px;
+  }
+  .row .col-4:first-child:before {
+    left: 50%;
+  }
+  .row .col-4:last-child:before {
+    right: 50%;
+  }
+  .row .col-4:after {
+    outline: solid 2px maroon;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    bottom: -12px;
+  }
+  .row .col-4:first-child:after {
+    left: 50%;
+  }
+  .row .col-4:last-child:after {
+    right: 50%;
+  }
+  .row .col-4 div:before {
+      outline: solid 2px maroon;
+      content: "";
+      height: 10px;
+      top: -12px;
+      left: 50%;
+      position: absolute;
+  }
+  .row .col-4 div:after {
+    outline: solid 2px maroon;
+    content: "";
+    height: 10px;
+    bottom: -12px;
+    left: 50%;
+    position: absolute;
+  }*/
+
+  .timeline-box {
+    min-height: 100px;
     background-color: rgb(248, 248, 248);
     border-radius: 10px;
-    padding: 10px 25px;
+    padding: 25px;
     font-size: 16px;
-    line-height: 1.7;
-    position: relative;
-    height: 150px;
-    margin-bottom: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    cursor: pointer;
+
+    &.compliant {
+      background-color: #dcedc8;
+
+      .mat-icon.compliant {
+        display: block;
+      }
+      .mat-icon.non-compliant {
+        display: none;
+      }
+      .mat-icon.pending {
+        display: none;
+      }
+    }
+
+    &.non-compliant {
+      background-color: #ef7564;
+
+      .mat-icon.compliant {
+        display: none;
+      }
+      .mat-icon.non-compliant {
+        display: block;
+      }
+      .mat-icon.pending {
+        display: none;
+      }
+    }
+
+    &.pending {
+      .mat-icon.compliant {
+        display: none;
+      }
+      .mat-icon.non-compliant {
+        display: none;
+      }
+      .mat-icon.pending {
+        display: block;
+      }
+    }
+
+    .mat-icon.pending {
+      display: block;
+    }
+
+    .timeline-box-label {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .timeline-box-division-label {
+      font-weight: 700;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      ::ng-deep li {
+        margin-bottom: 5px;
+
+        &:not(:last-of-type) {
+          display: none;
+        }
+
+        div:first-of-type {
+          font-weight: 500;
+
+          &.green {
+            color: green;
+          }
+          &.red {
+            color: red;
+          }
+        }
+
+        div:last-of-type {
+          font-size: 14px;
+        }
+      }
+    }
+
+    .mat-icon {
+      display: none;
+      position: absolute;
+      top: 30px;
+      right: 50px;
+      font-size: 40px;
+      font-weight: 800;
+
+      &.compliant {
+        color: green;
+      }
+      &.non-compliant {
+        color: red;
+      }
+      &.pending {
+        color: lightgray;
+      }
+    }
+
+    .expand {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+
+      .mat-icon {
+        display: initial;
+        position: relative;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        color: maroon;
+        font-size: 35px;
+        height: 10px;
+        line-height: 10px;
+
+        &:last-of-type {
+          display: none;
+        }
+      }
+    }
+
+    &.timeline-full {
+      ::ng-deep ul li:not(:last-of-type) {
+        display: block !important;
+      }
+
+      .expand .mat-icon {
+        &:first-of-type {
+          display: none;
+        }
+
+        &:last-of-type {
+          display: block;
+        }
+      }
+    }
   }
-  div:before {
-    content: "";
-    display: block;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: maroon;
-    border: 3px solid #ddd;
+
+  .step-label {
     position: absolute;
     top: 10px;
     left: -40px;
+    background-color: maroon;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 100%;
   }
 
-  div:after {
-    content: "";
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-color: transparent #ddd transparent transparent;
-    border-width: 8px;
-    position: absolute;
-    left: -17px;
-    top: 10px;
+  .cbao-only {
+    #cpdo, #bfp, #cepmo {
+      display: none;
+    }
+
+    .column-1 > div {
+      position: relative;
+      padding-bottom: 20px;
+  
+      &:not(:last-of-type) > div::after {
+        outline: 2px solid maroon;
+        content: "";
+        position: absolute;
+        left: unset;
+        right: -30px;
+        top: 50px;
+        width: 27px;
+        height: 0;
+      }
+    }
+
+    .column-2 > div::before {
+      display: none;
+    }
+  }
+
+  @media (max-width: 991.5px) {
+    .row > .col-12 > div::before,
+    .row > .col-12 > div::after,
+    .timeline-box::before,
+    .timeline-box::after {
+      outline: none !important;
+    }
   }
 }
-
-.content-container{
-  position: relative;
-  overflow: auto;
-  height: 300px;
-  width: 300px;
-  min-height: 0;
-
-
-}
-
-

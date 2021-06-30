@@ -1,4 +1,11 @@
 <div *ngIf="!isLoading">
+  <div class="d-flex align-items-center" *ngIf="data.evaluator">
+    <p class="m-0 p-0 mr-2" style="font-size: 12px">View All</p>
+    <mat-slide-toggle
+      [checked]="useDefault"
+      (change)="toggle($event)"
+    ></mat-slide-toggle>
+  </div>
   <table mat-table [dataSource]="revisionData" class="full-width" #itemsTable>
     <ng-container matColumnDef="index">
       <th mat-header-cell *matHeaderCellDef>No.</th>

@@ -41,9 +41,9 @@
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #them="matMenu" x-position="before">
-                <button mat-menu-item>Contact info</button>
+                <!-- <button mat-menu-item>Contact info</button>
                 <button mat-menu-item>Mute</button>
-                <button mat-menu-item>Delete chat</button>
+                <button mat-menu-item>Delete chat</button> -->
               </mat-menu>
             </div>
           </mat-toolbar>
@@ -80,7 +80,7 @@
           <mat-card-actions class="chat-footer">
             <div fxLayout="row" layout-align="start center">
               <mat-form-field class="mr-1 ml-1" fxFlex>
-                <input matInput [(ngModel)]="msg" placeholder="Send message" #myInput (keyup.enter)="OnAddMsg()">
+                <input matInput [(ngModel)]="msg" placeholder="Send message" (keyup.enter)="OnAddMsg()">
               </mat-form-field>
               <button mat-fab color="warn" (click)="OnAddMsg()" [disabled]="!msg">
                 <mat-icon>send</mat-icon>

@@ -1,3 +1,4 @@
+import { MapService } from './../../../../core/services/mapbox.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -7,6 +8,7 @@ import { BarangayService } from 'src/app/core/services/barangay.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 //map
 import { environment } from '../../../../../environments/environment';
@@ -55,25 +57,18 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   }
   _filteredBarangayOptions: Observable<Barangay[]>;
 
-  //map
-  map: mapboxgl.Map;
-  style = 'mapbox://styles/mapbox/satellite-v9';
-  lat = 16.4136559;
-  lng = 120.5893339;
-  public marker: mapboxgl.Marker;
-  public lnglat;
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
     private newApplicationFormService: NewApplicationFormService,
     private newApplicationSerivce: NewApplicationService,
     private barangayService: BarangayService,
-    private userService: UserService,
-    private excavationService: ExcavationPermitService
+    private mapService: MapService,
+    private snackBar: MatSnackBar
   ) {
     this.barangayService.getBarangayInfo().subscribe((data) => {
       this.barangay = data;
-
+      console.log(this.barangay);
       this._filteredBarangayOptions =
         this.projectDetailsFormControl.project_barangay.valueChanges.pipe(
           startWith(''),
@@ -90,7 +85,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.getCommonDetails();
     this.getApplicationDetails();
-
+    this.mapService.buildMap();
     this.isLoading = false;
   }
   getCommonDetails() {
@@ -124,10 +119,6 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     this.isLoading = false;
   }
 
-  onDragEnd() {
-    console.log('marker dragged');
-  }
-
   private _filter(value: string): Barangay[] {
     const filterValue = value.toLowerCase();
 
@@ -135,34 +126,6 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       option.name.toLowerCase().includes(filterValue)
     );
   }
-
-  // initializeMap() {
-  //   mapboxgl.accessToken = environment.mapbox.accessToken;
-  //   this.map = new Map({
-  //     container: 'map',
-  //     style: this.style,
-  //     zoom: 16,
-  //     center: [this.lng, this.lat],
-  //   });
-  //   // Add map controls
-  //   this.marker = new Marker({
-  //     draggable: true,
-  //   })
-  //     .setLngLat([this.lng, this.lat])
-  //     .addTo(this.map); //
-
-  //   this.map.addControl(new mapboxgl.NavigationControl());
-  //   this.map.addControl(
-  //     new MapboxGeocoder({
-  //       accessToken: mapboxgl.accessToken,
-  //       mapboxgl: mapboxgl,
-  //       marker: {
-  //         draggable: true,
-  //       },
-  //     })
-  //   );
-  //   this.marker.on('dragend', this.onDragEnd);
-  // }
 
   createForm() {
     this.projectDetailsForm = this._fb.group({
@@ -188,9 +151,20 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       inspector_profession: ['', Validators.required],
       inspector_prc_no: ['', Validators.required],
     });
-    this.projectDetailsForm.valueChanges.subscribe((data) => {
-      this.projectFormChange = data;
-    });
+    this.projectDetailsForm
+      .get('project_barangay')
+      .valueChanges.subscribe((data) => {
+        this.mapService.removeMarker();
+        this.projectFormChange = data;
+        console.log(this.projectDetailsForm.value.project_barangay);
+        setTimeout(() => {
+          this.mapService
+            .fetchProjectLocation(
+              this.projectDetailsForm.value.project_barangay
+            )
+            .subscribe((res) => console.log(res));
+        }, 2000);
+      });
   }
 
   createprojectDetails() {
@@ -218,6 +192,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       inspector_name: data.inspector_name,
       inspector_profession: data.inspector_profession,
       inspector_prc_no: data.inspector_prc_no,
+      project_long: this.mapService.lng,
+      project_lat: this.mapService.lat,
     };
   }
 
@@ -288,8 +264,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       url: '/dashboard/new/building-permit',
     };
     this.newApplicationSerivce.saveAsDraft(body).subscribe((res) => {
-      Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
-        (result) => {
+      Swal.fire('Success!', 'Application Details Submitted!', 'success')
+        .then((result) => {
           localStorage.removeItem('newApplicationInfo');
           localStorage.removeItem('commonFieldsInfo');
           this.isLoading = false;
@@ -310,8 +286,17 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
               this._router.navigateByUrl('/dashboard/new/demolition-permit');
               break;
           }
-        }
-      );
+        })
+        .catch((e) => {
+          this.openSnackBar('An error occured. Please try again.');
+          this._router.navigateByUrl('dashboard/new/step-one');
+        });
+    });
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 2000,
     });
   }
 }

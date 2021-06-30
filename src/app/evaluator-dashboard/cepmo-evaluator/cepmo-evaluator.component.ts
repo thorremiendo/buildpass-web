@@ -1,3 +1,4 @@
+import { NewApplicationService } from './../../core/services/new-application.service';
 import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks-history-table.component';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {
@@ -35,7 +36,8 @@ export class CepmoEvaluatorComponent implements OnInit {
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private newApplicationService: NewApplicationService
   ) {}
 
   ngOnInit(): void {
@@ -48,7 +50,26 @@ export class CepmoEvaluatorComponent implements OnInit {
         this.generateCepmoForms();
         this.fetchEvaluatorDetails();
         this.fetchApplicationDetails();
+        this.checkCepmoParallelDocs();
       });
+  }
+  checkCepmoParallelDocs() {
+    this.isLoading = true;
+    const findDoc = this.dataSource.forEach((e) => {
+      if (e.document_id == 36 || e.document_id == 63) {
+        if (e.cbao_status_id == 1 && e.cepmo_status_id == 1) {
+          const id = e.id;
+          const body = {
+            document_status_id: 1,
+          };
+          this.newApplicationService
+            .updateDocumentFile(body, id)
+            .subscribe((res) => {
+              this.isLoading = false;
+            });
+        }
+      }
+    });
   }
   fetchApplicationDetails() {
     this.applicationService
@@ -106,6 +127,7 @@ export class CepmoEvaluatorComponent implements OnInit {
         evaluator: this.evaluatorDetails,
         form: element,
         route: this.route,
+        application: this.applicationDetails,
       },
     });
 
@@ -139,7 +161,7 @@ export class CepmoEvaluatorComponent implements OnInit {
 
   checkFormsReviewed() {
     const isReviewed = this.dataSource.every(
-      (form) => form.document_status_id == 1 || form.document_status_id == 2
+      (form) => form.cepmo_status_id == 1 || form.cepmo_status_id == 2
     );
     return isReviewed;
   }
@@ -147,7 +169,7 @@ export class CepmoEvaluatorComponent implements OnInit {
   checkFormsCompliant() {
     this.generateCepmoForms;
     const isCompliant = this.dataSource.every(
-      (form) => form.document_status_id == 1
+      (form) => form.cepmo_status_id == 1
     );
     return isCompliant;
   }

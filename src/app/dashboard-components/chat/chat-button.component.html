@@ -1,8 +1,10 @@
-<button mat-button [matMenuTriggerFor]="menu">
+<button mat-button [matMenuTriggerFor]="menu" matBadge={{unseen}}  [matBadgeHidden]="hidden" (click)="toggleBadgeVisibility()" >
     <mat-icon aria-label="chat icon">chat</mat-icon>
+  
     <mat-menu class="menu-without-scroll" #menu="matMenu" yPosition="above" [overlapTrigger]="false">
         <div (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
             <app-chat-body>
             </app-chat-body>
         </div>
     </mat-menu>
+</button>

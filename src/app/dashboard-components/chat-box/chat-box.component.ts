@@ -42,7 +42,7 @@ export class ChatBoxComponent implements OnInit {
         .fetchConvo(this.officeId, 'reciever')
         .subscribe((result) => {
           this.messages = result.data;
-          console.log(this.messages);
+          // console.log(this.messages);
           if (this.messages != null) {
             this.selectedMessage = this.messages[0];
             if(this.selectedMessage){
@@ -56,9 +56,9 @@ export class ChatBoxComponent implements OnInit {
     }
   }
 
-  @ViewChild('myInput', { static: true }) myInput: ElementRef = Object.create(
-    null
-  );
+  // @ViewChild('myInput', { static: true }) myInput: ElementRef = Object.create(
+  //   null
+  // );
 
   isOver(): boolean {
     return window.matchMedia(`(max-width: 960px)`).matches;
@@ -78,12 +78,10 @@ export class ChatBoxComponent implements OnInit {
   }
 
   OnAddMsg(): void {
-    this.msg = this.myInput.nativeElement.value;
-
+   
     if (this.msg !== '') {
       this.chatService.sendConvo(this.chatId, this.userInfo.id, this.msg);
+      this.msg = '';
     }
-
-    this.myInput.nativeElement.value = '';
   }
 }

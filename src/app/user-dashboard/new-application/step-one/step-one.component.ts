@@ -52,7 +52,7 @@ export class StepOneComponent implements OnInit {
 
   ngOnInit(): void {
     this.receiveApplications = environment.receiveApplications;
-    console.log(this.receiveApplications);
+
     this.createForm();
     if (this.route.snapshot.paramMap.get('new_application')) {
       const type = this.route.snapshot.paramMap.get('new_application');

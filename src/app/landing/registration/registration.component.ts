@@ -108,7 +108,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   filterBarangays(value: string): Barangay[] {
-    return this._barangay.filter(option => option.name.toLowerCase().includes(value));
+    return this._barangay.filter(option => option.name.toLowerCase().includes(value.toLowerCase()));
   }
 
   displayBarangayName(value: number) {
