@@ -723,6 +723,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   handleRelease() {
     const body = {
       application_status_id: 11,
+      releasing_status_id: 1,
     };
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
