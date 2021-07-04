@@ -1,3 +1,4 @@
+import { SignPermitComponent } from './../new-application/sign-permit/sign-permit.component';
 import { DownloadableFormsComponent } from './../../evaluator-dashboard/downloadable-forms/downloadable-forms.component';
 import { UserGuardGuard } from './../../core/guard/user-guard.guard';
 import { UserGuardService } from './../../core/guard/user-guard.service';
@@ -100,6 +101,10 @@ const routes: Routes = [
               {
                 path: 'demolition-permit',
                 component: DemolitionPermitComponent,
+              },
+              {
+                path: 'sign-permit',
+                component: SignPermitComponent,
               },
               {
                 path: 'summary/:id',
