@@ -254,10 +254,13 @@ export class CbaoEvaluatorComponent implements OnInit {
     ) {
       return true;
     } else if (
-      (this.applicationInfo.application_status_id == 18 &&
-        this.evaluatorRole.code == 'CBAO-LG') ||
-      this.evaluatorRole.code == 'CBAO-STR' ||
-      this.evaluatorRole.code == 'CBAO-ELEC'
+      this.applicationInfo.application_status_id == 18 &&
+      (this.evaluatorRole.code == 'CBAO-LG' ||
+        this.evaluatorRole.code == 'CBAO-STR' ||
+        this.evaluatorRole.code == 'CBAO-ELEC' ||
+        this.evaluatorRole.code == 'CBAO-ARCH' ||
+        this.evaluatorRole.code == 'CBAO-SAN' ||
+        this.evaluatorRole.code == 'CBAO-MEC')
     ) {
       return true;
     } else if (
@@ -270,6 +273,8 @@ export class CbaoEvaluatorComponent implements OnInit {
       this.evaluatorRole.code == 'CBAO-BO'
     ) {
       return true;
+    } else {
+      return false;
     }
   }
 
