@@ -74,24 +74,49 @@ export class UpdatePasswordDialogComponent implements OnInit {
     };
 
     if (this.changePasswordForm.valid) {
-      this.userService.updateUserInfo(body, this.data.user_id).subscribe(
-        (res) => {
-          this.title = 'Warning';
-          this.confirmed = true;
-          this.loading = false;
-        },
+      if(this.data.firebase_uid != null){
 
-        (err) => {
-          this.snackBar.open('Something went wrong...', 'Close', {
-            horizontalPosition: 'left',
-          });
-          this.dialogRef.close();
-        }
-      );
+        this.authService
+          .ChangePassword(value.password)
+          .then((result) =>{
+            if(result == "Something went wrong"){
+              this.snackBar.open('Something went wrong...', 'Close', {
+                horizontalPosition: 'left',
+              });
+              this.dialogRef.close();
+            }
+            else{
+              this.title = 'Warning';
+              this.confirmed = true;
+              this.loading = false;
+            }
+          })
+      }
+      else{
+        this.userService.updateUserInfo(body, this.data.user_id).subscribe(
+          (res) => {
+            this.title = 'Warning';
+            this.confirmed = true;
+            this.loading = false;
+          },
+  
+          (err) => {
+            this.snackBar.open('Something went wrong...', 'Close', {
+              horizontalPosition: 'left',
+            });
+            this.dialogRef.close();
+          }
+        );
+      }
     }
   }
 
   logOut() {
-    this.authService.evaluatorSignOut();
+    if(this.data.firebase_uid != null){
+      this.authService.userSignOut();
+    }
+    else{
+      this.authService.evaluatorSignOut();
+    }
   }
 }
