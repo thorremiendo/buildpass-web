@@ -7,26 +7,26 @@ import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
 import { environment } from './../../../../environments/environment';
+import { documentTypes } from '../../../core/enums/document-type.enum';
 
 @Component({
-  selector: 'app-demolition-permit',
-  templateUrl: './demolition-permit.component.html',
-  styleUrls: ['./demolition-permit.component.scss'],
+  selector: 'app-sign-permit',
+  templateUrl: './sign-permit.component.html',
+  styleUrls: ['./sign-permit.component.scss'],
 })
-export class DemolitionPermitComponent implements OnInit {
+export class SignPermitComponent implements OnInit {
   public isSubmitting: boolean = false;
   public user;
   public pdfSource;
   public formData;
   public applicationId;
   public applicationDetails;
-  public documentTypes;
   public isLoading: boolean = false;
 
   public forms: any = [
     {
-      id: 99,
-      src: '../../../../assets/forms/updated/Demolition_Permit.pdf',
+      id: 108,
+      src: '../../../../assets/forms/updated/Sign Permit.pdf',
     },
   ];
 
@@ -34,35 +34,24 @@ export class DemolitionPermitComponent implements OnInit {
     {
       label: 'Step 2',
       title: 'Documentary Requirements',
-      documents: [26, 104],
+      documents: [109, 111, 112],
     },
     {
       label: 'Step 3',
       title: 'Plans, Specifications',
-      documents: [8, 55, 56, 102, 105],
-    },
-    {
-      label: 'Step 4',
-      title:
-        'Photocopy of Professional Details (Professional Tax Receipt and Professional Regulations Commission ID, signed and sealed)',
-      documents: [34],
-    },
-    {
-      label: 'Step 5',
-      title: 'Other Requirements',
-      documents: [42],
+      documents: [114, 115, 116],
     },
   ];
 
-  public representativeDocs: Array<any> = [21];
-  public lesseeDocs: Array<any> = [27];
-  public registeredDocs: Array<any> = [26, 44];
-  public notRegisteredDocs: Array<any> = [23, 24];
-  public isWithinSubdivision: Array<any> = [72];
-  public isUnderMortgage: Array<any> = [73];
-  public isOwnedByCorporation: Array<any> = [74];
-  public isHaveCoOwners: Array<any> = [75];
-  public if10000sqm: Array<any> = [40];
+  public representativeDocs: Array<any> = [113];
+  public lesseeDocs: Array<any> = [110];
+  // public registeredDocs: Array<any> = [44];
+  // public notRegisteredDocs: Array<any> = [120, 121];
+  // public isWithinSubdivision: Array<any> = [72];
+  // public isUnderMortgage: Array<any> = [73];
+  // public isOwnedByCorporation: Array<any> = [74];
+  // public isHaveCoOwners: Array<any> = [75];
+  // public if10000sqm: Array<any> = [40];
 
   constructor(
     private newApplicationService: NewApplicationService,
@@ -76,7 +65,7 @@ export class DemolitionPermitComponent implements OnInit {
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
-      this.documentTypes = res.data;
+      // this.documentTypes = res.data;
       this.newApplicationService.applicationId
         .asObservable()
         .subscribe((applicationId) => {
@@ -124,24 +113,6 @@ export class DemolitionPermitComponent implements OnInit {
               isLessee
                 ? this.fieldSets[0].documents.push(...this.lesseeDocs)
                 : null;
-              isRegisteredOwner
-                ? this.fieldSets[0].documents.push(...this.registeredDocs)
-                : this.fieldSets[0].documents.push(...this.notRegisteredDocs);
-              if10000sqm
-                ? this.fieldSets[2].documents.push(...this.if10000sqm)
-                : null;
-              isWithinSubdivision
-                ? this.fieldSets[3].documents.push(...this.isWithinSubdivision)
-                : null;
-              isUnderMortgage
-                ? this.fieldSets[3].documents.push(...this.isUnderMortgage)
-                : null;
-              isOwnedByCorporation
-                ? this.fieldSets[3].documents.push(...this.isOwnedByCorporation)
-                : null;
-              isHaveCoOwners
-                ? this.fieldSets[3].documents.push(...this.isHaveCoOwners)
-                : null;
 
               this.initData();
               this.setFilePaths();
@@ -159,7 +130,7 @@ export class DemolitionPermitComponent implements OnInit {
     const body = {
       user_id: this.user.id,
       application_id: this.applicationId,
-      url: '/dashboard/new/demolition-permit',
+      url: '/dashboard/new/sign-permit',
     };
 
     this.newApplicationService.saveAsDraft(body).subscribe((res) => {});
@@ -196,7 +167,7 @@ export class DemolitionPermitComponent implements OnInit {
   }
 
   getDocType(id): string {
-    return this.documentTypes[id - 1].name;
+    return documentTypes[id];
   }
 
   initData() {
@@ -239,7 +210,6 @@ export class DemolitionPermitComponent implements OnInit {
       });
     });
   }
-
   public async upload(form): Promise<void> {
     const blob =
       await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
@@ -279,7 +249,6 @@ export class DemolitionPermitComponent implements OnInit {
         });
     }
   }
-
   submitDocument(file: File, doctypeId: string) {
     const uploadDocumentData = {
       application_id: this.applicationId,
@@ -315,7 +284,6 @@ export class DemolitionPermitComponent implements OnInit {
         this.openSnackBar('Uploaded!');
       });
   }
-
   getFieldSetsLength() {
     const length = [];
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
@@ -325,7 +293,6 @@ export class DemolitionPermitComponent implements OnInit {
 
     return length.reduce(reducer);
   }
-
   getUniqueUserDocs() {
     const unique = [
       ...new Set(

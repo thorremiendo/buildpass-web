@@ -257,7 +257,7 @@ export class BuildingPermitComponent implements OnInit {
     const body = {
       user_id: this.user.id,
       application_id: this.applicationId,
-      url: this.router.url,
+      url: '/dashboard/new/building-permit',
     };
     this.newApplicationService.saveAsDraft(body).subscribe((res) => {});
   }

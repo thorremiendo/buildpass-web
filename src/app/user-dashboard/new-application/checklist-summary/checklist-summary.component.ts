@@ -37,7 +37,7 @@ export class ChecklistSummaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.receiveApplications = environment.receiveApplications
+    this.receiveApplications = environment.receiveApplications;
     this.isAuthorized = false;
     this.isLoading = true;
     this.applicationId = this.route.snapshot.params.id;
@@ -56,6 +56,7 @@ export class ChecklistSummaryComponent implements OnInit {
 
               this.applicantCompleteName = `${this.applicationInfo.applicant_detail.first_name} ${this.applicationInfo.applicant_detail.last_name}`;
               this.applicantForms = this.applicationInfo.user_docs;
+
               switch (this.applicationInfo.permit_type_id) {
                 case 1:
                   this.permitType = 'Building Permit';
@@ -71,6 +72,12 @@ export class ChecklistSummaryComponent implements OnInit {
                   break;
                 case 5:
                   this.permitType = 'Demolition Permit';
+                  break;
+                case 6:
+                  this.permitType = 'Scaffolding Permit';
+                  break;
+                case 7:
+                  this.permitType = 'Sign Permit';
                   break;
               }
 
@@ -88,7 +95,8 @@ export class ChecklistSummaryComponent implements OnInit {
                   data: [],
                 },
                 professional: {
-                  label: 'Photocopy of Professional Details (Professional Tax Receipt and Professional Regulation Commission ID, signed and sealed)',
+                  label:
+                    'Photocopy of Professional Details (Professional Tax Receipt and Professional Regulation Commission ID, signed and sealed)',
                   data: [],
                 },
                 affidavits: {
@@ -102,7 +110,10 @@ export class ChecklistSummaryComponent implements OnInit {
               };
 
               this.applicantForms.forEach((element) => {
-                const docType = this.documentTypes[element.document_id - 1].document_category_id;
+                console.log(this.applicantForms);
+                const docType =
+                  this.documentTypes[element.document_id - 1]
+                    .document_category_id;
                 switch (docType) {
                   case 1:
                     this.sortedForms.forms.data.push(element);

@@ -378,9 +378,8 @@ export class ExcavationPermitComponent implements OnInit {
       application_id: this.excavationId
         ? this.excavationId
         : this.applicationId,
-      url: this.router.url,
+      url: '/dashboard/new/excavation-permit',
     };
-
     this.newApplicationService.saveAsDraft(body).subscribe((res) => {});
   }
 
