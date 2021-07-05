@@ -71,6 +71,7 @@ export class UserEditProfileComponent implements OnInit {
       data: userCredentials,
       height: '350px',
       width: '600px',
+      
     });
 }
 

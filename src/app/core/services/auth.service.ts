@@ -171,7 +171,7 @@ export class AuthService {
       });
   }
 
-   // Reset Forggot password
+   // Change password
    ChangePassword(passwordResetEmail){
     return new Promise<any>((resolve, reject) => {
       firebase
