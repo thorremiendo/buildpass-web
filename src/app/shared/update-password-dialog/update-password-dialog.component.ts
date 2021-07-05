@@ -92,7 +92,6 @@ export class UpdatePasswordDialogComponent implements OnInit {
             }
           })
       }
-
       else{
         this.userService.updateUserInfo(body, this.data.user_id).subscribe(
           (res) => {

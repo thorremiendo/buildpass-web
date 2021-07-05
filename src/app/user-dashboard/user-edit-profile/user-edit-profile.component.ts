@@ -72,7 +72,6 @@ export class UserEditProfileComponent implements OnInit {
       height: '350px',
       width: '600px',
     });
-    
 }
 
   openFileChooser() {
