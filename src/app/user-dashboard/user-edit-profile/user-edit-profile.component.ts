@@ -4,6 +4,8 @@ import { UserService } from '../../core/services/user.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { BarangayService } from '../../core/services/barangay.service';
+import { UpdatePasswordDialogComponent } from '../../shared/update-password-dialog/update-password-dialog.component'
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -40,7 +42,8 @@ export class UserEditProfileComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _userService: UserService,
-    private _barangayService: BarangayService
+    private _barangayService: BarangayService,
+    private _matDialog: MatDialog,
   ) {
     
   }
@@ -61,6 +64,15 @@ export class UserEditProfileComponent implements OnInit {
       id_type:[this.userInfo.id_type, Validators.required],
     });
   }
+
+
+  openDialog(userCredentials) {
+    this._matDialog.open(UpdatePasswordDialogComponent, {
+      data: userCredentials,
+      height: '350px',
+      width: '600px',
+    });
+}
 
   openFileChooser() {
     const element: HTMLElement = document.getElementById('photo') as HTMLElement;

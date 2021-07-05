@@ -171,6 +171,24 @@ export class AuthService {
       });
   }
 
+   // Reset Forggot password
+   ChangePassword(passwordResetEmail){
+    return new Promise<any>((resolve, reject) => {
+      firebase
+      .auth()
+      .currentUser
+      .updatePassword(passwordResetEmail)
+      .then(() => {
+        resolve ("Password Changed")
+      })
+      .catch((error) => {
+        resolve ("Something went wrong")
+        window.alert(error);
+      });
+  });
+}
+  
+
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user'));
