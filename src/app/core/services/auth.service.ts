@@ -180,6 +180,7 @@ export class AuthService {
       .updatePassword(passwordResetEmail)
       .then(() => {
         resolve ("Password Changed")
+        
       })
       .catch((error) => {
         resolve ("Something went wrong")

@@ -109,7 +109,6 @@ export class UpdatePasswordDialogComponent implements OnInit {
           }
         );
       }
-    
     }
   }
 
