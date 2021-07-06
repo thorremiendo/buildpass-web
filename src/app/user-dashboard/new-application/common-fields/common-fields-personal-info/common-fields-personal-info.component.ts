@@ -62,12 +62,13 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     this.barangayService.getBarangayInfo().subscribe((data) => {
       this.barangay = data;
 
-      this._filteredBarangayOptions = this.personalInfoFormCommonFieldControl.owner_barangay.valueChanges.pipe(
-        startWith(''),
-        map((barangay) =>
-          barangay ? this._filter(barangay) : this.barangay.slice()
-        )
-      );
+      this._filteredBarangayOptions =
+        this.personalInfoFormCommonFieldControl.owner_barangay.valueChanges.pipe(
+          startWith(''),
+          map((barangay) =>
+            barangay ? this._filter(barangay) : this.barangay.slice()
+          )
+        );
     });
   }
 
@@ -75,9 +76,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     this.isLoading = true;
     this.createForm();
     this.user = JSON.parse(localStorage.getItem('user'));
-    if (this.user) {
-      this.patchUserDetails();
-    }
+
     this._registerAccountFormService.cast.subscribe(
       (registerAccountSubject) => (this.userDetails = registerAccountSubject)
     );
@@ -92,6 +91,9 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
           (newApplicationSubject) =>
             (this.applicationDetails = newApplicationSubject)
         );
+    }
+    if (this.applicationDetails.is_representative == 2) {
+      this.patchUserDetails();
     }
 
     this.isLoading = false;
@@ -162,33 +164,33 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
 
   createUserDetails() {
     this.userDetails = {
-      owner_first_name: this._personalInfoFormCommonFields.value
-        .owner_first_name,
-      owner_middle_name: this._personalInfoFormCommonFields.value
-        .owner_middle_name,
+      owner_first_name:
+        this._personalInfoFormCommonFields.value.owner_first_name,
+      owner_middle_name:
+        this._personalInfoFormCommonFields.value.owner_middle_name,
       owner_last_name: this._personalInfoFormCommonFields.value.owner_last_name,
       owner_suffix: this._personalInfoFormCommonFields.value.owner_suffix
         ? this._personalInfoFormCommonFields.value.owner_suffix
         : 'na',
-      owner_tin_number: this._personalInfoFormCommonFields.value
-        .owner_tin_number,
-      owner_contact_number: this._personalInfoFormCommonFields.value
-        .owner_contact_number,
-      owner_email_address: this._personalInfoFormCommonFields.value
-        .owner_email_address,
-      owner_house_number: this._personalInfoFormCommonFields.value
-        .owner_house_number,
-      owner_lot_number: this._personalInfoFormCommonFields.value
-        .owner_lot_number,
-      owner_block_number: this._personalInfoFormCommonFields.value
-        .owner_block_number,
+      owner_tin_number:
+        this._personalInfoFormCommonFields.value.owner_tin_number,
+      owner_contact_number:
+        this._personalInfoFormCommonFields.value.owner_contact_number,
+      owner_email_address:
+        this._personalInfoFormCommonFields.value.owner_email_address,
+      owner_house_number:
+        this._personalInfoFormCommonFields.value.owner_house_number,
+      owner_lot_number:
+        this._personalInfoFormCommonFields.value.owner_lot_number,
+      owner_block_number:
+        this._personalInfoFormCommonFields.value.owner_block_number,
       owner_purok: this._personalInfoFormCommonFields.value.owner_purok,
-      owner_subdivision: this._personalInfoFormCommonFields.value
-        .owner_subdivision,
-      owner_unit_number: this._personalInfoFormCommonFields.value
-        .owner_unit_number,
-      owner_floor_number: this._personalInfoFormCommonFields.value
-        .owner_floor_number,
+      owner_subdivision:
+        this._personalInfoFormCommonFields.value.owner_subdivision,
+      owner_unit_number:
+        this._personalInfoFormCommonFields.value.owner_unit_number,
+      owner_floor_number:
+        this._personalInfoFormCommonFields.value.owner_floor_number,
       owner_street: this._personalInfoFormCommonFields.value.owner_street,
       owner_barangay: this._personalInfoFormCommonFields.value.owner_barangay,
       owner_province: 'Benguet',
@@ -203,7 +205,8 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     if (this._personalInfoFormCommonFields.value.birthdate != null) {
       let dd = this._personalInfoFormCommonFields.value.birthdate.getDate();
       let mm = this._personalInfoFormCommonFields.value.birthdate.getMonth();
-      let yyyy = this._personalInfoFormCommonFields.value.birthdate.getFullYear();
+      let yyyy =
+        this._personalInfoFormCommonFields.value.birthdate.getFullYear();
       let birthdateString = `${yyyy}-${mm}-${dd}`;
       this._personalInfoFormCommonFields.value.birthdate = birthdateString;
     }
@@ -217,14 +220,12 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
 
     this.newApplicationFormService.setCommonFields(this.userDetails);
     if (!this._personalInfoFormCommonFields.valid) {
-      Swal.fire(
-        'Notice!',
-        `Please fill out all required fields!`,
-        'info'
-      ).then((result) => {});
+      Swal.fire('Notice!', `Please fill out all required fields!`, 'info').then(
+        (result) => {}
+      );
     } else {
       Swal.fire('Success!', ``, 'success').then((result) => {
-        this._router.navigateByUrl('/dashboard/new/step-two/project-site');
+        this._router.navigateByUrl('/dashboard/new/step-two/in-charge');
       });
     }
   }
