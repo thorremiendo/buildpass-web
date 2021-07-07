@@ -49,7 +49,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   _submitted = false;
   public barangay: Barangay[];
   public permitTypeId;
-  public applicationDetailsFromService;
+  public applicationDetails;
   public isRepresentative;
   public projectFormChange;
   get projectDetailsFormControl() {
@@ -83,39 +83,11 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     this.createForm();
     // this.initializeMap();
     this.user = JSON.parse(localStorage.getItem('user'));
-    this.getCommonDetails();
-    this.getApplicationDetails();
+    this.applicationDetails = JSON.parse(
+      localStorage.getItem('commonFieldsInfo')
+    );
+    this.permitTypeId = this.applicationDetails.permit_type_id;
     this.mapService.buildMap();
-    this.isLoading = false;
-  }
-  getCommonDetails() {
-    if (localStorage.getItem('commonFieldsInfo')) {
-      this.ownerDetails = JSON.parse(localStorage.getItem('commonFieldsInfo'));
-      this.isRepresentative = this.ownerDetails.is_representative;
-    } else {
-      this.newApplicationFormService.commonFieldsSubject
-        .asObservable()
-        .subscribe((commonFieldsSubject) => {
-          this.ownerDetails = commonFieldsSubject;
-          this.isRepresentative = this.ownerDetails.is_representative;
-        });
-    }
-  }
-  getApplicationDetails() {
-    if (localStorage.getItem('newApplicationInfo')) {
-      this.applicationDetailsFromService = JSON.parse(
-        localStorage.getItem('newApplicationInfo')
-      );
-      this.permitTypeId = this.applicationDetailsFromService.application_type;
-    } else {
-      this.newApplicationFormService.newApplicationSubject
-        .asObservable()
-        .subscribe((newApplicationSubject) => {
-          this.applicationDetailsFromService = newApplicationSubject;
-          this.permitTypeId =
-            this.applicationDetailsFromService.application_type;
-        });
-    }
     this.isLoading = false;
   }
 
@@ -147,9 +119,9 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_td_number: ['', Validators.required],
       project_basement: [''],
       project_landmark: [''],
-      inspector_name: ['', Validators.required],
-      inspector_profession: ['', Validators.required],
-      inspector_prc_no: ['', Validators.required],
+      // inspector_name: ['', Validators.required],
+      // inspector_profession: ['', Validators.required],
+      // inspector_prc_no: ['', Validators.required],
     });
     this.projectDetailsForm
       .get('project_barangay')
@@ -189,9 +161,9 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_tax_dec_number: data.project_td_number,
       project_landmark: data.project_landmark,
       project_subdivision: data.project_subdivision,
-      inspector_name: data.inspector_name,
-      inspector_profession: data.inspector_profession,
-      inspector_prc_no: data.inspector_prc_no,
+      // inspector_name: data.inspector_name,
+      // inspector_profession: data.inspector_profession,
+      // inspector_prc_no: data.inspector_prc_no,
       project_long: this.mapService.lng,
       project_lat: this.mapService.lat,
     };
@@ -200,43 +172,10 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   onSubmit() {
     this.isLoading = true;
     this._submitted = true;
-
     this.createprojectDetails();
 
     const body = {
-      user_id: this.user.id,
-      permit_type_id: this.applicationDetailsFromService.application_type,
-      is_representative: this.applicationDetailsFromService.is_representative,
-      rol_status_id: this.applicationDetailsFromService.is_lot_owner,
-      construction_status_id:
-        this.applicationDetailsFromService.construction_status,
-      is_registered_owner: this.applicationDetailsFromService.registered_owner,
-      is_owned_by_corporation:
-        this.applicationDetailsFromService.is_owned_by_corporation,
-      is_property_have_coowners:
-        this.applicationDetailsFromService.is_property_have_coowners,
-      is_under_mortgage: this.applicationDetailsFromService.is_under_mortgage,
-      is_within_subdivision:
-        this.applicationDetailsFromService.is_within_subdivision,
-      occupancy_classification_id:
-        this.applicationDetailsFromService.occupancy_classification_id,
-      applicant_first_name: this.ownerDetails.owner_first_name,
-      applicant_middle_name: this.ownerDetails.owner_middle_name,
-      applicant_last_name: this.ownerDetails.owner_last_name,
-      applicant_suffix_name: this.ownerDetails.owner_suffix,
-      applicant_tin_number: this.ownerDetails.owner_tin_number,
-      applicant_contact_number: this.ownerDetails.owner_contact_number,
-      applicant_email_address: this.ownerDetails.owner_email_address,
-      applicant_house_number: this.ownerDetails.owner_house_number,
-      applicant_unit_number: this.ownerDetails.owner_unit_number,
-      applicant_floor_number: this.ownerDetails.owner_floor_number,
-      applicant_street_name: this.ownerDetails.owner_street,
-      applicant_barangay: this.ownerDetails.owner_barangay,
-      applicant_lot_number: this.ownerDetails.owner_lot_number,
-      applicant_block_number: this.ownerDetails.owner_block_number,
-      applicant_subdivision: this.ownerDetails.owner_subdivision,
-      applicant_purok: this.ownerDetails.owner_purok,
-
+      ...this.applicationDetails,
       ...this.projectDetails,
     };
     if (!this.projectDetailsForm.valid) {
@@ -246,15 +185,10 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
         }
       );
     } else {
-      if (this.isRepresentative == '2') {
-        this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
-          localStorage.setItem('app_id', res.data.id);
-          this.saveRoute(res.data.id);
-        });
-      } else {
-        this.newApplicationFormService.setCommonFields(body);
-        this._router.navigateByUrl('/dashboard/new/step-two/in-charge');
-      }
+      this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
+        localStorage.setItem('app_id', res.data.id);
+        this.saveRoute(res.data.id);
+      });
     }
   }
   saveRoute(id) {

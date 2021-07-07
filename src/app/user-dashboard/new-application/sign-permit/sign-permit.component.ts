@@ -66,58 +66,48 @@ export class SignPermitComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
       // this.documentTypes = res.data;
-      this.newApplicationService.applicationId
-        .asObservable()
-        .subscribe((applicationId) => {
-          if (applicationId) this.applicationId = applicationId;
-          else this.applicationId = localStorage.getItem('app_id');
+      this.applicationId = localStorage.getItem('app_id');
+      this.applicationService
+        .fetchApplicationInfo(this.applicationId)
+        .subscribe((res) => {
+          this.applicationDetails = res.data;
+          this.saveRoute();
+          this.formData = this.dataBindingService.getFormData(
+            this.applicationDetails
+          );
 
-          this.applicationService
-            .fetchApplicationInfo(this.applicationId)
-            .subscribe((res) => {
-              this.applicationDetails = res.data;
-              this.saveRoute();
-              this.formData = this.dataBindingService.getFormData(
-                this.applicationDetails
-              );
+          const isRepresentative =
+            this.applicationDetails.is_representative == '1' ? true : false;
+          const isLessee =
+            this.applicationDetails.rol_status_id != '1' ? true : false;
+          const isRegisteredOwner =
+            this.applicationDetails.registered_owner == '1' ? true : false;
+          const isWithinSubdivision =
+            this.applicationDetails.is_within_subdivision == 1 ? true : false;
+          const isUnderMortgage =
+            this.applicationDetails.is_under_mortgage == 1 ? true : false;
+          const isOwnedByCorporation =
+            this.applicationDetails.is_owned_by_corporation == 1 ? true : false;
+          const isHaveCoOwners =
+            this.applicationDetails.is_property_have_coowners == 1
+              ? true
+              : false;
 
-              const isRepresentative =
-                this.applicationDetails.is_representative == '1' ? true : false;
-              const isLessee =
-                this.applicationDetails.rol_status_id != '1' ? true : false;
-              const isRegisteredOwner =
-                this.applicationDetails.registered_owner == '1' ? true : false;
-              const isWithinSubdivision =
-                this.applicationDetails.is_within_subdivision == 1
-                  ? true
-                  : false;
-              const isUnderMortgage =
-                this.applicationDetails.is_under_mortgage == 1 ? true : false;
-              const isOwnedByCorporation =
-                this.applicationDetails.is_owned_by_corporation == 1
-                  ? true
-                  : false;
-              const isHaveCoOwners =
-                this.applicationDetails.is_property_have_coowners == 1
-                  ? true
-                  : false;
+          const if10000sqm =
+            this.applicationDetails.project_detail.total_floor_area >= 10000
+              ? true
+              : false;
 
-              const if10000sqm =
-                this.applicationDetails.project_detail.total_floor_area >= 10000
-                  ? true
-                  : false;
+          isRepresentative
+            ? this.fieldSets[0].documents.push(...this.representativeDocs)
+            : null;
+          isLessee
+            ? this.fieldSets[0].documents.push(...this.lesseeDocs)
+            : null;
 
-              isRepresentative
-                ? this.fieldSets[0].documents.push(...this.representativeDocs)
-                : null;
-              isLessee
-                ? this.fieldSets[0].documents.push(...this.lesseeDocs)
-                : null;
-
-              this.initData();
-              this.setFilePaths();
-              this.pdfSource = this.forms[0].src;
-            });
+          this.initData();
+          this.setFilePaths();
+          this.pdfSource = this.forms[0].src;
         });
     });
   }

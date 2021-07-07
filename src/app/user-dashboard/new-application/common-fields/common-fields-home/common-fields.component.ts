@@ -44,37 +44,22 @@ export class CommonFieldsComponent implements OnInit {
         this.navLinks.find((tab) => tab.link === '.' + this._router.url)
       );
     });
-    if (this.applicationInfo.is_representative == '2') {
-      this.navLinks = [
-        {
-          label: 'Owner Information',
-          link: './lot-owner',
-          index: 0,
-        },
-        {
-          label: 'Project Information',
-          link: './project-site',
-          index: 1,
-        },
-      ];
-    } else {
-      this.navLinks = [
-        {
-          label: 'Owner Information',
-          link: './lot-owner',
-          index: 0,
-        },
-        {
-          label: 'Project Information',
-          link: './project-site',
-          index: 1,
-        },
-        {
-          label: 'Engineer/Architect Information',
-          link: './in-charge',
-          index: 2,
-        },
-      ];
-    }
+    this.navLinks = [
+      {
+        label: 'Owner Information',
+        link: './lot-owner',
+        index: 0,
+      },
+      {
+        label: 'Engineer/Architect Information',
+        link: './in-charge',
+        index: 1,
+      },
+      {
+        label: 'Project Information',
+        link: './project-site',
+        index: 2,
+      },
+    ];
   }
 }
