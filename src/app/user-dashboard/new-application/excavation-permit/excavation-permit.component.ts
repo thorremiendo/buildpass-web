@@ -94,15 +94,7 @@ export class ExcavationPermitComponent implements OnInit {
       this.isLoading = true;
       this.documentTypes = res.data;
       setTimeout(() => {
-        this.newApplicationService.applicationId
-          .asObservable()
-          .subscribe((applicationId) => {
-            if (applicationId) {
-              this.applicationId = applicationId;
-            } else {
-              this.applicationId = localStorage.getItem('app_id');
-            }
-          });
+        this.applicationId = localStorage.getItem('app_id');
         this.checkBuildingPermitExcavation();
       }, 2000);
     });
@@ -378,9 +370,8 @@ export class ExcavationPermitComponent implements OnInit {
       application_id: this.excavationId
         ? this.excavationId
         : this.applicationId,
-      url: this.router.url,
+      url: '/dashboard/new/excavation-permit',
     };
-
     this.newApplicationService.saveAsDraft(body).subscribe((res) => {});
   }
 

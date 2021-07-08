@@ -257,26 +257,9 @@ export class BuildingPermitComponent implements OnInit {
     const body = {
       user_id: this.user.id,
       application_id: this.applicationId,
-      url: this.router.url,
+      url: '/dashboard/new/building-permit',
     };
     this.newApplicationService.saveAsDraft(body).subscribe((res) => {});
-  }
-
-  initPdfViewer(event) {
-    this.checkExistingZoningFormData();
-    const index = event.selectedIndex;
-    const pdfViewer = document.getElementById('pdf-viewer');
-    const pdfContainer = document.getElementById(`form-${index}`);
-    this.forms[index] ? (this.pdfSource = this.forms[index].src) : null;
-    this.forms[index] ? (this.sampleForm = this.forms[index].sample) : null;
-    this.forms[0] ? (this.formData = this.zoningFormData) : null;
-    this.forms[1] ? (this.formData = this.buildingFormData) : null;
-    this.forms[2] ? (this.formData = this.sanitaryFormData) : null;
-    this.forms[3] ? (this.formData = this.electricalFormData) : null;
-    this.forms[4] ? (this.formData = this.situationalReportFormData) : null;
-    this.forms[5] ? (this.formData = this.noticeOfConstructionFormData) : null;
-
-    pdfContainer ? pdfContainer.appendChild(pdfViewer) : null;
   }
 
   getDocType(id): string {
@@ -444,6 +427,28 @@ export class BuildingPermitComponent implements OnInit {
   getFormsLength() {
     return this.forms.length;
   }
+
+  initPdfViewer(event) {
+    console.log(event);
+    if (event.previouslySelectedIndex <= 4) {
+      this.upload(this.forms[event.previouslySelectedIndex]);
+    }
+    this.checkExistingZoningFormData();
+    const index = event.selectedIndex;
+    const pdfViewer = document.getElementById('pdf-viewer');
+    const pdfContainer = document.getElementById(`form-${index}`);
+    this.forms[index] ? (this.pdfSource = this.forms[index].src) : null;
+    this.forms[index] ? (this.sampleForm = this.forms[index].sample) : null;
+    this.forms[0] ? (this.formData = this.zoningFormData) : null;
+    this.forms[1] ? (this.formData = this.buildingFormData) : null;
+    this.forms[2] ? (this.formData = this.sanitaryFormData) : null;
+    this.forms[3] ? (this.formData = this.electricalFormData) : null;
+    this.forms[4] ? (this.formData = this.situationalReportFormData) : null;
+    this.forms[5] ? (this.formData = this.noticeOfConstructionFormData) : null;
+
+    pdfContainer ? pdfContainer.appendChild(pdfViewer) : null;
+  }
+
   public async upload(form): Promise<void> {
     const data = this.formData;
     const blob =

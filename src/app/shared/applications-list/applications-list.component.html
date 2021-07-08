@@ -49,15 +49,22 @@
         src="../../../assets/illustrations/demolition.svg"
         *ngIf="application.permit_type_id == 5"
       />
+      <img
+        src="../../../assets/illustrations/sign.svg"
+        *ngIf="application.permit_type_id == 7"
+      />
     </div>
     <div class="application-details">
       <div class="application-type" *ngIf="application.permit_type_id">
         <div>
           {{ application.permit_type_id == 1 ? "Building Permit" : "" }}
-          {{ application.permit_type_id == 2 ? "Certificate of Occupancy" : "" }}
+          {{
+            application.permit_type_id == 2 ? "Certificate of Occupancy" : ""
+          }}
           {{ application.permit_type_id == 3 ? "Excavation Permit" : "" }}
           {{ application.permit_type_id == 4 ? "Fencing Permit" : "" }}
           {{ application.permit_type_id == 5 ? "Demolition Permit" : "" }}
+          {{ application.permit_type_id == 7 ? "Sign Permit" : "" }}
         </div>
         <div *ngIf="application.applicant_detail?.created_at">
           {{ application.applicant_detail.created_at | date: "MMMM dd, yyyy" }}
@@ -68,7 +75,18 @@
           {{ application.permit_application_code }}
         </div>
         <div>
-          <button mat-button *ngIf="application.application_status_id == 6 && userInfo.id == application.user_id" (click)="deleteApplication(application.id); $event.stopPropagation()">Delete</button>
+          <button
+            mat-button
+            *ngIf="
+              application.application_status_id == 6 &&
+              userInfo.id == application.user_id
+            "
+            (click)="
+              deleteApplication(application.id); $event.stopPropagation()
+            "
+          >
+            Delete
+          </button>
         </div>
       </div>
       <div class="application-status" *ngIf="application.application_status_id">

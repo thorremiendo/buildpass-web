@@ -12,6 +12,7 @@ import { Channel } from 'pusher-js';
 })
 export class FeedService {
   public user: any;
+  public firebase_uid: string;
   public channel: Channel;
   private channelName: string;
   private channelType: string;
@@ -39,7 +40,7 @@ export class FeedService {
       this.pusherBind = 'EvaluatorStatusChanged';
     } else {
       this.user = user;
-
+      this.firebase_uid = this.user.user_credentials[0].firebase_uid;
       this.channelType = 'applicant';
       this.notifChannel = this.user.user_credentials[0]?.firebase_uid;
       this.channelName = `applicant-${this.user.user_credentials[0]?.firebase_uid}`;
@@ -117,6 +118,21 @@ export class FeedService {
         return throwError('Something went wrong.');
       })
     );
+  }
+
+  getTotalUnseenNotif(){
+    const url = `/notification/${this.firebase_uid}/unseen`;
+
+    return this._api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+
+
   }
 
   getTotalUnseenChat() {

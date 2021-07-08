@@ -157,10 +157,7 @@
             color="accent"
             *ngIf="!checkChecklistUploaded()"
             (click)="openChecklistDialog()"
-            [disabled]="
-              !checkFormsCompliant() ||
-              applicationDetails.application_status_id !== 3
-            "
+            [disabled]="applicationDetails.application_status_id !== 3"
           >
             Upload Checklist
           </button>
@@ -171,10 +168,7 @@
               color="accent"
               (click)="openFsecDialog()"
               *ngIf="!checkFireSecUploaded()"
-              [disabled]="
-                !checkFormsCompliant() ||
-                applicationDetails.application_status_id !== 3
-              "
+              [disabled]="applicationDetails.application_status_id !== 3"
             >
               Upload Fire Safety Evaluation Clearance
             </button>

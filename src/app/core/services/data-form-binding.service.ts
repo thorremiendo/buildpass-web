@@ -947,9 +947,13 @@ export class DataFormBindingService {
       project_province: 'BENGUET',
       project_city: 'BAGUIO CITY',
       project_zipcode: '2600',
-      inspector_name: projectDetails.inspector_name,
+      inspector_name:
+        representativeDetails == null
+          ? 'N/A'
+          : `${representativeDetails.first_name.toUpperCase()} ${representativeDetails.last_name.toUpperCase()}`,
       inspector_profession: projectDetails.inspector_profession,
-      inspector_prc_no: projectDetails.inspector_prc_no,
+      inspector_prc_no:
+        representativeDetails == null ? 'N/A' : representativeDetails.prc_no,
       complete_project_location: `${
         projectDetails.house_number ? projectDetails.house_number : ''
       } ${projectDetails.lot_number ? projectLot : ''} ${
@@ -971,10 +975,7 @@ export class DataFormBindingService {
         representativeDetails == null
           ? 'N/A'
           : `${representativeDetails.first_name.toUpperCase()} ${representativeDetails.last_name.toUpperCase()}`,
-      box_5_licensed_architect_full_name:
-        representativeDetails == null
-          ? 'N/A'
-          : `${representativeDetails.first_name.toUpperCase()} ${representativeDetails.last_name.toUpperCase()}`,
+
       fulltime_inspector_address:
         representativeDetails == null
           ? 'N/A'

@@ -18,6 +18,7 @@ export class NotificationComponent implements OnInit {
   public feeds: Feed[] = [];
   public show_notif: boolean = true;
   public config: PerfectScrollbarConfigInterface = {};
+  public totalUnseenNotif: string | number;
   private feedSubscription: Subscription;
 
   constructor(private feedService: FeedService, private router: Router) {}
@@ -28,22 +29,31 @@ export class NotificationComponent implements OnInit {
       this.show_notif = false;
     } else {
       this.feedService.checkUser();
+
       this.feedSubscription = this.feedService
         .getFeedItems()
         .subscribe((feed: Feed) => {
           this.feeds.push(feed);
         });
 
-        this. updateNotifTable();
-
+        this.updateNotifTable();
      
+      
     }
   }
 
   updateNotifTable(){
     this.feedService.getNotifTable().subscribe((data) => {
+      //console.log(data)
       this.feeds = data.data;
     });
+
+    this.feedService.getTotalUnseenNotif().subscribe( data => {
+      //console.log("hello"+JSON.stringify(data.data));
+      this.totalUnseenNotif = data.data;    
+    })
+
+   
     
   }
 

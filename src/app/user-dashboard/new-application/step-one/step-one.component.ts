@@ -97,8 +97,12 @@ export class StepOneComponent implements OnInit {
   }
 
   callNext() {
+    const otherPermits = [3, 4, 5, 6, 7, 8, 9];
+    const isOtherPermit = otherPermits.find(
+      (e) => e == this.selectedPermitType
+    );
     this.isSubmitting = true;
-    if (this.selectedPermitType == '1') {
+    if (!isOtherPermit && this.selectedPermitType == '1') {
       if (this.permitStepOneForm.valid) {
         const value = this.permitStepOneForm.value;
         const body = {
@@ -121,17 +125,13 @@ export class StepOneComponent implements OnInit {
         Swal.fire('Error!', 'Fill out all required information!', 'error');
         this.isSubmitting = false;
       }
-    } else if (this.selectedPermitType == '2') {
+    } else if (!isOtherPermit && this.selectedPermitType == '2') {
       this.isSubmitting = false;
       this.router.navigate([
         '/dashboard/new/details',
         this.selectedBuildingPermit,
       ]);
-    } else if (
-      this.selectedPermitType == '3' ||
-      this.selectedPermitType == '4' ||
-      this.selectedPermitType == '5'
-    ) {
+    } else if (isOtherPermit) {
       if (this.permitStepOneForm.value.is_property_have_coowners) {
         const value = this.permitStepOneForm.value;
         const body = {
@@ -175,6 +175,9 @@ export class StepOneComponent implements OnInit {
                 break;
               case '5':
                 this.router.navigateByUrl('/dashboard/new/demolition-permit');
+                break;
+              case '7':
+                this.router.navigateByUrl('/dashboard/new/sign-permit');
                 break;
             }
           });
