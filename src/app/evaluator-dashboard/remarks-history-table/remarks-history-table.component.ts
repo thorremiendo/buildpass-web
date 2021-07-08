@@ -1,19 +1,21 @@
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { officeTypes } from './../../core/enums/offices.enum';
 import { NewApplicationService } from './../../core/services/new-application.service';
+import { ApplicationInfoService } from '../../core/services/application-info.service';
 import {
   FormGroup,
   FormControl,
   Validators,
   FormBuilder,
 } from '@angular/forms';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input, ViewChild } from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
+import { MatTable } from '@angular/material/table';
 
 @Component({
   selector: 'app-remarks-history-table',
@@ -21,20 +23,31 @@ import Swal from 'sweetalert2';
   styleUrls: ['./remarks-history-table.component.scss'],
 })
 export class RemarksHistoryTableComponent implements OnInit {
+  @Input() id: string;
+  @ViewChild(MatTable) revisionsTable: MatTable<any>;
   public remarksForm: FormGroup;
+
+  public applicationTimeline;
+  public revisionList;
+  public officeId;
+
   public isLoading: boolean = true;
   public revisionData;
   public useDefault: boolean = false;
+  public nonComplianceDates = [];
+  public revisionLogs = {};
   displayedColumns: string[] = [
     'index',
-    'date',
     'remark',
     'evaluator',
     'office',
+    'date_created',
+    'date_complied',
   ];
 
   constructor(
     private newApplicationService: NewApplicationService,
+    private applicationService: ApplicationInfoService,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<RemarksHistoryTableComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -42,56 +55,94 @@ export class RemarksHistoryTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.filterRemarksTable(
-      this.data.evaluator ? this.data.evaluator.office_id : 7
-    );
-
-    this.isLoading = false;
     this.remarksForm = this.fb.group({
       remarks: new FormControl('', [Validators.required]),
     });
+
+    this.applicationService
+      .fetchApplicationTmeline(this.data.form.application_id)
+      .subscribe(res => {
+        this.applicationTimeline = res.data;
+        this.revisionList = this.data.form.document_revision;
+        this.officeId = this.data.evaluator ? this.data.evaluator.office_id : 7;
+        this.sortByDate(this.filterByOffice());
+      });
   }
+
   getOfficeType(id): string {
     return officeTypes[id];
   }
+  
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  filterRemarksTable(officeId) {
-    if (officeId == 1) {
-      const CPDO_FORMS = this.data.form.document_revision.filter(
-        (form) => form.evaluator_detail.employee_detail.office_id == 1
-      );
-      this.revisionData = CPDO_FORMS;
-    } else if (officeId == 2) {
-      const CEPMO_FORMS = this.data.form.document_revision.filter(
-        (form) => form.evaluator_detail.employee_detail.office_id == 2
-      );
-      this.revisionData = CEPMO_FORMS;
-    } else if (officeId == 3) {
-      const BFP_FORMS = this.data.form.document_revision.filter(
-        (form) => form.evaluator_detail.employee_detail.office_id == 3
-      );
-      this.revisionData = BFP_FORMS;
-    } else if (officeId == 4) {
-      const CBAO_FORMS = this.data.form.document_revision.filter(
-        (form) => form.evaluator_detail.employee_detail.office_id == 4
-      );
-      this.revisionData = CBAO_FORMS;
-    } else if (officeId == 7) {
-      //APPLICANT
-      this.revisionData = this.data.form.document_revision;
+  chooseOffice(officeId) {
+    this.officeId = officeId;
+    this.sortByDate(this.filterByOffice());
+  }
+
+  filterByOffice() {
+    if (this.officeId == 7) return this.revisionList;
+    else return this.revisionList.filter(
+      log => log.evaluator_detail.employee_detail.office_id == this.officeId
+    );
+  }
+
+  sortByDate(revisions) {
+    this.nonComplianceDates = this.applicationTimeline.filter(log => log.office_id == this.officeId && log.color == 'red');
+    if (this.nonComplianceDates.length > 1) {
+      this.nonComplianceDates.forEach(date => {
+        const nonComplianceDate = new Date(date.created_at);
+        const revisionData = {};
+        revisionData['current'] = [];
+        revisions.forEach(revision => {
+          const revisionCompletedDate = revision.date_time_complied ? new Date(revision.date_time_complied) : false;
+          if (revisionCompletedDate && revisionCompletedDate < nonComplianceDate) {
+            if (!revisionData[date.created_at]) revisionData[date.created_at] = [{...revision}];
+            else revisionData[date.created_at].push({...revision});
+          } else {
+            revisionData['current'].push({...revision});
+          }
+        });
+
+        const sortedData = [];
+        Object.keys(revisionData).filter(key => key != 'current').forEach(date => {
+          revisionData[date].forEach(log => {
+            sortedData.push(log);
+          });
+          sortedData.push({label: date});
+        });
+        revisionData['current'].forEach(log => {
+          sortedData.push(log);
+        });
+        
+        this.revisionData = sortedData;
+        this.isLoading = false;
+      });
+    } else {
+      this.revisionData = revisions;
+      this.isLoading = false;
     }
   }
+  
+  setRemarkCompliance(remarkId, $event) {
+    this.newApplicationService
+      .setRemarkCompliance(remarkId, $event.checked)
+      .subscribe(res => {
+        this.revisionList.find(revision => revision.id == res.data.id).date_time_complied == res.data.date_time_complied;
+      });
+  }
+
   toggle(event: MatSlideToggleChange) {
     this.useDefault = event.checked;
     if (this.useDefault == true) {
       this.revisionData = this.data.form.document_revision;
     } else {
-      this.filterRemarksTable(this.data.evaluator.office_id);
+      this.filterByOffice();
     }
   }
+
   canAddRemark() {
     const status = this.data.applicationInfo.application_status_id;
     const role = this.data.evaluatorRole.code;
@@ -129,6 +180,7 @@ export class RemarksHistoryTableComponent implements OnInit {
       return false;
     }
   }
+
   addRemarks() {
     const id = this.data.form.id;
     const revisionData = {
