@@ -1,6 +1,15 @@
 table {
   width: 100%;
 
+  tr.compliant {
+    td:nth-of-type(2) {
+    }
+  }
+
+  tr.label {
+    font-weight: 700;
+  }
+
   th {
     background-color: maroon;
     color: white;

@@ -106,4 +106,11 @@ export class NewApplicationService {
     const url = `/userdocs/${id}/reset-document`;
     return this.api.post(url, body);
   }
+
+  setRemarkCompliance(id, compliant) {
+    let url = null;
+    if (compliant) url = `/userdocs/remark/${id}/complied`;
+    else url = `/userdocs/remark/${id}/non-compliant`;
+    return this.api.post(url, {});
+  }
 }
