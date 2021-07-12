@@ -19,6 +19,7 @@ export class RegistrationComponent implements OnInit {
   public user;
   public selectedFile: File = null;
   public selectedPhoto: File = null;
+  public selectedSelfie: File = null;
   public maxLength: number = 11;
   public isUpdating: boolean = false;
   private registrationDetails;
@@ -28,14 +29,19 @@ export class RegistrationComponent implements OnInit {
   _filteredBarangayOptions: Observable<Barangay[]>;
   _displayPhoto: string | ArrayBuffer = '';
   _displayIdPhoto: string | ArrayBuffer = '';
+  _displaySelfiePhoto: string | ArrayBuffer = '';
   _submitted = false;
 
   get displayProfilePhoto(): string | ArrayBuffer {
-    return this._displayPhoto ? this._displayPhoto : "https://baguio-visita.s3-ap-southeast-1.amazonaws.com/default-avatar.png";
+    return this._displayPhoto ? this._displayPhoto : '';
   }
 
   get displayIDPhoto(): string | ArrayBuffer {
     return this._displayIdPhoto ? this._displayIdPhoto : '';
+  }
+
+  get displaySelfiePhoto(): string | ArrayBuffer {
+    return this._displaySelfiePhoto ? this._displaySelfiePhoto : '';
   }
 
   get registrationFormControl() {
@@ -77,6 +83,11 @@ export class RegistrationComponent implements OnInit {
     element.click();
   }
 
+  openSelfieChooser() {
+    const element: HTMLElement = document.getElementById('selfie-photo') as HTMLElement;
+    element.click();
+  }
+
   handlePhotoFileChange($event) {
     this.selectedPhoto = $event.target.files[0];
     this.readSelectedPhotoInfo();
@@ -85,6 +96,11 @@ export class RegistrationComponent implements OnInit {
   handleIDFileChange($event) {
     this.selectedFile = $event.target.files[0];
     this.readSelectedIdInfo();
+  }
+
+  handleSelfieFileChange($event) {
+    this.selectedSelfie = $event.target.files[0];
+    this.readSelectedSelfieInfo();
   }
 
   readSelectedPhotoInfo() {
@@ -104,6 +120,16 @@ export class RegistrationComponent implements OnInit {
         this._displayIdPhoto = reader.result;
       };
       reader.readAsDataURL(this.selectedFile);
+    }
+  }
+
+  readSelectedSelfieInfo() {
+    if (this.selectedSelfie) {
+      let reader = new FileReader();
+      reader.onload = (res) => {
+        this._displaySelfiePhoto = reader.result;
+      };
+      reader.readAsDataURL(this.selectedSelfie);
     }
   }
 
@@ -153,7 +179,7 @@ export class RegistrationComponent implements OnInit {
   onSubmit() {
     this._submitted = true;
 
-    if (this._registrationForm.valid && this.selectedFile && this.selectedPhoto) {
+    if (this._registrationForm.valid && this.selectedFile && this.selectedPhoto && this.selectedSelfie) {
       const dialogRef = this._dialog.open(DataPrivacyComponent);
       dialogRef.afterClosed().subscribe(dataPrivacyFlag => {
         if (dataPrivacyFlag) {
@@ -175,6 +201,7 @@ export class RegistrationComponent implements OnInit {
               id_type: this._registrationForm.value.id_type,
               photo_path: this.selectedPhoto ? this.selectedPhoto : null,
               id_photo_path: this.selectedFile ? this.selectedFile : null,
+              selfie_with_id_path: this.selectedSelfie ? this.selectedSelfie : null,
               firebase_uid: this.registrationDetails.firebase_uid,
               email_address: this.registrationDetails.email,
               emailVerified: this.registrationDetails.emailVerified,
@@ -203,6 +230,7 @@ export class RegistrationComponent implements OnInit {
                 id_type: this._registrationForm.value.id_type,
                 photo_path: this.selectedPhoto ? this.selectedPhoto : null,
                 id_photo_path: this.selectedFile ? this.selectedFile : null,
+                selfie_with_id_path: this.selectedSelfie ? this.selectedSelfie : null,
                 firebase_uid: result.user.uid,
                 email_address: result.user.email,
                 emailVerified: result.user.emailVerified,

@@ -9,7 +9,7 @@
     <div class="col-12 col-lg-3">
       <div *ngIf="this.userInfo">
         <div class="user-avatar-container">
-          <div class="user-avatar">
+          <div class="user-avatar" [ngClass]="_submitted && !selectedPhoto && !this.userInfo.photo_path ? 'no-file': ''">
             <img [src]="displayProfilePhoto" alt="" />
           </div>
           <div class="edit-avatar">
@@ -23,6 +23,9 @@
           </div>
         </div>
         <div class="avatar-label">Profile Picture</div>
+        <div class="error-notif" *ngIf="_submitted && !selectedPhoto && !this.userInfo.photo_path">
+            Profile Picture is required
+        </div>
         <div class="change-password" (click)="openDialog(userInfo?.user_credentials[0])">Change Password </div>
         <input
           type="file"
@@ -219,8 +222,11 @@
               <div class="col-12 section-header">
                 Identification
               </div>
+              <div class="col-12 mb-3">
+                1. Upload a photo of your valid identification card and fill out the required details.
+              </div>
               <div class="col-md-6">
-                  <div class="id-upload" (click)="openIdChooser()" *ngIf="this.userInfo">
+                  <div class="id-upload" (click)="openIdChooser()" *ngIf="this.userInfo" [ngClass]="_submitted && !selectedFile && !this.userInfo.id_photo_path ? 'no-file': ''">
                     <img [src]="displayIDPhoto" alt="" />
                   </div>
                   <input
@@ -230,6 +236,9 @@
                     accept="image/*"
                     (change)="handleIDFileChange($event)"
                   />
+                  <div class="error-notif" *ngIf="_submitted && !selectedFile && !this.userInfo.id_photo_path">
+                    ID Photo is required
+                  </div>
               </div>
               <div class="col-md-6">
                 <div class="row">
@@ -273,6 +282,25 @@
                       </mat-error>
                     </mat-form-field>
                   </div>
+                </div>
+              </div>
+
+              <div class="col-12 mt-4 mb-3">
+                2. Upload a selfie of yourself holding your valid identification card with your photo and details on the card clearly shown.
+              </div>
+              <div class="col-md-6">
+                <div class="selfie-upload" (click)="openSelfieChooser()" *ngIf="this.userInfo" [ngClass]="_submitted && !selectedSelfie && !this.userInfo.selfie_with_id_path ? 'no-file': ''">
+                  <img [src]="displaySelfiePhoto" alt="" />
+                </div>
+                <input
+                  type="file"
+                  class="sr-only"
+                  id="selfie-photo"
+                  accept="image/*"
+                  (change)="handleSelfieFileChange($event)"
+                />
+                <div class="error-notif" *ngIf="_submitted && !selectedSelfie && !this.userInfo.selfie_with_id_path">
+                  Selfie with ID is required
                 </div>
               </div>
             </div>
