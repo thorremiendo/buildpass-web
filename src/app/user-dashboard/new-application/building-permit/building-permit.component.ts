@@ -218,9 +218,9 @@ export class BuildingPermitComponent implements OnInit {
         ifFloorArea20sqmOrMore
           ? this.fieldSets[2].documents.push(...this.ifFloorArea20sqmOrMore)
           : null;
-        isEngineerArchitect
-          ? this.fieldSets[4].documents.push(...this.isEnginnerArchictect)
-          : null;
+        // isEngineerArchitect
+        //   ? this.fieldSets[4].documents.push(...this.isEnginnerArchictect)
+        //   : null;
         this.initData();
         this.setFilePaths();
         this.pdfSource = this.forms[0].src;
