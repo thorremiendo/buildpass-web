@@ -24,7 +24,7 @@ export class ChecklistSummaryComponent implements OnInit {
   public sortedForms;
   public isLoading;
   public documentTypes;
-  public isAuthorized: boolean = false;
+  public isAuthorized;
   public receiveApplications: boolean;
 
   constructor(
@@ -44,102 +44,107 @@ export class ChecklistSummaryComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.applicationService
       .verifyUserApplication(this.applicationId, this.user.id)
-      .subscribe((res) => {
-        this.isLoading = true;
-        this.isAuthorized = true;
-        this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
-          this.documentTypes = res.data;
-          this.newApplicationService
-            .fetchApplicationInfo(this.applicationId)
-            .subscribe((result) => {
-              this.applicationInfo = result.data;
+      .subscribe(
+        (res) => {
+          this.isLoading = true;
+          this.isAuthorized = true;
+          this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
+            this.documentTypes = res.data;
+            this.newApplicationService
+              .fetchApplicationInfo(this.applicationId)
+              .subscribe((result) => {
+                this.applicationInfo = result.data;
 
-              this.applicantCompleteName = `${this.applicationInfo.applicant_detail.first_name} ${this.applicationInfo.applicant_detail.last_name}`;
-              this.applicantForms = this.applicationInfo.user_docs;
+                this.applicantCompleteName = `${this.applicationInfo.applicant_detail.first_name} ${this.applicationInfo.applicant_detail.last_name}`;
+                this.applicantForms = this.applicationInfo.user_docs;
 
-              switch (this.applicationInfo.permit_type_id) {
-                case 1:
-                  this.permitType = 'Building Permit';
-                  break;
-                case 2:
-                  this.permitType = 'Certificate of Occupancy';
-                  break;
-                case 3:
-                  this.permitType = 'Excavation Permit';
-                  break;
-                case 4:
-                  this.permitType = 'Fencing Permit';
-                  break;
-                case 5:
-                  this.permitType = 'Demolition Permit';
-                  break;
-                case 6:
-                  this.permitType = 'Scaffolding Permit';
-                  break;
-                case 7:
-                  this.permitType = 'Sign Permit';
-                  break;
-              }
-
-              this.sortedForms = {
-                forms: {
-                  label: 'Forms',
-                  data: [],
-                },
-                documents: {
-                  label: 'Documentary Requirements',
-                  data: [],
-                },
-                plans: {
-                  label: 'Plans, Designs, Specifications, Cost Estimate',
-                  data: [],
-                },
-                professional: {
-                  label:
-                    'Photocopy of Professional Details (Professional Tax Receipt and Professional Regulation Commission ID, signed and sealed)',
-                  data: [],
-                },
-                affidavits: {
-                  label: 'Affidavits',
-                  data: [],
-                },
-                others: {
-                  label: 'Others',
-                  data: [],
-                },
-              };
-
-              this.applicantForms.forEach((element) => {
-                console.log(this.applicantForms);
-                const docType =
-                  this.documentTypes[element.document_id - 1]
-                    .document_category_id;
-                switch (docType) {
+                switch (this.applicationInfo.permit_type_id) {
                   case 1:
-                    this.sortedForms.forms.data.push(element);
+                    this.permitType = 'Building Permit';
                     break;
                   case 2:
-                    this.sortedForms.documents.data.push(element);
+                    this.permitType = 'Certificate of Occupancy';
                     break;
                   case 3:
-                    this.sortedForms.plans.data.push(element);
+                    this.permitType = 'Excavation Permit';
                     break;
                   case 4:
-                    this.sortedForms.professional.data.push(element);
+                    this.permitType = 'Fencing Permit';
                     break;
                   case 5:
-                    this.sortedForms.affidavits.data.push(element);
+                    this.permitType = 'Demolition Permit';
                     break;
-                  default:
-                    this.sortedForms.others.data.push(element);
+                  case 6:
+                    this.permitType = 'Scaffolding Permit';
+                    break;
+                  case 7:
+                    this.permitType = 'Sign Permit';
                     break;
                 }
+
+                this.sortedForms = {
+                  forms: {
+                    label: 'Forms',
+                    data: [],
+                  },
+                  documents: {
+                    label: 'Documentary Requirements',
+                    data: [],
+                  },
+                  plans: {
+                    label: 'Plans, Designs, Specifications, Cost Estimate',
+                    data: [],
+                  },
+                  professional: {
+                    label:
+                      'Photocopy of Professional Details (Professional Tax Receipt and Professional Regulation Commission ID, signed and sealed)',
+                    data: [],
+                  },
+                  affidavits: {
+                    label: 'Affidavits',
+                    data: [],
+                  },
+                  others: {
+                    label: 'Others',
+                    data: [],
+                  },
+                };
+
+                this.applicantForms.forEach((element) => {
+                  console.log(this.applicantForms);
+                  const docType =
+                    this.documentTypes[element.document_id - 1]
+                      .document_category_id;
+                  switch (docType) {
+                    case 1:
+                      this.sortedForms.forms.data.push(element);
+                      break;
+                    case 2:
+                      this.sortedForms.documents.data.push(element);
+                      break;
+                    case 3:
+                      this.sortedForms.plans.data.push(element);
+                      break;
+                    case 4:
+                      this.sortedForms.professional.data.push(element);
+                      break;
+                    case 5:
+                      this.sortedForms.affidavits.data.push(element);
+                      break;
+                    default:
+                      this.sortedForms.others.data.push(element);
+                      break;
+                  }
+                });
+                this.sortedForms = Object.values(this.sortedForms);
+                this.isLoading = false;
               });
-              this.sortedForms = Object.values(this.sortedForms);
-              this.isLoading = false;
-            });
-        });
-      });
+          });
+        },
+        (error) => {
+          this.router.navigateByUrl('dashboard/applications');
+        }
+      );
   }
   goToLink(url: string) {
     window.open(url, '_blank');

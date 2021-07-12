@@ -72,24 +72,3 @@
 >
   <mat-spinner></mat-spinner>
 </div>
-
-<ng-container *ngIf="!isAuthorized">
-  <div
-    class="
-      d-flex
-      justify-content-center
-      align-items-center
-      w-100
-      flex-column
-      mt-5
-    "
-  >
-    <img src="../../../assets/illustrations/stop.svg" style="width: 100px" />
-    <h3 class="mt-5" style="font-weight: bold; color: maroon">
-      You are not allowed to view this page.
-    </h3>
-    <p style="font-weight: bold">
-      Click <a routerLink="../../../applications">here</a> to go back.
-    </p>
-  </div>
-</ng-container>
