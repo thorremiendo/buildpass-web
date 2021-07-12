@@ -124,6 +124,7 @@ export class BuildingPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
+        console.log(this.applicationDetails);
         this.saveRoute();
         this.zoningFormData = this.dataBindingService.getFormData(
           this.applicationDetails
@@ -430,7 +431,15 @@ export class BuildingPermitComponent implements OnInit {
 
   initPdfViewer(event) {
     console.log(event);
-    if (event.previouslySelectedIndex <= 4) {
+    if (
+      this.applicationDetails.construction_status_id !== 1 &&
+      event.previouslySelectedIndex <= 4
+    ) {
+      this.upload(this.forms[event.previouslySelectedIndex]);
+    } else if (
+      this.applicationDetails.construction_status_id == 1 &&
+      event.previouslySelectedIndex <= 5
+    ) {
       this.upload(this.forms[event.previouslySelectedIndex]);
     }
     this.checkExistingZoningFormData();
