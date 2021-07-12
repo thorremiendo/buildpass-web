@@ -64,6 +64,7 @@ export class FormDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.data);
     this.userService.cast.subscribe((userSubject) => {
       this.user = userSubject;
       if (localStorage.getItem('user')) {
@@ -390,6 +391,11 @@ export class FormDetailsComponent implements OnInit {
               receiving_status_id: this.permitDetails.value.is_compliant,
             };
             this.updateDoc(body, id);
+          } else {
+            body = {
+              document_status_id: this.permitDetails.value.is_compliant,
+            };
+            this.updateDoc(body, id);
           }
         } else if (officeId == 1) {
           //CPDO
@@ -501,6 +507,11 @@ export class FormDetailsComponent implements OnInit {
             body = {
               document_status_id: this.permitDetails.value.is_compliant,
               receiving_status_id: this.permitDetails.value.is_compliant,
+            };
+            this.updateDoc(body, id);
+          } else {
+            body = {
+              document_status_id: this.permitDetails.value.is_compliant,
             };
             this.updateDoc(body, id);
           }

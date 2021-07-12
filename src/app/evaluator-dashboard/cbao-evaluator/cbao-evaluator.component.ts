@@ -354,60 +354,74 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   nonCompliant() {
-    this.isLoading = true;
     if (this.checkFormsReviewed()) {
-      if (this.evaluatorRole.code == 'CBAO-DC') {
-        const body = {
-          application_status_id: 5,
-          dc_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            Swal.fire(
-              'Success!',
-              `Notified Applicant for Revision!`,
-              'success'
-            ).then((result) => {
-              window.location.reload();
-            });
-          });
-      } else if (this.evaluatorRole.code == 'CBAO-BO') {
-        const body = {
-          application_status_id: 5,
-          bo_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            Swal.fire(
-              'Success!',
-              `Notified Applicant for Revision!`,
-              'success'
-            ).then((result) => {
-              window.location.reload();
-            });
-          });
-      } else {
-        const body = {
-          application_status_id: 5,
-          receiving_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            Swal.fire(
-              'Success!',
-              `Notified Applicant for Revision!`,
-              'success'
-            ).then((result) => {
-              window.location.reload();
-            });
-          });
-      }
+      Swal.fire({
+        title: 'Are you sure?',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: `Yes`,
+        confirmButtonColor: '#330E08',
+        denyButtonColor: '#D2AB48',
+        denyButtonText: `No`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.isLoading = true;
+          if (this.evaluatorRole.code == 'CBAO-DC') {
+            const body = {
+              application_status_id: 5,
+              dc_status_id: 2,
+            };
+            this.applicationService
+              .updateApplicationStatus(body, this.applicationId)
+              .subscribe((res) => {
+                this.isLoading = false;
+                Swal.fire(
+                  'Success!',
+                  `Notified Applicant for Revision!`,
+                  'success'
+                ).then((result) => {
+                  window.location.reload();
+                });
+              });
+          } else if (this.evaluatorRole.code == 'CBAO-BO') {
+            const body = {
+              application_status_id: 5,
+              bo_status_id: 2,
+            };
+            this.applicationService
+              .updateApplicationStatus(body, this.applicationId)
+              .subscribe((res) => {
+                this.isLoading = false;
+                Swal.fire(
+                  'Success!',
+                  `Notified Applicant for Revision!`,
+                  'success'
+                ).then((result) => {
+                  window.location.reload();
+                });
+              });
+          } else {
+            const body = {
+              application_status_id: 5,
+              receiving_status_id: 2,
+            };
+            this.applicationService
+              .updateApplicationStatus(body, this.applicationId)
+              .subscribe((res) => {
+                this.isLoading = false;
+                Swal.fire(
+                  'Success!',
+                  `Notified Applicant for Revision!`,
+                  'success'
+                ).then((result) => {
+                  window.location.reload();
+                });
+              });
+          }
+        } else if (result.isDenied) {
+          this.isLoading = false;
+        }
+      });
     } else {
       this.isLoading = false;
       Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
