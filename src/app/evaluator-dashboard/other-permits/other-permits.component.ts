@@ -99,26 +99,40 @@ export class OtherPermitsComponent implements OnInit {
       });
   }
   returnToApplicant() {
-    this.isLoading = true;
-    if (this.evaluatorRole.code == 'CBAO-REC') {
-      const body = {
-        application_status_id: 5,
-        cbao_status_id: 2,
-      };
-      this.updateStatus(body);
-    } else if (this.evaluatorRole.code == 'CBAO-DC') {
-      const body = {
-        application_status_id: 5,
-        dc_status_id: 2,
-      };
-      this.updateStatus(body);
-    } else if (this.evaluatorRole.code == 'CBAO-BO') {
-      const body = {
-        application_status_id: 5,
-        bo_status_id: 2,
-      };
-      this.updateStatus(body);
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: `Yes`,
+      confirmButtonColor: '#330E08',
+      denyButtonColor: '#D2AB48',
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
+        if (this.evaluatorRole.code == 'CBAO-REC') {
+          const body = {
+            application_status_id: 5,
+            cbao_status_id: 2,
+          };
+          this.updateStatus(body);
+        } else if (this.evaluatorRole.code == 'CBAO-DC') {
+          const body = {
+            application_status_id: 5,
+            dc_status_id: 2,
+          };
+          this.updateStatus(body);
+        } else if (this.evaluatorRole.code == 'CBAO-BO') {
+          const body = {
+            application_status_id: 5,
+            bo_status_id: 2,
+          };
+          this.updateStatus(body);
+        }
+      } else if (result.isDenied) {
+        this.isLoading = false;
+      }
+    });
   }
   updateStatus(body) {
     this.applicationService
