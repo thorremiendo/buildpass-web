@@ -1,0 +1,22 @@
+<div id="e-signature">
+  <div id="e-sig-container" cdkDrag (cdkDragEnded)="dragEnd($event)">
+    <div class="resize-container">
+      <div cdkDragHandle id="e-sig-image-container" style="background-image: url('../../../assets/esig.png');">
+        <img src="../../../assets/esig.png" />
+      </div>
+      <div class="resize top-left-resize" draggable="true" (dragstart)="dragStart($event)" (dragover)="dragOver($event)" (drag)="resize($event)"></div>
+      <div class="resize top-right-resize" draggable="true" (dragstart)="dragStart($event)" (dragover)="dragOver($event)" (drag)="resize($event)"></div>
+      <div class="resize bottom-left-resize" draggable="true" (dragstart)="dragStart($event)" (dragover)="dragOver($event)" (drag)="resize($event)"></div>
+      <div class="resize bottom-right-resize" draggable="true" (dragstart)="dragStart($event)" (dragover)="dragOver($event)" (drag)="resize($event)"></div>
+    </div>
+  </div>
+  <pdf-viewer
+    [show-all]="true"
+    [render-text]="true"
+    [original-size]="true"
+    [fit-to-page]="false"
+    [src]="src"
+    [show-borders]="true"
+  ></pdf-viewer>
+  <button mat-button class="save-button" (click)="insertQrCode()">Save</button>
+</div>

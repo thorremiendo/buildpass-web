@@ -2,11 +2,11 @@ import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AnnouncementService, ConvertImage } from '../../../core';
-import imageToBase64 from 'image-to-base64/browser';
+// import imageToBase64 from 'image-to-base64/browser';
 import * as QuillNamespace from 'quill';
 let Quill: any = QuillNamespace;
 import ImageResize from 'quill-image-resize-module';
-Quill.register('modules/imageResize', ImageResize);
+// Quill.register('modules/imageResize', ImageResize);
 
 import { Announcement } from '../announcement';
 
