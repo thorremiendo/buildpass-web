@@ -1,3 +1,5 @@
+import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PasswordPromptComponent } from './../password-prompt/password-prompt.component';
 import { Component, OnInit, Input } from '@angular/core';
 import {
@@ -8,6 +10,7 @@ import {
 } from '@angular/cdk/drag-drop';
 import { PDFDocument } from 'pdf-lib';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-e-signature',
@@ -16,7 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ESignatureComponent implements OnInit {
   @Input() props: [{ [key: string]: object | any }];
-  public src = '../../../assets/forms/bldg-permit-certificate.pdf';
+  public src;
   private minimumHeight = null;
   private minimumWidth = null;
   private originalHeight = null;
@@ -26,11 +29,33 @@ export class ESignatureComponent implements OnInit {
   private originalMouseX = null;
   private originalMouseY = null;
   private esigImage = null;
-
-  constructor(public dialog: MatDialog) {}
+  public documentId;
+  public applicationId;
+  public documentPath;
+  public isLoading: boolean;
+  constructor(
+    public dialog: MatDialog,
+    private route: ActivatedRoute,
+    private applicationService: ApplicationInfoService,
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.openDialog();
+    // this.openDialog();
+    this.isLoading = true;
+    this.applicationId = this.route.snapshot.params.id;
+    this.documentId = this.route.snapshot.params.docId;
+    console.log(this.documentId);
+    this.applicationService
+      .fetchSpecificDocInfo(this.documentId)
+      .subscribe((res) => {
+        this.src =
+          res.data[0].document_history[
+            res.data[0].document_history.length - 1
+          ].document_path;
+        this.isLoading = false;
+      });
   }
 
   openDialog() {
@@ -45,14 +70,18 @@ export class ESignatureComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    const esigImageContainer = document.getElementById('e-sig-image-container');
-    const computedStyle = getComputedStyle(esigImageContainer);
-    const src = computedStyle.backgroundImage.replace(
-      /url\((['"])?(.*?)\1\)/gi,
-      '$2'
-    );
-    this.esigImage = new Image();
-    this.esigImage.src = src;
+    if (!this.isLoading) {
+      const esigImageContainer = document.getElementById(
+        'e-sig-image-container'
+      );
+      const computedStyle = getComputedStyle(esigImageContainer);
+      const src = computedStyle.backgroundImage.replace(
+        /url\((['"])?(.*?)\1\)/gi,
+        '$2'
+      );
+      this.esigImage = new Image();
+      this.esigImage.src = src;
+    }
   }
 
   dragStart($event) {
@@ -205,7 +234,7 @@ export class ESignatureComponent implements OnInit {
     }
   }
 
-  async insertQrCode() {
+  async insertEsig() {
     const qrCodeBytes = await fetch('../../../assets/esig.png').then((res) =>
       res.arrayBuffer()
     );
@@ -250,6 +279,26 @@ export class ESignatureComponent implements OnInit {
     const pdfBytes = await pdfDocLoad.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
-    window.open(file);
+    // window.open(file);
+    this.isLoading = true;
+    const body = {
+      document_path: blob,
+    };
+    this.applicationService
+      .updateDocumentFile(body, this.documentId)
+      .subscribe((res) => {
+        this.isLoading = false;
+        this.openSnackBar('Success!');
+        setTimeout(() => {
+          this.router.navigate(['/evaluator/application', this.applicationId]);
+        }, 1000);
+      });
+  }
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 2000,
+      // horizontalPosition: 'right',
+      // verticalPosition: 'top',
+    });
   }
 }

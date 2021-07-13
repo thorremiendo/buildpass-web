@@ -244,6 +244,7 @@
                       <button
                         mat-menu-item
                         color="accent"
+                        (click)="goToEsig(element.id)"
                         *ngIf="evaluatorRole.code !== 'CBAO-REL'"
                       >
                         Sign Document
