@@ -286,7 +286,10 @@ export class ViewApplicationComponent implements OnInit {
               window.location.reload();
             });
           });
-      } else if (this.applicationDetails.dc_status_id == 2) {
+      } else if (
+        this.applicationDetails.dc_status_id == 2 ||
+        this.applicationDetails.bo_status_id == 2
+      ) {
         const body = {
           application_status_id: 3,
         };
@@ -294,22 +297,6 @@ export class ViewApplicationComponent implements OnInit {
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
             this.updateDepartmentStatus();
-          });
-      } else if (this.applicationDetails.bo_status_id == 2) {
-        const body = {
-          application_status_id: 13,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            Swal.fire(
-              'Success!',
-              `Forwarded to Building Official for Re-Evaluation!`,
-              'success'
-            ).then((result) => {
-              this.isLoading = false;
-              window.location.reload();
-            });
           });
       } else {
         const body = {
@@ -419,6 +406,7 @@ export class ViewApplicationComponent implements OnInit {
         };
         this.updateTechnicalEvaluationStatus(body);
       }
+      this.isLoading = false;
     });
   }
   updateTechnicalEvaluationStatus(body) {

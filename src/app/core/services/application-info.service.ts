@@ -21,6 +21,12 @@ export class ApplicationInfoService {
       })
     );
   }
+
+  updateDocumentFile(body, id) {
+    const url = `/userdocs/${id}/update`;
+
+    return this.api.post(url, body);
+  }
   fetchCurrentApplications(id) {
     const url = `/application/${id}/evaluator/2/filter`;
     return this.api.get(url).pipe(
