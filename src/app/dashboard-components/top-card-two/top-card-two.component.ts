@@ -12,6 +12,8 @@ export class TopCardTwoComponent implements OnInit {
   @Input() public current: string | number;
   @Input() public completed: string | number;
 
+  public activeStatus:number;
+
   @Output() emitApplicationStatus: EventEmitter<object> = new EventEmitter<object>();
 
   constructor() { }
@@ -21,6 +23,9 @@ export class TopCardTwoComponent implements OnInit {
 
   chooseApplicationStatus($event) {
     this.emitApplicationStatus.emit($event);
+    this.activeStatus = $event;
+    
+
   }
 
 

@@ -49,8 +49,26 @@
         }
 
         .application-code {
-            font-weight: 700;
-            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+
+            div:first-of-type {
+                font-weight: 700;
+                text-align: left;
+            }
+
+            div:last-of-type {
+                position: absolute;
+                top: 5px;
+                right: 0;
+                font-weight: 500;
+                color: #fff;
+                background-color: red;
+                border: 1px solid red;
+                border-radius: 5px;
+                margin-top: 5px;
+            }
         }
 
         .application-status {

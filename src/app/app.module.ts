@@ -1,4 +1,5 @@
-import * as LogRocket from "logrocket";
+import { TreasuryModule } from './treasury-dashboard/treasury.module';
+import * as LogRocket from 'logrocket';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -8,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -103,7 +104,7 @@ LogRocket.init('bblmhh/buildpass-staging');
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
-    NgxExtendedPdfViewerModule,
+    TreasuryModule,
     AdminModule,
     EvaluatorModule,
     LayoutModule,

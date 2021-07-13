@@ -1,4 +1,5 @@
 import firebase from 'firebase/app';
+import 'firebase/auth';
 import { Injectable, NgZone } from '@angular/core';
 import { JwtService } from './jwt.service';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -11,7 +12,8 @@ import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { UserService } from './user.service';
 import { ApiService } from '../services/api.service';
-import * as LogRocket from "logrocket";
+import * as LogRocket from 'logrocket';
+import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
 
 @Injectable({
   providedIn: 'root',
@@ -45,9 +47,8 @@ export class AuthService {
           name: `${user.first_name} ${user.middle_name} ${user.last_name} `,
           email: `${user.email_address}`,
 
-        //   // Add your own custom user variables here, ie:
-
-        // });
+          // Add your own custom user variables here, ie:
+        });
       }
     });
   }
@@ -79,6 +80,7 @@ export class AuthService {
           resolve(result);
         })
         .catch((error) => {
+          resolve(error);
           window.alert(error.message);
         });
     });
@@ -94,6 +96,7 @@ export class AuthService {
           resolve(result);
         })
         .catch((error) => {
+          resolve(error);
           window.alert(error.message);
         });
     });
@@ -272,6 +275,19 @@ export class AuthService {
         this.jwtService.removeToken();
         this.isAuthenticatedSubject.next(false);
         this.router.navigateByUrl('/evaluator/sign-in');
+      });
+  }
+  treasurySignOut() {
+    return firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('app_id');
+        localStorage.removeItem('applicationDetails');
+        this.jwtService.removeToken();
+        this.isAuthenticatedSubject.next(false);
+        this.router.navigateByUrl('/treasury/sign-in');
       });
   }
 }

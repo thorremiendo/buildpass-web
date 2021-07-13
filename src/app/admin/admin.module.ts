@@ -1,4 +1,3 @@
-import { DateAgoPipe } from './../core/pipes/date-ago.pipe';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
@@ -17,17 +16,19 @@ import { QuillModule } from 'ngx-quill';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { AdminSignInComponent } from './admin-sign-in/admin-sign-in.component';
 import { EmployeeResetPasswordComponent } from './employee-reset-password/employee-reset-password.component';
-import { AdminAnnouncementComponent } from './admin-announcement/admin-announcement.component';
+import { AdminAnnouncementComponent} from './admin-announcement/admin-announcement.component';
 import { EditDialogComponent } from './admin-announcement/edit-dialog/edit-dialog.component';
-import { ActivityLogsComponent } from './activity-logs/activity-logs.component';
+import { PreviewDialogComponent } from './admin-announcement/preview-dialog/preview-dialog.component';
+import { AdminApplicationListComponent } from './admin-application-list/admin-application-list.component';
 
 @NgModule({
-  declarations: [
-    AdminSignInComponent,
-    EmployeeResetPasswordComponent,
+  declarations: [ 
+    AdminSignInComponent, 
+    EmployeeResetPasswordComponent, 
     AdminAnnouncementComponent,
     EditDialogComponent,
-    ActivityLogsComponent,
+    PreviewDialogComponent,
+    AdminApplicationListComponent,
   ],
   imports: [
     CommonModule,
@@ -42,6 +43,7 @@ import { ActivityLogsComponent } from './activity-logs/activity-logs.component';
     FlexLayoutModule,
     ImageCropperModule,
     QuillModule.forRoot(),
+    
     AdminRoutingModule,
     AdminDashboardRoutingModule,
     AdminUsersModule,
@@ -49,6 +51,8 @@ import { ActivityLogsComponent } from './activity-logs/activity-logs.component';
     MaterialModule,
   ],
 
-  providers: [AdminRoutingModule],
+  providers: [
+    AdminRoutingModule,
+  ]
 })
-export class AdminModule {}
+export class AdminModule { }

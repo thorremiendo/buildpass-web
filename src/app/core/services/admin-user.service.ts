@@ -53,16 +53,16 @@ export class AdminUserService {
     return this.apiService.get(url);
   }
 
-  fetchActivityLogs() {
-    const url = `/user/38/logs`;
-
-    return this.apiService.get(url);
-  }
-
   approveEmployee(uid) {
     const url = `/admin/${uid}/approve`;
 
     return this.apiService.post(url, uid);
+  }
+
+  deleteUser(id){
+    const url = `/user/${id}/delete`;
+    return this.apiService.delete(url);
+
   }
 
   approveFillingFee(ocpasCode) {

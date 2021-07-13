@@ -16,7 +16,7 @@ export class UserApplicationsTableComponent implements OnInit {
   constructor(
     private userService: UserService,
     private newApplicationService: NewApplicationService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -74,5 +74,8 @@ export class UserApplicationsTableComponent implements OnInit {
 
   viewApplication(id) {
     this.router.navigate(['dashboard/applications/view', id]);
+  }
+  applicationSummary(id) {
+    this.router.navigate(['dashboard/new/summary/', id]);
   }
 }

@@ -12,7 +12,8 @@ import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { applicationStatus } from '../../core/enums/application-status.enum';
 import { applicationTypes } from '../../core/enums/application-type.enum';
-import { EvaluatorService } from '../../core';
+import { ApplicationInfoService, EvaluatorService } from '../../core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-applications-list',
@@ -32,7 +33,10 @@ export class ApplicationsListComponent implements OnInit, OnChanges {
   public applicationNumber = new FormControl('');
   public permitType = new FormControl('');
 
-  constructor(private evaluatorService: EvaluatorService) {}
+  constructor(
+    private evaluatorService: EvaluatorService,
+    private applicationService: ApplicationInfoService
+  ) {}
 
   ngOnInit(): void {
     this.userInfo = JSON.parse(localStorage.getItem('user'));
@@ -81,7 +85,6 @@ export class ApplicationsListComponent implements OnInit, OnChanges {
         this.paginator.pageIndex * this.paginator.pageSize +
           this.paginator.pageSize
       );
-      this.paginator.firstPage();
       this.loading = false;
     }, 3000);
   }
@@ -103,6 +106,27 @@ export class ApplicationsListComponent implements OnInit, OnChanges {
 
   chooseApplication($event) {
     this.emitApplication.emit($event);
+  }
+
+  deleteApplication(id) {
+    Swal.fire({
+      title: 'Are you sure you want to delete your application?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: `Delete`,
+      denyButtonText: `Cancel`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.applicationService.deleteApplication(id).subscribe((res) => {
+          Swal.fire('Success!', `Application deleted.`, 'success').then(
+            (res) => {
+              window.location.reload();
+            }
+          );
+        });
+      } else if (result.isDenied) {
+      }
+    });
   }
 
   //   btnCategoryClick(status_id: number ){

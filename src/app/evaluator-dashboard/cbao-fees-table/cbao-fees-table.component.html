@@ -25,7 +25,11 @@
     <ng-container matColumnDef="amount">
       <th mat-header-cell *matHeaderCellDef>Amount</th>
       <td mat-cell *matCellDef="let item">
-        Php {{ item.amount ? item.amount : item.office }}
+        {{
+          item.amount
+            ? (item.amount | currency: "PHP")
+            : (item.office | currency: "PHP")
+        }}
       </td>
     </ng-container>
 
@@ -75,7 +79,9 @@
       type="button"
       (click)="showAddItem()"
       [disabled]="
-        evaluatorDetails.office_id !== 4 || evaluatorRole.code == 'CBAO-REC'
+        evaluatorDetails.office_id !== 4 ||
+        evaluatorRole.code == 'CBAO-REC' ||
+        !canAddFee()
       "
     >
       Add Another Item

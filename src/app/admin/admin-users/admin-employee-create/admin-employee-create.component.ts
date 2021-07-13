@@ -21,7 +21,8 @@ export class AdminEmployeeCreateComponent implements OnInit {
   public selectedFile: File = null;
   public selectedPhoto: File = null;
   public maxLength: number = 11;
-  public isUpdating;
+  public isUpdating: boolean = false;
+
   _adminCreateUserForm: FormGroup;
   _barangay: Barangay[];
   _office: string[] = Object.keys(Office)
@@ -56,7 +57,6 @@ export class AdminEmployeeCreateComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _barangayService: BarangayService,
-    private _authService: AuthService,
     private _registerAccountEvaluatorFormService: RegisterAccountEvaluatorFormService,
     public dialogRef: MatDialogRef<AdminEmployeeCreateComponent>
   ) {}
@@ -155,6 +155,12 @@ export class AdminEmployeeCreateComponent implements OnInit {
     }
   }
 
+  displayOfficeName(value: number) {
+    if (value != null) {
+      return this._office[value];
+    }
+  }
+
   dateToString(dateObject) {
     if (dateObject != null) {
       const birthdate = new Date(dateObject);
@@ -194,14 +200,7 @@ export class AdminEmployeeCreateComponent implements OnInit {
 
   onSubmit() {
     this._submitted = true;
-
-    const firebaseUser = {
-      first_name: this._adminCreateUserForm.value.first_name,
-      middle_name: this._adminCreateUserForm.value.middle_name,
-      email: this._adminCreateUserForm.value.email,
-      password: 'Password99!@#',
-      confirmPassword: 'Password99!@#',
-    };
+    this.isUpdating = true;
 
     const user = {
       first_name: this._adminCreateUserForm.value.first_name,

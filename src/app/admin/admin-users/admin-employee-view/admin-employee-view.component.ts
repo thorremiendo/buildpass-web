@@ -75,19 +75,44 @@ export class AdminEmployeeViewComponent implements OnInit {
       gender: [this.userInfo.gender, Validators.required],
       home_address: [this.userInfo.home_address, Validators.required],
       barangay: [this.userInfo.barangay_id, Validators.required],
-      employee_no: [
-        this.userInfo.employee_detail.employee_no,
-        Validators.required,
-      ],
-      office: [this.userInfo.employee_detail.office_id, Validators.required],
-      position: [this.userInfo.employee_detail.position, Validators.required],
-      contact_number: [
-        this.userInfo.contact_number,
+      employee_no: [Validators.required],
+      office: [Validators.required],
+      position: [Validators.required],
+      contact_number: [this.userInfo.contact_number,
         [Validators.required, Validators.maxLength(11)],
       ],
       id_number: [this.userInfo.id_number, Validators.required],
       id_type: [this.userInfo.id_type, Validators.required],
     });
+
+    this.patchValue();
+  }
+
+  patchValue(){
+    this._adminUpdateUserForm.patchValue({
+      first_name: this.userInfo.first_name,
+      middle_name: this.userInfo.middle_name,
+      last_name: this.userInfo.last_name,
+      suffix_name: this.userInfo.suffix_name,
+      birthdate: this.userInfo.birthdate,
+      marital_status: this.userInfo.marital_status_id,
+      gender: this.userInfo.gender,
+      home_address: this.userInfo.home_address,
+      barangay: this.userInfo.barangay_id,
+      contact_number:this.userInfo.contact_number,
+      id_number: this.userInfo.id_number,
+      id_type: this.userInfo.id_type
+     
+    })
+
+    if(this.userInfo.employee_detail){
+      this._adminUpdateUserForm.patchValue({
+        employee_no: this.userInfo.employee_detail.employee_no,
+        office: this.userInfo.employee_detail.office_id,
+        position: this.userInfo.employee_detail.position,
+       
+      })
+    }
   }
 
   openFileChooser() {

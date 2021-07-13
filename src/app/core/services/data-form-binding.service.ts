@@ -808,7 +808,8 @@ export class DataFormBindingService {
         projectDetails.barangay == 'undefined'
           ? 'N/A'
           : projectDetails.barangay.toUpperCase(),
-      owner_name: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      owner_name:
+        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
     };
 
     return formData;
@@ -824,7 +825,8 @@ export class DataFormBindingService {
     ).toLocaleString();
 
     const formData = {
-      owner_permitee: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      owner_permitee:
+        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       project_title:
         projectDetails.project_title == 'undefined'
           ? 'N/A'
@@ -862,7 +864,6 @@ export class DataFormBindingService {
     const applicantDetails = a.applicant_detail;
     const projectDetails = a.project_detail;
     const representativeDetails = a.representative_detail;
-
     const formData = {
       project_name:
         projectDetails.project_title == 'undefined'
@@ -884,8 +885,10 @@ export class DataFormBindingService {
         projectDetails.barangay == 'undefined'
           ? 'N/A'
           : projectDetails.barangay.toUpperCase(),
-      business_owner: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
-      owner_address: `${applicantDetails.house_number} ${applicantDetails.street_name} ${applicantDetails.barangay}`.toUpperCase(),
+      business_owner:
+        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      owner_address:
+        `${applicantDetails.house_number} ${applicantDetails.street_name} ${applicantDetails.barangay}`.toUpperCase(),
       contact_no:
         applicantDetails.contact_number == 'undefined'
           ? 'N/A'
@@ -895,68 +898,78 @@ export class DataFormBindingService {
     return formData;
   }
 
-  //GENERTAL FORM DATA
+  //GENERAL FORM DATA
   getFormData(a) {
-    console.log(a);
     const applicantDetails = a.applicant_detail;
     const projectDetails = a.project_detail;
     const representativeDetails = a.representative_detail;
     const projectCostCap = parseFloat(
       a.project_detail.project_cost_cap
     ).toLocaleString();
-
+    const projectLot = `Lot #${projectDetails.lot_number}`;
+    const projectBlock = `Block #${projectDetails.block_number}`;
+    const applicantLot = `Lot #${applicantDetails.lot_number}`;
+    const applicantBlock = `Block #${applicantDetails.block_number}`;
     const formData = {
-      applicant_full_name: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
-      applicant_full_address: `${
+      owner_or_rep:
+        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      applicant_full_name:
+        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      applicant_complete_address: `${
         applicantDetails.house_number ? applicantDetails.house_number : ''
-      } ${applicantDetails.lot_number ? applicantDetails.lot_number : ''} ${
-        applicantDetails.street_name ? applicantDetails.street_name : ''
+      }  ${applicantDetails.lot_number ? applicantLot : ''} ${
+        applicantDetails.block_number ? applicantBlock : ''
+      } ${applicantDetails.street_name ? applicantDetails.street_name : ''}
+      ${applicantDetails.purok ? applicantDetails.purok : ''} ${
+        applicantDetails.subdivision ? applicantDetails.subdivision : ''
       } ${applicantDetails.barangay}`.toUpperCase(),
       applicant_first_name:
         applicantDetails.first_name == ''
-          ? 'N/A'
+          ? ''
           : applicantDetails.first_name.toUpperCase(),
       applicant_last_name:
         applicantDetails.last_name == ''
-          ? 'N/A'
+          ? ''
           : applicantDetails.last_name.toUpperCase(),
       applicant_middle_name:
         applicantDetails.middle_name == ''
-          ? 'N/A'
+          ? ''
           : applicantDetails.middle_name.toUpperCase(),
+      applicant_middle_initial:
+        applicantDetails.middle_name == ''
+          ? ''
+          : applicantDetails.middle_name.charAt(0).toUpperCase(),
       applicant_suffix_name:
         applicantDetails.suffix_name == 'na'
           ? ' '
           : applicantDetails.suffix_name.toUpperCase(),
       applicant_tin_number:
-        applicantDetails.tin_number == '' ? 'N/A' : applicantDetails.tin_number,
+        applicantDetails.tin_number == '' ? '' : applicantDetails.tin_number,
       applicant_contact_number:
         applicantDetails.contact_number == ''
-          ? 'N/A'
+          ? ''
           : applicantDetails.contact_number,
       applicant_email_address:
         applicantDetails.email_address == ''
-          ? 'N/A'
+          ? ''
           : applicantDetails.email_address.toUpperCase(),
       applicant_house_number:
         applicantDetails.house_number == ''
-          ? 'N/A'
+          ? ''
           : applicantDetails.house_number.toUpperCase(),
       applicant_unit_number:
-        applicantDetails.unit_number == ''
-          ? 'N/A'
-          : applicantDetails.unit_number,
+        applicantDetails.unit_number == '' ? '' : applicantDetails.unit_number,
       applicant_floor_number:
         applicantDetails.floor_number == ''
-          ? 'N/A'
+          ? ''
           : applicantDetails.floor_number,
       applicant_street_name:
         applicantDetails.street_name == ''
-          ? 'N/A'
+          ? ''
           : applicantDetails.street_name.toUpperCase(),
       applicant_barangay:
         applicantDetails.barangay == ''
-          ? 'N/A'
+          ? ''
           : applicantDetails.barangay.toUpperCase(),
       applicant_province: 'BENGUET',
       applicant_city: 'BAGUIO CITY',
@@ -974,7 +987,7 @@ export class DataFormBindingService {
       project_number_of_units:
         projectDetails.number_of_units == ''
           ? ''
-          : projectDetails.number_of_units,
+          : `${projectDetails.number_of_units}`,
       project_barangay:
         projectDetails.barangay == ''
           ? ''
@@ -996,12 +1009,13 @@ export class DataFormBindingService {
       project_number_of_storey:
         projectDetails.number_of_storey == ''
           ? ''
-          : projectDetails.number_of_storey,
-      project_type:
+          : `${projectDetails.number_of_storey}`,
+      project_type: '',
+      project_title:
         projectDetails.project_title == ''
           ? ''
           : projectDetails.project_title.toUpperCase(),
-      project_cost_cap: projectCostCap == '' ? '' : `${projectCostCap}.00`,
+      project_cost_cap: projectCostCap == '' ? '' : `${projectCostCap}`,
       project_tct_number:
         projectDetails.tct_number == '' ? '' : projectDetails.tct_number,
       project_tax_dec_number:
@@ -1044,6 +1058,31 @@ export class DataFormBindingService {
         representativeDetails == null
           ? 'N/A'
           : `${representativeDetails.house_number} ${representativeDetails.street_name} ${representativeDetails.barangay}`,
+      fulltime_inspector_prc_no:
+        representativeDetails == null ? 'N/A' : representativeDetails.prc_no,
+      fulltime_inspector_ptr_no:
+        representativeDetails == null ? 'N/A' : representativeDetails.ptc_no,
+      rep_first_name:
+        representativeDetails == null
+          ? 'N/A'
+          : representativeDetails.first_name,
+      rep_middle_name:
+        representativeDetails == null
+          ? 'N/A'
+          : representativeDetails.middle_name,
+      rep_last_name:
+        representativeDetails == null ? 'N/A' : representativeDetails.last_name,
+      rep_house_number:
+        representativeDetails == null
+          ? 'N/A'
+          : representativeDetails.house_number,
+      rep_street_name:
+        representativeDetails == null
+          ? 'N/A'
+          : representativeDetails.street_name,
+      rep_barangay:
+        representativeDetails == null ? 'N/A' : representativeDetails.barangay,
+      rep_province: representativeDetails == null ? 'N/A' : 'Baguio City',
       name_of_corporation: 'N/A',
       corporation_contact_number: 'N/A',
       corporation_address_no: 'N/A',
@@ -1056,6 +1095,7 @@ export class DataFormBindingService {
       project_tenure_temporary: 'N/A',
       project_nature_others: 'N/A',
     };
+
     return formData;
   }
 }

@@ -1,6 +1,5 @@
-import { Component, OnInit, Inject, Optional, ViewChild,ElementRef  } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { Announcement } from '../announcement';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AnnouncementService, ConvertImage } from '../../../core';
 import imageToBase64 from 'image-to-base64/browser';
@@ -14,12 +13,10 @@ import { Announcement } from '../announcement';
 @Component({
   selector: 'app-edit-dialog',
   templateUrl: './edit-dialog.component.html',
-  styleUrls: ['./edit-dialog.component.scss']
+  styleUrls: ['./edit-dialog.component.scss'],
 })
 export class EditDialogComponent implements OnInit {
-
-  public announcements: Object[] = Announcement;
-  public body: string = '';
+  public maxLength = 360;
   public imageChangedEvent: any = '';
   public btnName: string = 'Upload thumbnail';
   public isLoading: boolean = true;
@@ -61,8 +58,6 @@ export class EditDialogComponent implements OnInit {
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
     this.handleUpload(event);
-    console.log(this.imageChangedEvent)
-   
   }
 
   handleUpload(event) {
@@ -74,13 +69,14 @@ export class EditDialogComponent implements OnInit {
 
       this.btnName = 'Change image';
     };
-}
+  }
 
-handleDelete(){
-  this.originalImage = '';
-  this.croppedImage = '';
-  this.btnName = "Upload image"
-}
+  handleDelete() {
+    this.data.photo_path_original = '';
+    this.data.photo_path_crop = '';
+    this.btnName = 'Upload image';
+  }
+
   imageCropped(event: ImageCroppedEvent) {
     this.data.photo_path_crop = event.base64;
   }

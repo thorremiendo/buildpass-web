@@ -55,6 +55,12 @@ export class CbaoFeesTableComponent implements OnInit {
         this.isLoading = false;
       });
   }
+  canAddFee() {
+    const status = this.applicationDetails.application_status_id;
+    if (status == 3 || status == 12 || status == 13 || status == 18) {
+      return true;
+    } else return false;
+  }
   getOfficeType(id): string {
     return officeTypes[id];
   }

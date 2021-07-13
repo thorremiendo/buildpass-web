@@ -45,9 +45,12 @@ export class ChatBoxComponent implements OnInit {
           // console.log(this.messages);
           if (this.messages != null) {
             this.selectedMessage = this.messages[0];
-            this.chatId = this.selectedMessage.convo[0].chat_id;
-            this.channel = this.selectedMessage.channel;
-            this.chatService.evaluatorChatSubscribe(this.channel);
+            if(this.selectedMessage){
+              this.chatId = this.selectedMessage.convo[0].chat_id;
+              this.channel = this.selectedMessage.channel;
+              this.chatService.evaluatorChatSubscribe(this.channel);
+            }
+         
           }
         });
     }

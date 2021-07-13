@@ -10,6 +10,14 @@
           required
         />
         <mat-icon matSuffix>email</mat-icon>
+        <mat-error
+        *ngIf="
+          (signinFormControl.email.touched || _submitted) &&
+          signinFormControl.email.errors?.required
+        "
+      >
+        Email is Required
+      </mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -32,6 +40,14 @@
         >
           <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
+        <mat-error
+        *ngIf="
+          (signinFormControl.password.touched || _submitted) &&
+          signinFormControl.password.errors?.required
+        "
+      >
+        Password is Required
+      </mat-error>
       </mat-form-field>
       <a routerLink="/forgot-password"> forgot password? </a>
     </div>

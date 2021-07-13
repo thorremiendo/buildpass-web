@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { UserService } from 'src/app/core/services/user.service';
 import Swal from 'sweetalert2';
+import { environment } from './../../../../environments/environment';
 
 @Component({
   selector: 'app-checklist-summary',
@@ -181,7 +182,7 @@ export class ChecklistSummaryComponent implements OnInit {
         } else if (result.isDenied) {
           this.isLoading = true;
           const body = {
-            application_status_id: 7,
+            application_status_id: 1,
           };
           this.applicationService
             .updateApplicationStatus(body, this.applicationId)
@@ -194,7 +195,7 @@ export class ChecklistSummaryComponent implements OnInit {
     } else {
       this.isLoading = true;
       const body = {
-        application_status_id: 7,
+        application_status_id: 1,
       };
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
@@ -207,7 +208,7 @@ export class ChecklistSummaryComponent implements OnInit {
 
   updateApplicationWithExcavation() {
     const data = {
-      application_status_id: 7,
+      application_status_id: 1,
       is_excavation: 1,
     };
     this.applicationService

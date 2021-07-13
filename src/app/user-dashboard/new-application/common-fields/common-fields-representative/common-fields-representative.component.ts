@@ -55,7 +55,6 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
-    private _registerAccountFormService: RegisterAccountFormService,
     private newApplicationFormService: NewApplicationFormService,
     private newApplicationService: NewApplicationService,
     private barangayService: BarangayService,
@@ -128,6 +127,8 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
   createForm() {
     this.representativeDetailsForm = this._fb.group({
       representative_first_name: ['', Validators.required],
+      prcNo: ['', Validators.required],
+      ptcNo: ['', Validators.required],
       representative_last_name: ['', Validators.required],
       representative_middle_name: [''],
       representative_suffix: [''],

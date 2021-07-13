@@ -1,12 +1,12 @@
 export enum Office {
     "City Planning and Development Office",
-    "City Environment and Park Office",
+    "City Environment and Parks Management Office",
     "Bureau of Fire Protection",
     "City Buildings and Architecture Office",
 }
 
 export enum Position{
-    "Adimnistrative Assistant",
+    "Administrative Assistant",
     "Administrative Aide",
     "Administrative Officer I",
     "Administrative Officer II",
@@ -72,4 +72,6 @@ export enum Position{
     "Mechanical Engineer VI",
     "Civil Engineer VI",
 
+    "City Building Official",
+    "Assistant Building Official",
 }

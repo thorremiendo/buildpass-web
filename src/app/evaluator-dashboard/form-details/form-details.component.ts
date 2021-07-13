@@ -1,3 +1,4 @@
+import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import {
   Component,
   OnInit,
@@ -19,6 +20,8 @@ import { UserService } from 'src/app/core/services/user.service';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { ViewSDKClient } from 'src/app/core/services/view-sdk.service';
 import { WaterMarkService } from '../../core';
+import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
+import { documentTypes } from '../../core/enums/document-type.enum';
 
 @Component({
   selector: 'app-form-details',
@@ -34,6 +37,11 @@ export class FormDetailsComponent implements OnInit {
   public applicationId;
   public selectedForm: File;
   public isSubmitting: boolean = false;
+  public isLoading: boolean = false;
+  public revisionData;
+  displayedColumns: string[] = ['index', 'remark', 'date'];
+  public remarksForm: FormGroup;
+
   //adobe sdk
   previewFilePromise: any;
   annotationManager: any;
@@ -43,15 +51,14 @@ export class FormDetailsComponent implements OnInit {
     includePDFAnnotations: true,
   };
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
+    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService,
     private newApplicationService: NewApplicationService,
-    private authService: AuthService,
     private userService: UserService,
     private fb: FormBuilder,
     private viewSDKClient: ViewSDKClient,
     private waterMark: WaterMarkService,
     public dialogRef: MatDialogRef<FormDetailsComponent>,
+    private applicationService: ApplicationInfoService,
     @Inject(MAT_DIALOG_DATA)
     public data
   ) {}
@@ -66,7 +73,6 @@ export class FormDetailsComponent implements OnInit {
     });
     this.applicationId = this.data.route.snapshot.params.id;
     this.permitDetails = this.fb.group({
-      form_remarks: new FormControl(''),
       is_compliant: new FormControl(''),
     });
     this.viewSDKClient.form = this.data.form;
@@ -82,18 +88,28 @@ export class FormDetailsComponent implements OnInit {
     this.viewSDKClient.url = this.data.form.document_path;
     this.viewSDKClient.ready().then(() => {
       /* Invoke the file preview and get the Promise object */
-      this.previewFilePromise = this.viewSDKClient.previewFile(
-        'pdf-div',
-        this.viewerConfig
-      );
+      if (this.user.employee_detail) {
+        this.previewFilePromise = this.viewSDKClient.previewFile('pdf-div', {
+          ...this.viewerConfig,
+          showPageControls: true,
+          enableFormFilling: true,
+        });
+      } else {
+        this.previewFilePromise = this.viewSDKClient.previewFile('pdf-div', {
+          ...this.viewerConfig,
+          showPageControls: true,
+        });
+      }
+
       /* Use the annotation manager interface to invoke the commenting APIs */
+
       this.previewFilePromise.then((adobeViewer: any) => {
         adobeViewer.getAnnotationManager().then((annotManager: any) => {
           this.annotationManager = annotManager;
           /* Set UI configurations */
           const customFlags = {
-            /* showToolbar: false,   /* Default value is true */
-            showCommentsPanel: false /* Default value is true */,
+            showToolbar: true /* Default value is true */,
+            showCommentsPanel: true /* Default value is true */,
             downloadWithAnnotations: true /* Default value is false */,
             printWithAnnotations: true /* Default value is false */,
           };
@@ -103,6 +119,7 @@ export class FormDetailsComponent implements OnInit {
       });
     });
   }
+
   removeAnnotations() {
     this.annotationManager
       .removeAnnotationsFromPDF()
@@ -146,14 +163,13 @@ export class FormDetailsComponent implements OnInit {
     }
   }
 
-  callSave() {
+  addRemarks() {
     this.isSubmitting = true;
     const id = this.data.form.id;
     const revisionData = {
       evaluator_user_id: this.data.evaluator.user_id,
-      remarks: this.permitDetails.value.form_remarks,
+      remarks: this.remarksForm.value.remarks,
     };
-
     this.newApplicationService
       .updateUserDocs(revisionData, id)
       .subscribe((res) => {
@@ -425,9 +441,9 @@ export class FormDetailsComponent implements OnInit {
         Swal.fire('Success!', `Watermark Removed!`, 'success').then(
           (result) => {
             this.onNoClick();
-          });
-        });
-    });
+          }
+        );
+      });
   }
 
   noncompliant(form, id) {
@@ -606,7 +622,46 @@ export class FormDetailsComponent implements OnInit {
               }
             }
           });
-        });
+      }
     });
+  }
+
+  getCurrentRotation() {
+    var st = window.getComputedStyle(
+      document.getElementById('iframe-pdf-div'),
+      null
+    );
+    var tm =
+      st.getPropertyValue('-webkit-transform') ||
+      st.getPropertyValue('-moz-transform') ||
+      st.getPropertyValue('-ms-transform') ||
+      st.getPropertyValue('-o-transform') ||
+      st.getPropertyValue('transform') ||
+      'none';
+    if (tm != 'none') {
+      var values = tm.split('(')[1].split(')')[0].split(',');
+      var angle = Math.round(
+        Math.atan2(Number(values[1]), Number(values[0])) * (180 / Math.PI)
+      );
+      return angle;
+    }
+    return 0;
+  }
+
+  resetRotate() {
+    const pdfViewer = document.getElementById('iframe-pdf-div');
+    pdfViewer.style.transform = 'rotate(0deg)';
+  }
+
+  rotateRight() {
+    const angle = this.getCurrentRotation() + 90;
+    const pdfViewer = document.getElementById('iframe-pdf-div');
+    pdfViewer.style.transform = `rotate(${angle}deg)`;
+  }
+
+  rotateLeft() {
+    const angle = this.getCurrentRotation() - 90;
+    const pdfViewer = document.getElementById('iframe-pdf-div');
+    pdfViewer.style.transform = `rotate(${angle}deg)`;
   }
 }

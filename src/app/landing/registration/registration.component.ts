@@ -7,6 +7,8 @@ import { RegisterAccountFormService } from '../../core/services/register-account
 import { AuthService } from '../../core/services/auth.service';
 import { DataPrivacyComponent } from '../data-privacy/data-privacy.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-registration',
@@ -14,12 +16,13 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
+  public user;
   public selectedFile: File = null;
   public selectedPhoto: File = null;
   public selectedSelfie: File = null;
   public maxLength: number = 11;
   public isUpdating: boolean = false;
-  private firebaseDetails;
+  private registrationDetails;
 
   _registrationForm: FormGroup;
   _barangay: Barangay[];
@@ -51,6 +54,8 @@ export class RegistrationComponent implements OnInit {
     private _registerAccountFormService: RegisterAccountFormService,
     private _authService: AuthService,
     private _dialog: MatDialog,
+    private _router: Router,
+    private _snackbar: MatSnackBar,
   ) {
     this._registrationForm = this._fb.group({
       first_name:['', Validators.required],
@@ -133,7 +138,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   displayBarangayName(value: number) {
-    if (value != null) {
+    if (value) {
       return this._barangay[value-1].name;
     }
   }
@@ -150,11 +155,15 @@ export class RegistrationComponent implements OnInit {
   
   ngOnInit(): void {
     this._registerAccountFormService.cast.subscribe(registerAccountSubject => {
-      this.firebaseDetails = registerAccountSubject;
-      this._registrationForm.patchValue({
-        first_name: this.firebaseDetails.first_name,
-        last_name: this.firebaseDetails.last_name
-      });
+      if (Object.keys(registerAccountSubject).length > 0) {
+        this.registrationDetails = registerAccountSubject;
+        this._registrationForm.patchValue({
+          first_name: this.registrationDetails.first_name,
+          last_name: this.registrationDetails.last_name
+        });
+      } else {
+        this._router.navigateByUrl('/user/sign-up');
+      }
     });
 
     this._barangayService.getBarangayInfo().subscribe(data => {

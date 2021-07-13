@@ -1,0 +1,24 @@
+<div [formGroup]="paymentDetails">
+  <h3 class="mb-3">Receipt Details</h3>
+  <div>
+    <mat-form-field>
+      <mat-label>Official Receipt No.</mat-label>
+      <input type="text" matInput formControlName="receipt" required />
+      <mat-error *ngIf="paymentDetailsControl.receipt.errors?.required">
+        Official Receipt No. is Requried
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div *ngIf="!isLoading">
+    <button mat-raised-button (click)="onNoClick()">Close</button>
+    &nbsp;
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="handlePaid()"
+      [disabled]="isLoading || !paymentDetails.value.receipt"
+    >
+      Submit
+    </button>
+  </div>
+</div>

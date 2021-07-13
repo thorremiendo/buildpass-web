@@ -46,7 +46,6 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ApplicationDetailsComponent } from './application-details/application-details.component';
 import { EvaluatorRegistrationComponent } from './evaluator-registration/evaluator-registration.component';
 import { EvaluatorSignInComponent } from './evaluator-sign-in/evaluator-sign-in.component';
-import { EvaluatorSignUpComponent } from './evaluator-sing-up/evaluator-sign-up.component';
 import { EvaluatorPersonalInfoComponent } from './evaluator-personal-info/evaluator-personal-info.component';
 import { EvaluatorEmployeeInfoComponent } from './evaluator-employee-info/evaluator-employee-info.component';
 import { EvaluatorsSummaryComponent } from './evaluators-summary/evaluators-summary.component';
@@ -80,6 +79,10 @@ import { MaterialModule } from '../material-module';
 import { UploadSupportingDocumentsComponent } from './upload-supporting-documents/upload-supporting-documents.component';
 import { TechnicalEvaluationComponent } from './technical-evaluation/technical-evaluation.component';
 import { DownloadableFormsComponent } from './downloadable-forms/downloadable-forms.component';
+import { TechnicalFindingsComponent } from './technical-findings/technical-findings.component';
+import { MatSortModule } from '@angular/material/sort';
+import { OtherPermitsComponent } from './other-permits/other-permits.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -92,7 +95,6 @@ import { DownloadableFormsComponent } from './downloadable-forms/downloadable-fo
     ApplicationDetailsComponent,
     EvaluatorRegistrationComponent,
     EvaluatorSignInComponent,
-    EvaluatorSignUpComponent,
     EvaluatorPersonalInfoComponent,
     EvaluatorEmployeeInfoComponent,
     EvaluatorsSummaryComponent,
@@ -120,6 +122,8 @@ import { DownloadableFormsComponent } from './downloadable-forms/downloadable-fo
     UploadSupportingDocumentsComponent,
     TechnicalEvaluationComponent,
     DownloadableFormsComponent,
+    TechnicalFindingsComponent,
+    OtherPermitsComponent,
   ],
 
   imports: [
@@ -169,8 +173,10 @@ import { DownloadableFormsComponent } from './downloadable-forms/downloadable-fo
     MatDialogModule,
     DashboardComponentsModule,
     MaterialModule,
+    MatSortModule,
+    MatSlideToggleModule,
   ],
 
-  exports: [TechnicalEvaluationComponent],
+  exports: [TechnicalEvaluationComponent, CbaoFeesTableComponent],
 })
 export class EvaluatorModule {}

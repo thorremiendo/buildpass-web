@@ -10,8 +10,19 @@ import { map, catchError } from 'rxjs/operators';
 export class ApplicationInfoService {
   constructor(private api: ApiService) {}
 
-  fetchApplications() {
-    const url = `/application/`;
+  fetchApplications(id) {
+    const url = `/application/${id}/evaluator/0/filter`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+  fetchCurrentApplications(id) {
+    const url = `/application/${id}/evaluator/2/filter`;
     return this.api.get(url).pipe(
       map((data: any) => {
         return data;
@@ -72,6 +83,11 @@ export class ApplicationInfoService {
   }
   updateApplicationStatus(body, id) {
     const url = `/application/${id}/updateStatus`;
+    return this.api.post(url, body);
+  }
+
+  submitTechnicalFindings(body, id) {
+    const url = `/application/${id}/technical-findings`;
     return this.api.post(url, body);
   }
 
@@ -141,5 +157,55 @@ export class ApplicationInfoService {
   updateCbaoStatus(body, id) {
     const url = `/application/${id}/update-status-cbao`;
     return this.api.post(url, body);
+  }
+
+  fetchTechnicalStatus(id) {
+    const url = `/application/${id}/technical-status`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+
+  deleteApplication(id) {
+    const url = `/application/${id}/delete`;
+    return this.api.delete(url);
+  }
+
+  submitGeneralRemark(body, id) {
+    const url = `/application/${id}/remark`;
+    return this.api.post(url, body);
+  }
+
+  uploadUserSupportingDoc(body) {
+    const url = `/userdocs/supporting-file`;
+    return this.api.post(url, body);
+  }
+
+  fetchDocumentInfo(applicationId, documentId) {
+    const url = `/userdocs/${applicationId}/document/${documentId}`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+  fetchSpecificDocInfo(documentId) {
+    const url = `/userdocs/${documentId}/specific`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
   }
 }

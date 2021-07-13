@@ -153,11 +153,9 @@ export class CepmoEvaluatorComponent implements OnInit {
         });
     } else {
       this.isLoading = false;
-      Swal.fire(
-        'Notice!',
-        `Please review all documents first!`,
-        'info'
-      ).then((result) => {});
+      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+        (result) => {}
+      );
     }
   }
 
@@ -211,6 +209,8 @@ export class CepmoEvaluatorComponent implements OnInit {
       height: '800px',
       data: {
         evaluator: this.evaluatorDetails,
+        evaluatorRole: this.evaluatorRole,
+        applicationInfo: this.applicationDetails,
         form: e,
         route: this.route,
       },

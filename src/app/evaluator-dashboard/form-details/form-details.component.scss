@@ -8,42 +8,51 @@ it. If you have received this file from a source other than Adobe,
 then your use, modification, or distribution of it requires the prior
 written permission of Adobe.
 */
+#iframe-pdf-div {
+  -webkit-transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
 
-.container {
+.pdf-container {
+  .container {
     width: 100vw;
     height: 100vh;
     display: flex;
-}
+  }
 
-.pdf-view {
+  .pdf-view {
     width: calc(100%);
-}
+  }
 
-.annotations-container {
+  .annotations-container {
     border-left: 1px solid #333;
     width: 400px;
     height: 100vh;
-}
+  }
 
-ul {
+  ul {
     margin: 0 5px;
     padding: 0;
-}
+  }
 
-li * {
+  li * {
     float: left;
-}
+  }
 
-li, h3 {
+  li,
+  h3 {
     clear: both;
     list-style: none;
-}
+  }
 
-input, button {
+  input,
+  button {
     outline: none;
-}
+  }
 
-button {
+  button {
     background: none;
     border: 0px;
     color: #888;
@@ -52,14 +61,14 @@ button {
     margin: 10px 0 0;
     font-family: Lato, sans-serif;
     cursor: pointer;
-}
+  }
 
-button:hover {
+  button:hover {
     color: #333;
-}
+  }
 
-/* Heading */
-h3 {
+  /* Heading */
+  h3 {
     color: #333;
     font-weight: 700;
     font-size: 15px;
@@ -68,9 +77,9 @@ h3 {
     margin: 0;
     text-align: center;
     text-transform: uppercase;
-}
+  }
 
-input[type='text'] {
+  input[type="text"] {
     margin: 0;
     font-size: 18px;
     line-height: 18px;
@@ -81,46 +90,101 @@ input[type='text'] {
     border-radius: 6px;
     font-family: Lato, sans-serif;
     color: #888;
-}
+  }
 
-input[type='text']:focus {
+  input[type="text"]:focus {
     color: #333;
-}
+  }
 
-/* Annotation list */
-li {
+  /* Annotation list */
+  li {
     overflow: hidden;
     margin: 5px 0;
     padding: 10px 0;
     width: auto;
-    border: 2px solid #3D85B0;
-}
+    border: 2px solid #3d85b0;
+  }
 
-li > input[type='checkbox'] {
+  li > input[type="checkbox"] {
     margin: 0 10px;
     position: relative;
     top: 15px;
-}
+  }
 
-li > label {
+  li > label {
     font-size: 18px;
     line-height: 40px;
     width: 237px;
     padding: 0 0 0 11px;
-}
+  }
 
-li > input[type='text'] {
+  li > input[type="text"] {
     width: 226px;
-}
+  }
 
-li > .delete:hover {
-    color: #CF2323;
-}
+  li > .delete:hover {
+    color: #cf2323;
+  }
 
-.selected {
-    border: 2px solid #3D85B0;
-}
+  .selected {
+    border: 2px solid #3d85b0;
+  }
 
-.unselected {
+  .unselected {
     border: 2px solid #eee;
+  }
+}
+
+// .pdf-container-user {
+//   display: none;
+// }
+table {
+  width: 100%;
+}
+
+.mat-column-index {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 10% !important;
+  width: 10% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+.mat-column-remark {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 70% !important;
+  width: 70% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-date {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 20% !important;
+  width: 20% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }

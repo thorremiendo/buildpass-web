@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   AngularFirestore,
@@ -19,19 +19,27 @@ export class SignInComponent implements OnInit {
   public fireBaseUid: any;
   public _signinForm: FormGroup;
   public user;
-  private _submitted: boolean = false;
+  public _submitted: boolean = false;
   public userDetails;
   public isSubmitting: boolean = false;
+
+  
 
   constructor(
     private _authService: AuthService,
     private _router: Router,
+    private _route :ActivatedRoute,
     private _fb: FormBuilder,
     private _ngZone: NgZone,
     private _afs: AngularFirestore,
     private _registerAccountFormService: RegisterAccountFormService
+    
   ) {
     this.createForm();
+  }
+
+  get signinFormControl() {
+    return this._signinForm.controls;
   }
 
   createForm() {
@@ -57,7 +65,8 @@ export class SignInComponent implements OnInit {
           }
         })
         .catch((error) => {
-          window.alert(error.message);
+          this.isSubmitting = false;
+         
         });
     }
   }
@@ -87,7 +96,8 @@ export class SignInComponent implements OnInit {
         });
       })
       .catch((error) => {
-        window.alert(error.message);
+        this.isSubmitting = false;
+        
       });
   }
 
@@ -115,6 +125,7 @@ export class SignInComponent implements OnInit {
       last_name: user.family_name,
       emailVerified: user.verified_email,
       is_evaluator: false,
+      provider:'google'
     };
     return userRef.set(userData, {
       merge: true,
@@ -137,13 +148,30 @@ export class SignInComponent implements OnInit {
       firebase_uid: this.fireBaseUid.uid,
       first_name: user.given_name,
       last_name: user.family_name,
-      email_address: user.email,
+      email: user.email,
       is_evaluator: false,
       emailVerified: user.verified_email,
+      provider: 'google',
     };
   }
 
   ngOnInit(): void {
+    this._route.queryParamMap.subscribe(queryParams => {
+      //var lang = queryParams.get('lang');
+      var mode =   queryParams.get('mode');
+      var actionCode = queryParams.get('oobCode');
+      
+      switch (mode) {
+        case 'resetPassword':
+          this._authService.handleResetPassword(actionCode);
+          break;
+        case 'verifyEmail':
+          this._authService.handleVerifyEmail(actionCode);
+          break;
+        default:
+
+      }
+    });
     localStorage.removeItem('currentUser');
     localStorage.removeItem('user');
   }

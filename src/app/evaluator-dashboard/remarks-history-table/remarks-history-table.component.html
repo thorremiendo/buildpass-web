@@ -130,7 +130,7 @@
     </div>
   </div>-->
 
-  <form
+  <!-- <form
     *ngIf="revisionData.length >= 1 && data.evaluator"
     [formGroup]="remarksForm"
   >
@@ -147,6 +147,7 @@
           color="primary"
           type="button"
           (click)="addRemarks()"
+          [disabled]="!canAddRemark()"
         >
           Add a remark
         </button>

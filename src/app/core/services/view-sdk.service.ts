@@ -162,6 +162,7 @@ export class ViewSDKClient {
             } else {
               const uploadDocumentData = {
                 document_path: blob,
+                document_status_id: this.form.document_status_id,
               };
               this.newApplicationService
                 .updateDocumentFile(uploadDocumentData, this.formId)

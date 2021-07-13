@@ -121,8 +121,8 @@
                 <mat-select formControlName="marital_status" required>
                 <mat-option value="1">Single</mat-option>
                 <mat-option value="2">Married</mat-option>
-                <mat-option value="3">Divorced</mat-option>
-                <mat-option value="4">Widowed</mat-option>
+                <mat-option value="3">Legally Separated / Annulled</mat-option>
+                <mat-option value="4">Widow</mat-option>
                 </mat-select>
                 <mat-error
                 *ngIf="
@@ -136,7 +136,7 @@
             </div>
             <div class="col-md-4">
             <mat-form-field appearance="outline">
-                <mat-label>Gender</mat-label>
+                <mat-label>Sex</mat-label>
                 <mat-select formControlName="gender">
                 <mat-option value="M">Male</mat-option>
                 <mat-option value="F">Female</mat-option>

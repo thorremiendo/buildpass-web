@@ -1,3 +1,4 @@
+import { MapService } from './../../../../core/services/mapbox.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -56,13 +57,6 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   }
   _filteredBarangayOptions: Observable<Barangay[]>;
 
-  //map
-  map: mapboxgl.Map;
-  style = 'mapbox://styles/mapbox/satellite-v9';
-  lat = 16.4136559;
-  lng = 120.5893339;
-  public marker: mapboxgl.Marker;
-  public lnglat;
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
@@ -87,7 +81,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
-    this.initializeMap();
+    // this.initializeMap();
     this.user = JSON.parse(localStorage.getItem('user'));
     this.applicationDetails = JSON.parse(
       localStorage.getItem('commonFieldsInfo')
@@ -95,10 +89,6 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     this.permitTypeId = this.applicationDetails.permit_type_id;
     this.mapService.buildMap();
     this.isLoading = false;
-  }
-
-  onDragEnd() {
-    console.log('marker dragged');
   }
 
   private _filter(value: string): Barangay[] {
@@ -109,40 +99,14 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     );
   }
 
-  initializeMap() {
-    mapboxgl.accessToken = environment.mapbox.accessToken;
-    this.map = new Map({
-      container: 'map',
-      style: this.style,
-      zoom: 16,
-      center: [this.lng, this.lat],
-    });
-    // Add map controls
-    this.marker = new Marker({
-      draggable: true,
-    })
-      .setLngLat([this.lng, this.lat])
-      .addTo(this.map); //
-
-    this.map.addControl(new mapboxgl.NavigationControl());
-    this.map.addControl(
-      new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl,
-        marker: {
-          draggable: true,
-        },
-      })
-    );
-    this.marker.on('dragend', this.onDragEnd);
-  }
-
   createForm() {
     this.projectDetailsForm = this._fb.group({
       project_house_number: [''],
       project_lot_number: ['', Validators.required],
       project_block_number: [''],
       project_unit_number: [''],
+      project_subdivision: [''],
+      project_purok: [''],
       project_street: [''],
       project_barangay: ['', Validators.required],
       project_lot_area: ['', Validators.required],

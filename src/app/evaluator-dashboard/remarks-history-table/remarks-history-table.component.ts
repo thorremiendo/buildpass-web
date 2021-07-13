@@ -1,3 +1,5 @@
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { officeTypes } from './../../core/enums/offices.enum';
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { ApplicationInfoService } from '../../core/services/application-info.service';
 import {

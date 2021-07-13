@@ -35,7 +35,7 @@
         <mat-label>Email address</mat-label>
         <input
           matInput
-          placeholder="juanMiguel@gmail.com"
+          placeholder="example@gmail.com"
           formControlName="email"
           required
         />
@@ -56,6 +56,14 @@
         >
           Enter valid Email
         </mat-error>
+        <mat-error
+          *ngIf="
+            signupFormControl.email.touched &&
+            signupFormControl.email.errors?.emailAlreadyUsed
+          "
+        >
+          Email is already in use
+        </mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -75,6 +83,7 @@
           [attr.aria-label]="'Hide password'"
           [attr.aria-pressed]="hide"
           type="button"
+          tabindex="-1"
         >
           <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
@@ -114,6 +123,7 @@
           [attr.aria-label]="'Hide password'"
           [attr.aria-pressed]="hide"
           type="button"
+          tabindex="-1"
         >
           <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>

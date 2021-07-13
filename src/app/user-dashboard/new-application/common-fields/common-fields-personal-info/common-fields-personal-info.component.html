@@ -197,7 +197,7 @@
       <div class="col-md-6">
         <mat-form-field appearance="outline">
           <mat-label>House Number</mat-label>
-          <input type="number" matInput formControlName="owner_house_number" />
+          <input type="text" matInput formControlName="owner_house_number" />
         </mat-form-field>
       </div>
       <div class="col-md-6">
@@ -307,8 +307,11 @@
           <h5>Applicant Complete Address:</h5>
           <p>
             #{{ formChange.owner_house_number }}
-            {{ formChange.owner_unit_number }}
+            {{ formChange.owner_lot_number }}
+            {{ formChange.owner_block_number }}
             {{ formChange.owner_street }}
+            {{ formChange.owner_purok }}
+            {{ formChange.owner_subdivision }}
             {{ formChange.owner_barangay }} Baguio City
           </p>
         </ng-container>

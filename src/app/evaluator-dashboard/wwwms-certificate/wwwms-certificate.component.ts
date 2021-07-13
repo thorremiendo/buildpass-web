@@ -1,3 +1,4 @@
+import { DataFormBindingService } from 'src/app/core/services/data-form-binding.service';
 import { ApplicationInfoService } from './../../core/services/application-info.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
@@ -19,7 +20,8 @@ import { WaterMarkService } from './../../core/services/watermark.service';
 })
 export class WwwmsCertificateComponent implements OnInit {
   public applicationDetails;
-  public src = '../../../assets/forms/wwms.pdf';
+  public src =
+    '../../../assets/forms/updated/WWMS_Building_Permit_Application_Form.pdf';
   public formData = {};
   public userId;
   public applicationId;
@@ -34,7 +36,8 @@ export class WwwmsCertificateComponent implements OnInit {
     public data,
     private viewSDKClient: ViewSDKClient,
     private watermark: WaterMarkService,
-    private applicationService: ApplicationInfoService
+    private applicationService: ApplicationInfoService,
+    private dataBindingService: DataFormBindingService
   ) {}
 
   ngOnInit(): void {
@@ -51,15 +54,9 @@ export class WwwmsCertificateComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
-        this.formData = {
-          owner_address: `${this.applicationDetails.applicant_detail.house_number}  ${this.applicationDetails.applicant_detail.street_name} ${this.applicationDetails.applicant_detail.barangay}`,
-          business_owner: `${this.applicationDetails.applicant_detail.first_name} ${this.applicationDetails.applicant_detail.middle_name} ${this.applicationDetails.applicant_detail.last_name}`,
-          project_name: this.applicationDetails.project_detail.project_title,
-          building_address: `${this.applicationDetails.project_detail.house_number} ${this.applicationDetails.project_detail.lot_number} ${this.applicationDetails.project_detail.street_name} ${this.applicationDetails.project_detail.barangay}`,
-          no_of_storeys: this.applicationDetails.project_detail
-            .number_of_storey,
-          contact_no: this.applicationDetails.applicant_detail.contact_number,
-        };
+        this.formData = this.dataBindingService.getFormData(
+          this.applicationDetails
+        );
       });
   }
   //adobe sdk functions

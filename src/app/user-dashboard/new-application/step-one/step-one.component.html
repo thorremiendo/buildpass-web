@@ -2,11 +2,13 @@
   <div class="row">
     <div class="__left col-md-6 p-5" [formGroup]="permitStepOneForm">
       <h2 class="mb-5">
-        Hi, {{ userInfo.first_name }} Let's get started with your application.
+        Hi, {{ userInfo.first_name }}! Let's get started with your application.
       </h2>
+
       <p style="color: #767676"><strong>STEP 1</strong></p>
       <div>
         <h4>What type of permit do you want to apply?</h4>
+
         <mat-form-field appearance="outline">
           <mat-label>Application Type</mat-label>
           <mat-select
@@ -34,6 +36,13 @@
             >
           </mat-select>
         </mat-form-field>
+        <P
+          style="color: maroon; font-weight: 400"
+          *ngIf="selectedPermitType == 2"
+        >
+          As of the moment, online application for Certificate of Occupancy is
+          only available for Building Permits processed through BuildPASS.
+        </P>
       </div>
       <div *ngIf="selectedPermitType">
         <ng-container *ngIf="selectedPermitType !== '2'">

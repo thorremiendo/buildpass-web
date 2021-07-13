@@ -9,13 +9,22 @@
     {{ getFieldSetsLength() + getFormsLength() }}
   </h4>
   <mat-horizontal-stepper
-    linear
+    linear="false"
     #stepper
     (selectionChange)="initPdfViewer($event)"
   >
     <mat-step *ngFor="let form of forms; let i = index">
       <ng-template matStepLabel>{{ form.label }}</ng-template>
-      <h1>{{ form.description }}</h1>
+
+      <div class="row">
+        <h1>{{ form.description }}</h1>
+        <mat-icon class="info" [tooltip]="tolTemplate" placement="bottom"
+          >info</mat-icon
+        >
+      </div>
+      <ng-template #tolTemplate>
+        <img [src]="sampleForm" />
+      </ng-template>
       <div class="fillable-form">
         <div class="step-label">
           After filling out the form, please click the next button to proceed
@@ -67,7 +76,19 @@
                 <a *ngIf="form.path" [href]="form.path" target="_blank"
                   >View File</a
                 >
-                <span *ngIf="form.path" (click)="toggleEditMode()">Change</span>
+                <span
+                  *ngIf="
+                    form.path &&
+                    form.id !== 1 &&
+                    form.id !== 2 &&
+                    form.id !== 3 &&
+                    form.id !== 4 &&
+                    form.id !== 48 &&
+                    form.id !== 106
+                  "
+                  (click)="toggleEditMode()"
+                  >Change</span
+                >
                 <mat-icon *ngIf="file || form.path"> check_circle </mat-icon>
               </div>
               <mat-spinner *ngIf="isLoading" [diameter]="20"> </mat-spinner>
@@ -122,6 +143,7 @@
             (emitFile)="submitDocument($event, field.id)"
             description="{{ field.description }}"
             path="{{ field.path }}"
+            info="{{ field.info }}"
           ></app-file-upload>
         </div>
       </div>
@@ -149,7 +171,7 @@
             (click)="submitApplication()"
             [disabled]="isLoading"
           >
-            Submit
+            Continue
           </button>
         </ng-template>
       </div>

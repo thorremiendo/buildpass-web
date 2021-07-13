@@ -56,17 +56,17 @@ const USERMENUITEMS = [
     icon: 'manage_accounts',
   },
   {
+    state: 'dashboard/checklists',
+    name: 'Forms',
+    type: 'link',
+    icon: 'file_download',
+  },
+  {
     state: 'dashboard/feedback',
     name: 'Feedback',
     type: 'link',
     icon: 'feedback',
     outlet: 'modal',
-  },
-  {
-    state: 'dashboard/checklists',
-    name: 'Forms',
-    type: 'link',
-    icon: 'file_download',
   },
 ];
 const EVALUATORMENUITEMS = [
@@ -100,18 +100,35 @@ const EVALUATORMENUITEMS = [
 
 const ADMINMENUITEMS = [
   {
-    state: 'admin/dashboard/users/employees',
-    name: 'Evaluator',
+    state: 'admin/dashboard/application',
+    name: 'Application',
     type: 'link',
-    icon: 'badge',
+    icon: 'description',
   },
 
   {
-    state: 'admin/dashboard/users/applicants',
-    name: 'Applicant',
-    type: 'link',
+    state: 'admin',
+    name: 'Users',
+    type: 'sub',
     icon: 'people',
+
+    children: [
+      {
+        state: "employees",
+        name: 'Evaluator',
+        type: 'link',
+        icon: 'badge',
+      },
+
+      {
+        state: 'applicants',
+        name: 'Applicant',
+        type: 'link',
+        icon: 'people',
+      },
+    ],
   },
+
   {
     state: 'admin/dashboard/announcement',
     name: 'Announcement',
@@ -130,11 +147,14 @@ const ADMINMENUITEMS = [
     type: 'link',
     icon: 'feedback',
   },
+];
+
+const TREASURYMENUITEMS = [
   {
-    state: 'admin/dashboard/logs',
-    name: 'Activity Logs',
+    state: 'treasury/dashboard/home',
+    name: 'Home',
     type: 'link',
-    icon: 'assignment_returned',
+    icon: 'description',
   },
 ];
 
@@ -152,6 +172,9 @@ export class MenuItems {
         break;
       case 'super admin':
         menu = ADMINMENUITEMS;
+        break;
+      case 'treasury':
+        menu = TREASURYMENUITEMS;
         break;
     }
 

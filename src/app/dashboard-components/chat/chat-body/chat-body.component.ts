@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { messages, chatBotMessage } from '../../chat-box/chat-data-sample';
 import { ChatService } from '../../../core';
 import { tr } from 'date-fns/locale';
+import da from 'date-fns/locale/da';
 
 @Component({
   selector: 'app-chat-body',
@@ -22,6 +23,7 @@ export class ChatBodyComponent implements OnInit {
   public msg: string = '';
   public chatId: number;
   private channel: string;
+  private currentDay = new Date().getDay();
 
   public talkWithChatbot: boolean = false;
   public talkWithEvaluator: boolean = false;
@@ -43,6 +45,7 @@ export class ChatBodyComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.checkDate();
     if (localStorage.getItem('user') != null) {
       this.userInfo = JSON.parse(localStorage.getItem('user'));
 
@@ -65,6 +68,7 @@ export class ChatBodyComponent implements OnInit {
   }
 
   mainChat() {
+    this.hasMessage = true;
     this.showContacts = false;
     this.talkWithEvaluator = false;
     this.talkWithChatbot = false;

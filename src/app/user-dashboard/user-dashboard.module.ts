@@ -14,9 +14,7 @@ import { LayoutModule } from '../layout/layout.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { UserDashboardModule } from './dashboard-layout/dashboard-layout.module';
 import { UserRoutingModule } from './user-routing.module';
-
 import { ExistingApplicationsComponent } from './existing-applications/existing-applications.component';
-
 import { StepOneComponent } from './new-application/step-one/step-one.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CoreModule } from '../core/core.module';
@@ -26,7 +24,6 @@ import { SuccessPageComponent } from './new-application/success-page/success-pag
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { MapComponent } from '../map/map.component';
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
-
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
@@ -52,7 +49,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FileUploadComponent } from './new-application/forms/file-upload/file-upload.component';
 import { DashboardComponentsModule } from '../dashboard-components/dashboard-components.module';
 import { MaterialModule } from '../material-module';
-
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { BuildingPermitComponent } from './new-application/building-permit/building-permit.component';
 import { OccupancyPermitComponent } from './new-application/occupancy-permit/occupancy-permit.component';
 import { ExcavationPermitComponent } from './new-application/excavation-permit/excavation-permit.component';
@@ -116,6 +113,7 @@ import { DemolitionPermitComponent } from './new-application/demolition-permit/d
     MatProgressSpinnerModule,
     SweetAlert2Module.forRoot(),
     MaterialModule,
+    TooltipModule.forRoot(),
   ],
 
   exports: [UserApplicationsTableComponent],

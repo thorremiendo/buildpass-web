@@ -85,6 +85,7 @@ export class UserFeedbackComponent implements OnInit {
 @Component({
   selector: 'feedback-dialog',
   templateUrl: 'feedback-dialog.component.html',
+  styleUrls: ['./user-feedback.component.scss'],
 })
 export class FeedbackDialogComponent {
   public fullName: string;

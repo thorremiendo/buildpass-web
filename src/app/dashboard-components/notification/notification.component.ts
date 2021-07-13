@@ -62,9 +62,9 @@ export class NotificationComponent implements OnInit {
       this.updateNotifTable();
     });
     if (this.user.is_evaluator == 1) {
-      this.router.navigate(['evaluator/application', id]).then(() => {});
+      this.router.navigate(['evaluator/application', applicationId]).then(() => {});
     } else {
-      this.router.navigate(['dashboard/applications/view', id]);
+      this.router.navigate(['dashboard/applications/view', applicationId]);
     }
   }
 }

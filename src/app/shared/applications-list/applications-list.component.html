@@ -20,7 +20,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-   
   </div>
 </div>
 <div *ngIf="!loading">
@@ -143,60 +142,15 @@
             : ""
         }}
       </div>
-      <div>
-        {{ application.applicant_detail.created_at | date: "MMMM dd, yyyy" }}
+      <div class="application-progress" *ngIf="application.status">
+        <mat-icon [inline]="true">assignment</mat-icon>
+        {{
+          application.status.progress == "" ? "0" : application.status.progress
+        }}%
       </div>
     </div>
-    <div class="application-code">
-      {{ application.permit_application_code }}
-    </div>
-    <div class="application-status">
-      {{ getApplicationStatus(application.application_status_id) }}
-    </div>
-    <div class="application-applicant">
-      <mat-icon [inline]="true">person</mat-icon>
-      {{ application.applicant_detail.first_name }}
-      {{
-        application.applicant_detail.middle_name
-          ? application.applicant_detail.middle_name
-          : ""
-      }}
-      {{ application.applicant_detail.last_name }}
-      {{
-        application.applicant_detail.suffix_name != "na"
-          ? application.applicant_detail.suffix_name
-          : ""
-      }}
-    </div>
-    <div class="application-location">
-      <mat-icon [inline]="true">location_on</mat-icon>
-      {{
-        application.project_detail.house_number
-          ? application.project_detail.house_number
-          : ""
-      }}
-      {{
-        application.project_detail.street_name
-          ? application.project_detail.street_name
-          : ""
-      }}
-      {{
-        application.project_detail.barangay
-          ? application.project_detail.barangay
-          : ""
-      }}
-    </div>
-    <div class="application-progress" *ngIf="application.status">
-      <mat-icon [inline]="true">assignment</mat-icon>
-      {{
-        application.status.progress == "" ? "0" : application.status.progress
-      }}%
-    </div>
-  </div>
-</mat-card>
-
+  </mat-card>
 </div>
-
 
 <div class="loader" *ngIf="loading">
   <mat-progress-spinner
@@ -205,12 +159,15 @@
   ></mat-progress-spinner>
 </div>
 
-<div *ngIf="currentItemsToShow.length == 0 && !loading"  class="no-applications-found">
+<div
+  *ngIf="currentItemsToShow.length == 0 && !loading"
+  class="no-applications-found"
+>
   No applications found
 </div>
 
 <mat-paginator
-  style="background-color: transparent;"
+  style="background-color: transparent"
   (page)="onPageChange($event)"
   [length]="filteredApplications.length"
   [pageSize]="5"

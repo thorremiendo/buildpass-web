@@ -1,4 +1,4 @@
-import { ESignatureComponent } from './e-signature/e-signature.component';
+import { GeneralRemarksComponent } from '../shared/general-remarks/general-remarks.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaterialModule } from './../material-module';
 import { NgModule } from '@angular/core';
@@ -16,7 +16,7 @@ import { RepresentativeDetailsComponent } from './representative-details/represe
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelSpeed: 2,
@@ -33,9 +33,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { UpdatePasswordDialogComponent } from './update-password-dialog/update-password-dialog.component';
 import { ImageViewerModule } from 'ngx-image-viewer';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { PasswordPromptComponent } from './password-prompt/password-prompt.component';
+import { AnnouncementListComponent } from './announcement/announcement-list/announcement-list.component';
+import { AnnouncementFullComponent } from './announcement/announcement-full/announcement-full.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -56,20 +56,20 @@ import { PasswordPromptComponent } from './password-prompt/password-prompt.compo
     ApplicationsListComponent,
     FeedbackComponent,
     UpdatePasswordDialogComponent,
-    ESignatureComponent,
-    PasswordPromptComponent,
+    AnnouncementListComponent,
+    AnnouncementFullComponent,
+    GeneralRemarksComponent,
   ],
   imports: [
-    NgxExtendedPdfViewerModule,
     CommonModule,
     FormsModule,
     MaterialModule,
     PerfectScrollbarModule,
     ReactiveFormsModule,
     MatSelectModule,
+    FlexLayoutModule,
+
     ImageViewerModule.forRoot(),
-    DragDropModule,
-    PdfViewerModule,
   ],
   exports: [
     AccordionAnchorDirective,
@@ -87,6 +87,8 @@ import { PasswordPromptComponent } from './password-prompt/password-prompt.compo
     ProjectDetailsComponent,
     ApplicantBuildingPermitDocsComponent,
     ApplicationsListComponent,
+    AnnouncementListComponent,
+    GeneralRemarksComponent,
   ],
   providers: [
     {

@@ -8,7 +8,6 @@ import {
 } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
-import { documentTypes } from '../../core/enums/document-type.enum';
 import { documentStatus } from '../../core/enums/document-status.enum';
 import { applicationTypes } from '../../core/enums/application-type.enum';
 import { AuthService, UserService } from 'src/app/core';
@@ -19,6 +18,7 @@ import Swal from 'sweetalert2';
 import { ViewFeesComponent } from 'src/app/evaluator-dashboard/view-fees/view-fees.component';
 import { ApplicationFeesService } from 'src/app/core/services/application-fees.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NewApplicationService } from 'src/app/core/services/new-application.service';
 
 @Component({
   selector: 'app-view-application',
@@ -36,11 +36,13 @@ export class ViewApplicationComponent implements OnInit {
   public applicationDetails;
   public applicationDate;
   public dataSource;
+  public documentTypes;
 
   displayedColumns: string[] = ['index', 'name', 'status', 'remarks', 'action'];
 
   constructor(
     private applicationService: ApplicationInfoService,
+    private newApplicationService: NewApplicationService,
     public dialog: MatDialog,
     public route: ActivatedRoute,
     private applicationFeeService: ApplicationFeesService,
@@ -220,7 +222,6 @@ export class ViewApplicationComponent implements OnInit {
       ...this.dataSource[5].data,
     ];
     this.isLoading = false;
-    this.dataSource = USER_FORMS;
   }
 
   getDocName(id): string {
@@ -513,8 +514,9 @@ export class ViewApplicationComponent implements OnInit {
             });
           });
       } else if (this.applicationDetails.cbao_status_id == 2) {
+        //other permits
         const body = {
-          application_status_id: 18,
+          application_status_id: 1,
           cbao_status_id: 0,
         };
         this.applicationService
@@ -522,7 +524,7 @@ export class ViewApplicationComponent implements OnInit {
           .subscribe((res) => {
             Swal.fire(
               'Success!',
-              `Forwarded to Technical Evaluators for Evaluation!`,
+              `Forwarded to CBAO Receiving for Evaluation!`,
               'success'
             ).then((result) => {
               this.isLoading = false;
@@ -531,15 +533,16 @@ export class ViewApplicationComponent implements OnInit {
           });
       } else if (this.applicationDetails.dc_status_id == 2) {
         const body = {
-          application_status_id: 12,
+          application_status_id: 18,
           dc_status_id: 0,
         };
+        this.updateTechnicalEvaluatorStatus();
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
             Swal.fire(
               'Success!',
-              `Forwarded to Division Chief for Evaluation!`,
+              `Forwarded to Technical Evaluators for Re-Evaluation!`,
               'success'
             ).then((result) => {
               this.isLoading = false;

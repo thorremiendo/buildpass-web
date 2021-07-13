@@ -2,6 +2,9 @@
     <div class="row">
         <mat-icon class="close-button" (click)="closeModal()">close</mat-icon>
     </div>
+    <div class="spinner" *ngIf="isUpdating">
+        <mat-spinner></mat-spinner>
+    </div>
     <div class="row edit-profile">
         <div class="col-12">
         <div>
@@ -205,9 +208,9 @@
                         [matAutocomplete]="auto_office" 
                         required />
                     <mat-icon matSuffix>arrow_drop_down</mat-icon>
-                    <mat-autocomplete #auto_office="matAutocomplete">
-                        <mat-option *ngFor="let office of _filteredOfficeOptions | async" [value]="office">
-                            {{office}}
+                    <mat-autocomplete #auto_office="matAutocomplete" [displayWith]="displayOfficeName.bind(this)">
+                        <mat-option *ngFor="let office of _filteredOfficeOptions | async; let i = index;" [value]="i">
+                          {{office}}
                         </mat-option>
                     </mat-autocomplete>  
                     <mat-error *ngIf="
@@ -246,6 +249,38 @@
                 </div>
                 <div class="col-md-6">
                     <mat-form-field appearance="outline">
+                    <mat-label>Access Role</mat-label>
+                    <input
+                        matInput
+                        formControlName="role_id"
+                        required
+                    />
+                    <mat-error
+                        *ngIf="
+                        (adminCreateUserFormControl.role_id.touched || _submitted) &&
+                        adminCreateUserFormControl.role_id.errors?.required
+                        "
+                    >
+                        Access role is required
+                    </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                    <mat-label>Email Address</mat-label>
+                    <input matInput type="text" formControlName="email" required />
+                    <mat-error
+                        *ngIf="
+                        (adminCreateUserFormControl.email.touched || _submitted) &&
+                        adminCreateUserFormControl.email.errors?.required
+                        "
+                    >
+                        Email is required
+                    </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
                     <mat-label>Contact Number</mat-label>
                     <input
                         type="tel"
@@ -267,20 +302,6 @@
                     <mat-hint align="end"
                         >{{ contact.value.length }} / {{ maxLength }}</mat-hint
                     >
-                    </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                    <mat-label>Email Address</mat-label>
-                    <input matInput type="text" formControlName="email" required />
-                    <mat-error
-                        *ngIf="
-                        (adminCreateUserFormControl.email.touched || _submitted) &&
-                        adminCreateUserFormControl.email.errors?.required
-                        "
-                    >
-                        Email is required
-                    </mat-error>
                     </mat-form-field>
                 </div>
                 </div>
@@ -358,8 +379,10 @@
                 </div>
                 </div>
             </form>
+            <p>{{_filteredOfficeOptions | async}}</p>
             </mat-card-content>
         </mat-card>
         </div>
     </div>
 </div>
+

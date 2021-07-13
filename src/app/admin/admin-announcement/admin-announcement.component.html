@@ -27,25 +27,28 @@
                 </div>
                 <div fxFlex.gt-sm="5" fxFlex.gt-xs="100" fxFlex="100">
                     <mat-icon class="">   
-                        <mat-checkbox
-                        (change)="announcement.isDisable = !announcement.isDisable">
+                        <mat-checkbox 
+                        [(ngModel)]="announcement.isActive"
+                        >
                         </mat-checkbox>
                     </mat-icon>
                    
                   </div>
-                <div fxFlex.gt-sm="60" fxFlex.gt-xs="100" fxFlex="100">
-                  <p [innerHTML]="announcement.body">
-                    <!-- //{{announcement.body}} -->
-                  </p>
+                <div fxFlex.gt-sm="70" fxFlex.gt-xs="100" fxFlex="100">
+                    <h3 >
+                       {{ announcement.subject }}
+                    </h3>
+                    <p style="text-align: justify;">{{ announcement.short_description }}  <a *ngIf="announcement.body"class="more" (click)="previewDialog(announcement)">  more....</a></p>
                 </div>
                 <div
-                  fxFlex.gt-sm="30"
+                  fxFlex.gt-sm="20"
                   fxFlex.gt-xs="100"
                   fxFlex="100"
                   fxLayoutAlign="end start"
                 >
-                  <mat-icon  matTooltip="edit " class="pr-3 pointer" aria-hidden="false" aria-label="edit" (click)="openDialog(announcements, i)">edit</mat-icon>
-                  <mat-icon  matTooltip="delete" class="pointer" aria-hidden="false" aria-label="delete" (click)="delete(i)" >delete</mat-icon>
+                    <mat-icon  matTooltip="view" class="pr-5 pointer" aria-hidden="false" aria-label="view" (click)="previewDialog(announcement)">visibility</mat-icon>
+                    <mat-icon  matTooltip="edit" class="pr-5 pointer" aria-hidden="false" aria-label="edit" (click)="editDialog(announcement, i)">edit</mat-icon>
+                    <mat-icon  matTooltip="delete" class="pointer" aria-hidden="false" aria-label="delete" (click)="delete(i)" >delete</mat-icon>
                 </div>
               </div>
               <div fxLayout="row">
@@ -62,4 +65,15 @@
       </div>
     </div>
 </div>
+<div fxLayout="row mb-5">
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"  fxLayoutAlign="end start">
+        <button mat-raised-button color="primary" class="mt-40" (click)="submit()">
+            Submit
+          </button>
+    </div>
+ 
+</div>
+<app-announcement-list
+  [announcements] = "announcements"
+></app-announcement-list>
  

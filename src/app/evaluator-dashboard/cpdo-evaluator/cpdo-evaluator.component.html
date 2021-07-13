@@ -52,8 +52,10 @@
                 *matCellDef="let element"
                 [style.color]="
                   element.document_status_id == 1 ||
-                  getDocStatus(element.document_status_id).includes('Compliant')
+                  getDocStatus(element.document_status_id) == 'Compliant'
                     ? 'green'
+                    : element.document_status_id == 0
+                    ? 'black'
                     : 'red'
                 "
               >
@@ -104,7 +106,17 @@
               </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr
+              mat-row
+              [style.background-color]="
+                row.document_status_id == 1
+                  ? '#BFF4D1'
+                  : row.document_status_id == 2
+                  ? '#F7C0C0'
+                  : 'white'
+              "
+              *matRowDef="let row; columns: displayedColumns"
+            ></tr>
           </table>
           <div class="action__buttons">
             <ng-container
@@ -164,6 +176,31 @@
             </ng-container>
           </div>
         </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>find_in_page</mat-icon>
+          Technical Findings
+        </ng-template>
+        <ng-container *ngIf="evaluatorDetails && applicationDetails">
+          <app-technical-findings
+            [evaluatorDetails]="evaluatorDetails"
+            [applicationDetails]="applicationDetails"
+          ></app-technical-findings>
+        </ng-container>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>report</mat-icon>
+          General Remarks
+          <mat-icon
+            [matBadge]="applicationDetails.remarks.length"
+            matBadgeColor="warn"
+          ></mat-icon>
+        </ng-template>
+        <app-general-remarks
+          [evaluatorDetails]="evaluatorDetails"
+        ></app-general-remarks>
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>

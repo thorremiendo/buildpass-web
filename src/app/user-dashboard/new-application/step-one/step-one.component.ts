@@ -16,6 +16,7 @@ import {
   applicationTypes,
 } from '../../../core/enums/application-type.enum';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
+import { environment } from './../../../../environments/environment';
 
 @Component({
   selector: 'app-step-one',
@@ -38,6 +39,7 @@ export class StepOneComponent implements OnInit {
   public userBuildingPermits = [];
   public selectedBuildingPermit;
   public isSubmitting: boolean = false;
+  public receiveApplications: boolean;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,

@@ -1,11 +1,17 @@
-<div class="container" *ngIf="!isLoading">
+<div class="container" *ngIf="!isLoading && isAuthorized">
   <div class="row">
     <div class="d-flex justify-content-between w-100">
       <div>
         <h2>Applicant Name: {{ applicantCompleteName }}</h2>
         <h3>Permit Category: {{ permitType }}</h3>
         <hr />
-        <h2 class="pt-5">Uploaded Documents</h2>
+        <h3 class="pt-5">Application Summary</h3>
+        <p style="color: maroon">
+          <strong
+            >To submit your application, click on the "Submit" button at the
+            bottom part of this page.</strong
+          >
+        </p>
       </div>
       <div>
         <img
@@ -43,21 +49,26 @@
           color="primary"
           (click)="proceed()"
           *ngIf="applicationInfo.application_status_id == 6"
+          [disabled]="!receiveApplications"
         >
-          Proceed
+          Continue
         </button>
         <button
           mat-raised-button
           color="primary"
           (click)="submit()"
           *ngIf="applicationInfo.application_status_id == 9"
+          [disabled]="!receiveApplications"
         >
-          Save
+          Submit
         </button>
       </div>
     </div>
   </div>
 </div>
-<div class="d-flex justify-content-center mt-5" *ngIf="isLoading">
+<div
+  class="d-flex justify-content-center mt-5"
+  *ngIf="isLoading && isAuthorized"
+>
   <mat-spinner></mat-spinner>
 </div>

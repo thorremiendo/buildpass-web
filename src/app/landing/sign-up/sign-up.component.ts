@@ -121,34 +121,6 @@ export class SignUpComponent implements OnInit {
     this.createForm();
   }
 
-  SetUserDataFire(value) {
-    const userRef: AngularFirestoreDocument<any> = this._afs.doc(
-      `users/${this.fireBaseUser.uid}`
-    );
-    const userData: User = {
-      firebase_uid: this.fireBaseUser.uid,
-      email: value.email,
-      first_name: value.first_name,
-      last_name: value.last_name,
-      emailVerified: this.fireBaseUser.emailVerified,
-      is_evaluator: false,
-    };
-    return userRef.set(userData, {
-      merge: true,
-    });
-  }
-
-  createUserDetails(value) {
-    this.userDetails = {
-      firebase_uid: this.fireBaseUser.uid,
-      first_name: value.first_name,
-      last_name: value.last_name,
-      email_address: value.email,
-      is_evaluator: false,
-      emailVerified: this.fireBaseUser.emailVerified,
-    };
-  }
-
   SetUserDataFireGoogle(user) {
     const userRef: AngularFirestoreDocument<any> = this._afs.doc(
       `users/${this.fireBaseUid.uid}`
@@ -160,6 +132,7 @@ export class SignUpComponent implements OnInit {
       last_name: user.family_name,
       emailVerified: user.verified_email,
       is_evaluator: false,
+      provider: 'google',
     };
     return userRef.set(userData, {
       merge: true,
@@ -171,9 +144,10 @@ export class SignUpComponent implements OnInit {
       firebase_uid: this.fireBaseUid.uid,
       first_name: user.given_name,
       last_name: user.family_name,
-      email_address: user.email,
+      email: user.email,
       is_evaluator: false,
       emailVerified: user.verified_email,
+      provider: 'google',
     };
   }
 
