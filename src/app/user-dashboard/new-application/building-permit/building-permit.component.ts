@@ -249,7 +249,11 @@ export class BuildingPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
-        this.openSnackBar('Uploaded!');
+        console.log(this.applicationDetails);
+        this.formData = this.dataBindingService.getFormData(
+          this.applicationDetails
+        );
+        this.openSnackBar('Saved!');
         this.setFilePaths();
       });
   }
@@ -430,7 +434,6 @@ export class BuildingPermitComponent implements OnInit {
   }
 
   initPdfViewer(event) {
-    console.log(event);
     if (
       this.applicationDetails.construction_status_id !== 1 &&
       event.previouslySelectedIndex <= 4
@@ -442,18 +445,18 @@ export class BuildingPermitComponent implements OnInit {
     ) {
       this.upload(this.forms[event.previouslySelectedIndex]);
     }
-    this.checkExistingZoningFormData();
+    // this.checkExistingZoningFormData();
     const index = event.selectedIndex;
     const pdfViewer = document.getElementById('pdf-viewer');
     const pdfContainer = document.getElementById(`form-${index}`);
     this.forms[index] ? (this.pdfSource = this.forms[index].src) : null;
     this.forms[index] ? (this.sampleForm = this.forms[index].sample) : null;
-    this.forms[0] ? (this.formData = this.zoningFormData) : null;
-    this.forms[1] ? (this.formData = this.buildingFormData) : null;
-    this.forms[2] ? (this.formData = this.sanitaryFormData) : null;
-    this.forms[3] ? (this.formData = this.electricalFormData) : null;
-    this.forms[4] ? (this.formData = this.situationalReportFormData) : null;
-    this.forms[5] ? (this.formData = this.noticeOfConstructionFormData) : null;
+    // this.forms[0] ? (this.formData = this.zoningFormData) : null;
+    // this.forms[1] ? (this.formData = this.buildingFormData) : null;
+    // this.forms[2] ? (this.formData = this.sanitaryFormData) : null;
+    // this.forms[3] ? (this.formData = this.electricalFormData) : null;
+    // this.forms[4] ? (this.formData = this.situationalReportFormData) : null;
+    // this.forms[5] ? (this.formData = this.noticeOfConstructionFormData) : null;
 
     pdfContainer ? pdfContainer.appendChild(pdfViewer) : null;
   }
@@ -497,7 +500,7 @@ export class BuildingPermitComponent implements OnInit {
       this.newApplicationService
         .updateDocumentFile(uploadDocumentData, form.doc_id)
         .subscribe((res) => {
-          this.openSnackBar('Saved!');
+          this.fetchApplicationInfo();
         });
     }
   }
