@@ -3,14 +3,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatDialogRef } from '@angular/material/dialog';
-import { 
+import Swal from 'sweetalert2';
+import {
   RegisterAccountEvaluatorFormService,
   BarangayService,
   AuthService,
-  Position, Office
-
- } from '../../../core';
-
+  Position,
+  Office,
+} from '../../../core';
 
 @Component({
   selector: 'app-admin-employee-create',
@@ -21,7 +21,7 @@ export class AdminEmployeeCreateComponent implements OnInit {
   public selectedFile: File = null;
   public selectedPhoto: File = null;
   public maxLength: number = 11;
-
+  public isUpdating;
   _adminCreateUserForm: FormGroup;
   _barangay: Barangay[];
   _office: string[] = Object.keys(Office)
@@ -83,6 +83,7 @@ export class AdminEmployeeCreateComponent implements OnInit {
       id_number: ['', Validators.required],
       id_type: ['', Validators.required],
       email: ['', Validators.required],
+      role_id: ['', Validators.required],
     });
   }
 
@@ -132,7 +133,7 @@ export class AdminEmployeeCreateComponent implements OnInit {
 
   filterBarangays(value: string): Barangay[] {
     return this._barangay.filter((option) =>
-      option.name.toLowerCase().includes(value)
+      option.name.toLowerCase().includes(value.toLowerCase())
     );
   }
 
@@ -169,23 +170,26 @@ export class AdminEmployeeCreateComponent implements OnInit {
 
     this._barangayService.getBarangayInfo().subscribe((data) => {
       this._barangay = data;
-      this._filteredBarangayOptions = this.adminCreateUserFormControl.barangay.valueChanges.pipe(
-        startWith(''),
-        map((barangay) =>
-          barangay ? this.filterBarangays(barangay) : this._barangay.slice()
-        )
-      );
+      this._filteredBarangayOptions =
+        this.adminCreateUserFormControl.barangay.valueChanges.pipe(
+          startWith(''),
+          map((barangay) =>
+            barangay ? this.filterBarangays(barangay) : this._barangay.slice()
+          )
+        );
     });
 
-    this._filteredOfficeOptions = this.adminCreateUserFormControl.office.valueChanges.pipe(
-      startWith(''),
-      map((value) => this.filterOffice(value))
-    );
+    this._filteredOfficeOptions =
+      this.adminCreateUserFormControl.office.valueChanges.pipe(
+        startWith(''),
+        map((value) => this.filterOffice(value))
+      );
 
-    this._filteredPositionOptions = this.adminCreateUserFormControl.position.valueChanges.pipe(
-      startWith(''),
-      map((value) => this.filterPosition(value))
-    );
+    this._filteredPositionOptions =
+      this.adminCreateUserFormControl.position.valueChanges.pipe(
+        startWith(''),
+        map((value) => this.filterPosition(value))
+      );
   }
 
   onSubmit() {
@@ -217,19 +221,18 @@ export class AdminEmployeeCreateComponent implements OnInit {
       id_type: this._adminCreateUserForm.value.id_type,
       photo_path: this.selectedPhoto,
       id_photo_path: this.selectedFile,
-      firebase_uid: '',
-      emailVerified: '',
-      is_evaluator: true,
+      is_evaluator: 1,
+      role_id: this._adminCreateUserForm.value.role_id,
     };
 
-    this._authService.SignUp(firebaseUser).then((result) => {
-      user.firebase_uid = result.user.uid;
-      user.emailVerified = result.user.emailVerified;
-
-      this._registerAccountEvaluatorFormService
-        .submitRegisterAccountInfo(user)
-        .subscribe((res) => {});
-    });
+    this._registerAccountEvaluatorFormService
+      .submitRegisterAccountInfo(user)
+      .subscribe((res) => {
+        this.isUpdating = false;
+        Swal.fire('Success!', `Evaluator Created`, 'success').then((result) => {
+          window.location.reload();
+        });
+      });
   }
 }
 

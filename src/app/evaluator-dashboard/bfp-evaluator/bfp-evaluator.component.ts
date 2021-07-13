@@ -1,3 +1,4 @@
+import { NewApplicationService } from './../../core/services/new-application.service';
 import { BfpResidentialChecklistComponent } from './../bfp-residential-checklist/bfp-residential-checklist.component';
 import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks-history-table.component';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -37,7 +38,8 @@ export class BfpEvaluatorComponent implements OnInit {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private changeDetectorRefs: ChangeDetectorRef,
-    private userService: UserService
+    private userService: UserService,
+    private newApplicationService: NewApplicationService
   ) {}
 
   ngOnInit(): void {
@@ -50,15 +52,35 @@ export class BfpEvaluatorComponent implements OnInit {
         this.forms = result.data;
         this.generateBfpForms();
         this.fetchEvaluatorDetails();
+        this.checkBfpParallelDocs();
         this.isLoading = false;
       });
     this.changeDetectorRefs.detectChanges();
   }
 
+  checkBfpParallelDocs() {
+    this.isLoading = true;
+    const findDoc = this.dataSource.forEach((e) => {
+      if (e.document_id == 62 || e.document_id == 32 || e.document_id == 33) {
+        if (e.cbao_status_id == 1 && e.bfp_status_id == 1) {
+          const id = e.id;
+          const body = {
+            document_status_id: 1,
+          };
+          this.newApplicationService
+            .updateDocumentFile(body, id)
+            .subscribe((res) => {
+              this.isLoading = false;
+            });
+        }
+      }
+    });
+  }
+
   checkFormsCompliant() {
     this.generateBfpForms();
     const isCompliant = this.dataSource.every(
-      (form) => form.document_status_id == 1
+      (form) => form.bfp_status_id == 1
     );
     return isCompliant;
   }
@@ -134,6 +156,7 @@ export class BfpEvaluatorComponent implements OnInit {
         evaluator: this.evaluatorDetails,
         form: element,
         route: this.route,
+        application: this.applicationDetails,
       },
     });
 
@@ -168,7 +191,7 @@ export class BfpEvaluatorComponent implements OnInit {
   }
   checkFormsReviewed() {
     const isReviewed = this.dataSource.every(
-      (form) => form.document_status_id == 1 || form.document_status_id == 2
+      (form) => form.bfp_status_id == 1 || form.bfp_status_id == 2
     );
     return isReviewed;
   }

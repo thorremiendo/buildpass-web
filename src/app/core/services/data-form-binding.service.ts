@@ -1,3 +1,4 @@
+import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { ApiService } from './api.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { Injectable } from '@angular/core';
@@ -15,7 +16,10 @@ export class DataFormBindingService {
   public applicantDetails;
   public representativeDetails;
 
-  constructor(private api: ApiService) {}
+  constructor(
+    private api: ApiService,
+    private applicationService: ApplicationInfoService
+  ) {}
 
   submitZoningFormData(body, id) {
     const url = `/formdata/${id}/zoning`;
@@ -94,6 +98,61 @@ export class DataFormBindingService {
   }
 
   handleSaveFormData(applicationId, formId, data) {
+    const body = data;
+    // const body = {
+    //   applicant_first_name: data
+    //   applicant_middle_name: data
+    //   applicant_last_name: data
+    //   applicant_suffix_name: data
+    //   applicant_tin_number: data
+    //   applicant_email_address: data
+    //   applicant_contact_number: data
+    //   applicant_house_number: data
+    //   applicant_unit_number: data
+    //   applicant_floor_number: data
+    //   applicant_street_name: data
+    //   applicant_barangay_id: data
+    //   applicant_barangay: data
+    //   applicant_lot_number: data
+    //   applicant_block_number: data
+    //   applicant_subdivision: data
+    //   applicant_purok: data
+    //   project_house_number: data
+    //   project_lot_number: data
+    //   project_block_number: data
+    //   project_unit_number: data
+    //   project_floor_number: data
+    //   project_street_name: data
+    //   project_lot_area: data
+    //   project_total_floor_area: data
+    //   project_number_of_units: data
+    //   project_number_of_storey: data
+    //   project_title: data
+    //   project_number_of_basement: data
+    //   project_cost_cap: data
+    //   project_tct_number: data
+    //   project_tax_dec_number: data
+    //   project_map_box_id: data
+    //   project_barangay_id: data
+    //   project_barangay: data
+    //   project_landmark: data
+    //   project_subdivision: data
+    //   project_long: data
+    //   project_lat: data
+    //   inspector_name: data
+    //   inspector_profession
+    //   inspector_prc_no: data
+    //   rep_first_name: data
+    //   rep_middle_name: data
+    //   rep_last_name: data
+    //   rep_suffix_name: data
+    //   rep_email_address: data
+    //   rep_contact_number: data
+    //   rep_house_number: data
+    //   rep_street_name: data
+    //   rep_barangay_id: data
+    //   rep_barangay: data
+    // }
     switch (formId) {
       case 1:
         const zoningBody = {
@@ -185,10 +244,13 @@ export class DataFormBindingService {
             : '',
           position_title: data.position_title ? data.position_title : '',
         };
-        this.submitZoningFormData(
-          zoningBody,
-          applicationId
-        ).subscribe((res) => {});
+        this.submitZoningFormData(zoningBody, applicationId).subscribe(
+          (res) => {
+            this.applicationService
+              .updateApplicationInfo(body, applicationId)
+              .subscribe((res) => {});
+          }
+        );
         break;
       case 2:
         const buildingPermitBody = {
@@ -428,7 +490,11 @@ export class DataFormBindingService {
         this.submitBuildingFormData(
           buildingPermitBody,
           applicationId
-        ).subscribe((res) => {});
+        ).subscribe((res) => {
+          this.applicationService
+            .updateApplicationInfo(body, applicationId)
+            .subscribe((res) => {});
+        });
         break;
       case 3:
         const sanitaryBody = {
@@ -534,10 +600,13 @@ export class DataFormBindingService {
           applicant_date_issued: data.applicant_date_issued,
           applicant_place_issued: data.applicant_place_issued,
         };
-        this.submitSanitaryFormData(
-          sanitaryBody,
-          applicationId
-        ).subscribe((res) => {});
+        this.submitSanitaryFormData(sanitaryBody, applicationId).subscribe(
+          (res) => {
+            this.applicationService
+              .updateApplicationInfo(body, applicationId)
+              .subscribe((res) => {});
+          }
+        );
         break;
       case 4:
         const electricalBody = {
@@ -635,13 +704,19 @@ export class DataFormBindingService {
           building_official: data.building_official,
           building_official_date: data.building_official_date,
         };
-        this.submitElectricalFormData(
-          electricalBody,
-          applicationId
-        ).subscribe((res) => {});
+        this.submitElectricalFormData(electricalBody, applicationId).subscribe(
+          (res) => {
+            this.applicationService
+              .updateApplicationInfo(body, applicationId)
+              .subscribe((res) => {});
+          }
+        );
         break;
       case 5:
         const noticeBody = {};
+        this.applicationService
+          .updateApplicationInfo(body, applicationId)
+          .subscribe((res) => {});
         break;
       default:
         break;
@@ -936,7 +1011,21 @@ export class DataFormBindingService {
       project_province: 'BENGUET',
       project_city: 'BAGUIO CITY',
       project_zipcode: '2600',
-      project_complete_address: `${projectDetails.house_number} ${projectDetails.street_name} ${projectDetails.barangay}`.toUpperCase(),
+      inspector_name:
+        representativeDetails == null
+          ? 'N/A'
+          : `${representativeDetails.first_name.toUpperCase()} ${representativeDetails.last_name.toUpperCase()}`,
+      inspector_profession: projectDetails.inspector_profession,
+      inspector_prc_no:
+        representativeDetails == null ? 'N/A' : representativeDetails.prc_no,
+      complete_project_location: `${
+        projectDetails.house_number ? projectDetails.house_number : ''
+      } ${projectDetails.lot_number ? projectLot : ''} ${
+        projectDetails.block_number ? projectBlock : ''
+      } ${projectDetails.street_name ? projectDetails.street_name : ''}
+      ${projectDetails.subdivision ? projectDetails.subdivision : ''} ${
+        projectDetails.barangay
+      }`.toUpperCase(),
 
       amount_in_words:
         projectDetails.project_cost_cap == ''
@@ -950,10 +1039,7 @@ export class DataFormBindingService {
         representativeDetails == null
           ? 'N/A'
           : `${representativeDetails.first_name.toUpperCase()} ${representativeDetails.last_name.toUpperCase()}`,
-      box_5_licensed_architect_full_name:
-        representativeDetails == null
-          ? 'N/A'
-          : `${representativeDetails.first_name.toUpperCase()} ${representativeDetails.last_name.toUpperCase()}`,
+
       fulltime_inspector_address:
         representativeDetails == null
           ? 'N/A'

@@ -2,22 +2,29 @@
   <div class="row">
     <div class="col-12 mb-3">
       <h2>My Applications</h2>
+      <p *ngIf="applicationCount">Showing {{ applicationCount }} application/s.</p>
       <div class="horizontal-line"></div>
     </div>
-  </div>
-  <ng-container *ngIf="!applications">
-    <div class="spinner">
-      <mat-spinner></mat-spinner>
+    <div class="col-12">
+      <div class="spinner" *ngIf="!applications">
+        <mat-spinner [diameter]="70"></mat-spinner>
+      </div>
     </div>
-  </ng-container>
-  <app-applications-list
-    *ngIf="applications"
-    [applications]="applications"
-    (emitApplication)="
-      $event.application_status_id !== 6
-        ? viewApplication($event.id)
-        : continueApplication($event.user_id, $event.id)
-    "
-  >
-  </app-applications-list>
+    <div class="col-12">
+      <app-applications-list
+        *ngIf="applications"
+        [applications]="applications"
+        (emitApplication)="
+          $event.application_status_id !== 6 && $event.application_status_id !== 9
+            ? viewApplication($event.id)
+            : $event.application_status_id == 6
+            ? continueApplication($event.user_id, $event.id)
+            : $event.application_status_id == 9
+            ? applicationSummary($event.id)
+            : null
+        "
+      >
+      </app-applications-list>
+    </div>
+  </div>
 </div>

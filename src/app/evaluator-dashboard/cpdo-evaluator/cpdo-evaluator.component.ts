@@ -120,6 +120,7 @@ export class CpdoEvaluatorComponent implements OnInit {
           evaluator: this.evaluatorDetails,
           form: element,
           route: this.route,
+          application: this.applicationDetails,
         },
       });
 
@@ -144,46 +145,60 @@ export class CpdoEvaluatorComponent implements OnInit {
     });
   }
   nonCompliant() {
-    this.isLoading = true;
     if (this.checkFormsReviewed()) {
-      if (this.evaluatorRole.code == 'CPDO-ZI') {
-        const body = {
-          application_status_id: 5,
-          cpdo_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            Swal.fire(
-              'Success!',
-              `Notified Applicant for Revision!`,
-              'success'
-            ).then((result) => {
-              window.location.reload();
-            });
-            this.fetchApplicationDetails();
-          });
-      } else {
-        //CPDO COORDINATOR
-        const body = {
-          application_status_id: 5,
-          cpdo_cod_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            Swal.fire(
-              'Success!',
-              `Notified Applicant for Revision!`,
-              'success'
-            ).then((result) => {
-              window.location.reload();
-            });
-            this.fetchApplicationDetails();
-          });
-      }
+      Swal.fire({
+        title: 'Do you need an Excavation Permit?',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: `Yes`,
+        confirmButtonColor: '#330E08',
+        denyButtonColor: '#D2AB48',
+        denyButtonText: `No`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.isLoading = true;
+          if (this.evaluatorRole.code == 'CPDO-ZI') {
+            const body = {
+              application_status_id: 5,
+              cpdo_status_id: 2,
+            };
+            this.applicationService
+              .updateApplicationStatus(body, this.applicationId)
+              .subscribe((res) => {
+                this.isLoading = false;
+                Swal.fire(
+                  'Success!',
+                  `Notified Applicant for Revision!`,
+                  'success'
+                ).then((result) => {
+                  window.location.reload();
+                });
+                this.fetchApplicationDetails();
+              });
+          } else {
+            //CPDO COORDINATOR
+            const body = {
+              application_status_id: 5,
+              cpdo_cod_status_id: 2,
+            };
+            this.applicationService
+              .updateApplicationStatus(body, this.applicationId)
+              .subscribe((res) => {
+                this.isLoading = false;
+                Swal.fire(
+                  'Success!',
+                  `Notified Applicant for Revision!`,
+                  'success'
+                ).then((result) => {
+                  window.location.reload();
+                });
+                this.fetchApplicationDetails();
+              });
+          }
+        } else if (result.isDenied) {
+          this.isLoading = false;
+        }
+      });
     } else {
       this.isLoading = false;
       Swal.fire(

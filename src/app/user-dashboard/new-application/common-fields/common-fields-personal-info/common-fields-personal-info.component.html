@@ -5,7 +5,7 @@
 >
   <div class="row pt-3 px-3">
     <div class="d-flex align-items-center w-100">
-      <h3 class="col-md-2">Basic Info</h3>
+      <h3 class="col-md-2">Basic Info (Owner)</h3>
       <hr
         class="col-md-10"
         style="padding: 0.5px 0; background-color: #d3d3d3"
@@ -110,7 +110,7 @@
   </div>
   <div class="row px-3">
     <div class="d-flex align-items-center w-100">
-      <h3 class="col-md-2">Contact Info</h3>
+      <h3 class="col-md-2">Contact Info (Owner)</h3>
       <hr
         class="col-md-10"
         style="padding: 0.5px 0; background-color: #d3d3d3"
@@ -187,7 +187,7 @@
   </div>
   <div class="row px-3">
     <div class="d-flex align-items-center w-100">
-      <h3 class="col-md-2">Address</h3>
+      <h3 class="col-md-2">Address (Owner)</h3>
       <hr
         class="col-md-10"
         style="padding: 0.5px 0; background-color: #d3d3d3"
@@ -227,6 +227,34 @@
           >
             Street is required
           </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row w-100">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Lot No.</mat-label>
+          <input type="text" matInput formControlName="owner_lot_number" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Block No.</mat-label>
+          <input matInput type="text" formControlName="owner_block_number" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row w-100">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Purok</mat-label>
+          <input type="number" matInput formControlName="owner_purok" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Subdivision</mat-label>
+          <input matInput type="text" formControlName="owner_subdivision" />
         </mat-form-field>
       </div>
     </div>

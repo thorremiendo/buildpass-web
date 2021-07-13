@@ -6,7 +6,9 @@
     <div class="file-actions col-4">
       <div *ngIf="!loading">
         <a *ngIf="filePath" [href]="filePath" target="_blank">View File</a>
-        <span *ngIf="filePath" (click)="toggleEditMode()">Change</span>
+        <span *ngIf="filePath" (click)="toggleEditMode()">{{
+          editMode ? "Close" : "Change"
+        }}</span>
         <mat-icon *ngIf="file || filePath"> check_circle </mat-icon>
       </div>
       <mat-spinner *ngIf="loading" [diameter]="20"> </mat-spinner>
@@ -28,10 +30,18 @@
       (removed)="onRemove()"
       class="mx-auto"
     >
-      <ngx-dropzone-label>
-        {{ file.name }}
-        ({{ file.type }})
-      </ngx-dropzone-label>
-    </ngx-dropzone-preview>
-  </ngx-dropzone>
+      <ngx-dropzone-label> Click here to upload your file. </ngx-dropzone-label>
+      <ngx-dropzone-preview
+        *ngIf="file"
+        [removable]="false"
+        (removed)="onRemove()"
+        class="mx-auto"
+      >
+        <ngx-dropzone-label>
+          {{ file.name }}
+          ({{ file.type }})
+        </ngx-dropzone-label>
+      </ngx-dropzone-preview>
+    </ngx-dropzone>
+  </ng-container>
 </div>

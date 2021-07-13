@@ -7,6 +7,7 @@ import { BarangayService } from 'src/app/core/services/barangay.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 //map
 import { environment } from '../../../../../environments/environment';
@@ -47,7 +48,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   _submitted = false;
   public barangay: Barangay[];
   public permitTypeId;
-  public applicationDetailsFromService;
+  public applicationDetails;
   public isRepresentative;
   public projectFormChange;
   get projectDetailsFormControl() {
@@ -68,18 +69,19 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     private newApplicationFormService: NewApplicationFormService,
     private newApplicationSerivce: NewApplicationService,
     private barangayService: BarangayService,
-    private userService: UserService,
-    private excavationService: ExcavationPermitService
+    private mapService: MapService,
+    private snackBar: MatSnackBar
   ) {
     this.barangayService.getBarangayInfo().subscribe((data) => {
       this.barangay = data;
-
-      this._filteredBarangayOptions = this.projectDetailsFormControl.project_barangay.valueChanges.pipe(
-        startWith(''),
-        map((barangay) =>
-          barangay ? this._filter(barangay) : this.barangay.slice()
-        )
-      );
+      console.log(this.barangay);
+      this._filteredBarangayOptions =
+        this.projectDetailsFormControl.project_barangay.valueChanges.pipe(
+          startWith(''),
+          map((barangay) =>
+            barangay ? this._filter(barangay) : this.barangay.slice()
+          )
+        );
     });
   }
 
@@ -87,38 +89,11 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     this.createForm();
     this.initializeMap();
     this.user = JSON.parse(localStorage.getItem('user'));
-    this.getCommonDetails();
-    this.getApplicationDetails();
-
-    this.isLoading = false;
-  }
-  getCommonDetails() {
-    if (localStorage.getItem('commonFieldsInfo')) {
-      this.ownerDetails = JSON.parse(localStorage.getItem('commonFieldsInfo'));
-      this.isRepresentative = this.ownerDetails.is_representative;
-    } else {
-      this.newApplicationFormService.commonFieldsSubject
-        .asObservable()
-        .subscribe((commonFieldsSubject) => {
-          this.ownerDetails = commonFieldsSubject;
-          this.isRepresentative = this.ownerDetails.is_representative;
-        });
-    }
-  }
-  getApplicationDetails() {
-    if (localStorage.getItem('newApplicationInfo')) {
-      this.applicationDetailsFromService = JSON.parse(
-        localStorage.getItem('newApplicationInfo')
-      );
-      this.permitTypeId = this.applicationDetailsFromService.application_type;
-    } else {
-      this.newApplicationFormService.newApplicationSubject
-        .asObservable()
-        .subscribe((newApplicationSubject) => {
-          this.applicationDetailsFromService = newApplicationSubject;
-          this.permitTypeId = this.applicationDetailsFromService.application_type;
-        });
-    }
+    this.applicationDetails = JSON.parse(
+      localStorage.getItem('commonFieldsInfo')
+    );
+    this.permitTypeId = this.applicationDetails.permit_type_id;
+    this.mapService.buildMap();
     this.isLoading = false;
   }
 
@@ -180,10 +155,24 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_td_number: ['', Validators.required],
       project_basement: [''],
       project_landmark: [''],
+      // inspector_name: ['', Validators.required],
+      // inspector_profession: ['', Validators.required],
+      // inspector_prc_no: ['', Validators.required],
     });
-    this.projectDetailsForm.valueChanges.subscribe((data) => {
-      this.projectFormChange = data;
-    });
+    this.projectDetailsForm
+      .get('project_barangay')
+      .valueChanges.subscribe((data) => {
+        this.mapService.removeMarker();
+        this.projectFormChange = data;
+        console.log(this.projectDetailsForm.value.project_barangay);
+        setTimeout(() => {
+          this.mapService
+            .fetchProjectLocation(
+              this.projectDetailsForm.value.project_barangay
+            )
+            .subscribe((res) => console.log(res));
+        }, 2000);
+      });
   }
 
   createprojectDetails() {
@@ -207,44 +196,22 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_tct_number: data.project_tct_number,
       project_tax_dec_number: data.project_td_number,
       project_landmark: data.project_landmark,
+      project_subdivision: data.project_subdivision,
+      // inspector_name: data.inspector_name,
+      // inspector_profession: data.inspector_profession,
+      // inspector_prc_no: data.inspector_prc_no,
+      project_long: this.mapService.lng,
+      project_lat: this.mapService.lat,
     };
   }
 
   onSubmit() {
     this.isLoading = true;
     this._submitted = true;
-
     this.createprojectDetails();
 
     const body = {
-      user_id: this.user.id,
-      permit_type_id: this.applicationDetailsFromService.application_type,
-      is_representative: this.applicationDetailsFromService.is_representative,
-      rol_status_id: this.applicationDetailsFromService.is_lot_owner,
-      construction_status_id: this.applicationDetailsFromService
-        .construction_status,
-      is_registered_owner: this.applicationDetailsFromService.registered_owner,
-      is_owned_by_corporation: this.applicationDetailsFromService
-        .is_owned_by_corporation,
-      is_property_have_coowners: this.applicationDetailsFromService
-        .is_property_have_coowners,
-      is_under_mortgage: this.applicationDetailsFromService.is_under_mortgage,
-      is_within_subdivision: this.applicationDetailsFromService
-        .is_within_subdivision,
-      occupancy_classification_id: this.applicationDetailsFromService
-        .occupancy_classification_id,
-      applicant_first_name: this.ownerDetails.owner_first_name,
-      applicant_middle_name: this.ownerDetails.owner_middle_name,
-      applicant_last_name: this.ownerDetails.owner_last_name,
-      applicant_suffix_name: this.ownerDetails.owner_suffix,
-      applicant_tin_number: this.ownerDetails.owner_tin_number,
-      applicant_contact_number: this.ownerDetails.owner_contact_number,
-      applicant_email_address: this.ownerDetails.owner_email_address,
-      applicant_house_number: this.ownerDetails.owner_house_number,
-      applicant_unit_number: this.ownerDetails.owner_unit_number,
-      applicant_floor_number: this.ownerDetails.owner_floor_number,
-      applicant_street_name: this.ownerDetails.owner_street,
-      applicant_barangay: this.ownerDetails.owner_barangay,
+      ...this.applicationDetails,
       ...this.projectDetails,
     };
     if (!this.projectDetailsForm.valid) {
@@ -254,38 +221,52 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
         }
       );
     } else {
-      if (this.isRepresentative == '2') {
-
-        this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
-          Swal.fire(
-            'Success!',
-            'Application Details Submitted!',
-            'success'
-          ).then((result) => {
-            this.isLoading = false;
-            switch (this.permitTypeId) {
-              case '1':
-                this._router.navigateByUrl('/dashboard/new/building-permit');
-                break;
-              case '2':
-                this._router.navigateByUrl('/dashboard/new/occupancy-permit');
-                break;
-              case '3':
-                this._router.navigateByUrl('/dashboard/new/excavation-permit');
-                break;
-              case '4':
-                this._router.navigateByUrl('/dashboard/new/fencing-permit');
-                break;
-              case '5':
-                this._router.navigateByUrl('/dashboard/new/demolition-permit');
-                break;
-            }
-          });
-        });
-      } else {
-        this.newApplicationFormService.setCommonFields(body);
-        this._router.navigateByUrl('/dashboard/new/step-two/in-charge');
-      }
+      this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
+        localStorage.setItem('app_id', res.data.id);
+        this.saveRoute(res.data.id);
+      });
     }
+  }
+  saveRoute(id) {
+    const body = {
+      user_id: this.user.id,
+      application_id: id,
+      url: '/dashboard/new/building-permit',
+    };
+    this.newApplicationSerivce.saveAsDraft(body).subscribe((res) => {
+      Swal.fire('Success!', 'Application Details Submitted!', 'success')
+        .then((result) => {
+          localStorage.removeItem('newApplicationInfo');
+          localStorage.removeItem('commonFieldsInfo');
+          this.isLoading = false;
+          switch (this.permitTypeId) {
+            case '1':
+              this._router.navigateByUrl('/dashboard/new/building-permit');
+              break;
+            case '2':
+              this._router.navigateByUrl('/dashboard/new/occupancy-permit');
+              break;
+            case '3':
+              this._router.navigateByUrl('/dashboard/new/excavation-permit');
+              break;
+            case '4':
+              this._router.navigateByUrl('/dashboard/new/fencing-permit');
+              break;
+            case '5':
+              this._router.navigateByUrl('/dashboard/new/demolition-permit');
+              break;
+          }
+        })
+        .catch((e) => {
+          this.openSnackBar('An error occured. Please try again.');
+          this._router.navigateByUrl('dashboard/new/step-one');
+        });
+    });
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 2000,
+    });
   }
 }

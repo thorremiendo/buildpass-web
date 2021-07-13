@@ -30,10 +30,16 @@ export class FileUploadComponent implements OnInit {
   }
 
   onSelect($event: NgxDropzoneChangeEvent) {
-    this.loading = true;
-    this.editMode = false;
-    this.file = $event.addedFiles[0];
-    this.emitFile.emit(this.file);
+    if ($event.rejectedFiles.length == 0) {
+      this.loading = true;
+      this.editMode = false;
+      this.file = $event.addedFiles[0];
+      this.emitFile.emit(this.file);
+    } else {
+      this.snackBar.open('You can only upload PDF files.', 'Close', {
+        duration: 2000,
+      });
+    }
   }
 
   toggleEditMode() {

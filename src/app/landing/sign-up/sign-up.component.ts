@@ -73,21 +73,18 @@ export class SignUpComponent implements OnInit {
     this._submitted = true;
 
     if (this._signupForm.valid) {
-      this._authService
-        .SignUp(value)
-        .then((result) => {
-          const user = result.user;
-          this.fireBaseUser = user;
+      this._registerAccountFormService
+        .checkIfEmailRegistered(value.email)
+        .then((res) => {
+          if (res.length > 0) {
+            this._signupForm.controls.email.setErrors({
+              emailAlreadyUsed: true,
+            });
+          } else {
+            this._registerAccountFormService.setRegisterAccountInfo(value);
 
-          this.SetUserDataFire(value);
-          this.createUserDetails(value);
-          this._registerAccountFormService.setRegisterAccountInfo(
-            this.userDetails
-          );
-          this._router.navigateByUrl('registration');
-        })
-        .catch((error) => {
-          window.alert(error.message);
+            this._router.navigateByUrl('registration');
+          }
         });
     }
   }

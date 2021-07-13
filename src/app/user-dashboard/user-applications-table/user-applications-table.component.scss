@@ -1,3 +1,18 @@
 .horizontal-line {
   background-color: maroon;
 }
+
+.spinner {
+  margin: 70px auto;
+  height: auto;
+  width: auto;
+  top: 0;
+
+  ::ng-deep .mat-spinner {
+    margin: 0 auto;
+
+    circle {
+      stroke: maroon;
+    }
+  }
+}

@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class RegistrationComponent implements OnInit {
   public selectedFile: File = null;
   public selectedPhoto: File = null;
+  public selectedSelfie: File = null;
   public maxLength: number = 11;
   public isUpdating: boolean = false;
   private firebaseDetails;
@@ -25,14 +26,19 @@ export class RegistrationComponent implements OnInit {
   _filteredBarangayOptions: Observable<Barangay[]>;
   _displayPhoto: string | ArrayBuffer = '';
   _displayIdPhoto: string | ArrayBuffer = '';
+  _displaySelfiePhoto: string | ArrayBuffer = '';
   _submitted = false;
 
   get displayProfilePhoto(): string | ArrayBuffer {
-    return this._displayPhoto ? this._displayPhoto : "https://baguio-visita.s3-ap-southeast-1.amazonaws.com/default-avatar.png";
+    return this._displayPhoto ? this._displayPhoto : '';
   }
 
   get displayIDPhoto(): string | ArrayBuffer {
     return this._displayIdPhoto ? this._displayIdPhoto : '';
+  }
+
+  get displaySelfiePhoto(): string | ArrayBuffer {
+    return this._displaySelfiePhoto ? this._displaySelfiePhoto : '';
   }
 
   get registrationFormControl() {
@@ -72,6 +78,11 @@ export class RegistrationComponent implements OnInit {
     element.click();
   }
 
+  openSelfieChooser() {
+    const element: HTMLElement = document.getElementById('selfie-photo') as HTMLElement;
+    element.click();
+  }
+
   handlePhotoFileChange($event) {
     this.selectedPhoto = $event.target.files[0];
     this.readSelectedPhotoInfo();
@@ -80,6 +91,11 @@ export class RegistrationComponent implements OnInit {
   handleIDFileChange($event) {
     this.selectedFile = $event.target.files[0];
     this.readSelectedIdInfo();
+  }
+
+  handleSelfieFileChange($event) {
+    this.selectedSelfie = $event.target.files[0];
+    this.readSelectedSelfieInfo();
   }
 
   readSelectedPhotoInfo() {
@@ -102,8 +118,18 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
+  readSelectedSelfieInfo() {
+    if (this.selectedSelfie) {
+      let reader = new FileReader();
+      reader.onload = (res) => {
+        this._displaySelfiePhoto = reader.result;
+      };
+      reader.readAsDataURL(this.selectedSelfie);
+    }
+  }
+
   filterBarangays(value: string): Barangay[] {
-    return this._barangay.filter(option => option.name.toLowerCase().includes(value));
+    return this._barangay.filter(option => option.name.toLowerCase().includes(value.toLowerCase()));
   }
 
   displayBarangayName(value: number) {
@@ -144,35 +170,83 @@ export class RegistrationComponent implements OnInit {
   onSubmit() {
     this._submitted = true;
 
-    if (this._registrationForm.valid && this.selectedFile && this.selectedPhoto) {
+    if (this._registrationForm.valid && this.selectedFile && this.selectedPhoto && this.selectedSelfie) {
       const dialogRef = this._dialog.open(DataPrivacyComponent);
-      dialogRef.afterClosed().subscribe(result => {
-        this.isUpdating = true;
-        
-        const user = {
-          first_name: this._registrationForm.value.first_name,
-          middle_name: this._registrationForm.value.middle_name,
-          last_name: this._registrationForm.value.last_name,
-          suffix_name: this._registrationForm.value.suffix_name,
-          birthdate: this.dateToString(this._registrationForm.value.birthdate),
-          marital_status_id: this._registrationForm.value.marital_status,
-          gender: this._registrationForm.value.gender,
-          home_address: this._registrationForm.value.home_address,
-          barangay: this._registrationForm.value.barangay,
-          contact_number: this._registrationForm.value.contact_number,
-          id_number: this._registrationForm.value.id_number,
-          id_type: this._registrationForm.value.id_type,
-          photo_path: this.selectedPhoto ? this.selectedPhoto : null,
-          id_photo_path: this.selectedFile ? this.selectedFile : null,
-          firebase_uid: this.firebaseDetails.firebase_uid,
-          email_address: this.firebaseDetails.email_address,
-          emailVerified: this.firebaseDetails.emailVerified,
-          is_evaluator: this.firebaseDetails.is_evaluator,
-        };
+      dialogRef.afterClosed().subscribe(dataPrivacyFlag => {
+        if (dataPrivacyFlag) {
+          this.isUpdating = true;
 
-        this._registerAccountFormService.submitRegisterAccountInfo(user).subscribe((res) => {
-          this._authService.SendVerificationMail();
-        });
+          if (this.registrationDetails.provider == 'google') {
+            const user = {
+              first_name: this._registrationForm.value.first_name,
+              middle_name: this._registrationForm.value.middle_name,
+              last_name: this._registrationForm.value.last_name,
+              suffix_name: this._registrationForm.value.suffix_name,
+              birthdate: this.dateToString(this._registrationForm.value.birthdate),
+              marital_status_id: this._registrationForm.value.marital_status,
+              gender: this._registrationForm.value.gender,
+              home_address: this._registrationForm.value.home_address,
+              barangay: this._registrationForm.value.barangay,
+              contact_number: this._registrationForm.value.contact_number,
+              id_number: this._registrationForm.value.id_number,
+              id_type: this._registrationForm.value.id_type,
+              photo_path: this.selectedPhoto ? this.selectedPhoto : null,
+              id_photo_path: this.selectedFile ? this.selectedFile : null,
+              selfie_with_id_path: this.selectedSelfie ? this.selectedSelfie : null,
+              firebase_uid: this.registrationDetails.firebase_uid,
+              email_address: this.registrationDetails.email,
+              emailVerified: this.registrationDetails.emailVerified,
+              is_evaluator: false,
+            };
+
+            this._registerAccountFormService.submitRegisterAccountInfo(user).subscribe((res) => {
+              this._authService.SendVerificationMail();
+            });
+          } else {
+            this._authService
+            .SignUp(this.registrationDetails)
+            .then(result => {
+              const user = {
+                first_name: this._registrationForm.value.first_name,
+                middle_name: this._registrationForm.value.middle_name,
+                last_name: this._registrationForm.value.last_name,
+                suffix_name: this._registrationForm.value.suffix_name,
+                birthdate: this.dateToString(this._registrationForm.value.birthdate),
+                marital_status_id: this._registrationForm.value.marital_status,
+                gender: this._registrationForm.value.gender,
+                home_address: this._registrationForm.value.home_address,
+                barangay: this._registrationForm.value.barangay,
+                contact_number: this._registrationForm.value.contact_number,
+                id_number: this._registrationForm.value.id_number,
+                id_type: this._registrationForm.value.id_type,
+                photo_path: this.selectedPhoto ? this.selectedPhoto : null,
+                id_photo_path: this.selectedFile ? this.selectedFile : null,
+                selfie_with_id_path: this.selectedSelfie ? this.selectedSelfie : null,
+                firebase_uid: result.user.uid,
+                email_address: result.user.email,
+                emailVerified: result.user.emailVerified,
+                is_evaluator: false,
+              };
+
+              this._registerAccountFormService.submitRegisterAccountInfo(user).subscribe((res) => {
+                this._authService.SendVerificationMail();
+              });
+            });
+          }
+        }
+      });
+    } else {
+      setTimeout(function() {
+        const noFile = document.querySelectorAll('.no-file');
+        const invalidInput = document.querySelectorAll('.mat-form-field-invalid');
+        if (noFile.length) {
+          noFile[0].scrollIntoView();
+        } else if (invalidInput.length) {
+          invalidInput[0].scrollIntoView();
+        }
+      }, 50);
+      this._snackbar.open('Please fill all required fields.', 'close', {
+        duration: 3000,
       });
     }
   }

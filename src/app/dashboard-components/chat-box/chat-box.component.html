@@ -76,7 +76,7 @@
           <mat-card-actions class="chat-footer">
             <div fxLayout="row" layout-align="start center">
               <mat-form-field class="mr-1 ml-1" fxFlex>
-                <input matInput [(ngModel)]="msg" placeholder="Send message" #myInput (keyup.enter)="OnAddMsg()">
+                <input matInput [(ngModel)]="msg" placeholder="Send message" (keyup.enter)="OnAddMsg()">
               </mat-form-field>
               <button mat-fab color="warn" (click)="OnAddMsg()" [disabled]="!msg">
                 <mat-icon>send</mat-icon>

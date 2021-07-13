@@ -115,7 +115,7 @@
       </p>
     </div>
   </div>
-  <h4 class="title"><mat-icon>assignment</mat-icon>Reminders</h4>
+  <h4 class="title"><mat-icon>assignment</mat-icon></h4>
   <div class="tutorial">
     <app-tutorial></app-tutorial>
   </div>
@@ -174,32 +174,34 @@
     <h4 class="title">
       <mat-icon>pending_actions</mat-icon>Applications Tracker
     </h4>
+    <div class="spinner" *ngIf="!applications">
+      <mat-spinner [diameter]="40"></mat-spinner>
+    </div>
     <ng-container *ngIf="applications?.length >= 1">
-      <ng-container *ngFor="let item of applications">
-        <mat-expansion-panel
-          style="border-radius: 10px"
-          class="my-1"
-          (opened)="panelOpenState = true"
-          (closed)="panelOpenState = false"
+      <mat-form-field appearance="outline">
+        <mat-select 
+          placeholder="Track application"
+          [(ngModel)]="applicationTracked"
+          class="application-selector"
         >
-          <mat-expansion-panel-header>
-            <mat-panel-title
-              ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
-                >timeline</mat-icon
-              >
-              {{ item.ocpas_code }}</mat-panel-title
-            >
-          </mat-expansion-panel-header>
-          <div class="main__container__applications-content">
-            <div class="scrollbar">
-              <perfect-scrollbar [config]="config">
-                <app-application-timeline page="home" [id]="item.id">
-                </app-application-timeline>
-              </perfect-scrollbar>
-            </div>
-          </div>
-        </mat-expansion-panel>
-      </ng-container>
+          <mat-option *ngFor="let application of applications" [value]="application">
+            ({{application.permit_application_code}})
+            {{application.project_detail?.block_number ? "BLOCK " + application.project_detail?.block_number : ''}}
+            {{application.project_detail?.lot_number ? "LOT " + application.project_detail?.lot_number : ''}}
+            {{application.project_detail?.house_number ? "# " + application.project_detail?.house_number : ''}}
+            {{application.project_detail?.street_name}}
+            {{application.project_detail?.subdivision}}
+            {{application.project_detail?.barangay }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <app-application-timeline
+        *ngIf="applicationTracked.id"
+        [id]="applicationTracked.id"
+        [type]="applicationTracked.permit_type_id"
+        lite=true
+      >
+      </app-application-timeline>
     </ng-container>
     <ng-container *ngIf="applications?.length == 0">
       <p class="text-center" style="font-weight: bold">

@@ -50,41 +50,37 @@ export class BuildingPermitComponent implements OnInit {
       label: 'Step 4',
     },
     {
-      id: 48,
-      src: '../../../../assets/forms/Notice_of_Construction.pdf',
-      label: 'Step 5',
-    },
-    {
       id: 106,
-      src: '../../../../assets/forms/situational-report.pdf',
-      label: 'Step 6',
+      src: '../../../../assets/forms/updated/situational_report.pdf',
+      label: 'Step 5',
+      sample: '../../../../assets/forms/sample/Situational.png',
     },
   ];
 
   public fieldSets: any = [
     {
-      label: 'Step 7',
+      label: `Step ${this.forms.length + 12323}`,
       title: 'Documentary Requirements',
       documents: [26, 104, 23, 24, 25],
     },
     {
-      label: 'Step 8',
+      label: `Step ${this.forms.length + 2}`,
       title: 'Plans',
       documents: [59, 61, 63, 62],
     },
     {
-      label: 'Step 9',
+      label: `Step ${this.forms.length + 3}`,
       title: 'Designs, Specifications, Cost Estimate',
       documents: [30, 32, 33],
     },
     {
-      label: 'Step 10',
+      label: `Step ${this.forms.length + 4}`,
       title:
         'Professional Tax Receipt and Professional Regulations Commission ID',
       documents: [34, 35, 36, 46],
     },
     {
-      label: 'Step 11',
+      label: `Step ${this.forms.length + 5}`,
       title: 'Other Requirements',
       documents: [39, 42],
     },
@@ -144,44 +140,87 @@ export class BuildingPermitComponent implements OnInit {
               this.applicationDetails
             );
 
-            const isLessee =
-              this.applicationDetails.rol_status_id == 2 ? true : false;
-            const isRegisteredOwner =
-              this.applicationDetails.is_registered_owner == 1 ? true : false;
-            const isNotRegisteredOwner =
-              this.applicationDetails.is_registered_owner == 2 ? true : false;
-            const isWithinSubdivision =
-              this.applicationDetails.is_within_subdivision == 1 ? true : false;
-            const isUnderMortgage =
-              this.applicationDetails.is_under_mortgage == 1 ? true : false;
-            const isOwnedByCorporation =
-              this.applicationDetails.is_owned_by_corporation == 1
-                ? true
-                : false;
-            const isHaveCoOwners =
-              this.applicationDetails.is_property_have_coowners == 1
-                ? true
-                : false;
-            const isConstructionStatus =
-              this.applicationDetails.construction_status_id == 1
-                ? true
-                : false;
-            const if10000sqm =
-              this.applicationDetails.project_detail.total_floor_area >= 10000
-                ? true
-                : false;
-            const isOccupancyCommercial =
-              this.applicationDetails.occupancy_classification_id !== 1
-                ? true
-                : false;
-            const is3storeysOrMore =
-              this.applicationDetails.project_detail.number_of_storey >= 3
-                ? true
-                : false;
-            const ifFloorArea20sqmOrMore =
-              this.applicationDetails.project_detail.total_floor_area > 20
-                ? true
-                : false;
+        const isLessee =
+          this.applicationDetails.rol_status_id == 2 ? true : false;
+        const isRegisteredOwner =
+          this.applicationDetails.is_registered_owner == 1 ? true : false;
+        const isNotRegisteredOwner =
+          this.applicationDetails.is_registered_owner == 2 ? true : false;
+        const isWithinSubdivision =
+          this.applicationDetails.is_within_subdivision == 1 ? true : false;
+        const isUnderMortgage =
+          this.applicationDetails.is_under_mortgage == 1 ? true : false;
+        const isOwnedByCorporation =
+          this.applicationDetails.is_owned_by_corporation == 1 ? true : false;
+        const isHaveCoOwners =
+          this.applicationDetails.is_property_have_coowners == 1 ? true : false;
+        const isConstructionStatus =
+          this.applicationDetails.construction_status_id == 1 ? true : false;
+        const if10000sqm =
+          this.applicationDetails.project_detail.total_floor_area >= 10000
+            ? true
+            : false;
+        const isOccupancyCommercial =
+          this.applicationDetails.occupancy_classification_id !== 1
+            ? true
+            : false;
+        const is3storeysOrMore =
+          this.applicationDetails.project_detail.number_of_storey >= 3
+            ? true
+            : false;
+        const ifFloorArea20sqmOrMore =
+          this.applicationDetails.project_detail.total_floor_area > 20
+            ? true
+            : false;
+        const isNoAsBuilt =
+          this.applicationDetails.construction_status_id !== 3 ? true : false;
+        const isEngineerArchitect =
+          this.applicationDetails.is_representative == 1 ? true : false;
+        isNoAsBuilt
+          ? this.fieldSets[4].documents.push(...this.isNotAsBuilt)
+          : null;
+        if10000sqm
+          ? this.fieldSets[4].documents.push(...this.if10000sqm)
+          : null;
+        isLessee ? this.fieldSets[0].documents.push(...this.lesseeDocs) : null;
+        isRegisteredOwner
+          ? this.fieldSets[0].documents.push(...this.registeredDocs)
+          : null;
+        isNotRegisteredOwner
+          ? this.fieldSets[0].documents.push(...this.notRegisteredDocs)
+          : null;
+        isWithinSubdivision
+          ? this.fieldSets[4].documents.push(...this.isWithinSubdivision)
+          : null;
+        isUnderMortgage
+          ? this.fieldSets[4].documents.push(...this.isUnderMortgage)
+          : null;
+        isOwnedByCorporation
+          ? this.fieldSets[4].documents.push(...this.isOwnedByCorporation)
+          : null;
+        isHaveCoOwners
+          ? this.fieldSets[4].documents.push(...this.isHaveCoOwners)
+          : null;
+        isConstructionStatus
+          ? this.updateForms()
+          : this.fieldSets[0].documents.push(...this.isConstructionStatus);
+        isOccupancyCommercial ? this.fieldSets[3].documents.push(47) : null;
+        isOccupancyCommercial ? this.fieldSets[1].documents.push(64) : null;
+        isOccupancyCommercial ? this.fieldSets[1].documents.push(65) : null;
+        is3storeysOrMore
+          ? this.fieldSets[2].documents.push(...this.is3storeysOrMore)
+          : null;
+        ifFloorArea20sqmOrMore
+          ? this.fieldSets[2].documents.push(...this.ifFloorArea20sqmOrMore)
+          : null;
+        // isEngineerArchitect
+        //   ? this.fieldSets[4].documents.push(...this.isEnginnerArchictect)
+        //   : null;
+        this.initData();
+        this.setFilePaths();
+        this.pdfSource = this.forms[0].src;
+        this.sampleForm = this.forms[0].sample;
+      });
 
             if10000sqm
               ? this.fieldSets[4].documents.push(...this.if10000sqm)
@@ -227,6 +266,15 @@ export class BuildingPermitComponent implements OnInit {
     this.isLoading = false;
   }
 
+  updateForms() {
+    this.forms.push({
+      id: 48,
+      src: '../../../../assets/forms/updated/notice_of_construction.pdf',
+      label: 'Step 6',
+      sample: '',
+    });
+  }
+
   // ngAfterViewInit() {
   //   this.saveRoute();
   // }
@@ -236,7 +284,11 @@ export class BuildingPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
-        this.openSnackBar('Uploaded!');
+        console.log(this.applicationDetails);
+        this.formData = this.dataBindingService.getFormData(
+          this.applicationDetails
+        );
+        this.openSnackBar('Saved!');
         this.setFilePaths();
       });
   }
@@ -245,25 +297,10 @@ export class BuildingPermitComponent implements OnInit {
     const body = {
       user_id: this.user.id,
       application_id: this.applicationId,
-      url: this.router.url,
+      url: '/dashboard/new/building-permit',
     };
 
     this.newApplicationService.saveAsDraft(body).subscribe((res) => {});
-  }
-
-  initPdfViewer(event) {
-    this.checkExistingZoningFormData();
-    const index = event.selectedIndex;
-    const pdfViewer = document.getElementById('pdf-viewer');
-    const pdfContainer = document.getElementById(`form-${index}`);
-    this.forms[index] ? (this.pdfSource = this.forms[index].src) : null;
-    this.forms[0] ? (this.formData = this.zoningFormData) : null;
-    this.forms[1] ? (this.formData = this.buildingFormData) : null;
-    this.forms[2] ? (this.formData = this.sanitaryFormData) : null;
-    this.forms[3] ? (this.formData = this.noticeOfConstructionFormData) : null;
-    this.forms[4] ? (this.formData = this.electricalFormData) : null;
-    this.forms[5] ? (this.formData = this.situationalReportFormData) : null;
-    pdfContainer ? pdfContainer.appendChild(pdfViewer) : null;
   }
 
   getDocType(id): string {
@@ -281,6 +318,11 @@ export class BuildingPermitComponent implements OnInit {
       };
     }
     for (let i = 0; i < this.fieldSets.length; i++) {
+      this.fieldSets[i] = {
+        label: `Step ${this.getFormsLength() + i + 1}`,
+        title: this.fieldSets[i].title,
+        documents: this.fieldSets[i].documents,
+      };
       for (let j = 0; j < this.fieldSets[i].documents.length; j++) {
         this.fieldSets[i].documents[j] = {
           id: this.fieldSets[i].documents[j],
@@ -360,17 +402,54 @@ export class BuildingPermitComponent implements OnInit {
   }
 
   submitApplication() {
-    if (this.getFieldSetsLength() + 6 == this.getUniqueUserDocs()) {
-      this.isLoading = true;
-      const body = {
-        application_status_id: 9,
-      };
-      this.applicationService
-        .updateApplicationStatus(body, this.applicationId)
-        .subscribe((res) => {
-          this.isLoading = false;
-          this.router.navigate(['dashboard/new/summary', this.applicationId]);
-        });
+    // if (this.getFieldSetsLength() + 6 == this.getUniqueUserDocs()) {
+    //   this.isLoading = true;
+    //   if (this.dateService.isWeekend() === false) {
+    //     console.log(this.dateService.isWorkHours());
+    //     if (this.dateService.isWorkHours() === true) {
+    //       const body = {
+    //         application_status_id: 9,
+    //       };
+    //       this.applicationService
+    //         .updateApplicationStatus(body, this.applicationId)
+    //         .subscribe((res) => {
+    //           this.isLoading = false;
+    //           this.router.navigate([
+    //             'dashboard/new/summary',
+    //             this.applicationId,
+    //           ]);
+    //         });
+    //     } else {
+    //       this.isLoading = false;
+    //       this.openSnackBar(
+    //         'You can only submit applications during Working Hours (8am - 5pm).'
+    //       );
+    //     }
+    //   } else {
+    //     this.openSnackBar('You can only submit applications on Weekdays.');
+    //     this.isLoading = false;
+    //   }
+    // } else {
+    //   this.openSnackBar('Please upload all necessary documents!');
+    // }
+    if (environment.receiveApplications == true) {
+      if (
+        this.getFieldSetsLength() + this.getFormsLength() ==
+        this.getUniqueUserDocs()
+      ) {
+        this.isLoading = true;
+        const body = {
+          application_status_id: 9,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.isLoading = false;
+            this.router.navigate(['dashboard/new/summary', this.applicationId]);
+          });
+      } else {
+        this.openSnackBar('Please upload all necessary documents!');
+      }
     } else {
       this.openSnackBar('Please upload all necessary documents!');
     }
@@ -384,6 +463,39 @@ export class BuildingPermitComponent implements OnInit {
         }
       });
   }
+
+  getFormsLength() {
+    return this.forms.length;
+  }
+
+  initPdfViewer(event) {
+    if (
+      this.applicationDetails.construction_status_id !== 1 &&
+      event.previouslySelectedIndex <= 4
+    ) {
+      this.upload(this.forms[event.previouslySelectedIndex]);
+    } else if (
+      this.applicationDetails.construction_status_id == 1 &&
+      event.previouslySelectedIndex <= 5
+    ) {
+      this.upload(this.forms[event.previouslySelectedIndex]);
+    }
+    // this.checkExistingZoningFormData();
+    const index = event.selectedIndex;
+    const pdfViewer = document.getElementById('pdf-viewer');
+    const pdfContainer = document.getElementById(`form-${index}`);
+    this.forms[index] ? (this.pdfSource = this.forms[index].src) : null;
+    this.forms[index] ? (this.sampleForm = this.forms[index].sample) : null;
+    // this.forms[0] ? (this.formData = this.zoningFormData) : null;
+    // this.forms[1] ? (this.formData = this.buildingFormData) : null;
+    // this.forms[2] ? (this.formData = this.sanitaryFormData) : null;
+    // this.forms[3] ? (this.formData = this.electricalFormData) : null;
+    // this.forms[4] ? (this.formData = this.situationalReportFormData) : null;
+    // this.forms[5] ? (this.formData = this.noticeOfConstructionFormData) : null;
+
+    pdfContainer ? pdfContainer.appendChild(pdfViewer) : null;
+  }
+
   public async upload(form): Promise<void> {
     const data = this.formData;
     const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
@@ -422,7 +534,7 @@ export class BuildingPermitComponent implements OnInit {
       this.newApplicationService
         .updateDocumentFile(uploadDocumentData, form.doc_id)
         .subscribe((res) => {
-          this.openSnackBar('Saved!');
+          this.fetchApplicationInfo();
         });
     }
   }
@@ -430,6 +542,8 @@ export class BuildingPermitComponent implements OnInit {
   openSnackBar(message: string) {
     this.snackBar.open(message, 'Close', {
       duration: 2000,
+      // horizontalPosition: 'right',
+      // verticalPosition: 'top',
     });
   }
 }

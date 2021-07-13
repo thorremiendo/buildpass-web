@@ -1,3 +1,4 @@
+import { SignPermitComponent } from './new-application/sign-permit/sign-permit.component';
 import { UserResolver } from './../core/guard/user.resolver';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -76,6 +77,7 @@ import { DemolitionPermitComponent } from './new-application/demolition-permit/d
     ExcavationPermitComponent,
     FencingPermitComponent,
     DemolitionPermitComponent,
+    SignPermitComponent,
   ],
   imports: [
     CommonModule,

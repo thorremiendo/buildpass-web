@@ -10,6 +10,7 @@ import { AuthService, BarangayService } from 'src/app/core';
 import { map, startWith } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface Barangay {
   id: number;
@@ -31,11 +32,12 @@ export interface Barangay {
 export class CommonFieldsRepresentativeComponent implements OnInit {
   public projectDetails;
   public ownerDetails;
-  public applicationDetails;
+  public applicationDetailsFromService;
   public representativeDetails;
   public user;
   public userDetails;
   public isLoading: boolean = true;
+  public permitTypeId;
   public barangay: Barangay[];
   public representativeDetailsForm: FormGroup;
   _submitted = false;
@@ -57,39 +59,20 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
     private newApplicationFormService: NewApplicationFormService,
     private newApplicationService: NewApplicationService,
     private barangayService: BarangayService,
-    private authService: AuthService,
-    private userService: UserService
+    private snackBar: MatSnackBar
   ) {
     this.createForm();
     this.barangayService.getBarangayInfo().subscribe((data) => {
       this.barangay = data;
 
-      this._filteredBarangayOptions = this.representativeDetailsFormControl.representative_barangay.valueChanges.pipe(
-        startWith(''),
-        map((barangay) =>
-          barangay ? this._filter(barangay) : this.barangay.slice()
-        )
-      );
+      this._filteredBarangayOptions =
+        this.representativeDetailsFormControl.representative_barangay.valueChanges.pipe(
+          startWith(''),
+          map((barangay) =>
+            barangay ? this._filter(barangay) : this.barangay.slice()
+          )
+        );
     });
-  }
-
-  ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem('user'));
-    if (localStorage.getItem('commonFieldsInfo')) {
-      this.applicationDetails = JSON.parse(
-        localStorage.getItem('commonFieldsInfo')
-      );
-      this.isLoading = false;
-    } else {
-      this.newApplicationFormService.commonFieldsSubject
-        .asObservable()
-        .subscribe((commonFieldsSubject) => {
-          this.applicationDetails = commonFieldsSubject;
-        });
-      this.isLoading = false;
-    }
-
-    this.createForm();
   }
   private _filter(value: string): Barangay[] {
     const filterValue = value.toLowerCase();
@@ -98,6 +81,50 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
       option.name.toLowerCase().includes(filterValue)
     );
   }
+  ngOnInit(): void {
+    this.user = JSON.parse(localStorage.getItem('user'));
+    if (localStorage.getItem('commonFieldsInfo')) {
+      this.ownerDetails = JSON.parse(localStorage.getItem('commonFieldsInfo'));
+      this.isLoading = false;
+    } else {
+      this.newApplicationFormService.commonFieldsSubject
+        .asObservable()
+        .subscribe((commonFieldsSubject) => {
+          this.ownerDetails = commonFieldsSubject;
+        });
+      this.isLoading = false;
+    }
+    if (localStorage.getItem('newApplicationInfo')) {
+      this.applicationDetailsFromService = JSON.parse(
+        localStorage.getItem('newApplicationInfo')
+      );
+      this.permitTypeId = this.applicationDetailsFromService.application_type;
+    } else {
+      this.newApplicationFormService.newApplicationSubject
+        .asObservable()
+        .subscribe((newApplicationSubject) => {
+          this.applicationDetailsFromService = newApplicationSubject;
+          this.permitTypeId =
+            this.applicationDetailsFromService.application_type;
+        });
+    }
+    this.createForm();
+    if (this.ownerDetails.is_representative == 1) {
+      this.patchDetails();
+    }
+  }
+
+  patchDetails() {
+    console.log(this.user);
+    this.representativeDetailsForm.patchValue({
+      representative_first_name: this.user.first_name,
+      representative_middle_name: this.user.middle_name,
+      representative_last_name: this.user.last_name,
+      representative_contact_no: this.user.contact_number,
+      representative_email_address: this.user.email_address,
+    });
+  }
+
   createForm() {
     this.representativeDetailsForm = this._fb.group({
       representative_first_name: ['', Validators.required],
@@ -136,11 +163,13 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
       rep_barangay: value.representative_barangay,
       rep_contact_number: value.representative_contact_no,
       rep_email_address: value.representative_email_address,
-      prc_id_front_photo_path: this.prcFront,
-      prc_id_back_photo_path: this.prcBack,
-      id_front_photo_path: this.validIdFront,
-      id_back_photo_path: this.validIdBack,
-      id_type: '3',
+      prc_no: value.prcNo,
+      ptc_no: value.ptcNo,
+      // prc_id_front_photo_path: this.prcFront,
+      // prc_id_back_photo_path: this.prcBack,
+      // id_front_photo_path: this.validIdFront,
+      // id_back_photo_path: this.validIdBack,
+      // id_type: '3',
     };
   }
   onSubmit() {
@@ -154,51 +183,53 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
           this.isLoading = false;
         }
       );
-    } else if (
-      !this.prcFront ||
-      !this.prcBack ||
-      !this.validIdBack ||
-      !this.validIdFront
-    ) {
-      Swal.fire(
-        'Notice!',
-        'Please upload all required ID photos!',
-        'info'
-      ).then((result) => {
-        this.isLoading = false;
-      });
     } else {
       const body = {
+        user_id: this.user.id,
+        permit_type_id: this.applicationDetailsFromService.application_type,
+        is_representative: this.applicationDetailsFromService.is_representative,
+        rol_status_id: this.applicationDetailsFromService.is_lot_owner,
+        construction_status_id:
+          this.applicationDetailsFromService.construction_status,
+        is_registered_owner:
+          this.applicationDetailsFromService.registered_owner,
+        is_owned_by_corporation:
+          this.applicationDetailsFromService.is_owned_by_corporation,
+        is_property_have_coowners:
+          this.applicationDetailsFromService.is_property_have_coowners,
+        is_under_mortgage: this.applicationDetailsFromService.is_under_mortgage,
+        is_within_subdivision:
+          this.applicationDetailsFromService.is_within_subdivision,
+        occupancy_classification_id:
+          this.applicationDetailsFromService.occupancy_classification_id,
+        applicant_first_name: this.ownerDetails.owner_first_name,
+        applicant_middle_name: this.ownerDetails.owner_middle_name,
+        applicant_last_name: this.ownerDetails.owner_last_name,
+        applicant_suffix_name: this.ownerDetails.owner_suffix,
+        applicant_tin_number: this.ownerDetails.owner_tin_number,
+        applicant_contact_number: this.ownerDetails.owner_contact_number,
+        applicant_email_address: this.ownerDetails.owner_email_address,
+        applicant_house_number: this.ownerDetails.owner_house_number,
+        applicant_unit_number: this.ownerDetails.owner_unit_number,
+        applicant_floor_number: this.ownerDetails.owner_floor_number,
+        applicant_street_name: this.ownerDetails.owner_street,
+        applicant_barangay: this.ownerDetails.owner_barangay,
+        applicant_lot_number: this.ownerDetails.owner_lot_number,
+        applicant_block_number: this.ownerDetails.owner_block_number,
+        applicant_subdivision: this.ownerDetails.owner_subdivision,
+        applicant_purok: this.ownerDetails.owner_purok,
+
         ...this.representativeDetails,
-        ...this.applicationDetails,
       };
-
-      this.newApplicationService.submitApplication(body).subscribe((res) => {
-        Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
-          (result) => {
-            this.isLoading = false;
-
-            switch (this.applicationDetails.permit_type_id) {
-              case '1':
-                this._router.navigateByUrl('/dashboard/new/building-permit');
-                break;
-              case '2':
-                this._router.navigateByUrl('/dashboard/new/occupancy-permit');
-                break;
-              case '3':
-                this._router.navigateByUrl('/dashboard/new/excavation-permit');
-                break;
-              case '4':
-                this._router.navigateByUrl('/dashboard/new/fencing-permit');
-                break;
-              case '5':
-                this._router.navigateByUrl('/dashboard/new/demolition-permit');
-                break;
-            }
-          }
-        );
-      });
+      this.newApplicationFormService.setCommonFields(body);
+      this._router.navigateByUrl('/dashboard/new/step-two/project-site');
     }
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 2000,
+    });
   }
 
   onSelect($event: NgxDropzoneChangeEvent, type) {

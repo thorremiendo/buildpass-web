@@ -18,6 +18,7 @@ export class NotificationComponent implements OnInit {
   public feeds: Feed[] = [];
   public show_notif: boolean = true;
   public config: PerfectScrollbarConfigInterface = {};
+  public totalUnseenNotif: string | number;
   private feedSubscription: Subscription;
 
   constructor(private feedService: FeedService, private router: Router) {}
@@ -28,20 +29,38 @@ export class NotificationComponent implements OnInit {
       this.show_notif = false;
     } else {
       this.feedService.checkUser();
+
       this.feedSubscription = this.feedService
         .getFeedItems()
         .subscribe((feed: Feed) => {
           this.feeds.push(feed);
         });
 
-      this.feedService.getNotifTable().subscribe((data) => {
-        this.feeds = data.data;
-      });
+        this.updateNotifTable();
+     
+      
     }
   }
 
-  openNotif(index, id) {
-    this.feeds.splice(index, 1);
+  updateNotifTable(){
+    this.feedService.getNotifTable().subscribe((data) => {
+      //console.log(data)
+      this.feeds = data.data;
+    });
+
+    this.feedService.getTotalUnseenNotif().subscribe( data => {
+      //console.log("hello"+JSON.stringify(data.data));
+      this.totalUnseenNotif = data.data;    
+    })
+
+   
+    
+  }
+
+  openNotif(id, applicationId) {
+    this.feedService.isViewed(id).subscribe( res => {
+      this.updateNotifTable();
+    });
     if (this.user.is_evaluator == 1) {
       this.router.navigate(['evaluator/application', id]).then(() => {});
     } else {

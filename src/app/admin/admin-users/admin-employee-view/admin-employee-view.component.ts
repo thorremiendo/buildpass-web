@@ -136,7 +136,7 @@ export class AdminEmployeeViewComponent implements OnInit {
 
   filterBarangays(value: string): Barangay[] {
     return this._barangay.filter((option) =>
-      option.name.toLowerCase().includes(value)
+      option.name.toLowerCase().includes(value.toLowerCase())
     );
   }
 

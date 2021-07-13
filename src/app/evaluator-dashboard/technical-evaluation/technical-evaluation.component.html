@@ -37,7 +37,13 @@
           }}
         </span>
       </p>
-      <p>
+      <p
+        *ngIf="
+          applicationDetails.permit_type_id == 1 ||
+          applicationDetails.permit_type_id == 4 ||
+          applicationDetails.permit_type_id == 7
+        "
+      >
         Electrical:
         <span
           style="font-weight: bold"
@@ -71,7 +77,12 @@
           }}
         </span>
       </p>
-      <p>
+      <p
+        *ngIf="
+          applicationDetails.permit_type_id == 1 ||
+          applicationDetails.permit_type_id == 7
+        "
+      >
         Architectural:
         <span
           style="font-weight: bold"

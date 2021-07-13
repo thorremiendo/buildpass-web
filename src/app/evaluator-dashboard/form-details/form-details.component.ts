@@ -57,6 +57,7 @@ export class FormDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.data);
     this.userService.cast.subscribe((userSubject) => {
       this.user = userSubject;
       if (localStorage.getItem('user')) {
@@ -70,6 +71,11 @@ export class FormDetailsComponent implements OnInit {
     });
     this.viewSDKClient.form = this.data.form;
     this.viewSDKClient.formId = this.data.form.id;
+    this.revisionData = this.data.form.document_revision;
+
+    this.remarksForm = this.fb.group({
+      remarks: new FormControl(''),
+    });
   }
   //adobe sdk functions
   ngAfterViewInit() {
@@ -100,15 +106,28 @@ export class FormDetailsComponent implements OnInit {
   removeAnnotations() {
     this.annotationManager
       .removeAnnotationsFromPDF()
-      .then((result: any) => {
-        console.log(
-          'Annotations removed from PDF successfully and updated PDF bufferand annotation list returned.',
-          result
-        );
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
+      .then((result) => {})
+      .catch((error) => console.log(error));
+  }
+
+  isDocumentAForm() {
+    if (
+      this.data.form.document_id == 1 ||
+      this.data.form.document_id == 2 ||
+      this.data.form.document_id == 3 ||
+      this.data.form.document_id == 4 ||
+      this.data.form.document_id == 5 ||
+      this.data.form.document_id == 48 ||
+      this.data.form.document_id == 106 ||
+      this.data.form.document_id == 98 ||
+      this.data.form.document_id == 99
+    ) {
+      return true;
+    } else return false;
+  }
+
+  getDocType(id): string {
+    return documentTypes[id];
   }
 
   onSelect($event: NgxDropzoneChangeEvent, type) {
@@ -138,24 +157,162 @@ export class FormDetailsComponent implements OnInit {
     this.newApplicationService
       .updateUserDocs(revisionData, id)
       .subscribe((res) => {
-        if (this.permitDetails.value.is_compliant == 1) {
-          this.compliant(this.data.form.document_path, id);
-        } else if (this.permitDetails.value.is_compliant == 2) {
-          this.noncompliant(this.data.form.document_path, id);
-        }
+        this.fetchRevisionData();
       });
   }
+  fetchRevisionData() {
+    this.applicationService
+      .fetchSpecificDocInfo(this.data.form.id)
+      .subscribe((res) => {
+        this.revisionData = res.data[0].document_revision;
+        this.remarksForm.reset();
+        setTimeout(() => {
+          this.isSubmitting = false;
+        }, 1500);
+      });
+  }
+
+  callSave() {
+    this.isSubmitting = true;
+    const id = this.data.form.id;
+    if (this.permitDetails.value.is_compliant == 1) {
+      this.isSubmitting = true;
+      const id = this.data.form.id;
+      const revisionData = {
+        evaluator_user_id: this.data.evaluator.user_id,
+        remarks: this.remarksForm.value.remarks,
+        is_complied: this.permitDetails.value.is_compliant,
+      };
+      this.newApplicationService
+        .updateUserDocs(revisionData, id)
+        .subscribe((res) => {
+          this.compliant(this.data.form, id);
+        });
+    } else if (this.permitDetails.value.is_compliant == 2) {
+      this.noncompliant(this.data.form, id);
+    }
+  }
+
   onNoClick(): void {
     this.dialogRef.close();
   }
+
+  public async updateForm(): Promise<void> {
+    this.isSubmitting = true;
+    const filters = [59, 63, 36, 62, 32, 33];
+    const findId = filters.find((e) => e == this.data.form.document_id);
+    // const blob =
+    //   await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    const uploadDocumentData = {
+      document_status_id: 0,
+      // document_path: blob,
+    };
+    if (this.data.application.receiving_status_id == 2) {
+      uploadDocumentData['receiving_status_id'] = 0;
+    }
+    if (!findId) {
+      uploadDocumentData['cbao_status_id'] = 0;
+    }
+    if (findId) {
+      const doc = this.data.form;
+      const id = this.data.form.id;
+      const status = [
+        {
+          cbao_status_id: doc.cbao_status_id,
+        },
+        {
+          cepmo_status_id: doc.cepmo_status_id,
+        },
+        {
+          bfp_status_id: doc.bfp_status_id,
+        },
+      ];
+      status.forEach((e) => {
+        if (e.cbao_status_id == 2) {
+          const body = {
+            cbao_status_id: 0,
+            document_status_id: 0,
+          };
+          this.updateDoc(body, id);
+        } else if (e.cepmo_status_id == 2) {
+          const body = {
+            cepmo_status_id: 0,
+            document_status_id: 0,
+          };
+          this.updateDoc(body, id);
+        } else if (e.bfp_status_id == 2) {
+          const body = {
+            bfp_status_id: 0,
+            document_status_id: 0,
+          };
+          this.updateDoc(body, id);
+        }
+      });
+    }
+
+    this.newApplicationService
+      .updateDocumentFile(uploadDocumentData, this.data.form.id)
+      .subscribe((res) => {
+        this.isSubmitting = false;
+        Swal.fire('Success!', `File Updated!`, 'success').then((result) => {
+          this.onNoClick();
+        });
+      });
+  }
+
   callUpdate() {
     this.isSubmitting = true;
+    const filters = [59, 63, 36, 62, 32, 33];
+    const findId = filters.find((e) => e == this.data.form.document_id);
     const uploadDocumentData = {
       document_status_id: 0,
     };
     if (this.selectedForm) {
       uploadDocumentData['document_path'] = this.selectedForm;
     }
+    if (this.data.application.receiving_status_id == 2) {
+      uploadDocumentData['receiving_status_id'] = 0;
+    }
+    if (!findId) {
+      uploadDocumentData['cbao_status_id'] = 0;
+    }
+    if (findId) {
+      const doc = this.data.form;
+      const id = this.data.form.id;
+      const status = [
+        {
+          cbao_status_id: doc.cbao_status_id,
+        },
+        {
+          cepmo_status_id: doc.cepmo_status_id,
+        },
+        {
+          bfp_status_id: doc.bfp_status_id,
+        },
+      ];
+      status.forEach((e) => {
+        if (e.cbao_status_id == 2) {
+          const body = {
+            cbao_status_id: 0,
+            document_status_id: 0,
+          };
+          this.updateDoc(body, id);
+        } else if (e.cepmo_status_id == 2) {
+          const body = {
+            cepmo_status_id: 0,
+            document_status_id: 0,
+          };
+          this.updateDoc(body, id);
+        } else if (e.bfp_status_id == 2) {
+          const body = {
+            bfp_status_id: 0,
+            document_status_id: 0,
+          };
+          this.updateDoc(body, id);
+        }
+      });
+    }
+
     this.newApplicationService
       .updateDocumentFile(uploadDocumentData, this.data.form.id)
       .subscribe((res) => {
@@ -167,15 +324,106 @@ export class FormDetailsComponent implements OnInit {
   }
 
   compliant(form, id) {
-    this.waterMark.insertWaterMark(form, 'compliant').then((blob) => {
-      const updateFileData = {
-        document_status_id: this.permitDetails.value.is_compliant,
-      };
-      this.newApplicationService
-        .updateDocumentFile(updateFileData, id)
-        .subscribe((res) => {
-          this.isSubmitting = false;
-          Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
+    this.waterMark
+      .insertWaterMark(form.document_path, 'compliant')
+      .then((blob) => {
+        let body = {};
+        const officeId = this.data.evaluator.office_id;
+        const permitType = this.data.application.permit_type_id;
+        if (officeId == 2) {
+          //CEPMO
+          body = {
+            cepmo_status_id: this.permitDetails.value.is_compliant,
+            is_override: 1,
+          };
+          this.updateDoc(body, id);
+        } else if (officeId == 3) {
+          //BFP
+          body = {
+            bfp_status_id: this.permitDetails.value.is_compliant,
+            is_override: 1,
+          };
+          this.updateDoc(body, id);
+        } else if (officeId == 4) {
+          //CBAO
+          if (
+            permitType == 1 &&
+            this.data.evaluator.position !== 'Admin Aide IV'
+          ) {
+            //BLDG PERMIT EVALUATORS
+            const filters = [59, 63, 36, 62, 32, 33];
+            const findId = filters.find((e) => e == this.data.form.document_id);
+            if (findId) {
+              //PARALLEL DOC
+              body = {
+                cbao_status_id: this.permitDetails.value.is_compliant,
+                is_override: 1,
+              };
+              this.updateDoc(body, id);
+            } else if (!findId) {
+              //NOT PARALLEL DOC
+              body = {
+                document_status_id: this.permitDetails.value.is_compliant,
+                cbao_status_id: this.permitDetails.value.is_compliant,
+              };
+              this.updateDoc(body, id);
+            }
+          } else if (this.data.evaluator.position == 'Admin Aide IV') {
+            //BLDG PERMIT RECEIVING
+            body = {
+              document_status_id: this.permitDetails.value.is_compliant,
+              receiving_status_id: this.permitDetails.value.is_compliant,
+            };
+            this.updateDoc(body, id);
+          } else {
+            body = {
+              document_status_id: this.permitDetails.value.is_compliant,
+            };
+            this.updateDoc(body, id);
+          }
+        } else if (officeId == 1) {
+          //CPDO
+          body = {
+            document_status_id: this.permitDetails.value.is_compliant,
+          };
+          if (this.data.form.document_id == 1) {
+            this.newApplicationService
+              .updateDocumentFile({ bfp_status_id: 1 }, id)
+              .subscribe((res) => {
+                this.newApplicationService
+                  .updateDocumentFile({ cbao_status_id: 1 }, id)
+                  .subscribe((res) => {
+                    this.newApplicationService
+                      .updateDocumentFile({ cepmo_status_id: 1 }, id)
+                      .subscribe((res) => {
+                        this.updateDoc(body, id);
+                      });
+                  });
+              });
+          } else {
+            this.updateDoc(body, id);
+          }
+        }
+      });
+  }
+
+  updateDoc(body, id) {
+    this.newApplicationService.updateDocumentFile(body, id).subscribe((res) => {
+      Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
+        this.onNoClick();
+        this.isSubmitting = false;
+      });
+    });
+  }
+
+  resetWatermark() {
+    this.isSubmitting = true;
+    var body = {};
+    this.newApplicationService
+      .resetDocumentWatermark(body, this.data.form.id)
+      .subscribe((res) => {
+        Swal.fire('Success!', `Watermark Removed!`, 'success').then(
+          (result) => {
             this.onNoClick();
           });
         });
@@ -183,17 +431,180 @@ export class FormDetailsComponent implements OnInit {
   }
 
   noncompliant(form, id) {
-    this.waterMark.insertWaterMark(form, 'non-compliant').then((blob) => {
-      const updateFileData = {
-        document_status_id: this.permitDetails.value.is_compliant,
-        document_path: blob,
-      };
-      this.newApplicationService
-        .updateDocumentFile(updateFileData, id)
-        .subscribe((res) => {
-          this.isSubmitting = false;
-          Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
-            this.onNoClick();
+    this.isSubmitting = true;
+    this.newApplicationService.fetchDocumentPath(id).subscribe((res) => {
+      var docPath = res.data.document_path;
+      if (
+        form.document_id == 1 ||
+        form.document_id == 2 ||
+        form.document_id == 3 ||
+        form.document_id == 4 ||
+        form.document_id == 5 ||
+        form.document_id == 48 ||
+        form.document_id == 106 ||
+        form.document_id == 98 ||
+        form.document_id == 99
+      ) {
+        let body = {};
+        const officeId = this.data.evaluator.office_id;
+        const permitType = this.data.application.permit_type_id;
+        if (officeId == 2) {
+          //CEPMO
+          body = {
+            cepmo_status_id: this.permitDetails.value.is_compliant,
+            is_override: 1,
+          };
+          this.updateDoc(body, id);
+        } else if (officeId == 3) {
+          //BFP
+          body = {
+            bfp_status_id: this.permitDetails.value.is_compliant,
+            is_override: 1,
+          };
+          this.updateDoc(body, id);
+        } else if (officeId == 4) {
+          //CBAO
+          if (
+            permitType == 1 &&
+            this.data.evaluator.position !== 'Admin Aide IV'
+          ) {
+            //BLDG PERMIT EVALUATORS
+            const filters = [59, 63, 36, 62, 32, 33];
+            const findId = filters.find((e) => e == this.data.form.document_id);
+            if (findId) {
+              //PARALLEL DOC
+              body = {
+                cbao_status_id: this.permitDetails.value.is_compliant,
+                is_override: 1,
+              };
+              this.updateDoc(body, id);
+            } else if (!findId) {
+              //NOT PARALLEL DOC
+              body = {
+                document_status_id: this.permitDetails.value.is_compliant,
+                cbao_status_id: this.permitDetails.value.is_compliant,
+              };
+              this.updateDoc(body, id);
+            }
+          } else if (this.data.evaluator.position == 'Admin Aide IV') {
+            //BLDG PERMIT RECEIVING
+            body = {
+              document_status_id: this.permitDetails.value.is_compliant,
+              receiving_status_id: this.permitDetails.value.is_compliant,
+            };
+            this.updateDoc(body, id);
+          } else {
+            body = {
+              document_status_id: this.permitDetails.value.is_compliant,
+            };
+            this.updateDoc(body, id);
+          }
+        } else if (officeId == 1) {
+          //CPDO
+          body = {
+            document_status_id: this.permitDetails.value.is_compliant,
+          };
+          if (this.data.form.document_id == 1) {
+            this.newApplicationService
+              .updateDocumentFile({ bfp_status_id: 0 }, id)
+              .subscribe((res) => {
+                this.newApplicationService
+                  .updateDocumentFile({ cbao_status_id: 0 }, id)
+                  .subscribe((res) => {
+                    this.newApplicationService
+                      .updateDocumentFile({ cepmo_status_id: 0 }, id)
+                      .subscribe((res) => {
+                        this.updateDoc(body, id);
+                      });
+                  });
+              });
+          } else {
+            this.updateDoc(body, id);
+          }
+        }
+      } else {
+        this.waterMark
+          .insertWaterMark(docPath, 'non-compliant')
+          .then((blob) => {
+            let body = {};
+            const officeId = this.data.evaluator.office_id;
+            const permitType = this.data.application.permit_type_id;
+            if (officeId == 2) {
+              //CEPMO
+              body = {
+                cepmo_status_id: this.permitDetails.value.is_compliant,
+                is_override: 1,
+                document_path: blob,
+              };
+              this.updateDoc(body, id);
+            } else if (officeId == 3) {
+              //BFP
+              body = {
+                bfp_status_id: this.permitDetails.value.is_compliant,
+                is_override: 1,
+                document_path: blob,
+              };
+              this.updateDoc(body, id);
+            } else if (officeId == 4) {
+              //CBAO
+              if (
+                permitType == 1 &&
+                this.data.evaluator.position !== 'Admin Aide IV'
+              ) {
+                //BLDG PERMIT EVALUATORS
+                const filters = [59, 63, 36, 62, 32, 33];
+                const findId = filters.find(
+                  (e) => e == this.data.form.document_id
+                );
+                if (findId) {
+                  //PARALLEL DOC
+                  body = {
+                    cbao_status_id: this.permitDetails.value.is_compliant,
+                    document_path: blob,
+                    is_override: 1,
+                  };
+                  this.updateDoc(body, id);
+                } else if (!findId) {
+                  //NOT PARALLEL DOC
+                  body = {
+                    document_status_id: this.permitDetails.value.is_compliant,
+                    cbao_status_id: this.permitDetails.value.is_compliant,
+                    document_path: blob,
+                  };
+                  this.updateDoc(body, id);
+                }
+              } else if (this.data.evaluator.position == 'Admin Aide IV') {
+                //BLDG PERMIT RECEIVING
+                body = {
+                  document_status_id: this.permitDetails.value.is_compliant,
+                  receiving_status_id: this.permitDetails.value.is_compliant,
+                  document_path: blob,
+                };
+                this.updateDoc(body, id);
+              }
+            } else if (officeId == 1) {
+              //CPDO
+              body = {
+                document_status_id: this.permitDetails.value.is_compliant,
+              };
+              if (this.data.form.document_id == 1) {
+                this.newApplicationService
+                  .updateDocumentFile({ bfp_status_id: 0 }, id)
+                  .subscribe((res) => {
+                    this.newApplicationService
+                      .updateDocumentFile({ cbao_status_id: 0 }, id)
+                      .subscribe((res) => {
+                        this.newApplicationService
+                          .updateDocumentFile({ cepmo_status_id: 0 }, id)
+                          .subscribe((res) => {
+                            this.updateDoc(body, id);
+                          });
+                      });
+                  });
+              } else {
+                this.updateDoc(body, id);
+              }
+            }
           });
         });
     });

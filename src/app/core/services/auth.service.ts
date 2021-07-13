@@ -39,12 +39,11 @@ export class AuthService {
     logged in and setting up null when logged out */
     this.currentUser.subscribe((user) => {
       if (user) {
-        console.log("this"+user.first_name);
         localStorage.setItem('user', JSON.stringify(user));
         this.isAuthenticatedSubject.next(true);
-        // LogRocket.identify('bblmhh/buildpass-staging', {
-        //   name: `${user.first_name} ${user.middle_name} ${user.last_name} `,
-        //   email: `${user.email_address}`,
+        LogRocket.identify('bblmhh/buildpass-production', {
+          name: `${user.first_name} ${user.middle_name} ${user.last_name} `,
+          email: `${user.email_address}`,
 
         //   // Add your own custom user variables here, ie:
 
@@ -110,6 +109,52 @@ export class AuthService {
       });
   }
 
+  handleVerifyEmail(actionCode) {
+    return firebase
+      .auth()
+      .applyActionCode(actionCode)
+      .then(() => {
+        window.alert('Email Verified');
+      })
+      .catch((error) => {
+        window.alert(error.message);
+      });
+  }
+
+  handleResetPassword(actionCode) {
+    console.log('reset password');
+    localStorage.setItem('actionCode', JSON.stringify(actionCode));
+    this.router.navigate(['change-password']);
+  }
+
+  verifyPasswordResetCode(actionCode) {
+    return new Promise<any>((resolve) => {
+      firebase
+        .auth()
+        .verifyPasswordResetCode(actionCode)
+        .then((email) => {
+          resolve(email);
+        })
+        .catch((error) => {
+          window.alert(error.message);
+        });
+    });
+  }
+
+  confirmPasswordReset(actionCode, newPassword) {
+    firebase
+      .auth()
+      .confirmPasswordReset(actionCode, newPassword)
+      .then((resp) => {
+        window.alert('Success');
+        this.router.navigate(['user/sign-in']);
+        localStorage.removeItem('actionCode');
+      })
+      .catch((error) => {
+        window.alert(error.message);
+      });
+  }
+
   // Reset Forggot password
   ForgotPassword(passwordResetEmail) {
     return firebase
@@ -122,6 +167,24 @@ export class AuthService {
         window.alert(error);
       });
   }
+
+   // Change password
+   ChangePassword(passwordResetEmail){
+    return new Promise<any>((resolve, reject) => {
+      firebase
+      .auth()
+      .currentUser
+      .updatePassword(passwordResetEmail)
+      .then(() => {
+        resolve ("Password Changed")
+      })
+      .catch((error) => {
+        resolve ("Something went wrong")
+        window.alert(error);
+      });
+  });
+}
+  
 
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {

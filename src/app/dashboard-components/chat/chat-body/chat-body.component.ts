@@ -1,4 +1,10 @@
-import { OnInit, Component, ViewChild, ElementRef } from '@angular/core';
+import {
+  OnInit,
+  Component,
+  ViewChild,
+  ElementRef,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { messages, chatBotMessage } from '../../chat-box/chat-data-sample';
 import { ChatService } from '../../../core';
@@ -28,11 +34,13 @@ export class ChatBodyComponent implements OnInit {
   public messages: [];
   private messageSubscription: Subscription;
 
-  @ViewChild('myInput', { static: true }) myInput: ElementRef = Object.create(
-    null
-  );
+  @ViewChild('myInput', { static: true }) myInput: ElementRef =
+    Object.create(null);
 
-  constructor(private chatService: ChatService) {}
+  constructor(
+    private chatService: ChatService,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     if (localStorage.getItem('user') != null) {
@@ -48,6 +56,7 @@ export class ChatBodyComponent implements OnInit {
         .fetchConvo(this.userInfo.id, 'sender')
         .subscribe((data) => {
           this.messages = data.data;
+
           if (this.messages.length != 0) {
             this.hasMessage = true;
           }
@@ -69,6 +78,7 @@ export class ChatBodyComponent implements OnInit {
     this.chatService.applicantChatSubscribe(this.channel);
     this.selectedMessage = message.convo;
     this.chatId = this.selectedMessage[0].chat_id;
+    this.chatService.isViewed(this.chatId);
     this.showContacts = false;
     this.talkWithEvaluator = true;
   }
@@ -101,6 +111,12 @@ export class ChatBodyComponent implements OnInit {
     }
 
     this.myInput.nativeElement.value = '';
+  }
+
+  checkDate() {
+    if (this.currentDay == 6 || this.currentDay == 7) {
+    } else {
+    }
   }
 
   chatbotMessage(question) {
@@ -196,8 +212,7 @@ export class ChatBodyComponent implements OnInit {
           () =>
             this.selectedMessage.push({
               type: 'incoming',
-              msg:
-                'Go to New Application - To start an application, click on New Application, then select the type of permit you are applying to and answer the following questions',
+              msg: 'Go to New Application - To start an application, click on New Application, then select the type of permit you are applying to and answer the following questions',
               date: new Date(),
             }),
           1000

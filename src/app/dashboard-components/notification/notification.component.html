@@ -1,7 +1,7 @@
 <div *ngIf="show_notif == true">
   <button [matMenuTriggerFor]="notification" mat-icon-button class="m-r-5">
     <p class="pt-2">
-      <mat-icon matBadge="{{ feeds.length }}" matBadgeColor="secondary"
+      <mat-icon matBadge="{{ totalUnseenNotif }}" matBadgeColor="secondary"
         >notifications_none
       </mat-icon>
     </p>
@@ -27,8 +27,8 @@
                     {{ feed.application_number }} <br />
                     {{ feed.status }}
                   </h5>
-                  <span class="mail-desc"> {{ feed.message }} </span>
-                  <span class="time"> {{ feed.currentTime | dateAgo }}</span>
+                  <span class="mail-desc"  [style.color] = "feed.is_viewed == 0 ? 'maroon' : 'grey'"> {{ feed.message }} </span>
+                  <span class="time" [style.color] = "feed.is_viewed == 0 ? 'maroon' : 'grey'"> {{ feed.currentTime | dateAgo }}</span>
                 </div>
               </a>
             </perfect-scrollbar>

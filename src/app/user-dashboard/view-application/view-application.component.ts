@@ -27,7 +27,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ViewApplicationComponent implements OnInit {
   panelOpenState = false;
-  public isAuthorized: boolean = false;
+  public isAuthorized;
   public isLoading = true;
   public applicationId;
   public evaluatorDetails;
@@ -44,7 +44,8 @@ export class ViewApplicationComponent implements OnInit {
     public dialog: MatDialog,
     public route: ActivatedRoute,
     private applicationFeeService: ApplicationFeesService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
   openProjectDialog(): void {
     const dialogRef = this.dialog.open(ProjectDetailsComponent, {
@@ -83,26 +84,36 @@ export class ViewApplicationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fetchDocTypes();
     this.isAuthorized = false;
     this.applicationId = this.route.snapshot.params.id;
     this.user = JSON.parse(localStorage.getItem('user'));
     this.applicationService
       .verifyUserApplication(this.applicationId, this.user.id)
-      .subscribe((res) => {
-        this.isLoading = true;
-        this.isAuthorized = true;
-        this.fetchApplicationInfo();
-        this.fetchUserDocs();
-      });
+      .subscribe(
+        (res) => {
+          this.isLoading = true;
+          this.isAuthorized = true;
+          this.fetchApplicationInfo();
+          this.fetchUserDocs();
+        },
+        (error) => {
+          this.router.navigateByUrl('dashboard/applications');
+        }
+      );
   }
 
+  fetchDocTypes() {
+    this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
+      this.documentTypes = res.data;
+    });
+  }
   fetchApplicationInfo() {
     this.isLoading = true;
     this.applicationService
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
-        this.isLoading = false;
       });
   }
   fetchUserDocs() {
@@ -114,13 +125,106 @@ export class ViewApplicationComponent implements OnInit {
       });
   }
   filterUserDocs(forms) {
-    const USER_FORMS = forms.filter((doc) => doc.document_id !== 50);
+    const sortedForms = {
+      forms: {
+        label: 'Forms',
+        data: [],
+      },
+      documents: {
+        label: 'Documentary Requirements',
+        data: [],
+      },
+      plans: {
+        label: 'Plans, Designs, Specifications, Cost Estimate',
+        data: [],
+      },
+      professional: {
+        label:
+          'Photocopy of Professional Details (Professional Tax Receipt and Professional Regulation Commission ID, signed and sealed)',
+        data: [],
+      },
+      affidavits: {
+        label: 'Affidavits',
+        data: [],
+      },
+      others: {
+        label: 'Others',
+        data: [],
+      },
+    };
+
+    const filteredDocs = forms.filter(
+      (doc) => doc.document_id !== 50 && doc.document_id !== 107
+    );
+    filteredDocs.forEach((element) => {
+      const docType =
+        this.documentTypes[element.document_id - 1].document_category_id;
+      switch (docType) {
+        case 1:
+          sortedForms.forms.data.push(element);
+          break;
+        case 2:
+          sortedForms.documents.data.push(element);
+          break;
+        case 3:
+          sortedForms.plans.data.push(element);
+          break;
+        case 4:
+          sortedForms.professional.data.push(element);
+          break;
+        case 5:
+          sortedForms.affidavits.data.push(element);
+          break;
+        default:
+          sortedForms.others.data.push(element);
+          break;
+      }
+    });
+    this.dataSource = Object.values(sortedForms);
+    this.dataSource = [
+      {
+        label: this.dataSource[0].data.length
+          ? this.dataSource[0].label
+          : 'hidden',
+      },
+      ...this.dataSource[0].data,
+      {
+        label: this.dataSource[1].data.length
+          ? this.dataSource[1].label
+          : 'hidden',
+      },
+      ...this.dataSource[1].data,
+      {
+        label: this.dataSource[2].data.length
+          ? this.dataSource[2].label
+          : 'hidden',
+      },
+      ...this.dataSource[2].data,
+      {
+        label: this.dataSource[3].data.length
+          ? this.dataSource[3].label
+          : 'hidden',
+      },
+      ...this.dataSource[3].data,
+      {
+        label: this.dataSource[4].data.length
+          ? this.dataSource[4].label
+          : 'hidden',
+      },
+      ...this.dataSource[4].data,
+      {
+        label: this.dataSource[5].data.length
+          ? this.dataSource[5].label
+          : 'hidden',
+      },
+      ...this.dataSource[5].data,
+    ];
     this.isLoading = false;
     this.dataSource = USER_FORMS;
   }
 
-  getDocType(id): string {
-    return documentTypes[id];
+  getDocName(id): string {
+    return this.documentTypes[id - 1].name;
   }
   getDocStatus(id): string {
     return documentStatus[id];
@@ -363,6 +467,7 @@ export class ViewApplicationComponent implements OnInit {
         evaluator: this.evaluatorDetails,
         form: element,
         route: this.route,
+        application: this.applicationDetails,
       },
     });
 
