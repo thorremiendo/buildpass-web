@@ -104,7 +104,7 @@ export enum documentTypes {
   'Site latest photo for fencing' = 101,
   'Site latest photo for demolition' = 102,
   'Absolute Deed of Sale or Conditional Deed of Sale' = 103,
-  'Geodetic Documents' = 104,
+  'Surveyed Plan signed and sealed by Geodetic Engineer' = 104,
   'Plans showing the lot boundaries and the existing building/s to be demolished with complete dimensions and indicating the number of storeys/floor' = 105,
   'Situational Report' = 106,
   'Supporting Documents' = 107,
@@ -117,4 +117,5 @@ export enum documentTypes {
   'Lot Plan and Site Development Plan' = 114,
   'Plans of Sign Strucutres, Structural Design and Computations' = 115,
   'Specifications and Cost Estimates' = 116,
+  'Geodetic Document' = 140,
 }
