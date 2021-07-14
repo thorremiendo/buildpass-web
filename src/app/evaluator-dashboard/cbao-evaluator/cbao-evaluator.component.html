@@ -90,7 +90,8 @@
                         ? getDocStatus(element.receiving_status_id)
                         : evaluatorRole.code == "CBAO-DC" ||
                           evaluatorRole.code == "CBAO-BO" ||
-                          evaluatorRole.code == "CBAO-REL"
+                          evaluatorRole.code == "CBAO-REL" ||
+                          applicationInfo.permit_type_id !== 1
                         ? getDocStatus(element.document_status_id)
                         : getDocStatus(element.cbao_status_id)
                     }}
@@ -240,6 +241,14 @@
                           >View</a
                         >
                       </ng-container>
+                      <!-- <button
+                        mat-menu-item
+                        color="accent"
+                        (click)="goToEsig(element.id)"
+                        *ngIf="evaluatorRole.code !== 'CBAO-REL'"
+                      >
+                        Sign Document
+                      </button> -->
                       <a
                         mat-menu-item
                         href="{{ element.document_path }}"

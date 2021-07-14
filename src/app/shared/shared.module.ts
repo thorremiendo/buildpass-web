@@ -1,3 +1,5 @@
+import { ESignatureComponent } from './e-signature/e-signature.component';
+import { PasswordPromptComponent } from './password-prompt/password-prompt.component';
 import { GeneralRemarksComponent } from '../shared/general-remarks/general-remarks.component';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MaterialModule } from './../material-module';
@@ -36,6 +38,8 @@ import { ImageViewerModule } from 'ngx-image-viewer';
 import { AnnouncementListComponent } from './announcement/announcement-list/announcement-list.component';
 import { AnnouncementFullComponent } from './announcement/announcement-full/announcement-full.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -59,6 +63,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     AnnouncementListComponent,
     AnnouncementFullComponent,
     GeneralRemarksComponent,
+    PasswordPromptComponent,
+    ESignatureComponent,
   ],
   imports: [
     CommonModule,
@@ -68,8 +74,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ReactiveFormsModule,
     MatSelectModule,
     FlexLayoutModule,
-
+    NgxExtendedPdfViewerModule,
     ImageViewerModule.forRoot(),
+    PdfViewerModule,
   ],
   exports: [
     AccordionAnchorDirective,

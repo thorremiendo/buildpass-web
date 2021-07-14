@@ -16,6 +16,7 @@ import Swal from 'sweetalert2';
 export class UserEditProfileComponent implements OnInit {
   public selectedFile: File = null;
   public selectedPhoto: File = null;
+  public selectedSelfie: File = null;
   public maxLength: number = 11;
   public isUpdating: boolean = false;
   public userInfo;
@@ -25,6 +26,7 @@ export class UserEditProfileComponent implements OnInit {
   _filteredBarangayOptions: Observable<Barangay[]>;
   _displayPhoto: string | ArrayBuffer = '';
   _displayIdPhoto: string | ArrayBuffer = '';
+  _displaySelfiePhoto: string | ArrayBuffer = '';
   _submitted = false;
 
   get displayProfilePhoto(): string | ArrayBuffer {
@@ -33,6 +35,10 @@ export class UserEditProfileComponent implements OnInit {
 
   get displayIDPhoto(): string | ArrayBuffer {
     return this._displayIdPhoto ? this._displayIdPhoto : this.userInfo.id_photo_path;
+  }
+
+  get displaySelfiePhoto(): string | ArrayBuffer {
+    return this._displaySelfiePhoto ? this._displaySelfiePhoto : this.userInfo.selfie_with_id_path;
   }
 
   get userEditProfileFormControl() {
@@ -85,6 +91,11 @@ export class UserEditProfileComponent implements OnInit {
     element.click();
   }
 
+  openSelfieChooser() {
+    const element: HTMLElement = document.getElementById('selfie-photo') as HTMLElement;
+    element.click();
+  }
+
   handlePhotoFileChange($event) {
     this.selectedPhoto = $event.target.files[0];
     this.readSelectedPhotoInfo();
@@ -93,6 +104,11 @@ export class UserEditProfileComponent implements OnInit {
   handleIDFileChange($event) {
     this.selectedFile = $event.target.files[0];
     this.readSelectedIdInfo();
+  }
+
+  handleSelfieFileChange($event) {
+    this.selectedSelfie = $event.target.files[0];
+    this.readSelectedSelfieInfo();
   }
 
   readSelectedPhotoInfo() {
@@ -112,6 +128,16 @@ export class UserEditProfileComponent implements OnInit {
         this._displayIdPhoto = reader.result;
       };
       reader.readAsDataURL(this.selectedFile);
+    }
+  }
+
+  readSelectedSelfieInfo() {
+    if (this.selectedSelfie) {
+      let reader = new FileReader();
+      reader.onload = (res) => {
+        this._displaySelfiePhoto = reader.result;
+      };
+      reader.readAsDataURL(this.selectedSelfie);
     }
   }
 
@@ -156,7 +182,7 @@ export class UserEditProfileComponent implements OnInit {
   onSubmit() {
     this._submitted = true;
 
-    if (this._userEditProfileForm.valid) {
+    if (this._userEditProfileForm.valid && (this.selectedFile || this.userInfo.id_photo_path) && (this.selectedPhoto || this.userInfo.photo_path) && (this.selectedSelfie || this.userInfo.selfie_with_id_path)) {
       this.isUpdating = true;
       
       const user = {
@@ -173,7 +199,8 @@ export class UserEditProfileComponent implements OnInit {
         id_number: this._userEditProfileForm.value.id_number,
         id_type: this._userEditProfileForm.value.id_type,
         photo_path: this.selectedPhoto ? this.selectedPhoto : null,
-        id_photo_path: this.selectedFile ? this.selectedFile : null
+        id_photo_path: this.selectedFile ? this.selectedFile : null,
+        selfie_with_id_path: this.selectedSelfie ? this.selectedSelfie : null,
       };
       
       this._userService
@@ -193,6 +220,16 @@ export class UserEditProfileComponent implements OnInit {
             }
           );
         });
+    } else {
+      setTimeout(function() {
+        const noFile = document.querySelectorAll('.no-file');
+        const invalidInput = document.querySelectorAll('.mat-form-field-invalid');
+        if (noFile.length) {
+          noFile[0].scrollIntoView();
+        } else if (invalidInput.length) {
+          invalidInput[0].scrollIntoView();
+        }
+      }, 50);
     }
   }
 }

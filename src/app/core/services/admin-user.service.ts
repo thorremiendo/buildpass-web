@@ -84,4 +84,15 @@ export class AdminUserService {
 
     return this.apiService.post(url, body);
   }
+
+
+  resendVerification(id){
+    const url = `/admin/${id}/resend-verification`;
+
+    return this.apiService.post(url, null);
+
+  }
+
 }
+
+

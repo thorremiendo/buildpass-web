@@ -6,7 +6,7 @@ import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
-import { RegisterAccountFormService, User } from '../../core';
+import { RegisterAccountFormService, User, UserService } from '../../core';
 
 @Component({
   selector: 'app-sign-in',
@@ -32,7 +32,8 @@ export class SignInComponent implements OnInit {
     private _fb: FormBuilder,
     private _ngZone: NgZone,
     private _afs: AngularFirestore,
-    private _registerAccountFormService: RegisterAccountFormService
+    private _registerAccountFormService: RegisterAccountFormService,
+    private _userService: UserService,
     
   ) {
     this.createForm();
@@ -60,8 +61,17 @@ export class SignInComponent implements OnInit {
             this._authService.getToken(result.user.uid);
             this.isSubmitting = false;
           } else {
-            window.alert('Email not yet verified');
-            this.isSubmitting = false;
+            this._userService.autoResendVerification(this._signinForm.value.email).subscribe( res =>{
+              if(res.message == 'Email sent'){
+                window.alert('Email not yet verified, kindly check your email to verify');
+                this.isSubmitting = false;
+              }
+              else{
+                window.alert('Something went wrong kindly contact admin');
+
+              }
+            })
+           
           }
         })
         .catch((error) => {

@@ -27,7 +27,7 @@ import { NewApplicationService } from 'src/app/core/services/new-application.ser
 })
 export class ViewApplicationComponent implements OnInit {
   panelOpenState = false;
-  public isAuthorized: boolean = false;
+  public isAuthorized;
   public isLoading = true;
   public applicationId;
   public evaluatorDetails;
@@ -46,7 +46,8 @@ export class ViewApplicationComponent implements OnInit {
     public dialog: MatDialog,
     public route: ActivatedRoute,
     private applicationFeeService: ApplicationFeesService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
   openProjectDialog(): void {
     const dialogRef = this.dialog.open(ProjectDetailsComponent, {
@@ -91,12 +92,17 @@ export class ViewApplicationComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.applicationService
       .verifyUserApplication(this.applicationId, this.user.id)
-      .subscribe((res) => {
-        this.isLoading = true;
-        this.isAuthorized = true;
-        this.fetchApplicationInfo();
-        this.fetchUserDocs();
-      });
+      .subscribe(
+        (res) => {
+          this.isLoading = true;
+          this.isAuthorized = true;
+          this.fetchApplicationInfo();
+          this.fetchUserDocs();
+        },
+        (error) => {
+          this.router.navigateByUrl('dashboard/applications');
+        }
+      );
   }
 
   fetchDocTypes() {
@@ -280,7 +286,10 @@ export class ViewApplicationComponent implements OnInit {
               window.location.reload();
             });
           });
-      } else if (this.applicationDetails.dc_status_id == 2) {
+      } else if (
+        this.applicationDetails.dc_status_id == 2 ||
+        this.applicationDetails.bo_status_id == 2
+      ) {
         const body = {
           application_status_id: 3,
         };
@@ -288,22 +297,6 @@ export class ViewApplicationComponent implements OnInit {
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
             this.updateDepartmentStatus();
-          });
-      } else if (this.applicationDetails.bo_status_id == 2) {
-        const body = {
-          application_status_id: 13,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            Swal.fire(
-              'Success!',
-              `Forwarded to Building Official for Re-Evaluation!`,
-              'success'
-            ).then((result) => {
-              this.isLoading = false;
-              window.location.reload();
-            });
           });
       } else {
         const body = {
@@ -413,6 +406,7 @@ export class ViewApplicationComponent implements OnInit {
         };
         this.updateTechnicalEvaluationStatus(body);
       }
+      this.isLoading = false;
     });
   }
   updateTechnicalEvaluationStatus(body) {

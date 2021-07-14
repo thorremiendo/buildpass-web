@@ -46,9 +46,7 @@
               "./node_modules/mapbox-gl/dist/mapbox-gl.css",
               "./node_modules/@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css"
             ],
-            "scripts": [
-              "node_modules/quill/dist/quill.min.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -93,11 +91,7 @@
           "configurations": {
             "production": {
               "browserTarget": "ocpas-web:build:production"
-            },
-            "staging": {
-              "browserTarget": "ocpas-web:build:staging"
             }
-            
           }
         },
         "extract-i18n": {
@@ -121,9 +115,7 @@
               "node_modules/angular-calendar/css/angular-calendar.css",
               "src/styles.scss"
             ],
-            "scripts": [
-             
-            ]
+            "scripts": []
           }
         },
         "lint": {

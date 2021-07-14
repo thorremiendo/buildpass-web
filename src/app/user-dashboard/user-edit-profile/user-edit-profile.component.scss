@@ -65,6 +65,10 @@ button {
 .avatar-label {
     text-align: center;
     font-weight: 500;
+
+    & ~ .error-notif {
+        text-align: center;
+    }
 }
 
 .id-upload {
@@ -102,13 +106,59 @@ button {
     }
 }
 
+.selfie-upload {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin: 0 auto;
+    cursor: pointer;
+    
+    img {
+        position: absolute;
+        display: block;
+        height: 100%;
+        width: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 100;
+    }
+
+    &::after {
+        content: 'Upload Selfie with ID';
+        position: absolute;
+        color: dimgray;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    &:hover {
+        border: 2px solid #000;
+    }
+}
+
+.no-file {
+    border: 2px solid #e53935 !important;
+}
+
+.error-notif {
+    color: #e53935;
+    font-size: 12px;
+    font-weight: 400;
+    margin-top: 3px;
+    padding: 0 12px;
+}
+
 .change-password {
     text-align: center;
     font-weight: 300;
     font-size: smaller;
     color:maroon;
     cursor: pointer;
-
 }
 
 .change-password:hover{

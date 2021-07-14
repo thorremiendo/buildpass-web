@@ -64,6 +64,7 @@ export class FormDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.data);
     this.userService.cast.subscribe((userSubject) => {
       this.user = userSubject;
       if (localStorage.getItem('user')) {
@@ -214,7 +215,7 @@ export class FormDetailsComponent implements OnInit {
 
   public async updateForm(): Promise<void> {
     this.isSubmitting = true;
-    const filters = [59, 63, 36, 62, 32, 33];
+    const filters = [59, 63, 36, 62, 32, 33]; //parallel docs
     const findId = filters.find((e) => e == this.data.form.document_id);
     // const blob =
     //   await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
@@ -390,6 +391,11 @@ export class FormDetailsComponent implements OnInit {
               receiving_status_id: this.permitDetails.value.is_compliant,
             };
             this.updateDoc(body, id);
+          } else {
+            body = {
+              document_status_id: this.permitDetails.value.is_compliant,
+            };
+            this.updateDoc(body, id);
           }
         } else if (officeId == 1) {
           //CPDO
@@ -476,7 +482,8 @@ export class FormDetailsComponent implements OnInit {
           //CBAO
           if (
             permitType == 1 &&
-            this.data.evaluator.position !== 'Admin Aide IV'
+            this.data.evaluator.position !== 'Admin Aide IV' &&
+            this.data.evaluator.position !== 'Architect IV'
           ) {
             //BLDG PERMIT EVALUATORS
             const filters = [59, 63, 36, 62, 32, 33];
@@ -501,6 +508,26 @@ export class FormDetailsComponent implements OnInit {
             body = {
               document_status_id: this.permitDetails.value.is_compliant,
               receiving_status_id: this.permitDetails.value.is_compliant,
+            };
+            this.updateDoc(body, id);
+          } else if (
+            permitType == 1 &&
+            this.data.evaluator.position == 'Architect IV'
+          ) {
+            body = {
+              document_status_id: this.permitDetails.value.is_compliant,
+              cbao_status_id: 0,
+              cbao_arch_status_id: 0,
+              cbao_elec_status_id: 0,
+              cbao_lg_status_id: 0,
+              cbao_mec_status_id: 0,
+              cbao_san_status_id: 0,
+              cbao_str_status_id: 0,
+            };
+            this.updateDoc(body, id);
+          } else {
+            body = {
+              document_status_id: this.permitDetails.value.is_compliant,
             };
             this.updateDoc(body, id);
           }
@@ -554,7 +581,8 @@ export class FormDetailsComponent implements OnInit {
               //CBAO
               if (
                 permitType == 1 &&
-                this.data.evaluator.position !== 'Admin Aide IV'
+                this.data.evaluator.position !== 'Admin Aide IV' &&
+                this.data.evaluator.position !== 'Architect IV'
               ) {
                 //BLDG PERMIT EVALUATORS
                 const filters = [59, 63, 36, 62, 32, 33];
@@ -584,6 +612,22 @@ export class FormDetailsComponent implements OnInit {
                   document_status_id: this.permitDetails.value.is_compliant,
                   receiving_status_id: this.permitDetails.value.is_compliant,
                   document_path: blob,
+                };
+                this.updateDoc(body, id);
+              } else if (
+                permitType == 1 &&
+                this.data.evaluator.position == 'Architect IV'
+              ) {
+                debugger
+                body = {
+                  document_status_id: this.permitDetails.value.is_compliant,
+                  cbao_status_id: 0,
+                  cbao_arch_status_id: 0,
+                  cbao_elec_status_id: 0,
+                  cbao_lg_status_id: 0,
+                  cbao_mec_status_id: 0,
+                  cbao_san_status_id: 0,
+                  cbao_str_status_id: 0,
                 };
                 this.updateDoc(body, id);
               }

@@ -33,26 +33,30 @@ export class BuildingPermitComponent implements OnInit {
   public forms: any = [
     {
       id: 1,
-      src: '../../../../assets/forms/updated/Application_Form_for_Certificate_of_Zoning_Compliance.pdf',
+      src:
+        '../../../../assets/forms/updated/Application_Form_for_Certificate_of_Zoning_Compliance.pdf',
       label: 'Step 1',
       sample:
         '../../../../assets/forms/sample/Zoning_Clearance_Form_4.07.21_PM.png',
     },
     {
       id: 2,
-      src: '../../../../assets/forms/updated/Unified_Application_for_Bldg_Permit.pdf',
+      src:
+        '../../../../assets/forms/updated/Unified_Application_for_Bldg_Permit.pdf',
       label: 'Step 2',
       sample: '../../../../assets/forms/sample/Unified_Building_Front.png',
     },
     {
       id: 3,
-      src: '../../../../assets/forms/updated/Sanitary-Plumbing_Permit_(BUILDING_PERMIT)_(1).pdf',
+      src:
+        '../../../../assets/forms/updated/Sanitary-Plumbing_Permit_(BUILDING_PERMIT)_(1).pdf',
       label: 'Step 3',
       sample: '../../../../assets/forms/sample/Sanitary_Permit.png',
     },
     {
       id: 4,
-      src: '../../../../assets/forms/updated/Electrical_Permit_(for_building_permit).pdf',
+      src:
+        '../../../../assets/forms/updated/Electrical_Permit_(for_building_permit).pdf',
       label: 'Step 4',
       sample: '../../../../assets/forms/sample/Electrical.png',
     },
@@ -68,12 +72,12 @@ export class BuildingPermitComponent implements OnInit {
     {
       label: `Step ${this.forms.length + 12323}`,
       title: 'Documentary Requirements',
-      documents: [26, 23, 24, 25],
+      documents: [26, 104, 23, 24, 25],
     },
     {
       label: `Step ${this.forms.length + 2}`,
       title: 'Plans',
-      documents: [59, 61, 63, 62, 104],
+      documents: [59, 61, 63, 62, 140],
     },
     {
       label: `Step ${this.forms.length + 3}`,
@@ -124,6 +128,7 @@ export class BuildingPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
+        console.log(this.applicationDetails);
         this.saveRoute();
         this.zoningFormData = this.dataBindingService.getFormData(
           this.applicationDetails
@@ -218,9 +223,9 @@ export class BuildingPermitComponent implements OnInit {
         ifFloorArea20sqmOrMore
           ? this.fieldSets[2].documents.push(...this.ifFloorArea20sqmOrMore)
           : null;
-        isEngineerArchitect
-          ? this.fieldSets[4].documents.push(...this.isEnginnerArchictect)
-          : null;
+        // isEngineerArchitect
+        //   ? this.fieldSets[4].documents.push(...this.isEnginnerArchictect)
+        //   : null;
         this.initData();
         this.setFilePaths();
         this.pdfSource = this.forms[0].src;
@@ -248,7 +253,11 @@ export class BuildingPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
-        this.openSnackBar('Uploaded!');
+        console.log(this.applicationDetails);
+        this.formData = this.dataBindingService.getFormData(
+          this.applicationDetails
+        );
+        this.openSnackBar('Saved!');
         this.setFilePaths();
       });
   }
@@ -429,30 +438,36 @@ export class BuildingPermitComponent implements OnInit {
   }
 
   initPdfViewer(event) {
-    console.log(event);
-    if (event.previouslySelectedIndex <= 4) {
+    if (
+      this.applicationDetails.construction_status_id !== 1 &&
+      event.previouslySelectedIndex <= 4
+    ) {
+      this.upload(this.forms[event.previouslySelectedIndex]);
+    } else if (
+      this.applicationDetails.construction_status_id == 1 &&
+      event.previouslySelectedIndex <= 5
+    ) {
       this.upload(this.forms[event.previouslySelectedIndex]);
     }
-    this.checkExistingZoningFormData();
+    // this.checkExistingZoningFormData();
     const index = event.selectedIndex;
     const pdfViewer = document.getElementById('pdf-viewer');
     const pdfContainer = document.getElementById(`form-${index}`);
     this.forms[index] ? (this.pdfSource = this.forms[index].src) : null;
     this.forms[index] ? (this.sampleForm = this.forms[index].sample) : null;
-    this.forms[0] ? (this.formData = this.zoningFormData) : null;
-    this.forms[1] ? (this.formData = this.buildingFormData) : null;
-    this.forms[2] ? (this.formData = this.sanitaryFormData) : null;
-    this.forms[3] ? (this.formData = this.electricalFormData) : null;
-    this.forms[4] ? (this.formData = this.situationalReportFormData) : null;
-    this.forms[5] ? (this.formData = this.noticeOfConstructionFormData) : null;
+    // this.forms[0] ? (this.formData = this.zoningFormData) : null;
+    // this.forms[1] ? (this.formData = this.buildingFormData) : null;
+    // this.forms[2] ? (this.formData = this.sanitaryFormData) : null;
+    // this.forms[3] ? (this.formData = this.electricalFormData) : null;
+    // this.forms[4] ? (this.formData = this.situationalReportFormData) : null;
+    // this.forms[5] ? (this.formData = this.noticeOfConstructionFormData) : null;
 
     pdfContainer ? pdfContainer.appendChild(pdfViewer) : null;
   }
 
   public async upload(form): Promise<void> {
     const data = this.formData;
-    const blob =
-      await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     this.dataBindingService.handleSaveFormData(
       this.applicationId,
       form.id,
@@ -488,7 +503,7 @@ export class BuildingPermitComponent implements OnInit {
       this.newApplicationService
         .updateDocumentFile(uploadDocumentData, form.doc_id)
         .subscribe((res) => {
-          this.openSnackBar('Saved!');
+          this.fetchApplicationInfo();
         });
     }
   }

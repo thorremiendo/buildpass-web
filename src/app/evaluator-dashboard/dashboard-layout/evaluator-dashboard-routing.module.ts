@@ -1,3 +1,4 @@
+import { ESignatureComponent } from './../../shared/e-signature/e-signature.component';
 import { DownloadableFormsComponent } from './../downloadable-forms/downloadable-forms.component';
 import { UserGuardGuard } from './../../core/guard/user-guard.guard';
 import { NgModule } from '@angular/core';
@@ -52,6 +53,10 @@ const routes: Routes = [
       {
         path: 'application/:id',
         component: ApplicationDetailsComponent,
+      },
+      {
+        path: 'application/:id/:docId',
+        component: ESignatureComponent,
       },
       {
         path: 'edit-profile',

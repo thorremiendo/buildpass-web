@@ -1,3 +1,4 @@
+import { EsignatureService } from './../../core/services/esignature.service';
 import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks-history-table.component';
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -36,7 +37,8 @@ export class CbaoEvaluatorComponent implements OnInit {
     private changeDetectorRefs: ChangeDetectorRef,
     private newApplicationService: NewApplicationService,
     private waterMark: WaterMarkService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private eSignatureService: EsignatureService
   ) {}
 
   ngOnInit(): void {
@@ -96,7 +98,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   filterUserDocs(forms) {
     const USER_FORMS = forms.filter((doc) => doc.document_id !== 107);
     this.dataSource = USER_FORMS;
-
+    console.log(this.dataSource);
     this.isLoading = false;
   }
 
@@ -354,60 +356,74 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   nonCompliant() {
-    this.isLoading = true;
     if (this.checkFormsReviewed()) {
-      if (this.evaluatorRole.code == 'CBAO-DC') {
-        const body = {
-          application_status_id: 5,
-          dc_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            Swal.fire(
-              'Success!',
-              `Notified Applicant for Revision!`,
-              'success'
-            ).then((result) => {
-              window.location.reload();
-            });
-          });
-      } else if (this.evaluatorRole.code == 'CBAO-BO') {
-        const body = {
-          application_status_id: 5,
-          bo_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            Swal.fire(
-              'Success!',
-              `Notified Applicant for Revision!`,
-              'success'
-            ).then((result) => {
-              window.location.reload();
-            });
-          });
-      } else {
-        const body = {
-          application_status_id: 5,
-          receiving_status_id: 2,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            Swal.fire(
-              'Success!',
-              `Notified Applicant for Revision!`,
-              'success'
-            ).then((result) => {
-              window.location.reload();
-            });
-          });
-      }
+      Swal.fire({
+        title: 'Are you sure?',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: `Yes`,
+        confirmButtonColor: '#330E08',
+        denyButtonColor: '#D2AB48',
+        denyButtonText: `No`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.isLoading = true;
+          if (this.evaluatorRole.code == 'CBAO-DC') {
+            const body = {
+              application_status_id: 5,
+              dc_status_id: 2,
+            };
+            this.applicationService
+              .updateApplicationStatus(body, this.applicationId)
+              .subscribe((res) => {
+                this.isLoading = false;
+                Swal.fire(
+                  'Success!',
+                  `Notified Applicant for Revision!`,
+                  'success'
+                ).then((result) => {
+                  window.location.reload();
+                });
+              });
+          } else if (this.evaluatorRole.code == 'CBAO-BO') {
+            const body = {
+              application_status_id: 5,
+              bo_status_id: 2,
+            };
+            this.applicationService
+              .updateApplicationStatus(body, this.applicationId)
+              .subscribe((res) => {
+                this.isLoading = false;
+                Swal.fire(
+                  'Success!',
+                  `Notified Applicant for Revision!`,
+                  'success'
+                ).then((result) => {
+                  window.location.reload();
+                });
+              });
+          } else {
+            const body = {
+              application_status_id: 5,
+              receiving_status_id: 2,
+            };
+            this.applicationService
+              .updateApplicationStatus(body, this.applicationId)
+              .subscribe((res) => {
+                this.isLoading = false;
+                Swal.fire(
+                  'Success!',
+                  `Notified Applicant for Revision!`,
+                  'success'
+                ).then((result) => {
+                  window.location.reload();
+                });
+              });
+          }
+        } else if (result.isDenied) {
+          this.isLoading = false;
+        }
+      });
     } else {
       this.isLoading = false;
       Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
@@ -809,5 +825,12 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.snackBar.open(message, 'Close', {
       duration: 3000,
     });
+  }
+
+  goToEsig(id) {
+    const docId = id;
+    const appId = this.applicationId;
+
+    this.eSignatureService.goToEsig(appId, docId);
   }
 }
