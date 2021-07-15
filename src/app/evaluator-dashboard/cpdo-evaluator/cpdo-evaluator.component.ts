@@ -93,7 +93,8 @@ export class CpdoEvaluatorComponent implements OnInit {
         doc.document_id == 74 ||
         doc.document_id == 75 ||
         doc.document_id == 72 ||
-        doc.document_id == 33
+        doc.document_id == 33 ||
+        doc.document_id == 140
     );
     this.dataSource = CPDO_FORMS;
   }
