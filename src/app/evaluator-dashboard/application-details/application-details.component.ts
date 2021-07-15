@@ -1,3 +1,4 @@
+import { UploadedIdentificationComponent } from './../../shared/uploaded-identification/uploaded-identification.component';
 import { RepresentativeDetailsComponent } from './../../shared/representative-details/representative-details.component';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Data } from '@angular/router';
@@ -71,6 +72,29 @@ export class ApplicationDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {});
   }
+
+  openUploadedId(id) {
+    let image;
+    switch (id) {
+      case 1:
+        image = this.applicationDetails.user_detail.id_photo_path;
+        break;
+      case 2:
+        image = this.applicationDetails.user_detail.selfie_with_id_path;
+        break;
+      default:
+        break;
+    }
+    const dialogRef = this.dialog.open(UploadedIdentificationComponent, {
+      width: '1200px',
+      data: {
+        image: image,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+
   fetchUserDocs() {
     this.applicationService
       .fetchUserDocs(this.applicationId)
