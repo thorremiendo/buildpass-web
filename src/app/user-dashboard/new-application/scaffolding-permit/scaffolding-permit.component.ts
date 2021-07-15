@@ -25,7 +25,7 @@ export class ScaffoldingPermitComponent implements OnInit {
 
   public forms: any = [
     {
-      id: 108,
+      id: 124,
       src: '../../../../assets/forms/updated/Sign Permit.pdf',
     },
   ];
@@ -34,12 +34,22 @@ export class ScaffoldingPermitComponent implements OnInit {
     {
       label: 'Step 2',
       title: 'Documentary Requirements',
-      documents: [109, 111, 112],
+      documents: [125, 109, 111, 112],
     },
     {
       label: 'Step 3',
       title: 'Plans, Specifications',
-      documents: [114, 115, 116],
+      documents: [132, 14, 134, 135, 136],
+    },
+    {
+      label: 'Step 4',
+      title: 'Professional Details',
+      documents: [35, 34],
+    },
+    {
+      label: 'Step 5',
+      title: 'Others',
+      documents: [18],
     },
   ];
 

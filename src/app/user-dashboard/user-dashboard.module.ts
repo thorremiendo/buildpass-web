@@ -1,3 +1,6 @@
+import { TemporarySidewalkComponent } from './new-application/temporary-sidewalk/temporary-sidewalk.component';
+import { MechanicalPermitComponent } from './new-application/mechanical-permit/mechanical-permit.component';
+import { ScaffoldingPermitComponent } from './new-application/scaffolding-permit/scaffolding-permit.component';
 import { SignPermitComponent } from './new-application/sign-permit/sign-permit.component';
 import { UserResolver } from './../core/guard/user.resolver';
 import { NgModule } from '@angular/core';
@@ -75,6 +78,9 @@ import { DemolitionPermitComponent } from './new-application/demolition-permit/d
     FencingPermitComponent,
     DemolitionPermitComponent,
     SignPermitComponent,
+    ScaffoldingPermitComponent,
+    MechanicalPermitComponent,
+    TemporarySidewalkComponent,
   ],
   imports: [
     CommonModule,

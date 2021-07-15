@@ -117,5 +117,11 @@ export enum documentTypes {
   'Lot Plan and Site Development Plan' = 114,
   'Plans of Sign Strucutres, Structural Design and Computations' = 115,
   'Specifications and Cost Estimates' = 116,
+  'Duly Accomplished Scaffolding Permit Form' = 124,
+  'Certified Copy of Approved Building Permit' = 125,
+  'Survey Plan' = 132,
+  'Detailed Plan (location plan/vicinity map, site development, floor plan & elevation with complete dimensions)' = 134,
+  'Specification' = 135,
+  'Methodology' = 136,
   'Geodetic Document' = 140,
 }
