@@ -92,7 +92,7 @@
     </ng-container>
 
     <ng-container matColumnDef="date_complied">
-      <th mat-header-cell *matHeaderCellDef>Date Completed</th>
+      <th mat-header-cell *matHeaderCellDef>Date Complied</th>
       <td mat-cell *matCellDef="let item">
         <div *ngIf="!item.label">
           {{ item.date_time_complied | date: "MMMM dd, yyyy hh:mm:ss a":"+0800" }}
