@@ -355,6 +355,13 @@ export class ViewApplicationComponent implements OnInit {
           parallel_cbao_status_id: 0,
         };
         this.updateApplication(body);
+      } else {
+        Swal.fire('Success!', `Forwarded for Re-Evaluation!`, 'success').then(
+          (result) => {
+            this.isLoading = false;
+            window.location.reload();
+          }
+        );
       }
     });
     this.updateTechnicalEvaluatorStatus();
@@ -406,7 +413,6 @@ export class ViewApplicationComponent implements OnInit {
         };
         this.updateTechnicalEvaluationStatus(body);
       }
-      this.isLoading = false;
     });
   }
   updateTechnicalEvaluationStatus(body) {

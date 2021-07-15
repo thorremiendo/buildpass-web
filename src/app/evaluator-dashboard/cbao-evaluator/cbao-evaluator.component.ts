@@ -369,6 +369,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         if (result.isConfirmed) {
           this.isLoading = true;
           if (this.evaluatorRole.code == 'CBAO-DC') {
+            debugger;
             const body = {
               application_status_id: 5,
               dc_status_id: 2,

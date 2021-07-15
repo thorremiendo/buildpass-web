@@ -364,7 +364,8 @@ export class FormDetailsComponent implements OnInit {
           //CBAO
           if (
             permitType == 1 &&
-            this.data.evaluator.position !== 'Admin Aide IV'
+            this.data.evaluator.position !== 'Admin Aide IV' &&
+            this.data.evaluator.position !== 'Architect IV'
           ) {
             //BLDG PERMIT EVALUATORS
             const filters = [59, 63, 36, 62, 32, 33];
@@ -389,6 +390,14 @@ export class FormDetailsComponent implements OnInit {
             body = {
               document_status_id: this.permitDetails.value.is_compliant,
               receiving_status_id: this.permitDetails.value.is_compliant,
+            };
+            this.updateDoc(body, id);
+          } else if (
+            permitType == 1 &&
+            this.data.evaluator.position == 'Architect IV'
+          ) {
+            body = {
+              document_status_id: this.permitDetails.value.is_compliant,
             };
             this.updateDoc(body, id);
           } else {
@@ -516,13 +525,6 @@ export class FormDetailsComponent implements OnInit {
           ) {
             body = {
               document_status_id: this.permitDetails.value.is_compliant,
-              cbao_status_id: 0,
-              cbao_arch_status_id: 0,
-              cbao_elec_status_id: 0,
-              cbao_lg_status_id: 0,
-              cbao_mec_status_id: 0,
-              cbao_san_status_id: 0,
-              cbao_str_status_id: 0,
             };
             this.updateDoc(body, id);
           } else {
@@ -618,16 +620,8 @@ export class FormDetailsComponent implements OnInit {
                 permitType == 1 &&
                 this.data.evaluator.position == 'Architect IV'
               ) {
-                debugger
                 body = {
                   document_status_id: this.permitDetails.value.is_compliant,
-                  cbao_status_id: 0,
-                  cbao_arch_status_id: 0,
-                  cbao_elec_status_id: 0,
-                  cbao_lg_status_id: 0,
-                  cbao_mec_status_id: 0,
-                  cbao_san_status_id: 0,
-                  cbao_str_status_id: 0,
                 };
                 this.updateDoc(body, id);
               }

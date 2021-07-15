@@ -104,6 +104,38 @@ export class ApplicationDetailsComponent implements OnInit {
               this.ngOnInit();
             });
           });
+      } else if (this.applicationDetails.dc_status_id == 2) {
+        const body = {
+          application_status_id: 12,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Parallel Evaluation Done',
+              `Forwarded to Division Chief!`,
+              'warning'
+            ).then((result) => {
+              this.isLoading = false;
+              this.ngOnInit();
+            });
+          });
+      } else if (this.applicationDetails.bo_status_id == 2) {
+        const body = {
+          application_status_id: 13,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Parallel Evaluation Done',
+              `Forwarded to Building Official!`,
+              'warning'
+            ).then((result) => {
+              this.isLoading = false;
+              this.ngOnInit();
+            });
+          });
       }
     }
   }
