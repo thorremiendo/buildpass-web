@@ -152,7 +152,7 @@ export class CpdoEvaluatorComponent implements OnInit {
   nonCompliant() {
     if (this.checkFormsReviewed()) {
       Swal.fire({
-        title: 'Do you need an Excavation Permit?',
+        title: 'Are you sure?',
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: `Yes`,
