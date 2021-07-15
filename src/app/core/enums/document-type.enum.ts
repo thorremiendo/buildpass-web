@@ -117,6 +117,8 @@ export enum documentTypes {
   'Lot Plan and Site Development Plan' = 114,
   'Plans of Sign Strucutres, Structural Design and Computations' = 115,
   'Specifications and Cost Estimates' = 116,
+  'Mechanical Permit Form' = 117,
+  'Photocopy of Building Permit' = 118,
   'Duly Accomplished Scaffolding Permit Form' = 124,
   'Certified Copy of Approved Building Permit' = 125,
   'Survey Plan' = 132,

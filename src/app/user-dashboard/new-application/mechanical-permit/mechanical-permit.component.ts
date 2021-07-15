@@ -25,8 +25,8 @@ export class MechanicalPermitComponent implements OnInit {
 
   public forms: any = [
     {
-      id: 108,
-      src: '../../../../assets/forms/updated/Sign Permit.pdf',
+      id: 117,
+      src: '../../../../assets/forms/updated/Mechanical_Permit_(1).pdf',
     },
   ];
 
