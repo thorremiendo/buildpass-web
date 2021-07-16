@@ -176,8 +176,17 @@ export class StepOneComponent implements OnInit {
               case '5':
                 this.router.navigateByUrl('/dashboard/new/demolition-permit');
                 break;
+              case '6':
+                this.router.navigateByUrl('/dashboard/new/scaffolding-permit');
+                break;
               case '7':
                 this.router.navigateByUrl('/dashboard/new/sign-permit');
+                break;
+              case '8':
+                this.router.navigateByUrl('/dashboard/new/temporary-sidewalk');
+                break;
+              case '9':
+                this.router.navigateByUrl('/dashboard/new/mechanical-permit');
                 break;
             }
           });

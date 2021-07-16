@@ -63,4 +63,15 @@ export class UserService {
       })
     );
   }
+
+  autoResendVerification(email){
+    const url = `/user/resend-verification`;
+    const body = {
+      email_address:email
+    };
+
+    return this._api.post(url, body);
+    
+
+  }
 }

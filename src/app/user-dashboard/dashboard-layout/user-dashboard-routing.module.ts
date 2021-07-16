@@ -1,3 +1,6 @@
+import { TemporarySidewalkComponent } from './../new-application/temporary-sidewalk/temporary-sidewalk.component';
+import { MechanicalPermitComponent } from './../new-application/mechanical-permit/mechanical-permit.component';
+import { ScaffoldingPermitComponent } from './../new-application/scaffolding-permit/scaffolding-permit.component';
 import { SignPermitComponent } from './../new-application/sign-permit/sign-permit.component';
 import { DownloadableFormsComponent } from './../../evaluator-dashboard/downloadable-forms/downloadable-forms.component';
 import { UserGuardGuard } from './../../core/guard/user-guard.guard';
@@ -105,6 +108,18 @@ const routes: Routes = [
               {
                 path: 'sign-permit',
                 component: SignPermitComponent,
+              },
+              {
+                path: 'scaffolding-permit',
+                component: ScaffoldingPermitComponent,
+              },
+              {
+                path: 'mechanical-permit',
+                component: MechanicalPermitComponent,
+              },
+              {
+                path: 'temporary-sidewalk',
+                component: TemporarySidewalkComponent,
               },
               {
                 path: 'summary/:id',

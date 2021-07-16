@@ -241,6 +241,14 @@
                           >View</a
                         >
                       </ng-container>
+                      <button
+                        mat-menu-item
+                        color="accent"
+                        (click)="goToEsig(element.id)"
+                        *ngIf="evaluatorRole.code !== 'CBAO-REL'"
+                      >
+                        Sign Document
+                      </button>
                       <a
                         mat-menu-item
                         href="{{ element.document_path }}"

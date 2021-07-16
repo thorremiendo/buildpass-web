@@ -215,7 +215,7 @@ export class FormDetailsComponent implements OnInit {
 
   public async updateForm(): Promise<void> {
     this.isSubmitting = true;
-    const filters = [59, 63, 36, 62, 32, 33];
+    const filters = [59, 63, 36, 62, 32, 33, 140]; //parallel docs
     const findId = filters.find((e) => e == this.data.form.document_id);
     // const blob =
     //   await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
@@ -278,7 +278,7 @@ export class FormDetailsComponent implements OnInit {
 
   callUpdate() {
     this.isSubmitting = true;
-    const filters = [59, 63, 36, 62, 32, 33];
+    const filters = [59, 63, 36, 62, 32, 33, 140];
     const findId = filters.find((e) => e == this.data.form.document_id);
     const uploadDocumentData = {
       document_status_id: 0,
@@ -364,10 +364,11 @@ export class FormDetailsComponent implements OnInit {
           //CBAO
           if (
             permitType == 1 &&
-            this.data.evaluator.position !== 'Admin Aide IV'
+            this.data.evaluator.position !== 'Admin Aide IV' &&
+            this.data.evaluator.position !== 'Architect IV'
           ) {
             //BLDG PERMIT EVALUATORS
-            const filters = [59, 63, 36, 62, 32, 33];
+            const filters = [59, 63, 36, 62, 32, 33, 140];
             const findId = filters.find((e) => e == this.data.form.document_id);
             if (findId) {
               //PARALLEL DOC
@@ -389,6 +390,14 @@ export class FormDetailsComponent implements OnInit {
             body = {
               document_status_id: this.permitDetails.value.is_compliant,
               receiving_status_id: this.permitDetails.value.is_compliant,
+            };
+            this.updateDoc(body, id);
+          } else if (
+            permitType == 1 &&
+            this.data.evaluator.position == 'Architect IV'
+          ) {
+            body = {
+              document_status_id: this.permitDetails.value.is_compliant,
             };
             this.updateDoc(body, id);
           } else {
@@ -482,10 +491,11 @@ export class FormDetailsComponent implements OnInit {
           //CBAO
           if (
             permitType == 1 &&
-            this.data.evaluator.position !== 'Admin Aide IV'
+            this.data.evaluator.position !== 'Admin Aide IV' &&
+            this.data.evaluator.position !== 'Architect IV'
           ) {
             //BLDG PERMIT EVALUATORS
-            const filters = [59, 63, 36, 62, 32, 33];
+            const filters = [59, 63, 36, 62, 32, 33, 140];
             const findId = filters.find((e) => e == this.data.form.document_id);
             if (findId) {
               //PARALLEL DOC
@@ -507,6 +517,14 @@ export class FormDetailsComponent implements OnInit {
             body = {
               document_status_id: this.permitDetails.value.is_compliant,
               receiving_status_id: this.permitDetails.value.is_compliant,
+            };
+            this.updateDoc(body, id);
+          } else if (
+            permitType == 1 &&
+            this.data.evaluator.position == 'Architect IV'
+          ) {
+            body = {
+              document_status_id: this.permitDetails.value.is_compliant,
             };
             this.updateDoc(body, id);
           } else {
@@ -565,10 +583,11 @@ export class FormDetailsComponent implements OnInit {
               //CBAO
               if (
                 permitType == 1 &&
-                this.data.evaluator.position !== 'Admin Aide IV'
+                this.data.evaluator.position !== 'Admin Aide IV' &&
+                this.data.evaluator.position !== 'Architect IV'
               ) {
                 //BLDG PERMIT EVALUATORS
-                const filters = [59, 63, 36, 62, 32, 33];
+                const filters = [59, 63, 36, 62, 32, 33, 140];
                 const findId = filters.find(
                   (e) => e == this.data.form.document_id
                 );
@@ -595,6 +614,14 @@ export class FormDetailsComponent implements OnInit {
                   document_status_id: this.permitDetails.value.is_compliant,
                   receiving_status_id: this.permitDetails.value.is_compliant,
                   document_path: blob,
+                };
+                this.updateDoc(body, id);
+              } else if (
+                permitType == 1 &&
+                this.data.evaluator.position == 'Architect IV'
+              ) {
+                body = {
+                  document_status_id: this.permitDetails.value.is_compliant,
                 };
                 this.updateDoc(body, id);
               }

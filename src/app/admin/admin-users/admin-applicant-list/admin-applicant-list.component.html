@@ -72,6 +72,10 @@
                       <mat-icon>visibility</mat-icon>
                       <span>View user</span>
                     </button>
+                    <button mat-menu-item (click)="resendVerification(user.id)">
+                      <mat-icon>fingerprint</mat-icon>
+                      <span>Resend Verification</span>
+                    </button>
                     <button mat-menu-item (click)="deleteUser(user.id)">
                       <mat-icon>delete</mat-icon>
                       <span>Delete User</span>

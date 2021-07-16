@@ -93,7 +93,8 @@ export class CepmoEvaluatorComponent implements OnInit {
         obj.document_id == 36 ||
         obj.document_id == 44 ||
         obj.document_id == 59 ||
-        obj.document_id == 63
+        obj.document_id == 63 ||
+        obj.document_id == 140
     );
     this.dataSource = CEPMO_FORMS;
   }

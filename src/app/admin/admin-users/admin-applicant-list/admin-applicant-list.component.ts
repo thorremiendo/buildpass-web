@@ -2,7 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AdminUserService } from '../../../core';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { 
+  MatSnackBar, 
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition, 
+} from '@angular/material/snack-bar';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { AdminEmployeeViewComponent } from '../admin-employee-view/admin-employee-view.component'
 
@@ -15,6 +19,8 @@ export class AdminApplicantListComponent implements OnInit {
   public dataSource;
   public message: String;
   public isFetching = true;
+  private horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  private verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   public displayedColumns: string[] = [
     'id',
     'full_name',
@@ -43,6 +49,35 @@ export class AdminApplicantListComponent implements OnInit {
       this.isFetching = false;
     });
   }
+
+  resendVerification(id){
+
+    this.adminUserservice.resendVerification(id).subscribe(res => {
+      console.log(res);
+
+      if(res.message == 'Email sent'){
+        this.snackBar.open(res.message, 'Close', {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+          duration: 5 * 1000,
+        });
+      }
+      else{
+        this.snackBar.open('Something went wrong...', 'Close', {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+          duration: 5 * 1000,
+        });
+
+      }
+
+    })
+   
+  }
+  
+
+
+  
 
   deleteUser(id){
     const dialogRef = this.matDialog.open(
