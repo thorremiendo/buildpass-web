@@ -16,6 +16,7 @@ import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { ZoningCertificateComponent } from '../zoning-certificate/zoning-certificate.component';
 import Swal from 'sweetalert2';
 import { WwwmsCertificateComponent } from '../wwwms-certificate/wwwms-certificate.component';
+import { EsignatureService } from 'src/app/core/services/esignature.service';
 
 @Component({
   selector: 'app-cepmo-evaluator',
@@ -37,7 +38,8 @@ export class CepmoEvaluatorComponent implements OnInit {
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
     public dialog: MatDialog,
-    private newApplicationService: NewApplicationService
+    private newApplicationService: NewApplicationService,
+    private eSignatureService: EsignatureService
   ) {}
 
   ngOnInit(): void {
@@ -154,9 +156,11 @@ export class CepmoEvaluatorComponent implements OnInit {
         });
     } else {
       this.isLoading = false;
-      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
-        (result) => {}
-      );
+      Swal.fire(
+        'Notice!',
+        `Please review all documents first!`,
+        'info'
+      ).then((result) => {});
     }
   }
 
@@ -220,5 +224,12 @@ export class CepmoEvaluatorComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       this.ngOnInit();
     });
+  }
+
+  goToEsig(id) {
+    const docId = id;
+    const appId = this.applicationId;
+
+    this.eSignatureService.goToEsig(appId, docId);
   }
 }
