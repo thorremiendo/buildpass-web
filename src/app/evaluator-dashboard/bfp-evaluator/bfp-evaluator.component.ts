@@ -17,6 +17,7 @@ import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { ZoningCertificateComponent } from '../zoning-certificate/zoning-certificate.component';
 import Swal from 'sweetalert2';
 import { FireClearanceComponent } from '../fire-clearance/fire-clearance.component';
+import { EsignatureService } from 'src/app/core/services/esignature.service';
 
 @Component({
   selector: 'app-bfp-evaluator',
@@ -39,7 +40,8 @@ export class BfpEvaluatorComponent implements OnInit {
     public dialog: MatDialog,
     private changeDetectorRefs: ChangeDetectorRef,
     private userService: UserService,
-    private newApplicationService: NewApplicationService
+    private newApplicationService: NewApplicationService,
+    private eSignatureService: EsignatureService
   ) {}
 
   ngOnInit(): void {
@@ -183,9 +185,11 @@ export class BfpEvaluatorComponent implements OnInit {
         });
     } else {
       this.isLoading = false;
-      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
-        (result) => {}
-      );
+      Swal.fire(
+        'Notice!',
+        `Please review all documents first!`,
+        'info'
+      ).then((result) => {});
     }
   }
   checkFormsReviewed() {
@@ -247,5 +251,12 @@ export class BfpEvaluatorComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       this.ngOnInit();
     });
+  }
+
+  goToEsig(id) {
+    const docId = id;
+    const appId = this.applicationId;
+
+    this.eSignatureService.goToEsig(appId, docId);
   }
 }
