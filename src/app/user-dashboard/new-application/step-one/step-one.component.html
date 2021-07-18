@@ -37,6 +37,9 @@
             >
             <mat-option value="8">Temporary Side Walk Enclosure</mat-option>
             <mat-option value="9">Mechanical Permit</mat-option>
+            <mat-option value="10"
+              >Certificate of Final Electrical Inspection</mat-option
+            >
           </mat-select>
         </mat-form-field>
         <P
@@ -47,6 +50,44 @@
           only available for Building Permits processed through BuildPASS.
         </P>
       </div>
+      <ng-container *ngIf="selectedPermitType == '10'">
+        <h4>CFEI Type:</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Choose</mat-label>
+          <mat-select [(value)]="cfeiType" formControlName="sub_permit_type_id">
+            <mat-option value="1">CFEI - Temporary Connection</mat-option>
+            <mat-option value="2">CFEI - Additional Connection</mat-option>
+            <mat-option value="3"
+              >CFEI - Structures with Building Permit / Occupancy
+              Certificate</mat-option
+            >
+            <mat-option value="4"
+              >CFEI - Structures affected by fire or calamities</mat-option
+            >
+            <mat-option value="5"
+              >CFEI - Structures w/o Building Permit</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngIf="cfeiType == '4'">
+        <h4>Is the structure affected by fire?</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Choose</mat-label>
+          <mat-select formControlName="is_affected_by_fire">
+            <mat-option value="1">Yes</mat-option>
+            <mat-option value="2">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <h4>Is the structure affected by Calamities?</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Choose</mat-label>
+          <mat-select formControlName="is_affected_by_calamities">
+            <mat-option value="1">Yes</mat-option>
+            <mat-option value="2">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
       <div *ngIf="selectedPermitType">
         <ng-container *ngIf="selectedPermitType !== '2'">
           <div>

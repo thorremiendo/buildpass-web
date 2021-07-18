@@ -35,6 +35,7 @@ export class StepOneComponent implements OnInit {
   public applicationInfo;
   public withExcavation;
   public useExistingInfo;
+  public cfeiType;
   public isLoading: boolean = false;
   public userBuildingPermits = [];
   public selectedBuildingPermit;
@@ -93,11 +94,14 @@ export class StepOneComponent implements OnInit {
       is_owned_by_corporation: new FormControl('', Validators.required),
       is_property_have_coowners: new FormControl('', Validators.required),
       occupancy_classification_id: new FormControl('', Validators.required),
+      sub_permit_type_id: new FormControl('', Validators.required),
+      is_affected_by_fire: new FormControl('', Validators.required),
+      is_affected_by_calamities: new FormControl('', Validators.required),
     });
   }
 
   callNext() {
-    const otherPermits = [3, 4, 5, 6, 7, 8, 9];
+    const otherPermits = [3, 4, 5, 6, 7, 8, 9, 10];
     const isOtherPermit = otherPermits.find(
       (e) => e == this.selectedPermitType
     );
@@ -147,6 +151,13 @@ export class StepOneComponent implements OnInit {
           is_under_mortgage: value.is_under_mortgage,
           is_owned_by_corporation: value.is_owned_by_corporation,
           is_property_have_coowners: value.is_property_have_coowners,
+          sub_permit_type_id: this.cfeiType,
+          is_affected_by_fire: value.is_affected_by_fire
+            ? value.is_affected_by_fire
+            : 0,
+          is_affected_by_calamities: value.is_affected_by_calamities
+            ? value.is_affected_by_calamities
+            : 0,
           construction_status_id: 0,
           applicant_first_name: this.userInfo.first_name,
           applicant_middle_name: this.userInfo.middle_name,
@@ -154,9 +165,6 @@ export class StepOneComponent implements OnInit {
           applicant_suffix_name: this.userInfo.suffix_name,
           applicant_contact_number: this.userInfo.contact_number,
           applicant_email_address: this.userInfo.email_address,
-          // applicant_house_number: this.userInfo.home_address,
-          // applicant_street_name: this.userInfo.owner_street,
-          // applicant_barangay: this.userInfo.barangay,
         };
         this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
           Swal.fire(
@@ -187,6 +195,11 @@ export class StepOneComponent implements OnInit {
                 break;
               case '9':
                 this.router.navigateByUrl('/dashboard/new/mechanical-permit');
+                break;
+              case '10':
+                this.router.navigateByUrl(
+                  '/dashboard/new/electrical-inspection'
+                );
                 break;
             }
           });

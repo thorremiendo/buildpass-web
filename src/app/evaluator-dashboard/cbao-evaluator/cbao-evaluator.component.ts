@@ -615,6 +615,39 @@ export class CbaoEvaluatorComponent implements OnInit {
       );
     }
   }
+
+  forSignature() {
+    this.isLoading = true;
+    if (this.applicationInfo.permit_type_id == 1) {
+      if (this.checkFormsCompliant) {
+        const body = {
+          application_status_id: 24,
+          bo_status_id: 1,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            Swal.fire(
+              'Success!',
+              `Notified Evaluators for Signature!`,
+              'success'
+            ).then((result) => {
+              this.isLoading = false;
+              window.location.reload();
+            });
+          });
+      } else {
+        Swal.fire(
+          'Warning!',
+          `Please review all documents first!`,
+          'warning'
+        ).then((result) => {
+          this.isLoading = false;
+        });
+      }
+    } else {
+    }
+  }
   forPayment() {
     this.isLoading = true;
     if (this.applicationInfo.permit_type_id == 1) {

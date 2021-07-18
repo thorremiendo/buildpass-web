@@ -67,6 +67,11 @@ export class UserApplicationsTableComponent implements OnInit {
               case 9:
                 this.router.navigateByUrl('/dashboard/new/mechanical-permit');
                 break;
+              case 10:
+                this.router.navigateByUrl(
+                  '/dashboard/new/electrical-inspection'
+                );
+                break;
             }
           });
       });

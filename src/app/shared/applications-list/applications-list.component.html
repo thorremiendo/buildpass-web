@@ -50,8 +50,24 @@
         *ngIf="application.permit_type_id == 5"
       />
       <img
+        src="../../../assets/illustrations/scaffolding.svg"
+        *ngIf="application.permit_type_id == 6"
+      />
+      <img
         src="../../../assets/illustrations/sign.svg"
         *ngIf="application.permit_type_id == 7"
+      />
+      <img
+        src="../../../assets/illustrations/sidewalk.svg"
+        *ngIf="application.permit_type_id == 8"
+      />
+      <img
+        src="../../../assets/illustrations/mechanical.svg"
+        *ngIf="application.permit_type_id == 9"
+      />
+      <img
+        src="../../../assets/illustrations/electrical.svg"
+        *ngIf="application.permit_type_id == 10"
       />
     </div>
     <div class="application-details">
@@ -64,7 +80,44 @@
           {{ application.permit_type_id == 3 ? "Excavation Permit" : "" }}
           {{ application.permit_type_id == 4 ? "Fencing Permit" : "" }}
           {{ application.permit_type_id == 5 ? "Demolition Permit" : "" }}
+          {{ application.permit_type_id == 6 ? "Scaffolding Permit" : "" }}
           {{ application.permit_type_id == 7 ? "Sign Permit" : "" }}
+          {{
+            application.permit_type_id == 8
+              ? "Temporary Side Walk Enclosure"
+              : ""
+          }}
+          {{ application.permit_type_id == 9 ? "Mechanical Permit" : "" }}
+          {{
+            application.permit_type_id == 10 &&
+            application.sub_permit_type_id == 1
+              ? "CFEI - Temporary Connection"
+              : ""
+          }}
+          {{
+            application.permit_type_id == 10 &&
+            application.sub_permit_type_id == 2
+              ? "CFEI - Additional Connection"
+              : ""
+          }}
+          {{
+            application.permit_type_id == 10 &&
+            application.sub_permit_type_id == 3
+              ? "CFEI - Structures with Building Permit / Occupancy Certificate"
+              : ""
+          }}
+          {{
+            application.permit_type_id == 10 &&
+            application.sub_permit_type_id == 4
+              ? "CFEI - Structures affected by fire or calamities"
+              : ""
+          }}
+          {{
+            application.permit_type_id == 10 &&
+            application.sub_permit_type_id == 5
+              ? "CFEI - Structures w/o Building Permit"
+              : ""
+          }}
         </div>
         <div *ngIf="application.applicant_detail?.created_at">
           {{ application.applicant_detail.created_at | date: "MMMM dd, yyyy" }}

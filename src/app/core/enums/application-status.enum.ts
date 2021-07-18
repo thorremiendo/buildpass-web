@@ -15,4 +15,5 @@ export enum applicationStatus {
   'Application Denied' = 16,
   'Hard Copies Received' = 17,
   'For Technical Evaluation' = 18,
+  'For Signature' = 24,
 }

@@ -1,3 +1,4 @@
+import { CfeiPermitComponent } from './../new-application/cfei-permit/cfei-permit.component';
 import { TemporarySidewalkComponent } from './../new-application/temporary-sidewalk/temporary-sidewalk.component';
 import { MechanicalPermitComponent } from './../new-application/mechanical-permit/mechanical-permit.component';
 import { ScaffoldingPermitComponent } from './../new-application/scaffolding-permit/scaffolding-permit.component';
@@ -120,6 +121,10 @@ const routes: Routes = [
               {
                 path: 'temporary-sidewalk',
                 component: TemporarySidewalkComponent,
+              },
+              {
+                path: 'electrical-inspection',
+                component: CfeiPermitComponent,
               },
               {
                 path: 'summary/:id',
