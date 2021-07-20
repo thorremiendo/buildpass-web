@@ -94,9 +94,9 @@ export class StepOneComponent implements OnInit {
       is_owned_by_corporation: new FormControl('', Validators.required),
       is_property_have_coowners: new FormControl('', Validators.required),
       occupancy_classification_id: new FormControl('', Validators.required),
-      sub_permit_type_id: new FormControl('', Validators.required),
-      is_affected_by_fire: new FormControl('', Validators.required),
-      is_affected_by_calamities: new FormControl('', Validators.required),
+      sub_permit_type_id: new FormControl(''),
+      is_affected_by_fire: new FormControl(''),
+      is_affected_by_calamities: new FormControl(''),
     });
   }
 
@@ -151,7 +151,7 @@ export class StepOneComponent implements OnInit {
           is_under_mortgage: value.is_under_mortgage,
           is_owned_by_corporation: value.is_owned_by_corporation,
           is_property_have_coowners: value.is_property_have_coowners,
-          sub_permit_type_id: this.cfeiType,
+          sub_permit_type_id: this.cfeiType ? this.cfeiType : 0,
           is_affected_by_fire: value.is_affected_by_fire
             ? value.is_affected_by_fire
             : 0,
