@@ -241,14 +241,17 @@
                           >View</a
                         >
                       </ng-container>
-                      <!-- <button
+                      <button
                         mat-menu-item
                         color="accent"
                         (click)="goToEsig(element.id)"
                         *ngIf="evaluatorRole.code !== 'CBAO-REL'"
+                        [disabled]="
+                          applicationInfo.application_status_id !== 24
+                        "
                       >
                         Sign Document
-                      </button> -->
+                      </button>
                       <a
                         mat-menu-item
                         href="{{ element.document_path }}"
@@ -407,14 +410,14 @@
                     <button
                       mat-raised-button
                       color="primary"
-                      (click)="forPayment()"
+                      (click)="forSignature()"
                       *ngIf="evaluatorRole.code == 'CBAO-BO'"
                       [disabled]="
                         !checkBuildingPermitUploaded() ||
                         applicationInfo.application_status_id !== 13
                       "
                     >
-                      Approve
+                      Forward for Signature
                     </button>
                   </div>
                 </div>

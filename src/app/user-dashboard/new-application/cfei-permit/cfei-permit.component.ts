@@ -10,11 +10,11 @@ import { environment } from './../../../../environments/environment';
 import { documentTypes } from '../../../core/enums/document-type.enum';
 
 @Component({
-  selector: 'app-scaffolding-permit',
-  templateUrl: './scaffolding-permit.component.html',
-  styleUrls: ['./scaffolding-permit.component.scss'],
+  selector: 'app-cfei-permit',
+  templateUrl: './cfei-permit.component.html',
+  styleUrls: ['./cfei-permit.component.scss'],
 })
-export class ScaffoldingPermitComponent implements OnInit {
+export class CfeiPermitComponent implements OnInit {
   public isSubmitting: boolean = false;
   public user;
   public pdfSource;
@@ -23,45 +23,18 @@ export class ScaffoldingPermitComponent implements OnInit {
   public applicationDetails;
   public isLoading: boolean = false;
 
-  public forms: any = [
-    {
-      id: 124,
-      src: '../../../../assets/forms/updated/Scaffolding_Permit.pdf',
-    },
-  ];
+  public forms: any = [];
 
   public fieldSets: any = [
     {
       label: 'Step 2',
       title: 'Documentary Requirements',
-      documents: [125, 109, 111, 112],
-    },
-    {
-      label: 'Step 3',
-      title: 'Plans, Specifications',
-      documents: [132, 14, 134, 135, 136],
-    },
-    {
-      label: 'Step 4',
-      title: 'Professional Details',
-      documents: [35, 34],
-    },
-    {
-      label: 'Step 5',
-      title: 'Others',
-      documents: [18],
+      documents: [],
     },
   ];
 
-  public representativeDocs: Array<any> = [113];
-  public lesseeDocs: Array<any> = [110];
-  // public registeredDocs: Array<any> = [44];
-  // public notRegisteredDocs: Array<any> = [120, 121];
-  // public isWithinSubdivision: Array<any> = [72];
-  // public isUnderMortgage: Array<any> = [73];
-  // public isOwnedByCorporation: Array<any> = [74];
-  // public isHaveCoOwners: Array<any> = [75];
-  // public if10000sqm: Array<any> = [40];
+  public isAffectedByFire: Array<any> = [189];
+  public isAffectedByCalamity: Array<any> = [190];
 
   constructor(
     private newApplicationService: NewApplicationService,
@@ -81,39 +54,71 @@ export class ScaffoldingPermitComponent implements OnInit {
         .fetchApplicationInfo(this.applicationId)
         .subscribe((res) => {
           this.applicationDetails = res.data;
+          console.log(this.applicationDetails);
+          const isFire =
+            this.applicationDetails.is_affected_by_fire == 1 ? true : false;
+          const isCalamity =
+            this.applicationDetails.is_affected_by_calamities == 1
+              ? true
+              : false;
+          isFire
+            ? this.fieldSets[0].documents.push(...this.isAffectedByFire)
+            : null;
+          isCalamity
+            ? this.fieldSets[0].documents.push(...this.isAffectedByCalamity)
+            : null;
+          switch (this.applicationDetails.sub_permit_type_id) {
+            case 1:
+              this.forms.push(
+                {
+                  id: 166,
+                  src: '../../../../assets/forms/updated/Certificate_of_Electrical_Inspection_for_Temporary_Power_Connection_E-04.pdf',
+                  label: 'Step 1',
+                },
+                {
+                  id: 167,
+                  src: '../../../../assets/forms/updated/FORM_E-03Temporary_Service_Connection_Permit.pdf',
+                  label: 'Step 2',
+                }
+              );
+              this.fieldSets[0].documents.push(168, 169, 170, 171, 172, 173);
+              break;
+            case 2:
+              this.forms.push({
+                id: 174,
+                src: '../../../../assets/forms/updated/Certificate_of_Final_Electrical_Inspection_E-05.pdf',
+              });
+              this.fieldSets[0].documents.push(175, 176, 170, 178, 172, 173);
+              break;
+            case 3:
+              this.forms.push({
+                id: 174,
+                src: '../../../../assets/forms/updated/Certificate_of_Final_Electrical_Inspection_E-05.pdf',
+              });
+              this.fieldSets[0].documents.push(182, 170, 178, 172, 195, 187);
+              break;
+            case 4:
+              this.forms.push({
+                id: 174,
+                src: '../../../../assets/forms/updated/Certificate_of_Final_Electrical_Inspection_E-05.pdf',
+              });
+              this.fieldSets[0].documents.push(191, 170, 178, 172, 195);
+              break;
+            case 5:
+              this.forms.push({
+                id: 174,
+                src: '../../../../assets/forms/updated/Certificate_of_Final_Electrical_Inspection_E-05.pdf',
+              });
+              this.fieldSets[0].documents.push(197, 170, 178, 172, 195, 187);
+              break;
+            default:
+              break;
+          }
+
           this.saveRoute();
           this.formData = this.dataBindingService.getFormData(
             this.applicationDetails
           );
-
-          const isRepresentative =
-            this.applicationDetails.is_representative == '1' ? true : false;
-          const isLessee =
-            this.applicationDetails.rol_status_id != '1' ? true : false;
-          const isRegisteredOwner =
-            this.applicationDetails.registered_owner == '1' ? true : false;
-          const isWithinSubdivision =
-            this.applicationDetails.is_within_subdivision == 1 ? true : false;
-          const isUnderMortgage =
-            this.applicationDetails.is_under_mortgage == 1 ? true : false;
-          const isOwnedByCorporation =
-            this.applicationDetails.is_owned_by_corporation == 1 ? true : false;
-          const isHaveCoOwners =
-            this.applicationDetails.is_property_have_coowners == 1
-              ? true
-              : false;
-
-          const if10000sqm =
-            this.applicationDetails.project_detail.total_floor_area >= 10000
-              ? true
-              : false;
-
-          isRepresentative
-            ? this.fieldSets[0].documents.push(...this.representativeDocs)
-            : null;
-          isLessee
-            ? this.fieldSets[0].documents.push(...this.lesseeDocs)
-            : null;
 
           this.initData();
           this.setFilePaths();
@@ -181,6 +186,11 @@ export class ScaffoldingPermitComponent implements OnInit {
       };
     }
     for (let i = 0; i < this.fieldSets.length; i++) {
+      this.fieldSets[i] = {
+        label: `Step ${this.getFormsLength() + i + 1}`,
+        title: this.fieldSets[i].title,
+        documents: this.fieldSets[i].documents,
+      };
       for (let j = 0; j < this.fieldSets[i].documents.length; j++) {
         this.fieldSets[i].documents[j] = {
           id: this.fieldSets[i].documents[j],
@@ -189,6 +199,10 @@ export class ScaffoldingPermitComponent implements OnInit {
         };
       }
     }
+  }
+
+  getFormsLength() {
+    return this.forms.length;
   }
 
   setFilePaths() {

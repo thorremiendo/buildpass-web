@@ -11,7 +11,7 @@ Main sidebar
 ******************/
 
 .mat-sidenav {
-  width: 240px;
+  min-width: 240px;
   padding-top: 0px;
 }
 
@@ -71,7 +71,7 @@ Main sidebar
     }
 
     &.selected>.mat-list-item-content>a {
-      background: $themecolor-alt;
+      background: $themecolor;
       border-radius: $radius;
       color: $white;
 

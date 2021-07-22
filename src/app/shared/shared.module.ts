@@ -40,6 +40,7 @@ import { AnnouncementFullComponent } from './announcement/announcement-full/anno
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { UploadedIdentificationComponent } from './uploaded-identification/uploaded-identification.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     GeneralRemarksComponent,
     PasswordPromptComponent,
     ESignatureComponent,
+    UploadedIdentificationComponent,
   ],
   imports: [
     CommonModule,
@@ -96,6 +98,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     ApplicationsListComponent,
     AnnouncementListComponent,
     GeneralRemarksComponent,
+    UploadedIdentificationComponent,
   ],
   providers: [
     {

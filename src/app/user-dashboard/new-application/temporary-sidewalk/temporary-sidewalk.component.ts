@@ -25,7 +25,7 @@ export class TemporarySidewalkComponent implements OnInit {
   public forms: any = [
     {
       id: 108,
-      src: '../../../../assets/forms/updated/Sign Permit.pdf',
+      src: '../../../../assets/forms/updated/Temporary_Sidewalk_Enclosure_and_Occupancy_Permit_0_(3).pdf',
     },
   ];
 
@@ -38,7 +38,12 @@ export class TemporarySidewalkComponent implements OnInit {
     {
       label: 'Step 3',
       title: 'Plans, Specifications',
-      documents: [114, 115, 116],
+      documents: [104, 163, 25],
+    },
+    {
+      label: 'Step 4',
+      title: 'Professional Details',
+      documents: [165],
     },
   ];
 

@@ -8,6 +8,7 @@ export enum applicationTypes {
   'Sign Permit' = 7,
   'Side Walk Permit' = 8,
   'Mechanical Permit' = 9,
+  'Certificate of Final Electrical Inspection' = 10,
 }
 
 export enum applicationDescriptions {

@@ -1,30 +1,16 @@
-<!-- ============================================================== -->
-<!-- sidebar -->
-<!-- ============================================================== -->
-<div
-  class="user-profile mb-3"
-  style="
-    background-color: white;
-    border-bottom-style: solid;
-    border-bottom-color: #400c06;
-  "
->
+<div class="user-sidebar">
   <div *ngIf="!_isLoading">
     <div class="col text-center p-3" *ngIf="employeeDetails == null">
-      <div class="my-3">
-        <img [src]="userInfo.photo_path ? userInfo.photo_path : '../../../../assets/images/cbao-cartoon.png'" alt="user" class="avatar" />
+      <div class="avatar">
+        <img [src]="userInfo.photo_path ? userInfo.photo_path : '../../../../assets/images/cbao-cartoon.png'" alt="user" />
       </div>
-      <h3 style="color: #400c06">
-        {{ userInfo.first_name }} {{ userInfo.last_name }}
-      </h3>
-      <p style="color: #400c06">{{ userInfo.email }}</p>
-      <p style="color: #400c06">
-        {{ userInfo.first_name ? "Applicant" : "CBAO Treasury" }}
-      </p>
+      <h3>{{ userInfo.first_name }} {{ userInfo.last_name }}</h3>
+      <p>{{ userInfo.email_address }}</p>
+      <p>{{ userInfo.first_name ? "Applicant" : "CBAO Treasury" }}</p>
     </div>
     <div class="col text-center p-3" *ngIf="employeeDetails">
-      <div class="mb-3">
-        <img [src]="evaluatorDetails.photo_path" alt="user" class="avatar" />
+      <div class="avatar">
+        <img [src]="evaluatorDetails.photo_path" alt="user" />
       </div>
       <h3 style="color: #400c06">
         {{ evaluatorDetails.first_name }} {{ evaluatorDetails.last_name }}
@@ -37,22 +23,6 @@
       </h4>
     </div>
   </div>
-
-  <!-- User profile text-->
-  <!-- ============================================================== -->
-  <!-- Profile - style you can find in header.scss -->
-  <!-- ============================================================== -->
-  <mat-menu #sdprofile="matMenu" class="mymegamenu">
-    <!-- <button mat-menu-item>
-            <mat-icon>settings</mat-icon> Settings
-        </button>
-        <button mat-menu-item>
-            <mat-icon>account_box</mat-icon> Profile
-        </button>
-        <button mat-menu-item>
-            <mat-icon>notifications_off</mat-icon> Disable notifications
-        </button> -->
-  </mat-menu>
 </div>
 
 <mat-nav-list appAccordion>
@@ -187,7 +157,16 @@
       <span>{{ menuitem.name }}</span>
     </div>
   </mat-list-item>
+  <mat-list-item
+    appAccordionLink
+    (click)="logout()"
+  >
+    <a
+      class=""
+      appAccordionToggle
+    >
+      <mat-icon>exit_to_app</mat-icon>
+      <span>Sign Out</span>
+    </a>
+  </mat-list-item>
 </mat-nav-list>
-<button mat-menu-item (click)="logout()">
-  <mat-icon>exit_to_app</mat-icon> Sign Out
-</button>

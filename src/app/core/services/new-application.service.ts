@@ -113,4 +113,16 @@ export class NewApplicationService {
     else url = `/userdocs/remark/${id}/non-compliant`;
     return this.api.post(url, {});
   }
+
+  updateRemark(id, remark) {
+    const url = `/userdocs/remark/${id}/update`;
+    return this.api.post(url, {
+      remarks: remark
+    });
+  }
+
+  deleteRemark(id) {
+    const url = `/userdocs/remark/${id}/remove`;
+    return this.api.post(url, {});
+  }
 }

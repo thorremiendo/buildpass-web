@@ -106,14 +106,31 @@
             <button
               mat-raised-button
               color="primary"
+              class="mx-1"
               (click)="openProjectDialog()"
             >
               Project Details
             </button>
             <button
               mat-raised-button
+              color="primary"
+              class="mx-1"
+              (click)="openUploadedId(1)"
+            >
+              Show Uploaded ID
+            </button>
+            <button
+              mat-raised-button
+              color="primary"
+              class="mx-1"
+              (click)="openUploadedId(2)"
+            >
+              Show Selfie with ID
+            </button>
+            <button
+              mat-raised-button
               color="accent"
-              class="ml-5"
+              class="mx-1"
               (click)="openRepresentativeDialog()"
               *ngIf="applicationDetails.is_representative == 1"
             >
@@ -149,7 +166,9 @@
                 View Timeline</mat-panel-title
               >
             </mat-expansion-panel-header>
-            <app-application-timeline [type]="applicationDetails.permit_type_id"></app-application-timeline>
+            <app-application-timeline
+              [type]="applicationDetails.permit_type_id"
+            ></app-application-timeline>
           </mat-expansion-panel>
         </div>
       </mat-card-content>

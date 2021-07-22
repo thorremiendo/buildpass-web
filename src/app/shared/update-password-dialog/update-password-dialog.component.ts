@@ -15,14 +15,14 @@ import { AuthService, FormValidatorService, UserService } from '../../core';
   styleUrls: ['./update-password-dialog.component.scss'],
 })
 export class UpdatePasswordDialogComponent implements OnInit {
-  public title: string = 'Change Password';
-  public userName: string;
-  public tempPass: string;
-  public confirmed: boolean = false;
+  public hide: boolean = true;
   public loading: boolean = false;
   public submitted: boolean = false;
-
   public changePasswordForm: FormGroup;
+  
+  get changePasswordFormControl() {
+    return this.changePasswordForm.controls;
+  }
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -36,16 +36,7 @@ export class UpdatePasswordDialogComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.createForm();
-  }
-
-  get changePasswordFormControl() {
-    return this.changePasswordForm.controls;
-  }
-
-  createForm() {
-    this.changePasswordForm = this.fb.group(
-      {
+    this.changePasswordForm = this.fb.group({
         password: [
           '',
           Validators.compose([
@@ -53,70 +44,54 @@ export class UpdatePasswordDialogComponent implements OnInit {
             this.formValidator.patternValidator(),
           ]),
         ],
-        confirmPassword: ['', [Validators.required]],
+        confirmPassword: [
+          '', 
+          Validators.compose([
+            Validators.required,
+          ]),
+        ],
       },
       {
         validator: this.formValidator.MatchPassword(
           'password',
           'confirmPassword'
         ),
-      }
-    );
+      });
   }
 
-  confirmClicked(value) {
-    this.title = 'Processing...';
+  updatePassword() {
     this.submitted = true;
-    this.loading = true;
-
-    let body = {
-      password: value.password,
-    };
-
     if (this.changePasswordForm.valid) {
-      if(this.data.firebase_uid != null){
-
+      this.loading = true;
+      const newPassword = this.changePasswordForm.value.password;
+      if (this.data.firebase_uid) {
         this.authService
-          .ChangePassword(value.password)
-          .then((result) =>{
-            if(result == "Something went wrong"){
-              this.snackBar.open('Something went wrong...', 'Close', {
-                horizontalPosition: 'left',
-              });
-              this.dialogRef.close();
-            }
-            else{
-              this.title = 'Warning';
-              this.confirmed = true;
-              this.loading = false;
-            }
-          })
-      }
-      else{
-        this.userService.updateUserInfo(body, this.data.user_id).subscribe(
-          (res) => {
-            this.title = 'Warning';
-            this.confirmed = true;
-            this.loading = false;
-          },
-  
-          (err) => {
-            this.snackBar.open('Something went wrong...', 'Close', {
-              horizontalPosition: 'left',
+          .ChangePassword(newPassword)
+          .then(res => {
+            this.snackBar.open('Password successfully changed.', 'Close', {
+              horizontalPosition: 'center',
             });
             this.dialogRef.close();
-          }
-        );
+          });
+      } else {
+        this.userService
+          .updateUserInfo(
+            {
+              password: newPassword,
+            }, 
+            this.data.user_id
+          )
+          .subscribe(res => {
+            this.snackBar.open('Password successfully changed.', 'Close', {
+              horizontalPosition: 'center',
+            });
+            this.dialogRef.close();
+          });
       }
     }
   }
 
-  logOut() {
-    if(this.data.firebase_uid != null){
-      this.authService.userSignOut();
-    }
-    else{
-      this.authService.evaluatorSignOut();
-    }
+  closeModal() {
+    this.dialogRef.close();
   }
 }

@@ -1,93 +1,91 @@
-table {
+.remarks-table {
   width: 100%;
-
-  tr.compliant {
-    td:nth-of-type(2) {
-    }
-  }
-
-  tr.label {
-    font-weight: 700;
-  }
 
   th {
     background-color: maroon;
     color: white;
+    padding: 10px;
   }
-}
 
-.mat-column-index {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 5% !important;
-  width: 5% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
+  td {
+    padding: 10px;
+  }
 
-  word-break: break-word;
+  .mat-column-compliance {
+    width: 20px;
+  }
 
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-}
-.mat-column-remark {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 40% !important;
-  width: 40% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
+  .label {
+    font-weight: 700;
+  }
 
-  word-break: break-word;
+  .remark {
+    &.edit-mode {
+      .remark-content, .remark-details {
+        display: none !important;
+      }
 
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-}
-.mat-column-evaluator {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 20% !important;
-  width: 20% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
+      .edit-remark {
+        display: block !important;
+      }
+    }
 
-  word-break: break-word;
+    .remark-container {
+      display: flex;
+      justify-content: space-between;
 
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-}
-.mat-column-date {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 20% !important;
-  width: 20% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
+      .remark-content {
+        .remark-text {
+          font-size: 16px;
+          font-weight: 500;
+        }
+  
+        .remark-author {
+          font-size: 13px;
+        }
+      }
 
-  word-break: break-word;
+      .remark-details {
+        display: flex;
 
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-}
-.mat-column-office {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  flex: 0 0 10% !important;
-  width: 10% !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
+        .remark-actions {
+          padding-right: 10px;
 
-  word-break: break-word;
+          button {
+            padding: 0;
+            min-width: 40px;
+          }
+          
+          .delete-remark-button {
+            color: red;
+          }
+        }
+  
+        .remark-dates {
+          font-size: 12px;
+          color: gray;
+          margin-top: 3px;
+          width: 200px;
+        }
+      }
 
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
+      .edit-remark {
+        display: none;
+        width: 100%;
+
+        ::ng-deep .mat-form-field-wrapper {
+          padding: 0;
+        }
+
+        .remark-author {
+          font-size: 13px;
+          display: inline-block;
+        }
+
+        .buttons {
+          float: right;
+        }
+      }
+    }
+  }
 }

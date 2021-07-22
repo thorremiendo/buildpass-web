@@ -1,13 +1,21 @@
-.avatar {
-  width: 150px;
-  height: 150px;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  border-radius: 50%;
+.user-sidebar {
+  border-bottom : 3px solid #400c06;
+}
 
-  -webkit-box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999,
-    0 2px 5px 4px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999,
-    0 2px 5px 4px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 0 0 3px #fff, 0 0 0 6px rgb(90, 32, 32), 0 2px 5px 4px rgba(0, 0, 0, 0.2);
+.avatar {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 30px auto;
+  -webkit-box-shadow: 0 0 0 3px #fff, 0 0 0 4px #400c06;
+  -moz-box-shadow: 0 0 0 3px #fff, 0 0 0 4px #400c06;
+  box-shadow: 0 0 0 3px #fff, 0 0 0 6px #400c06;
+
+  img {
+    display: block;
+    height: 100%;
+    width: auto;
+    margin: 0 auto;
+  }
 }

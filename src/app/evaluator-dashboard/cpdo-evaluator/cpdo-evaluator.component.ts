@@ -93,7 +93,8 @@ export class CpdoEvaluatorComponent implements OnInit {
         doc.document_id == 74 ||
         doc.document_id == 75 ||
         doc.document_id == 72 ||
-        doc.document_id == 33
+        doc.document_id == 33 ||
+        doc.document_id == 140
     );
     this.dataSource = CPDO_FORMS;
   }
@@ -152,7 +153,7 @@ export class CpdoEvaluatorComponent implements OnInit {
   nonCompliant() {
     if (this.checkFormsReviewed()) {
       Swal.fire({
-        title: 'Do you need an Excavation Permit?',
+        title: 'Are you sure?',
         showDenyButton: true,
         showCancelButton: false,
         confirmButtonText: `Yes`,

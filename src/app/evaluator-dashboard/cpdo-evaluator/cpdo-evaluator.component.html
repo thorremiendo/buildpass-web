@@ -80,9 +80,12 @@
             <ng-container matColumnDef="action">
               <th mat-header-cell *matHeaderCellDef>Action</th>
               <td mat-cell *matCellDef="let element">
-                <div class="row">
+                <button mat-button [matMenuTriggerFor]="menu">
+                  Select <mat-icon> arrow_drop_down </mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
                   <button
-                    mat-button
+                    mat-menu-item
                     color="accent"
                     (click)="openFormDialog(element)"
                     [disabled]="
@@ -90,7 +93,7 @@
                       applicationDetails.application_status_id !== 10
                     "
                   >
-                    <mat-icon class="action">mode_edit</mat-icon>
+                    Edit
                   </button>
                   <ng-container
                     *ngIf="
@@ -98,11 +101,22 @@
                       applicationDetails.application_status_id !== 10
                     "
                   >
-                    <a href="{{ element.document_path }}" target="_blank"
+                    <a
+                      mat-menu-item
+                      href="{{ element.document_path }}"
+                      target="_blank"
                       >View</a
                     >
                   </ng-container>
-                </div>
+                  <button
+                    mat-menu-item
+                    color="accent"
+                    (click)="goToEsig(element.id)"
+                    *ngIf="evaluatorRole.code !== 'CBAO-REL'"
+                  >
+                    Sign Document
+                  </button>
+                </mat-menu>
               </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

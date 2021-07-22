@@ -157,11 +157,11 @@ button {
     text-align: center;
     font-weight: 300;
     font-size: smaller;
-    color:maroon;
+    color: maroon;
     cursor: pointer;
-}
 
-.change-password:hover{
-    transform: scale(1.2);
+    &:hover {
+        text-decoration: underline;
+    }
 }
 

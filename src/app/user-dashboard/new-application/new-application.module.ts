@@ -25,9 +25,6 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatStepperModule } from '@angular/material/stepper';
 import { FileUploadComponent } from './forms/file-upload/file-upload.component';
-import { ScaffoldingPermitComponent } from './scaffolding-permit/scaffolding-permit.component';
-import { MechanicalPermitComponent } from './mechanical-permit/mechanical-permit.component';
-import { TemporarySidewalkComponent } from './temporary-sidewalk/temporary-sidewalk.component';
 
 @NgModule({
   declarations: [
@@ -36,9 +33,6 @@ import { TemporarySidewalkComponent } from './temporary-sidewalk/temporary-sidew
     ChecklistSummaryComponent,
     SuccessPageComponent,
     FileUploadComponent,
-    ScaffoldingPermitComponent,
-    MechanicalPermitComponent,
-    TemporarySidewalkComponent,
   ],
   imports: [
     CommonModule,

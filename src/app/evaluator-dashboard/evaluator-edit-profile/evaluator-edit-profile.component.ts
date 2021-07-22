@@ -77,8 +77,8 @@ export class EvaluatorEditProfileComponent implements OnInit {
   openDialog(userCredentials) {
       this._matDialog.open(UpdatePasswordDialogComponent, {
         data: userCredentials,
-        height: '350px',
-        width: '600px',
+        height: 'auto',
+        width: '500px',
       });
   }
 
