@@ -42,13 +42,6 @@
             >
           </mat-select>
         </mat-form-field>
-        <P
-          style="color: maroon; font-weight: 400"
-          *ngIf="selectedPermitType == 2"
-        >
-          As of the moment, online application for Certificate of Occupancy is
-          only available for Building Permits processed through BuildPASS.
-        </P>
       </div>
       <ng-container *ngIf="selectedPermitType == '10'">
         <h4>CFEI Type:</h4>
@@ -218,17 +211,57 @@
           </div>
         </ng-container>
         <ng-container *ngIf="selectedPermitType == '2'">
-          <h4>Please select your Building Permit</h4>
+          <h4>Is your Building Permit released through BuildPASS?</h4>
           <mat-form-field appearance="outline">
             <mat-label>Choose</mat-label>
-            <mat-select [(value)]="selectedBuildingPermit">
-              <mat-option
-                *ngFor="let item of userBuildingPermits"
-                value="{{ item.id }}"
-                >{{ item.ocpas_code }}</mat-option
-              >
+            <mat-select [(value)]="isBuildpassReleased">
+              <mat-option value="1">Yes</mat-option>
+              <mat-option value="2">No</mat-option>
             </mat-select>
           </mat-form-field>
+          <ng-container *ngIf="isBuildpassReleased == 1">
+            <h4>Please select your Building Permit</h4>
+            <mat-form-field appearance="outline">
+              <mat-label>Choose</mat-label>
+              <mat-select [(value)]="selectedBuildingPermit">
+                <mat-option
+                  *ngFor="let item of userBuildingPermits"
+                  value="{{ item.id }}"
+                  >{{ item.ocpas_code }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <ng-container *ngIf="isBuildpassReleased == 2">
+            <h4>
+              Fill out necessary details to migrate your Old/Existing Building
+              Permit
+            </h4>
+            <mat-form-field appearance="outline">
+              <mat-label>First Name</mat-label>
+              <input type="text" matInput />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Middle Name</mat-label>
+              <input type="text" matInput />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Last Name</mat-label>
+              <input type="text" matInput />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Contact Number</mat-label>
+              <input type="text" matInput />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Email Address</mat-label>
+              <input type="text" matInput />
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Notes</mat-label>
+              <input type="text" matInput placeholder="Project location etc" />
+            </mat-form-field>
+          </ng-container>
         </ng-container>
       </div>
 
@@ -236,16 +269,32 @@
         <h4>Site Location:</h4>
         <app-map></app-map>
       </div> -->
-      <div class="mt-3 text-right">
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="callNext()"
-          [disabled]="isSubmitting"
-        >
-          Next
-        </button>
-      </div>
+      <ng-container *ngIf="selectedPermitType !== '2'">
+        <div class="mt-3 text-right">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="callNext()"
+            [disabled]="isSubmitting"
+          >
+            Next
+          </button>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="selectedPermitType == '2' && isBuildpassReleased">
+        <div class="mt-3 text-right">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="handleOccupancyNext()"
+            [disabled]="isSubmitting"
+          >
+            {{
+              isBuildpassReleased == "1" ? "Next" : "Request for BuildPASS BP"
+            }}
+          </button>
+        </div>
+      </ng-container>
     </div>
     <div class="__right col-md-6">
       <div class="d-flex justify-content-center mt-5">

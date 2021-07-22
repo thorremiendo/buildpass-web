@@ -2,7 +2,14 @@
   <div *ngIf="!_isLoading">
     <div class="col text-center p-3" *ngIf="employeeDetails == null">
       <div class="avatar">
-        <img [src]="userInfo.photo_path ? userInfo.photo_path : '../../../../assets/images/cbao-cartoon.png'" alt="user" />
+        <img
+          [src]="
+            userInfo.photo_path
+              ? userInfo.photo_path
+              : '../../../../assets/images/cbao-cartoon.png'
+          "
+          alt="user"
+        />
       </div>
       <h3>{{ userInfo.first_name }} {{ userInfo.last_name }}</h3>
       <p>{{ userInfo.email_address }}</p>
@@ -159,12 +166,25 @@
   </mat-list-item>
   <mat-list-item
     appAccordionLink
-    (click)="logout()"
+    *ngIf="employeeDetails.position == 'Admin Aide IV'"
   >
-    <a
-      class=""
-      appAccordionToggle
-    >
+    <a class="" appAccordionToggle (click)="navigateRequests()">
+      <mat-icon>fact_check</mat-icon>
+      <span>Certificate of Occupancy Requests</span>
+    </a>
+  </mat-list-item>
+  <mat-list-item
+    appAccordionLink
+    *ngIf="employeeDetails.position == 'Admin Aide IV'"
+  >
+    <a class="" appAccordionToggle (click)="navigateList()">
+      <mat-icon>list</mat-icon>
+      <span>Building Permit Master List</span>
+    </a>
+  </mat-list-item>
+
+  <mat-list-item appAccordionLink (click)="logout()">
+    <a class="" appAccordionToggle>
       <mat-icon>exit_to_app</mat-icon>
       <span>Sign Out</span>
     </a>

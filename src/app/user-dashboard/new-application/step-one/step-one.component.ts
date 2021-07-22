@@ -41,6 +41,7 @@ export class StepOneComponent implements OnInit {
   public selectedBuildingPermit;
   public isSubmitting: boolean = false;
   public receiveApplications: boolean;
+  public isBuildpassReleased;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -129,12 +130,6 @@ export class StepOneComponent implements OnInit {
         Swal.fire('Error!', 'Fill out all required information!', 'error');
         this.isSubmitting = false;
       }
-    } else if (!isOtherPermit && this.selectedPermitType == '2') {
-      this.isSubmitting = false;
-      this.router.navigate([
-        '/dashboard/new/details',
-        this.selectedBuildingPermit,
-      ]);
     } else if (isOtherPermit) {
       if (this.permitStepOneForm.value.is_property_have_coowners) {
         const value = this.permitStepOneForm.value;
@@ -211,6 +206,17 @@ export class StepOneComponent implements OnInit {
     } else {
       this.isSubmitting = false;
       Swal.fire('Error!', 'Fill out all required information!', 'error');
+    }
+  }
+
+  handleOccupancyNext() {
+    if (this.selectedBuildingPermit) {
+      this.router.navigate([
+        '/dashboard/new/details',
+        this.selectedBuildingPermit,
+      ]);
+    } else {
+      Swal.fire('Success!', 'Please wait for a call chu chu', 'info');
     }
   }
 }
