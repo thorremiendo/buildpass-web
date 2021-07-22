@@ -164,24 +164,26 @@
       <span>{{ menuitem.name }}</span>
     </div>
   </mat-list-item>
-  <mat-list-item
-    appAccordionLink
-    *ngIf="employeeDetails.position == 'Admin Aide IV'"
-  >
-    <a class="" appAccordionToggle (click)="navigateRequests()">
-      <mat-icon>fact_check</mat-icon>
-      <span>Certificate of Occupancy Requests</span>
-    </a>
-  </mat-list-item>
-  <mat-list-item
-    appAccordionLink
-    *ngIf="employeeDetails.position == 'Admin Aide IV'"
-  >
-    <a class="" appAccordionToggle (click)="navigateList()">
-      <mat-icon>list</mat-icon>
-      <span>Building Permit Master List</span>
-    </a>
-  </mat-list-item>
+  <ng-container *ngIf="employeeDetails">
+    <mat-list-item
+      appAccordionLink
+      *ngIf="employeeDetails.position == 'Admin Aide IV'"
+    >
+      <a class="" appAccordionToggle (click)="navigateRequests()">
+        <mat-icon>fact_check</mat-icon>
+        <span>Certificate of Occupancy Requests</span>
+      </a>
+    </mat-list-item>
+    <mat-list-item
+      appAccordionLink
+      *ngIf="employeeDetails.position == 'Admin Aide IV'"
+    >
+      <a class="" appAccordionToggle (click)="navigateList()">
+        <mat-icon>list</mat-icon>
+        <span>Building Permit Master List</span>
+      </a>
+    </mat-list-item>
+  </ng-container>
 
   <mat-list-item appAccordionLink (click)="logout()">
     <a class="" appAccordionToggle>
