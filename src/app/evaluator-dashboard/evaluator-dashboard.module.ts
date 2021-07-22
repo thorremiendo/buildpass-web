@@ -83,6 +83,10 @@ import { TechnicalFindingsComponent } from './technical-findings/technical-findi
 import { MatSortModule } from '@angular/material/sort';
 import { OtherPermitsComponent } from './other-permits/other-permits.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { OccupancyRequestsComponent } from './occupancy-requests/occupancy-requests.component';
+import { OldbpMasterlistComponent } from './oldbp-masterlist/oldbp-masterlist.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { AttachBpComponent } from './attach-bp/attach-bp.component';
 
 @NgModule({
   declarations: [
@@ -124,6 +128,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     DownloadableFormsComponent,
     TechnicalFindingsComponent,
     OtherPermitsComponent,
+    OccupancyRequestsComponent,
+    OldbpMasterlistComponent,
+    AttachBpComponent,
   ],
 
   imports: [
@@ -175,6 +182,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MaterialModule,
     MatSortModule,
     MatSlideToggleModule,
+    MatPaginatorModule,
   ],
 
   exports: [TechnicalEvaluationComponent, CbaoFeesTableComponent],
