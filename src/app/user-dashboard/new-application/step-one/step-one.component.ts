@@ -1,6 +1,7 @@
+import { OccupancyService } from './../../../core/services/occupancy.service';
 import Swal from 'sweetalert2';
 import { ExcavationPermitService } from './../../../core/services/excavation-permit.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -17,13 +18,15 @@ import {
 } from '../../../core/enums/application-type.enum';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { environment } from './../../../../environments/environment';
-
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
 @Component({
   selector: 'app-step-one',
   templateUrl: './step-one.component.html',
   styleUrls: ['./step-one.component.scss'],
 })
 export class StepOneComponent implements OnInit {
+  public oldBpNumber = new FormControl();
   public selectedPermitType;
   public isRepresentative;
   public isLotOwner;
@@ -42,6 +45,16 @@ export class StepOneComponent implements OnInit {
   public isSubmitting: boolean = false;
   public receiveApplications: boolean;
   public isBuildpassReleased;
+  public noBpError;
+  public oldBpInputs = [];
+  public oldBpDetails = [];
+  public amendmentDetails;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  @ViewChild('chipsInput') chipsInput: ElementRef<HTMLInputElement>;
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -49,9 +62,25 @@ export class StepOneComponent implements OnInit {
     private newApplicationFormService: NewApplicationFormService,
     public excavationService: ExcavationPermitService,
     public applicationInfoService: ApplicationInfoService,
-    private newApplicationSerivce: NewApplicationService
+    private newApplicationSerivce: NewApplicationService,
+    private occupancyService: OccupancyService
   ) {}
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
 
+    if (value) {
+      this.oldBpInputs.push({ input: value });
+    }
+    event.input.value = null;
+  }
+
+  remove(input): void {
+    const index = this.oldBpInputs.indexOf(input);
+
+    if (index >= 0) {
+      this.oldBpInputs.splice(index, 1);
+    }
+  }
   ngOnInit(): void {
     this.receiveApplications = environment.receiveApplications;
 
@@ -115,6 +144,9 @@ export class StepOneComponent implements OnInit {
           is_representative: value.is_representative,
           is_lot_owner: value.is_lot_owner,
           construction_status: value.construction_status,
+          old_permit_number: this.oldBpNumber.value
+            ? this.oldBpNumber.value
+            : '',
           registered_owner: value.registered_owner ? value.registered_owner : 0,
           is_within_subdivision: value.is_within_subdivision,
           is_under_mortgage: value.is_under_mortgage,
@@ -215,8 +247,67 @@ export class StepOneComponent implements OnInit {
         '/dashboard/new/details',
         this.selectedBuildingPermit,
       ]);
-    } else {
-      Swal.fire('Success!', 'Please wait for a call chu chu', 'info');
+    } else if (this.oldBpNumber) {
+      if (this.oldBpInputs.length >= 1) {
+        console.log(this.oldBpInputs);
+        this.oldBpInputs.forEach((input) => {
+          this.occupancyService
+            .fetchSpecificOldBp(input.input)
+            .subscribe((res) => {
+              console.log(res);
+              if (res.data.length == 0) {
+                this.noBpError =
+                  'The permit number you entered is not found in the system. Please verify that it is typed correctly or call CBAO at (074)442-2503 to  verify.';
+              } else if (res.data[0]) {
+                this.oldBpDetails.push(res.data[0]);
+                console.log(this.oldBpDetails);
+              }
+            });
+        });
+      }
     }
+  }
+
+  handleSearchBp() {
+    this.occupancyService
+      .fetchSpecificOldBp(this.oldBpNumber.value)
+      .subscribe((res) => {
+        console.log(res);
+        if (res.data.length == 0) {
+          this.noBpError =
+            'The permit number you entered is not found in the system. Please verify that it is typed correctly or call CBAO at (074)442-2503 to  verify.';
+        } else if (res.data[0]) {
+          this.noBpError = null;
+          this.amendmentDetails = res.data[0];
+        }
+      });
+  }
+
+  confirmOldBp() {
+    const inputs = [];
+    this.oldBpInputs.forEach((input) => {
+      inputs.push(input.input);
+    });
+    const body = {
+      user_id: this.userInfo.id,
+      permit_type_id: this.selectedPermitType,
+      old_permit_number: inputs.toString(),
+      applicant_first_name: this.userInfo.first_name,
+      applicant_middle_name: this.userInfo.middle_name,
+      applicant_last_name: this.userInfo.last_name,
+      applicant_suffix_name: this.userInfo.suffix_name,
+      applicant_contact_number: this.userInfo.contact_number,
+      applicant_email_address: this.userInfo.email_address,
+    };
+    console.log(body);
+    this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
+      Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
+        (result) => {
+          this.isLoading = false;
+          this.isSubmitting = false;
+          this.router.navigateByUrl('/dashboard/new/occupancy-permit');
+        }
+      );
+    });
   }
 }

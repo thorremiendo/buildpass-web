@@ -190,6 +190,7 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
         permit_type_id: this.applicationDetailsFromService.application_type,
         is_representative: this.applicationDetailsFromService.is_representative,
         rol_status_id: this.applicationDetailsFromService.is_lot_owner,
+        old_permit_number: this.applicationDetailsFromService.old_permit_number,
         construction_status_id:
           this.applicationDetailsFromService.construction_status,
         is_registered_owner:

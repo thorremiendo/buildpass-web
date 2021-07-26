@@ -1,3 +1,4 @@
+import { OldBpDetailsComponent } from './../../shared/old-bp-details/old-bp-details.component';
 import { UploadedIdentificationComponent } from './../../shared/uploaded-identification/uploaded-identification.component';
 import { RepresentativeDetailsComponent } from './../../shared/representative-details/representative-details.component';
 import { Component, OnInit } from '@angular/core';
@@ -67,6 +68,16 @@ export class ApplicationDetailsComponent implements OnInit {
       height: '1200px',
       data: {
         representativeDetails: this.applicationDetails.representative_detail,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  openOldBpDialog() {
+    const dialogRef = this.dialog.open(OldBpDetailsComponent, {
+      data: {
+        application: this.applicationDetails,
       },
     });
 

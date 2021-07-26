@@ -87,6 +87,21 @@
             </div>
           </div>
         </div>
+        <ng-container *ngIf="applicationDetails.construction_status_id == 4">
+          <div class="d-flex justify-content-center align-items-center mt-5">
+            <span
+              style="
+                font-style: italic;
+                color: rgb(160, 57, 57);
+                font-weight: bold;
+              "
+              >** For Amendment</span
+            >
+            <button mat-button color="accent" (click)="openOldBpDialog()">
+              Show Building Permit Details
+            </button>
+          </div>
+        </ng-container>
         <div class="d-flex justify-content-between align-items-center mt-5">
           <div
             *ngIf="applicationDetails.main_permit_id"

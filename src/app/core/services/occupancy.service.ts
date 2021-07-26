@@ -21,4 +21,16 @@ export class OccupancyService {
       })
     );
   }
+
+  fetchSpecificOldBp(id) {
+    const url = `/application/${id}/bp/manual-released`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
 }

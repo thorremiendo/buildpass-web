@@ -146,7 +146,7 @@
           </div>
           <ng-container *ngIf="selectedPermitType == '1'">
             <div *ngIf="isLotOwner" class="mt-4">
-              <h4>Construction Status:</h4>
+              <h4>Construction Type:</h4>
               <mat-form-field appearance="outline">
                 <mat-label>Choose</mat-label>
                 <mat-select
@@ -156,9 +156,79 @@
                   <mat-option value="1">New</mat-option>
                   <mat-option value="2">On-Going</mat-option>
                   <mat-option value="3">As built</mat-option>
+                  <mat-option value="4">Amendment</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
+            <ng-container *ngIf="constructionStatus == 4">
+              <ng-container>
+                <h4>Is your Building Permit released through BuildPASS?</h4>
+                <mat-form-field appearance="outline">
+                  <mat-label>Choose</mat-label>
+                  <mat-select [(value)]="isBuildpassReleased">
+                    <mat-option value="1">Yes</mat-option>
+                    <mat-option value="2">No</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <ng-container *ngIf="isBuildpassReleased == 1">
+                  <h4>Please select your Building Permit</h4>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Choose</mat-label>
+                    <mat-select [(value)]="selectedBuildingPermit">
+                      <mat-option
+                        *ngFor="let item of userBuildingPermits"
+                        value="{{ item.id }}"
+                        >{{ item.ocpas_code }}</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+                </ng-container>
+                <ng-container *ngIf="isBuildpassReleased == 2">
+                  <h4>Please input your Building Permit Number</h4>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Building Permit No.</mat-label>
+                    <input type="text" [formControl]="oldBpNumber" matInput />
+                  </mat-form-field>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="handleSearchBp()"
+                  >
+                    Search
+                  </button>
+                  <span
+                    *ngIf="noBpError && constructionStatus == 4"
+                    style="color: maroon; font-style: italic; font-weight: 600"
+                    >{{ noBpError }}
+                  </span>
+                  <ng-container *ngIf="amendmentDetails">
+                    <div class="bp-search">
+                      <h4>Building Permit Details:</h4>
+                      <div>
+                        <div>
+                          <h6 style="font-weight: bold">Owner:&nbsp;</h6>
+                          <h6>
+                            {{ amendmentDetails.OWNER }}
+                          </h6>
+                        </div>
+                        <div>
+                          <h6 style="font-weight: bold">Location:&nbsp;</h6>
+                          <h6>
+                            {{ amendmentDetails.LOCATION }}
+                          </h6>
+                        </div>
+                        <div>
+                          <h6 style="font-weight: bold">Type Of:&nbsp;</h6>
+                          <h6>
+                            {{ amendmentDetails.TYPE_OF }}
+                          </h6>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </ng-container>
           </ng-container>
           <div
             *ngIf="constructionStatus || registeredOwner || isLotOwner"
@@ -233,34 +303,67 @@
             </mat-form-field>
           </ng-container>
           <ng-container *ngIf="isBuildpassReleased == 2">
-            <h4>
-              Fill out necessary details to migrate your Old/Existing Building
-              Permit
-            </h4>
-            <mat-form-field appearance="outline">
-              <mat-label>First Name</mat-label>
-              <input type="text" matInput />
+            <h4>Please input your Building Permit Number</h4>
+            <!-- <mat-form-field appearance="outline">
+              <mat-label>Building Permit No.</mat-label>
+              <input type="text" [formControl]="oldBpNumber" matInput />
+            </mat-form-field> -->
+            <mat-form-field class="example-chip-list" appearance="outline">
+              <mat-label>Input</mat-label>
+              <mat-chip-list
+                #chipList
+                aria-label="Press enter to input multiple"
+              >
+                <mat-chip
+                  *ngFor="let input of oldBpInputs"
+                  [selectable]="selectable"
+                  [removable]="removable"
+                  (removed)="remove(input)"
+                >
+                  {{ input.input }}
+                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+                <input
+                  placeholder="Input Building Permit No."
+                  [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  [matChipInputAddOnBlur]="addOnBlur"
+                  (matChipInputTokenEnd)="add($event)"
+                />
+              </mat-chip-list>
             </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Middle Name</mat-label>
-              <input type="text" matInput />
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Last Name</mat-label>
-              <input type="text" matInput />
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Contact Number</mat-label>
-              <input type="text" matInput />
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Email Address</mat-label>
-              <input type="text" matInput />
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-              <mat-label>Notes</mat-label>
-              <input type="text" matInput placeholder="Project location etc" />
-            </mat-form-field>
+            <span
+              *ngIf="noBpError && oldBpDetails.length == 0"
+              style="color: maroon; font-style: italic; font-weight: 600"
+              >{{ noBpError }}
+            </span>
+            <ng-container *ngIf="oldBpDetails.length >= 1">
+              <ng-container *ngFor="let item of oldBpDetails">
+                <div class="bp-search">
+                  <h4>Building Permit Details:</h4>
+                  <div>
+                    <div>
+                      <h6 style="font-weight: bold">Owner:&nbsp;</h6>
+                      <h6>
+                        {{ item.OWNER }}
+                      </h6>
+                    </div>
+                    <div>
+                      <h6 style="font-weight: bold">Location:&nbsp;</h6>
+                      <h6>
+                        {{ item.LOCATION }}
+                      </h6>
+                    </div>
+                    <div>
+                      <h6 style="font-weight: bold">Type Of:&nbsp;</h6>
+                      <h6>
+                        {{ item.TYPE_OF }}
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
           </ng-container>
         </ng-container>
       </div>
@@ -281,7 +384,13 @@
           </button>
         </div>
       </ng-container>
-      <ng-container *ngIf="selectedPermitType == '2' && isBuildpassReleased">
+      <ng-container
+        *ngIf="
+          selectedPermitType == '2' &&
+          isBuildpassReleased &&
+          oldBpDetails.length == 0
+        "
+      >
         <div class="mt-3 text-right">
           <button
             mat-raised-button
@@ -289,9 +398,16 @@
             (click)="handleOccupancyNext()"
             [disabled]="isSubmitting"
           >
-            {{
-              isBuildpassReleased == "1" ? "Next" : "Request for BuildPASS BP"
-            }}
+            {{ isBuildpassReleased == "1" ? "Next" : "Search" }}
+          </button>
+        </div>
+      </ng-container>
+      <ng-container
+        *ngIf="oldBpDetails.length >= 1 && selectedPermitType == '2'"
+      >
+        <div class="mt-3 text-right">
+          <button mat-raised-button color="primary" (click)="confirmOldBp()">
+            Confirm
           </button>
         </div>
       </ng-container>

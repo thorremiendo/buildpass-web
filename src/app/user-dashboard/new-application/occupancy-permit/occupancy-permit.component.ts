@@ -3,9 +3,11 @@ import { Router } from '@angular/router';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { DataFormBindingService } from 'src/app/core/services/data-form-binding.service';
-import { documentTypes } from '../../../core/enums/document-type.enum';
+import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
+import { environment } from './../../../../environments/environment';
+import { documentTypes } from '../../../core/enums/document-type.enum';
 
 @Component({
   selector: 'app-occupancy-permit',
@@ -13,33 +15,34 @@ import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
   styleUrls: ['./occupancy-permit.component.scss'],
 })
 export class OccupancyPermitComponent implements OnInit {
+  public isSubmitting: boolean = false;
   public user;
   public pdfSource;
   public formData;
   public applicationId;
   public applicationDetails;
   public isLoading: boolean = false;
-  public isSubmitting: boolean = false;
 
   public forms: any = [
     {
       id: 81,
-      src: '../../../../assets/forms/occupancy_application_form.pdf',
+      src: '../../../../assets/forms/updated/Unified_Application_Form_for__Certificate_of_Occupancy_edited_02182020.pdf',
+    },
+    {
+      id: 77,
+      src: '../../../../assets/forms/updated/Certificate_of_Completion.pdf',
+    },
+    {
+      id: 83,
+      src: '../../../../assets/forms/updated/Certificate_of_Final_Electrical_Inspection_E-05.pdf',
     },
   ];
 
   public fieldSets: any = [
     {
-      label: '1',
-      documents: [77, 82, 83, 84],
-    },
-    {
-      label: '2',
-      documents: [89, 86, 87],
-    },
-    {
-      label: '3',
-      documents: [47, 21, 88],
+      label: 'Step 2',
+      title: 'Documentary Requirements',
+      documents: [76, 86, 170, 178, 172, 173],
     },
   ];
 
@@ -54,51 +57,59 @@ export class OccupancyPermitComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
-    this.newApplicationService.applicationId
-      .asObservable()
-      .subscribe((applicationId) => {
-        if (applicationId) this.applicationId = applicationId;
-        else this.applicationId = localStorage.getItem('app_id');
+    this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
+      // this.documentTypes = res.data;
+      this.applicationId = localStorage.getItem('app_id');
+      this.applicationService
+        .fetchApplicationInfo(this.applicationId)
+        .subscribe((res) => {
+          this.applicationDetails = res.data;
+          this.saveRoute();
+          this.formData = this.dataBindingService.getFormData(
+            this.applicationDetails
+          );
 
-        this.applicationService
-          .fetchApplicationInfo(this.applicationId)
-          .subscribe((res) => {
-            this.applicationDetails = res.data;
-            this.formData = this.dataBindingService.getFormData(
-              this.applicationDetails
-            );
-
-            /*const isRepresentative = this.applicationDetails.is_representative == '1' ? true : false;
-          const isOwner = this.applicationDetails.rol_status_id == '1' ? true : false;
-          const isRegistered = this.applicationDetails.registered_owner == '1' ? true : false;
-
-          this.fieldSets[0] = this.fieldSets[0].filter(field => {
-            if (field.for == 'representative' && !isRepresentative) return false;
-            else if (field.for == 'lessee' && isOwner) return false;
-            else if (field.for == 'lot-owner' && !isRegistered) return false;
-            else if (field.for == 'not-owner' && isRegistered) return false;
-            else return true;
-          });*/
-
-            this.initData();
-            this.setFilePaths();
-            this.pdfSource = this.forms[0].src;
-          });
-      });
+          this.initData();
+          this.setFilePaths();
+          this.pdfSource = this.forms[0].src;
+        });
+    });
   }
 
-  ngAfterViewInit() {
-    this.saveRoute();
-  }
+  // ngAfterViewInit() {
+  //   this.saveRoute();
+  // }
 
   saveRoute() {
     const body = {
       user_id: this.user.id,
       application_id: this.applicationId,
-      url: this.router.url,
+      url: '/dashboard/new/sign-permit',
     };
 
     this.newApplicationService.saveAsDraft(body).subscribe((res) => {});
+  }
+
+  updateApplicationInfoWithFormData() {
+    const body = {
+      applicant_first_name: this.formData.applicant_first_name,
+      applicant_middle_name: this.formData.applicant_middle_name,
+      applicant_last_name: this.formData.applicant_last_name,
+      applicant_tin_number: this.formData.applicant_tin_number,
+      applicant_house_number: this.formData.applicant_house_number,
+      applicant_street_name: this.formData.applicant_street_name,
+      applicant_barangay: this.formData.applicant_barangay,
+      applicant_contact_number: this.formData.applicant_contact_number,
+      project_lot_number: this.formData.project_lot_number,
+      project_block_number: this.formData.project_block_number,
+      project_street_name: this.formData.project_street_name,
+      project_barangay: this.formData.project_barangay,
+      project_tct_number: this.formData.project_tct_number,
+      project_tax_dec_number: this.formData.project_tax_dec_number,
+    };
+    this.applicationService
+      .updateApplicationInfo(body, this.applicationId)
+      .subscribe((res) => {});
   }
 
   initPdfViewer(event) {
@@ -124,6 +135,11 @@ export class OccupancyPermitComponent implements OnInit {
       };
     }
     for (let i = 0; i < this.fieldSets.length; i++) {
+      this.fieldSets[i] = {
+        label: `Step ${this.getFormsLength() + i + 1}`,
+        title: this.fieldSets[i].title,
+        documents: this.fieldSets[i].documents,
+      };
       for (let j = 0; j < this.fieldSets[i].documents.length; j++) {
         this.fieldSets[i].documents[j] = {
           id: this.fieldSets[i].documents[j],
@@ -132,6 +148,10 @@ export class OccupancyPermitComponent implements OnInit {
         };
       }
     }
+  }
+
+  getFormsLength() {
+    return this.forms.length;
   }
 
   setFilePaths() {
@@ -153,36 +173,9 @@ export class OccupancyPermitComponent implements OnInit {
       });
     });
   }
-
-  submitDocument(file: File, doctypeId: string) {
-    const uploadDocumentData = {
-      application_id: this.applicationId,
-      user_id: this.user.id,
-      document_id: doctypeId,
-      document_path: file,
-      document_status: '0',
-    };
-
-    this.newApplicationService
-      .submitDocument(uploadDocumentData)
-      .subscribe((res) => {
-        this.isLoading = false;
-        const path = res.data.document_path;
-        this.forms.forEach((form) => {
-          if (form.id == doctypeId) form.path = path;
-        });
-        this.fieldSets.forEach((fieldSet) => {
-          fieldSet.documents.forEach((field) => {
-            if (field.id == doctypeId) field.path = path;
-          });
-        });
-
-        this.updateFilePath();
-      });
-  }
-
   public async upload(form): Promise<void> {
-    const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    const blob =
+      await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     if (!form.path) {
       if (blob) {
         this.isLoading = true;
@@ -219,29 +212,32 @@ export class OccupancyPermitComponent implements OnInit {
         });
     }
   }
-
-  updateApplicationInfoWithFormData() {
-    const body = {
-      applicant_first_name: this.formData.applicant_first_name,
-      applicant_middle_name: this.formData.applicant_middle_name,
-      applicant_last_name: this.formData.applicant_last_name,
-      applicant_tin_number: this.formData.applicant_tin_number,
-      applicant_house_number: this.formData.applicant_house_number,
-      applicant_street_name: this.formData.applicant_street_name,
-      applicant_barangay: this.formData.applicant_barangay,
-      applicant_contact_number: this.formData.applicant_contact_number,
-      project_lot_number: this.formData.project_lot_number,
-      project_block_number: this.formData.project_block_number,
-      project_street_name: this.formData.project_street_name,
-      project_barangay: this.formData.project_barangay,
-      project_tct_number: this.formData.project_tct_number,
-      project_tax_dec_number: this.formData.project_tax_dec_number,
+  submitDocument(file: File, doctypeId: string) {
+    const uploadDocumentData = {
+      application_id: this.applicationId,
+      user_id: this.user.id,
+      document_id: doctypeId,
+      document_path: file,
+      document_status: '0',
     };
-    this.applicationService
-      .updateApplicationInfo(body, this.applicationId)
-      .subscribe((res) => {});
-  }
 
+    this.newApplicationService
+      .submitDocument(uploadDocumentData)
+      .subscribe((res) => {
+        this.isLoading = false;
+        const path = res.data.document_path;
+        this.forms.forEach((form) => {
+          if (form.id == doctypeId) form.path = path;
+        });
+        this.fieldSets.forEach((fieldSet) => {
+          fieldSet.documents.forEach((field) => {
+            if (field.id == doctypeId) field.path = path;
+          });
+        });
+
+        this.updateFilePath();
+      });
+  }
   updateFilePath() {
     this.applicationService
       .fetchApplicationInfo(this.applicationId)
@@ -251,7 +247,6 @@ export class OccupancyPermitComponent implements OnInit {
         this.openSnackBar('Uploaded!');
       });
   }
-
   getFieldSetsLength() {
     const length = [];
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
@@ -261,9 +256,53 @@ export class OccupancyPermitComponent implements OnInit {
 
     return length.reduce(reducer);
   }
+  getUniqueUserDocs() {
+    const unique = [
+      ...new Set(
+        this.applicationDetails.user_docs.map((item) => item.document_id)
+      ),
+    ];
+    return unique.length;
+  }
 
   submitApplication() {
-    this.router.navigate(['dashboard/new/summary', this.applicationId]);
+    // if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
+    //   this.isSubmitting = true;
+    //   const data = {
+    //     application_status_id: 9,
+    //   };
+    //   this.applicationService
+    //     .updateApplicationStatus(data, this.applicationId)
+    //     .subscribe((res) => {
+    //       this.isSubmitting = true;
+    //       this.router.navigate(['dashboard/new/summary', this.applicationId]);
+    //       localStorage.removeItem('app_id');
+    //       localStorage.removeItem('application_details_for_excavation');
+    //     });
+    // } else {
+    //   this.openSnackBar('Please upload all necessary documents!');
+    // }
+    if (environment.receiveApplications == true) {
+      if (
+        this.getFieldSetsLength() + this.getFormsLength() ==
+        this.getUniqueUserDocs()
+      ) {
+        this.isLoading = true;
+        const body = {
+          application_status_id: 9,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.isLoading = false;
+            this.router.navigate(['dashboard/new/summary', this.applicationId]);
+          });
+      } else {
+        this.openSnackBar('Please upload all necessary documents!');
+      }
+    } else {
+      this.openSnackBar('Sorry, system is under maintenance.');
+    }
   }
   openSnackBar(message: string) {
     this.snackBar.open(message, 'Close', {
