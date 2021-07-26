@@ -13,7 +13,7 @@ import { SharedModule } from '../shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { LayoutModule } from '../layout/layout.module';
 import { CoreModule } from '../core/core.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 
 import { TableViewComponent } from './table-view/table-view.component';
@@ -144,6 +144,7 @@ import { AttachBpComponent } from './attach-bp/attach-bp.component';
     BrowserModule,
     LayoutModule,
     CoreModule,
+    FormsModule,
     ReactiveFormsModule,
     NgxDropzoneModule,
     LocaleCurrencyInputModule,

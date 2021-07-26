@@ -170,64 +170,7 @@
           "
         >
           <div *ngIf="!isLoading">
-            <table
-              mat-table
-              [dataSource]="revisionData"
-              class="full-width"
-              #itemsTable
-            >
-              <ng-container matColumnDef="index">
-                <th mat-header-cell *matHeaderCellDef>No.</th>
-                <td mat-cell *matCellDef="let item; let i = index">
-                  {{ i + 1 }}
-                </td>
-              </ng-container>
-
-              <ng-container matColumnDef="remark">
-                <th mat-header-cell *matHeaderCellDef>Remark</th>
-                <td mat-cell *matCellDef="let item">
-                  {{ item.remarks == "" ? "Compliant" : item.remarks }}
-                </td>
-              </ng-container>
-              <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef>Date</th>
-                <td mat-cell *matCellDef="let item">
-                  {{
-                    item.created_at | date: "MMMM dd, yyyy hh:mm:ss a":"+0800"
-                  }}
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr
-                mat-row
-                *matRowDef="let items; columns: displayedColumns"
-              ></tr>
-            </table>
-            <p class="text-center" *ngIf="revisionData.length == 0">
-              No remarks to show
-            </p>
-            <form [formGroup]="remarksForm">
-              <div class="row mt-5 mx-2">
-                <div>
-                  <mat-form-field style="width: 800px">
-                    <mat-label>Add a Remark</mat-label>
-                    <input matInput formControlName="remarks" />
-                  </mat-form-field>
-                </div>
-                <div class="ml-5">
-                  <button
-                    mat-raised-button
-                    color="warn"
-                    type="button"
-                    [disabled]="!remarksForm.value.remarks || isSubmitting"
-                    (click)="addRemarks()"
-                  >
-                    Add
-                  </button>
-                </div>
-              </div>
-            </form>
+            <app-remarks-history-table enableAddRemark="true"></app-remarks-history-table>
           </div>
         </ng-container>
       </div>

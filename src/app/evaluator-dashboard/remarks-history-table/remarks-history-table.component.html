@@ -1,7 +1,18 @@
-<div *ngIf="!isLoading">
-  <mat-form-field appearance="outline" *ngIf="officeId != 7">
+<div class="remarks-history container-fluid" *ngIf="!isLoading">
+  <div class="document-info" *ngIf="!enableAddRemark">
+    <div>
+      <h2 class="document-type">
+        {{ getDocType(documentType) }}
+      </h2>
+      <div class="horizontal-line"></div>
+    </div>
+    <mat-icon class="close-button" (click)="closeModal()">close</mat-icon>
+  </div>
+
+  <span class="filter-toggle" (click)="toggleFilter()" *ngIf="!showFilter && !enableAddRemark">Filter</span>
+  <mat-form-field appearance="outline" *ngIf="officeId != 7 && showFilter">
     <mat-label>Office</mat-label>
-    <mat-select (selectionChange)="chooseOffice($event.value)">
+    <mat-select [ngModel]="officeId.toString()" (selectionChange)="chooseOffice($event.value)">
         <mat-option value="1">CPDO</mat-option>
         <mat-option value="2">CEPMO</mat-option>
         <mat-option value="3">BFP</mat-option>
@@ -9,7 +20,7 @@
     </mat-select>
   </mat-form-field>
   
-  <table mat-table [dataSource]="revisionData" class="remarks-table" #revisionsTable>
+  <table mat-table [dataSource]="remarksSorted" class="remarks-table" #remarksTable>
     <ng-container matColumnDef="compliance"> 
       <th mat-header-cell *matHeaderCellDef>
         <mat-icon>assignment</mat-icon>
@@ -66,11 +77,11 @@
                 <div class="created-date" *ngIf="item.created_at">
                   CREATED {{ item.created_at | date: "MM/dd/yyyy hh:mm:ss a":"+0800" }}
                 </div>
-                <div class="updated-date" *ngIf="item.updated_at">
-                  UPDATED {{ item.updated_at | date: "MM/dd/yyyy hh:mm:ss a":"+0800" }}
-                </div>
                 <div class="complied-date" *ngIf="item.date_time_complied">
                   COMPLIED {{ item.date_time_complied | date: "MM/dd/yyyy hh:mm:ss a":"+0800" }}
+                </div>
+                <div class="updated-date" *ngIf="item.updated_at && item.updated_at != item.created_at && item.updated_at != item.date_time_complied">
+                  UPDATED {{ item.updated_at | date: "MM/dd/yyyy hh:mm:ss a":"+0800" }}
                 </div>
               </div>
             </div>
@@ -99,4 +110,19 @@
       [ngClass]="{'compliant': items.date_time_complied, 'label': items.label}"
     ></tr>
   </table>
+
+  <div class="add-remark" *ngIf="enableAddRemark">
+    <mat-form-field appearance="outline">
+      <textarea rows="5" matInput [(ngModel)]="newRemark" placeholder="Add Remark"></textarea>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="warn"
+      type="button"
+      [disabled]="!newRemark" 
+      (click)="addRemark()"
+    >
+      Add
+    </button>
+  </div>
 </div>
