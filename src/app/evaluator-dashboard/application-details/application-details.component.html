@@ -299,6 +299,19 @@
       </mat-card-content>
     </mat-card>
   </div>
+  <div class="app-bp" *ngIf="!isLoading">
+    <mat-card>
+      <mat-card-content>
+        <h4 style="color: #141414" class="mb-4">
+          <strong>Building Permit Details</strong>
+          <hr />
+          <div>
+            <p>{{ applicationDetails.old_permit_number }}</p>
+          </div>
+        </h4>
+      </mat-card-content>
+    </mat-card>
+  </div>
   <div *ngIf="!isLoading">
     <div *ngIf="evaluatorDetails.office_id == '4'">
       <app-cbao-evaluator></app-cbao-evaluator>

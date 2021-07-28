@@ -87,6 +87,7 @@ import { OccupancyRequestsComponent } from './occupancy-requests/occupancy-reque
 import { OldbpMasterlistComponent } from './oldbp-masterlist/oldbp-masterlist.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { AttachBpComponent } from './attach-bp/attach-bp.component';
+import { OccupancyUploadFileComponent } from './occupancy-upload-file/occupancy-upload-file.component';
 
 @NgModule({
   declarations: [
@@ -131,6 +132,7 @@ import { AttachBpComponent } from './attach-bp/attach-bp.component';
     OccupancyRequestsComponent,
     OldbpMasterlistComponent,
     AttachBpComponent,
+    OccupancyUploadFileComponent,
   ],
 
   imports: [

@@ -1,3 +1,4 @@
+import { OccupancyService } from './../../core/services/occupancy.service';
 import { OldBpDetailsComponent } from './../../shared/old-bp-details/old-bp-details.component';
 import { UploadedIdentificationComponent } from './../../shared/uploaded-identification/uploaded-identification.component';
 import { RepresentativeDetailsComponent } from './../../shared/representative-details/representative-details.component';
@@ -32,12 +33,14 @@ export class ApplicationDetailsComponent implements OnInit {
   public applicationDetails;
   public evaluatorRole;
   public userDocuments;
-
+  public oldBpInputs = [];
+  public oldBpDetails = [];
   constructor(
     private applicationService: ApplicationInfoService,
     public dialog: MatDialog,
     public route: ActivatedRoute,
-    public router: Router
+    public router: Router,
+    private occupancyService: OccupancyService
   ) {}
   openProjectDialog(): void {
     const dialogRef = this.dialog.open(ProjectDetailsComponent, {
@@ -57,6 +60,7 @@ export class ApplicationDetailsComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
+        console.log(this.applicationDetails);
         this.fetchEvaluatorDetails();
         this.fetchUserDocs();
       });

@@ -157,6 +157,9 @@
                   <mat-option value="2">On-Going</mat-option>
                   <mat-option value="3">As built</mat-option>
                   <mat-option value="4">Amendment</mat-option>
+                  <mat-option value="5">Renovation</mat-option>
+                  <mat-option value="6">Extension</mat-option>
+                  <mat-option value="7">Additional Floor</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
@@ -189,6 +192,7 @@
                     <mat-label>Building Permit No.</mat-label>
                     <input type="text" [formControl]="oldBpNumber" matInput />
                   </mat-form-field>
+
                   <button
                     mat-raised-button
                     color="primary"
@@ -304,6 +308,9 @@
           </ng-container>
           <ng-container *ngIf="isBuildpassReleased == 2">
             <h4>Please input your Building Permit Number</h4>
+            <span style="font-size: 14px"
+              >**Enter multiple Building number if applicable</span
+            >
             <!-- <mat-form-field appearance="outline">
               <mat-label>Building Permit No.</mat-label>
               <input type="text" [formControl]="oldBpNumber" matInput />
@@ -332,6 +339,7 @@
                 />
               </mat-chip-list>
             </mat-form-field>
+
             <span
               *ngIf="noBpError && oldBpDetails.length == 0"
               style="color: maroon; font-style: italic; font-weight: 600"
