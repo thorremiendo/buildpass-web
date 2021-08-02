@@ -1,0 +1,24 @@
+<div>
+  <p style="font-weight: bold">
+    Input applicant details for Building Permit Number:
+    <span>{{ data.oldBpInfo.old_permit_number }}</span>
+  </p>
+  <div class="row justify-content-center" [formGroup]="oldBpDetailsForm">
+    <div class="col-md-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Fist Name</mat-label>
+        <input type="text" matInput formControlName="first_name" required />
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input type="text" matInput formControlName="last_name" required />
+      </mat-form-field>
+    </div>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" (click)="submit()">Submit</button>
+  </div>
+</div>

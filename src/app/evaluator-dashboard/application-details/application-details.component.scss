@@ -42,3 +42,22 @@
     color: #3d405c !important;
   }
 }
+
+.old__bp {
+  display: flex;
+  flex-direction: column;
+
+  p {
+    font-weight: bold;
+  }
+
+  span {
+    color: maroon;
+  }
+
+  div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}

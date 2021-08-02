@@ -299,14 +299,60 @@
       </mat-card-content>
     </mat-card>
   </div>
-  <div class="app-bp" *ngIf="!isLoading">
+  <div class="app-bp" *ngIf="!isLoading && oldBpInfo">
     <mat-card>
       <mat-card-content>
         <h4 style="color: #141414" class="mb-4">
           <strong>Building Permit Details</strong>
           <hr />
           <div>
-            <p>{{ applicationDetails.old_permit_number }}</p>
+            <ng-container *ngFor="let item of oldBpInfo">
+              <mat-expansion-panel class="my-2">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{ item.BUILDING_PERMIT_NUMBER }}</mat-panel-title
+                  >
+                </mat-expansion-panel-header>
+                <div class="old__bp">
+                  <p>
+                    Building Permit Number:
+                    <span>{{ item.BUILDING_PERMIT_NUMBER }}</span>
+                  </p>
+                  <p>
+                    Owner Details:
+                    <span>{{ item.OWNER }}</span>
+                  </p>
+                  <p>
+                    Location:
+                    <span>{{ item.LOCATION }}</span>
+                  </p>
+                  <p>
+                    Type:
+                    <span>{{ item.TYPE_OF }}</span>
+                  </p>
+                  <p>
+                    Status:
+                    <span>{{ getConfirmationStatus(item) }}</span>
+                  </p>
+                  <div class="mt-4">
+                    <button
+                      mat-raised-button
+                      color="warn"
+                      (click)="deleteAssoicatedBp(item)"
+                    >
+                      Delete
+                    </button>
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      (click)="openAssociateBp(item)"
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </ng-container>
           </div>
         </h4>
       </mat-card-content>

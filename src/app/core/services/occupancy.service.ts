@@ -33,4 +33,33 @@ export class OccupancyService {
       })
     );
   }
+
+  associateOldBp(id, body) {
+    const url = `/application/${id}/associate`;
+
+    return this.api.post(url, body);
+  }
+
+  deleteOldBp(app_id, assoc_id) {
+    const url = `/application/${app_id}/associated/${assoc_id}`;
+    return this.api.delete(url);
+  }
+
+  confirmOldBp(id, body) {
+    const url = `/application/${id}/associate/confirmed`;
+
+    return this.api.post(url, body);
+  }
+
+  fetchUserOldBp(id) {
+    const url = `/application/${id}/associated`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
 }

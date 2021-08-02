@@ -48,6 +48,7 @@ export class StepOneComponent implements OnInit {
   public noBpError;
   public oldBpInputs = [];
   public oldBpDetails = [];
+  public invalidBps = [];
   public amendmentDetails;
   selectable = true;
   removable = true;
@@ -70,6 +71,7 @@ export class StepOneComponent implements OnInit {
 
     if (value) {
       this.oldBpInputs.push({ input: value });
+      this.oldBpDetails = [];
     }
     event.input.value = null;
   }
@@ -79,6 +81,7 @@ export class StepOneComponent implements OnInit {
 
     if (index >= 0) {
       this.oldBpInputs.splice(index, 1);
+      this.oldBpDetails = [];
     }
   }
   ngOnInit(): void {
@@ -242,6 +245,9 @@ export class StepOneComponent implements OnInit {
   }
 
   handleOccupancyNext() {
+    this.invalidBps = [];
+    this.noBpError = '';
+    this.oldBpDetails = [];
     if (this.selectedBuildingPermit) {
       this.router.navigate([
         '/dashboard/new/details',
@@ -256,6 +262,7 @@ export class StepOneComponent implements OnInit {
             .subscribe((res) => {
               console.log(res);
               if (res.data.length == 0) {
+                this.invalidBps.push(input.input);
                 this.noBpError =
                   'The permit number you entered is not found in the system. Please verify that it is typed correctly or call CBAO at (074)442-2503 to  verify.';
               } else if (res.data[0]) {
@@ -291,7 +298,7 @@ export class StepOneComponent implements OnInit {
     const body = {
       user_id: this.userInfo.id,
       permit_type_id: this.selectedPermitType,
-      old_permit_number: inputs.toString(),
+      // old_permit_number: inputs.toString(),
       applicant_first_name: this.userInfo.first_name,
       applicant_middle_name: this.userInfo.middle_name,
       applicant_last_name: this.userInfo.last_name,
@@ -301,6 +308,17 @@ export class StepOneComponent implements OnInit {
     };
     console.log(body);
     this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
+      this.oldBpInputs.forEach((input) => {
+        const body = {
+          user_id: res.data.user_id,
+          old_permit_number: input.input,
+        };
+        this.occupancyService
+          .associateOldBp(res.data.id, body)
+          .subscribe((res) => {
+            console.log('added');
+          });
+      });
       Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
         (result) => {
           this.isLoading = false;

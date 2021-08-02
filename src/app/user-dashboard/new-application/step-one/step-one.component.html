@@ -351,6 +351,14 @@
                   <h4>Building Permit Details:</h4>
                   <div>
                     <div>
+                      <h6 style="font-weight: bold">
+                        Building Permit Number:&nbsp;
+                      </h6>
+                      <h6>
+                        {{ item.BUILDING_PERMIT_NUMBER }}
+                      </h6>
+                    </div>
+                    <div>
                       <h6 style="font-weight: bold">Owner:&nbsp;</h6>
                       <h6>
                         {{ item.OWNER }}
@@ -370,6 +378,18 @@
                     </div>
                   </div>
                 </div>
+                <ng-container *ngIf="invalidBps.length > 0">
+                  <p>
+                    The permit number you entered
+                    <span
+                      *ngFor="let item of invalidBps"
+                      class="my-1"
+                      style="font-weight: bold"
+                      >("{{ item }}")</span
+                    >&nbsp;is not found in the system. Please verify that it is
+                    typed correctly or call CBAO at (074)442-2503 to verify.
+                  </p>
+                </ng-container>
               </ng-container>
             </ng-container>
           </ng-container>
@@ -414,7 +434,12 @@
         *ngIf="oldBpDetails.length >= 1 && selectedPermitType == '2'"
       >
         <div class="mt-3 text-right">
-          <button mat-raised-button color="primary" (click)="confirmOldBp()">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="confirmOldBp()"
+            [disabled]="invalidBps.length > 0"
+          >
             Confirm
           </button>
         </div>

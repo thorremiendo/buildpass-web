@@ -123,6 +123,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         if (this.applicationInfo.application_status_id == 3) {
           this.checkTechnicalEvaluationCompliant();
         }
+
         this.isLoading = false;
       });
   }

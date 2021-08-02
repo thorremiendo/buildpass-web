@@ -18,7 +18,9 @@ export class OccupancyUploadFileComponent implements OnInit {
   public documentList;
   public oldBpDetails;
   public selectedFile: File;
-
+  public selectedOldBpNumber;
+  public oldBpList;
+  public selectedOldBpDetails;
   constructor(
     public dialogRef: MatDialogRef<OccupancyUploadFileComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -64,6 +66,12 @@ export class OccupancyUploadFileComponent implements OnInit {
       this.documentList = DOCS;
       console.log(this.documentList);
     });
+    this.occupancyService
+      .fetchUserOldBp(this.data.application.id)
+      .subscribe((res) => {
+        this.oldBpList = res.data;
+        console.log(this.oldBpList);
+      });
   }
 
   onSelect($event: NgxDropzoneChangeEvent, type) {
@@ -74,6 +82,7 @@ export class OccupancyUploadFileComponent implements OnInit {
         break;
     }
   }
+
   onRemove(type) {
     switch (type) {
       case 'selectedFile':
@@ -81,19 +90,23 @@ export class OccupancyUploadFileComponent implements OnInit {
         break;
     }
   }
+
   onNoClick(): void {
     this.dialogRef.close();
   }
+  // onOldBpSelected(item) {
+  //   console.log('selected', item);
+  // }
   handleUploadOccupancyFile() {
     const application = this.data.application;
     const uploadDocumentData = {
-      application_id: application.id,
+      application_id: this.selectedOldBpNumber,
       user_id: application.user_id,
       document_id: this.selectedDocument,
       document_path: this.selectedFile,
       document_status: '0',
     };
-
+    console.log(uploadDocumentData);
     this.applicationService
       .submitDocument(uploadDocumentData)
       .subscribe((res) => {
