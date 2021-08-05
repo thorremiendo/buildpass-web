@@ -1,91 +1,156 @@
-.remarks-table {
-  width: 100%;
+.remarks-history {
+  padding: 0 10px;
 
-  th {
-    background-color: maroon;
-    color: white;
-    padding: 10px;
-  }
+  .document-info {
+    display: flex;
+    justify-content: space-between;
 
-  td {
-    padding: 10px;
-  }
-
-  .mat-column-compliance {
-    width: 20px;
-  }
-
-  .label {
-    font-weight: 700;
-  }
-
-  .remark {
-    &.edit-mode {
-      .remark-content, .remark-details {
-        display: none !important;
-      }
-
-      .edit-remark {
-        display: block !important;
-      }
+    .document-type {
+      font-size: 23px;
     }
 
-    .remark-container {
-      display: flex;
-      justify-content: space-between;
+    .horizontal-line {
+      background-color: maroon;
+      margin-bottom: 20px;
+      height: 3px;
+    }
+    
+    .close-button {
+      font-size: 23px;
+      float: right;
+      cursor: pointer;
+    }
+  }
 
-      .remark-content {
-        .remark-text {
-          font-size: 16px;
-          font-weight: 500;
+  .filter-toggle {
+    font-size: 15px;
+    color: gray;
+    float: right;
+    cursor: pointer;
+    padding: 3px;
+
+    &:hover {
+      color: maroon;
+    }
+  }
+
+  .remarks-table {
+    width: 100%;
+
+    th {
+      background-color: maroon;
+      color: white;
+      padding: 10px;
+    }
+
+    td {
+      padding: 10px;
+    }
+
+    ::ng-deep .mat-column-compliance {
+      width: 20px;
+    }
+
+    .label {
+      font-weight: 700;
+    }
+
+    .remark {
+      &.edit-mode {
+        .remark-content, .remark-details {
+          display: none !important;
         }
-  
-        .remark-author {
-          font-size: 13px;
+
+        .edit-remark {
+          display: block !important;
         }
       }
 
-      .remark-details {
+      .remark-container {
         display: flex;
+        justify-content: space-between;
 
-        .remark-actions {
-          padding-right: 10px;
+        .remark-content {
+          .remark-text {
+            font-size: 16px;
+            font-weight: 500;
+            white-space: pre-line;
+          }
+    
+          .remark-author {
+            font-size: 13px;
+          }
+        }
 
-          button {
+        .remark-details {
+          display: flex;
+
+          .remark-actions {
+            padding-right: 10px;
+
+            button {
+              padding: 0;
+              min-width: 40px;
+            }
+
+            .edit-remark-button {
+              color: gray;
+            }
+            
+            .delete-remark-button {
+              color: red;
+            }
+          }
+    
+          .remark-dates {
+            font-size: 11px;
+            color: gray;
+            margin-top: 3px;
+            width: 190px;
+
+            .complied-date {
+              color: green;
+              font-weight: 500;
+            }
+          }
+        }
+
+        .edit-remark {
+          display: none;
+          width: 100%;
+
+          ::ng-deep .mat-form-field-wrapper {
             padding: 0;
-            min-width: 40px;
           }
-          
-          .delete-remark-button {
-            color: red;
+
+          .remark-author {
+            font-size: 13px;
+            display: inline-block;
           }
-        }
-  
-        .remark-dates {
-          font-size: 12px;
-          color: gray;
-          margin-top: 3px;
-          width: 200px;
+
+          .buttons {
+            float: right;
+          }
         }
       }
+    }
+  }
 
-      .edit-remark {
-        display: none;
-        width: 100%;
+  .add-remark {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 14px;
 
-        ::ng-deep .mat-form-field-wrapper {
-          padding: 0;
-        }
+    button {
+      height: 30px;
+      margin-top: -10px;
+      margin-left: 20px;
+      line-height: 30px;
+    }
 
-        .remark-author {
-          font-size: 13px;
-          display: inline-block;
-        }
-
-        .buttons {
-          float: right;
-        }
-      }
+    ::ng-deep .mat-form-field-wrapper {
+      padding: 0;
     }
   }
 }

@@ -11,15 +11,20 @@ import { MatTable } from '@angular/material/table';
   styleUrls: ['./remarks-history-table.component.scss'],
 })
 export class RemarksHistoryTableComponent implements OnInit {
-  @Input() id: string;
-  @ViewChild(MatTable) revisionsTable: MatTable<any>;
+  @Input() enableAddRemark: boolean;
+  @ViewChild(MatTable) remarksTable: MatTable<any>;
+  public documentTypes;
+  public documentId;
+  public documentType;
   public applicationTimeline;
-  public revisionList;
-  public revisionData;
+  public remarks;
+  public remarksSorted;
   public officeId;
   public userId;
+  public newRemark;
+  public showFilter: boolean = false;
   public isLoading: boolean = true;
-  displayedColumns: string[] = [
+  public displayedColumns: string[] = [
     'compliance',
     'remark',
   ];
@@ -37,14 +42,24 @@ export class RemarksHistoryTableComponent implements OnInit {
       this.userId = userInfo.id;
     }
 
-    this.applicationService
-      .fetchApplicationTmeline(this.data.form.application_id)
-      .subscribe(res => {
-        this.applicationTimeline = res.data;
-        this.revisionList = this.data.form.document_revision;
-        this.officeId = this.data.evaluator ? this.data.evaluator.office_id : 7;
-        this.sortByDate(this.filterByOffice());
-      });
+    this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
+      this.documentTypes = res.data;
+
+      this.applicationService
+        .fetchApplicationTmeline(this.data.form.application_id)
+        .subscribe(res => {
+          this.documentId = this.data.form.id;
+          this.documentType = this.data.form.document_id;
+          this.applicationTimeline = res.data;
+          this.remarks = this.data.form.document_revision;
+          this.officeId = this.data.evaluator ? this.data.evaluator.office_id : 7;
+          this.sortByDate(this.filterByOffice());
+        });
+    });
+  }
+
+  getDocType(id): string {
+    return this.documentTypes[id - 1].name;
   }
 
   getOfficeType(id): string {
@@ -57,45 +72,45 @@ export class RemarksHistoryTableComponent implements OnInit {
   }
 
   filterByOffice() {
-    if (this.officeId == 7) return this.revisionList;
-    else return this.revisionList.filter(
+    if (this.officeId == 7) return this.remarks;
+    else return this.remarks.filter(
       log => log.evaluator_detail.employee_detail.office_id == this.officeId
     );
   }
 
-  sortByDate(revisions) {
+  sortByDate(remarks) {
     const nonComplianceDates = this.applicationTimeline.filter(log => log.office_id == this.officeId && log.color == 'red');
     if (nonComplianceDates.length > 1) {
       nonComplianceDates.forEach(date => {
         const nonComplianceDate = new Date(date.created_at);
-        const revisionData = {};
-        revisionData['current'] = [];
-        revisions.forEach(revision => {
+        const remarksSorted = {};
+        remarksSorted['current'] = [];
+        remarks.forEach(revision => {
           const revisionCompletedDate = revision.date_time_complied ? new Date(revision.date_time_complied) : false;
           if (revisionCompletedDate && revisionCompletedDate < nonComplianceDate) {
-            if (!revisionData[date.created_at]) revisionData[date.created_at] = [{...revision}];
-            else revisionData[date.created_at].push({...revision});
+            if (!remarksSorted[date.created_at]) remarksSorted[date.created_at] = [{...revision}];
+            else remarksSorted[date.created_at].push({...revision});
           } else {
-            revisionData['current'].push({...revision});
+            remarksSorted['current'].push({...revision});
           }
         });
 
         const sortedData = [];
-        Object.keys(revisionData).filter(key => key != 'current').forEach(date => {
-          revisionData[date].forEach(log => {
+        Object.keys(remarksSorted).filter(key => key != 'current').forEach(date => {
+          remarksSorted[date].forEach(log => {
             sortedData.push(log);
           });
           sortedData.push({label: date});
         });
-        revisionData['current'].forEach(log => {
+        remarksSorted['current'].forEach(log => {
           sortedData.push(log);
         });
         
-        this.revisionData = sortedData;
+        this.remarksSorted = sortedData;
         this.isLoading = false;
       });
     } else {
-      this.revisionData = revisions;
+      this.remarksSorted = remarks;
       this.isLoading = false;
     }
   }
@@ -104,7 +119,28 @@ export class RemarksHistoryTableComponent implements OnInit {
     this.newApplicationService
       .setRemarkCompliance(remarkId, $event.checked)
       .subscribe(res => {
-        this.dialogRef.close();
+        this.fetchRemarks();
+      });
+  }
+
+  fetchRemarks() {
+    this.applicationService
+      .fetchSpecificDocInfo(this.documentId)
+      .subscribe(res => {
+        this.remarks = res.data[0].document_revision;
+        this.sortByDate(this.filterByOffice());
+      });
+  }
+
+  addRemark() {
+    const newRemark = {
+      evaluator_user_id: this.data.evaluator.user_id,
+      remarks: this.newRemark
+    }
+    this.newApplicationService
+      .updateUserDocs(newRemark, this.documentId)
+      .subscribe(res => {
+        this.fetchRemarks();
       });
   }
 
@@ -119,7 +155,7 @@ export class RemarksHistoryTableComponent implements OnInit {
       .updateRemark(remarkId, updatedRemark)
       .subscribe(res => {
         this.editRemark(remarkId);
-        this.dialogRef.close();
+        this.fetchRemarks();
       });
   }
 
@@ -127,7 +163,15 @@ export class RemarksHistoryTableComponent implements OnInit {
     this.newApplicationService
       .deleteRemark(remarkId)
       .subscribe(res => {
-        this.dialogRef.close();
+        this.fetchRemarks();
       });
+  }
+
+  toggleFilter() {
+    this.showFilter = true;
+  }
+
+  closeModal() {
+    this.dialogRef.close();
   }
 }
