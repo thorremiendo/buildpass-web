@@ -4,18 +4,76 @@
     <span>{{ data.oldBpInfo.old_permit_number }}</span>
   </p>
   <div class="row justify-content-center" [formGroup]="oldBpDetailsForm">
-    <div class="col-md-6">
-      <mat-form-field appearance="outline">
-        <mat-label>Fist Name</mat-label>
-        <input type="text" matInput formControlName="first_name" required />
-      </mat-form-field>
-    </div>
+    <div class="col">
+      <p>Basic Details</p>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Fist Name</mat-label>
+            <input type="text" matInput formControlName="first_name" required />
+          </mat-form-field>
+        </div>
 
-    <div class="col-md-6">
-      <mat-form-field appearance="outline">
-        <mat-label>Last Name</mat-label>
-        <input type="text" matInput formControlName="last_name" required />
-      </mat-form-field>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Middle Name</mat-label>
+            <input type="text" matInput />
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input type="text" matInput formControlName="last_name" required />
+          </mat-form-field>
+        </div>
+      </div>
+      <p>Project Details</p>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Location</mat-label>
+            <input type="text" matInput />
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Type of Occupancy</mat-label>
+            <input type="text" matInput />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field appearance="outline">
+            <mat-label>Type of Ownership</mat-label>
+            <mat-select [(value)]="typeOfOwnership">
+              <mat-option value="1">Corporation</mat-option>
+              <mat-option value="2">Individual</mat-option>
+              <mat-option value="3">Co-Owner</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <ng-container *ngIf="typeOfOwnership == 1">
+            <mat-form-field appearance="outline">
+              <mat-label>Corporation Name</mat-label>
+              <input type="text" matInput /> </mat-form-field
+          ></ng-container>
+          <ng-container *ngIf="typeOfOwnership == 2">
+            <mat-form-field appearance="outline">
+              <mat-label>Owner Name</mat-label>
+              <input type="text" matInput /> </mat-form-field
+          ></ng-container>
+          <ng-container *ngIf="typeOfOwnership == 3">
+            <mat-form-field appearance="outline">
+              <mat-label>Owner Name</mat-label>
+              <input type="text" matInput [formControl]="ownersFormControl" />
+            </mat-form-field>
+            <ng-container *ngFor="let item of coOwners">
+              <p>{{ item }}</p>
+            </ng-container>
+            <button (click)="addOwners()">Add</button></ng-container
+          >
+        </div>
+      </div>
     </div>
   </div>
   <div>

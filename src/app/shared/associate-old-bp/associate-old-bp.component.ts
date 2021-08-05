@@ -5,7 +5,12 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-associate-old-bp',
@@ -15,6 +20,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AssociateOldBpComponent implements OnInit {
   public oldBpDetailsForm: FormGroup;
   public applicationDetails;
+  public typeOfOwnership;
+  public ownersFormControl = new FormControl();
+  public coOwners = [];
   constructor(
     public dialogRef: MatDialogRef<AssociateOldBpComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -29,6 +37,10 @@ export class AssociateOldBpComponent implements OnInit {
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
     });
+  }
+  addOwners() {
+    this.coOwners.push(this.ownersFormControl.value);
+    console.log(this.coOwners);
   }
 
   submit() {
