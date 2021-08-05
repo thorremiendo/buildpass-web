@@ -16,6 +16,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { EvaluatorGuard } from 'src/app/core/guard/evaluator.guard';
 import { EvaluatorAuthGuard } from 'src/app/core/guard/evaluator-guard';
 import { FeedbackComponent } from 'src/app/shared/feedback/feedback.component';
+import { ReportIssueComponent } from 'src/app/shared/report-issue/report-issue.component';
 
 const routes: Routes = [
   {
@@ -65,6 +66,11 @@ const routes: Routes = [
       {
         path: 'feedback',
         component: FeedbackComponent,
+        outlet: 'modal',
+      },
+      {
+        path: 'report-issue',
+        component: ReportIssueComponent,
         outlet: 'modal',
       },
     ],
