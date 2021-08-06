@@ -127,6 +127,17 @@
                       Select <mat-icon> arrow_drop_down </mat-icon>
                     </button>
                     <mat-menu #menu="matMenu">
+                      <ng-container *ngIf="evaluatorRole.code == 'SPRADM'">
+                        <button
+                        mat-menu-item
+                        color="accent"
+                        (click)="openFormDialog(element)"
+                       
+                      >
+                        Edit
+                      </button>
+                      </ng-container>
+                      
                       <ng-container *ngIf="applicationInfo.permit_type_id == 1">
                         <button
                           mat-menu-item
@@ -193,9 +204,17 @@
                           Edit
                         </button>
                       </ng-container>
+                      <ng-container *ngIf="evaluatorRole.code == 'SPRADM'">
+                        <a
+                        mat-menu-item
+                        href="{{ element.document_path }}"
+                        target="_blank"
+                        >View</a
+                      >
+                      </ng-container>
                       <ng-container
                         *ngIf="
-                          evaluatorRole.code == 'CBAO-REC' &&
+                          evaluatorRole.code == 'CBAO-REC' && 
                           applicationInfo.application_status_id !== 1
                         "
                       >
@@ -265,7 +284,8 @@
                         mat-menu-item
                         href="{{ element.document_path }}"
                         target="_blank"
-                        *ngIf="evaluatorRole.code == 'CBAO-REL'"
+                        *ngIf="evaluatorRole.code == 'CBAO-REL' ||
+                          evaluatorRole.code == 'SPRADM'"
                         >Print</a
                       >
                     </mat-menu>

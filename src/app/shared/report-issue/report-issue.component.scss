@@ -1,0 +1,152 @@
+::ng-deep .mat-dialog-container {
+    padding: 30px !important;
+}
+
+.horizontal-line {
+    background-color: maroon;
+}
+
+.close-button {
+    font-size: 23px;
+    float: right;
+    cursor: pointer;
+}
+
+.text {
+    div:first-of-type {
+        font-weight: 700;
+        font-size: 18px;
+    }
+}
+
+.category {
+    margin: 20px 0;
+}
+
+::ng-deep .mat-radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .mat-radio-button {
+        padding: 7px;
+        margin: 0 10px;
+        border-radius: 4px;
+
+        &.mat-radio-checked {
+            background-color: maroon;
+            color: #fff;
+        }
+
+        .mat-radio-container {
+            display: none;
+        }
+
+        .mat-radio-label {
+            margin: 0;
+        }
+
+        .mat-radio-label-content {
+            display: flex;
+            align-items: center;
+            padding: 0;
+        }
+
+        .mat-icon {
+            display: inline;
+            margin-right: 5px;
+        }
+    }
+}
+
+.mat-error {
+    font-size: 12px;
+    padding: 0 12px;
+    font-weight: 400;
+}
+
+button[type="submit"] {
+    display: block;
+    margin: 15px auto 0;
+    width: 150px;
+    background-color: maroon;
+    color: #fff;
+}
+
+.attachment {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    margin: 0 auto;
+    //cursor: pointer;
+    
+    img {
+        position: absolute;
+        display: block;
+        height: 100%;
+        width: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 100;
+    }
+
+    &::after {
+        position: absolute;
+        color: dimgray;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+}
+
+.btn-attachment{
+    cursor: pointer;
+    color:grey;
+}
+.btn-attachment:hover{
+    color:maroon;
+}
+
+.uploadAttachment {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin: 0 auto;
+    cursor: pointer;
+    
+    img {
+        position: absolute;
+        display: block;
+        height: 100%;
+        width: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 100;
+    }
+
+    &::after {
+        content: 'Upload attachment (optional)';
+        position: absolute;
+        color: dimgray;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    &:hover {
+        border: 2px solid #000;
+    }
+}
+
+// .no-file {
+//     border: 2px solid #e53935 !important;
+// }
