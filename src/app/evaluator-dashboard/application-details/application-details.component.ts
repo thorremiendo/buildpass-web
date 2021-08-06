@@ -17,6 +17,7 @@ import { ApplicationInfoService } from 'src/app/core/services/application-info.s
 import { officeTypes } from 'src/app/core/enums/offices.enum';
 import { departmentStatus } from 'src/app/core/enums/department-status.enum';
 import { applicationTypes } from '../../core/enums/application-type.enum';
+import { constructionType } from '../../core/enums/construction-type.enum';
 
 @Component({
   selector: 'app-application-details',
@@ -79,6 +80,9 @@ export class ApplicationDetailsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {});
+  }
+  getConstructionType(id): string {
+    return constructionType[id];
   }
 
   openOldBpDialog() {

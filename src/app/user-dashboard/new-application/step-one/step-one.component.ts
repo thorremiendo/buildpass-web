@@ -82,6 +82,7 @@ export class StepOneComponent implements OnInit {
     if (index >= 0) {
       this.oldBpInputs.splice(index, 1);
       this.oldBpDetails = [];
+      this.noBpError = '';
     }
   }
   ngOnInit(): void {
@@ -156,6 +157,7 @@ export class StepOneComponent implements OnInit {
           is_owned_by_corporation: value.is_owned_by_corporation,
           is_property_have_coowners: value.is_property_have_coowners,
           occupancy_classification_id: value.occupancy_classification_id,
+          old_bp_inputs: this.oldBpInputs,
         };
 
         this.newApplicationFormService.setApplicationInfo(body);
@@ -276,18 +278,26 @@ export class StepOneComponent implements OnInit {
   }
 
   handleSearchBp() {
-    this.occupancyService
-      .fetchSpecificOldBp(this.oldBpNumber.value)
-      .subscribe((res) => {
-        console.log(res);
-        if (res.data.length == 0) {
-          this.noBpError =
-            'The permit number you entered is not found in the system. Please verify that it is typed correctly or call CBAO at (074)442-2503 to  verify.';
-        } else if (res.data[0]) {
-          this.noBpError = null;
-          this.amendmentDetails = res.data[0];
-        }
+    this.oldBpDetails = [];
+    this.noBpError = '';
+    this.invalidBps = [];
+    console.log(this.oldBpInputs);
+    if (this.oldBpInputs.length >= 1) {
+      console.log(this.oldBpInputs);
+      this.oldBpInputs.forEach((input) => {
+        this.occupancyService
+          .fetchSpecificOldBp(input.input)
+          .subscribe((res) => {
+            if (res.data.length == 0) {
+              this.invalidBps.push(input.input);
+              this.noBpError =
+                'The permit number you entered is not found in the system. Please verify that it is typed correctly or call CBAO at (074)442-2503 to  verify.';
+            } else if (res.data[0]) {
+              this.oldBpDetails.push(res.data[0]);
+            }
+          });
       });
+    }
   }
 
   confirmOldBp() {
