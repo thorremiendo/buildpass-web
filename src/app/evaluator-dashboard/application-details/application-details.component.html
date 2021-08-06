@@ -87,6 +87,21 @@
             </div>
           </div>
         </div>
+        <ng-container *ngIf="applicationDetails.construction_status_id == 4">
+          <div class="d-flex justify-content-center align-items-center mt-5">
+            <span
+              style="
+                font-style: italic;
+                color: rgb(160, 57, 57);
+                font-weight: bold;
+              "
+              >** For Amendment</span
+            >
+            <button mat-button color="accent" (click)="openOldBpDialog()">
+              Show Building Permit Details
+            </button>
+          </div>
+        </ng-container>
         <div class="d-flex justify-content-between align-items-center mt-5">
           <div
             *ngIf="applicationDetails.main_permit_id"
@@ -281,6 +296,65 @@
             <app-cepmo-fees-table></app-cepmo-fees-table>
           </mat-expansion-panel>
         </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="app-bp" *ngIf="!isLoading && oldBpInfo">
+    <mat-card>
+      <mat-card-content>
+        <h4 style="color: #141414" class="mb-4">
+          <strong>Building Permit Details</strong>
+          <hr />
+          <div>
+            <ng-container *ngFor="let item of oldBpInfo">
+              <mat-expansion-panel class="my-2">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{ item.BUILDING_PERMIT_NUMBER }}</mat-panel-title
+                  >
+                </mat-expansion-panel-header>
+                <div class="old__bp">
+                  <p>
+                    Building Permit Number:
+                    <span>{{ item.BUILDING_PERMIT_NUMBER }}</span>
+                  </p>
+                  <p>
+                    Owner Details:
+                    <span>{{ item.OWNER }}</span>
+                  </p>
+                  <p>
+                    Location:
+                    <span>{{ item.LOCATION }}</span>
+                  </p>
+                  <p>
+                    Type:
+                    <span>{{ item.TYPE_OF }}</span>
+                  </p>
+                  <p>
+                    Status:
+                    <span>{{ getConfirmationStatus(item) }}</span>
+                  </p>
+                  <div class="mt-4">
+                    <button
+                      mat-raised-button
+                      color="warn"
+                      (click)="deleteAssoicatedBp(item)"
+                    >
+                      Delete
+                    </button>
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      (click)="openAssociateBp(item)"
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </ng-container>
+          </div>
+        </h4>
       </mat-card-content>
     </mat-card>
   </div>

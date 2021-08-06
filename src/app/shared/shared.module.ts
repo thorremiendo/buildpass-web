@@ -41,6 +41,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { UploadedIdentificationComponent } from './uploaded-identification/uploaded-identification.component';
+import { OldBpDetailsComponent } from './old-bp-details/old-bp-details.component';
+import { AssociateOldBpComponent } from './associate-old-bp/associate-old-bp.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +69,8 @@ import { UploadedIdentificationComponent } from './uploaded-identification/uploa
     PasswordPromptComponent,
     ESignatureComponent,
     UploadedIdentificationComponent,
+    OldBpDetailsComponent,
+    AssociateOldBpComponent,
   ],
   imports: [
     CommonModule,

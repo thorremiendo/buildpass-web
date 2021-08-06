@@ -1,0 +1,23 @@
+<div class="bp-search" *ngIf="oldBpDetails">
+  <h4>Building Permit Details:</h4>
+  <div>
+    <div>
+      <h5 style="font-weight: bold">Owner:&nbsp;</h5>
+      <h5>
+        {{ oldBpDetails.OWNER }}
+      </h5>
+    </div>
+    <div>
+      <h5 style="font-weight: bold">Location:&nbsp;</h5>
+      <h5>
+        {{ oldBpDetails.LOCATION }}
+      </h5>
+    </div>
+    <div>
+      <h5 style="font-weight: bold">Type Of:&nbsp;</h5>
+      <h5>
+        {{ oldBpDetails.TYPE_OF }}
+      </h5>
+    </div>
+  </div>
+</div>

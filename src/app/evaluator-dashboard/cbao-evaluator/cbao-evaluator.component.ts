@@ -1,3 +1,4 @@
+import { OccupancyUploadFileComponent } from './../occupancy-upload-file/occupancy-upload-file.component';
 import { EsignatureService } from './../../core/services/esignature.service';
 import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks-history-table.component';
 import { NewApplicationService } from './../../core/services/new-application.service';
@@ -58,6 +59,17 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.changeDetectorRefs.detectChanges();
   }
 
+  openOccupancyFileUpload() {
+    const dialogRef = this.dialog.open(OccupancyUploadFileComponent, {
+      width: '1000px',
+      data: {
+        application: this.applicationInfo,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+
   checkCepmoParallelDocs() {
     this.isLoading = true;
     const findDoc = this.dataSource.forEach((e) => {
@@ -111,6 +123,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         if (this.applicationInfo.application_status_id == 3) {
           this.checkTechnicalEvaluationCompliant();
         }
+
         this.isLoading = false;
       });
   }
