@@ -1,3 +1,4 @@
+import { WaterMarkService } from './../../core/services/watermark.service';
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { ActivatedRoute } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
@@ -23,7 +24,8 @@ export class OtherPermitsComponent implements OnInit {
     private snackBar: MatSnackBar,
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
-    private newApplicationService: NewApplicationService
+    private newApplicationService: NewApplicationService,
+    private waterMarkService: WaterMarkService
   ) {}
 
   ngOnInit(): void {
@@ -167,10 +169,36 @@ export class OtherPermitsComponent implements OnInit {
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
-        this.isLoading = false;
-        this.openSnackBar('Permit Approved!');
-        window.location.reload();
+        this.addWatermarkToAllCompliant();
       });
+  }
+  addWatermarkToAllCompliant() {
+    var count = 0;
+    var bar = new Promise<void>((resolve, reject) => {
+      this.dataSource.forEach((element, index, array) => {
+        this.isLoading = true;
+        if (element.document_id !== 50) {
+          this.waterMarkService
+            .insertWaterMark(element.document_path, 'compliant')
+            .then((blob) => {
+              const updateFileData = {
+                document_status_id: 1,
+                document_path: blob,
+              };
+              this.newApplicationService
+                .updateDocumentFile(updateFileData, element.id)
+                .subscribe((res) => {
+                  count = count + 1;
+                  if (count === array.length - 1) {
+                    this.isLoading = false;
+                    this.openSnackBar('Permit Approved!');
+                    window.location.reload();
+                  }
+                });
+            });
+        }
+      });
+    });
   }
   handleRelease() {
     this.isLoading = true;
