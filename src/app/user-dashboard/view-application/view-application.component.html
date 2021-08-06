@@ -287,12 +287,7 @@
                             >Print</a
                           >
                         </ng-container>
-                        <ng-container
-                          *ngIf="
-                            element.document_status_id == 0 ||
-                            element.document_status_id == 2
-                          "
-                        >
+                        <ng-container>
                           <a
                             href="{{ element.document_path }}"
                             target="_blank"

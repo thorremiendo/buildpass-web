@@ -624,6 +624,11 @@ export class FormDetailsComponent implements OnInit {
                   document_status_id: this.permitDetails.value.is_compliant,
                 };
                 this.updateDoc(body, id);
+              } else if (permitType !== 1 || permitType !== 2) {
+                body = {
+                  document_status_id: this.permitDetails.value.is_compliant,
+                };
+                this.updateDoc(body, id);
               }
             } else if (officeId == 1) {
               //CPDO
