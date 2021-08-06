@@ -63,7 +63,7 @@
             <mat-icon>assignment</mat-icon>
             Applicant Forms
           </ng-template>
-          <div class="mt-3">
+          <div class="mt-3" *ngIf="applicationInfo.permit_type_id == 2">
             <button
               mat-raised-button
               color="accent"
@@ -129,15 +129,14 @@
                     <mat-menu #menu="matMenu">
                       <ng-container *ngIf="evaluatorRole.code == 'SPRADM'">
                         <button
-                        mat-menu-item
-                        color="accent"
-                        (click)="openFormDialog(element)"
-                       
-                      >
-                        Edit
-                      </button>
+                          mat-menu-item
+                          color="accent"
+                          (click)="openFormDialog(element)"
+                        >
+                          Edit
+                        </button>
                       </ng-container>
-                      
+
                       <ng-container *ngIf="applicationInfo.permit_type_id == 1">
                         <button
                           mat-menu-item
@@ -206,15 +205,15 @@
                       </ng-container>
                       <ng-container *ngIf="evaluatorRole.code == 'SPRADM'">
                         <a
-                        mat-menu-item
-                        href="{{ element.document_path }}"
-                        target="_blank"
-                        >View</a
-                      >
+                          mat-menu-item
+                          href="{{ element.document_path }}"
+                          target="_blank"
+                          >View</a
+                        >
                       </ng-container>
                       <ng-container
                         *ngIf="
-                          evaluatorRole.code == 'CBAO-REC' && 
+                          evaluatorRole.code == 'CBAO-REC' &&
                           applicationInfo.application_status_id !== 1
                         "
                       >
@@ -284,8 +283,10 @@
                         mat-menu-item
                         href="{{ element.document_path }}"
                         target="_blank"
-                        *ngIf="evaluatorRole.code == 'CBAO-REL' ||
-                          evaluatorRole.code == 'SPRADM'"
+                        *ngIf="
+                          evaluatorRole.code == 'CBAO-REL' ||
+                          evaluatorRole.code == 'SPRADM'
+                        "
                         >Print</a
                       >
                     </mat-menu>
