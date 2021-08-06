@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import {
   ChangeDetectorRef,
   Component,
@@ -55,7 +56,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     public menuItems: MenuItems,
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private router: Router
   ) {
     this.mobileQuery = media.matchMedia('(min-width: 768px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -71,6 +73,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     if (this.userInfo.employee_detail != null) {
       this.evaluatorDetails = JSON.parse(localStorage.getItem('user'));
       this.employeeDetails = this.evaluatorDetails.employee_detail;
+
       this._isLoading = false;
       let office_id = this.employeeDetails.office_id;
       this.officeToString(office_id);
@@ -116,5 +119,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.officeString = 'Assessors Office';
         break;
     }
+  }
+
+  navigateRequests() {
+    this.router.navigateByUrl('/evaluator/occupancy-requests');
+  }
+  navigateList() {
+    this.router.navigateByUrl('/evaluator/master-list');
   }
 }

@@ -1,3 +1,5 @@
+import { OldbpMasterlistComponent } from './../oldbp-masterlist/oldbp-masterlist.component';
+import { OccupancyRequestsComponent } from './../occupancy-requests/occupancy-requests.component';
 import { ESignatureComponent } from './../../shared/e-signature/e-signature.component';
 import { DownloadableFormsComponent } from './../downloadable-forms/downloadable-forms.component';
 import { UserGuardGuard } from './../../core/guard/user-guard.guard';
@@ -62,6 +64,14 @@ const routes: Routes = [
       {
         path: 'edit-profile',
         component: EvaluatorEditProfileComponent,
+      },
+      {
+        path: 'occupancy-requests',
+        component: OccupancyRequestsComponent,
+      },
+      {
+        path: 'master-list',
+        component: OldbpMasterlistComponent,
       },
       {
         path: 'feedback',

@@ -1,71 +1,82 @@
-<mat-card class="card-container">
-    <div class="row py-5">
-        <div class="col-md-3">
-         <div class="box">
-          <div class="row justify-content-md-center" style="margin-top: 200px;">
+<div class="admin-sign-in">
+  <mat-card class="card-container">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="box">
+          <div
+            class="row justify-content-md-center"
+          ></div>
+        </div>
+      </div>
+      <div class="col-md-9 py-5">
+        <form
+          [formGroup]="_adminSignInForm"
+          (ngSubmit)="tryLogin(_adminSignInForm.value)"
+        >
+          <div class="row justify-content-md-center pt-4">
+            <div class="col-md-9">
+              <h3>Admin Login</h3>
+            </div>
           </div>
-               
-        </div>
-        </div>
-        <div class="col-md-9 px-3 py-5">
-          <form [formGroup]= "_evaluatorSignInForm" (ngSubmit)="tryLogin(_evaluatorSignInForm.value)">
-            <div class="row justify-content-md-center pt-4">
-              <div class="col-md-9">
-               <h3>Admin Login</h3>
-              </div>
+          <div class="row justify-content-md-center pt-3">
+            <div class="col-md-9">
+              <mat-form-field appearance="outline">
+                <mat-label>Username</mat-label>
+                <input
+                  matInput
+                  placeholder="example@gmail.com"
+                  formControlName="username"
+                />
+                <mat-icon matSuffix>email</mat-icon>
+              </mat-form-field>
             </div>
-            <div class="row justify-content-md-center pt-3">
-              <div class="col-md-9">
-                <mat-form-field appearance="outline">
-                  <mat-label>Username</mat-label>
-                  <input
-                    matInput
-                    placeholder="juanMiguel@gmail.com"
-                    formControlName="username"
-                    required
-                  />
-                  <mat-icon matSuffix>email</mat-icon>
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row justify-content-md-center py-1">
-              <div class="col-md-9">
-                <mat-form-field appearance="outline">
-                  <mat-label>Enter your password</mat-label>
-                  <input
-                    matInput
-                    [type]="hide ? 'password' : 'text'"
-                    formControlName="password"
-                  />
-                  <button
-                    mat-icon-button
-                    matSuffix
-                    (click)="hide = !hide"
-                    [attr.aria-label]="'Hide password'"
-                    [attr.aria-pressed]="hide"
-                  >
-                    <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
-                  </button>
-                </mat-form-field>
-                <a
-                  style="margin-top: -10px; color: maroon"
-                  routerLink="/forgot-password"
-                  routerLinkActive="active"
-                  >forgot password?</a
+          </div>
+          <div class="row justify-content-md-center py-1">
+            <div class="col-md-9">
+              <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input
+                  matInput
+                  [type]="hide ? 'password' : 'text'"
+                  formControlName="password"
+                />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  (click)="hide = !hide"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide"
+                  tabindex="-1"
+                  type="button"
                 >
-              </div>
-            </div>
-            <div class="row justify-content-md-center py-3">
-              <div class="col-md-3 text-center">
-                <button style="background-color: maroon; color: white" mat-stroked-button>
-                  Sign in
+                  <mat-icon>{{
+                    hide ? "visibility_off" : "visibility"
+                  }}</mat-icon>
                 </button>
-              </div>
+              </mat-form-field>
+              <ng-container *ngIf="error">
+                <p style="color: red; font-weight: bold">{{ error }} Please try again.</p>
+              </ng-container>
+              <a
+                style="font-size: 15px; color: gray;"
+                routerLink="/forgot-password"
+                routerLinkActive="active"
+                >forgot password?</a
+              >
             </div>
-            <hr />
-          </form>
-     </div>
+          </div>
+          <div class="row justify-content-md-center py-3">
+            <div class="col-md-4 text-center">
+              <button
+                style="background-color: maroon; color: white"
+                mat-stroked-button
+              >
+                Sign in
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </mat-card>
-  
-  
+</div>

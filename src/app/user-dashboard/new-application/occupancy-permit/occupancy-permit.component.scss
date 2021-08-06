@@ -1,43 +1,66 @@
 ::ng-deep .mat-step-icon {
-    display: none;
+  display: none;
 }
 
 .step-label {
-    font-size: 17px;
-    font-weight: 500;
-    margin-top: 30px;
-    margin-bottom: 10px;
+  font-size: 17px;
+  font-weight: 500;
+  margin-top: 30px;
+  margin-bottom: 10px;
 }
 
 .pdf-only {
-    font-size: 14px;
-    color: maroon;
-    margin-top: -5px;
-    margin-bottom: 10px;
+  font-size: 14px;
+  color: maroon;
+  margin-top: -5px;
+  margin-bottom: 10px;
 }
 
 .fieldsets {
-    margin-top: 20px;
+  margin-top: 20px;
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+.file-description {
+  font-weight: 400;
 }
 
-.buttons {
+.file-actions {
+  div {
     display: flex;
+    align-items: flex-start;
     justify-content: flex-end;
-    margin-top: 30px;
 
-    button {
-        background-color: maroon !important;
-        color: #fff;
+    a,
+    span {
+      margin: 0 10px;
+      cursor: pointer;
     }
+
+    .mat-icon {
+      color: green;
+    }
+  }
+
+  .mat-spinner {
+    float: right;
+  }
 }
 
 ::ng-deep .mat-step-label-selected {
-    background-color: maroon;
-    padding: 10px;
-    text-align: center;
-    border-radius: 5px;
-    
-    .mat-step-text-label {
-      color: #fff;
-    }
+  background-color: maroon;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+
+  .mat-step-text-label {
+    color: #fff;
+  }
+}
+
+.info:hover {
+  cursor: pointer;
 }

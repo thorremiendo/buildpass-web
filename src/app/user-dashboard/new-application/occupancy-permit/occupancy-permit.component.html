@@ -1,8 +1,8 @@
 <div *ngIf="applicationDetails">
   <h3>Certificate of Occupancy Application</h3>
   <h4 style="font-weight: bold; color: grey">
-    Uploaded Documents: {{ applicationDetails.user_docs.length }}/
-    {{ getFieldSetsLength() + 1 }}
+    Uploaded Documents: {{ getUniqueUserDocs() }}/
+    {{ getFieldSetsLength() + getFormsLength() }}
   </h4>
   <mat-horizontal-stepper
     linear
@@ -12,6 +12,7 @@
     <mat-step *ngFor="let form of forms; let i = index">
       <ng-template matStepLabel>{{ form.label }}</ng-template>
       <h1>{{ form.description }}</h1>
+
       <div class="fillable-form">
         <div class="step-label">
           After filling out the form, please click the next button to proceed
@@ -49,12 +50,12 @@
           </mat-card-content>
         </mat-card>
         <!-- <div class="step-label">2. Please upload the Notarized Form.</div>
-        <div class="pdf-only">You can only upload PDF files.</div>
-        <app-file-upload
-          (emitFile)="submitDocument($event, form.id)"
-          description="{{ form.description }}"
-          path="{{ form.path }}"
-        ></app-file-upload> -->
+            <div class="pdf-only">You can only upload PDF files.</div>
+            <app-file-upload
+              (emitFile)="submitDocument($event, form.id)"
+              description="{{ form.description }}"
+              path="{{ form.path }}"
+            ></app-file-upload> -->
       </div>
       <div class="buttons">
         <button
