@@ -57,6 +57,13 @@ export class FileUploadComponent implements OnInit {
     }
   }
 
+  onToggleChange(e) {
+    console.log(e.checked);
+    if (e.checked == true) {
+      this.submitNotApplicable();
+    }
+  }
+
   async submitNotApplicable() {
     let pdf = await fetch(
       'https://s3-ap-southeast-1.amazonaws.com/baguio-ocpas/MaZXPXPOptMGBcvThBJ2VejNVzCEXVbEcYHZtU8y.pdf'

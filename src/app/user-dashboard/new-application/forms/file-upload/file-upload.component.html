@@ -1,8 +1,21 @@
 <div class="file-upload container-fluid">
   <div class="row">
-    <div class="file-description col-8">
+    <div class="file-description col-10">
       <p style="font-weight: bold; color: maroon">{{ fileDescription }}</p>
     </div>
+    <div class="col-2">
+      <mat-slide-toggle
+        [(ngModel)]="isOptional"
+        *ngIf="!filePath"
+        (change)="onToggleChange($event)"
+        ><span style="font-size: 14px; font-weight: bold"
+          >Not Applicable</span
+        ></mat-slide-toggle
+      >
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-8"></div>
     <div class="file-actions col-4">
       <div *ngIf="!loading">
         <a *ngIf="infoPath" [href]="infoPath" target="_blank">Info</a>
@@ -13,19 +26,6 @@
         <mat-icon *ngIf="file || filePath"> check_circle </mat-icon>
       </div>
       <mat-spinner *ngIf="loading" [diameter]="20"> </mat-spinner>
-    </div>
-    <div class="d-flex justify-content-between col-12">
-      <mat-slide-toggle [(ngModel)]="isOptional" *ngIf="!filePath"
-        ><span style="font-size: 12px">Not Applicable</span></mat-slide-toggle
-      >
-      <button
-        mat-raised-button
-        color="primary"
-        *ngIf="isOptional == true"
-        (click)="submitNotApplicable()"
-      >
-        Save
-      </button>
     </div>
   </div>
 
