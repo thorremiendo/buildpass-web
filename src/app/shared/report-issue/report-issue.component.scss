@@ -112,6 +112,41 @@ button[type="submit"] {
     color:maroon;
 }
 
+.uploadAttachment {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin: 0 auto;
+    cursor: pointer;
+    
+    img {
+        position: absolute;
+        display: block;
+        height: 100%;
+        width: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 100;
+    }
+
+    &::after {
+        content: 'Upload attachment (optional)';
+        position: absolute;
+        color: dimgray;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    &:hover {
+        border: 2px solid #000;
+    }
+}
+
 // .no-file {
 //     border: 2px solid #e53935 !important;
 // }

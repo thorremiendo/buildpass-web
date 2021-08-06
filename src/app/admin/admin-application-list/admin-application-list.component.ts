@@ -27,6 +27,7 @@ export class AdminApplicationListComponent implements OnInit {
     let index = id--;
 
     if (this.applications[index].application_status_id == 6) {
+
       this.snackBar.open('Incomplete Application', 'close', {
         duration: 3000,
       });
