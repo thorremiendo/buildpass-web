@@ -14,7 +14,7 @@ import { applicationStatus } from '../../core/enums/application-status.enum';
 import { applicationTypes } from '../../core/enums/application-type.enum';
 import { ApplicationInfoService, EvaluatorService } from '../../core';
 import Swal from 'sweetalert2';
-
+import { constructionType } from '../../core/enums/construction-type.enum';
 @Component({
   selector: 'app-applications-list',
   templateUrl: './applications-list.component.html',
@@ -98,6 +98,10 @@ export class ApplicationsListComponent implements OnInit, OnChanges {
 
   getApplicationStatus(id): string {
     return applicationStatus[id];
+  }
+
+  getConstructionType(id): string {
+    return constructionType[id];
   }
 
   getPermitType(id): string {
