@@ -158,13 +158,19 @@
                   <mat-option value="3">As built</mat-option>
                   <mat-option value="4">Amendment</mat-option>
                   <mat-option value="5">Renovation</mat-option>
-                  <mat-option value="6">Extension</mat-option>
-                  <mat-option value="7">Additional Floor</mat-option>
+                  <mat-option value="6">Additional Floor</mat-option>
                   <mat-option value="7">Government</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
-            <ng-container *ngIf="constructionStatus == 4">
+            <ng-container
+              *ngIf="
+                constructionStatus == 4 ||
+                constructionStatus == 5 ||
+                constructionStatus == 6 ||
+                constructionStatus == 7
+              "
+            >
               <ng-container>
                 <h4>Is your Building Permit released through BuildPASS?</h4>
                 <mat-form-field appearance="outline">
@@ -187,54 +193,126 @@
                     </mat-select>
                   </mat-form-field>
                 </ng-container>
-                <ng-container *ngIf="isBuildpassReleased == 2">
-                  <h4>Please input your Building Permit Number</h4>
-                  <mat-form-field appearance="outline">
-                    <mat-label>Building Permit No.</mat-label>
-                    <input type="text" [formControl]="oldBpNumber" matInput />
-                  </mat-form-field>
-
-                  <button
-                    mat-raised-button
-                    color="primary"
-                    (click)="handleSearchBp()"
-                  >
-                    Search
-                  </button>
-                  <span
-                    *ngIf="noBpError && constructionStatus == 4"
-                    style="color: maroon; font-style: italic; font-weight: 600"
-                    >{{ noBpError }}
-                  </span>
-                  <ng-container *ngIf="amendmentDetails">
-                    <div class="bp-search">
-                      <h4>Building Permit Details:</h4>
-                      <div>
-                        <div>
-                          <h6 style="font-weight: bold">Owner:&nbsp;</h6>
-                          <h6>
-                            {{ amendmentDetails.OWNER }}
-                          </h6>
-                        </div>
-                        <div>
-                          <h6 style="font-weight: bold">Location:&nbsp;</h6>
-                          <h6>
-                            {{ amendmentDetails.LOCATION }}
-                          </h6>
-                        </div>
-                        <div>
-                          <h6 style="font-weight: bold">Type Of:&nbsp;</h6>
-                          <h6>
-                            {{ amendmentDetails.TYPE_OF }}
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-                  </ng-container>
-                </ng-container>
               </ng-container>
             </ng-container>
           </ng-container>
+        </ng-container>
+        <ng-container *ngIf="selectedPermitType == '2'">
+          <h4>Is your Building Permit released through BuildPASS?</h4>
+          <mat-form-field appearance="outline">
+            <mat-label>Choose</mat-label>
+            <mat-select [(value)]="isBuildpassReleased">
+              <mat-option value="1">Yes</mat-option>
+              <mat-option value="2">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <ng-container *ngIf="isBuildpassReleased == 1">
+            <h4>Please select your Building Permit</h4>
+            <mat-form-field appearance="outline">
+              <mat-label>Choose</mat-label>
+              <mat-select [(value)]="selectedBuildingPermit">
+                <mat-option
+                  *ngFor="let item of userBuildingPermits"
+                  value="{{ item.id }}"
+                  >{{ item.ocpas_code }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="isBuildpassReleased == 2">
+          <h4>Please input your Building Permit Number</h4>
+          <span style="font-size: 14px"
+            >**Enter multiple Building number if applicable</span
+          >
+
+          <mat-form-field class="example-chip-list" appearance="outline">
+            <mat-label>Input</mat-label>
+            <mat-chip-list #chipList aria-label="Press enter to input multiple">
+              <mat-chip
+                *ngFor="let input of oldBpInputs"
+                [selectable]="selectable"
+                [removable]="removable"
+                (removed)="remove(input)"
+              >
+                {{ input.input }}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              </mat-chip>
+              <input
+                placeholder="Input Building Permit No."
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="add($event)"
+              />
+            </mat-chip-list>
+          </mat-form-field>
+
+          <span
+            *ngIf="noBpError && oldBpDetails.length == 0"
+            style="color: maroon; font-style: italic; font-weight: 600"
+            >{{ noBpError }}
+          </span>
+          <ng-container *ngIf="oldBpDetails.length >= 1">
+            <ng-container *ngFor="let item of oldBpDetails">
+              <div class="bp-search">
+                <h4>Building Permit Details:</h4>
+                <div>
+                  <div>
+                    <h6 style="font-weight: bold">
+                      Building Permit Number:&nbsp;
+                    </h6>
+                    <h6>
+                      {{ item.BUILDING_PERMIT_NUMBER }}
+                    </h6>
+                  </div>
+                  <div>
+                    <h6 style="font-weight: bold">Owner:&nbsp;</h6>
+                    <h6>
+                      {{ item.OWNER }}
+                    </h6>
+                  </div>
+                  <div>
+                    <h6 style="font-weight: bold">Location:&nbsp;</h6>
+                    <h6>
+                      {{ item.LOCATION }}
+                    </h6>
+                  </div>
+                  <div>
+                    <h6 style="font-weight: bold">Type Of:&nbsp;</h6>
+                    <h6>
+                      {{ item.TYPE_OF }}
+                    </h6>
+                  </div>
+                </div>
+              </div>
+              <ng-container *ngIf="invalidBps.length > 0">
+                <p>
+                  The permit number you entered
+                  <span
+                    *ngFor="let item of invalidBps"
+                    class="my-1"
+                    style="font-weight: bold"
+                    >("{{ item }}")</span
+                  >&nbsp;is not found in the system. Please verify that it is
+                  typed correctly or call CBAO at (074)442-2503 to verify.
+                </p>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+
+          <div class="mt-3 text-right">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="handleSearchBp()"
+              [disabled]="isSubmitting"
+            >
+              Search
+            </button>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="selectedPermitType !== '2'">
           <div
             *ngIf="constructionStatus || registeredOwner || isLotOwner"
             class="mt-4"
@@ -285,116 +363,6 @@
             </mat-form-field>
           </div>
         </ng-container>
-        <ng-container *ngIf="selectedPermitType == '2'">
-          <h4>Is your Building Permit released through BuildPASS?</h4>
-          <mat-form-field appearance="outline">
-            <mat-label>Choose</mat-label>
-            <mat-select [(value)]="isBuildpassReleased">
-              <mat-option value="1">Yes</mat-option>
-              <mat-option value="2">No</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <ng-container *ngIf="isBuildpassReleased == 1">
-            <h4>Please select your Building Permit</h4>
-            <mat-form-field appearance="outline">
-              <mat-label>Choose</mat-label>
-              <mat-select [(value)]="selectedBuildingPermit">
-                <mat-option
-                  *ngFor="let item of userBuildingPermits"
-                  value="{{ item.id }}"
-                  >{{ item.ocpas_code }}</mat-option
-                >
-              </mat-select>
-            </mat-form-field>
-          </ng-container>
-          <ng-container *ngIf="isBuildpassReleased == 2">
-            <h4>Please input your Building Permit Number</h4>
-            <span style="font-size: 14px"
-              >**Enter multiple Building number if applicable</span
-            >
-            <!-- <mat-form-field appearance="outline">
-              <mat-label>Building Permit No.</mat-label>
-              <input type="text" [formControl]="oldBpNumber" matInput />
-            </mat-form-field> -->
-            <mat-form-field class="example-chip-list" appearance="outline">
-              <mat-label>Input</mat-label>
-              <mat-chip-list
-                #chipList
-                aria-label="Press enter to input multiple"
-              >
-                <mat-chip
-                  *ngFor="let input of oldBpInputs"
-                  [selectable]="selectable"
-                  [removable]="removable"
-                  (removed)="remove(input)"
-                >
-                  {{ input.input }}
-                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                </mat-chip>
-                <input
-                  placeholder="Input Building Permit No."
-                  [matChipInputFor]="chipList"
-                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                  [matChipInputAddOnBlur]="addOnBlur"
-                  (matChipInputTokenEnd)="add($event)"
-                />
-              </mat-chip-list>
-            </mat-form-field>
-
-            <span
-              *ngIf="noBpError && oldBpDetails.length == 0"
-              style="color: maroon; font-style: italic; font-weight: 600"
-              >{{ noBpError }}
-            </span>
-            <ng-container *ngIf="oldBpDetails.length >= 1">
-              <ng-container *ngFor="let item of oldBpDetails">
-                <div class="bp-search">
-                  <h4>Building Permit Details:</h4>
-                  <div>
-                    <div>
-                      <h6 style="font-weight: bold">
-                        Building Permit Number:&nbsp;
-                      </h6>
-                      <h6>
-                        {{ item.BUILDING_PERMIT_NUMBER }}
-                      </h6>
-                    </div>
-                    <div>
-                      <h6 style="font-weight: bold">Owner:&nbsp;</h6>
-                      <h6>
-                        {{ item.OWNER }}
-                      </h6>
-                    </div>
-                    <div>
-                      <h6 style="font-weight: bold">Location:&nbsp;</h6>
-                      <h6>
-                        {{ item.LOCATION }}
-                      </h6>
-                    </div>
-                    <div>
-                      <h6 style="font-weight: bold">Type Of:&nbsp;</h6>
-                      <h6>
-                        {{ item.TYPE_OF }}
-                      </h6>
-                    </div>
-                  </div>
-                </div>
-                <ng-container *ngIf="invalidBps.length > 0">
-                  <p>
-                    The permit number you entered
-                    <span
-                      *ngFor="let item of invalidBps"
-                      class="my-1"
-                      style="font-weight: bold"
-                      >("{{ item }}")</span
-                    >&nbsp;is not found in the system. Please verify that it is
-                    typed correctly or call CBAO at (074)442-2503 to verify.
-                  </p>
-                </ng-container>
-              </ng-container>
-            </ng-container>
-          </ng-container>
-        </ng-container>
       </div>
 
       <!-- <div *ngIf="constructionStatus" class="map-container mt-4">
@@ -431,6 +399,7 @@
           </button>
         </div>
       </ng-container>
+
       <ng-container
         *ngIf="oldBpDetails.length >= 1 && selectedPermitType == '2'"
       >
