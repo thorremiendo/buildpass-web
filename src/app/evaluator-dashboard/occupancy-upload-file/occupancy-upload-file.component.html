@@ -41,7 +41,13 @@
     mat-raised-button
     color="primary"
     (click)="handleUploadOccupancyFile()"
+    [disabled]="isLoading"
   >
     Submit
   </button>
+  <ng-container *ngIf="isLoading">
+    <div>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </ng-container>
 </div>

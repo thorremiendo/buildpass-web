@@ -12,6 +12,7 @@ import {
   FormControl,
   FormArray,
 } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-associate-old-bp',
@@ -31,12 +32,14 @@ export class AssociateOldBpComponent implements OnInit {
   public husbandFirstName;
   public husbandLastName;
   public typeOfOccupancy;
+  public isLoading: boolean = false;
   constructor(
     public dialogRef: MatDialogRef<AssociateOldBpComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data,
     private occupancyService: OccupancyService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -65,6 +68,7 @@ export class AssociateOldBpComponent implements OnInit {
   }
 
   submit() {
+    this.isLoading = true;
     const corporationDetails = this.oldBpDetailsForm.value.corporation_name;
     const individualDetails = {
       first_name: this.oldBpDetailsForm.value.first_name,
@@ -77,26 +81,46 @@ export class AssociateOldBpComponent implements OnInit {
       husband_first_name: this.husbandFirstName,
       husband_last_name: this.husbandLastName,
     };
-    const id = this.data.application.id;
+    const id = this.data.oldBpInfo.generated_application_id;
     const body = {
       user_id: this.data.oldBpInfo.user_id,
       associated_id: this.data.oldBpInfo.id,
       old_permit_number: this.data.oldBpInfo.old_permit_number,
-      owner_type_id: this.typeOfOwnership,
-      ownership_details:
-        this.typeOfOwnership == 1
-          ? corporationDetails
-          : this.typeOfOwnership == 2
-          ? individualDetails
-          : this.typeOfOwnership == 3
-          ? coOwners
-          : this.typeOfOwnership == 4
-          ? spouseDetails
-          : '',
     };
     console.log(id, body);
-    this.occupancyService
-      .confirmOldBp(id, body)
-      .subscribe((res) => console.log(res));
+    this.occupancyService.confirmOldBp(id, body).subscribe((res) => {
+      const id = this.data.oldBpInfo.generated_application_id;
+      const body = {
+        user_id: this.data.oldBpInfo.user_id,
+        associated_id: this.data.oldBpInfo.id,
+        old_permit_number: this.data.oldBpInfo.old_permit_number,
+        owner_type_id: this.typeOfOwnership,
+        ownership_details:
+          this.typeOfOwnership == 1
+            ? corporationDetails
+            : this.typeOfOwnership == 2
+            ? individualDetails
+            : this.typeOfOwnership == 3
+            ? coOwners
+            : this.typeOfOwnership == 4
+            ? spouseDetails
+            : '',
+        occupancy_classification_id: this.typeOfOccupancy,
+      };
+      this.occupancyService
+        .createOldBpOwnerDetals(id, body)
+        .subscribe((res) => {
+          this.isLoading = false;
+          this.openSnackBar('Saved!');
+          this.onNoClick();
+        });
+    });
+  }
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 2000,
+      // horizontalPosition: 'right',
+      // verticalPosition: 'top',
+    });
   }
 }

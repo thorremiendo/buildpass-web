@@ -51,8 +51,26 @@ export class OccupancyService {
     return this.api.post(url, body);
   }
 
+  createOldBpOwnerDetals(id, body) {
+    const url = `/application/${id}/owner-details`;
+
+    return this.api.post(url, body);
+  }
+
   fetchUserOldBp(id) {
     const url = `/application/${id}/associated`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+
+  fetchUserDocsOnly(id) {
+    const url = `/userdocs/${id}/docs-only`;
     return this.api.get(url).pipe(
       map((data: any) => {
         return data;

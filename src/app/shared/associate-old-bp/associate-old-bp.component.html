@@ -161,6 +161,18 @@
     <button mat-raised-button color="accent" (click)="onNoClick()">
       Close
     </button>
-    <button mat-raised-button color="primary" (click)="submit()">Submit</button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="submit()"
+      [disabled]="isLoading"
+    >
+      Submit
+    </button>
   </div>
+  <ng-container *ngIf="isLoading">
+    <div>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </ng-container>
 </div>

@@ -74,7 +74,7 @@
           </div>
 
           <div>
-            <div class="table-container">
+            <div class="table-container" *ngIf="dataSource">
               <table mat-table [dataSource]="dataSource">
                 <ng-container matColumnDef="index">
                   <th mat-header-cell *matHeaderCellDef>No.</th>
@@ -87,6 +87,16 @@
                   <th mat-header-cell *matHeaderCellDef>Uploaded Documents</th>
                   <td mat-cell *matCellDef="let element">
                     {{ getDocType(element.document_id) }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="uploadedBy">
+                  <th mat-header-cell *matHeaderCellDef>Uploaded By</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{
+                      element.is_uploaded_by_non_applicant == 1
+                        ? "Receiving"
+                        : "Applicant"
+                    }}
                   </td>
                 </ng-container>
 

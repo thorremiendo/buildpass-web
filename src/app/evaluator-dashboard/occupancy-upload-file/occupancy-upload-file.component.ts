@@ -7,6 +7,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-occupancy-upload-file',
@@ -21,16 +22,20 @@ export class OccupancyUploadFileComponent implements OnInit {
   public selectedOldBpNumber;
   public oldBpList;
   public selectedOldBpDetails;
+  public evaluator;
+  public isLoading: boolean = false;
   constructor(
     public dialogRef: MatDialogRef<OccupancyUploadFileComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data,
     private occupancyService: OccupancyService,
-    private applicationService: NewApplicationService
+    private applicationService: NewApplicationService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     console.log(this.data);
+    this.evaluator = JSON.parse(localStorage.getItem('user'));
     this.applicationService.fetchDocumentTypes().subscribe((res) => {
       const DOCS = res.data.filter(
         (doc) =>
@@ -98,10 +103,12 @@ export class OccupancyUploadFileComponent implements OnInit {
   //   console.log('selected', item);
   // }
   handleUploadOccupancyFile() {
+    this.isLoading = true;
     const application = this.data.application;
     const uploadDocumentData = {
       application_id: this.selectedOldBpNumber,
       user_id: application.user_id,
+      evaluator_user_id: this.evaluator.employee_detail.user_id,
       document_id: this.selectedDocument,
       document_path: this.selectedFile,
       document_status: '0',
@@ -111,8 +118,16 @@ export class OccupancyUploadFileComponent implements OnInit {
     this.applicationService
       .submitDocument(uploadDocumentData)
       .subscribe((res) => {
-        console.log(res);
+        this.openSnackBar('Saved!');
+        this.isLoading = false;
         window.location.reload();
       });
+  }
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 2000,
+      // horizontalPosition: 'right',
+      // verticalPosition: 'top',
+    });
   }
 }
