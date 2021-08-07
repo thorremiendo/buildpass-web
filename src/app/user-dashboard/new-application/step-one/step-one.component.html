@@ -301,7 +301,15 @@
             </ng-container>
           </ng-container>
 
-          <div class="mt-3 text-right">
+          <div
+            class="mt-3 text-right"
+            *ngIf="
+              constructionStatus == 4 ||
+              constructionStatus == 5 ||
+              constructionStatus == 6 ||
+              constructionStatus == 7
+            "
+          >
             <button
               mat-raised-button
               color="primary"
