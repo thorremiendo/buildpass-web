@@ -89,7 +89,8 @@ export class AssociateOldBpComponent implements OnInit {
     };
     console.log(id, body);
     this.occupancyService.confirmOldBp(id, body).subscribe((res) => {
-      const id = this.data.oldBpInfo.generated_application_id;
+      debugger;
+      const generatedId = res.data.id;
       const body = {
         user_id: this.data.oldBpInfo.user_id,
         associated_id: this.data.oldBpInfo.id,
@@ -108,10 +109,11 @@ export class AssociateOldBpComponent implements OnInit {
         occupancy_classification_id: this.typeOfOccupancy,
       };
       this.occupancyService
-        .createOldBpOwnerDetals(id, body)
+        .createOldBpOwnerDetals(generatedId, body)
         .subscribe((res) => {
           this.isLoading = false;
           this.openSnackBar('Saved!');
+          window.location.reload();
           this.onNoClick();
         });
     });

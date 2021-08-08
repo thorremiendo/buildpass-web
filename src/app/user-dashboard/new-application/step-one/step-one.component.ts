@@ -301,6 +301,7 @@ export class StepOneComponent implements OnInit {
   }
 
   confirmOldBp() {
+    this.isSubmitting = true;
     const inputs = [];
     this.oldBpInputs.forEach((input) => {
       inputs.push(input.input);

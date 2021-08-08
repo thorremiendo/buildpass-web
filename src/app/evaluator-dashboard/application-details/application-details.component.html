@@ -338,13 +338,22 @@
                   </p>
                   <p>
                     Status:
-                    <span>{{ getConfirmationStatus(item) }}</span>
+                    <span>{{
+                      getConfirmationStatus(item.BUILDING_PERMIT_NUMBER)
+                        .confirmed_at !== null
+                        ? "Confirmed"
+                        : "Not Confirmed"
+                    }}</span>
                   </p>
                   <div class="mt-4">
                     <button
                       mat-raised-button
                       color="warn"
                       (click)="deleteAssoicatedBp(item)"
+                      [disabled]="
+                        getConfirmationStatus(item.BUILDING_PERMIT_NUMBER)
+                          .confirmed_at
+                      "
                     >
                       Delete
                     </button>
@@ -352,6 +361,10 @@
                       mat-raised-button
                       color="primary"
                       (click)="openAssociateBp(item)"
+                      [disabled]="
+                        getConfirmationStatus(item.BUILDING_PERMIT_NUMBER)
+                          .confirmed_at
+                      "
                     >
                       Confirm
                     </button>

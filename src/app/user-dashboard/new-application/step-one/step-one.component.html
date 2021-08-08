@@ -416,7 +416,7 @@
             mat-raised-button
             color="primary"
             (click)="confirmOldBp()"
-            [disabled]="invalidBps.length > 0"
+            [disabled]="invalidBps.length > 0 || isSubmitting"
           >
             Confirm
           </button>

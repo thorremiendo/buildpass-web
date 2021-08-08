@@ -109,8 +109,6 @@ export class ApplicationDetailsComponent implements OnInit {
     });
   }
 
-  getConfirmationStatus(item) {}
-
   deleteAssoicatedBp(data) {
     const find = this.applicationDetails.associated_released_permits.forEach(
       (element) => {
@@ -134,6 +132,15 @@ export class ApplicationDetailsComponent implements OnInit {
           console.log('old', this.oldBpInfo);
         });
     });
+  }
+
+  getConfirmationStatus(permitNumber) {
+    const status = this.applicationDetails.associated_released_permits.find(
+      (e) => {
+        return permitNumber == e.old_permit_number;
+      }
+    );
+    return status;
   }
 
   openUploadedId(id) {
