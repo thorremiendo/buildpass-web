@@ -85,6 +85,27 @@
                 </strong>
               </h5>
             </div>
+            <div
+              class="col"
+              *ngIf="
+                applicationDetails.construction_status_id == 4 ||
+                applicationDetails.construction_status_id == 5 ||
+                applicationDetails.construction_status_id == 6 ||
+                applicationDetails.construction_status_id == 7
+              "
+            >
+              <h5 style="color: #7b7b7b">Construction Type:</h5>
+              <h5>
+                <strong
+                  >&nbsp;
+                  {{
+                    getConstructionType(
+                      applicationDetails.construction_status_id
+                    )
+                  }}
+                </strong>
+              </h5>
+            </div>
           </div>
         </div>
         <div class="d-flex justify-content-between align-items-center mt-5">
@@ -281,6 +302,78 @@
             <app-cepmo-fees-table></app-cepmo-fees-table>
           </mat-expansion-panel>
         </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="app-bp" *ngIf="!isLoading && oldBpInfo">
+    <mat-card>
+      <mat-card-content>
+        <h4 style="color: #141414" class="mb-4">
+          <strong>Building Permit Details</strong>
+          <hr />
+          <div>
+            <ng-container *ngFor="let item of oldBpInfo">
+              <mat-expansion-panel class="my-2">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{ item.BUILDING_PERMIT_NUMBER }}</mat-panel-title
+                  >
+                </mat-expansion-panel-header>
+                <div class="old__bp">
+                  <p>
+                    Building Permit Number:
+                    <span>{{ item.BUILDING_PERMIT_NUMBER }}</span>
+                  </p>
+                  <p>
+                    Owner Details:
+                    <span>{{ item.OWNER }}</span>
+                  </p>
+                  <p>
+                    Location:
+                    <span>{{ item.LOCATION }}</span>
+                  </p>
+                  <p>
+                    Type:
+                    <span>{{ item.TYPE_OF }}</span>
+                  </p>
+                  <p>
+                    Status:
+                    <span>{{
+                      getConfirmationStatus(item.BUILDING_PERMIT_NUMBER)
+                        .confirmed_at !== null
+                        ? "Confirmed"
+                        : "Not Confirmed"
+                    }}</span>
+                  </p>
+                  <div class="mt-4">
+                    <button
+                      mat-raised-button
+                      color="warn"
+                      (click)="deleteAssoicatedBp(item)"
+                      [disabled]="
+                        getConfirmationStatus(item.BUILDING_PERMIT_NUMBER)
+                          .confirmed_at
+                      "
+                    >
+                      Delete
+                    </button>
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      (click)="openAssociateBp(item)"
+                      [disabled]="
+                        getConfirmationStatus(item.BUILDING_PERMIT_NUMBER)
+                          .confirmed_at
+                      "
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </ng-container>
+          </div>
+        </h4>
       </mat-card-content>
     </mat-card>
   </div>

@@ -1,3 +1,4 @@
+import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -11,6 +12,8 @@ export class FileUploadComponent implements OnInit {
   @Input() description: string;
   @Input() path: string;
   @Input() info: string;
+  @Input() formId: string;
+  @Input() applicationDetails;
   @Output() emitFile: EventEmitter<File> = new EventEmitter<File>();
 
   public fileDescription: string;
@@ -19,8 +22,12 @@ export class FileUploadComponent implements OnInit {
   public infoPath: string;
   public editMode: boolean = false;
   public loading: boolean = false;
+  public isOptional: boolean = false;
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(
+    private snackBar: MatSnackBar,
+    private newApplicationService: NewApplicationService
+  ) {}
 
   ngOnInit(): void {
     this.fileDescription = this.description;
@@ -48,6 +55,40 @@ export class FileUploadComponent implements OnInit {
         duration: 2000,
       });
     }
+  }
+
+  onToggleChange(e) {
+    console.log(e.checked);
+    if (e.checked == true) {
+      this.submitNotApplicable();
+    }
+  }
+
+  async submitNotApplicable() {
+    let pdf = await fetch(
+      'https://s3-ap-southeast-1.amazonaws.com/baguio-ocpas/MaZXPXPOptMGBcvThBJ2VejNVzCEXVbEcYHZtU8y.pdf'
+    );
+    let data = await pdf.blob();
+    let metadata = {
+      type: 'application/pdf',
+    };
+    let file = new File([data], 'not-applicable.pdf', metadata);
+    this.emitFile.emit(file);
+    this.isOptional = false;
+    // const uploadDocumentData = {
+    //   application_id: this.applicationDetails.id,
+    //   user_id: this.applicationDetails.user_id,
+    //   document_id: this.formId,
+    //   document_path: file,
+    //   document_status: '0',
+    // };
+    // debugger;
+
+    // this.newApplicationService
+    //   .submitDocument(uploadDocumentData)
+    //   .subscribe((res) => {
+    //     console.log(res);
+    //   });
   }
 
   toggleEditMode() {

@@ -1,0 +1,53 @@
+<div class="container">
+  <h4>Please select a document/file</h4>
+  <mat-form-field appearance="outline">
+    <mat-label>Choose</mat-label>
+    <mat-select [(value)]="selectedDocument">
+      <mat-option *ngFor="let item of documentList" value="{{ item.id }}">{{
+        item.name
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Choose Existing BP Number</mat-label>
+    <mat-select [(value)]="selectedOldBpNumber">
+      <mat-option
+        *ngFor="let item of oldBpList"
+        value="{{ item.generated_application_id }}"
+        >{{ item.old_permit_number }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+  <ngx-dropzone
+    (change)="onSelect($event, 'selectedFile')"
+    [multiple]="false"
+    accept="application/pdf"
+    class="mt-3"
+  >
+    <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+    <ngx-dropzone-preview
+      *ngIf="selectedFile"
+      [removable]="true"
+      (removed)="onRemove('selectedFile')"
+      class="mx-auto"
+    >
+      <ngx-dropzone-label
+        >{{ selectedFile.name }} ({{ selectedFile.type }})</ngx-dropzone-label
+      >
+    </ngx-dropzone-preview>
+  </ngx-dropzone>
+  <button
+    class="text-right mt-3"
+    mat-raised-button
+    color="primary"
+    (click)="handleUploadOccupancyFile()"
+    [disabled]="isLoading"
+  >
+    Submit
+  </button>
+  <ng-container *ngIf="isLoading">
+    <div>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </ng-container>
+</div>

@@ -57,7 +57,7 @@ const USERMENUITEMS = [
   },
   {
     state: 'dashboard/checklists',
-    name: 'Forms',
+    name: 'Downloadables',
     type: 'link',
     icon: 'file_download',
   },
@@ -96,6 +96,13 @@ const EVALUATORMENUITEMS = [
     icon: 'feedback',
     outlet: 'modal',
   },
+  {
+    state: 'evaluator/report-issue',
+    name: 'Report Issue',
+    type: 'link',
+    icon: 'report',
+    outlet: 'modal',
+  },
 ];
 
 const ADMINMENUITEMS = [
@@ -114,7 +121,7 @@ const ADMINMENUITEMS = [
 
     children: [
       {
-        state: "employees",
+        state: 'employees',
         name: 'Evaluator',
         type: 'link',
         icon: 'badge',

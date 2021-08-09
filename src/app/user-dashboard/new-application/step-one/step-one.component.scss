@@ -31,3 +31,13 @@
     font-weight: bold;
   }
 }
+
+.bp-search {
+  border: 1px solid maroon;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 5px;
+  div:nth-of-type(1) {
+    margin-bottom: 5px;
+  }
+}

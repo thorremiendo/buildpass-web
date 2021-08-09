@@ -1,3 +1,5 @@
+import { OccupancyService } from './../../core/services/occupancy.service';
+import { OccupancyUploadFileComponent } from './../occupancy-upload-file/occupancy-upload-file.component';
 import { EsignatureService } from './../../core/services/esignature.service';
 import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks-history-table.component';
 import { NewApplicationService } from './../../core/services/new-application.service';
@@ -19,9 +21,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./cbao-evaluator.component.scss'],
 })
 export class CbaoEvaluatorComponent implements OnInit {
-  displayedColumns: string[] = ['index', 'name', 'status', 'remarks', 'action'];
+  displayedColumns: string[] = [
+    'index',
+    'name',
+    'uploadedBy',
+    'status',
+    'remarks',
+    'action',
+  ];
   public user;
-  public dataSource;
+  public dataSource = [];
   public applicationId;
   public applicationInfo;
   public evaluatorDetails;
@@ -38,24 +47,25 @@ export class CbaoEvaluatorComponent implements OnInit {
     private newApplicationService: NewApplicationService,
     private waterMark: WaterMarkService,
     private snackBar: MatSnackBar,
-    private eSignatureService: EsignatureService
+    private eSignatureService: EsignatureService,
+    private occupancyService: OccupancyService
   ) {}
 
   ngOnInit(): void {
     this.applicationId = this.route.snapshot.params.id;
-    this.applicationService
-      .fetchUserDocs(this.applicationId)
-      .subscribe((result) => {
-        this.filterUserDocs(result.data);
-        this.fetchEvaluatorDetails();
-        this.checkFormsCompliant();
-        this.checkFormsReviewed();
-        this.checkCepmoParallelDocs();
-        this.checkBfpParallelDocs();
-        this.isLoading = false;
-      });
     this.fetchApplicationInfo();
     this.changeDetectorRefs.detectChanges();
+  }
+
+  openOccupancyFileUpload() {
+    const dialogRef = this.dialog.open(OccupancyUploadFileComponent, {
+      width: '1000px',
+      data: {
+        application: this.applicationInfo,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 
   checkCepmoParallelDocs() {
@@ -97,7 +107,27 @@ export class CbaoEvaluatorComponent implements OnInit {
 
   filterUserDocs(forms) {
     const USER_FORMS = forms.filter((doc) => doc.document_id !== 107);
-    this.dataSource = USER_FORMS;
+    if (this.applicationInfo.permit_type_id == 2) {
+      this.occupancyService
+        .fetchUserOldBp(this.applicationId)
+        .subscribe((res) => {
+          res.data.forEach((e) => {
+            this.occupancyService
+              .fetchUserDocsOnly(e.generated_application_id)
+              .subscribe((res) => {
+                console.log('associated', res.data);
+                res.data.forEach((element) => {
+                  USER_FORMS.push(element);
+                });
+                this.dataSource = USER_FORMS;
+                this.isLoading = false;
+              });
+          });
+        });
+    }
+    if (this.applicationInfo.permit_type_id !== 2) {
+      this.dataSource = USER_FORMS;
+    }
     console.log(this.dataSource);
     this.isLoading = false;
   }
@@ -108,10 +138,40 @@ export class CbaoEvaluatorComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationInfo = res.data;
+        this.applicationService
+          .fetchUserDocs(this.applicationId)
+          .subscribe((result) => {
+            this.filterUserDocs(result.data);
+            this.fetchEvaluatorDetails();
+            this.checkFormsCompliant();
+            this.checkFormsReviewed();
+            this.checkCepmoParallelDocs();
+            this.checkBfpParallelDocs();
+            this.isLoading = false;
+          });
         if (this.applicationInfo.application_status_id == 3) {
           this.checkTechnicalEvaluationCompliant();
         }
         this.isLoading = false;
+      });
+  }
+  fetchOccupancyDocs() {
+    this.isLoading = true;
+    this.occupancyService
+      .fetchUserOldBp(this.applicationId)
+      .subscribe((res) => {
+        res.data.forEach((e) => {
+          this.occupancyService
+            .fetchUserDocsOnly(e.generated_application_id)
+            .subscribe((res) => {
+              console.log('associated', res.data);
+              res.data.forEach((element) => {
+                this.dataSource.push(element);
+              });
+              console.log(this.dataSource);
+              this.isLoading = false;
+            });
+        });
       });
   }
 
@@ -369,7 +429,6 @@ export class CbaoEvaluatorComponent implements OnInit {
         if (result.isConfirmed) {
           this.isLoading = true;
           if (this.evaluatorRole.code == 'CBAO-DC') {
-            debugger;
             const body = {
               application_status_id: 5,
               dc_status_id: 2,

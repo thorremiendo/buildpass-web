@@ -1,3 +1,5 @@
+import { OldbpMasterlistComponent } from './../oldbp-masterlist/oldbp-masterlist.component';
+import { OccupancyRequestsComponent } from './../occupancy-requests/occupancy-requests.component';
 import { ESignatureComponent } from './../../shared/e-signature/e-signature.component';
 import { DownloadableFormsComponent } from './../downloadable-forms/downloadable-forms.component';
 import { UserGuardGuard } from './../../core/guard/user-guard.guard';
@@ -16,6 +18,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { EvaluatorGuard } from 'src/app/core/guard/evaluator.guard';
 import { EvaluatorAuthGuard } from 'src/app/core/guard/evaluator-guard';
 import { FeedbackComponent } from 'src/app/shared/feedback/feedback.component';
+import { ReportIssueComponent } from 'src/app/shared/report-issue/report-issue.component';
 
 const routes: Routes = [
   {
@@ -63,8 +66,21 @@ const routes: Routes = [
         component: EvaluatorEditProfileComponent,
       },
       {
+        path: 'occupancy-requests',
+        component: OccupancyRequestsComponent,
+      },
+      {
+        path: 'master-list',
+        component: OldbpMasterlistComponent,
+      },
+      {
         path: 'feedback',
         component: FeedbackComponent,
+        outlet: 'modal',
+      },
+      {
+        path: 'report-issue',
+        component: ReportIssueComponent,
         outlet: 'modal',
       },
     ],

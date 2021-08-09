@@ -1,3 +1,6 @@
+import { AssociateOldBpComponent } from './../../shared/associate-old-bp/associate-old-bp.component';
+import { OccupancyService } from './../../core/services/occupancy.service';
+import { OldBpDetailsComponent } from './../../shared/old-bp-details/old-bp-details.component';
 import { UploadedIdentificationComponent } from './../../shared/uploaded-identification/uploaded-identification.component';
 import { RepresentativeDetailsComponent } from './../../shared/representative-details/representative-details.component';
 import { Component, OnInit } from '@angular/core';
@@ -14,6 +17,7 @@ import { ApplicationInfoService } from 'src/app/core/services/application-info.s
 import { officeTypes } from 'src/app/core/enums/offices.enum';
 import { departmentStatus } from 'src/app/core/enums/department-status.enum';
 import { applicationTypes } from '../../core/enums/application-type.enum';
+import { constructionType } from '../../core/enums/construction-type.enum';
 
 @Component({
   selector: 'app-application-details',
@@ -31,12 +35,14 @@ export class ApplicationDetailsComponent implements OnInit {
   public applicationDetails;
   public evaluatorRole;
   public userDocuments;
-
+  public oldBpInputs = [];
+  public oldBpInfo = [];
   constructor(
     private applicationService: ApplicationInfoService,
     public dialog: MatDialog,
     public route: ActivatedRoute,
-    public router: Router
+    public router: Router,
+    private occupancyService: OccupancyService
   ) {}
   openProjectDialog(): void {
     const dialogRef = this.dialog.open(ProjectDetailsComponent, {
@@ -56,8 +62,11 @@ export class ApplicationDetailsComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
+        console.log(this.applicationDetails);
         this.fetchEvaluatorDetails();
         this.fetchUserDocs();
+        if (this.applicationDetails.associated_released_permits.length > 0)
+          this.fetchOldBpDetails();
       });
   }
 
@@ -71,6 +80,67 @@ export class ApplicationDetailsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {});
+  }
+  getConstructionType(id): string {
+    return constructionType[id];
+  }
+
+  openOldBpDialog() {
+    const dialogRef = this.dialog.open(OldBpDetailsComponent, {
+      data: {
+        application: this.applicationDetails,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+  openAssociateBp(data) {
+    this.applicationDetails.associated_released_permits.forEach((element) => {
+      if (element.old_permit_number == data.BUILDING_PERMIT_NUMBER) {
+        const dialogRef = this.dialog.open(AssociateOldBpComponent, {
+          data: {
+            application: this.applicationDetails,
+            oldBpInfo: element,
+          },
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {});
+      }
+    });
+  }
+
+  deleteAssoicatedBp(data) {
+    const find = this.applicationDetails.associated_released_permits.forEach(
+      (element) => {
+        if (element.old_permit_number == data.BUILDING_PERMIT_NUMBER) {
+          this.occupancyService
+            .deleteOldBp(this.applicationDetails.id, element.id)
+            .subscribe((res) => {
+              window.location.reload();
+            });
+        }
+      }
+    );
+  }
+
+  fetchOldBpDetails() {
+    this.applicationDetails.associated_released_permits.forEach((element) => {
+      this.occupancyService
+        .fetchSpecificOldBp(element.old_permit_number)
+        .subscribe((res) => {
+          this.oldBpInfo.push(res.data[0]);
+          console.log('old', this.oldBpInfo);
+        });
+    });
+  }
+
+  getConfirmationStatus(permitNumber) {
+    const status = this.applicationDetails.associated_released_permits.find(
+      (e) => {
+        return permitNumber == e.old_permit_number;
+      }
+    );
+    return status;
   }
 
   openUploadedId(id) {
@@ -210,7 +280,7 @@ export class ApplicationDetailsComponent implements OnInit {
   fetchEvaluatorDetails() {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
-    this.evaluatorRole = this.user.user_roles[0].role[0];
+    //this.evaluatorRole = this.user.user_roles[0].role[0];
     this.isLoading = false;
   }
   getApplicationStatus(id): string {

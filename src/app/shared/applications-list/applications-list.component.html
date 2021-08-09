@@ -118,7 +118,15 @@
               ? "CFEI - Structures w/o Building Permit"
               : ""
           }}
+          <p *ngIf="application.permit_type_id == 1" style="color: maroon">
+            (
+            <span>{{
+              getConstructionType(application.construction_status_id)
+            }}</span>
+            )
+          </p>
         </div>
+
         <div *ngIf="application.applicant_detail?.created_at">
           {{ application.applicant_detail.created_at | date: "MMMM dd, yyyy" }}
         </div>

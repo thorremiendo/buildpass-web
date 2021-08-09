@@ -1,3 +1,4 @@
+import { OccupancyService } from './../../../../core/services/occupancy.service';
 import { MapService } from './../../../../core/services/mapbox.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -64,7 +65,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     private newApplicationSerivce: NewApplicationService,
     private barangayService: BarangayService,
     private mapService: MapService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private occupancyService: OccupancyService
   ) {
     this.barangayService.getBarangayInfo().subscribe((data) => {
       this.barangay = data;
@@ -173,6 +175,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     this.isLoading = true;
     this._submitted = true;
     this.createprojectDetails();
+    const info = JSON.parse(localStorage.getItem('newApplicationInfo'));
+    const oldBpInputs = info.old_bp_inputs;
 
     const body = {
       ...this.applicationDetails,
@@ -187,6 +191,17 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     } else {
       this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
         localStorage.setItem('app_id', res.data.id);
+        oldBpInputs.forEach((input) => {
+          const body = {
+            user_id: res.data.user_id,
+            old_permit_number: input.input,
+          };
+          this.occupancyService
+            .associateOldBp(res.data.id, body)
+            .subscribe((res) => {
+              console.log('added');
+            });
+        });
         this.saveRoute(res.data.id);
       });
     }
