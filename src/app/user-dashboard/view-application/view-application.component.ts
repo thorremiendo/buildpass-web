@@ -19,6 +19,7 @@ import { ViewFeesComponent } from 'src/app/evaluator-dashboard/view-fees/view-fe
 import { ApplicationFeesService } from 'src/app/core/services/application-fees.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
+import { constructionType } from '../../core/enums/construction-type.enum';
 
 @Component({
   selector: 'app-view-application',
@@ -110,6 +111,10 @@ export class ViewApplicationComponent implements OnInit {
       this.documentTypes = res.data;
     });
   }
+  getConstructionType(id): string {
+    return constructionType[id];
+  }
+
   fetchApplicationInfo() {
     this.isLoading = true;
     this.applicationService
