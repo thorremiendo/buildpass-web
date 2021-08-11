@@ -450,14 +450,14 @@
                     <button
                       mat-raised-button
                       color="primary"
-                      (click)="forSignature()"
+                      (click)="forPayment()"
                       *ngIf="evaluatorRole.code == 'CBAO-BO'"
                       [disabled]="
                         !checkBuildingPermitUploaded() ||
                         applicationInfo.application_status_id !== 13
                       "
                     >
-                      Forward for Signature
+                      Forward to Payment of Fees
                     </button>
                   </div>
                 </div>
