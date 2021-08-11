@@ -70,4 +70,16 @@ export class ApplicationFeesService {
     const body = {};
     return this.api.post(url, body);
   }
+
+  fetchBpFees(id) {
+    const url = `/fee/${id}/generate`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
 }

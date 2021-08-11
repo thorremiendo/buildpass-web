@@ -23,6 +23,8 @@ export class TreasuryApplicationPageComponent implements OnInit {
   public isLoading: boolean = false;
   public cbaoFees;
   columnsToDisplay: string[] = ['number', 'description', 'evaluator', 'amount'];
+  public unifiedBpForm;
+  public unifiedBpFees;
   constructor(
     private applicationService: ApplicationInfoService,
     private applicationFeeService: ApplicationFeesService,
@@ -37,6 +39,8 @@ export class TreasuryApplicationPageComponent implements OnInit {
       .subscribe((result) => {
         this.applicationDetails = result.data;
         this.fetchApplicationFees();
+        this.fetchBpFees();
+        this.findUnifiedBpForm();
       });
   }
   openPaymentDialog(): void {
@@ -50,6 +54,13 @@ export class TreasuryApplicationPageComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
+  fetchBpFees() {
+    const application_id = this.applicationId;
+    this.applicationFeeService.fetchBpFees(application_id).subscribe((res) => {
+      this.unifiedBpFees = res.data;
+    });
+  }
+
   fetchApplicationFees() {
     const application_id = this.applicationId;
     const office_id = 4;
@@ -57,9 +68,19 @@ export class TreasuryApplicationPageComponent implements OnInit {
       .fetchFeesByOffice(application_id, office_id)
       .subscribe((res) => {
         this.cbaoFees = res.data;
-
         this.isLoading = false;
       });
+  }
+
+  findUnifiedBpForm() {
+    this.isLoading = true;
+    const find = this.applicationDetails.user_docs.forEach((e) => {
+      if (e.document_id == 2) {
+        this.unifiedBpForm = e;
+        this.isLoading = false;
+        console.log(this.unifiedBpForm);
+      }
+    });
   }
 
   getApplicationType(id): string {

@@ -1098,4 +1098,40 @@ export class DataFormBindingService {
 
     return formData;
   }
+
+  getUnifiedBpFees(a) {
+    const fee = a;
+    const fees = {
+      fees_3419_amount: `${fee.fees_3419_amount}`,
+      fees_3419_assessed_by: `${fee.fees_3419_assessed_by}`,
+      fees_4859_amount: `${fee.fees_4859_amount}`,
+      fees_4859_assessed_by: `${fee.fees_4859_assessed_by}`,
+      fees_5420_amount: `${fee.fees_5420_amount}`,
+      fees_5420_assessed_by: `${fee.fees_5420_assessed_by}`,
+      fees_5421_amount: `${fee.fees_5421_amount}`,
+      fees_5421_assessed_by: `${fee.fees_5421_assessed_by}`,
+      fees_5422_amount: `${fee.fees_5422_amount}`,
+      fees_5422_assessed_by: `${fee.fees_5422_assessed_by}`,
+      fees_5423_amount: `${fee.fees_5423_amount}`,
+      fees_5423_assessed_by: `${fee.fees_5423_assessed_by}`,
+      fees_5424_amount: `${fee.fees_5424_amount}`,
+      fees_5424_assessed_by: `${fee.fees_5424_assessed_by}`,
+      fees_5425_amount: `${fee.fees_5425_amount}`,
+      fees_5425_assessed_by: `${fee.fees_5425_assessed_by}`,
+      fees_5426_amount: `${fee.fees_5426_amount ? fee.fees_5426_amount : ''}`,
+      fees_5426_assessed_by: `${
+        fee.fees_5426_assessed_by ? fee.fees_5426_assessed_by : ''
+      }`,
+      fees_5427_amount: `${fee.fees_5427_amount}`,
+      fees_5427_assessed_by: `${fee.fees_5427_assessed_by}`,
+      fees_5428_amount: `${fee.fees_5428_amount}`,
+      fees_5428_assessed_by: `${fee.fees_5428_assessed_by}`,
+      fees_5432_amount: `${fee.fees_5432_amount}`,
+      fees_5432_assessed_by: `${fee.fees_5432_assessed_by}`,
+      fees_5959_amount: `${fee.fees_5959_amount}`,
+      fees_5959_assessed_by: `${fee.fees_5959_assessed_by}`,
+      total: fee.total,
+    };
+    return fees;
+  }
 }

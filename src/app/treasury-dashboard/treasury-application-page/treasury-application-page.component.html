@@ -42,7 +42,9 @@
             <div class="col">
               <h5 style="color: #7b7b7b">Application Number:</h5>
               <h5>
-                <strong>{{ applicationDetails.ocpas_code }}</strong>
+                <strong>{{
+                  applicationDetails.permit_application_code
+                }}</strong>
               </h5>
             </div>
             <div class="col">
@@ -115,7 +117,9 @@
                 View Timeline</mat-panel-title
               >
             </mat-expansion-panel-header>
-            <app-application-timeline [type]="applicationDetails.permit_type_id"></app-application-timeline>
+            <app-application-timeline
+              [type]="applicationDetails.permit_type_id"
+            ></app-application-timeline>
           </mat-expansion-panel>
         </div>
       </mat-card-content>
@@ -291,6 +295,17 @@
             Mark as Paid
           </button>
         </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="pdf" *ngIf="unifiedBpForm && unifiedBpFees">
+    <mat-card>
+      <mat-card-content>
+        <app-pdf-form-save
+          [form]="unifiedBpForm"
+          [applicationDetails]="applicationDetails"
+          [fees]="unifiedBpFees"
+        ></app-pdf-form-save>
       </mat-card-content>
     </mat-card>
   </div>

@@ -44,6 +44,7 @@ import { UploadedIdentificationComponent } from './uploaded-identification/uploa
 import { ReportIssueComponent } from './report-issue/report-issue.component';
 import { OldBpDetailsComponent } from './old-bp-details/old-bp-details.component';
 import { AssociateOldBpComponent } from './associate-old-bp/associate-old-bp.component';
+import { PdfFormSaveComponent } from './pdf-form-save/pdf-form-save.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { AssociateOldBpComponent } from './associate-old-bp/associate-old-bp.com
     ReportIssueComponent,
     OldBpDetailsComponent,
     AssociateOldBpComponent,
+    PdfFormSaveComponent,
   ],
   imports: [
     CommonModule,
@@ -105,6 +107,7 @@ import { AssociateOldBpComponent } from './associate-old-bp/associate-old-bp.com
     AnnouncementListComponent,
     GeneralRemarksComponent,
     UploadedIdentificationComponent,
+    PdfFormSaveComponent,
   ],
   providers: [
     {
