@@ -777,6 +777,7 @@ export class CbaoEvaluatorComponent implements OnInit {
                   count = count + 1;
                   if (count === array.length - 1) {
                     this.isLoading = false;
+                    this.openSnackBar('Success! Forwarded to Payment of Fees!');
                     window.location.reload();
                   }
                 });
