@@ -1,0 +1,34 @@
+<div *ngIf="!isLoading">
+  <ngx-extended-pdf-viewer
+    [src]="src"
+    [showToolbar]="true"
+    [showSidebarButton]="false"
+    [showFindButton]="false"
+    [showPagingButtons]="false"
+    [showZoomButtons]="true"
+    [showPresentationModeButton]="true"
+    [showOpenFileButton]="false"
+    [showPrintButton]="false"
+    [showDownloadButton]="true"
+    [showBookmarkButton]="false"
+    [showSecondaryToolbarButton]="true"
+    [showRotateButton]="false"
+    [showHandToolButton]="false"
+    [showScrollingButton]="false"
+    [showSpreadButton]="false"
+    [showPropertiesButton]="false"
+    [useBrowserLocale]="true"
+    height="1000px"
+    zoom="100%"
+    [(formData)]="formData"
+  >
+  </ngx-extended-pdf-viewer>
+  <div class="mt-5 text-right">
+    <button mat-raised-button color="primary" (click)="saveDoc()">Save</button>
+  </div>
+</div>
+<ng-container *ngIf="isLoading">
+  <div>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+</ng-container>

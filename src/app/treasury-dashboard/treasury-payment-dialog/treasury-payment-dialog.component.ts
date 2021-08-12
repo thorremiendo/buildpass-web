@@ -45,7 +45,7 @@ export class TreasuryPaymentDialogComponent implements OnInit {
     const code = this.data.applicationDetails.ocpas_code;
     const body = {
       payment_releasing_status_id: 2,
-      official_receipt_number_releasing: this.paymentDetails.value.receipt,
+      official_receipt_number: this.paymentDetails.value.receipt,
     };
     this.treasuryService.updatePaymentStatus(body, code).subscribe((res) => {
       Swal.fire('Success!', `Permit Fees - Paid!`, 'success').then((result) => {

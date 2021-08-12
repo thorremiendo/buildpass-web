@@ -160,6 +160,14 @@
                           Edit
                         </button>
                         <button
+                        mat-menu-item
+                        color="accent"
+                        (click)="openBldgPermitDialog(element)"
+                        *ngIf="evaluatorRole.code == 'CBAO-REL' && element.document_id == 50"
+                      >
+                        Edit
+                      </button>
+                        <button
                           mat-menu-item
                           color="accent"
                           (click)="openFormDialog(element)"
@@ -172,7 +180,7 @@
                             evaluatorRole.code == 'CBAO-STR' ||
                             evaluatorRole.code == 'CBAO-SAN' ||
                             evaluatorRole.code == 'CBAO-ELEC' ||
-                            evaluatorRole.code == 'CBAO-MEC'
+                            evaluatorRole.code == 'CBAO-MEC' 
                           "
                         >
                           Edit
@@ -450,14 +458,14 @@
                     <button
                       mat-raised-button
                       color="primary"
-                      (click)="forSignature()"
+                      (click)="forPayment()"
                       *ngIf="evaluatorRole.code == 'CBAO-BO'"
                       [disabled]="
                         !checkBuildingPermitUploaded() ||
                         applicationInfo.application_status_id !== 13
                       "
                     >
-                      Forward for Signature
+                      Forward to Payment of Fees
                     </button>
                   </div>
                 </div>
@@ -529,6 +537,7 @@
   </mat-card>
 </ng-container>
 
-<div class="spinner" *ngIf="isLoading">
+<div class="spinner mb-5" *ngIf="isLoading">
+  <p style="color: maroon; text-align: center">Please wait..</p>
   <mat-spinner></mat-spinner>
 </div>

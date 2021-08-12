@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="applicationDetails">
   <div>
     <h4 style="color: #400c06" class="mb-4">
       <strong>Building Permit Certificate</strong>
@@ -33,6 +33,7 @@
     [multiple]="false"
     accept="application/pdf"
     class="mt-3"
+    *ngIf="applicationDetails.application_status_id == 13"
   >
     <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
     <ngx-dropzone-preview
@@ -67,6 +68,17 @@
       color="primary"
       [disabled]="isSubmitting || !bpCertificate"
       (click)="callSave()"
+      *ngIf="applicationDetails.application_status_id == 13"
+    >
+      Save
+    </button>
+    <button
+      class="text-right mt-3"
+      mat-raised-button
+      color="primary"
+      [disabled]="isSubmitting"
+      (click)="saveDoc()"
+      *ngIf="applicationDetails.application_status_id == 4"
     >
       Save
     </button>

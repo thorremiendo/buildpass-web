@@ -486,9 +486,11 @@ export class CbaoEvaluatorComponent implements OnInit {
       });
     } else {
       this.isLoading = false;
-      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
-        (result) => {}
-      );
+      Swal.fire(
+        'Notice!',
+        `Please review all documents first!`,
+        'info'
+      ).then((result) => {});
     }
   }
 
@@ -777,6 +779,7 @@ export class CbaoEvaluatorComponent implements OnInit {
                   count = count + 1;
                   if (count === array.length - 1) {
                     this.isLoading = false;
+                    this.openSnackBar('Success! Forwarded to Payment of Fees!');
                     window.location.reload();
                   }
                 });
@@ -880,13 +883,13 @@ export class CbaoEvaluatorComponent implements OnInit {
       }
     });
   }
-  openBldgPermitDialog() {
+  openBldgPermitDialog(e) {
     const dialogRef = this.dialog.open(ReleaseBldgPermitComponent, {
       width: '1500px',
       height: '2000px',
       data: {
         evaluator: this.evaluatorDetails,
-        form: this.applicationInfo,
+        form: e,
         route: this.route,
       },
     });

@@ -41,7 +41,7 @@
           <div class="col">
             <h5 style="color: #7b7b7b">Application Number:</h5>
             <h5>
-              <strong>{{ applicationDetails.ocpas_code }}</strong>
+              <strong>{{ applicationDetails.permit_application_code }}</strong>
             </h5>
           </div>
           <div class="col">
@@ -51,6 +51,17 @@
                 >&nbsp;{{
                   applicationDetails.submitted_at | date: "MMMM dd, yyyy"
                 }}</strong
+              >
+            </h5>
+          </div>
+          <div
+            class="col"
+            *ngIf="applicationDetails.permit_released_code !== null"
+          >
+            <h5 style="color: #7b7b7b">Permit Number:</h5>
+            <h5 style="color: green">
+              <strong
+                >&nbsp;{{ applicationDetails.permit_released_code }}</strong
               >
             </h5>
           </div>
@@ -75,6 +86,17 @@
                   getApplicationType(applicationDetails.permit_type_id)
                 }}</strong
               >
+            </h5>
+          </div>
+          <div class="col">
+            <h5 style="color: #7b7b7b">Construction Type:</h5>
+            <h5>
+              <strong
+                >&nbsp;
+                {{
+                  getConstructionType(applicationDetails.construction_status_id)
+                }}
+              </strong>
             </h5>
           </div>
         </div>

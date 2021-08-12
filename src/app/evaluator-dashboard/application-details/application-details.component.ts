@@ -18,6 +18,7 @@ import { officeTypes } from 'src/app/core/enums/offices.enum';
 import { departmentStatus } from 'src/app/core/enums/department-status.enum';
 import { applicationTypes } from '../../core/enums/application-type.enum';
 import { constructionType } from '../../core/enums/construction-type.enum';
+import { InputPermitNumberComponent } from '../input-permit-number/input-permit-number.component';
 
 @Component({
   selector: 'app-application-details',
@@ -49,6 +50,17 @@ export class ApplicationDetailsComponent implements OnInit {
       width: '1000px',
       data: {
         projectDetails: this.applicationDetails.project_detail,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  openInputPermitNumber(): void {
+    const dialogRef = this.dialog.open(InputPermitNumberComponent, {
+      width: '1000px',
+      data: {
+        applicationDetails: this.applicationDetails,
       },
     });
 
