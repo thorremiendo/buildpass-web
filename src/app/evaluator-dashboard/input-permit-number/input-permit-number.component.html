@@ -1,0 +1,24 @@
+<div [formGroup]="permitDetails">
+  <h3 class="mb-3">Input Building Permit Number</h3>
+  <div>
+    <mat-form-field>
+      <mat-label>Building Permit Number</mat-label>
+      <input type="text" matInput formControlName="permit_number" required />
+      <mat-error *ngIf="permitDetailsControl.permit_number.errors?.required">
+        Permit Number is Requried
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div *ngIf="!isLoading">
+    <button mat-raised-button (click)="onNoClick()">Close</button>
+    &nbsp;
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="handleUpdate()"
+      [disabled]="isLoading || !permitDetails.value.permit_number"
+    >
+      Submit
+    </button>
+  </div>
+</div>

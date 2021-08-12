@@ -61,7 +61,7 @@
               class="col"
               *ngIf="applicationDetails.permit_released_code !== null"
             >
-              <h5 style="color: #7b7b7b">Permit Number:</h5>
+              <h5 style="color: #7b7b7b">Permit Number:</h5><mat-icon (click)="openInputPermitNumber()">edit</mat-icon>
               <h5 style="color: green">
                 <strong
                   >&nbsp;{{ applicationDetails.permit_released_code }}</strong

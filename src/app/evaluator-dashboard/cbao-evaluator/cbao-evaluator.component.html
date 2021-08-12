@@ -160,6 +160,14 @@
                           Edit
                         </button>
                         <button
+                        mat-menu-item
+                        color="accent"
+                        (click)="openBldgPermitDialog(element)"
+                        *ngIf="evaluatorRole.code == 'CBAO-REL' && element.document_id == 50"
+                      >
+                        Edit
+                      </button>
+                        <button
                           mat-menu-item
                           color="accent"
                           (click)="openFormDialog(element)"
@@ -172,7 +180,7 @@
                             evaluatorRole.code == 'CBAO-STR' ||
                             evaluatorRole.code == 'CBAO-SAN' ||
                             evaluatorRole.code == 'CBAO-ELEC' ||
-                            evaluatorRole.code == 'CBAO-MEC'
+                            evaluatorRole.code == 'CBAO-MEC' 
                           "
                         >
                           Edit

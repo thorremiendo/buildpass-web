@@ -88,6 +88,7 @@ import { OldbpMasterlistComponent } from './oldbp-masterlist/oldbp-masterlist.co
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { AttachBpComponent } from './attach-bp/attach-bp.component';
 import { OccupancyUploadFileComponent } from './occupancy-upload-file/occupancy-upload-file.component';
+import { InputPermitNumberComponent } from './input-permit-number/input-permit-number.component';
 
 @NgModule({
   declarations: [
@@ -133,6 +134,7 @@ import { OccupancyUploadFileComponent } from './occupancy-upload-file/occupancy-
     OldbpMasterlistComponent,
     AttachBpComponent,
     OccupancyUploadFileComponent,
+    InputPermitNumberComponent,
   ],
 
   imports: [
