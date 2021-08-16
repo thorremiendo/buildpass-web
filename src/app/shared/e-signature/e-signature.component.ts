@@ -1,3 +1,4 @@
+import { EsignatureService } from 'src/app/core/services/esignature.service';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PasswordPromptComponent } from './../password-prompt/password-prompt.component';
@@ -33,28 +34,44 @@ export class ESignatureComponent implements OnInit {
   public applicationId;
   public documentPath;
   public isLoading: boolean;
+  public userDetails;
+  public userSignature;
   constructor(
     public dialog: MatDialog,
     private route: ActivatedRoute,
     private applicationService: ApplicationInfoService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private esignatureService: EsignatureService
   ) {}
 
   ngOnInit() {
     // this.openDialog();
     this.isLoading = true;
+    this.userDetails = JSON.parse(localStorage.getItem('user'));
     this.applicationId = this.route.snapshot.params.id;
     this.documentId = this.route.snapshot.params.docId;
-    console.log(this.documentId);
-    this.applicationService
-      .fetchSpecificDocInfo(this.documentId)
+    this.fetchUserSignature();
+  }
+
+  fetchUserSignature() {
+    this.isLoading = true;
+    const body = {
+      user_document_id: this.documentId,
+    };
+    this.esignatureService
+      .generateSignature(body, this.userDetails.id)
       .subscribe((res) => {
-        this.src =
-          res.data[0].document_history[
-            res.data[0].document_history.length - 1
-          ].document_path;
-        this.isLoading = false;
+        this.applicationService
+          .fetchSpecificDocInfo(this.documentId)
+          .subscribe((res) => {
+            this.src =
+              res.data[0].document_history[
+                res.data[0].document_history.length - 1
+              ].document_path;
+            this.isLoading = false;
+          });
+        this.userSignature = res.data;
       });
   }
 

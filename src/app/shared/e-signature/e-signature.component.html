@@ -5,9 +5,11 @@
         <div
           cdkDragHandle
           id="e-sig-image-container"
-          style="background-image: url('../../../assets/esig.png')"
+          [ngStyle]="{
+            ' background-image': 'url(' + userSignature + ')'
+          }"
         >
-          <img src="../../../assets/esig.png" />
+          <img [src]="userSignature" />
         </div>
         <div
           class="resize top-left-resize"
@@ -47,7 +49,9 @@
       [src]="src"
       [show-borders]="true"
     ></pdf-viewer>
-    <button mat-button class="save-button" (click)="insertEsig()">Insert Signature</button>
+    <button mat-button class="save-button" (click)="insertEsig()">
+      Insert Signature
+    </button>
   </div>
 </ng-container>
 <ng-container *ngIf="isLoading">

@@ -486,11 +486,9 @@ export class CbaoEvaluatorComponent implements OnInit {
       });
     } else {
       this.isLoading = false;
-      Swal.fire(
-        'Notice!',
-        `Please review all documents first!`,
-        'info'
-      ).then((result) => {});
+      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+        (result) => {}
+      );
     }
   }
 
@@ -674,6 +672,18 @@ export class CbaoEvaluatorComponent implements OnInit {
           this.isLoading = false;
         }
       );
+    }
+  }
+
+  canSignDocument() {
+    const code = this.evaluatorRole.code;
+    const status = this.applicationInfo.application_status_id;
+    if (status !== 24 && code == 'CBAO-BO') {
+      return true;
+    } else if (status !== 24 && code !== 'CBAO-BO') {
+      return false;
+    } else if (status == 24) {
+      return true;
     }
   }
 
@@ -923,7 +933,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     });
   }
 
-  goToEsig(id) {
+  handleESig(id) {
     const docId = id;
     const appId = this.applicationId;
 

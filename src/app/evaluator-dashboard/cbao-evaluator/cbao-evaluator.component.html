@@ -160,13 +160,16 @@
                           Edit
                         </button>
                         <button
-                        mat-menu-item
-                        color="accent"
-                        (click)="openBldgPermitDialog(element)"
-                        *ngIf="evaluatorRole.code == 'CBAO-REL' && element.document_id == 50"
-                      >
-                        Edit
-                      </button>
+                          mat-menu-item
+                          color="accent"
+                          (click)="openBldgPermitDialog(element)"
+                          *ngIf="
+                            evaluatorRole.code == 'CBAO-REL' &&
+                            element.document_id == 50
+                          "
+                        >
+                          Edit
+                        </button>
                         <button
                           mat-menu-item
                           color="accent"
@@ -180,7 +183,7 @@
                             evaluatorRole.code == 'CBAO-STR' ||
                             evaluatorRole.code == 'CBAO-SAN' ||
                             evaluatorRole.code == 'CBAO-ELEC' ||
-                            evaluatorRole.code == 'CBAO-MEC' 
+                            evaluatorRole.code == 'CBAO-MEC'
                           "
                         >
                           Edit
@@ -286,17 +289,15 @@
                           >View</a
                         >
                       </ng-container>
-                      <!-- <button
+                      <button
                         mat-menu-item
                         color="accent"
-                        (click)="goToEsig(element.id)"
+                        (click)="handleESig(element.id)"
                         *ngIf="evaluatorRole.code !== 'CBAO-REL'"
-                        [disabled]="
-                          applicationInfo.application_status_id !== 24
-                        "
+                        [disabled]="!canSignDocument()"
                       >
                         Sign Document
-                      </button> -->
+                      </button>
                       <a
                         mat-menu-item
                         href="{{ element.document_path }}"
@@ -455,7 +456,7 @@
                       </button>
                     </div>
 
-                    <button
+                    <!-- <button
                       mat-raised-button
                       color="primary"
                       (click)="forPayment()"
@@ -466,6 +467,18 @@
                       "
                     >
                       Forward to Payment of Fees
+                    </button> -->
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      (click)="forSignature()"
+                      *ngIf="evaluatorRole.code == 'CBAO-BO'"
+                      [disabled]="
+                        !checkBuildingPermitUploaded() ||
+                        applicationInfo.application_status_id !== 13
+                      "
+                    >
+                      For Signature
                     </button>
                   </div>
                 </div>
