@@ -95,12 +95,7 @@
                   >
                     Edit
                   </button>
-                  <ng-container
-                    *ngIf="
-                      applicationDetails.application_status_id !== 2 &&
-                      applicationDetails.application_status_id !== 10
-                    "
-                  >
+                  <ng-container>
                     <a
                       mat-menu-item
                       href="{{ element.document_path }}"
