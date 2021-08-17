@@ -60,7 +60,7 @@ export class ESignatureComponent implements OnInit {
       user_document_id: this.documentId,
     };
     this.esignatureService
-      .generateSignature(body, this.userDetails.id)
+      .generateSignature(this.userDetails.id)
       .subscribe((res) => {
         this.applicationService
           .fetchSpecificDocInfo(this.documentId)
@@ -72,6 +72,7 @@ export class ESignatureComponent implements OnInit {
             this.isLoading = false;
           });
         this.userSignature = res.data;
+        console.log(this.userSignature)
       });
   }
 

@@ -19,9 +19,20 @@ export class EsignatureService {
     this.router.navigate(['/evaluator/application', id, docId]);
   }
 
-  generateSignature(body, id) {
-    const url = `/user/${id}/generate-signature`;
+  // generateSignature(body, id) {
+  //   const url = `/user/${id}/generate-signature`;
 
-    return this.api.post(url, body);
+  //   return this.api.post(url, body);
+  // }
+  generateSignature(id) {
+    const url = `/user/${id}/generate-signature`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
   }
 }
