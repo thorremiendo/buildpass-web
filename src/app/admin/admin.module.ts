@@ -20,6 +20,7 @@ import { AdminAnnouncementComponent} from './admin-announcement/admin-announceme
 import { EditDialogComponent } from './admin-announcement/edit-dialog/edit-dialog.component';
 import { PreviewDialogComponent } from './admin-announcement/preview-dialog/preview-dialog.component';
 import { AdminApplicationListComponent } from './admin-application-list/admin-application-list.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [ 

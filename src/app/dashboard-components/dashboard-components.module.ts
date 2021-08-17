@@ -26,6 +26,8 @@ import { FaqExpansionPanelComponent } from './faq-expansion-panel/faq-expansion-
 import { TutorialComponent } from './tutorial/tutorial.component';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
 import { MessageComponent } from './message/message.component';
+import { AdvancePieChartComponent } from './advance-pie-chart/advance-pie-chart.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -45,6 +47,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FaqExpansionPanelComponent,
     TutorialComponent,
     MessageComponent,
+    AdvancePieChartComponent,
   ],
 
   imports: [
@@ -62,6 +65,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FlexLayoutModule,
 
     NgApexchartsModule,
+    NgxChartsModule,
     PerfectScrollbarModule,
     ChatModule,
   ],
@@ -78,6 +82,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     TutorialComponent,
     MessageComponent,
     ChatModule,
+    AdvancePieChartComponent,
     
 
   ],
