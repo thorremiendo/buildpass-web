@@ -34,7 +34,7 @@ export class FencingPermitComponent implements OnInit {
     {
       label: 'Step 2',
       title: 'Documentary Requirements',
-      documents: [26, 104, 54],
+      documents: [26, 104, 54, 39],
     },
     {
       label: 'Step 3',
