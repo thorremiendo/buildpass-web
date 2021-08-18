@@ -270,6 +270,7 @@ export class ESignatureComponent implements OnInit {
     const pdfBytes = await pdfDocLoad.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
+    window.open(file);
     this.isLoading = true;
     const body = {
       document_status_id: 1,
