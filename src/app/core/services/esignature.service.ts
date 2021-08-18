@@ -9,16 +9,28 @@ import { map, catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class EsignatureService {
+  public userSignature;
+  private currentFormStepSubject: BehaviorSubject<Number> = new BehaviorSubject(
+    1
+  );
+  public currentFormStep = this.currentFormStepSubject.pipe();
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private api: ApiService
   ) {}
 
-  goToEsig(id, docId) {
-    this.router.navigate(['/evaluator/application', id, docId]);
+  goToEsig(id, docId, signature) {
+    this.userSignature = signature;
+    this.router.navigate(['/evaluator/application/sign', id, docId]);
   }
-
+  reset() {
+    this.currentFormStepSubject.next(1);
+  }
+  setStep(value) {
+    this.currentFormStepSubject.next(value);
+  }
   // generateSignature(body, id) {
   //   const url = `/user/${id}/generate-signature`;
 

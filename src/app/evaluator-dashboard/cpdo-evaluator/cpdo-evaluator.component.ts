@@ -5,7 +5,7 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { FormDetailsComponent } from '../form-details/form-details.component';
 import { documentTypes } from '../../core/enums/document-type.enum';
@@ -38,7 +38,8 @@ export class CpdoEvaluatorComponent implements OnInit {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private userService: UserService,
-    private newApplicationService: NewApplicationService
+    private newApplicationService: NewApplicationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -369,5 +370,8 @@ export class CpdoEvaluatorComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       this.ngOnInit();
     });
+  }
+  goToEsig(id) {
+    this.router.navigate(['/evaluator/application', this.applicationId, id]);
   }
 }

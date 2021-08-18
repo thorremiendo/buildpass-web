@@ -5,7 +5,7 @@ import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { FormDetailsComponent } from '../form-details/form-details.component';
 import { documentTypes } from '../../core/enums/document-type.enum';
@@ -48,7 +48,8 @@ export class CbaoEvaluatorComponent implements OnInit {
     private waterMark: WaterMarkService,
     private snackBar: MatSnackBar,
     private eSignatureService: EsignatureService,
-    private occupancyService: OccupancyService
+    private occupancyService: OccupancyService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -934,9 +935,6 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   handleESig(id) {
-    const docId = id;
-    const appId = this.applicationId;
-
-    this.eSignatureService.goToEsig(appId, docId);
+    this.router.navigate(['/evaluator/application', this.applicationId, id]);
   }
 }

@@ -45,6 +45,7 @@ import { ReportIssueComponent } from './report-issue/report-issue.component';
 import { OldBpDetailsComponent } from './old-bp-details/old-bp-details.component';
 import { AssociateOldBpComponent } from './associate-old-bp/associate-old-bp.component';
 import { PdfFormSaveComponent } from './pdf-form-save/pdf-form-save.component';
+import { EsigPromptComponent } from './esig-prompt/esig-prompt.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { PdfFormSaveComponent } from './pdf-form-save/pdf-form-save.component';
     OldBpDetailsComponent,
     AssociateOldBpComponent,
     PdfFormSaveComponent,
+    EsigPromptComponent,
   ],
   imports: [
     CommonModule,
