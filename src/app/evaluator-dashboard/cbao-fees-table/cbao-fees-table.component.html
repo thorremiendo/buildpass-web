@@ -54,6 +54,20 @@
     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
     <tr mat-row *matRowDef="let items; columns: columnsToDisplay"></tr>
   </table>
+  <div class="surcharge">
+    <p>Surcharge</p>
+    <mat-radio-group
+      aria-label="Select an option"
+      [(ngModel)]="selectedSurcharge"
+    >
+      <mat-radio-button
+        *ngFor="let item of surcharges"
+        [value]="item.value"
+        (change)="onSurchargeSelect($event)"
+        >{{ item.item }}</mat-radio-button
+      >
+    </mat-radio-group>
+  </div>
 
   <div class="text-center" *ngIf="cbaoFees.length === 0">
     <div class="mt-3">
