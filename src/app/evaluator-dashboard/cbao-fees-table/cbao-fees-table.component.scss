@@ -4,8 +4,8 @@ table {
 .mat-column-number {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 10% !important;
-  width: 10% !important;
+  flex: 0 0 5% !important;
+  width: 5% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -19,8 +19,8 @@ table {
 .mat-column-description {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 40% !important;
-  width: 40% !important;
+  flex: 0 0 35% !important;
+  width: 35% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -61,6 +61,21 @@ table {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
+// .mat-column-surcharge {
+//   word-wrap: break-word !important;
+//   white-space: unset !important;
+//   flex: 0 0 35% !important;
+//   width: 35% !important;
+//   overflow-wrap: break-word;
+//   word-wrap: break-word;
+
+//   word-break: break-word;
+
+//   -ms-hyphens: auto;
+//   -moz-hyphens: auto;
+//   -webkit-hyphens: auto;
+//   hyphens: auto;
+// }
 .mat-column-action {
   word-wrap: break-word !important;
   white-space: unset !important;
@@ -91,4 +106,18 @@ table {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+}
+
+.surcharge {
+  display: flex;
+  align-items: center;
+
+  p {
+    margin: 0px;
+    padding: 0px;
+  }
+  mat-radio-button {
+    margin: 5px;
+    padding: 0px;
+  }
 }
