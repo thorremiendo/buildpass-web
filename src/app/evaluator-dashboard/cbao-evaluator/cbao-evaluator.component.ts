@@ -8,7 +8,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { FormDetailsComponent } from '../form-details/form-details.component';
-import { documentTypes } from '../../core/enums/document-type.enum';
 import { documentStatus } from '../../core/enums/document-status.enum';
 import Swal from 'sweetalert2';
 import { ReleaseBldgPermitComponent } from '../release-bldg-permit/release-bldg-permit.component';
@@ -37,6 +36,8 @@ export class CbaoEvaluatorComponent implements OnInit {
   public isLoading: boolean = true;
   public evaluatorRole;
   public mainPermitStatus;
+  public documentTypes;
+  public documentStatusSelector;
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
   constructor(
@@ -56,6 +57,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.applicationId = this.route.snapshot.params.id;
     this.fetchApplicationInfo();
     this.changeDetectorRefs.detectChanges();
+    this.fetchDocTypes();
   }
 
   openOccupancyFileUpload() {
@@ -120,17 +122,113 @@ export class CbaoEvaluatorComponent implements OnInit {
                 res.data.forEach((element) => {
                   USER_FORMS.push(element);
                 });
-                this.dataSource = USER_FORMS;
+                this.dataSource = this.sortUserDocs(USER_FORMS);
+
                 this.isLoading = false;
               });
           });
         });
     }
     if (this.applicationInfo.permit_type_id !== 2) {
-      this.dataSource = USER_FORMS;
+      this.dataSource = this.sortUserDocs(USER_FORMS);
     }
-    console.log(this.dataSource);
     this.isLoading = false;
+  }
+
+  sortUserDocs(docs) {
+    const sortedForms = {
+      forms: {
+        label: 'Forms',
+        data: [],
+      },
+      documents: {
+        label: 'Documentary Requirements',
+        data: [],
+      },
+      plans: {
+        label: 'Plans, Designs, Specifications, Cost Estimate',
+        data: [],
+      },
+      professional: {
+        label:
+          'Photocopy of Professional Details (Professional Tax Receipt and Professional Regulation Commission ID, signed and sealed)',
+        data: [],
+      },
+      affidavits: {
+        label: 'Affidavits',
+        data: [],
+      },
+      others: {
+        label: 'Others',
+        data: [],
+      },
+    };
+
+    docs.forEach((element) => {
+      const docType = this.documentTypes[element.document_id - 1].document_category_id;
+      switch (docType) {
+        case 1:
+          sortedForms.forms.data.push(element);
+          break;
+        case 2:
+          sortedForms.documents.data.push(element);
+          break;
+        case 3:
+          sortedForms.plans.data.push(element);
+          break;
+        case 4:
+          sortedForms.professional.data.push(element);
+          break;
+        case 5:
+          sortedForms.affidavits.data.push(element);
+          break;
+        default:
+          sortedForms.others.data.push(element);
+          break;
+      }
+    });
+
+    let sortedData = Object.values(sortedForms);
+    sortedData = [
+      {
+        label: sortedData[0].data.length
+          ? sortedData[0].label
+          : 'hidden',
+      },
+      ...sortedData[0].data,
+      {
+        label: sortedData[1].data.length
+          ? sortedData[1].label
+          : 'hidden',
+      },
+      ...sortedData[1].data,
+      {
+        label: sortedData[2].data.length
+          ? sortedData[2].label
+          : 'hidden',
+      },
+      ...sortedData[2].data,
+      {
+        label: sortedData[3].data.length
+          ? sortedData[3].label
+          : 'hidden',
+      },
+      ...sortedData[3].data,
+      {
+        label: sortedData[4].data.length
+          ? sortedData[4].label
+          : 'hidden',
+      },
+      ...sortedData[4].data,
+      {
+        label: sortedData[5].data.length
+          ? sortedData[5].label
+          : 'hidden',
+      },
+      ...sortedData[5].data,
+    ];
+    
+    return sortedData;
   }
 
   fetchApplicationInfo() {
@@ -278,10 +376,13 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
+    if (this.evaluatorRole.code == 'CBAO-REC') this.documentStatusSelector = 'receiving_status_id';
+    else if (this.evaluatorRole.code == 'CBAO-DC' || this.evaluatorRole.code == 'CBAO-BO' || this.evaluatorRole.code == 'CBAO-REL') this.documentStatusSelector = 'document_status_id';
+    else this.documentStatusSelector = 'cbao_status_id';
   }
 
   getDocType(id): string {
-    return documentTypes[id];
+    return this.documentTypes[id - 1].name;
   }
   getDocStatus(id): string {
     if (
@@ -936,5 +1037,11 @@ export class CbaoEvaluatorComponent implements OnInit {
 
   handleESig(id) {
     this.router.navigate(['/evaluator/application', this.applicationId, id]);
+  }
+
+  fetchDocTypes() {
+    this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
+      this.documentTypes = res.data;
+    });
   }
 }
