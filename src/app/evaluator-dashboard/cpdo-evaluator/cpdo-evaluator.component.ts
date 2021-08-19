@@ -5,7 +5,7 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { FormDetailsComponent } from '../form-details/form-details.component';
 import { documentStatus } from '../../core/enums/document-status.enum';
@@ -38,7 +38,8 @@ export class CpdoEvaluatorComponent implements OnInit {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private userService: UserService,
-    private newApplicationService: NewApplicationService
+    private newApplicationService: NewApplicationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -130,7 +131,8 @@ export class CpdoEvaluatorComponent implements OnInit {
     };
 
     docs.forEach((element) => {
-      const docType = this.documentTypes[element.document_id - 1].document_category_id;
+      const docType =
+        this.documentTypes[element.document_id - 1].document_category_id;
       switch (docType) {
         case 1:
           sortedForms.forms.data.push(element);
@@ -156,43 +158,31 @@ export class CpdoEvaluatorComponent implements OnInit {
     let sortedData = Object.values(sortedForms);
     sortedData = [
       {
-        label: sortedData[0].data.length
-          ? sortedData[0].label
-          : 'hidden',
+        label: sortedData[0].data.length ? sortedData[0].label : 'hidden',
       },
       ...sortedData[0].data,
       {
-        label: sortedData[1].data.length
-          ? sortedData[1].label
-          : 'hidden',
+        label: sortedData[1].data.length ? sortedData[1].label : 'hidden',
       },
       ...sortedData[1].data,
       {
-        label: sortedData[2].data.length
-          ? sortedData[2].label
-          : 'hidden',
+        label: sortedData[2].data.length ? sortedData[2].label : 'hidden',
       },
       ...sortedData[2].data,
       {
-        label: sortedData[3].data.length
-          ? sortedData[3].label
-          : 'hidden',
+        label: sortedData[3].data.length ? sortedData[3].label : 'hidden',
       },
       ...sortedData[3].data,
       {
-        label: sortedData[4].data.length
-          ? sortedData[4].label
-          : 'hidden',
+        label: sortedData[4].data.length ? sortedData[4].label : 'hidden',
       },
       ...sortedData[4].data,
       {
-        label: sortedData[5].data.length
-          ? sortedData[5].label
-          : 'hidden',
+        label: sortedData[5].data.length ? sortedData[5].label : 'hidden',
       },
       ...sortedData[5].data,
     ];
-    
+
     return sortedData;
   }
 
@@ -467,7 +457,9 @@ export class CpdoEvaluatorComponent implements OnInit {
       this.ngOnInit();
     });
   }
-
+  goToEsig(id) {
+    this.router.navigate(['/evaluator/application', this.applicationId, id]);
+  }
   fetchDocTypes() {
     this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
       this.documentTypes = res.data;

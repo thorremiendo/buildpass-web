@@ -7,7 +7,7 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { FormDetailsComponent } from '../form-details/form-details.component';
 import { documentStatus } from '../../core/enums/document-status.enum';
@@ -41,7 +41,8 @@ export class BfpEvaluatorComponent implements OnInit {
     private changeDetectorRefs: ChangeDetectorRef,
     private userService: UserService,
     private newApplicationService: NewApplicationService,
-    private eSignatureService: EsignatureService
+    private eSignatureService: EsignatureService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -283,11 +284,9 @@ export class BfpEvaluatorComponent implements OnInit {
         });
     } else {
       this.isLoading = false;
-      Swal.fire(
-        'Notice!',
-        `Please review all documents first!`,
-        'info'
-      ).then((result) => {});
+      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+        (result) => {}
+      );
     }
   }
   checkFormsReviewed() {
@@ -352,10 +351,7 @@ export class BfpEvaluatorComponent implements OnInit {
   }
 
   goToEsig(id) {
-    const docId = id;
-    const appId = this.applicationId;
-
-    this.eSignatureService.goToEsig(appId, docId);
+    this.router.navigate(['/evaluator/application', this.applicationId, id]);
   }
 
   fetchDocTypes() {

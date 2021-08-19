@@ -1,7 +1,12 @@
-import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { EsignatureService } from 'src/app/core/services/esignature.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -10,19 +15,33 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./password-prompt.component.scss'],
 })
 export class PasswordPromptComponent implements OnInit {
+  public applicationId;
+  public docId;
   public passwordInput = new FormControl();
   constructor(
     public dialogRef: MatDialogRef<PasswordPromptComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    public data,
     private router: Router,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private esignatureService: EsignatureService,
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.data);
+  }
   onNoClick(): void {
     this.dialogRef.close();
   }
   verifyPassword() {
     if (this.passwordInput.value === 'password') {
+      this.esignatureService.goToEsig(
+        this.data.appId,
+        this.data.docId,
+        this.data.signature
+      );
+      this.esignatureService.setStep(2);
       this.onNoClick();
     } else {
       this.openSnackBar('Wrong Password! Please try again.');
@@ -30,7 +49,6 @@ export class PasswordPromptComponent implements OnInit {
     }
   }
   handeBack() {
-    this.router.navigateByUrl('/evaluator/home/table');
     this.onNoClick();
   }
 

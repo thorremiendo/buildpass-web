@@ -1,0 +1,20 @@
+<ng-container *ngIf="!isLoading && userPdfSignature">
+  <div class="pdf-container">
+    <pdf-viewer
+      [show-all]="true"
+      [render-text]="true"
+      [original-size]="true"
+      [fit-to-page]="false"
+      [src]="userPdfSignature"
+      [show-borders]="true"
+    ></pdf-viewer>
+  </div>
+  <button mat-raised-button color="accent" (click)="selectSignature()">
+    Select
+  </button>
+</ng-container>
+<ng-container *ngIf="isLoading">
+  <div class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-container>

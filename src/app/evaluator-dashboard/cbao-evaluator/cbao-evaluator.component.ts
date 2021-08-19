@@ -5,7 +5,7 @@ import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { FormDetailsComponent } from '../form-details/form-details.component';
 import { documentStatus } from '../../core/enums/document-status.enum';
@@ -49,7 +49,8 @@ export class CbaoEvaluatorComponent implements OnInit {
     private waterMark: WaterMarkService,
     private snackBar: MatSnackBar,
     private eSignatureService: EsignatureService,
-    private occupancyService: OccupancyService
+    private occupancyService: OccupancyService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -587,11 +588,9 @@ export class CbaoEvaluatorComponent implements OnInit {
       });
     } else {
       this.isLoading = false;
-      Swal.fire(
-        'Notice!',
-        `Please review all documents first!`,
-        'info'
-      ).then((result) => {});
+      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+        (result) => {}
+      );
     }
   }
 
@@ -775,6 +774,18 @@ export class CbaoEvaluatorComponent implements OnInit {
           this.isLoading = false;
         }
       );
+    }
+  }
+
+  canSignDocument() {
+    const code = this.evaluatorRole.code;
+    const status = this.applicationInfo.application_status_id;
+    if (status !== 24 && code == 'CBAO-BO') {
+      return true;
+    } else if (status !== 24 && code !== 'CBAO-BO') {
+      return false;
+    } else if (status == 24) {
+      return true;
     }
   }
 
@@ -1024,11 +1035,8 @@ export class CbaoEvaluatorComponent implements OnInit {
     });
   }
 
-  goToEsig(id) {
-    const docId = id;
-    const appId = this.applicationId;
-
-    this.eSignatureService.goToEsig(appId, docId);
+  handleESig(id) {
+    this.router.navigate(['/evaluator/application', this.applicationId, id]);
   }
 
   fetchDocTypes() {
