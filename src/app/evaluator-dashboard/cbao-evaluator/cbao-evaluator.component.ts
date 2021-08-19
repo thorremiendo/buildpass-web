@@ -165,7 +165,8 @@ export class CbaoEvaluatorComponent implements OnInit {
     };
 
     docs.forEach((element) => {
-      const docType = this.documentTypes[element.document_id - 1].document_category_id;
+      const docType =
+        this.documentTypes[element.document_id - 1].document_category_id;
       switch (docType) {
         case 1:
           sortedForms.forms.data.push(element);
@@ -191,43 +192,31 @@ export class CbaoEvaluatorComponent implements OnInit {
     let sortedData = Object.values(sortedForms);
     sortedData = [
       {
-        label: sortedData[0].data.length
-          ? sortedData[0].label
-          : 'hidden',
+        label: sortedData[0].data.length ? sortedData[0].label : 'hidden',
       },
       ...sortedData[0].data,
       {
-        label: sortedData[1].data.length
-          ? sortedData[1].label
-          : 'hidden',
+        label: sortedData[1].data.length ? sortedData[1].label : 'hidden',
       },
       ...sortedData[1].data,
       {
-        label: sortedData[2].data.length
-          ? sortedData[2].label
-          : 'hidden',
+        label: sortedData[2].data.length ? sortedData[2].label : 'hidden',
       },
       ...sortedData[2].data,
       {
-        label: sortedData[3].data.length
-          ? sortedData[3].label
-          : 'hidden',
+        label: sortedData[3].data.length ? sortedData[3].label : 'hidden',
       },
       ...sortedData[3].data,
       {
-        label: sortedData[4].data.length
-          ? sortedData[4].label
-          : 'hidden',
+        label: sortedData[4].data.length ? sortedData[4].label : 'hidden',
       },
       ...sortedData[4].data,
       {
-        label: sortedData[5].data.length
-          ? sortedData[5].label
-          : 'hidden',
+        label: sortedData[5].data.length ? sortedData[5].label : 'hidden',
       },
       ...sortedData[5].data,
     ];
-    
+
     return sortedData;
   }
 
@@ -376,8 +365,14 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
-    if (this.evaluatorRole.code == 'CBAO-REC') this.documentStatusSelector = 'receiving_status_id';
-    else if (this.evaluatorRole.code == 'CBAO-DC' || this.evaluatorRole.code == 'CBAO-BO' || this.evaluatorRole.code == 'CBAO-REL') this.documentStatusSelector = 'document_status_id';
+    if (this.evaluatorRole.code == 'CBAO-REC')
+      this.documentStatusSelector = 'receiving_status_id';
+    else if (
+      this.evaluatorRole.code == 'CBAO-DC' ||
+      this.evaluatorRole.code == 'CBAO-BO' ||
+      this.evaluatorRole.code == 'CBAO-REL'
+    )
+      this.documentStatusSelector = 'document_status_id';
     else this.documentStatusSelector = 'cbao_status_id';
   }
 
@@ -1035,7 +1030,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     });
   }
 
-  handleESig(id) {
+  goToEsig(id) {
     this.router.navigate(['/evaluator/application', this.applicationId, id]);
   }
 
