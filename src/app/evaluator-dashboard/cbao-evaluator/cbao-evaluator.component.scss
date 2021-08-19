@@ -1,19 +1,49 @@
 table {
   width: 100%;
-  th {
-    background-color: #400c06e0;
-    font-weight: bold;
-    color: white;
+  margin-top: 10px;
+
+  .mat-header-cell {
+    background-color: maroon;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
   }
-}
 
-.table-container {
-  margin: 20px 0;
-  // height: 600px;
-  // overflow: auto;
+  .doc-category-header {
+    font-weight: 800;
+  }
 
-  h5 {
-    font-weight: bold;
+  .hidden {
+    display: none;
+  }
+
+  .pending {
+    td:first-of-type {
+      color: lightgray;
+    }
+  }
+
+  .compliant {
+    background-color: #dcedc8;
+    
+    td:first-of-type {
+      color: green;
+    }
+    td:nth-of-type(4) {
+      color: green;
+      font-weight: 600;
+    }
+  }
+
+  .non-compliant {
+    background-color: #cf513d;
+
+    td {
+      color: #fff !important;
+    }
+    td:nth-of-type(4) {
+      font-weight: 600;
+    }
   }
 }
 
@@ -61,6 +91,8 @@ table {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+
+  text-align: center;
 }
 .mat-column-status {
   word-wrap: break-word !important;
@@ -76,6 +108,8 @@ table {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+
+  text-align: center;
 }
 .mat-column-remarks {
   word-wrap: break-word !important;
@@ -91,6 +125,8 @@ table {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+
+  text-align: center;
 }
 .mat-column-action {
   word-wrap: break-word !important;
@@ -106,6 +142,8 @@ table {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+
+  text-align: center;
 }
 
 .remark {
