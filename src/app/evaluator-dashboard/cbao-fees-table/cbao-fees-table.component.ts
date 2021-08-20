@@ -71,8 +71,13 @@ export class CbaoFeesTableComponent implements OnInit {
 
   onSurchargeSelect(e) {
     this.selectedSurcharge = e.value;
-    console.log(this.selectedSurcharge);
     this.isLoading = true;
+    const fees = this.cbaoFees.filter((e) => e.amount);
+    let total = fees
+      .map((item) => item.amount)
+      .reduce((prev, curr) => prev + curr, 0);
+    console.log(this.cbaoFees);
+    console.log(total, this.selectedSurcharge);
     const newItem = {
       application_id: this.applicationId,
       name: 'SURCHARGES',
@@ -81,6 +86,7 @@ export class CbaoFeesTableComponent implements OnInit {
       percentage: this.selectedSurcharge,
       action_id: 1,
       fee_id: 0,
+      amount: total * this.selectedSurcharge,
     };
 
     this.applicationFeeService.addFee(newItem).subscribe((res) => {
@@ -115,6 +121,7 @@ export class CbaoFeesTableComponent implements OnInit {
       .fetchFeesByOffice(application_id, office_id)
       .subscribe((res) => {
         this.cbaoFees = res.data;
+        console.log(this.cbaoFees);
         this.isLoading = false;
         this.surcharge = this.cbaoFees.filter((e) => e.code == '9999');
         if (this.surcharge.length !== 0) {

@@ -33,7 +33,7 @@ export class CepmoEvaluatorComponent implements OnInit {
   public evaluatorRole;
   public applicationDetails;
   public documentTypes;
-
+  public userDocuments = [];
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
@@ -59,7 +59,7 @@ export class CepmoEvaluatorComponent implements OnInit {
   }
   checkCepmoParallelDocs() {
     this.isLoading = true;
-    const findDoc = this.dataSource.forEach((e) => {
+    const findDoc = this.userDocuments.forEach((e) => {
       if (e.document_id == 36 || e.document_id == 63) {
         if (e.cbao_status_id == 1 && e.cepmo_status_id == 1) {
           const id = e.id;
@@ -101,6 +101,7 @@ export class CepmoEvaluatorComponent implements OnInit {
         obj.document_id == 140
     );
     this.dataSource = this.sortUserDocs(CEPMO_FORMS);
+    this.userDocuments = CEPMO_FORMS;
   }
 
   sortUserDocs(docs) {
@@ -133,7 +134,8 @@ export class CepmoEvaluatorComponent implements OnInit {
     };
 
     docs.forEach((element) => {
-      const docType = this.documentTypes[element.document_id - 1].document_category_id;
+      const docType =
+        this.documentTypes[element.document_id - 1].document_category_id;
       switch (docType) {
         case 1:
           sortedForms.forms.data.push(element);
@@ -159,43 +161,31 @@ export class CepmoEvaluatorComponent implements OnInit {
     let sortedData = Object.values(sortedForms);
     sortedData = [
       {
-        label: sortedData[0].data.length
-          ? sortedData[0].label
-          : 'hidden',
+        label: sortedData[0].data.length ? sortedData[0].label : 'hidden',
       },
       ...sortedData[0].data,
       {
-        label: sortedData[1].data.length
-          ? sortedData[1].label
-          : 'hidden',
+        label: sortedData[1].data.length ? sortedData[1].label : 'hidden',
       },
       ...sortedData[1].data,
       {
-        label: sortedData[2].data.length
-          ? sortedData[2].label
-          : 'hidden',
+        label: sortedData[2].data.length ? sortedData[2].label : 'hidden',
       },
       ...sortedData[2].data,
       {
-        label: sortedData[3].data.length
-          ? sortedData[3].label
-          : 'hidden',
+        label: sortedData[3].data.length ? sortedData[3].label : 'hidden',
       },
       ...sortedData[3].data,
       {
-        label: sortedData[4].data.length
-          ? sortedData[4].label
-          : 'hidden',
+        label: sortedData[4].data.length ? sortedData[4].label : 'hidden',
       },
       ...sortedData[4].data,
       {
-        label: sortedData[5].data.length
-          ? sortedData[5].label
-          : 'hidden',
+        label: sortedData[5].data.length ? sortedData[5].label : 'hidden',
       },
       ...sortedData[5].data,
     ];
-    
+
     return sortedData;
   }
 
@@ -262,7 +252,7 @@ export class CepmoEvaluatorComponent implements OnInit {
   }
 
   checkFormsReviewed() {
-    const isReviewed = this.dataSource.every(
+    const isReviewed = this.userDocuments.every(
       (form) => form.cepmo_status_id == 1 || form.cepmo_status_id == 2
     );
     return isReviewed;
@@ -270,7 +260,7 @@ export class CepmoEvaluatorComponent implements OnInit {
 
   checkFormsCompliant() {
     this.generateCepmoForms;
-    const isCompliant = this.dataSource.every(
+    const isCompliant = this.userDocuments.every(
       (form) => form.cepmo_status_id == 1
     );
     return isCompliant;
@@ -302,7 +292,7 @@ export class CepmoEvaluatorComponent implements OnInit {
   }
   checkWwmsUploaded() {
     this.generateCepmoForms();
-    const find = this.dataSource.find((form) => form.document_id == 44);
+    const find = this.userDocuments.find((form) => form.document_id == 44);
     return find;
   }
   openRemarksHistory(e) {

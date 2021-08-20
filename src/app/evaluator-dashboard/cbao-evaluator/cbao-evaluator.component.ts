@@ -40,6 +40,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   public documentStatusSelector;
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
+  public userDocuments = [];
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
@@ -71,9 +72,18 @@ export class CbaoEvaluatorComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
+  fetchPlainUserDocs() {
+    this.applicationService
+      .fetchUserDocs(this.applicationId)
+      .subscribe((result) => {
+        this.userDocuments = result.data;
+      });
+  }
+
   checkCepmoParallelDocs() {
     this.isLoading = true;
-    const findDoc = this.dataSource.forEach((e) => {
+
+    const findDoc = this.userDocuments.forEach((e) => {
       if (e.document_id == 36 || e.document_id == 63) {
         if (e.cbao_status_id == 1 && e.cepmo_status_id == 1) {
           const id = e.id;
@@ -91,7 +101,8 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
   checkBfpParallelDocs() {
     this.isLoading = true;
-    const findDoc = this.dataSource.forEach((e) => {
+
+    const findDoc = this.userDocuments.forEach((e) => {
       if (e.document_id == 62 || e.document_id == 32 || e.document_id == 33) {
         if (e.cbao_status_id == 1 && e.bfp_status_id == 1) {
           const id = e.id;
@@ -230,6 +241,7 @@ export class CbaoEvaluatorComponent implements OnInit {
           .fetchUserDocs(this.applicationId)
           .subscribe((result) => {
             this.filterUserDocs(result.data);
+            this.userDocuments = result.data;
             this.fetchEvaluatorDetails();
             this.checkFormsCompliant();
             this.checkFormsReviewed();
@@ -438,30 +450,30 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   checkFormsCompliant() {
-    const isCompliant = this.dataSource.every(
+    const isCompliant = this.userDocuments.every(
       (form) => form.document_status_id == 1
     );
     return isCompliant;
   }
   checkBuildingPermitUploaded() {
-    const find = this.dataSource.find((form) => form.document_id == 50);
+    const find = this.userDocuments.find((form) => form.document_id == 50);
     return find;
   }
 
   checkFormNonCompliant() {
-    const isNonCompliant = this.dataSource.find(
+    const isNonCompliant = this.userDocuments.find(
       (form) => form.document_status_id == 2
     );
     return isNonCompliant;
   }
   checkFormsReviewed() {
     if (this.evaluatorRole.code == 'CBAO-REC') {
-      const isReviewed = this.dataSource.every(
+      const isReviewed = this.userDocuments.every(
         (form) => form.receiving_status_id == 1 || form.receiving_status_id == 2
       );
       return isReviewed;
     } else {
-      const isReviewed = this.dataSource.every(
+      const isReviewed = this.userDocuments.every(
         (form) => form.document_status_id == 1 || form.document_status_id == 2
       );
       return isReviewed;
@@ -513,6 +525,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   nonCompliant() {
+    console.log(this.userDocuments);
     if (this.checkFormsReviewed()) {
       Swal.fire({
         title: 'Are you sure?',

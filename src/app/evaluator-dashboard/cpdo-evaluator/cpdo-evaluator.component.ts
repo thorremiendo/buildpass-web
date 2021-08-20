@@ -31,6 +31,7 @@ export class CpdoEvaluatorComponent implements OnInit {
   public applicationDetails;
   public documentTypes;
   public isLoading: boolean = true;
+  public userDocuments = [];
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
   constructor(
@@ -66,7 +67,7 @@ export class CpdoEvaluatorComponent implements OnInit {
       });
   }
   checkFormNonCompliant() {
-    const isNonCompliant = this.dataSource.find(
+    const isNonCompliant = this.userDocuments.find(
       (form) => form.document_status_id == 2
     );
     return isNonCompliant;
@@ -99,6 +100,7 @@ export class CpdoEvaluatorComponent implements OnInit {
         doc.document_id == 140
     );
     this.dataSource = this.sortUserDocs(CPDO_FORMS);
+    this.userDocuments = CPDO_FORMS;
   }
 
   sortUserDocs(docs) {
@@ -300,7 +302,7 @@ export class CpdoEvaluatorComponent implements OnInit {
     }
   }
   checkFormsReviewed() {
-    const isReviewed = this.dataSource.every(
+    const isReviewed = this.userDocuments.every(
       (form) => form.document_status_id == 1 || form.document_status_id == 2
     );
     return isReviewed;
@@ -387,11 +389,11 @@ export class CpdoEvaluatorComponent implements OnInit {
   }
 
   checkCertificateUploaded() {
-    const find = this.dataSource.find((form) => form.document_id == 43);
+    const find = this.userDocuments.find((form) => form.document_id == 43);
     return find;
   }
   checkFormsCompliant() {
-    const isReviewed = this.dataSource.every(
+    const isReviewed = this.userDocuments.every(
       (form) => form.document_status_id == 1
     );
     return isReviewed;
