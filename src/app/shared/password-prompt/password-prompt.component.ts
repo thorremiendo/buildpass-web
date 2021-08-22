@@ -18,6 +18,8 @@ export class PasswordPromptComponent implements OnInit {
   public applicationId;
   public docId;
   public passwordInput = new FormControl();
+  public isLoading: boolean = false;
+  public userDetails;
   constructor(
     public dialogRef: MatDialogRef<PasswordPromptComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -30,23 +32,38 @@ export class PasswordPromptComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.data);
+    this.userDetails = JSON.parse(localStorage.getItem('user'));
   }
   onNoClick(): void {
     this.dialogRef.close();
   }
   verifyPassword() {
-    if (this.passwordInput.value === 'password') {
-      this.esignatureService.goToEsig(
-        this.data.appId,
-        this.data.docId,
-        this.data.signature
-      );
-      this.esignatureService.setStep(2);
-      this.onNoClick();
-    } else {
-      this.openSnackBar('Wrong Password! Please try again.');
-      this.passwordInput.reset();
-    }
+    this.isLoading = true;
+    const username = this.userDetails.user_credentials[0].username;
+    const body = {
+      username: username,
+      password: this.passwordInput.value,
+    };
+    this.esignatureService.verifyEvaluator(body).subscribe(
+      (res) => {
+        if (res.data) {
+          this.esignatureService.goToEsig(
+            this.data.appId,
+            this.data.docId,
+            this.data.signature
+          );
+          this.esignatureService.setStep(2);
+          this.onNoClick();
+        } else {
+          this.openSnackBar('Wrong Password! Please try again.');
+          this.passwordInput.reset();
+        }
+      },
+      (error) => {
+        this.openSnackBar('Error! Please try again.');
+        this.passwordInput.reset();
+      }
+    );
   }
   handeBack() {
     this.onNoClick();

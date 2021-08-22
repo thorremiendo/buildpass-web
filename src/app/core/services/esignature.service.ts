@@ -31,11 +31,11 @@ export class EsignatureService {
   setStep(value) {
     this.currentFormStepSubject.next(value);
   }
-  // generateSignature(body, id) {
-  //   const url = `/user/${id}/generate-signature`;
+  verifyEvaluator(body) {
+    const url = `/evaluator/verify`;
 
-  //   return this.api.post(url, body);
-  // }
+    return this.api.post(url, body);
+  }
   generateSignature(id) {
     const url = `/user/${id}/generate-signature`;
     return this.api.get(url).pipe(
