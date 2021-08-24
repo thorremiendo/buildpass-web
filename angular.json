@@ -80,6 +80,22 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "mitd": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/staging/environment.staging.ts"
+                }
+              ],
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             }
           }
         },
@@ -91,6 +107,12 @@
           "configurations": {
             "production": {
               "browserTarget": "ocpas-web:build:production"
+            },
+            "staging": {
+              "browserTarget": "ocpas-web:build:staging"
+            },
+            "mitd": {
+              "browserTarget": "ocpas-web:build:mitd"
             }
           }
         },
