@@ -7,10 +7,9 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { FormDetailsComponent } from '../form-details/form-details.component';
-import { documentTypes } from '../../core/enums/document-type.enum';
 import { documentStatus } from '../../core/enums/document-status.enum';
 import { UserService } from 'src/app/core';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
@@ -34,6 +33,8 @@ export class BfpEvaluatorComponent implements OnInit {
   public applicationDetails;
   public isLoading: boolean = true;
   public evaluatorRole;
+  public documentTypes;
+  public userDocuments = [];
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
@@ -41,7 +42,8 @@ export class BfpEvaluatorComponent implements OnInit {
     private changeDetectorRefs: ChangeDetectorRef,
     private userService: UserService,
     private newApplicationService: NewApplicationService,
-    private eSignatureService: EsignatureService
+    private eSignatureService: EsignatureService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -57,12 +59,13 @@ export class BfpEvaluatorComponent implements OnInit {
         this.checkBfpParallelDocs();
         this.isLoading = false;
       });
+    this.fetchDocTypes();
     this.changeDetectorRefs.detectChanges();
   }
 
   checkBfpParallelDocs() {
     this.isLoading = true;
-    const findDoc = this.dataSource.forEach((e) => {
+    const findDoc = this.userDocuments.forEach((e) => {
       if (e.document_id == 62 || e.document_id == 32 || e.document_id == 33) {
         if (e.cbao_status_id == 1 && e.bfp_status_id == 1) {
           const id = e.id;
@@ -81,7 +84,7 @@ export class BfpEvaluatorComponent implements OnInit {
 
   checkFormsCompliant() {
     this.generateBfpForms();
-    const isCompliant = this.dataSource.every(
+    const isCompliant = this.userDocuments.every(
       (form) => form.bfp_status_id == 1
     );
     return isCompliant;
@@ -112,10 +115,97 @@ export class BfpEvaluatorComponent implements OnInit {
         obj.document_id == 49 ||
         obj.document_id == 140
     );
-    this.dataSource = BFP_FORMS;
+    this.dataSource = this.sortUserDocs(BFP_FORMS);
+    this.userDocuments = BFP_FORMS;
   }
+
+  sortUserDocs(docs) {
+    const sortedForms = {
+      forms: {
+        label: 'Forms',
+        data: [],
+      },
+      documents: {
+        label: 'Documentary Requirements',
+        data: [],
+      },
+      plans: {
+        label: 'Plans, Designs, Specifications, Cost Estimate',
+        data: [],
+      },
+      professional: {
+        label:
+          'Photocopy of Professional Details (Professional Tax Receipt and Professional Regulation Commission ID, signed and sealed)',
+        data: [],
+      },
+      affidavits: {
+        label: 'Affidavits',
+        data: [],
+      },
+      others: {
+        label: 'Others',
+        data: [],
+      },
+    };
+
+    docs.forEach((element) => {
+      const docType =
+        this.documentTypes[element.document_id - 1].document_category_id;
+      switch (docType) {
+        case 1:
+          sortedForms.forms.data.push(element);
+          break;
+        case 2:
+          sortedForms.documents.data.push(element);
+          break;
+        case 3:
+          sortedForms.plans.data.push(element);
+          break;
+        case 4:
+          sortedForms.professional.data.push(element);
+          break;
+        case 5:
+          sortedForms.affidavits.data.push(element);
+          break;
+        default:
+          sortedForms.others.data.push(element);
+          break;
+      }
+    });
+
+    let sortedData = Object.values(sortedForms);
+    sortedData = [
+      {
+        label: sortedData[0].data.length ? sortedData[0].label : 'hidden',
+      },
+      ...sortedData[0].data,
+      {
+        label: sortedData[1].data.length ? sortedData[1].label : 'hidden',
+      },
+      ...sortedData[1].data,
+      {
+        label: sortedData[2].data.length ? sortedData[2].label : 'hidden',
+      },
+      ...sortedData[2].data,
+      {
+        label: sortedData[3].data.length ? sortedData[3].label : 'hidden',
+      },
+      ...sortedData[3].data,
+      {
+        label: sortedData[4].data.length ? sortedData[4].label : 'hidden',
+      },
+      ...sortedData[4].data,
+      {
+        label: sortedData[5].data.length ? sortedData[5].label : 'hidden',
+      },
+      ...sortedData[5].data,
+    ];
+
+    return sortedData;
+  }
+
   getDocType(id): string {
-    return documentTypes[id];
+    return this.documentTypes[id - 1].name;
   }
   getDocStatus(id): string {
     return documentStatus[id];
@@ -185,15 +275,13 @@ export class BfpEvaluatorComponent implements OnInit {
         });
     } else {
       this.isLoading = false;
-      Swal.fire(
-        'Notice!',
-        `Please review all documents first!`,
-        'info'
-      ).then((result) => {});
+      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+        (result) => {}
+      );
     }
   }
   checkFormsReviewed() {
-    const isReviewed = this.dataSource.every(
+    const isReviewed = this.userDocuments.every(
       (form) => form.bfp_status_id == 1 || form.bfp_status_id == 2
     );
     return isReviewed;
@@ -226,12 +314,12 @@ export class BfpEvaluatorComponent implements OnInit {
 
   checkFireSecUploaded() {
     this.generateBfpForms();
-    const find = this.dataSource.find((form) => form.document_id == 45);
+    const find = this.userDocuments.find((form) => form.document_id == 45);
     return find;
   }
   checkChecklistUploaded() {
     this.generateBfpForms();
-    const find = this.dataSource.find((form) => form.document_id == 49);
+    const find = this.userDocuments.find((form) => form.document_id == 49);
     return find;
   }
 
@@ -254,9 +342,12 @@ export class BfpEvaluatorComponent implements OnInit {
   }
 
   goToEsig(id) {
-    const docId = id;
-    const appId = this.applicationId;
+    this.router.navigate(['/evaluator/application', this.applicationId, id]);
+  }
 
-    this.eSignatureService.goToEsig(appId, docId);
+  fetchDocTypes() {
+    this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
+      this.documentTypes = res.data;
+    });
   }
 }

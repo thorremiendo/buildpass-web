@@ -28,45 +28,54 @@
         </ng-template>
         <div>
           <table mat-table [dataSource]="dataSource">
-            <!--- Note that these columns can be defined in any order.
-                    The actual rendered columns are set as a property on the row definition" -->
+            <!-- Index Column -->
             <ng-container matColumnDef="index">
-              <th mat-header-cell *matHeaderCellDef>No.</th>
+              <th mat-header-cell *matHeaderCellDef></th>
               <td mat-cell *matCellDef="let element; let i = index">
-                {{ i + 1 }}
+                <mat-icon *ngIf="element.document_status_id == 0"
+                  >assignment</mat-icon
+                >
+                <mat-icon *ngIf="element.document_status_id == 1"
+                  >assignment_turned_in</mat-icon
+                >
+                <mat-icon *ngIf="element.document_status_id == 2"
+                  >assignment_late</mat-icon
+                >
               </td>
             </ng-container>
+
             <!--  Name Column -->
             <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef>Document</th>
-              <td mat-cell *matCellDef="let element">
-                {{ getDocType(element.document_id) }}
+              <th mat-header-cell *matHeaderCellDef>Uploaded Documents</th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                [ngClass]="{ 'doc-category-header': element.label }"
+              >
+                {{
+                  !element.label
+                    ? getDocType(element.document_id)
+                    : element.label
+                }}
               </td>
             </ng-container>
 
             <!-- Status Column -->
             <ng-container matColumnDef="status">
               <th mat-header-cell *matHeaderCellDef>Status</th>
-              <td
-                mat-cell
-                *matCellDef="let element"
-                [style.color]="
-                  element.document_status_id == 1 ||
-                  getDocStatus(element.document_status_id) == 'Compliant'
-                    ? 'green'
-                    : element.document_status_id == 0
-                    ? 'black'
-                    : 'red'
-                "
-              >
-                {{ getDocStatus(element.document_status_id) }}
+              <td mat-cell *matCellDef="let element">
+                <div *ngIf="!element.label">
+                  {{ getDocStatus(element.document_status_id) }}
+                </div>
               </td>
             </ng-container>
+
             <!-- Remarks Column -->
             <ng-container matColumnDef="remarks">
               <th mat-header-cell *matHeaderCellDef>Remarks</th>
               <td mat-cell *matCellDef="let element">
                 <mat-icon
+                  *ngIf="!element.label"
                   class="remark"
                   (click)="openRemarksHistory(element)"
                   [matBadge]="element.document_revision.length"
@@ -80,51 +89,53 @@
             <ng-container matColumnDef="action">
               <th mat-header-cell *matHeaderCellDef>Action</th>
               <td mat-cell *matCellDef="let element">
-                <button mat-button [matMenuTriggerFor]="menu">
-                  Select <mat-icon> arrow_drop_down </mat-icon>
-                </button>
-                <mat-menu #menu="matMenu">
-                  <button
-                    mat-menu-item
-                    color="accent"
-                    (click)="openFormDialog(element)"
-                    [disabled]="
-                      applicationDetails.application_status_id !== 2 &&
-                      applicationDetails.application_status_id !== 10
-                    "
-                  >
-                    Edit
+                <div *ngIf="!element.label">
+                  <button mat-button [matMenuTriggerFor]="menu">
+                    Select <mat-icon> arrow_drop_down </mat-icon>
                   </button>
-                  <ng-container>
-                    <a
+                  <mat-menu #menu="matMenu">
+                    <button
                       mat-menu-item
-                      href="{{ element.document_path }}"
-                      target="_blank"
-                      >View</a
+                      color="accent"
+                      (click)="openFormDialog(element)"
+                      [disabled]="
+                        applicationDetails.application_status_id !== 2 &&
+                        applicationDetails.application_status_id !== 10
+                      "
                     >
-                  </ng-container>
-                  <button
-                    mat-menu-item
-                    color="accent"
-                    (click)="goToEsig(element.id)"
-                    *ngIf="evaluatorRole.code !== 'CBAO-REL'"
-                  >
-                    Sign Document
-                  </button>
-                </mat-menu>
+                      Edit
+                    </button>
+                    <ng-container>
+                      <a
+                        mat-menu-item
+                        href="{{ element.document_path }}"
+                        target="_blank"
+                        >View</a
+                      >
+                    </ng-container>
+                    <!-- <button
+                      mat-menu-item
+                      color="accent"
+                      (click)="goToEsig(element.id)"
+                      *ngIf="evaluatorRole.code !== 'CBAO-REL'"
+                    >
+                      Sign Document
+                    </button> -->
+                  </mat-menu>
+                </div>
               </td>
             </ng-container>
+
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr
               mat-row
-              [style.background-color]="
-                row.document_status_id == 1
-                  ? '#BFF4D1'
-                  : row.document_status_id == 2
-                  ? '#F7C0C0'
-                  : 'white'
-              "
               *matRowDef="let row; columns: displayedColumns"
+              [ngClass]="{
+                pending: row.document_status_id == 0,
+                compliant: row.document_status_id == 1,
+                'non-compliant': row.document_status_id == 2,
+                hidden: row.label && row.label == 'hidden'
+              }"
             ></tr>
           </table>
           <div class="action__buttons">

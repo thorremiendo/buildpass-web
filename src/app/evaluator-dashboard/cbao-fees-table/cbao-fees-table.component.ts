@@ -43,6 +43,7 @@ export class CbaoFeesTableComponent implements OnInit {
     },
   ];
   public cbaoFees;
+  public plainCbaoFees;
   public applicationId;
   public evaluatorDetails;
   public applicationDetails;
@@ -71,8 +72,15 @@ export class CbaoFeesTableComponent implements OnInit {
 
   onSurchargeSelect(e) {
     this.selectedSurcharge = e.value;
-    console.log(this.selectedSurcharge);
     this.isLoading = true;
+    const fees = this.plainCbaoFees.filter(
+      (e) => e.amount && e.code !== '9999'
+    );
+    console.log(fees);
+    let total = fees
+      .map((item) => item.amount)
+      .reduce((prev, curr) => prev + curr, 0);
+    console.log(total, this.selectedSurcharge);
     const newItem = {
       application_id: this.applicationId,
       name: 'SURCHARGES',
@@ -81,27 +89,28 @@ export class CbaoFeesTableComponent implements OnInit {
       percentage: this.selectedSurcharge,
       action_id: 1,
       fee_id: 0,
+      amount: total * this.selectedSurcharge,
     };
-
+    const grandTotal = total + newItem.amount;
     this.applicationFeeService.addFee(newItem).subscribe((res) => {
       this.isLoading = false;
-      this.addFeeSurcharge();
+      this.addFeeSurcharge(grandTotal);
     });
   }
 
-  addFeeSurcharge() {
+  addFeeSurcharge(grandTotal) {
     const application_id = this.applicationId;
     const office_id = 4;
     this.applicationFeeService
       .fetchFeesByOffice(application_id, office_id)
       .subscribe((res) => {
         res.data.forEach((element) => {
-          element.amount =
-            element.amount + element.amount * this.selectedSurcharge;
+          if (element.code !== '9999') {
+            // element.amount =
+            //   element.amount + element.amount * this.selectedSurcharge;
+          }
           if (element.office) {
-            element.office =
-              parseFloat(element.office) +
-              parseFloat(element.office) * this.selectedSurcharge;
+            element.office = grandTotal;
           }
         });
         this.cbaoFees = res.data;
@@ -114,12 +123,19 @@ export class CbaoFeesTableComponent implements OnInit {
     this.applicationFeeService
       .fetchFeesByOffice(application_id, office_id)
       .subscribe((res) => {
+        this.plainCbaoFees = res.data;
         this.cbaoFees = res.data;
+        console.log(this.cbaoFees);
         this.isLoading = false;
         this.surcharge = this.cbaoFees.filter((e) => e.code == '9999');
+
         if (this.surcharge.length !== 0) {
           this.selectedSurcharge = parseFloat(this.surcharge[0].percentage);
-          this.addFeeSurcharge();
+          const fees = res.data.filter((e) => e.amount);
+          let total = fees
+            .map((item) => item.amount)
+            .reduce((prev, curr) => prev + curr, 0);
+          this.addFeeSurcharge(total);
         }
       });
   }

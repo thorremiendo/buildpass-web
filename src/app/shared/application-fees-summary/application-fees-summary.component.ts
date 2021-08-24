@@ -30,6 +30,7 @@ export class ApplicationFeesSummaryComponent implements OnInit {
       .fetchFees(this.applicationId)
       .subscribe((res) => {
         this.applicationFee = res.data[res.data.length - 1];
+        console.log(this.applicationFee);
       });
   }
 

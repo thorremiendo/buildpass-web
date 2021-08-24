@@ -1,10 +1,49 @@
 table {
   width: 100%;
+  margin-top: 10px;
 
-  th {
-    // background-color: maroon;
-    // color: white;
-    font-weight: bold;
+  .mat-header-cell {
+    background-color: maroon;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .doc-category-header {
+    font-weight: 800;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .pending {
+    td:first-of-type {
+      color: lightgray;
+    }
+  }
+
+  .compliant {
+    background-color: #dcedc8;
+    
+    td:first-of-type {
+      color: green;
+    }
+    td:nth-of-type(3) {
+      color: green;
+      font-weight: 600;
+    }
+  }
+
+  .non-compliant {
+    background-color: #cf513d;
+
+    td {
+      color: #fff !important;
+    }
+    td:nth-of-type(3) {
+      font-weight: 600;
+    }
   }
 }
 
@@ -52,6 +91,8 @@ table {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+
+  text-align: center;
 }
 .mat-column-remarks {
   word-wrap: break-word !important;
@@ -67,6 +108,8 @@ table {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+
+  text-align: center;
 }
 .mat-column-action {
   word-wrap: break-word !important;
@@ -82,6 +125,8 @@ table {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+
+  text-align: center;
 }
 
 .action__buttons {
