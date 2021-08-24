@@ -85,7 +85,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/staging/environment.staging.ts"
+                  "with": "src/staging/environment.mitd.ts"
                 }
               ],
               "optimization": false,
