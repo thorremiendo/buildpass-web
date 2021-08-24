@@ -20,13 +20,38 @@ export class CbaoFeesTableComponent implements OnInit {
     'amount',
     'action',
   ];
+  public surcharges = [
+    {
+      item: '0%',
+      value: 0,
+    },
+    {
+      item: '10%',
+      value: 0.1,
+    },
+    {
+      item: '25%',
+      value: 0.25,
+    },
+    {
+      item: '50%',
+      value: 0.5,
+    },
+    {
+      item: '100%',
+      value: 1,
+    },
+  ];
   public cbaoFees;
+  public plainCbaoFees;
   public applicationId;
   public evaluatorDetails;
   public applicationDetails;
   public user;
   public isLoading: boolean = true;
   public evaluatorRole;
+  public selectedSurcharge;
+  public surcharge;
   constructor(
     private applicationService: ApplicationInfoService,
     public dialog: MatDialog,
@@ -45,14 +70,73 @@ export class CbaoFeesTableComponent implements OnInit {
       });
   }
 
+  onSurchargeSelect(e) {
+    this.selectedSurcharge = e.value;
+    this.isLoading = true;
+    const fees = this.plainCbaoFees.filter(
+      (e) => e.amount && e.code !== '9999'
+    );
+    console.log(fees);
+    let total = fees
+      .map((item) => item.amount)
+      .reduce((prev, curr) => prev + curr, 0);
+    console.log(total, this.selectedSurcharge);
+    const newItem = {
+      application_id: this.applicationId,
+      name: 'SURCHARGES',
+      office_id: this.evaluatorDetails.office_id,
+      evaluator_user_id: this.evaluatorDetails.user_id,
+      percentage: this.selectedSurcharge,
+      action_id: 1,
+      fee_id: 0,
+      amount: total * this.selectedSurcharge,
+    };
+    const grandTotal = total + newItem.amount;
+    this.applicationFeeService.addFee(newItem).subscribe((res) => {
+      this.isLoading = false;
+      this.addFeeSurcharge(grandTotal);
+    });
+  }
+
+  addFeeSurcharge(grandTotal) {
+    const application_id = this.applicationId;
+    const office_id = 4;
+    this.applicationFeeService
+      .fetchFeesByOffice(application_id, office_id)
+      .subscribe((res) => {
+        res.data.forEach((element) => {
+          if (element.code !== '9999') {
+            // element.amount =
+            //   element.amount + element.amount * this.selectedSurcharge;
+          }
+          if (element.office) {
+            element.office = grandTotal;
+          }
+        });
+        this.cbaoFees = res.data;
+      });
+  }
+
   fetchApplicationFees() {
     const application_id = this.applicationId;
     const office_id = 4;
     this.applicationFeeService
       .fetchFeesByOffice(application_id, office_id)
       .subscribe((res) => {
+        this.plainCbaoFees = res.data;
         this.cbaoFees = res.data;
+        console.log(this.cbaoFees);
         this.isLoading = false;
+        this.surcharge = this.cbaoFees.filter((e) => e.code == '9999');
+
+        if (this.surcharge.length !== 0) {
+          this.selectedSurcharge = parseFloat(this.surcharge[0].percentage);
+          const fees = res.data.filter((e) => e.amount);
+          let total = fees
+            .map((item) => item.amount)
+            .reduce((prev, curr) => prev + curr, 0);
+          this.addFeeSurcharge(total);
+        }
       });
   }
   canAddFee() {

@@ -1,6 +1,6 @@
+import { EsignatureService } from 'src/app/core/services/esignature.service';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PasswordPromptComponent } from './../password-prompt/password-prompt.component';
 import { Component, OnInit, Input } from '@angular/core';
 import {
   CdkDragStart,
@@ -9,7 +9,6 @@ import {
   CdkDragDrop,
 } from '@angular/cdk/drag-drop';
 import { PDFDocument } from 'pdf-lib';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -33,20 +32,23 @@ export class ESignatureComponent implements OnInit {
   public applicationId;
   public documentPath;
   public isLoading: boolean;
+  public userDetails;
+  public userSignature;
   constructor(
-    public dialog: MatDialog,
     private route: ActivatedRoute,
     private applicationService: ApplicationInfoService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private esignatureService: EsignatureService
   ) {}
 
   ngOnInit() {
     // this.openDialog();
     this.isLoading = true;
+    this.userDetails = JSON.parse(localStorage.getItem('user'));
     this.applicationId = this.route.snapshot.params.id;
     this.documentId = this.route.snapshot.params.docId;
-    console.log(this.documentId);
+    this.userSignature = this.esignatureService.userSignature;
     this.applicationService
       .fetchSpecificDocInfo(this.documentId)
       .subscribe((res) => {
@@ -56,17 +58,6 @@ export class ESignatureComponent implements OnInit {
           ].document_path;
         this.isLoading = false;
       });
-  }
-
-  openDialog() {
-    const dialogRef = this.dialog.open(PasswordPromptComponent, {
-      disableClose: true,
-      width: '400px',
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
-    });
   }
 
   ngAfterViewInit() {
@@ -116,7 +107,7 @@ export class ESignatureComponent implements OnInit {
       esigContainer.getBoundingClientRect().left - rootContainer.left;
     const yCoordinate =
       esigContainer.getBoundingClientRect().top - rootContainer.top;
-    esigContainer.style.top = `${yCoordinate}px`;
+    esigContainer.style.top = `${yCoordinate + 150}px`;
     esigContainer.style.left = `${xCoordinate}px`;
     esigContainer.style.transform = null;
     event.source._dragRef.reset();
@@ -235,14 +226,14 @@ export class ESignatureComponent implements OnInit {
   }
 
   async insertEsig() {
-    const qrCodeBytes = await fetch('../../../assets/esig.png').then((res) =>
+    const esignatureBuffer = await fetch(this.userSignature).then((res) =>
       res.arrayBuffer()
     );
     const existingPdfBytes = await fetch(this.src).then((res) =>
       res.arrayBuffer()
     );
     const pdfDocLoad = await PDFDocument.load(existingPdfBytes);
-    const qrCode = await pdfDocLoad.embedPng(qrCodeBytes);
+    const eSig = await pdfDocLoad.embedPng(esignatureBuffer);
 
     const DOMPages = document.getElementsByClassName('page');
     const pages = pdfDocLoad.getPages();
@@ -269,7 +260,7 @@ export class ESignatureComponent implements OnInit {
     const pdfXCoordinate = xPercent * pages[0].getSize().width;
     const pdfYCoordinate = yPercent * pages[0].getSize().height;
 
-    pages[0].drawImage(qrCode, {
+    pages[0].drawImage(eSig, {
       x: pdfXCoordinate,
       y: pages[0].getSize().height - pdfYCoordinate - pdfImageHeight,
       height: pdfImageHeight,
@@ -279,9 +270,10 @@ export class ESignatureComponent implements OnInit {
     const pdfBytes = await pdfDocLoad.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
-    // window.open(file);
+    window.open(file);
     this.isLoading = true;
     const body = {
+      document_status_id: 1,
       document_path: blob,
     };
     this.applicationService

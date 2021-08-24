@@ -5,10 +5,9 @@ import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { FormDetailsComponent } from '../form-details/form-details.component';
-import { documentTypes } from '../../core/enums/document-type.enum';
 import { documentStatus } from '../../core/enums/document-status.enum';
 import Swal from 'sweetalert2';
 import { ReleaseBldgPermitComponent } from '../release-bldg-permit/release-bldg-permit.component';
@@ -37,8 +36,11 @@ export class CbaoEvaluatorComponent implements OnInit {
   public isLoading: boolean = true;
   public evaluatorRole;
   public mainPermitStatus;
+  public documentTypes;
+  public documentStatusSelector;
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
+  public userDocuments = [];
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
@@ -48,13 +50,15 @@ export class CbaoEvaluatorComponent implements OnInit {
     private waterMark: WaterMarkService,
     private snackBar: MatSnackBar,
     private eSignatureService: EsignatureService,
-    private occupancyService: OccupancyService
+    private occupancyService: OccupancyService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.applicationId = this.route.snapshot.params.id;
     this.fetchApplicationInfo();
     this.changeDetectorRefs.detectChanges();
+    this.fetchDocTypes();
   }
 
   openOccupancyFileUpload() {
@@ -68,9 +72,18 @@ export class CbaoEvaluatorComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
+  fetchPlainUserDocs() {
+    this.applicationService
+      .fetchUserDocs(this.applicationId)
+      .subscribe((result) => {
+        this.userDocuments = result.data;
+      });
+  }
+
   checkCepmoParallelDocs() {
     this.isLoading = true;
-    const findDoc = this.dataSource.forEach((e) => {
+
+    const findDoc = this.userDocuments.forEach((e) => {
       if (e.document_id == 36 || e.document_id == 63) {
         if (e.cbao_status_id == 1 && e.cepmo_status_id == 1) {
           const id = e.id;
@@ -88,7 +101,8 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
   checkBfpParallelDocs() {
     this.isLoading = true;
-    const findDoc = this.dataSource.forEach((e) => {
+
+    const findDoc = this.userDocuments.forEach((e) => {
       if (e.document_id == 62 || e.document_id == 32 || e.document_id == 33) {
         if (e.cbao_status_id == 1 && e.bfp_status_id == 1) {
           const id = e.id;
@@ -119,17 +133,102 @@ export class CbaoEvaluatorComponent implements OnInit {
                 res.data.forEach((element) => {
                   USER_FORMS.push(element);
                 });
-                this.dataSource = USER_FORMS;
+                this.dataSource = this.sortUserDocs(USER_FORMS);
+
                 this.isLoading = false;
               });
           });
         });
     }
     if (this.applicationInfo.permit_type_id !== 2) {
-      this.dataSource = USER_FORMS;
+      this.dataSource = this.sortUserDocs(USER_FORMS);
     }
-    console.log(this.dataSource);
     this.isLoading = false;
+  }
+
+  sortUserDocs(docs) {
+    const sortedForms = {
+      forms: {
+        label: 'Forms',
+        data: [],
+      },
+      documents: {
+        label: 'Documentary Requirements',
+        data: [],
+      },
+      plans: {
+        label: 'Plans, Designs, Specifications, Cost Estimate',
+        data: [],
+      },
+      professional: {
+        label:
+          'Photocopy of Professional Details (Professional Tax Receipt and Professional Regulation Commission ID, signed and sealed)',
+        data: [],
+      },
+      affidavits: {
+        label: 'Affidavits',
+        data: [],
+      },
+      others: {
+        label: 'Others',
+        data: [],
+      },
+    };
+
+    docs.forEach((element) => {
+      const docType =
+        this.documentTypes[element.document_id - 1].document_category_id;
+      switch (docType) {
+        case 1:
+          sortedForms.forms.data.push(element);
+          break;
+        case 2:
+          sortedForms.documents.data.push(element);
+          break;
+        case 3:
+          sortedForms.plans.data.push(element);
+          break;
+        case 4:
+          sortedForms.professional.data.push(element);
+          break;
+        case 5:
+          sortedForms.affidavits.data.push(element);
+          break;
+        default:
+          sortedForms.others.data.push(element);
+          break;
+      }
+    });
+
+    let sortedData = Object.values(sortedForms);
+    sortedData = [
+      {
+        label: sortedData[0].data.length ? sortedData[0].label : 'hidden',
+      },
+      ...sortedData[0].data,
+      {
+        label: sortedData[1].data.length ? sortedData[1].label : 'hidden',
+      },
+      ...sortedData[1].data,
+      {
+        label: sortedData[2].data.length ? sortedData[2].label : 'hidden',
+      },
+      ...sortedData[2].data,
+      {
+        label: sortedData[3].data.length ? sortedData[3].label : 'hidden',
+      },
+      ...sortedData[3].data,
+      {
+        label: sortedData[4].data.length ? sortedData[4].label : 'hidden',
+      },
+      ...sortedData[4].data,
+      {
+        label: sortedData[5].data.length ? sortedData[5].label : 'hidden',
+      },
+      ...sortedData[5].data,
+    ];
+
+    return sortedData;
   }
 
   fetchApplicationInfo() {
@@ -142,6 +241,7 @@ export class CbaoEvaluatorComponent implements OnInit {
           .fetchUserDocs(this.applicationId)
           .subscribe((result) => {
             this.filterUserDocs(result.data);
+            this.userDocuments = result.data;
             this.fetchEvaluatorDetails();
             this.checkFormsCompliant();
             this.checkFormsReviewed();
@@ -277,10 +377,19 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
+    if (this.evaluatorRole.code == 'CBAO-REC')
+      this.documentStatusSelector = 'receiving_status_id';
+    else if (
+      this.evaluatorRole.code == 'CBAO-DC' ||
+      this.evaluatorRole.code == 'CBAO-BO' ||
+      this.evaluatorRole.code == 'CBAO-REL'
+    )
+      this.documentStatusSelector = 'document_status_id';
+    else this.documentStatusSelector = 'cbao_status_id';
   }
 
   getDocType(id): string {
-    return documentTypes[id];
+    return this.documentTypes[id - 1].name;
   }
   getDocStatus(id): string {
     if (
@@ -341,30 +450,30 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   checkFormsCompliant() {
-    const isCompliant = this.dataSource.every(
+    const isCompliant = this.userDocuments.every(
       (form) => form.document_status_id == 1
     );
     return isCompliant;
   }
   checkBuildingPermitUploaded() {
-    const find = this.dataSource.find((form) => form.document_id == 50);
+    const find = this.userDocuments.find((form) => form.document_id == 50);
     return find;
   }
 
   checkFormNonCompliant() {
-    const isNonCompliant = this.dataSource.find(
+    const isNonCompliant = this.userDocuments.find(
       (form) => form.document_status_id == 2
     );
     return isNonCompliant;
   }
   checkFormsReviewed() {
     if (this.evaluatorRole.code == 'CBAO-REC') {
-      const isReviewed = this.dataSource.every(
+      const isReviewed = this.userDocuments.every(
         (form) => form.receiving_status_id == 1 || form.receiving_status_id == 2
       );
       return isReviewed;
     } else {
-      const isReviewed = this.dataSource.every(
+      const isReviewed = this.userDocuments.every(
         (form) => form.document_status_id == 1 || form.document_status_id == 2
       );
       return isReviewed;
@@ -416,6 +525,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   nonCompliant() {
+    console.log(this.userDocuments);
     if (this.checkFormsReviewed()) {
       Swal.fire({
         title: 'Are you sure?',
@@ -486,11 +596,9 @@ export class CbaoEvaluatorComponent implements OnInit {
       });
     } else {
       this.isLoading = false;
-      Swal.fire(
-        'Notice!',
-        `Please review all documents first!`,
-        'info'
-      ).then((result) => {});
+      Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
+        (result) => {}
+      );
     }
   }
 
@@ -674,6 +782,18 @@ export class CbaoEvaluatorComponent implements OnInit {
           this.isLoading = false;
         }
       );
+    }
+  }
+
+  canSignDocument() {
+    const code = this.evaluatorRole.code;
+    const status = this.applicationInfo.application_status_id;
+    if (status !== 24 && code == 'CBAO-BO') {
+      return true;
+    } else if (status !== 24 && code !== 'CBAO-BO') {
+      return false;
+    } else if (status == 24) {
+      return true;
     }
   }
 
@@ -924,9 +1044,12 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   goToEsig(id) {
-    const docId = id;
-    const appId = this.applicationId;
+    this.router.navigate(['/evaluator/application', this.applicationId, id]);
+  }
 
-    this.eSignatureService.goToEsig(appId, docId);
+  fetchDocTypes() {
+    this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
+      this.documentTypes = res.data;
+    });
   }
 }

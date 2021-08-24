@@ -1,3 +1,5 @@
+import { EsignatureGuard } from './../../core/guard/esignature.guard';
+import { EsigPromptComponent } from './../../shared/esig-prompt/esig-prompt.component';
 import { OldbpMasterlistComponent } from './../oldbp-masterlist/oldbp-masterlist.component';
 import { OccupancyRequestsComponent } from './../occupancy-requests/occupancy-requests.component';
 import { ESignatureComponent } from './../../shared/e-signature/e-signature.component';
@@ -59,7 +61,12 @@ const routes: Routes = [
       },
       {
         path: 'application/:id/:docId',
+        component: EsigPromptComponent,
+      },
+      {
+        path: 'application/sign/:id/:docId',
         component: ESignatureComponent,
+        canActivate: [EsignatureGuard],
       },
       {
         path: 'edit-profile',

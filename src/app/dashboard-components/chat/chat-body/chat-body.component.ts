@@ -28,10 +28,19 @@ export class ChatBodyComponent implements OnInit {
   public talkWithChatbot: boolean = false;
   public talkWithEvaluator: boolean = false;
   public showContacts: boolean = false;
+  public selectingOffice: boolean = false;
   public isEnd: boolean = false;
   public hasMessage: boolean = false;
-  public headerStart = true;
-  public isEvaluator = false;
+  public headerStart: boolean= true;
+  public isEvaluator: boolean = false;
+
+  //private officeArray:Array<string>= ["CBAO", "CPDO", "BFP", "CEPMO"];
+  public officeArray:Array<object> = [
+    {id: 1, text: 'CPDO',},
+    {id: 2, text: 'CEPMO'},
+    {id: 3, text: 'BFP'},
+    {id: 4, text: 'CBAO'},
+];
 
   public messages: [];
   private messageSubscription: Subscription;
@@ -87,14 +96,15 @@ export class ChatBodyComponent implements OnInit {
     this.talkWithEvaluator = true;
   }
 
-  OnCreateMsg() {
+  OnCreateMsg(office_id) {
+    console.log(office_id);
     let channel = `chat-${this.chatService.generateRandomNumber()}`;
     const newConvo = {
       channel: channel,
       subject: 'Assistance',
       user_sender_id: this.userInfo.id,
       user_receiver_id: 0,
-      office_receiver_id: 4,
+      office_receiver_id: office_id,
       status_id: 1,
       type_id: 1,
       message: 'Good day, Can you assist me?',
@@ -104,7 +114,65 @@ export class ChatBodyComponent implements OnInit {
     this.chatService.applicantChatSubscribe(channel);
     this.chatService.createConvo(newConvo).subscribe((data) => {
       this.chatId = data.data;
+
+    //   setTimeout(
+    //     () =>
+    //       this.selectedMessage.push({
+    //         type: 'incoming',
+    //         message: 'Whom to you want to talk with?',
+    //         date: new Date(),
+    //       }),
+    //     1000
+    //   );
+  
+  
+    //   setTimeout(
+    //     () =>
+    //       this.selectedMessage.push({
+    //         type: 'incoming',
+    //         message: 'CBAO',
+    //         param: 'Building',
+    //         element: 'Button'
+    //       }),
+    //     2000
+    //   );
+    //   setTimeout(
+    //     () =>
+    //       this.selectedMessage.push({
+    //         type: 'incoming',
+    //         message: 'CPDO',
+    //         param: 'Building',
+    //         element: 'Button'
+    //       }),
+    //     2000
+    //   );
+    //   setTimeout(
+    //     () =>
+    //       this.selectedMessage.push({
+    //         type: 'incoming',
+    //         message: 'BFP',
+    //         param: 'Building',
+    //         element: 'Button'
+    //       }),
+    //     2000
+    //   );
+  
+    //   setTimeout(
+    //     () =>
+    //       this.selectedMessage.push({
+    //         type: 'incoming',
+    //         message: 'CEPMO',
+    //         param: 'Building',
+    //         element: 'Button'
+    //       }),
+    //     2000
+    //   );
     });
+
+   
+
+    //console.log(this.selectedMessage)
+
   }
 
   OnAddMsg(): void {
@@ -123,7 +191,8 @@ export class ChatBodyComponent implements OnInit {
     }
   }
 
-  chatbotMessage(question) {
+  chatbotMessage(question, office_id?) {
+    console.log(office_id);
     switch (question) {
       case 'Apply':
         this.talkWithChatbot = true;
@@ -234,21 +303,39 @@ export class ChatBodyComponent implements OnInit {
         //this.talkWithChatbot = false;
         break;
 
-      case 'Evaluator':
+      case 'Select Office':
         this.talkWithChatbot = true;
         this.headerStart = false;
 
         setTimeout(
           () => (this.talkWithChatbot = false),
           500,
-          (this.talkWithEvaluator = true),
+          (this.selectingOffice = true),
           500,
           (this.selectedMessage = []),
           500,
-          this.OnCreateMsg(),
+          //this.OnCreateMsg(),
           500
         );
         break;
+
+        case 'Evaluator':
+          this.talkWithChatbot = true;
+          this.headerStart = false;
+  
+          setTimeout(
+            () => (this.talkWithChatbot = false),
+            100,
+            (this.selectingOffice = false),
+            100,
+            (this.talkWithEvaluator = true),
+            100,
+            (this.selectedMessage = []),
+            100,
+            this.OnCreateMsg(office_id),
+            100
+          );
+          break;
 
       case 'Show Contacts':
         this.talkWithChatbot = false;

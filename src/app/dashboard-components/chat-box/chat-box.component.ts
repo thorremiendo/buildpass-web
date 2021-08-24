@@ -42,7 +42,7 @@ export class ChatBoxComponent implements OnInit {
         .fetchConvo(this.officeId, 'reciever')
         .subscribe((result) => {
           this.messages = result.data;
-          // console.log(this.messages);
+          //console.log(this.messages);
           if (this.messages != null) {
             this.selectedMessage = this.messages[0];
             if(this.selectedMessage){
