@@ -93,6 +93,12 @@ export class AdminUserService {
 
   }
 
+  evaluatorStatus(id, status){
+    const url = `/user/${id}/employee/${status}`;
+
+    return this.apiService.post(url, null);
+  }
+
 }
 
 

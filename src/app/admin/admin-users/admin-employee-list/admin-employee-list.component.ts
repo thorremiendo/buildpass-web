@@ -85,6 +85,13 @@ export class AdminEmployeeListComponent implements OnInit {
     });
   }
 
+  evaluatorChangeStatus(id, status){
+    this._adminUserservice.evaluatorStatus(id, status).subscribe( res =>{
+      console.log(res);
+    })
+    
+  }
+
   approveFillingFee(value) {
     this._adminUserservice.approveFillingFee(value).subscribe((res) => {
       this.message = res;
@@ -96,4 +103,6 @@ export class AdminEmployeeListComponent implements OnInit {
       this.message = res.message;
     });
   }
+
+  
 }
