@@ -56,6 +56,10 @@ const routes: Routes = [
         component: ClosedTasksComponent,
       },
       {
+        path: 'esignature',
+        component: ESignatureComponent,
+      },
+      {
         path: 'application/:id',
         component: ApplicationDetailsComponent,
       },
