@@ -1,0 +1,74 @@
+<div *ngIf="!isLoading">
+  <h2 mat-dialog-title>UPDATE NEWS</h2>
+<mat-dialog-content class="py-3">
+  <form [formGroup] = "newsInfoForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Subject</mat-label>
+      <input  formControlName='subject' matInput>
+    </mat-form-field>
+  <mat-form-field appearance="outline">
+      <mat-label>Short Discription</mat-label>
+      <textarea 
+        formControlName='short_desc' 
+        style="height: 80px;" 
+        [maxlength]="maxLength"
+        #short_description
+        matInput>
+      </textarea>
+      <mat-hint align="end"
+      >{{ short_description.value.length }} / {{ maxLength }}</mat-hint
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Content</mat-label>
+      <textarea 
+        formControlName='body' 
+        style="height: 120px;" 
+        matInput>
+      </textarea>
+    </mat-form-field>
+  </form>
+  
+</mat-dialog-content>
+<mat-dialog-content class="py-3">
+  <div fxLayout="row">
+    <div class="uploadNewsImg" mat-stroked-button (click)="chooseNewsImage()">
+      <img [src]="displayNewsImage" alt="" />
+  </div>
+  <input type="file" class="sr-only" id="newsImage" accept="image/*"
+      (change)="handleNewsImageChange($event)" />
+    <!-- <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+      <button mat-button>
+        <input type="file" (change)="fileChangeEvent($event)" />
+        {{ btnName }}
+      </button>
+      <button mat-button>
+        <mat-icon
+          matTooltip="delete"
+          class="pointer"
+          aria-hidden="false"
+          aria-label="delete
+          (click)="handleDelete()"
+          >delete</mat-icon
+        >
+      </button>
+    </div> -->
+  </div>
+
+ 
+ 
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button
+    mat-button
+    cdkFocusInitial
+    mat-dialog-close
+    (click) = 'updateNews()'
+  >
+    Update
+  </button>
+</mat-dialog-actions>
+
+
+</div>

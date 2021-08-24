@@ -52,6 +52,7 @@ import { AdminModule } from './admin/admin.module';
 import { SharedModule } from './shared/shared.module';
 
 import { MaterialModule } from './material-module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 //import { DateAgoPipe } from './core/pipes/date-ago.pipe';
 
 declare module '@angular/core' {
@@ -115,6 +116,7 @@ LogRocket.init('bblmhh/buildpass-staging');
     }),
     CoreModule,
     MaterialModule,
+    NgbModule,
   ],
   providers: [
     {

@@ -35,8 +35,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { UpdatePasswordDialogComponent } from './update-password-dialog/update-password-dialog.component';
 import { ImageViewerModule } from 'ngx-image-viewer';
-import { AnnouncementListComponent } from './announcement/announcement-list/announcement-list.component';
-import { AnnouncementFullComponent } from './announcement/announcement-full/announcement-full.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
@@ -66,8 +64,6 @@ import { EsigPromptComponent } from './esig-prompt/esig-prompt.component';
     ApplicationsListComponent,
     FeedbackComponent,
     UpdatePasswordDialogComponent,
-    AnnouncementListComponent,
-    AnnouncementFullComponent,
     GeneralRemarksComponent,
     PasswordPromptComponent,
     ESignatureComponent,
@@ -106,7 +102,6 @@ import { EsigPromptComponent } from './esig-prompt/esig-prompt.component';
     ProjectDetailsComponent,
     ApplicantBuildingPermitDocsComponent,
     ApplicationsListComponent,
-    AnnouncementListComponent,
     GeneralRemarksComponent,
     UploadedIdentificationComponent,
     PdfFormSaveComponent,

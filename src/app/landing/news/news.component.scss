@@ -1,5 +1,5 @@
-.news {
-    max-width: 1000px;
+.news{
+    max-width: 1200px;
 
     .page-header {
         margin-top: 50px;
@@ -24,4 +24,34 @@
             text-align: left;
         }
     }
+
+    // .img{
+    //     width: 1200px;
+    //     height: 500px;
+    // }
+
 }
+
+.img{
+    height: 140px !important;
+    width: 215px !important;
+    margin: auto;
+  }
+  
+  .more{
+    color: maroon;
+    cursor: pointer;
+  }
+  .subject{
+    color: maroon;
+  }
+  
+  .description{
+    color: gray;
+    text-align: justify;
+  }
+  
+  .date{
+    font-size: small;
+  }
+
