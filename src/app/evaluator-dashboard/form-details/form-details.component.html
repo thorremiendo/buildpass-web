@@ -163,6 +163,7 @@
             <mat-option value="2"> Non-Compliant </mat-option>
           </mat-select>
         </mat-form-field>
+
         <ng-container
           *ngIf="
             revisionData !== undefined &&
@@ -170,9 +171,14 @@
           "
         >
           <div *ngIf="!isLoading">
-            <app-remarks-history-table enableAddRemark="true"></app-remarks-history-table>
+            <app-remarks-history-table
+              enableAddRemark="true"
+            ></app-remarks-history-table>
           </div>
         </ng-container>
+        <span *ngIf="permitDetails.value.is_compliant" style="color: maroon"
+          >Click "Save" button to save your evaluation.</span
+        >
       </div>
     </div>
     <div class="d-flex justify-content-between align-items-center my-5">
@@ -180,7 +186,7 @@
         <button
           mat-raised-button
           color="accent"
-          (click)="onNoClick()"
+          (click)="onNoClick(2)"
           [disabled]="isSubmitting"
         >
           Close
@@ -196,22 +202,12 @@
           this.data.form.document_id !== 50
         "
       >
-        <ng-container *ngIf="permitDetails.value.is_compliant == '1'">
+        <ng-container>
           <button
             mat-raised-button
             color="primary"
             (click)="callSave()"
-            [disabled]="isSubmitting"
-          >
-            Save
-          </button>
-        </ng-container>
-        <ng-container *ngIf="permitDetails.value.is_compliant == '2'">
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="callSave()"
-            [disabled]="isSubmitting"
+            [disabled]="!permitDetails.value.is_compliant || isSubmitting"
           >
             Save
           </button>
