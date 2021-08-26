@@ -127,8 +127,8 @@
           </p>
         </div>
 
-        <div *ngIf="application.applicant_detail?.created_at">
-          {{ application.applicant_detail.created_at | date: "MMMM dd, yyyy" }}
+        <div *ngIf="application?.submitted_at">
+          {{ application.submitted_at | date: "MMMM dd, yyyy" }}
         </div>
       </div>
       <div class="application-code">
