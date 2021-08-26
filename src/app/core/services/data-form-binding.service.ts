@@ -1103,9 +1103,7 @@ export class DataFormBindingService {
       //TODO: data binding
       existing_land_others: 'N/A',
       position_title: 'N/A',
-      right_over_land_others_specify: 'N/A',
-      project_tenure_temporary_specify: 'N/A',
-      project_nature_others_specify: 'N/A',
+    
     };
 
     return formData;
