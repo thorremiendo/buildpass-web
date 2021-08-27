@@ -1,16 +1,92 @@
 <app-navigation></app-navigation>
 <app-banner></app-banner>
 <div class="news container-fluid">
+    <!-- <div class="row landing-nav">
+        <div class="col-12 col-md-3">
+            <div class="page-header">Announcment</div>
+        </div>
+        <div class="col-12 col-md-9">
+            <div class="page-content">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin sagittis nisl rhoncus mattis rhoncus urna neque viverra justo. Donec pretium vulputate sapien nec sagittis aliquam malesuada bibendum. Ullamcorper dignissim cras tincidunt lobortis feugiat vivamus at. Arcu non odio euismod lacinia at quis risus sed. Nunc sed augue lacus viverra vitae congue eu consequat. Tortor posuere ac ut consequat semper viverra nam libero justo. Risus commodo viverra maecenas accumsan lacus. Morbi tempus iaculis urna id volutpat lacus laoreet non. Egestas diam in arcu cursus euismod quis.</p>
+                <p>In vitae turpis massa sed elementum tempus egestas sed. Amet consectetur adipiscing elit duis tristique sollicitudin. Et pharetra pharetra massa massa ultricies mi quis hendrerit dolor. Pellentesque habitant morbi tristique senectus et netus et malesuada. Id diam maecenas ultricies mi eget mauris pharetra et.</p>
+                <mat-card>
+                    <mat-card-content>
+                        <ngb-carousel *ngIf="event_list">
+                            <ng-template ngbSlide *ngFor="let event of event_list">
+                                <img class="img" [src]="event.img" alt="Random slide">
+                                <div class="carousel-caption">
+                                    <h3>{{ event.eventLocation }}</h3>
+                                    <p [innerText]="event.eventDescription"></p>
+                                </div>
+                            </ng-template>
+                        </ngb-carousel>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </div> -->
     <div class="row landing-nav">
         <div class="col-12 col-md-3">
             <div class="page-header">News</div>
         </div>
         <div class="col-12 col-md-9">
             <div class="page-content">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin sagittis nisl rhoncus mattis rhoncus urna neque viverra justo. Donec pretium vulputate sapien nec sagittis aliquam malesuada bibendum. Ullamcorper dignissim cras tincidunt lobortis feugiat vivamus at. Arcu non odio euismod lacinia at quis risus sed. Nunc sed augue lacus viverra vitae congue eu consequat. Tortor posuere ac ut consequat semper viverra nam libero justo. Risus commodo viverra maecenas accumsan lacus. Morbi tempus iaculis urna id volutpat lacus laoreet non. Egestas diam in arcu cursus euismod quis.</p>
-                <p>In vitae turpis massa sed elementum tempus egestas sed. Amet consectetur adipiscing elit duis tristique sollicitudin. Et pharetra pharetra massa massa ultricies mi quis hendrerit dolor. Pellentesque habitant morbi tristique senectus et netus et malesuada. Id diam maecenas ultricies mi eget mauris pharetra et.</p>
+                <div *ngFor="let announcement of data; index as i">
+                    <mat-card *ngIf="announcement.isActive == true">
+                        <mat-card-content >
+                            <div  fxLayout="row wrap">
+                              <div fxFlex.gt-sm="20" fxFlex.gt-xs="100" fxFlex="100">
+                                <img class="img" [src]="announcement.photo_path_crop"/>
+                              </div>
+                             
+                              <div  class="px-5" fxFlex.gt-sm="80" fxFlex.gt-xs="100" fxFlex="100">
+                                  <h2  class="subject">
+                                     {{ announcement.subject }}
+                                  </h2>
+                                  <p class="date"> <span class="material-icons" style="font-size:medium;">
+                                    schedule
+                                    </span>{{announcement.date | date: 'fullDate'}}</p>
+                                <p class="description">{{ announcement.short_description }}  <a *ngIf="announcement.body"class="more" (click)="previewDialog(announcement)">  more....</a></p>
+                              </div>
+                            </div>
+                           
+                          </mat-card-content>
+                    </mat-card>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<!-- <div class="announcement container-fluid" >
+    <div class="row pt-5 pb-3">
+        <div class="col">
+
+            <mat-card>
+                <mat-card-content>
+                    <ngb-carousel *ngIf="event_list">
+                        <ng-template ngbSlide *ngFor="let event of event_list">
+                            <img class="img" [src]="event.img" alt="Random slide">
+                            <div class="carousel-caption">
+                                <h3>{{ event.eventLocation }}</h3>
+                                <p [innerText]="event.eventDescription"></p>
+                            </div>
+                        </ng-template>
+                    </ngb-carousel>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-tab-group>
+                <mat-tab label="News">
+                    <mat-card-content>Content 1</mat-card-content>
+                </mat-tab>
+                <mat-tab label="Announcement">
+                    <mat-card-content>Content 2</mat-card-content>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div> -->
 <app-footer></app-footer>

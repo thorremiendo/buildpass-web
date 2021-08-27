@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, Optional, ViewChild } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { Announcement } from './announcement';
 import { MatDialog } from '@angular/material/dialog';
 import { AnnouncementService } from '../../core';
@@ -8,17 +9,18 @@ import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
 import { PreviewDialogComponent } from './preview-dialog/preview-dialog.component';
 
 @Component({
-  selector: 'app-admin-announcement',
-  templateUrl: './admin-announcement.component.html',
-  styleUrls: ['./admin-announcement.component.scss'],
+  selector: 'app-admin-news-editor',
+  templateUrl: './admin-news-editor.component.html',
+  styleUrls: ['./admin-news-editor.scss'],
 })
-export class AdminAnnouncementComponent {
+export class AdminNewsEditorComponent {
   public isActive: boolean;
-  public announcements: Object[];
+  public newsInfo: Object[];
   // public announcements: Object[] = Announcement;
   constructor(
     public dialog: MatDialog,
-    private announcementService: AnnouncementService
+    private announcementService: AnnouncementService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -27,7 +29,7 @@ export class AdminAnnouncementComponent {
 
   fetchAllAnnouncements() {
     this.announcementService.fetchAnnouncements().subscribe((data) => {
-      this.announcements = data.data;
+      this.newsInfo = data.data;
     });
   }
 
@@ -37,12 +39,12 @@ export class AdminAnnouncementComponent {
     const param = new HttpParams().set(key, value);
 
     this.announcementService.fetchAnnouncements(param).subscribe((data) => {
-      this.announcements = data.data;
+      this.newsInfo = data.data;
     });
   }
 
   delete(index: any) {
-    this.announcements.splice(index, 1);
+    this.newsInfo.splice(index, 1);
   }
 
   editDialog(data, index) {
@@ -53,7 +55,8 @@ export class AdminAnnouncementComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      window.location.reload();
+      console.log(result)
+     this.fetchAllAnnouncements();
     });
   }
 
@@ -65,23 +68,59 @@ export class AdminAnnouncementComponent {
     });
   }
 
-  addNew() {
-    this.announcements.push({
+  addNew(){
+    const body = {
       subject: 'Test Announcement',
-      short_description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed semper rutrum velit nec hendrerit. Nullam quis dui a sapien venenatis elementum. Phasellus euismod, magna a interdum blandit, ex velit imperdiet ligula, eu vestibulum justo nisi sed nunc. Praesent sed ex nec eros volutpat maximus vitae quis mi. Sed dictum fermentum nulla, eget sagittis diam mattis ac.',
+      short_desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
       body: 'New Announcement 1 ',
       isActive: false,
-      photo_path: '',
-      date: new Date(),
-    });
+      //photo_path: '',
+
+    }
+    this.announcementService.postAnnouncement(body).subscribe( result =>{
+      if(result.message = "Success."){
+        this.newsInfo.push(body);
+        this.snackBar.open("Success...", "Close", {
+          duration:3000,
+          horizontalPosition: "left",
+        });
+
+      }
+      else{
+        this.snackBar.open("Something went wrong...", "Close", {
+          duration:3000,
+          horizontalPosition: "left",
+        });
+
+      }
+
+    })
   }
+
+  changeStatus(id, isActive){
+    console.log(isActive)
+    if(isActive){
+      const body = {
+        is_active: 0,
+      }
+      this.announcementService.updateAnnouncementById(id,body);
+    }
+    else{
+      const body = {
+        is_active: 1,
+      }
+      this.announcementService.updateAnnouncementById(id,body);
+
+    }
+
+  }
+
 
   preview() {}
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(
-      this.announcements,
+      this.newsInfo,
       event.previousIndex,
       event.currentIndex
     );
