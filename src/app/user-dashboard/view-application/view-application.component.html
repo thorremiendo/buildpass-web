@@ -311,8 +311,7 @@
                         </ng-container>
                         <ng-container>
                           <a
-                            href="{{ element.document_path }}"
-                            target="_blank"
+                            (click)="viewFlattenPdf(element.document_path)"
                             mat-menu-item
                             >View</a
                           >

@@ -165,7 +165,10 @@
                 <button
                   mat-raised-button
                   color="warn"
-                  [disabled]="applicationDetails.application_status_id == 3"
+                  [disabled]="
+                    applicationDetails.application_status_id == 3 ||
+                    applicationDetails.application_status_id == 5
+                  "
                   (click)="nonCompliant()"
                   *ngIf="!checkFormsCompliant()"
                 >
