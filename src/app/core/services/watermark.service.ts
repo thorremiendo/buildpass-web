@@ -6,6 +6,7 @@ import { ApiService } from './api.service';
   providedIn: 'root',
 })
 export class WaterMarkService {
+  public mergedPlans;
   constructor(private api: ApiService) {}
 
   async insertWaterMark(doc_path: string, doc_type: string) {
@@ -147,6 +148,157 @@ export class WaterMarkService {
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
     window.open(file); // open in new window
+  }
+
+  convertToBytes(url) {
+    if (url[0]) {
+      const bytes = fetch(url[0].document_path).then((res) =>
+        res.arrayBuffer()
+      );
+      return bytes;
+    }
+  }
+
+  async merge(forms) {
+    let architectural;
+    let civil;
+    let sanitary;
+    let electrical;
+    let electricalDesign;
+    let buildingSpec;
+    let billOfMaterials;
+    let soilAnalysis;
+    let structural;
+
+    const architecturalUrl = forms.filter((e) => e.document_id == 59);
+    const civilUrl = forms.filter((e) => e.document_id == 61);
+    const sanitaryUrl = forms.filter((e) => e.document_id == 63);
+    const electricalDesignUrl = forms.filter((e) => e.document_id == 30);
+    const electricalUrl = forms.filter((e) => e.document_id == 62);
+    const buildingSpecUrl = forms.filter((e) => e.document_id == 32);
+    const billOfMaterialsUrl = forms.filter((e) => e.document_id == 33);
+    const soilAnalysisUrl = forms.filter((e) => e.document_id == 31);
+    const structuralUrl = forms.filter((e) => e.document_id == 29);
+
+    const architectrualBytes = await this.convertToBytes(architecturalUrl);
+    const civilBytes = await this.convertToBytes(civilUrl);
+    const sanitaryBytes = await this.convertToBytes(sanitaryUrl);
+    const electricalDesignBytes = await this.convertToBytes(
+      electricalDesignUrl
+    );
+    const electricalBytes = await this.convertToBytes(electricalUrl);
+    const buildingSpecBytes = await this.convertToBytes(buildingSpecUrl);
+    const billOfMaterialsBytes = await this.convertToBytes(billOfMaterialsUrl);
+    const soilAnalaysisBytes = await this.convertToBytes(soilAnalysisUrl);
+    const structuralBytes = await this.convertToBytes(structuralUrl);
+
+    if (architectrualBytes) {
+      architectural = await PDFDocument.load(architectrualBytes);
+    }
+    if (civilBytes) {
+      civil = await PDFDocument.load(civilBytes);
+    }
+    if (sanitaryBytes) {
+      sanitary = await PDFDocument.load(sanitaryBytes);
+    }
+    if (electricalBytes) {
+      electrical = await PDFDocument.load(electricalBytes);
+    }
+    if (electricalDesignBytes) {
+      electricalDesign = await PDFDocument.load(electricalDesignBytes);
+    }
+    if (buildingSpecBytes) {
+      buildingSpec = await PDFDocument.load(buildingSpecBytes);
+    }
+    if (billOfMaterialsBytes) {
+      billOfMaterials = await PDFDocument.load(billOfMaterialsBytes);
+    }
+    if (soilAnalaysisBytes) {
+      soilAnalysis = await PDFDocument.load(soilAnalaysisBytes);
+    }
+    if (structuralBytes) {
+      structural = await PDFDocument.load(structuralBytes);
+    }
+
+    const mergedPdf = await PDFDocument.create();
+
+    if (architectural) {
+      const copiedPagesA = await mergedPdf.copyPages(
+        architectural,
+        architectural.getPageIndices()
+      );
+      copiedPagesA.forEach((page) => mergedPdf.addPage(page));
+    }
+    if (civil) {
+      const copiedPagesB = await mergedPdf.copyPages(
+        civil,
+        civil.getPageIndices()
+      );
+      copiedPagesB.forEach((page) => mergedPdf.addPage(page));
+    }
+
+    if (sanitary) {
+      const copiedPagesC = await mergedPdf.copyPages(
+        sanitary,
+        sanitary.getPageIndices()
+      );
+      copiedPagesC.forEach((page) => mergedPdf.addPage(page));
+    }
+
+    if (electrical) {
+      const copiedPagesD = await mergedPdf.copyPages(
+        electrical,
+        electrical.getPageIndices()
+      );
+      copiedPagesD.forEach((page) => mergedPdf.addPage(page));
+    }
+
+    if (electricalDesign) {
+      const copiedPagesE = await mergedPdf.copyPages(
+        electricalDesign,
+        electricalDesign.getPageIndices()
+      );
+      copiedPagesE.forEach((page) => mergedPdf.addPage(page));
+    }
+
+    if (buildingSpec) {
+      const copiedPagesF = await mergedPdf.copyPages(
+        buildingSpec,
+        buildingSpec.getPageIndices()
+      );
+      copiedPagesF.forEach((page) => mergedPdf.addPage(page));
+    }
+
+    if (billOfMaterials) {
+      const copiedPagesG = await mergedPdf.copyPages(
+        billOfMaterials,
+        billOfMaterials.getPageIndices()
+      );
+      copiedPagesG.forEach((page) => mergedPdf.addPage(page));
+    }
+
+    if (soilAnalysis) {
+      const copiedPagesH = await mergedPdf.copyPages(
+        soilAnalysis,
+        soilAnalysis.getPageIndices()
+      );
+      copiedPagesH.forEach((page) => mergedPdf.addPage(page));
+    }
+
+    if (structural) {
+      const copiedPagesI = await mergedPdf.copyPages(
+        structural,
+        structural.getPageIndices()
+      );
+      copiedPagesI.forEach((page) => mergedPdf.addPage(page));
+    }
+
+    const mergedPdfFile = await mergedPdf.save();
+
+    const blob = new Blob([mergedPdfFile], { type: 'application/pdf' });
+    const file = window.URL.createObjectURL(blob);
+    this.mergedPlans = file;
+    // window.open(file); // open in new window
   }
 
   generateQrCode(id) {
