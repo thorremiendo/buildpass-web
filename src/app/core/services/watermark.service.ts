@@ -128,6 +128,27 @@ export class WaterMarkService {
     return blob;
   }
 
+  async flattenForm(pdfUrl) {
+    // Fetch the PDF with form fields
+    const formUrl = pdfUrl;
+    const formPdfBytes = await fetch(formUrl).then((res) => res.arrayBuffer());
+
+    // Load a PDF with form fields
+    const pdfDoc = await PDFDocument.load(formPdfBytes);
+
+    // Get the form containing all the fields
+    const form = pdfDoc.getForm();
+
+    // Flatten the form's fields
+    form.flatten();
+
+    // Serialize the PDFDocument to bytes (a Uint8Array)
+    const pdfBytes = await pdfDoc.save();
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const file = window.URL.createObjectURL(blob);
+    window.open(file); // open in new window
+  }
+
   generateQrCode(id) {
     const url = `/application/${id}/qrcode`;
     return this.api.post(url, null);

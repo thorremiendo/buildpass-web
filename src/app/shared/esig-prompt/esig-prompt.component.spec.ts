@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AnnouncementListComponent } from './announcement-list.component';
+import { EsigPromptComponent } from './esig-prompt.component';
 
-describe('AnnouncementListComponent', () => {
-  let component: AnnouncementListComponent;
-  let fixture: ComponentFixture<AnnouncementListComponent>;
+describe('EsigPromptComponent', () => {
+  let component: EsigPromptComponent;
+  let fixture: ComponentFixture<EsigPromptComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AnnouncementListComponent ]
+      declarations: [ EsigPromptComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AnnouncementListComponent);
+    fixture = TestBed.createComponent(EsigPromptComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,3 +1,4 @@
+import { WaterMarkService } from './../../core/services/watermark.service';
 import { RepresentativeDetailsComponent } from './../../shared/representative-details/representative-details.component';
 import { RemarksHistoryTableComponent } from './../../evaluator-dashboard/remarks-history-table/remarks-history-table.component';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -48,7 +49,8 @@ export class ViewApplicationComponent implements OnInit {
     public route: ActivatedRoute,
     private applicationFeeService: ApplicationFeesService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private pdfService: WaterMarkService
   ) {}
   openProjectDialog(): void {
     const dialogRef = this.dialog.open(ProjectDetailsComponent, {
@@ -84,6 +86,9 @@ export class ViewApplicationComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe((result) => {});
       });
+  }
+  viewFlattenPdf(pdfUrl) {
+    this.pdfService.flattenForm(pdfUrl);
   }
 
   ngOnInit(): void {
