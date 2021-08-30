@@ -41,6 +41,9 @@ export class CbaoEvaluatorComponent implements OnInit {
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
   public userDocuments = [];
+  public plansDocuments;
+  public mergedPlans;
+  public isLoadingMergedPlans: boolean = false;
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
@@ -134,7 +137,6 @@ export class CbaoEvaluatorComponent implements OnInit {
                   USER_FORMS.push(element);
                 });
                 this.dataSource = this.sortUserDocs(USER_FORMS);
-
                 this.isLoading = false;
               });
           });
@@ -240,8 +242,31 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.applicationService
           .fetchUserDocs(this.applicationId)
           .subscribe((result) => {
+            this.user = JSON.parse(localStorage.getItem('user'));
+            this.evaluatorDetails = this.user.employee_detail;
+            this.evaluatorRole = this.user.user_roles[0].role[0];
             this.filterUserDocs(result.data);
             this.userDocuments = result.data;
+            this.plansDocuments = this.userDocuments.filter(
+              (e) =>
+                e.document_id == 59 ||
+                e.document_id == 61 ||
+                e.document_id == 63 ||
+                e.document_id == 62 ||
+                e.document_id == 30 ||
+                e.document_id == 32 ||
+                e.document_id == 33 ||
+                e.document_id == 31 ||
+                e.document_id == 29
+            );
+            if (this.evaluatorRole.code == 'CBAO-BO') {
+              console.log('merging');
+              this.isLoadingMergedPlans = true;
+              this.waterMark.merge(this.plansDocuments).finally(() => {
+                this.isLoadingMergedPlans = false;
+                this.mergedPlans = this.waterMark.mergedPlans;
+              });
+            }
             this.fetchEvaluatorDetails();
             this.checkFormsCompliant();
             this.checkFormsReviewed();
@@ -374,9 +399,6 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   fetchEvaluatorDetails() {
-    this.user = JSON.parse(localStorage.getItem('user'));
-    this.evaluatorDetails = this.user.employee_detail;
-    this.evaluatorRole = this.user.user_roles[0].role[0];
     if (this.evaluatorRole.code == 'CBAO-REC')
       this.documentStatusSelector = 'receiving_status_id';
     else if (
@@ -1052,5 +1074,9 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
       this.documentTypes = res.data;
     });
+  }
+
+  openMergedPlans() {
+    window.open(this.mergedPlans);
   }
 }
