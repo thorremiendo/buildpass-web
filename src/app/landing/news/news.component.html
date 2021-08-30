@@ -32,21 +32,21 @@
         <div class="col-12 col-md-9">
             <div class="page-content">
                 <div *ngFor="let announcement of data; index as i">
-                    <mat-card *ngIf="announcement.isActive == true">
+                    <mat-card *ngIf="announcement.is_active == true">
                         <mat-card-content >
                             <div  fxLayout="row wrap">
                               <div fxFlex.gt-sm="20" fxFlex.gt-xs="100" fxFlex="100">
-                                <img class="img" [src]="announcement.photo_path_crop"/>
+                                <img class="img pr-4" [src]="announcement.image_path"/>
                               </div>
                              
-                              <div  class="px-5" fxFlex.gt-sm="80" fxFlex.gt-xs="100" fxFlex="100">
+                              <div  class="pl-5" fxFlex.gt-sm="80" fxFlex.gt-xs="100" fxFlex="100">
                                   <h2  class="subject">
                                      {{ announcement.subject }}
                                   </h2>
                                   <p class="date"> <span class="material-icons" style="font-size:medium;">
                                     schedule
-                                    </span>{{announcement.date | date: 'fullDate'}}</p>
-                                <p class="description">{{ announcement.short_description }}  <a *ngIf="announcement.body"class="more" (click)="previewDialog(announcement)">  more....</a></p>
+                                    </span>{{announcement.updated_at | date: 'fullDate'}}</p>
+                                <p class="description">{{ announcement.short_desc }}  <a *ngIf="announcement.body"class="more" (click)="previewDialog(announcement)">  more....</a></p>
                               </div>
                             </div>
                            

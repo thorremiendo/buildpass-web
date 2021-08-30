@@ -18,7 +18,6 @@ import { AdminSignInComponent } from './admin-sign-in/admin-sign-in.component';
 import { EmployeeResetPasswordComponent } from './employee-reset-password/employee-reset-password.component';
 import { AdminNewsEditorComponent } from './admin-news-announcement-editor/admin-news-editor.component';
 import { EditDialogComponent } from './admin-news-announcement-editor/edit-dialog/edit-dialog.component';
-import { PreviewDialogComponent } from './admin-news-announcement-editor/preview-dialog/preview-dialog.component';
 import { AdminApplicationListComponent } from './admin-application-list/admin-application-list.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
@@ -28,7 +27,6 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     EmployeeResetPasswordComponent, 
     AdminNewsEditorComponent,
     EditDialogComponent,
-    PreviewDialogComponent,
     AdminApplicationListComponent,
   ],
   imports: [
