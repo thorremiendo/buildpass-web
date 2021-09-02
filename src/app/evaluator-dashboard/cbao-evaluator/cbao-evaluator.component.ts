@@ -429,6 +429,7 @@ export class CbaoEvaluatorComponent implements OnInit {
       height: '2000px',
       data: {
         evaluator: this.evaluatorDetails,
+        userRole: this.evaluatorRole,
         form: element,
         route: this.route,
         application: this.applicationInfo,
