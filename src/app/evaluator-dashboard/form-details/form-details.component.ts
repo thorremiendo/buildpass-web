@@ -390,8 +390,8 @@ export class FormDetailsComponent implements OnInit {
           //CBAO
           if (
             permitType == 1 &&
-            this.data.evaluator.position !== 'Admin Aide IV' &&
-            this.data.evaluator.position !== 'Architect IV'
+            this.data.userRole.code !== 'CBAO-REC' &&
+            this.data.userRole.code !== 'CBAO-DC'
           ) {
             //BLDG PERMIT EVALUATORS
             const filters = [59, 63, 36, 62, 32, 33, 140];
@@ -411,17 +411,14 @@ export class FormDetailsComponent implements OnInit {
               };
               this.updateDoc(body, id);
             }
-          } else if (this.data.evaluator.position == 'Admin Aide IV') {
+          } else if (this.data.userRole.code == 'CBAO-REC') {
             //BLDG PERMIT RECEIVING
             body = {
               document_status_id: this.permitDetails.value.is_compliant,
               receiving_status_id: this.permitDetails.value.is_compliant,
             };
             this.updateDoc(body, id);
-          } else if (
-            permitType == 1 &&
-            this.data.evaluator.position == 'Architect IV'
-          ) {
+          } else if (permitType == 1 && this.data.userRole == 'CBAO-DC') {
             body = {
               document_status_id: this.permitDetails.value.is_compliant,
             };
@@ -517,8 +514,8 @@ export class FormDetailsComponent implements OnInit {
           //CBAO
           if (
             permitType == 1 &&
-            this.data.evaluator.position !== 'Admin Aide IV' &&
-            this.data.evaluator.position !== 'Architect IV'
+            this.data.userRole.code !== 'CBAO-REC' &&
+            this.data.userRole.code !== 'CBAO-DC'
           ) {
             //BLDG PERMIT EVALUATORS
             const filters = [59, 63, 36, 62, 32, 33, 140];
@@ -538,17 +535,14 @@ export class FormDetailsComponent implements OnInit {
               };
               this.updateDoc(body, id);
             }
-          } else if (this.data.evaluator.position == 'Admin Aide IV') {
+          } else if (this.data.userRole.code == 'CBAO-REC') {
             //BLDG PERMIT RECEIVING
             body = {
               document_status_id: this.permitDetails.value.is_compliant,
               receiving_status_id: this.permitDetails.value.is_compliant,
             };
             this.updateDoc(body, id);
-          } else if (
-            permitType == 1 &&
-            this.data.evaluator.position == 'Architect IV'
-          ) {
+          } else if (permitType == 1 && this.data.userRole == 'CBAO-DC') {
             body = {
               document_status_id: this.permitDetails.value.is_compliant,
             };
@@ -609,8 +603,8 @@ export class FormDetailsComponent implements OnInit {
               //CBAO
               if (
                 permitType == 1 &&
-                this.data.evaluator.position !== 'Admin Aide IV' &&
-                this.data.evaluator.position !== 'Architect IV'
+                this.data.userRole.code !== 'CBAO-REC' &&
+                this.data.userRole.code !== 'CBAO-DC'
               ) {
                 //BLDG PERMIT EVALUATORS
                 const filters = [59, 63, 36, 62, 32, 33, 140];
@@ -634,7 +628,7 @@ export class FormDetailsComponent implements OnInit {
                   };
                   this.updateDoc(body, id);
                 }
-              } else if (this.data.evaluator.position == 'Admin Aide IV') {
+              } else if (this.data.userRole.code == 'CBAO-REC') {
                 //BLDG PERMIT RECEIVING
                 body = {
                   document_status_id: this.permitDetails.value.is_compliant,
@@ -642,10 +636,7 @@ export class FormDetailsComponent implements OnInit {
                   document_path: blob,
                 };
                 this.updateDoc(body, id);
-              } else if (
-                permitType == 1 &&
-                this.data.evaluator.position == 'Architect IV'
-              ) {
+              } else if (permitType == 1 && this.data.userRole == 'CBAO-DC') {
                 body = {
                   document_status_id: this.permitDetails.value.is_compliant,
                 };

@@ -6,7 +6,7 @@ import { Announcement } from './announcement';
 import { MatDialog } from '@angular/material/dialog';
 import { AnnouncementService } from '../../core';
 import { EditDialogComponent } from './edit-dialog/edit-dialog.component';
-import { PreviewDialogComponent } from './preview-dialog/preview-dialog.component';
+import { PreviewDialogComponent } from '../../shared/preview-dialog/preview-dialog.component';
 
 @Component({
   selector: 'app-admin-news-editor',
@@ -30,6 +30,7 @@ export class AdminNewsEditorComponent {
   fetchAllAnnouncements() {
     this.announcementService.fetchAnnouncements().subscribe((data) => {
       this.newsInfo = data.data;
+      console.log(this.newsInfo);
     });
   }
 
@@ -43,8 +44,25 @@ export class AdminNewsEditorComponent {
     });
   }
 
-  delete(index: any) {
-    this.newsInfo.splice(index, 1);
+  delete(id) {
+    //this.newsInfo.splice(index, 1);
+    this.announcementService.removeAnnouncementById(id).subscribe( res =>{
+      if(res.message == "Deleted."){
+        this.fetchAllAnnouncements();
+        this.snackBar.open("Deleted...", "Close", {
+          duration:3000,
+          horizontalPosition: "left",
+        });
+      }
+      else{
+        this.snackBar.open("Something went wrong...", "Close", {
+          duration:3000,
+          horizontalPosition: "left",
+        });
+
+      }
+    });
+
   }
 
   editDialog(data, index) {
@@ -55,7 +73,6 @@ export class AdminNewsEditorComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result)
      this.fetchAllAnnouncements();
     });
   }
@@ -73,13 +90,13 @@ export class AdminNewsEditorComponent {
       subject: 'Test Announcement',
       short_desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
       body: 'New Announcement 1 ',
-      isActive: false,
+      is_active: 0,
       //photo_path: '',
 
     }
-    this.announcementService.postAnnouncement(body).subscribe( result =>{
-      if(result.message = "Success."){
-        this.newsInfo.push(body);
+    this.announcementService.postAnnouncement(body).subscribe( data =>{
+      if(data.message = "Success."){
+        this.fetchAllAnnouncements();
         this.snackBar.open("Success...", "Close", {
           duration:3000,
           horizontalPosition: "left",
@@ -99,17 +116,21 @@ export class AdminNewsEditorComponent {
 
   changeStatus(id, isActive){
     console.log(isActive)
-    if(isActive){
+    if(isActive == true){
       const body = {
         is_active: 0,
       }
-      this.announcementService.updateAnnouncementById(id,body);
+      this.announcementService.updateAnnouncementById(id,body).subscribe( res => {
+        console.log(res.data);
+      });
     }
     else{
       const body = {
         is_active: 1,
       }
-      this.announcementService.updateAnnouncementById(id,body);
+      this.announcementService.updateAnnouncementById(id,body).subscribe( res => {
+        console.log(res.data);
+      });
 
     }
 

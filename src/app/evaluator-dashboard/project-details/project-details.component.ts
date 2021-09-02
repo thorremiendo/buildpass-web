@@ -20,6 +20,7 @@ export class ProjectDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.transformProjectCost();
+    console.log(this.data.projectDetails);
   }
   transformProjectCost() {
     this.isLoading = true;
