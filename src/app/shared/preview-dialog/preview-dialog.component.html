@@ -1,0 +1,20 @@
+
+    <mat-card>
+        <mat-card-header>
+            <!-- <div mat-card-avatar>
+                <img src="{{info.image_path}}" class="img-fluid img-circle" />
+            </div> -->
+            <mat-card-title>{{info.subject}}</mat-card-title>
+            <mat-card-subtitle>{{info.updated_at | date: 'fullDate'}}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="{{info.image_path}}" alt="info photo">
+        <mat-card-content>
+            <p>
+               {{info.body}}
+            </p>
+            <mat-dialog-actions align="end">
+                <button mat-button mat-dialog-close>Cancel</button>
+              </mat-dialog-actions>
+        </mat-card-content>
+    </mat-card>
+

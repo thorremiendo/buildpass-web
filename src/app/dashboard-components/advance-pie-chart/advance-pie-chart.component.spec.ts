@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AnnouncementListComponent } from './announcement-list.component';
+import { AdvancePieChartComponent } from './advance-pie-chart.component';
 
-describe('AnnouncementListComponent', () => {
-  let component: AnnouncementListComponent;
-  let fixture: ComponentFixture<AnnouncementListComponent>;
+describe('AdvancePieChartComponent', () => {
+  let component: AdvancePieChartComponent;
+  let fixture: ComponentFixture<AdvancePieChartComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AnnouncementListComponent ]
+      declarations: [ AdvancePieChartComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AnnouncementListComponent);
+    fixture = TestBed.createComponent(AdvancePieChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -37,6 +37,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { RegistrationComponent } from './registration/registration.component';
 import { DataPrivacyComponent } from './data-privacy/data-privacy.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { SharedModule } from '../shared/shared.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -79,6 +81,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     MatDialogModule,
     MatProgressSpinnerModule,
     MaterialModule,
+    FlexLayoutModule,
+    SharedModule,
   ],
   exports: [NavigationComponent, BannerComponent, FooterComponent],
 })

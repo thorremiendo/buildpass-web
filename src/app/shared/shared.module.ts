@@ -35,8 +35,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { UpdatePasswordDialogComponent } from './update-password-dialog/update-password-dialog.component';
 import { ImageViewerModule } from 'ngx-image-viewer';
-import { AnnouncementListComponent } from './announcement/announcement-list/announcement-list.component';
-import { AnnouncementFullComponent } from './announcement/announcement-full/announcement-full.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
@@ -46,6 +44,7 @@ import { OldBpDetailsComponent } from './old-bp-details/old-bp-details.component
 import { AssociateOldBpComponent } from './associate-old-bp/associate-old-bp.component';
 import { PdfFormSaveComponent } from './pdf-form-save/pdf-form-save.component';
 import { EsigPromptComponent } from './esig-prompt/esig-prompt.component';
+import { PreviewDialogComponent } from './preview-dialog/preview-dialog.component';
 
 @NgModule({
   declarations: [
@@ -66,8 +65,6 @@ import { EsigPromptComponent } from './esig-prompt/esig-prompt.component';
     ApplicationsListComponent,
     FeedbackComponent,
     UpdatePasswordDialogComponent,
-    AnnouncementListComponent,
-    AnnouncementFullComponent,
     GeneralRemarksComponent,
     PasswordPromptComponent,
     ESignatureComponent,
@@ -77,6 +74,7 @@ import { EsigPromptComponent } from './esig-prompt/esig-prompt.component';
     AssociateOldBpComponent,
     PdfFormSaveComponent,
     EsigPromptComponent,
+    PreviewDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -106,10 +104,10 @@ import { EsigPromptComponent } from './esig-prompt/esig-prompt.component';
     ProjectDetailsComponent,
     ApplicantBuildingPermitDocsComponent,
     ApplicationsListComponent,
-    AnnouncementListComponent,
     GeneralRemarksComponent,
     UploadedIdentificationComponent,
     PdfFormSaveComponent,
+    PreviewDialogComponent,
   ],
   providers: [
     {

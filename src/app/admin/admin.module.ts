@@ -16,18 +16,17 @@ import { QuillModule } from 'ngx-quill';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { AdminSignInComponent } from './admin-sign-in/admin-sign-in.component';
 import { EmployeeResetPasswordComponent } from './employee-reset-password/employee-reset-password.component';
-import { AdminAnnouncementComponent} from './admin-announcement/admin-announcement.component';
-import { EditDialogComponent } from './admin-announcement/edit-dialog/edit-dialog.component';
-import { PreviewDialogComponent } from './admin-announcement/preview-dialog/preview-dialog.component';
+import { AdminNewsEditorComponent } from './admin-news-announcement-editor/admin-news-editor.component';
+import { EditDialogComponent } from './admin-news-announcement-editor/edit-dialog/edit-dialog.component';
 import { AdminApplicationListComponent } from './admin-application-list/admin-application-list.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [ 
     AdminSignInComponent, 
     EmployeeResetPasswordComponent, 
-    AdminAnnouncementComponent,
+    AdminNewsEditorComponent,
     EditDialogComponent,
-    PreviewDialogComponent,
     AdminApplicationListComponent,
   ],
   imports: [

@@ -14,8 +14,8 @@ import Swal from 'sweetalert2';
 export class OtherPermitsComponent implements OnInit {
   @Input() applicationInfo;
   @Input() evaluatorRole;
-  @Input() dataSource;
   @Input() evaluatorDetails;
+  @Input() userDocuments;
 
   public isLoading: boolean = false;
   public applicationId;
@@ -34,14 +34,14 @@ export class OtherPermitsComponent implements OnInit {
   }
 
   checkFormsCompliant() {
-    const isCompliant = this.dataSource.every(
+    const isCompliant = this.userDocuments.every(
       (form) => form.document_status_id == 1
     );
     return isCompliant;
   }
 
   checkFormsReviewed() {
-    const isReviewed = this.dataSource.every(
+    const isReviewed = this.userDocuments.every(
       (form) => form.document_status_id == 1 || form.document_status_id == 2
     );
     return isReviewed;
@@ -80,7 +80,7 @@ export class OtherPermitsComponent implements OnInit {
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
-        this.dataSource.forEach((element) => {
+        this.userDocuments.forEach((element) => {
           let body = {
             document_status_id: 0,
           };
@@ -175,7 +175,7 @@ export class OtherPermitsComponent implements OnInit {
   addWatermarkToAllCompliant() {
     var count = 0;
     var bar = new Promise<void>((resolve, reject) => {
-      this.dataSource.forEach((element, index, array) => {
+      this.userDocuments.forEach((element, index, array) => {
         this.isLoading = true;
         if (element.document_id !== 50) {
           this.waterMarkService

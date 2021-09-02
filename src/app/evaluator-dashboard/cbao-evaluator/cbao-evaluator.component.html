@@ -160,6 +160,21 @@
                 <ng-container matColumnDef="action">
                   <th mat-header-cell *matHeaderCellDef>Action</th>
                   <td mat-cell *matCellDef="let element">
+                    <ng-container
+                      *ngIf="
+                        element.label ==
+                          'Plans, Designs, Specifications, Cost Estimate' &&
+                        evaluatorRole.code == 'CBAO-BO'
+                      "
+                    >
+                      <a
+                        mat-menu-item
+                        (click)="openMergedPlans()"
+                        *ngIf="mergedPlans && !isLoadingMergedPlans"
+                        >View Plans</a
+                      >
+                      <p *ngIf="isLoadingMergedPlans">loading plans..</p>
+                    </ng-container>
                     <div *ngIf="!element.label">
                       <button mat-button [matMenuTriggerFor]="menu">
                         Select <mat-icon> arrow_drop_down </mat-icon>
@@ -513,7 +528,7 @@
                   [applicationInfo]="applicationInfo"
                   [evaluatorDetails]="evaluatorDetails"
                   [evaluatorRole]="evaluatorRole"
-                  [dataSource]="dataSource"
+                  [userDocuments]="userDocuments"
                 ></app-other-permits>
               </ng-container>
             </div>

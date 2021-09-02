@@ -4,7 +4,7 @@ import { DashboardComponent } from 'src/app/admin/dashboard-layout/dashboard/das
 import { ApplicationDetailsComponent } from 'src/app/evaluator-dashboard/application-details/application-details.component';
 import { ApplicationsListComponent } from 'src/app/shared/applications-list/applications-list.component';
 import { AdminAnalyticsComponent } from '../admin-analytics/admin-analytics.component';
-import { AdminAnnouncementComponent } from '../admin-announcement/admin-announcement.component';
+import { AdminNewsEditorComponent } from '../admin-news-announcement-editor/admin-news-editor.component';
 import { AdminApplicationListComponent } from '../admin-application-list/admin-application-list.component';
 import { UserFeedbackComponent } from '../user-feedback/user-feedback.component';
 
@@ -20,7 +20,7 @@ const routes: Routes = [
 
       {
         path: 'announcement',
-        component: AdminAnnouncementComponent,
+        component: AdminNewsEditorComponent,
       },
 
       {

@@ -1,11 +1,57 @@
+<div fxLayout="row" fxLayoutAlign="end">
+    <p class="mr-3"> As of {{ date | date: "MMMM dd, yyyy" }} 
+        <span>
+            <mat-icon aria-hidden="false" aria-label="refresh">refresh</mat-icon>
+        </span></p>
+</div>
 <app-top-card></app-top-card>
 
-<div fxLayout="row wrap">
+<!-- <div fxLayout="row wrap">
     
     <div fxFlex.gt-lg="75" fxFlex.gt-md="60" fxFlex.gt-xs="100" fxFlex="100">
         <app-bar-chart></app-bar-chart>
     </div>
 
-</div>
+</div>  -->
 <!-- <button mat-button (click)="compliant();">Compliant</button>
 <button mat-button (click)="noncompliant();">Non-compliant</button> -->
+<div fxLayout="row wrap">
+  <div fxFlex.gt-md="100">
+      <mat-card>
+        <mat-card-title class="pl-4 pt-3">Application Status</mat-card-title>
+       
+    <div class="w100">
+            <ngx-charts-advanced-pie-chart
+            class="chart-container"
+            [scheme]="colorScheme"
+            [results]="applicationStatusData"
+            [gradient]="gradient"
+            [tooltipDisabled]="tooltipDisabled"
+            (select)="select($event)"
+          >
+          </ngx-charts-advanced-pie-chart>
+        </div>
+        </mat-card>
+  </div>
+</div>
+<div fxLayout="row wrap">
+    <div fxFlex.gt-md="100">
+        <mat-card>
+            <mat-card-content>
+                <mat-card-title>Permit Type</mat-card-title>
+               
+                <div class="w100">
+                    <ngx-charts-bar-horizontal class="chart-container" [scheme]="colorScheme" [schemeType]="schemeType" [results]="applicationType" [gradient]="gradient"
+                    [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+                    [tooltipDisabled]="tooltipDisabled" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [showGridLines]="showGridLines"
+                    [barPadding]="10" [roundDomains]="roundDomains" (legendLabelClick)="onLegendLabelClick($event)" (select)="select($event)">
+                </ngx-charts-bar-horizontal>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        
+    </div>
+    <div fxFlex.gt-md="50">
+      
+    </div>
+</div>

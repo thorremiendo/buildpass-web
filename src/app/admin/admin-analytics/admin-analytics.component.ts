@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WaterMarkService } from '../../core';
+import { applicationStatusData, applicationType } from './chart-data';
 
 @Component({
   selector: 'app-admin-analytics',
@@ -20,11 +21,52 @@ export class AdminAnalyticsComponent implements OnInit {
     //'fire-permit';
     //'wwms-permit';
     'checklist-bldg';
+  public applicationStatusData:any = applicationStatusData ;
+  public applicationType:any = applicationType;
+  public date = new Date();
+  showXAxis = true;
+  showYAxis = true;
+  gradient = false;
+  showLegend = false;
+  showXAxisLabel = true;
+  tooltipDisabled = false;
+  xAxisLabel = 'Total';
+  showYAxisLabel = true;
+  yAxisLabel = 'Permit Type';
+  showGridLines = true;
+  innerPadding = 0;
+  autoScale = true;
+  timeline = false;
+  barPadding = 8;
+  groupPadding = 0;
+  roundDomains = false;
+  maxRadius = 10;
+  minRadius = 3;
+  view = '';
+  showLabels = true;
+  explodeSlices = false;
+  doughnut = false;
+  arcWidth = 0.25;
+  rangeFillOpacity = 0.15;
+
+  colorScheme = {
+    domain: ['#4fc3f7', '#fb8c00', '#7460ee', '#f62d51', '#20c997', '#2962FF']
+  };
+
+  schemeType = 'ordinal';
 
   private id = 1;
   constructor(private watermark: WaterMarkService) {}
 
   ngOnInit(): void {}
+
+  select(data: string): void {
+    console.log('Item clicked', data);
+  }
+
+  onLegendLabelClick(entry: string): void {
+    console.log('Legend clicked', entry);
+  }
 
   compliant() {
     this.watermark.generateQrCode(this.id).subscribe((res) => {
@@ -37,4 +79,6 @@ export class AdminAnalyticsComponent implements OnInit {
       .insertWaterMark(this.testDoc, 'non-compliant')
       .then((blob) => {});
   }
+
+
 }

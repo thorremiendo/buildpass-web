@@ -1,0 +1,81 @@
+<div fxLayout="row">
+  <div class="text-center" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <button class="add-new-btn" mat-raised-button color="primary" class="mt-40" (click)="addNew()">
+      Add News <i class="material-icons">add_circle_outline</i>
+    </button>
+  </div>
+
+</div>
+
+
+<div fxLayout="row">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+      <div
+      cdkDropList
+      class="example-list mt-20"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <div
+        class="list-unstyled m-t-40"
+        *ngFor="let news of newsInfo; index as i"
+        cdkDrag
+      >
+        <mat-card cdkDragHandle>
+          <mat-card-content>
+            <div fxLayout="row">
+              <div fxFlex.gt-sm="5" fxFlex.gt-xs="100" fxFlex="100">
+                <p class="drag-index">{{ i + 1 }}</p>
+              </div>
+              <div fxFlex.gt-sm="5" fxFlex.gt-xs="100" fxFlex="100">
+                  <mat-icon class="">   
+                      <mat-checkbox 
+                      [(ngModel)]="news.is_active"
+                      (click)="changeStatus(news.id, news.is_active)"
+                      >
+                      </mat-checkbox>
+                  </mat-icon>
+                 
+                </div>
+              <div fxFlex.gt-sm="70" fxFlex.gt-xs="100" fxFlex="100">
+                  <h3 >
+                     {{ news.subject }}
+                  </h3>
+                  <p class="date"> <span class="material-icons" style="font-size:medium;">
+                    schedule
+                    </span>{{news.updated_at | date: 'fullDate'}}</p>
+                  <p style="text-align: justify;">{{ news.short_desc }}  <a *ngIf="news.body"class="more" (click)="previewDialog(news)">  more....</a></p>
+              </div>
+              <div
+                fxFlex.gt-sm="20"
+                fxFlex.gt-xs="100"
+                fxFlex="100"
+                fxLayoutAlign="end start"
+              >
+                  <mat-icon  matTooltip="view" class="pr-5 pointer" aria-hidden="false" aria-label="view" (click)="previewDialog(news)">visibility</mat-icon>
+                  <mat-icon  matTooltip="edit" class="pr-5 pointer" aria-hidden="false" aria-label="edit" (click)="editDialog(news)">edit</mat-icon>
+                  <mat-icon  matTooltip="delete" class="pointer" aria-hidden="false" aria-label="delete" (click)="delete(news.id)" >delete</mat-icon>
+              </div>
+            </div>
+            <div fxLayout="row">
+              <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                  <img class="img" [src]="news.image_path" />
+                </div>
+            
+            </div>
+           
+          </mat-card-content>
+        </mat-card>
+       
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div fxLayout="row mb-5">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100"  fxLayoutAlign="end start">
+      <button mat-raised-button color="primary" class="mt-40" (click)="submit()">
+          Submit
+        </button>
+  </div>
+
+</div> -->
+

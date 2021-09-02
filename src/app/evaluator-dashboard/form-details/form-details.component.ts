@@ -209,8 +209,34 @@ export class FormDetailsComponent implements OnInit {
     }
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  onNoClick(i): void {
+    switch (i) {
+      case 1:
+        this.dialogRef.close();
+        break;
+      case 2:
+        if (this.permitDetails.value.is_compliant) {
+          Swal.fire({
+            title: 'You have unsaved changes, are you sure you want to close?',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: `Yes`,
+            confirmButtonColor: '#330E08',
+            denyButtonColor: '#D2AB48',
+            denyButtonText: `No`,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.dialogRef.close();
+            } else if (result.isDenied) {
+            }
+          });
+        } else {
+          this.dialogRef.close();
+        }
+        break;
+      default:
+        break;
+    }
   }
 
   public async updateForm(): Promise<void> {
@@ -271,7 +297,7 @@ export class FormDetailsComponent implements OnInit {
       .subscribe((res) => {
         this.isSubmitting = false;
         Swal.fire('Success!', `File Updated!`, 'success').then((result) => {
-          this.onNoClick();
+          this.onNoClick(1);
         });
       });
   }
@@ -334,7 +360,7 @@ export class FormDetailsComponent implements OnInit {
       .subscribe((res) => {
         this.isSubmitting = false;
         Swal.fire('Success!', `File Updated!`, 'success').then((result) => {
-          this.onNoClick();
+          this.onNoClick(1);
         });
       });
   }
@@ -364,8 +390,8 @@ export class FormDetailsComponent implements OnInit {
           //CBAO
           if (
             permitType == 1 &&
-            this.data.evaluator.position !== 'Admin Aide IV' &&
-            this.data.evaluator.position !== 'Architect IV'
+            this.data.userRole.code !== 'CBAO-REC' &&
+            this.data.userRole.code !== 'CBAO-DC'
           ) {
             //BLDG PERMIT EVALUATORS
             const filters = [59, 63, 36, 62, 32, 33, 140];
@@ -385,17 +411,14 @@ export class FormDetailsComponent implements OnInit {
               };
               this.updateDoc(body, id);
             }
-          } else if (this.data.evaluator.position == 'Admin Aide IV') {
+          } else if (this.data.userRole.code == 'CBAO-REC') {
             //BLDG PERMIT RECEIVING
             body = {
               document_status_id: this.permitDetails.value.is_compliant,
               receiving_status_id: this.permitDetails.value.is_compliant,
             };
             this.updateDoc(body, id);
-          } else if (
-            permitType == 1 &&
-            this.data.evaluator.position == 'Architect IV'
-          ) {
+          } else if (permitType == 1 && this.data.userRole == 'CBAO-DC') {
             body = {
               document_status_id: this.permitDetails.value.is_compliant,
             };
@@ -435,7 +458,7 @@ export class FormDetailsComponent implements OnInit {
   updateDoc(body, id) {
     this.newApplicationService.updateDocumentFile(body, id).subscribe((res) => {
       Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
-        this.onNoClick();
+        this.onNoClick(1);
         this.isSubmitting = false;
       });
     });
@@ -449,7 +472,7 @@ export class FormDetailsComponent implements OnInit {
       .subscribe((res) => {
         Swal.fire('Success!', `Watermark Removed!`, 'success').then(
           (result) => {
-            this.onNoClick();
+            this.onNoClick(1);
           }
         );
       });
@@ -491,8 +514,8 @@ export class FormDetailsComponent implements OnInit {
           //CBAO
           if (
             permitType == 1 &&
-            this.data.evaluator.position !== 'Admin Aide IV' &&
-            this.data.evaluator.position !== 'Architect IV'
+            this.data.userRole.code !== 'CBAO-REC' &&
+            this.data.userRole.code !== 'CBAO-DC'
           ) {
             //BLDG PERMIT EVALUATORS
             const filters = [59, 63, 36, 62, 32, 33, 140];
@@ -512,17 +535,14 @@ export class FormDetailsComponent implements OnInit {
               };
               this.updateDoc(body, id);
             }
-          } else if (this.data.evaluator.position == 'Admin Aide IV') {
+          } else if (this.data.userRole.code == 'CBAO-REC') {
             //BLDG PERMIT RECEIVING
             body = {
               document_status_id: this.permitDetails.value.is_compliant,
               receiving_status_id: this.permitDetails.value.is_compliant,
             };
             this.updateDoc(body, id);
-          } else if (
-            permitType == 1 &&
-            this.data.evaluator.position == 'Architect IV'
-          ) {
+          } else if (permitType == 1 && this.data.userRole == 'CBAO-DC') {
             body = {
               document_status_id: this.permitDetails.value.is_compliant,
             };
@@ -583,8 +603,8 @@ export class FormDetailsComponent implements OnInit {
               //CBAO
               if (
                 permitType == 1 &&
-                this.data.evaluator.position !== 'Admin Aide IV' &&
-                this.data.evaluator.position !== 'Architect IV'
+                this.data.userRole.code !== 'CBAO-REC' &&
+                this.data.userRole.code !== 'CBAO-DC'
               ) {
                 //BLDG PERMIT EVALUATORS
                 const filters = [59, 63, 36, 62, 32, 33, 140];
@@ -608,7 +628,7 @@ export class FormDetailsComponent implements OnInit {
                   };
                   this.updateDoc(body, id);
                 }
-              } else if (this.data.evaluator.position == 'Admin Aide IV') {
+              } else if (this.data.userRole.code == 'CBAO-REC') {
                 //BLDG PERMIT RECEIVING
                 body = {
                   document_status_id: this.permitDetails.value.is_compliant,
@@ -616,10 +636,7 @@ export class FormDetailsComponent implements OnInit {
                   document_path: blob,
                 };
                 this.updateDoc(body, id);
-              } else if (
-                permitType == 1 &&
-                this.data.evaluator.position == 'Architect IV'
-              ) {
+              } else if (permitType == 1 && this.data.userRole == 'CBAO-DC') {
                 body = {
                   document_status_id: this.permitDetails.value.is_compliant,
                 };

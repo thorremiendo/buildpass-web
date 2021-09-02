@@ -203,9 +203,14 @@ export class DataFormBindingService {
           rep_barangay: data.rep_barangay ? data.rep_barangay : '',
           rep_province: data.rep_province ? data.rep_province : '',
           project_type: data.project_type ? data.project_type : '',
-          project_nature: data.project_nature ? data.project_nature : '',
-          project_nature_others: data.project_nature_others
-            ? data.project_nature_others
+          project_nature_new: data.project_nature_new
+            ? data.project_nature_new
+            : '',
+          project_nature_others_specify: data.project_nature_others_specify
+            ? data.project_nature_others_specify
+            : '',
+          project_nature_improvement: data.project_nature_improvement
+            ? data.project_nature_improvement
             : '',
           project_house_number: data.project_house_number
             ? data.project_house_number
@@ -219,11 +224,24 @@ export class DataFormBindingService {
           project_total_floor_area: data.project_total_floor_area
             ? data.project_total_floor_area
             : '',
-          right_over_land: data.right_over_land ? data.right_over_land : '',
+          right_over_land_owner: data.right_over_land_owner
+            ? data.right_over_land_owner
+            : '',
+          right_over_land_lessee: data.right_over_land_lessee
+            ? data.right_over_land_lessee
+            : '',
+          right_over_land_others_specify: data.right_over_land_others_specify
+            ? data.right_over_land_others_specify
+            : '',
           right_over_land_others: data.right_over_land_others
             ? data.right_over_land_others
             : '',
-          project_tenure: data.project_tenure ? data.project_tenure : '',
+          project_tenure_permanent: data.project_tenure_permanent
+            ? data.project_tenure_permanent
+            : '',
+          project_tenure_temporary_specify: data.project_tenure_temporary_specify
+            ? data.project_tenure_temporary_specify
+            : '',
           project_tenure_temporary: data.project_tenure_temporary
             ? data.project_tenure_temporary
             : '',
@@ -808,8 +826,7 @@ export class DataFormBindingService {
         projectDetails.barangay == 'undefined'
           ? 'N/A'
           : projectDetails.barangay.toUpperCase(),
-      owner_name:
-        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      owner_name: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
     };
 
     return formData;
@@ -825,8 +842,7 @@ export class DataFormBindingService {
     ).toLocaleString();
 
     const formData = {
-      owner_permitee:
-        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      owner_permitee: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       project_title:
         projectDetails.project_title == 'undefined'
           ? 'N/A'
@@ -885,10 +901,8 @@ export class DataFormBindingService {
         projectDetails.barangay == 'undefined'
           ? 'N/A'
           : projectDetails.barangay.toUpperCase(),
-      business_owner:
-        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
-      owner_address:
-        `${applicantDetails.house_number} ${applicantDetails.street_name} ${applicantDetails.barangay}`.toUpperCase(),
+      business_owner: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      owner_address: `${applicantDetails.house_number} ${applicantDetails.street_name} ${applicantDetails.barangay}`.toUpperCase(),
       contact_no:
         applicantDetails.contact_number == 'undefined'
           ? 'N/A'
@@ -911,10 +925,8 @@ export class DataFormBindingService {
     const applicantLot = `Lot #${applicantDetails.lot_number}`;
     const applicantBlock = `Block #${applicantDetails.block_number}`;
     const formData = {
-      owner_or_rep:
-        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
-      applicant_full_name:
-        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      owner_or_rep: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      applicant_full_name: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       applicant_complete_address: `${
         applicantDetails.house_number ? applicantDetails.house_number : ''
       }  ${applicantDetails.lot_number ? applicantLot : ''} ${
@@ -1091,9 +1103,7 @@ export class DataFormBindingService {
       //TODO: data binding
       existing_land_others: 'N/A',
       position_title: 'N/A',
-      right_over_land_others: 'N/A',
-      project_tenure_temporary: 'N/A',
-      project_nature_others: 'N/A',
+    
     };
 
     return formData;
