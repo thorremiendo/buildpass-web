@@ -269,7 +269,7 @@
                             Edit
                           </button>
                         </ng-container>
-                        <ng-container *ngIf="evaluatorRole.code == 'SPRADM'">
+                        <ng-container>
                           <a
                             mat-menu-item
                             href="{{ element.document_path }}"
@@ -277,63 +277,7 @@
                             >View</a
                           >
                         </ng-container>
-                        <ng-container
-                          *ngIf="
-                            evaluatorRole.code == 'CBAO-REC' &&
-                            applicationInfo.application_status_id !== 1
-                          "
-                        >
-                          <a
-                            mat-menu-item
-                            href="{{ element.document_path }}"
-                            target="_blank"
-                            >View</a
-                          >
-                        </ng-container>
-                        <ng-container
-                          *ngIf="
-                            evaluatorRole.code == 'CBAO-DC' &&
-                            applicationInfo.application_status_id !== 12
-                          "
-                        >
-                          <a
-                            mat-menu-item
-                            href="{{ element.document_path }}"
-                            target="_blank"
-                            >View</a
-                          >
-                        </ng-container>
-                        <ng-container
-                          *ngIf="
-                            evaluatorRole.code == 'CBAO-BO' &&
-                            applicationInfo.application_status_id !== 13
-                          "
-                        >
-                          <a
-                            mat-menu-item
-                            href="{{ element.document_path }}"
-                            target="_blank"
-                            >View</a
-                          >
-                        </ng-container>
-                        <ng-container
-                          *ngIf="
-                            (evaluatorRole.code == 'CBAO-LG' ||
-                              evaluatorRole.code == 'CBAO-ARCH' ||
-                              evaluatorRole.code == 'CBAO-STR' ||
-                              evaluatorRole.code == 'CBAO-SAN' ||
-                              evaluatorRole.code == 'CBAO-ELEC' ||
-                              evaluatorRole.code == 'CBAO-MEC') &&
-                            applicationInfo.application_status_id !== 3
-                          "
-                        >
-                          <a
-                            mat-menu-item
-                            href="{{ element.document_path }}"
-                            target="_blank"
-                            >View</a
-                          >
-                        </ng-container>
+
                         <!-- <button
                           mat-menu-item
                           color="accent"

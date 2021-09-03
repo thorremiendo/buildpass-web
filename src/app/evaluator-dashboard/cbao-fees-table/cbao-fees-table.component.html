@@ -77,9 +77,7 @@
         color="primary"
         type="button"
         (click)="showAddItem()"
-        [disabled]="
-          evaluatorDetails.office_id !== 4 || evaluatorRole.code == 'CBAO-REC'
-        "
+        [disabled]="evaluatorDetails.office_id !== 4"
       >
         Add One Row
       </button>
@@ -92,11 +90,7 @@
       color="primary"
       type="button"
       (click)="showAddItem()"
-      [disabled]="
-        evaluatorDetails.office_id !== 4 ||
-        evaluatorRole.code == 'CBAO-REC' ||
-        !canAddFee()
-      "
+      [disabled]="evaluatorDetails.office_id !== 4"
     >
       Add Another Item
     </button>
