@@ -1,14 +1,47 @@
 <div class="application-filters">
   <!-- <div class="filters-toggle">FILTER APPLICATIONS</div> -->
   <div class="row">
-    <div class="col-md-6">
-      <mat-form-field class="example-full-width" appearance="outline">
-        <mat-label>Application Number</mat-label>
-        <input matInput [formControl]="applicationNumber" />
+    <div class="col-12 col-md-6 offset-md-6">
+      <div class="row date-range-selector">
+        <div class="col-12 col-md-2">
+          Date :
+        </div>
+        <div class="col-12 col-md-5">
+          <mat-form-field appearance="outline">
+            <mat-label>From</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              [formControl]="dateStart"
+              readonly
+            />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-5">
+          <mat-form-field appearance="outline">
+            <mat-label>To</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              [formControl]="dateEnd"
+              readonly
+            />
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #picker2></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Search</mat-label>
+        <input matInput [formControl]="searchKey" />
       </mat-form-field>
     </div>
-    <div class="col-md-6">
-      <mat-form-field appearance="outline" class="permit-type-selector">
+    <div class="col-12 col-md-6">
+      <mat-form-field appearance="outline">
         <mat-label>Permit Type</mat-label>
         <mat-select [formControl]="permitType">
           <mat-option value="0">All</mat-option>
