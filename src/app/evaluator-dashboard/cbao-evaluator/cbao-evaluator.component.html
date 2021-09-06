@@ -185,6 +185,7 @@
                             mat-menu-item
                             color="accent"
                             (click)="openFormDialog(element)"
+                            [disabled]="element.document_id == 194"
                           >
                             Edit
                           </button>
@@ -198,7 +199,8 @@
                             color="accent"
                             (click)="openFormDialog(element)"
                             [disabled]="
-                              applicationInfo.application_status_id !== 1
+                              applicationInfo.application_status_id !== 1 ||
+                              element.document_id == 194
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-REC'"
                           >
@@ -212,6 +214,7 @@
                               evaluatorRole.code == 'CBAO-REL' &&
                               element.document_id == 50
                             "
+                            [disabled]="element.document_id == 194"
                           >
                             Edit
                           </button>
@@ -220,7 +223,8 @@
                             color="accent"
                             (click)="openFormDialog(element)"
                             [disabled]="
-                              applicationInfo.application_status_id !== 3
+                              applicationInfo.application_status_id !== 3 ||
+                              element.document_id == 194
                             "
                             *ngIf="
                               evaluatorRole.code == 'CBAO-LG' ||
@@ -238,7 +242,8 @@
                             color="accent"
                             (click)="openFormDialog(element)"
                             [disabled]="
-                              applicationInfo.application_status_id !== 12
+                              applicationInfo.application_status_id !== 12 ||
+                              element.document_id == 194
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-DC'"
                           >
@@ -249,7 +254,8 @@
                             color="accent"
                             (click)="openFormDialog(element)"
                             [disabled]="
-                              applicationInfo.application_status_id !== 13
+                              applicationInfo.application_status_id !== 13 ||
+                              element.document_id == 194
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-BO'"
                           >
@@ -269,7 +275,7 @@
                             Edit
                           </button>
                         </ng-container>
-                        <ng-container *ngIf="evaluatorRole.code == 'SPRADM'">
+                        <ng-container>
                           <a
                             mat-menu-item
                             href="{{ element.document_path }}"
@@ -277,64 +283,8 @@
                             >View</a
                           >
                         </ng-container>
-                        <ng-container
-                          *ngIf="
-                            evaluatorRole.code == 'CBAO-REC' &&
-                            applicationInfo.application_status_id !== 1
-                          "
-                        >
-                          <a
-                            mat-menu-item
-                            href="{{ element.document_path }}"
-                            target="_blank"
-                            >View</a
-                          >
-                        </ng-container>
-                        <ng-container
-                          *ngIf="
-                            evaluatorRole.code == 'CBAO-DC' &&
-                            applicationInfo.application_status_id !== 12
-                          "
-                        >
-                          <a
-                            mat-menu-item
-                            href="{{ element.document_path }}"
-                            target="_blank"
-                            >View</a
-                          >
-                        </ng-container>
-                        <ng-container
-                          *ngIf="
-                            evaluatorRole.code == 'CBAO-BO' &&
-                            applicationInfo.application_status_id !== 13
-                          "
-                        >
-                          <a
-                            mat-menu-item
-                            href="{{ element.document_path }}"
-                            target="_blank"
-                            >View</a
-                          >
-                        </ng-container>
-                        <ng-container
-                          *ngIf="
-                            (evaluatorRole.code == 'CBAO-LG' ||
-                              evaluatorRole.code == 'CBAO-ARCH' ||
-                              evaluatorRole.code == 'CBAO-STR' ||
-                              evaluatorRole.code == 'CBAO-SAN' ||
-                              evaluatorRole.code == 'CBAO-ELEC' ||
-                              evaluatorRole.code == 'CBAO-MEC') &&
-                            applicationInfo.application_status_id !== 3
-                          "
-                        >
-                          <a
-                            mat-menu-item
-                            href="{{ element.document_path }}"
-                            target="_blank"
-                            >View</a
-                          >
-                        </ng-container>
-                        <!-- <button
+
+                        <button
                           mat-menu-item
                           color="accent"
                           (click)="goToEsig(element.id)"
@@ -344,7 +294,7 @@
                           "
                         >
                           Sign Document
-                        </button> -->
+                        </button>
                         <a
                           mat-menu-item
                           href="{{ element.document_path }}"

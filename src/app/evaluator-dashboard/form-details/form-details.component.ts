@@ -413,10 +413,22 @@ export class FormDetailsComponent implements OnInit {
             }
           } else if (this.data.userRole.code == 'CBAO-REC') {
             //BLDG PERMIT RECEIVING
-            body = {
-              document_status_id: this.permitDetails.value.is_compliant,
-              receiving_status_id: this.permitDetails.value.is_compliant,
-            };
+            if (form.document_id == 194) {
+              //Perspective Plan
+              body = {
+                document_status_id: this.permitDetails.value.is_compliant,
+                receiving_status_id: this.permitDetails.value.is_compliant,
+                cbao_status_id: this.permitDetails.value.is_compliant,
+                cpdo_status_id: this.permitDetails.value.is_compliant,
+                cepmo_status_id: this.permitDetails.value.is_compliant,
+                bfp_status_id: this.permitDetails.value.is_compliant,
+              };
+            } else {
+              body = {
+                document_status_id: this.permitDetails.value.is_compliant,
+                receiving_status_id: this.permitDetails.value.is_compliant,
+              };
+            }
             this.updateDoc(body, id);
           } else if (permitType == 1 && this.data.userRole == 'CBAO-DC') {
             body = {

@@ -1,3 +1,4 @@
+import { WaterMarkService } from './../../../../core/services/watermark.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
@@ -23,10 +24,11 @@ export class FileUploadComponent implements OnInit {
   public editMode: boolean = false;
   public loading: boolean = false;
   public isOptional: boolean = false;
-
+  public isProtected: boolean = false;
   constructor(
     private snackBar: MatSnackBar,
-    private newApplicationService: NewApplicationService
+    private newApplicationService: NewApplicationService,
+    private pdfService: WaterMarkService
   ) {}
 
   ngOnInit(): void {
@@ -49,12 +51,28 @@ export class FileUploadComponent implements OnInit {
       this.loading = true;
       this.editMode = false;
       this.file = $event.addedFiles[0];
-      this.emitFile.emit(this.file);
+      // this.emitFile.emit(this.file);
+      this.checkEncryptedFile(this.file);
     } else {
       this.snackBar.open('You can only upload PDF files.', 'Close', {
         duration: 2000,
       });
     }
+  }
+  checkEncryptedFile(file) {
+    var fileReader: FileReader = new FileReader();
+    fileReader.onload = (e) => {
+      const isEncrypted = fileReader.result.toString().includes('Encrypt');
+      if (isEncrypted) {
+        this.file = null;
+        this.openSnackBar('You can only upload unprotected PDF files.');
+        this.loading = false;
+      } else {
+        this.emitFile.emit(file);
+        this.loading = false;
+      }
+    };
+    fileReader.readAsText(file);
   }
 
   onToggleChange(e) {
@@ -93,5 +111,11 @@ export class FileUploadComponent implements OnInit {
 
   toggleEditMode() {
     this.editMode = !this.editMode;
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 4000,
+    });
   }
 }
