@@ -18,7 +18,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ESignatureComponent implements OnInit {
   @Input() props: [{ [key: string]: object | any }];
-  public src;
+  public src = '../../../assets/forms/fencing_permit.pdf';
   private minimumHeight = null;
   private minimumWidth = null;
   private originalHeight = null;
@@ -33,7 +33,7 @@ export class ESignatureComponent implements OnInit {
   public documentPath;
   public isLoading: boolean;
   public userDetails;
-  public userSignature;
+  public userSignature = '../../../assets/esig.png';
   constructor(
     private route: ActivatedRoute,
     private applicationService: ApplicationInfoService,
@@ -44,20 +44,20 @@ export class ESignatureComponent implements OnInit {
 
   ngOnInit() {
     // this.openDialog();
-    this.isLoading = true;
-    this.userDetails = JSON.parse(localStorage.getItem('user'));
-    this.applicationId = this.route.snapshot.params.id;
-    this.documentId = this.route.snapshot.params.docId;
-    this.userSignature = this.esignatureService.userSignature;
-    this.applicationService
-      .fetchSpecificDocInfo(this.documentId)
-      .subscribe((res) => {
-        this.src =
-          res.data[0].document_history[
-            res.data[0].document_history.length - 1
-          ].document_path;
-        this.isLoading = false;
-      });
+    // this.isLoading = true;
+    // this.userDetails = JSON.parse(localStorage.getItem('user'));
+    // this.applicationId = this.route.snapshot.params.id;
+    // this.documentId = this.route.snapshot.params.docId;
+    // this.userSignature = this.esignatureService.userSignature;
+    // this.applicationService
+    //   .fetchSpecificDocInfo(this.documentId)
+    //   .subscribe((res) => {
+    //     this.src =
+    //       res.data[0].document_history[
+    //         res.data[0].document_history.length - 1
+    //       ].document_path;
+    //     this.isLoading = false;
+    //   });
   }
 
   ngAfterViewInit() {
@@ -271,20 +271,20 @@ export class ESignatureComponent implements OnInit {
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
     window.open(file);
-    this.isLoading = true;
-    const body = {
-      document_status_id: 1,
-      document_path: blob,
-    };
-    this.applicationService
-      .updateDocumentFile(body, this.documentId)
-      .subscribe((res) => {
-        this.isLoading = false;
-        this.openSnackBar('Success!');
-        setTimeout(() => {
-          this.router.navigate(['/evaluator/application', this.applicationId]);
-        }, 1000);
-      });
+    // this.isLoading = true;
+    // const body = {
+    //   document_status_id: 1,
+    //   document_path: blob,
+    // };
+    // this.applicationService
+    //   .updateDocumentFile(body, this.documentId)
+    //   .subscribe((res) => {
+    //     this.isLoading = false;
+    //     this.openSnackBar('Success!');
+    //     setTimeout(() => {
+    //       this.router.navigate(['/evaluator/application', this.applicationId]);
+    //     }, 1000);
+    //   });
   }
   openSnackBar(message: string) {
     this.snackBar.open(message, 'Close', {
