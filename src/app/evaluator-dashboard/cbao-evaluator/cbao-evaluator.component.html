@@ -185,6 +185,7 @@
                             mat-menu-item
                             color="accent"
                             (click)="openFormDialog(element)"
+                            [disabled]="element.document_id == 194"
                           >
                             Edit
                           </button>
@@ -198,7 +199,8 @@
                             color="accent"
                             (click)="openFormDialog(element)"
                             [disabled]="
-                              applicationInfo.application_status_id !== 1
+                              applicationInfo.application_status_id !== 1 ||
+                              element.document_id == 194
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-REC'"
                           >
@@ -212,6 +214,7 @@
                               evaluatorRole.code == 'CBAO-REL' &&
                               element.document_id == 50
                             "
+                            [disabled]="element.document_id == 194"
                           >
                             Edit
                           </button>
@@ -220,7 +223,8 @@
                             color="accent"
                             (click)="openFormDialog(element)"
                             [disabled]="
-                              applicationInfo.application_status_id !== 3
+                              applicationInfo.application_status_id !== 3 ||
+                              element.document_id == 194
                             "
                             *ngIf="
                               evaluatorRole.code == 'CBAO-LG' ||
@@ -238,7 +242,8 @@
                             color="accent"
                             (click)="openFormDialog(element)"
                             [disabled]="
-                              applicationInfo.application_status_id !== 12
+                              applicationInfo.application_status_id !== 12 ||
+                              element.document_id == 194
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-DC'"
                           >
@@ -249,7 +254,8 @@
                             color="accent"
                             (click)="openFormDialog(element)"
                             [disabled]="
-                              applicationInfo.application_status_id !== 13
+                              applicationInfo.application_status_id !== 13 ||
+                              element.document_id == 194
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-BO'"
                           >
@@ -278,7 +284,7 @@
                           >
                         </ng-container>
 
-                        <!-- <button
+                        <button
                           mat-menu-item
                           color="accent"
                           (click)="goToEsig(element.id)"
@@ -288,7 +294,7 @@
                           "
                         >
                           Sign Document
-                        </button> -->
+                        </button>
                         <a
                           mat-menu-item
                           href="{{ element.document_path }}"
