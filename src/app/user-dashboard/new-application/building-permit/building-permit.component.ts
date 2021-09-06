@@ -33,30 +33,26 @@ export class BuildingPermitComponent implements OnInit {
   public forms: any = [
     {
       id: 1,
-      src:
-        '../../../../assets/forms/updated/Application_Form_for_Certificate_of_Zoning_Compliance.pdf',
+      src: '../../../../assets/forms/updated/Application_Form_for_Certificate_of_Zoning_Compliance.pdf',
       label: 'Step 1',
       sample:
         '../../../../assets/forms/sample/Zoning_Clearance_Form_4.07.21_PM.png',
     },
     {
       id: 2,
-      src:
-        '../../../../assets/forms/updated/Unified_Application_for_Bldg_Permit.pdf',
+      src: '../../../../assets/forms/updated/Unified_Application_for_Bldg_Permit.pdf',
       label: 'Step 2',
       sample: '../../../../assets/forms/sample/Unified_Building_Front.png',
     },
     {
       id: 3,
-      src:
-        '../../../../assets/forms/updated/Sanitary-Plumbing_Permit_(BUILDING_PERMIT)_(1).pdf',
+      src: '../../../../assets/forms/updated/Sanitary-Plumbing_Permit_(BUILDING_PERMIT)_(1).pdf',
       label: 'Step 3',
       sample: '../../../../assets/forms/sample/Sanitary_Permit.png',
     },
     {
       id: 4,
-      src:
-        '../../../../assets/forms/updated/Electrical_Permit_(for_building_permit).pdf',
+      src: '../../../../assets/forms/updated/Electrical_Permit_(for_building_permit).pdf',
       label: 'Step 4',
       sample: '../../../../assets/forms/sample/Electrical.png',
     },
@@ -77,7 +73,7 @@ export class BuildingPermitComponent implements OnInit {
     {
       label: `Step ${this.forms.length + 2}`,
       title: 'Plans',
-      documents: [59, 61, 63, 62, 140],
+      documents: [194, 59, 61, 63, 62, 140],
     },
     {
       label: `Step ${this.forms.length + 3}`,
@@ -442,12 +438,12 @@ export class BuildingPermitComponent implements OnInit {
       this.applicationDetails.construction_status_id !== 1 &&
       event.previouslySelectedIndex <= 4
     ) {
-      this.upload(this.forms[event.previouslySelectedIndex]);
+      this.upload(this.forms[event.previouslySelectedIndex], 'next');
     } else if (
       this.applicationDetails.construction_status_id == 1 &&
       event.previouslySelectedIndex <= 5
     ) {
-      this.upload(this.forms[event.previouslySelectedIndex]);
+      this.upload(this.forms[event.previouslySelectedIndex], 'next');
     }
     // this.checkExistingZoningFormData();
     const index = event.selectedIndex;
@@ -465,9 +461,10 @@ export class BuildingPermitComponent implements OnInit {
     pdfContainer ? pdfContainer.appendChild(pdfViewer) : null;
   }
 
-  public async upload(form): Promise<void> {
+  public async upload(form, type): Promise<void> {
     const data = this.formData;
-    const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    const blob =
+      await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     this.dataBindingService.handleSaveFormData(
       this.applicationId,
       form.id,
@@ -488,7 +485,11 @@ export class BuildingPermitComponent implements OnInit {
           .submitDocument(uploadDocumentData)
           .subscribe((res) => {
             this.isLoading = false;
-            this.fetchApplicationInfo();
+            if (type == 'draft') {
+              this.router.navigateByUrl('/dashboard/applications');
+            } else {
+              this.fetchApplicationInfo();
+            }
           });
       } else {
         console.log('Blob failed');
@@ -503,7 +504,11 @@ export class BuildingPermitComponent implements OnInit {
       this.newApplicationService
         .updateDocumentFile(uploadDocumentData, form.doc_id)
         .subscribe((res) => {
-          this.fetchApplicationInfo();
+          if (type == 'draft') {
+            this.router.navigateByUrl('/dashboard/applications');
+          } else {
+            this.fetchApplicationInfo();
+          }
         });
     }
   }
