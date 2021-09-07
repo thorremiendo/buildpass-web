@@ -199,8 +199,7 @@
                             color="accent"
                             (click)="openFormDialog(element)"
                             [disabled]="
-                              applicationInfo.application_status_id !== 1 ||
-                              element.document_id == 194
+                              applicationInfo.application_status_id !== 1 
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-REC'"
                           >
