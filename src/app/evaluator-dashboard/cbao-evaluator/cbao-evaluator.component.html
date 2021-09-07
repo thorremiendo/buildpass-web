@@ -199,7 +199,7 @@
                             color="accent"
                             (click)="openFormDialog(element)"
                             [disabled]="
-                              applicationInfo.application_status_id !== 1 
+                              applicationInfo.application_status_id !== 1
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-REC'"
                           >
@@ -283,7 +283,7 @@
                           >
                         </ng-container>
 
-                        <button
+                        <!-- <button
                           mat-menu-item
                           color="accent"
                           (click)="goToEsig(element.id)"
@@ -293,7 +293,7 @@
                           "
                         >
                           Sign Document
-                        </button>
+                        </button> -->
                         <a
                           mat-menu-item
                           href="{{ element.document_path }}"
@@ -378,7 +378,12 @@
                       </button>
                     </div>
 
-                    <div *ngIf="evaluatorRole.code !== 'CBAO-BO'">
+                    <div
+                      *ngIf="
+                        evaluatorRole.code !== 'CBAO-BO' &&
+                        evaluatorRole.code !== 'CBAO-REC'
+                      "
+                    >
                       <button
                         mat-raised-button
                         color="primary"
@@ -429,7 +434,12 @@
                     >
                       Release Permit
                     </button>
-                    <div *ngIf="evaluatorRole.code !== 'CBAO-BO'">
+                    <div
+                      *ngIf="
+                        evaluatorRole.code !== 'CBAO-BO' &&
+                        evaluatorRole.code !== 'CBAO-REC'
+                      "
+                    >
                       <button
                         mat-raised-button
                         color="primary"

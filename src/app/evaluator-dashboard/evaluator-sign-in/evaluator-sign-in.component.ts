@@ -1,7 +1,9 @@
+import { AuthService } from './../../core/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AdminAuthService } from '../../core';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-evaluator-sign-in',
@@ -17,7 +19,9 @@ export class EvaluatorSignInComponent implements OnInit {
   constructor(
     private _router: Router,
     private _fb: FormBuilder,
-    private _adminAuth: AdminAuthService
+    private _adminAuth: AdminAuthService,
+    private authService: AuthService,
+    private router: Router
   ) {
     this.createForm();
   }
@@ -44,5 +48,24 @@ export class EvaluatorSignInComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.authService.isAuthenticated
+      .pipe(
+        switchMap((isAuthenticated) => {
+          if (!isAuthenticated) {
+            this.router.navigateByUrl('evaluator/sign-in');
+          } else {
+            this.router.navigateByUrl('/evaluator/home/table');
+          }
+          return this.authService.currentUser;
+        })
+      )
+      .subscribe((currentUser) => {
+        if (currentUser && currentUser.roles && currentUser.roles.length) {
+          this.authService.purgeAuth();
+          this.router.navigateByUrl('evaluator/sign-in');
+        }
+
+        return;
+      });
   }
 }
