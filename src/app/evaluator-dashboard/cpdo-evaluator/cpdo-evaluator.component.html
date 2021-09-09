@@ -114,14 +114,14 @@
                         >View</a
                       >
                     </ng-container>
-                    <!-- <button
+                    <button
                       mat-menu-item
                       color="accent"
                       (click)="goToEsig(element.id)"
                       *ngIf="evaluatorRole.code !== 'CBAO-REL'"
                     >
                       Sign Document
-                    </button> -->
+                    </button>
                   </mat-menu>
                 </div>
               </td>
@@ -150,7 +150,8 @@
                 (click)="openZoningDialog()"
                 *ngIf="
                   evaluatorRole.code == 'CPDO-COD' &&
-                  applicationDetails.application_status_id == '10'
+                  applicationDetails.application_status_id == '10' &&
+                  !checkCertificateUploaded()
                 "
                 [disabled]="
                   checkCertificateUploaded() || !checkFormsCompliant()

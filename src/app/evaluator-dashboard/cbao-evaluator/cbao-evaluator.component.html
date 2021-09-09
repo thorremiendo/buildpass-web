@@ -283,17 +283,14 @@
                           >
                         </ng-container>
 
-                        <!-- <button
+                        <button
                           mat-menu-item
                           color="accent"
                           (click)="goToEsig(element.id)"
                           *ngIf="evaluatorRole.code !== 'CBAO-REL'"
-                          [disabled]="
-                            applicationInfo.application_status_id !== 24
-                          "
                         >
                           Sign Document
-                        </button> -->
+                        </button>
                         <a
                           mat-menu-item
                           href="{{ element.document_path }}"
@@ -449,7 +446,7 @@
                         Review Done (Compliant)
                       </button>
                     </div>
-                    <!-- <button
+                    <button
                       mat-raised-button
                       color="primary"
                       (click)="forPayment()"
@@ -460,8 +457,8 @@
                       "
                     >
                       Forward to Payment of Fees
-                    </button> -->
-                    <button
+                    </button>
+                    <!-- <button
                       mat-raised-button
                       color="primary"
                       (click)="forSignature()"
@@ -472,7 +469,7 @@
                       "
                     >
                       For Signature
-                    </button>
+                    </button> -->
                   </div>
                 </div>
               </ng-container>

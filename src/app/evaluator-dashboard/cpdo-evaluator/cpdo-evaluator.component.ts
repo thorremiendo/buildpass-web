@@ -45,6 +45,7 @@ export class CpdoEvaluatorComponent implements OnInit {
 
   ngOnInit(): void {
     this.applicationId = this.route.snapshot.params.id;
+    this.fetchDocTypes();
     this.applicationService
       .fetchUserDocs(this.applicationId)
       .subscribe((result) => {
@@ -55,7 +56,6 @@ export class CpdoEvaluatorComponent implements OnInit {
         this.checkFormsCompliant();
         this.checkFormsReviewed();
       });
-    this.fetchDocTypes();
   }
   fetchApplicationDetails() {
     this.isLoading = true;
