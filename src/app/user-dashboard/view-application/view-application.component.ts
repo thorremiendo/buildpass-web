@@ -57,6 +57,7 @@ export class ViewApplicationComponent implements OnInit {
       width: '1600px',
       data: {
         projectDetails: this.applicationDetails.project_detail,
+        applicationId: this.applicationId,
       },
     });
 

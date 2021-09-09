@@ -172,15 +172,23 @@
         <hr />
         <div class="row">
           <div class="col-md-6">
-            <div class="d-flex">
+            <div class="d-flex align-items-center">
               <h5>Project Cost Estimation:</h5>
-              <h5 style="color: maroon; font-weight: bold">
+              <h5 style="color: maroon; font-weight: bold" *ngIf="!editMode">
                 &nbsp;{{
                   data.projectDetails.project_cost_cap == ""
                     ? "--"
                     : (projectCost | currency: "PHP")
                 }}
               </h5>
+              <mat-form-field appearance="legacy" *ngIf="editMode">
+                <input matInput [formControl]="projectCostForm" type="number" />
+              </mat-form-field>
+              <mat-icon
+                style="font-size: 20px; margin-left: 5px"
+                (click)="edit()"
+                >mode_edit</mat-icon
+              >
             </div>
           </div>
           <div class="col-md-6">
@@ -238,9 +246,12 @@
     </div>
   </div>
 
-  <div class="text-right">
+  <div class="d-flex justify-content-between mt-5">
     <button mat-raised-button color="accent" [mat-dialog-close]="">
       Close
+    </button>
+    <button mat-raised-button color="primary" (click)="save()" *ngIf="editMode">
+      Save
     </button>
   </div>
 </div>
