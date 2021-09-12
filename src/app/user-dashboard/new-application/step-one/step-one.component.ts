@@ -41,6 +41,7 @@ export class StepOneComponent implements OnInit {
   public cfeiType;
   public isLoading: boolean = false;
   public userBuildingPermits = [];
+  public userOngoingApplications = [];
   public selectedBuildingPermit;
   public isSubmitting: boolean = false;
   public receiveApplications: boolean;
@@ -50,6 +51,8 @@ export class StepOneComponent implements OnInit {
   public oldBpDetails = [];
   public invalidBps = [];
   public amendmentDetails;
+  public excavationAssociated;
+  public selectedOngoingApplication;
   selectable = true;
   removable = true;
   addOnBlur = true;
@@ -99,6 +102,7 @@ export class StepOneComponent implements OnInit {
     this.isLoading = true;
     this.userInfo = JSON.parse(localStorage.getItem('user'));
     this.fetchUserBuildingPermit();
+    this.fetchUserOngoingApplications();
     this.isLoading = false;
     localStorage.removeItem('newApplicationInfo');
     localStorage.removeItem('commonFieldsInfo');
@@ -114,6 +118,14 @@ export class StepOneComponent implements OnInit {
       .fetchUserBuildingPermit(this.userInfo.id)
       .subscribe((res) => {
         this.userBuildingPermits = res.data;
+      });
+  }
+  fetchUserOngoingApplications() {
+    this.applicationInfoService
+      .fetchOngoingApplication(this.userInfo.id)
+      .subscribe((res) => {
+        this.userOngoingApplications = res.data;
+        console.log('ongoing', this.userOngoingApplications);
       });
   }
   createForm() {
@@ -197,44 +209,23 @@ export class StepOneComponent implements OnInit {
           applicant_suffix_name: this.userInfo.suffix_name,
           applicant_contact_number: this.userInfo.contact_number,
           applicant_email_address: this.userInfo.email_address,
+          main_permit_id: this.selectedOngoingApplication
+            ? this.selectedOngoingApplication
+            : null,
         };
         this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
-          Swal.fire(
-            'Success!',
-            'Application Details Submitted!',
-            'success'
-          ).then((result) => {
-            this.isLoading = false;
-            this.isSubmitting = false;
-            switch (this.selectedPermitType) {
-              case '3':
-                this.router.navigateByUrl('/dashboard/new/excavation-permit');
-                break;
-              case '4':
-                this.router.navigateByUrl('/dashboard/new/fencing-permit');
-                break;
-              case '5':
-                this.router.navigateByUrl('/dashboard/new/demolition-permit');
-                break;
-              case '6':
-                this.router.navigateByUrl('/dashboard/new/scaffolding-permit');
-                break;
-              case '7':
-                this.router.navigateByUrl('/dashboard/new/sign-permit');
-                break;
-              case '8':
-                this.router.navigateByUrl('/dashboard/new/temporary-sidewalk');
-                break;
-              case '9':
-                this.router.navigateByUrl('/dashboard/new/mechanical-permit');
-                break;
-              case '10':
-                this.router.navigateByUrl(
-                  '/dashboard/new/electrical-inspection'
-                );
-                break;
-            }
-          });
+          if (this.selectedOngoingApplication) {
+            const body = {
+              sub_permit_type_id: res.data.id,
+            };
+            this.applicationInfoService
+              .updateApplicationInfo(body, this.selectedOngoingApplication)
+              .subscribe((res) => {
+                this.navigateOtherPermits();
+              });
+          } else {
+            this.navigateOtherPermits();
+          }
         });
       } else {
         this.isSubmitting = false;
@@ -244,6 +235,41 @@ export class StepOneComponent implements OnInit {
       this.isSubmitting = false;
       Swal.fire('Error!', 'Fill out all required information!', 'error');
     }
+  }
+
+  navigateOtherPermits() {
+    Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
+      (result) => {
+        this.isLoading = false;
+        this.isSubmitting = false;
+        switch (this.selectedPermitType) {
+          case '3':
+            this.router.navigateByUrl('/dashboard/new/excavation-permit');
+            break;
+          case '4':
+            this.router.navigateByUrl('/dashboard/new/fencing-permit');
+            break;
+          case '5':
+            this.router.navigateByUrl('/dashboard/new/demolition-permit');
+            break;
+          case '6':
+            this.router.navigateByUrl('/dashboard/new/scaffolding-permit');
+            break;
+          case '7':
+            this.router.navigateByUrl('/dashboard/new/sign-permit');
+            break;
+          case '8':
+            this.router.navigateByUrl('/dashboard/new/temporary-sidewalk');
+            break;
+          case '9':
+            this.router.navigateByUrl('/dashboard/new/mechanical-permit');
+            break;
+          case '10':
+            this.router.navigateByUrl('/dashboard/new/electrical-inspection');
+            break;
+        }
+      }
+    );
   }
 
   handleOccupancyNext() {

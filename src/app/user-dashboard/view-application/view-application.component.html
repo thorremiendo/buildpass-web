@@ -114,7 +114,23 @@
             target="_blank"
           >
             <button mat-raised-button class="ml-2" color="primary">
-              View My Building Permit
+              View Associated Building Permit
+            </button></a
+          ></ng-container
+        >
+        <ng-container
+          *ngIf="
+            applicationDetails.permit_type_id == 1 &&
+            applicationDetails.sub_permit_type_id
+          "
+        >
+          <a
+            [routerLink]="['../', applicationDetails.sub_permit_type_id]"
+            routerLinkActive="active"
+            target="_blank"
+          >
+            <button mat-raised-button class="ml-2" color="primary">
+              View Associated Excavation Permit
             </button></a
           ></ng-container
         >

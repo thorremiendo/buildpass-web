@@ -785,21 +785,26 @@ export class CbaoEvaluatorComponent implements OnInit {
   notifyBuildingOfficial() {
     this.isLoading = true;
     if (this.checkFormsCompliant()) {
-      const body = {
-        application_status_id: 13,
-        dc_status_id: 1,
-      };
-      this.applicationService
-        .updateApplicationStatus(body, this.applicationId)
-        .subscribe((res) => {
-          Swal.fire(
-            'Success!',
-            `Forwarded to Building Official!`,
-            'success'
-          ).then((result) => {
-            window.location.reload();
+      if (
+        this.applicationInfo.sub_permit_type_id == null ||
+        this.applicationInfo.sub_permit_type_id == 0
+      ) {
+        this.forwardToBuildingOfficial();
+      } else {
+        this.applicationService
+          .fetchApplicationInfo(this.applicationInfo.sub_permit_type_id)
+          .subscribe((res) => {
+            const subPermitStatus = res.data.application_status_id;
+            if (subPermitStatus == 11) {
+              this.forwardToBuildingOfficial();
+            } else {
+              this.openSnackBar(
+                'Associated Excavation Permit is Still Under Evaluation!'
+              );
+              this.isLoading = false;
+            }
           });
-        });
+      }
     } else {
       Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
         (result) => {
@@ -807,6 +812,24 @@ export class CbaoEvaluatorComponent implements OnInit {
         }
       );
     }
+  }
+
+  forwardToBuildingOfficial() {
+    const body = {
+      application_status_id: 13,
+      dc_status_id: 1,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire(
+          'Success!',
+          `Forwarded to Building Official!`,
+          'success'
+        ).then((result) => {
+          window.location.reload();
+        });
+      });
   }
 
   canSignDocument() {
@@ -907,7 +930,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     // });
     var count = 0;
     var bar = new Promise<void>((resolve, reject) => {
-      this.dataSource.forEach((element, index, array) => {
+      this.userDocuments.forEach((element, index, array) => {
         this.isLoading = true;
         if (element.document_id !== 50) {
           this.waterMark
@@ -1063,7 +1086,7 @@ export class CbaoEvaluatorComponent implements OnInit {
 
   openSnackBar(message: string) {
     this.snackBar.open(message, 'Close', {
-      duration: 3000,
+      duration: 5000,
     });
   }
 

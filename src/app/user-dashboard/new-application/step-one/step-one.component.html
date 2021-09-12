@@ -63,6 +63,29 @@
           </mat-select>
         </mat-form-field>
       </ng-container>
+      <ng-container *ngIf="selectedPermitType == '3'">
+        <h4>Is this associated to an ongoing Building Permit Application?</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Choose</mat-label>
+          <mat-select [(value)]="excavationAssociated">
+            <mat-option value="1">Yes</mat-option>
+            <mat-option value="2">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <ng-container *ngIf="excavationAssociated == '1'">
+          <h4>Select Building Permit Application:</h4>
+          <mat-form-field appearance="outline">
+            <mat-label>Choose</mat-label>
+            <mat-select [(value)]="selectedOngoingApplication">
+              <mat-option
+                *ngFor="let item of userOngoingApplications"
+                value="{{ item.id }}"
+                >{{ item.ocpas_code }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+      </ng-container>
       <ng-container *ngIf="cfeiType == '4'">
         <h4>Is the structure affected by fire?</h4>
         <mat-form-field appearance="outline">
