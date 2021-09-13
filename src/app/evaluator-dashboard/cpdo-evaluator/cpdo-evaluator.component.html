@@ -150,7 +150,8 @@
                 (click)="openZoningDialog()"
                 *ngIf="
                   evaluatorRole.code == 'CPDO-COD' &&
-                  applicationDetails.application_status_id == '10'
+                  applicationDetails.application_status_id == '10' &&
+                  !checkCertificateUploaded()
                 "
                 [disabled]="
                   checkCertificateUploaded() || !checkFormsCompliant()

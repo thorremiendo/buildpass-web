@@ -164,9 +164,6 @@
                       color="accent"
                       (click)="goToEsig(element.id)"
                       *ngIf="evaluatorRole.code !== 'CBAO-REL'"
-                      [disabled]="
-                        applicationDetails.application_status_id !== 24
-                      "
                     >
                       Sign Document
                     </button>

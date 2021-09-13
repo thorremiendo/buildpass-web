@@ -1,0 +1,87 @@
+<div class="action__buttons mt-5">
+  <ng-container *ngIf="evaluatorRole.code == 'CBAO-REC'">
+    <div class="d-flex justify-content-between">
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="returnToApplicant()"
+        [disabled]="isLoading || applicationInfo.application_status_id !== 1"
+      >
+        Return to Applicant
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="forwardToOffices()"
+        [disabled]="isLoading || applicationInfo.application_status_id !== 1"
+      >
+        Forward to CBAO, CEPMO, BFP
+      </button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="isTechnicalEvaluator()">
+    <div class="d-flex justify-content-between">
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="handleTechnicalEvaluatorNonCompliant()"
+        [disabled]="isLoading || applicationInfo.application_status_id !== 3"
+      >
+        Review Done (Non-Compliant)
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="handleTechnicalEvaluatorCompliant()"
+        [disabled]="isLoading || applicationInfo.application_status_id !== 3"
+      >
+        Review Done (Compliant)
+      </button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="evaluatorRole.code == 'CBAO-DC'">
+    <div class="d-flex justify-content-between">
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="returnToApplicant()"
+        [disabled]="isLoading || applicationInfo.application_status_id !== 12"
+      >
+        Return to Applicant
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="notifyBuildingOfficial()"
+        [disabled]="isLoading || applicationInfo.application_status_id !== 12"
+      >
+        Forward to Building Official
+      </button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="evaluatorRole.code == 'CBAO-BO'">
+    <div class="d-flex justify-content-between">
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="returnToApplicant()"
+        [disabled]="isLoading || applicationInfo.application_status_id !== 13"
+      >
+        Return to Applicant
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="forPayment()"
+        [disabled]="isLoading || applicationInfo.application_status_id !== 13"
+      >
+        Forward to Payment
+      </button>
+    </div>
+  </ng-container>
+</div>
+<ng-container *ngIf="isLoading">
+  <div class="mt-5">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+</ng-container>

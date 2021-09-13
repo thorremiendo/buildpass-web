@@ -89,6 +89,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { AttachBpComponent } from './attach-bp/attach-bp.component';
 import { OccupancyUploadFileComponent } from './occupancy-upload-file/occupancy-upload-file.component';
 import { InputPermitNumberComponent } from './input-permit-number/input-permit-number.component';
+import { OccupancyPermitActionsComponent } from './occupancy-permit-actions/occupancy-permit-actions.component';
 
 @NgModule({
   declarations: [
@@ -135,6 +136,7 @@ import { InputPermitNumberComponent } from './input-permit-number/input-permit-n
     AttachBpComponent,
     OccupancyUploadFileComponent,
     InputPermitNumberComponent,
+    OccupancyPermitActionsComponent,
   ],
 
   imports: [

@@ -50,6 +50,7 @@ export class ApplicationDetailsComponent implements OnInit {
       width: '1000px',
       data: {
         projectDetails: this.applicationDetails.project_detail,
+        applicationId: this.applicationId,
       },
     });
 

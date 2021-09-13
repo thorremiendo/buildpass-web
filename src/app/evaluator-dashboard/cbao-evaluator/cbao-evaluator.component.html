@@ -17,7 +17,12 @@
           </button>
         </div>
       </div>
-      <ng-container *ngIf="applicationInfo.permit_type_id == 1">
+      <ng-container
+        *ngIf="
+          applicationInfo.permit_type_id == 1 ||
+          applicationInfo.permit_type_id == 2
+        "
+      >
         <div
           *ngIf="
             applicationInfo.application_status_id == 3 ||
@@ -192,14 +197,17 @@
                         </ng-container>
 
                         <ng-container
-                          *ngIf="applicationInfo.permit_type_id == 1"
+                          *ngIf="
+                            applicationInfo.permit_type_id == 1 ||
+                            applicationInfo.permit_type_id == 2
+                          "
                         >
                           <button
                             mat-menu-item
                             color="accent"
                             (click)="openFormDialog(element)"
                             [disabled]="
-                              applicationInfo.application_status_id !== 1 
+                              applicationInfo.application_status_id !== 1
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-REC'"
                           >
@@ -262,7 +270,10 @@
                           </button>
                         </ng-container>
                         <ng-container
-                          *ngIf="applicationInfo.permit_type_id !== 1"
+                          *ngIf="
+                            applicationInfo.permit_type_id !== 1 &&
+                            applicationInfo.permit_type_id !== 2
+                          "
                         >
                           <button
                             mat-menu-item
@@ -288,9 +299,6 @@
                           color="accent"
                           (click)="goToEsig(element.id)"
                           *ngIf="evaluatorRole.code !== 'CBAO-REL'"
-                          [disabled]="
-                            applicationInfo.application_status_id !== 24
-                          "
                         >
                           Sign Document
                         </button>
@@ -378,7 +386,12 @@
                       </button>
                     </div>
 
-                    <div *ngIf="evaluatorRole.code !== 'CBAO-BO'">
+                    <div
+                      *ngIf="
+                        evaluatorRole.code !== 'CBAO-BO' &&
+                        evaluatorRole.code !== 'CBAO-REC'
+                      "
+                    >
                       <button
                         mat-raised-button
                         color="primary"
@@ -429,7 +442,12 @@
                     >
                       Release Permit
                     </button>
-                    <div *ngIf="evaluatorRole.code !== 'CBAO-BO'">
+                    <div
+                      *ngIf="
+                        evaluatorRole.code !== 'CBAO-BO' &&
+                        evaluatorRole.code !== 'CBAO-REC'
+                      "
+                    >
                       <button
                         mat-raised-button
                         color="primary"
@@ -439,7 +457,7 @@
                         Review Done (Compliant)
                       </button>
                     </div>
-                    <!-- <button
+                    <button
                       mat-raised-button
                       color="primary"
                       (click)="forPayment()"
@@ -450,8 +468,8 @@
                       "
                     >
                       Forward to Payment of Fees
-                    </button> -->
-                    <button
+                    </button>
+                    <!-- <button
                       mat-raised-button
                       color="primary"
                       (click)="forSignature()"
@@ -462,7 +480,7 @@
                       "
                     >
                       For Signature
-                    </button>
+                    </button> -->
                   </div>
                 </div>
               </ng-container>
@@ -478,6 +496,14 @@
                   [evaluatorRole]="evaluatorRole"
                   [userDocuments]="userDocuments"
                 ></app-other-permits>
+              </ng-container>
+              <ng-container *ngIf="applicationInfo.permit_type_id == 2">
+                <app-occupancy-permit-actions
+                  [applicationInfo]="applicationInfo"
+                  [evaluatorDetails]="evaluatorDetails"
+                  [evaluatorRole]="evaluatorRole"
+                  [occupancyDocs]="occupancyDocs"
+                ></app-occupancy-permit-actions>
               </ng-container>
             </div>
           </div>

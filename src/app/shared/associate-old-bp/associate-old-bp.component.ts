@@ -89,7 +89,6 @@ export class AssociateOldBpComponent implements OnInit {
     };
     console.log(id, body);
     this.occupancyService.confirmOldBp(id, body).subscribe((res) => {
-      debugger;
       const generatedId = res.data.id;
       const body = {
         user_id: this.data.oldBpInfo.user_id,

@@ -129,6 +129,20 @@
               >View</a
             >
           </div>
+          <div
+            *ngIf="applicationDetails.sub_permit_type_id"
+            class="d-flex justify-content-center align-items-center"
+          >
+            <p class="m-0 p-0" style="font-weight: bold">
+              Associated Excavation Permit Application:&nbsp;
+            </p>
+            <a
+              [routerLink]="['../', applicationDetails.sub_permit_type_id]"
+              routerLinkActive="active"
+              target="_blank"
+              >View</a
+            >
+          </div>
           <div>
             <button
               mat-raised-button

@@ -37,9 +37,11 @@ export class FileUploadComponent implements OnInit {
     this.infoPath = this.info;
     this.checkIfPicture();
   }
+  
   checkIfPicture() {
     return this.fileDescription.includes('picture');
   }
+
   ngOnChanges() {
     this.filePath = this.path;
     this.infoPath = this.info;
@@ -59,6 +61,7 @@ export class FileUploadComponent implements OnInit {
       });
     }
   }
+
   checkEncryptedFile(file) {
     var fileReader: FileReader = new FileReader();
     fileReader.onload = (e) => {
