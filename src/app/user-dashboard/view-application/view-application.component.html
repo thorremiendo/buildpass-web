@@ -349,7 +349,10 @@
                 </table>
                 <div class="text-right mt-5">
                   <ng-container
-                    *ngIf="this.applicationDetails.permit_type_id == 1"
+                    *ngIf="
+                      applicationDetails.permit_type_id == 1 ||
+                      applicationDetails.permit_type_id == 2
+                    "
                   >
                     <button
                       mat-raised-button

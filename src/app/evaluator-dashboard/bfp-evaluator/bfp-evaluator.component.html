@@ -184,17 +184,17 @@
               }"
             ></tr>
           </table>
-          <button
-            class="mt-2 w-100"
-            mat-raised-button
-            color="accent"
-            *ngIf="!checkChecklistUploaded()"
-            (click)="openChecklistDialog()"
-            [disabled]="applicationDetails.application_status_id !== 3"
-          >
-            Upload Checklist
-          </button>
-          <div class="action__buttons">
+          <ng-container *ngIf="applicationDetails.permit_type_id == 1">
+            <button
+              class="mt-2 w-100"
+              mat-raised-button
+              color="accent"
+              *ngIf="!checkChecklistUploaded()"
+              (click)="openChecklistDialog()"
+              [disabled]="applicationDetails.application_status_id !== 3"
+            >
+              Upload Checklist
+            </button>
             <button
               class="mt-2 w-100"
               mat-raised-button
@@ -205,6 +205,9 @@
             >
               Upload Fire Safety Evaluation Clearance
             </button>
+          </ng-container>
+
+          <div class="action__buttons">
             <mat-progress-bar
               mode="indeterminate"
               *ngIf="isLoading"

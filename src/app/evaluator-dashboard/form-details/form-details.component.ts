@@ -389,7 +389,7 @@ export class FormDetailsComponent implements OnInit {
         } else if (officeId == 4) {
           //CBAO
           if (
-            permitType == 1 &&
+            (permitType == 1 || permitType == 2) &&
             this.data.userRole.code !== 'CBAO-REC' &&
             this.data.userRole.code !== 'CBAO-DC'
           ) {
@@ -430,7 +430,10 @@ export class FormDetailsComponent implements OnInit {
               };
             }
             this.updateDoc(body, id);
-          } else if (permitType == 1 && this.data.userRole == 'CBAO-DC') {
+          } else if (
+            (permitType == 1 || permitType == 2) &&
+            this.data.userRole == 'CBAO-DC'
+          ) {
             body = {
               document_status_id: this.permitDetails.value.is_compliant,
             };
@@ -525,7 +528,7 @@ export class FormDetailsComponent implements OnInit {
         } else if (officeId == 4) {
           //CBAO
           if (
-            permitType == 1 &&
+            (permitType == 1 || permitType == 2) &&
             this.data.userRole.code !== 'CBAO-REC' &&
             this.data.userRole.code !== 'CBAO-DC'
           ) {
@@ -554,7 +557,10 @@ export class FormDetailsComponent implements OnInit {
               receiving_status_id: this.permitDetails.value.is_compliant,
             };
             this.updateDoc(body, id);
-          } else if (permitType == 1 && this.data.userRole == 'CBAO-DC') {
+          } else if (
+            (permitType == 1 || permitType == 2) &&
+            this.data.userRole == 'CBAO-DC'
+          ) {
             body = {
               document_status_id: this.permitDetails.value.is_compliant,
             };
@@ -614,7 +620,7 @@ export class FormDetailsComponent implements OnInit {
             } else if (officeId == 4) {
               //CBAO
               if (
-                permitType == 1 &&
+                (permitType == 1 || permitType == 2) &&
                 this.data.userRole.code !== 'CBAO-REC' &&
                 this.data.userRole.code !== 'CBAO-DC'
               ) {
@@ -648,7 +654,10 @@ export class FormDetailsComponent implements OnInit {
                   document_path: blob,
                 };
                 this.updateDoc(body, id);
-              } else if (permitType == 1 && this.data.userRole == 'CBAO-DC') {
+              } else if (
+                (permitType == 1 || permitType == 2) &&
+                this.data.userRole == 'CBAO-DC'
+              ) {
                 body = {
                   document_status_id: this.permitDetails.value.is_compliant,
                 };

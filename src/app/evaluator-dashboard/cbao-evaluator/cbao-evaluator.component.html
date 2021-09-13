@@ -17,7 +17,12 @@
           </button>
         </div>
       </div>
-      <ng-container *ngIf="applicationInfo.permit_type_id == 1">
+      <ng-container
+        *ngIf="
+          applicationInfo.permit_type_id == 1 ||
+          applicationInfo.permit_type_id == 2
+        "
+      >
         <div
           *ngIf="
             applicationInfo.application_status_id == 3 ||
@@ -192,7 +197,10 @@
                         </ng-container>
 
                         <ng-container
-                          *ngIf="applicationInfo.permit_type_id == 1"
+                          *ngIf="
+                            applicationInfo.permit_type_id == 1 ||
+                            applicationInfo.permit_type_id == 2
+                          "
                         >
                           <button
                             mat-menu-item
@@ -262,7 +270,10 @@
                           </button>
                         </ng-container>
                         <ng-container
-                          *ngIf="applicationInfo.permit_type_id !== 1"
+                          *ngIf="
+                            applicationInfo.permit_type_id !== 1 &&
+                            applicationInfo.permit_type_id !== 2
+                          "
                         >
                           <button
                             mat-menu-item
@@ -485,6 +496,14 @@
                   [evaluatorRole]="evaluatorRole"
                   [userDocuments]="userDocuments"
                 ></app-other-permits>
+              </ng-container>
+              <ng-container *ngIf="applicationInfo.permit_type_id == 2">
+                <app-occupancy-permit-actions
+                  [applicationInfo]="applicationInfo"
+                  [evaluatorDetails]="evaluatorDetails"
+                  [evaluatorRole]="evaluatorRole"
+                  [occupancyDocs]="occupancyDocs"
+                ></app-occupancy-permit-actions>
               </ng-container>
             </div>
           </div>

@@ -44,6 +44,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   public plansDocuments;
   public mergedPlans;
   public isLoadingMergedPlans: boolean = false;
+  public occupancyDocs = [];
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
@@ -132,11 +133,12 @@ export class CbaoEvaluatorComponent implements OnInit {
             this.occupancyService
               .fetchUserDocsOnly(e.generated_application_id)
               .subscribe((res) => {
-                console.log('associated', res.data);
                 res.data.forEach((element) => {
                   USER_FORMS.push(element);
                 });
                 this.dataSource = this.sortUserDocs(USER_FORMS);
+                this.occupancyDocs = USER_FORMS;
+                console.log('occupancy', this.occupancyDocs);
                 this.isLoading = false;
               });
           });
@@ -414,10 +416,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     return this.documentTypes[id - 1].name;
   }
   getDocStatus(id): string {
-    if (
-      this.evaluatorRole.code == 'CBAO-REC' &&
-      (this.applicationInfo.receiving_status_id == '1' || id == 1)
-    ) {
+    if (this.evaluatorRole.code == 'CBAO-REC' && id == '1') {
       return 'Submitted';
     }
     return documentStatus[id];
@@ -878,8 +877,11 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
   forPayment() {
     this.isLoading = true;
-    if (this.applicationInfo.permit_type_id == 1) {
-      if (this.checkFormsCompliant) {
+    if (
+      this.applicationInfo.permit_type_id == 1 ||
+      this.applicationInfo.permit_type_id == 2
+    ) {
+      if (this.checkFormsCompliant()) {
         const body = {
           application_status_id: 8,
           bo_status_id: 1,
