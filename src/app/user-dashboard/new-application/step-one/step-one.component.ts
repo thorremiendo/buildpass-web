@@ -53,6 +53,7 @@ export class StepOneComponent implements OnInit {
   public amendmentDetails;
   public excavationAssociated;
   public selectedOngoingApplication;
+  public exacavationError;
   selectable = true;
   removable = true;
   addOnBlur = true;
@@ -364,5 +365,20 @@ export class StepOneComponent implements OnInit {
         }
       );
     });
+  }
+
+  excavationBpSelect(e) {
+    this.exacavationError = null;
+    this.applicationInfoService
+      .fetchApplicationInfo(e.value)
+      .subscribe((res) => {
+        const cpdoStatus = res.data.cpdo_status_id;
+        if (cpdoStatus == 1) {
+          console.log('OK');
+        } else {
+          this.exacavationError =
+            'Selected application is not yet approved by CPDO.';
+        }
+      });
   }
 }
