@@ -235,12 +235,12 @@ html .page-wrapper {
     -ms-flex-pack: end;
     -moz-justify-content: flex-end;
     justify-content: flex-end;
-    text-align: right;
+    //text-align: right;
   }
 }
 
 .chat-block {
-  display: flex;
+  //display: flex;
   align-items: center;
   padding: 15px;
   background: $light;

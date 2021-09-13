@@ -106,7 +106,7 @@
                       width="40"
                     />
                   </span> -->
-                  <span>{{ c.message }}</span>
+                  <span [innerHTML]="c.message">{{c.message}}</span>
                 </div>
                 <span class="chat-date">{{
                   c.created_at | date: "MMM d, y h:mm a"
@@ -127,7 +127,7 @@
                 </div>
             <div class="chat-list even">
               <div class="chat-message">
-                <div class="chat-block bg-light-info">{{ c.message }}</div>
+                <div class="chat-block bg-light-info"  [innerHTML]="c.message"></div>
                 <span class="chat-date">{{
                   c.created_at | date: "MMM d, y h:mm a"
                 }}</span>
@@ -144,15 +144,22 @@
 
   <mat-card-actions class="chat-footer" [hidden]="!talkWithEvaluator">
     <div fxLayout="row" layout-align="start center">
-      <mat-form-field class="mr-1 ml-1" fxFlex style="max-width: 350px">
-        <input
+      <!-- <mat-form-field class="mr-1 ml-1" fxFlex style="max-width: 350px">
+        <textarea
           matInput
           [(ngModel)]="msg"
           placeholder="Send message"
           #myInput
           (keyup.enter)="OnAddMsg()"
-        />
-      </mat-form-field>
+        ></textarea>
+      </mat-form-field> -->
+      
+        <quill-editor 
+        theme="bubble"
+        [(ngModel)]="msg"
+        placeholder="Send message"
+        ></quill-editor>
+
       <button mat-fab color="warn" (click)="OnAddMsg()" [disabled]="!msg">
         <mat-icon>send</mat-icon>
       </button>
