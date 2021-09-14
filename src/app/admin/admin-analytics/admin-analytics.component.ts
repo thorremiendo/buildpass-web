@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WaterMarkService } from '../../core';
+import { AdminService, WaterMarkService } from '../../core';
 import { applicationStatusData, applicationType } from './chart-data';
 
 @Component({
@@ -21,8 +21,8 @@ export class AdminAnalyticsComponent implements OnInit {
     //'fire-permit';
     //'wwms-permit';
     'checklist-bldg';
-  public applicationStatusData:any = applicationStatusData ;
-  public applicationType:any = applicationType;
+  public applicationStatusData:any;;
+  public permitType:any;;
   public date = new Date();
   showXAxis = true;
   showYAxis = true;
@@ -56,9 +56,14 @@ export class AdminAnalyticsComponent implements OnInit {
   schemeType = 'ordinal';
 
   private id = 1;
-  constructor(private watermark: WaterMarkService) {}
+  constructor(
+    private watermark: WaterMarkService,
+    private adminService: AdminService,
+    ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.fetchDataForAnalytics();
+  }
 
   select(data: string): void {
     console.log('Item clicked', data);
@@ -78,6 +83,19 @@ export class AdminAnalyticsComponent implements OnInit {
     this.watermark
       .insertWaterMark(this.testDoc, 'non-compliant')
       .then((blob) => {});
+  }
+
+  fetchDataForAnalytics(){
+    console.log("click");
+
+    this.adminService.fetchApplicationTotalStatus().subscribe( data => {
+      this.applicationStatusData = data.data;
+    });
+
+    this.adminService.fetchTotalPermitByType().subscribe( data => {
+      this.permitType = data.data;
+    })
+
   }
 
 
