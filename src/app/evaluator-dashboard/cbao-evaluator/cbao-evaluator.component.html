@@ -192,7 +192,7 @@
                             (click)="openFormDialog(element)"
                             [disabled]="element.document_id == 194"
                           >
-                            Edit
+                            Evaluate
                           </button>
                         </ng-container>
 
@@ -211,7 +211,7 @@
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-REC'"
                           >
-                            Edit
+                            Evaluate
                           </button>
                           <button
                             mat-menu-item
@@ -223,7 +223,7 @@
                             "
                             [disabled]="element.document_id == 194"
                           >
-                            Edit
+                            Evaluate
                           </button>
                           <button
                             mat-menu-item
@@ -242,7 +242,7 @@
                               evaluatorRole.code == 'CBAO-MEC'
                             "
                           >
-                            Edit
+                            Evaluate
                           </button>
                           <button
                             mat-menu-item
@@ -254,7 +254,7 @@
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-DC'"
                           >
-                            Edit
+                            Evaluate
                           </button>
                           <button
                             mat-menu-item
@@ -266,7 +266,7 @@
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-BO'"
                           >
-                            Edit
+                            Evaluate
                           </button>
                         </ng-container>
                         <ng-container
@@ -282,7 +282,7 @@
                             *ngIf="evaluatorRole.code !== 'CBAO-REL'"
                             [disabled]="!otherPermitsCanEdit()"
                           >
-                            Edit
+                            Evaluate
                           </button>
                         </ng-container>
                         <ng-container>
@@ -299,6 +299,7 @@
                           color="accent"
                           (click)="goToEsig(element.id)"
                           *ngIf="evaluatorRole.code !== 'CBAO-REL'"
+                          [disabled]="evaluatorRole.code == 'CBAO-REC'"
                         >
                           Sign Document
                         </button>
