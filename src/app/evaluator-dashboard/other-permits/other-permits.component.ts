@@ -148,6 +148,27 @@ export class OtherPermitsComponent implements OnInit {
   forwardToDivisionChief() {}
   notifyBuildingOfficial() {
     this.isLoading = true;
+    if (this.applicationInfo.main_permit_id) {
+      this.applicationService
+        .fetchApplicationInfo(this.applicationInfo.main_permit_id)
+        .subscribe((res) => {
+          const status = res.data.application_status_id;
+          console.log(status);
+          if (status == 12 || status == 13) {
+            this.forwardToBuildingOfficial();
+          } else {
+            this.isLoading = false;
+            this.openSnackBar(
+              'Associated Building Permit applicatition is still under technical evaluation.'
+            );
+          }
+        });
+    } else {
+      this.forwardToBuildingOfficial();
+    }
+  }
+  forwardToBuildingOfficial() {
+    this.isLoading = true;
     const body = {
       application_status_id: 13,
       dc_status_id: 1,
@@ -275,7 +296,7 @@ export class OtherPermitsComponent implements OnInit {
 
   openSnackBar(message: string) {
     this.snackBar.open(message, 'Close', {
-      duration: 3000,
+      duration: 5000,
     });
   }
 }

@@ -794,7 +794,7 @@ export class CbaoEvaluatorComponent implements OnInit {
           .fetchApplicationInfo(this.applicationInfo.sub_permit_type_id)
           .subscribe((res) => {
             const subPermitStatus = res.data.application_status_id;
-            if (subPermitStatus == 11) {
+            if (subPermitStatus == 12 || subPermitStatus == 13) {
               this.forwardToBuildingOfficial();
             } else {
               this.openSnackBar(

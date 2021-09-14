@@ -374,11 +374,28 @@ export class StepOneComponent implements OnInit {
       .subscribe((res) => {
         const cpdoStatus = res.data.cpdo_status_id;
         if (cpdoStatus == 1) {
-          console.log('OK');
+          console.log(res.data);
+          this.patchExcavationDetails(res.data);
         } else {
           this.exacavationError =
             'Selected application is not yet approved by CPDO.';
         }
       });
+  }
+
+  patchExcavationDetails(data) {
+    console.log(data.is_representative);
+    // this.isRepresentative = data.is_representative;
+    this.isLotOwner = data.rol_status_id;
+    this.registeredOwner = data.is_registered_owner;
+    this.permitStepOneForm.patchValue({
+      is_representative: data.is_representative.toString(),
+      is_lot_owner: data.rol_status_id.toString(),
+      registered_owner: data.is_registered_owner.toString(),
+      is_within_subdivision: data.is_within_subdivision.toString(),
+      is_under_mortgage: data.is_under_mortgage.toString(),
+      is_owned_by_corporation: data.is_owned_by_corporation.toString(),
+      is_property_have_coowners: data.is_property_have_coowners.toString(),
+    });
   }
 }
