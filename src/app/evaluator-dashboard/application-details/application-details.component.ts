@@ -75,7 +75,6 @@ export class ApplicationDetailsComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
-        console.log(this.applicationDetails);
         this.fetchEvaluatorDetails();
         this.fetchUserDocs();
         if (this.applicationDetails.associated_released_permits.length > 0)
@@ -142,7 +141,6 @@ export class ApplicationDetailsComponent implements OnInit {
         .fetchSpecificOldBp(element.old_permit_number)
         .subscribe((res) => {
           this.oldBpInfo.push(res.data[0]);
-          console.log('old', this.oldBpInfo);
         });
     });
   }
@@ -315,7 +313,7 @@ export class ApplicationDetailsComponent implements OnInit {
       },
     ];
     const isReviewed = status.every((dep) => dep.id == 1 || dep.id == 2);
-    console.log(isReviewed);
+
     return isReviewed;
   }
   checkOfficeNonCompliant() {

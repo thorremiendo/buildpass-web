@@ -27,7 +27,6 @@ export class ProjectDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.transformProjectCost();
-    console.log(this.data.projectDetails);
   }
   transformProjectCost() {
     this.isLoading = true;
@@ -42,7 +41,6 @@ export class ProjectDetailsComponent implements OnInit {
     this.editMode = !this.editMode;
   }
   save() {
-    console.log(this.projectCostForm.value);
     const body = {
       project_cost_cap: this.projectCostForm.value,
     };

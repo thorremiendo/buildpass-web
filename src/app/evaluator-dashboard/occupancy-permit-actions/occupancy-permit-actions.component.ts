@@ -28,7 +28,6 @@ export class OccupancyPermitActionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.applicationId = this.route.snapshot.params.id;
-    console.log(this.occupancyDocs);
   }
 
   isTechnicalEvaluator() {

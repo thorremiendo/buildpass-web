@@ -34,7 +34,6 @@ export class OccupancyUploadFileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
     this.evaluator = JSON.parse(localStorage.getItem('user'));
     this.applicationService.fetchDocumentTypes().subscribe((res) => {
       const DOCS = res.data.filter(
@@ -69,13 +68,11 @@ export class OccupancyUploadFileComponent implements OnInit {
           doc.id == 173
       );
       this.documentList = DOCS;
-      console.log(this.documentList);
     });
     this.occupancyService
       .fetchUserOldBp(this.data.application.id)
       .subscribe((res) => {
         this.oldBpList = res.data;
-        console.log(this.oldBpList);
       });
   }
 

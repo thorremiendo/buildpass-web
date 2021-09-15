@@ -28,7 +28,6 @@ export class EsigPromptComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.route.snapshot.params);
     this.applicationId = this.route.snapshot.params.id;
     this.docId = this.route.snapshot.params.docId;
     this.userDetails = JSON.parse(localStorage.getItem('user'));
