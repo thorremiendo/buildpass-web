@@ -7,6 +7,12 @@
     ::ng-deep .mat-form-field-wrapper {
         padding: 0;
     }
+
+    .date-range-selector {
+        display: flex;
+        align-items: center;
+        text-align: right;
+    }
 }
 
 .loader {

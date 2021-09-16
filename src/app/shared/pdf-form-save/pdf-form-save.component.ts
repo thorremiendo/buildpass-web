@@ -28,7 +28,6 @@ export class PdfFormSaveComponent implements OnInit {
     this.getBpFormDetails();
   }
   getBpFormDetails() {
-    console.log('FEES', this.fees);
     this.isLoading = true;
     const existingFormData = this.dataBindingService.getFormData(
       this.applicationDetails
@@ -40,7 +39,7 @@ export class PdfFormSaveComponent implements OnInit {
       ...existingFormData,
       ...unifiedBpFees,
     };
-    console.log(this.formData);
+
     this.isLoading = false;
   }
   public async saveDoc(): Promise<void> {
@@ -74,7 +73,6 @@ export class PdfFormSaveComponent implements OnInit {
       this.newApplicationService
         .updateDocumentFile(uploadDocumentData, this.form.id)
         .subscribe((res) => {
-          console.log(res);
           this.isLoading = false;
         });
     });

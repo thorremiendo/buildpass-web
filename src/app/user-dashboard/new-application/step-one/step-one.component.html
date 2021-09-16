@@ -8,7 +8,6 @@
       <p style="color: #767676"><strong>STEP 1</strong></p>
       <div>
         <h4>What type of permit do you want to apply?</h4>
-
         <mat-form-field appearance="outline">
           <mat-label>Application Type</mat-label>
           <mat-select
@@ -63,6 +62,33 @@
           </mat-select>
         </mat-form-field>
       </ng-container>
+      <ng-container *ngIf="selectedPermitType == '3'">
+        <h4>Is this associated to an ongoing Building Permit Application?</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Choose</mat-label>
+          <mat-select [(value)]="excavationAssociated">
+            <mat-option value="1">Yes</mat-option>
+            <mat-option value="2">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <ng-container *ngIf="excavationAssociated == '1'">
+          <h4>Select Building Permit Application:</h4>
+          <p style="color: maroon">{{ exacavationError }}</p>
+          <mat-form-field appearance="outline">
+            <mat-label>Choose</mat-label>
+            <mat-select
+              [(value)]="selectedOngoingApplication"
+              (selectionChange)="excavationBpSelect($event)"
+            >
+              <mat-option
+                *ngFor="let item of userOngoingApplications"
+                value="{{ item.id }}"
+                >{{ item.ocpas_code }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+      </ng-container>
       <ng-container *ngIf="cfeiType == '4'">
         <h4>Is the structure affected by fire?</h4>
         <mat-form-field appearance="outline">
@@ -107,6 +133,7 @@
               <mat-select
                 [(value)]="isRepresentative"
                 formControlName="is_representative"
+                [disabled]="selectedOngoingApplication"
               >
                 <mat-option value="2">Owner</mat-option>
                 <mat-option value="1">Engineer/Architect In-charge</mat-option>
@@ -120,7 +147,11 @@
             <ng-template #owner><h4>Right over land:</h4></ng-template>
             <mat-form-field appearance="outline">
               <mat-label>Choose</mat-label>
-              <mat-select [(value)]="isLotOwner" formControlName="is_lot_owner">
+              <mat-select
+                [(value)]="isLotOwner"
+                formControlName="is_lot_owner"
+                [disabled]="selectedOngoingApplication"
+              >
                 <mat-option value="1">Owner</mat-option>
                 <mat-option value="2">Lessee</mat-option>
               </mat-select>
@@ -138,6 +169,7 @@
               <mat-select
                 [(value)]="registeredOwner"
                 formControlName="registered_owner"
+                [disabled]="selectedOngoingApplication"
               >
                 <mat-option value="1">Yes</mat-option>
                 <mat-option value="2">No</mat-option>
@@ -328,7 +360,10 @@
             <h4>Is the property within a subdivision?</h4>
             <mat-form-field appearance="outline">
               <mat-label>Choose</mat-label>
-              <mat-select formControlName="is_within_subdivision">
+              <mat-select
+                formControlName="is_within_subdivision"
+                [disabled]="selectedOngoingApplication"
+              >
                 <mat-option value="1">Yes</mat-option>
                 <mat-option value="2">No</mat-option>
               </mat-select>
@@ -341,7 +376,10 @@
             <h4>Is this property under mortgage?</h4>
             <mat-form-field appearance="outline">
               <mat-label>Choose</mat-label>
-              <mat-select formControlName="is_under_mortgage">
+              <mat-select
+                formControlName="is_under_mortgage"
+                [disabled]="selectedOngoingApplication"
+              >
                 <mat-option value="1">Yes</mat-option>
                 <mat-option value="2">No</mat-option>
               </mat-select>
@@ -351,7 +389,10 @@
             <h4>Is this property owned by a corporation?</h4>
             <mat-form-field appearance="outline">
               <mat-label>Choose</mat-label>
-              <mat-select formControlName="is_owned_by_corporation">
+              <mat-select
+                formControlName="is_owned_by_corporation"
+                [disabled]="selectedOngoingApplication"
+              >
                 <mat-option value="1">Yes</mat-option>
                 <mat-option value="2">No</mat-option>
               </mat-select>
@@ -364,7 +405,10 @@
             <h4>Does the property have co-owner/s?</h4>
             <mat-form-field appearance="outline">
               <mat-label>Choose</mat-label>
-              <mat-select formControlName="is_property_have_coowners">
+              <mat-select
+                formControlName="is_property_have_coowners"
+                [disabled]="selectedOngoingApplication"
+              >
                 <mat-option value="1">Yes</mat-option>
                 <mat-option value="2">No</mat-option>
               </mat-select>
@@ -377,13 +421,27 @@
         <h4>Site Location:</h4>
         <app-map></app-map>
       </div> -->
-      <ng-container *ngIf="selectedPermitType !== '2'">
+      <ng-container
+        *ngIf="selectedPermitType !== '2' && selectedPermitType !== '3'"
+      >
         <div class="mt-3 text-right">
           <button
             mat-raised-button
             color="primary"
             (click)="callNext()"
             [disabled]="isSubmitting"
+          >
+            Next
+          </button>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="selectedPermitType == '3'">
+        <div class="mt-3 text-right">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="callNext()"
+            [disabled]="isSubmitting || exacavationError"
           >
             Next
           </button>

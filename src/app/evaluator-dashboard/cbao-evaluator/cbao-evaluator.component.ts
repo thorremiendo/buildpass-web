@@ -44,6 +44,7 @@ export class CbaoEvaluatorComponent implements OnInit {
   public plansDocuments;
   public mergedPlans;
   public isLoadingMergedPlans: boolean = false;
+  public occupancyDocs = [];
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
@@ -132,11 +133,12 @@ export class CbaoEvaluatorComponent implements OnInit {
             this.occupancyService
               .fetchUserDocsOnly(e.generated_application_id)
               .subscribe((res) => {
-                console.log('associated', res.data);
                 res.data.forEach((element) => {
                   USER_FORMS.push(element);
                 });
                 this.dataSource = this.sortUserDocs(USER_FORMS);
+                this.occupancyDocs = USER_FORMS;
+
                 this.isLoading = false;
               });
           });
@@ -260,7 +262,6 @@ export class CbaoEvaluatorComponent implements OnInit {
                 e.document_id == 29
             );
             if (this.evaluatorRole.code == 'CBAO-BO') {
-              console.log('merging');
               this.isLoadingMergedPlans = true;
               this.waterMark.merge(this.plansDocuments).finally(() => {
                 this.isLoadingMergedPlans = false;
@@ -289,11 +290,10 @@ export class CbaoEvaluatorComponent implements OnInit {
           this.occupancyService
             .fetchUserDocsOnly(e.generated_application_id)
             .subscribe((res) => {
-              console.log('associated', res.data);
               res.data.forEach((element) => {
                 this.dataSource.push(element);
               });
-              console.log(this.dataSource);
+
               this.isLoading = false;
             });
         });
@@ -414,10 +414,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     return this.documentTypes[id - 1].name;
   }
   getDocStatus(id): string {
-    if (
-      this.evaluatorRole.code == 'CBAO-REC' &&
-      (this.applicationInfo.receiving_status_id == '1' || id == 1)
-    ) {
+    if (this.evaluatorRole.code == 'CBAO-REC' && id == '1') {
       return 'Submitted';
     }
     return documentStatus[id];
@@ -548,7 +545,6 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   nonCompliant() {
-    console.log(this.userDocuments);
     if (this.checkFormsReviewed()) {
       Swal.fire({
         title: 'Are you sure?',
@@ -785,21 +781,26 @@ export class CbaoEvaluatorComponent implements OnInit {
   notifyBuildingOfficial() {
     this.isLoading = true;
     if (this.checkFormsCompliant()) {
-      const body = {
-        application_status_id: 13,
-        dc_status_id: 1,
-      };
-      this.applicationService
-        .updateApplicationStatus(body, this.applicationId)
-        .subscribe((res) => {
-          Swal.fire(
-            'Success!',
-            `Forwarded to Building Official!`,
-            'success'
-          ).then((result) => {
-            window.location.reload();
+      if (
+        this.applicationInfo.sub_permit_type_id == null ||
+        this.applicationInfo.sub_permit_type_id == 0
+      ) {
+        this.forwardToBuildingOfficial();
+      } else {
+        this.applicationService
+          .fetchApplicationInfo(this.applicationInfo.sub_permit_type_id)
+          .subscribe((res) => {
+            const subPermitStatus = res.data.application_status_id;
+            if (subPermitStatus == 12 || subPermitStatus == 13) {
+              this.forwardToBuildingOfficial();
+            } else {
+              this.openSnackBar(
+                'Associated Excavation Permit is Still Under Evaluation!'
+              );
+              this.isLoading = false;
+            }
           });
-        });
+      }
     } else {
       Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
         (result) => {
@@ -807,6 +808,24 @@ export class CbaoEvaluatorComponent implements OnInit {
         }
       );
     }
+  }
+
+  forwardToBuildingOfficial() {
+    const body = {
+      application_status_id: 13,
+      dc_status_id: 1,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        Swal.fire(
+          'Success!',
+          `Forwarded to Building Official!`,
+          'success'
+        ).then((result) => {
+          window.location.reload();
+        });
+      });
   }
 
   canSignDocument() {
@@ -855,8 +874,11 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
   forPayment() {
     this.isLoading = true;
-    if (this.applicationInfo.permit_type_id == 1) {
-      if (this.checkFormsCompliant) {
+    if (
+      this.applicationInfo.permit_type_id == 1 ||
+      this.applicationInfo.permit_type_id == 2
+    ) {
+      if (this.checkFormsCompliant()) {
         const body = {
           application_status_id: 8,
           bo_status_id: 1,
@@ -907,7 +929,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     // });
     var count = 0;
     var bar = new Promise<void>((resolve, reject) => {
-      this.dataSource.forEach((element, index, array) => {
+      this.userDocuments.forEach((element, index, array) => {
         this.isLoading = true;
         if (element.document_id !== 50) {
           this.waterMark
@@ -1063,7 +1085,7 @@ export class CbaoEvaluatorComponent implements OnInit {
 
   openSnackBar(message: string) {
     this.snackBar.open(message, 'Close', {
-      duration: 3000,
+      duration: 5000,
     });
   }
 

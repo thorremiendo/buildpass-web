@@ -100,10 +100,10 @@
         <button
           mat-raised-button
           color="accent"
-          [routerLink]="['/dashboard/applications']"
+          (click)="upload(form, 'draft')"
           [disabled]="isLoading"
         >
-          Save as Draft
+          Save as Draftss
         </button>
         <!-- <button
           mat-raised-button
@@ -118,7 +118,7 @@
           mat-raised-button
           color="primary"
           matStepperNext
-          (click)="upload(form)"
+          (click)="upload(form, 'next')"
           [disabled]="isLoading"
         >
           Next

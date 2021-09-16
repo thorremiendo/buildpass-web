@@ -17,7 +17,12 @@
           </button>
         </div>
       </div>
-      <ng-container *ngIf="applicationInfo.permit_type_id == 1">
+      <ng-container
+        *ngIf="
+          applicationInfo.permit_type_id == 1 ||
+          applicationInfo.permit_type_id == 2
+        "
+      >
         <div
           *ngIf="
             applicationInfo.application_status_id == 3 ||
@@ -185,13 +190,17 @@
                             mat-menu-item
                             color="accent"
                             (click)="openFormDialog(element)"
+                            [disabled]="element.document_id == 194"
                           >
-                            Edit
+                            Evaluate
                           </button>
                         </ng-container>
 
                         <ng-container
-                          *ngIf="applicationInfo.permit_type_id == 1"
+                          *ngIf="
+                            applicationInfo.permit_type_id == 1 ||
+                            applicationInfo.permit_type_id == 2
+                          "
                         >
                           <button
                             mat-menu-item
@@ -202,7 +211,7 @@
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-REC'"
                           >
-                            Edit
+                            Evaluate
                           </button>
                           <button
                             mat-menu-item
@@ -212,15 +221,17 @@
                               evaluatorRole.code == 'CBAO-REL' &&
                               element.document_id == 50
                             "
+                            [disabled]="element.document_id == 194"
                           >
-                            Edit
+                            Evaluate
                           </button>
                           <button
                             mat-menu-item
                             color="accent"
                             (click)="openFormDialog(element)"
                             [disabled]="
-                              applicationInfo.application_status_id !== 3
+                              applicationInfo.application_status_id !== 3 ||
+                              element.document_id == 194
                             "
                             *ngIf="
                               evaluatorRole.code == 'CBAO-LG' ||
@@ -231,33 +242,38 @@
                               evaluatorRole.code == 'CBAO-MEC'
                             "
                           >
-                            Edit
+                            Evaluate
                           </button>
                           <button
                             mat-menu-item
                             color="accent"
                             (click)="openFormDialog(element)"
                             [disabled]="
-                              applicationInfo.application_status_id !== 12
+                              applicationInfo.application_status_id !== 12 ||
+                              element.document_id == 194
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-DC'"
                           >
-                            Edit
+                            Evaluate
                           </button>
                           <button
                             mat-menu-item
                             color="accent"
                             (click)="openFormDialog(element)"
                             [disabled]="
-                              applicationInfo.application_status_id !== 13
+                              applicationInfo.application_status_id !== 13 ||
+                              element.document_id == 194
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-BO'"
                           >
-                            Edit
+                            Evaluate
                           </button>
                         </ng-container>
                         <ng-container
-                          *ngIf="applicationInfo.permit_type_id !== 1"
+                          *ngIf="
+                            applicationInfo.permit_type_id !== 1 &&
+                            applicationInfo.permit_type_id !== 2
+                          "
                         >
                           <button
                             mat-menu-item
@@ -266,7 +282,7 @@
                             *ngIf="evaluatorRole.code !== 'CBAO-REL'"
                             [disabled]="!otherPermitsCanEdit()"
                           >
-                            Edit
+                            Evaluate
                           </button>
                         </ng-container>
                         <ng-container>
@@ -278,17 +294,15 @@
                           >
                         </ng-container>
 
-                        <!-- <button
+                        <button
                           mat-menu-item
                           color="accent"
                           (click)="goToEsig(element.id)"
                           *ngIf="evaluatorRole.code !== 'CBAO-REL'"
-                          [disabled]="
-                            applicationInfo.application_status_id !== 24
-                          "
+                          [disabled]="evaluatorRole.code == 'CBAO-REC'"
                         >
                           Sign Document
-                        </button> -->
+                        </button>
                         <a
                           mat-menu-item
                           href="{{ element.document_path }}"
@@ -373,7 +387,12 @@
                       </button>
                     </div>
 
-                    <div *ngIf="evaluatorRole.code !== 'CBAO-BO'">
+                    <div
+                      *ngIf="
+                        evaluatorRole.code !== 'CBAO-BO' &&
+                        evaluatorRole.code !== 'CBAO-REC'
+                      "
+                    >
                       <button
                         mat-raised-button
                         color="primary"
@@ -424,7 +443,12 @@
                     >
                       Release Permit
                     </button>
-                    <div *ngIf="evaluatorRole.code !== 'CBAO-BO'">
+                    <div
+                      *ngIf="
+                        evaluatorRole.code !== 'CBAO-BO' &&
+                        evaluatorRole.code !== 'CBAO-REC'
+                      "
+                    >
                       <button
                         mat-raised-button
                         color="primary"
@@ -434,7 +458,6 @@
                         Review Done (Compliant)
                       </button>
                     </div>
-
                     <button
                       mat-raised-button
                       color="primary"
@@ -474,6 +497,14 @@
                   [evaluatorRole]="evaluatorRole"
                   [userDocuments]="userDocuments"
                 ></app-other-permits>
+              </ng-container>
+              <ng-container *ngIf="applicationInfo.permit_type_id == 2">
+                <app-occupancy-permit-actions
+                  [applicationInfo]="applicationInfo"
+                  [evaluatorDetails]="evaluatorDetails"
+                  [evaluatorRole]="evaluatorRole"
+                  [occupancyDocs]="occupancyDocs"
+                ></app-occupancy-permit-actions>
               </ng-container>
             </div>
           </div>

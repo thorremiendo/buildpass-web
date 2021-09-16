@@ -99,60 +99,6 @@ export class DataFormBindingService {
 
   handleSaveFormData(applicationId, formId, data) {
     const body = data;
-    // const body = {
-    //   applicant_first_name: data
-    //   applicant_middle_name: data
-    //   applicant_last_name: data
-    //   applicant_suffix_name: data
-    //   applicant_tin_number: data
-    //   applicant_email_address: data
-    //   applicant_contact_number: data
-    //   applicant_house_number: data
-    //   applicant_unit_number: data
-    //   applicant_floor_number: data
-    //   applicant_street_name: data
-    //   applicant_barangay_id: data
-    //   applicant_barangay: data
-    //   applicant_lot_number: data
-    //   applicant_block_number: data
-    //   applicant_subdivision: data
-    //   applicant_purok: data
-    //   project_house_number: data
-    //   project_lot_number: data
-    //   project_block_number: data
-    //   project_unit_number: data
-    //   project_floor_number: data
-    //   project_street_name: data
-    //   project_lot_area: data
-    //   project_total_floor_area: data
-    //   project_number_of_units: data
-    //   project_number_of_storey: data
-    //   project_title: data
-    //   project_number_of_basement: data
-    //   project_cost_cap: data
-    //   project_tct_number: data
-    //   project_tax_dec_number: data
-    //   project_map_box_id: data
-    //   project_barangay_id: data
-    //   project_barangay: data
-    //   project_landmark: data
-    //   project_subdivision: data
-    //   project_long: data
-    //   project_lat: data
-    //   inspector_name: data
-    //   inspector_profession
-    //   inspector_prc_no: data
-    //   rep_first_name: data
-    //   rep_middle_name: data
-    //   rep_last_name: data
-    //   rep_suffix_name: data
-    //   rep_email_address: data
-    //   rep_contact_number: data
-    //   rep_house_number: data
-    //   rep_street_name: data
-    //   rep_barangay_id: data
-    //   rep_barangay: data
-    // }
     switch (formId) {
       case 1:
         const zoningBody = {
@@ -239,9 +185,10 @@ export class DataFormBindingService {
           project_tenure_permanent: data.project_tenure_permanent
             ? data.project_tenure_permanent
             : '',
-          project_tenure_temporary_specify: data.project_tenure_temporary_specify
-            ? data.project_tenure_temporary_specify
-            : '',
+          project_tenure_temporary_specify:
+            data.project_tenure_temporary_specify
+              ? data.project_tenure_temporary_specify
+              : '',
           project_tenure_temporary: data.project_tenure_temporary
             ? data.project_tenure_temporary
             : '',
@@ -826,7 +773,8 @@ export class DataFormBindingService {
         projectDetails.barangay == 'undefined'
           ? 'N/A'
           : projectDetails.barangay.toUpperCase(),
-      owner_name: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      owner_name:
+        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
     };
 
     return formData;
@@ -842,7 +790,8 @@ export class DataFormBindingService {
     ).toLocaleString();
 
     const formData = {
-      owner_permitee: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      owner_permitee:
+        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       project_title:
         projectDetails.project_title == 'undefined'
           ? 'N/A'
@@ -901,8 +850,10 @@ export class DataFormBindingService {
         projectDetails.barangay == 'undefined'
           ? 'N/A'
           : projectDetails.barangay.toUpperCase(),
-      business_owner: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
-      owner_address: `${applicantDetails.house_number} ${applicantDetails.street_name} ${applicantDetails.barangay}`.toUpperCase(),
+      business_owner:
+        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      owner_address:
+        `${applicantDetails.house_number} ${applicantDetails.street_name} ${applicantDetails.barangay}`.toUpperCase(),
       contact_no:
         applicantDetails.contact_number == 'undefined'
           ? 'N/A'
@@ -917,16 +868,18 @@ export class DataFormBindingService {
     const applicantDetails = a.applicant_detail;
     const projectDetails = a.project_detail;
     const representativeDetails = a.representative_detail;
-    const projectCostCap = parseFloat(
-      a.project_detail.project_cost_cap
-    ).toLocaleString();
+    // const projectCostCap = parseFloat(
+    //   a.project_detail.project_cost_cap
+    // ).toLocaleString();
     const projectLot = `Lot #${projectDetails.lot_number}`;
     const projectBlock = `Block #${projectDetails.block_number}`;
     const applicantLot = `Lot #${applicantDetails.lot_number}`;
     const applicantBlock = `Block #${applicantDetails.block_number}`;
     const formData = {
-      owner_or_rep: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
-      applicant_full_name: `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      owner_or_rep:
+        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      applicant_full_name:
+        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       applicant_complete_address: `${
         applicantDetails.house_number ? applicantDetails.house_number : ''
       }  ${applicantDetails.lot_number ? applicantLot : ''} ${
@@ -1027,7 +980,8 @@ export class DataFormBindingService {
         projectDetails.project_title == ''
           ? ''
           : projectDetails.project_title.toUpperCase(),
-      project_cost_cap: projectCostCap == '' ? '' : `${projectCostCap}`,
+      // project_cost_cap: projectCostCap == '' ? '' : `${projectCostCap}`,
+      project_cost_cap: projectDetails.project_cost_cap,
       project_tct_number:
         projectDetails.tct_number == '' ? '' : projectDetails.tct_number,
       project_tax_dec_number:
@@ -1103,7 +1057,6 @@ export class DataFormBindingService {
       //TODO: data binding
       existing_land_others: 'N/A',
       position_title: 'N/A',
-    
     };
 
     return formData;

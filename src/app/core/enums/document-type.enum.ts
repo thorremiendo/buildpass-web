@@ -154,4 +154,5 @@ export enum documentTypes {
   'Certification of Electrical Engineer / Master Electrician in charge of installation' = 195,
   'Certficate of Final Electrical Inspection Form' = 196,
   'Barangay certification indicating that kWhr Meter was installed during period of amnesty/moratorium' = 197,
+  'Perspective Plan' = 194,
 }

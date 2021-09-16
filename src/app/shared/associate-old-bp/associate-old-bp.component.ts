@@ -43,7 +43,6 @@ export class AssociateOldBpComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
     this.oldBpDetailsForm = this.fb.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
@@ -87,9 +86,8 @@ export class AssociateOldBpComponent implements OnInit {
       associated_id: this.data.oldBpInfo.id,
       old_permit_number: this.data.oldBpInfo.old_permit_number,
     };
-    console.log(id, body);
+
     this.occupancyService.confirmOldBp(id, body).subscribe((res) => {
-      debugger;
       const generatedId = res.data.id;
       const body = {
         user_id: this.data.oldBpInfo.user_id,

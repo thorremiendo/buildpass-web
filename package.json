@@ -58,6 +58,7 @@
     "ngx-pagination": "^5.0.0",
     "ngx-perfect-scrollbar": "^10.0.1",
     "ngx-quill": "^13.2.0",
+    "ngx-quill-material": "^6.2.1",
     "number-to-words": "^1.2.4",
     "pdf-lib": "^1.16.0",
     "pdf2pic": "^2.1.4",

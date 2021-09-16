@@ -24,6 +24,7 @@ export class ChatBodyComponent implements OnInit {
   public chatId: number;
   private channel: string;
   private currentDay = new Date().getDay();
+  example: string = `<div>this is another div <br/> i want to insert dynamically</div>`
 
   public talkWithChatbot: boolean = false;
   public talkWithEvaluator: boolean = false;
@@ -45,8 +46,8 @@ export class ChatBodyComponent implements OnInit {
   public messages: [];
   private messageSubscription: Subscription;
 
-  @ViewChild('myInput', { static: true }) myInput: ElementRef =
-    Object.create(null);
+  // @ViewChild('myInput', { static: true }) myInput: ElementRef =
+  //   Object.create(null);
 
   constructor(
     private chatService: ChatService,
@@ -176,13 +177,14 @@ export class ChatBodyComponent implements OnInit {
   }
 
   OnAddMsg(): void {
-    this.msg = this.myInput.nativeElement.value;
+    //this.msg = this.myInput.nativeElement.value;
 
     if (this.msg !== '') {
       this.chatService.sendConvo(this.chatId, this.userInfo.id, this.msg);
+      this.msg = '';
     }
 
-    this.myInput.nativeElement.value = '';
+   
   }
 
   checkDate() {

@@ -31,7 +31,6 @@ export class PasswordPromptComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
     this.userDetails = JSON.parse(localStorage.getItem('user'));
   }
   onNoClick(): void {

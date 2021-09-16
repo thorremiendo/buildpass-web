@@ -28,4 +28,18 @@ export class AdminService  {
     
   }
 
+  fetchApplicationTotalStatus(){
+    const url = `/dashboard/total-status`;
+
+    return this.api.get(url);
+  
+  }
+
+  fetchTotalPermitByType(){
+    const url = `/dashboard/total-permits`;
+
+    return this.api.get(url);
+  
+  }
+
 }

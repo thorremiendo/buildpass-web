@@ -113,7 +113,8 @@ export class BfpEvaluatorComponent implements OnInit {
         obj.document_id == 65 ||
         obj.document_id == 45 ||
         obj.document_id == 49 ||
-        obj.document_id == 140
+        obj.document_id == 140 ||
+        obj.document_id == 194
     );
     this.dataSource = this.sortUserDocs(BFP_FORMS);
     this.userDocuments = BFP_FORMS;
@@ -289,27 +290,37 @@ export class BfpEvaluatorComponent implements OnInit {
 
   compliant() {
     this.isLoading = true;
-    if (this.checkFireSecUploaded() && this.checkChecklistUploaded()) {
-      const body = {
-        parallel_bfp_status_id: 1,
-      };
-      this.applicationService
-        .updateApplicationStatus(body, this.applicationId)
-        .subscribe((res) => {
+    if (this.applicationDetails.permit_type_id == 1) {
+      if (this.checkFireSecUploaded() && this.checkChecklistUploaded()) {
+        this.updateBfpStatus();
+      } else {
+        Swal.fire(
+          'Warning!',
+          `Please Upload FSEC & Checklist!`,
+          'warning'
+        ).then((result) => {
           this.isLoading = false;
-          Swal.fire('Success!', `Updated BFP Status!`, 'success').then(
-            (result) => {
-              window.location.reload();
-            }
-          );
         });
-    } else {
-      Swal.fire('Warning!', `Please Upload FSEC & Checklist!`, 'warning').then(
-        (result) => {
-          this.isLoading = false;
-        }
-      );
+      }
+    } else if (this.applicationDetails.permit_type_id == 2) {
+      this.updateBfpStatus();
     }
+  }
+
+  updateBfpStatus() {
+    const body = {
+      parallel_bfp_status_id: 1,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        this.isLoading = false;
+        Swal.fire('Success!', `Updated BFP Status!`, 'success').then(
+          (result) => {
+            window.location.reload();
+          }
+        );
+      });
   }
 
   checkFireSecUploaded() {

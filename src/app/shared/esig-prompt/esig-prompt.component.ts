@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import html2canvas from 'html2canvas';
 import { MatDialog } from '@angular/material/dialog';
 import { PasswordPromptComponent } from './../password-prompt/password-prompt.component';
+import { image } from 'html2canvas/dist/types/css/types/image';
 
 @Component({
   selector: 'app-esig-prompt',
@@ -27,7 +28,6 @@ export class EsigPromptComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.route.snapshot.params);
     this.applicationId = this.route.snapshot.params.id;
     this.docId = this.route.snapshot.params.docId;
     this.userDetails = JSON.parse(localStorage.getItem('user'));
@@ -80,9 +80,11 @@ export class EsigPromptComponent implements OnInit {
   }
 
   private getCanvasToDownload(canvas: any) {
-    let ctx = canvas.getContext('2d');
-    ctx.scale(3, 3);
-    let image = canvas.toDataURL('image/png').replace('image/png', 'image/png');
+    // let ctx = canvas.getContext('2d');
+    // // ctx.scale(10, 10);
+    let image = canvas
+      .toDataURL('image/png', 1.0)
+      .replace('image/png', 'image/png');
     this.userSignature = image;
     this.openDialog();
   }

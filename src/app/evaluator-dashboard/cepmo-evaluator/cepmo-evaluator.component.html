@@ -142,11 +142,12 @@
                       mat-menu-item
                       color="accent"
                       [disabled]="
-                        applicationDetails.application_status_id !== 3
+                        applicationDetails.application_status_id !== 3 ||
+                        element.document_id == 194
                       "
                       (click)="openFormDialog(element)"
                     >
-                      Edit
+                      Evaluate
                     </button>
                     <ng-container
                       *ngIf="applicationDetails.application_status_id !== 3"
@@ -158,17 +159,14 @@
                         >View</a
                       >
                     </ng-container>
-                    <!-- <button
+                    <button
                       mat-menu-item
                       color="accent"
                       (click)="goToEsig(element.id)"
                       *ngIf="evaluatorRole.code !== 'CBAO-REL'"
-                      [disabled]="
-                        applicationDetails.application_status_id !== 24
-                      "
                     >
                       Sign Document
-                    </button> -->
+                    </button>
                   </mat-menu>
                 </div>
               </td>

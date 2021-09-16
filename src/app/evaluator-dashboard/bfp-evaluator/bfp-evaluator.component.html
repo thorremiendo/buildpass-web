@@ -143,11 +143,12 @@
                       mat-menu-item
                       color="accent"
                       [disabled]="
-                        applicationDetails.application_status_id !== 3
+                        applicationDetails.application_status_id !== 3 ||
+                        element.document_id == 194
                       "
                       (click)="openFormDialog(element)"
                     >
-                      Edit
+                      Evaluate
                     </button>
                     <ng-container
                       *ngIf="applicationDetails.application_status_id !== 3"
@@ -159,17 +160,14 @@
                         >View</a
                       >
                     </ng-container>
-                    <!-- <button
+                    <button
                       mat-menu-item
                       color="accent"
                       (click)="goToEsig(element.id)"
                       *ngIf="evaluatorRole.code !== 'CBAO-REL'"
-                      [disabled]="
-                        applicationDetails.application_status_id !== 24
-                      "
                     >
                       Sign Document
-                    </button> -->
+                    </button>
                   </mat-menu>
                 </div>
               </td>
@@ -186,17 +184,17 @@
               }"
             ></tr>
           </table>
-          <button
-            class="mt-2 w-100"
-            mat-raised-button
-            color="accent"
-            *ngIf="!checkChecklistUploaded()"
-            (click)="openChecklistDialog()"
-            [disabled]="applicationDetails.application_status_id !== 3"
-          >
-            Upload Checklist
-          </button>
-          <div class="action__buttons">
+          <ng-container *ngIf="applicationDetails.permit_type_id == 1">
+            <button
+              class="mt-2 w-100"
+              mat-raised-button
+              color="accent"
+              *ngIf="!checkChecklistUploaded()"
+              (click)="openChecklistDialog()"
+              [disabled]="applicationDetails.application_status_id !== 3"
+            >
+              Upload Checklist
+            </button>
             <button
               class="mt-2 w-100"
               mat-raised-button
@@ -207,6 +205,9 @@
             >
               Upload Fire Safety Evaluation Clearance
             </button>
+          </ng-container>
+
+          <div class="action__buttons">
             <mat-progress-bar
               mode="indeterminate"
               *ngIf="isLoading"

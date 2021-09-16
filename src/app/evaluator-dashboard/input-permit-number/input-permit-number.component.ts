@@ -31,7 +31,6 @@ export class InputPermitNumberComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
     this.permitDetails = this.fb.group({
       permit_number: new FormControl('', [Validators.required]),
     });
