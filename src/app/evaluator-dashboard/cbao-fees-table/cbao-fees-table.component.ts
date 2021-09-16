@@ -76,11 +76,11 @@ export class CbaoFeesTableComponent implements OnInit {
     const fees = this.plainCbaoFees.filter(
       (e) => e.amount && e.code !== '9999'
     );
-    console.log(fees);
+
     let total = fees
       .map((item) => item.amount)
       .reduce((prev, curr) => prev + curr, 0);
-    console.log(total, this.selectedSurcharge);
+
     const newItem = {
       application_id: this.applicationId,
       name: 'SURCHARGES',
@@ -125,7 +125,7 @@ export class CbaoFeesTableComponent implements OnInit {
       .subscribe((res) => {
         this.plainCbaoFees = res.data;
         this.cbaoFees = res.data;
-        console.log(this.cbaoFees);
+
         this.isLoading = false;
         this.surcharge = this.cbaoFees.filter((e) => e.code == '9999');
 

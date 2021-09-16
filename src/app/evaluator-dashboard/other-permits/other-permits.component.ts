@@ -148,6 +148,27 @@ export class OtherPermitsComponent implements OnInit {
   forwardToDivisionChief() {}
   notifyBuildingOfficial() {
     this.isLoading = true;
+    if (this.applicationInfo.main_permit_id) {
+      this.applicationService
+        .fetchApplicationInfo(this.applicationInfo.main_permit_id)
+        .subscribe((res) => {
+          const status = res.data.application_status_id;
+
+          if (status == 12 || status == 13) {
+            this.forwardToBuildingOfficial();
+          } else {
+            this.isLoading = false;
+            this.openSnackBar(
+              'Associated Building Permit applicatition is still under technical evaluation.'
+            );
+          }
+        });
+    } else {
+      this.forwardToBuildingOfficial();
+    }
+  }
+  forwardToBuildingOfficial() {
+    this.isLoading = true;
     const body = {
       application_status_id: 13,
       dc_status_id: 1,
@@ -218,19 +239,18 @@ export class OtherPermitsComponent implements OnInit {
     this.applicationService
       .fetchTechnicalStatus(this.applicationId)
       .subscribe((res) => {
-        console.log(res);
         this.validateTechnicalStatus(res.data);
         if (this.validateTechnicalStatus(res.data) == true) {
           console.log('ready to forward');
         } else {
-          console.log('no no no');
+          console.log('no');
         }
       });
   }
   validateTechnicalStatus(data) {
     delete data.id;
     const status = data;
-    console.log(status);
+
     const check = Object.entries(status).every(([key, value]) => {
       if (value == 0) {
         return false;
@@ -275,7 +295,7 @@ export class OtherPermitsComponent implements OnInit {
 
   openSnackBar(message: string) {
     this.snackBar.open(message, 'Close', {
-      duration: 3000,
+      duration: 5000,
     });
   }
 }

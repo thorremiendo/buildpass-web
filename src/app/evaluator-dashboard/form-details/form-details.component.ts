@@ -64,7 +64,6 @@ export class FormDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
     this.userService.cast.subscribe((userSubject) => {
       this.user = userSubject;
       if (localStorage.getItem('user')) {
