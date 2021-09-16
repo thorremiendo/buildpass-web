@@ -36,13 +36,17 @@ export class OccupancyPermitComponent implements OnInit {
       id: 83,
       src: '../../../../assets/forms/updated/Certificate_of_Final_Electrical_Inspection_E-05.pdf',
     },
+    {
+      id: 82,
+      src: '../../../../assets/forms/updated/Certificate_of_Sanitary_-_Plumbing_Inspection.pdf',
+    },
   ];
 
   public fieldSets: any = [
     {
       label: 'Step 2',
       title: 'Documentary Requirements',
-      documents: [76, 86, 170, 178, 172, 173],
+      documents: [76, 84, 86, 170, 178, 172, 173],
     },
   ];
 

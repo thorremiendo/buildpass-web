@@ -57,7 +57,8 @@
                       <!-- <span>
                         <img src="{{selectedMessage.photo}}" class="img-circle" width="40"> 
                       </span> -->
-                      <span>{{c.message}}</span>
+                      <span [innerHTML]="c.message">{{c.message}}</span>
+                   
                     </div>
                     <span class="chat-date">{{ c.created_at | date:'MMM d, y h:mm a'}}</span>
                   </div>
@@ -66,7 +67,7 @@
               <ng-template #evenblock>
                 <div class="chat-list even">
                   <div class="chat-message">
-                    <div class="chat-block bg-light-info">{{c.message}}</div>
+                    <div class="chat-block bg-light-info"  [innerHTML]="c.message"></div>
                     <span class="chat-date">{{ c.created_at |  date:'MMM d, y h:mm a' }}</span>
                   </div>
                 </div>
@@ -79,12 +80,19 @@
           </mat-card-content>
           <mat-card-actions class="chat-footer">
             <div fxLayout="row" layout-align="start center">
-              <mat-form-field class="mr-1 ml-1" fxFlex>
-                <input matInput [(ngModel)]="msg" placeholder="Send message" (keyup.enter)="OnAddMsg()">
-              </mat-form-field>
-              <button mat-fab color="warn" (click)="OnAddMsg()" [disabled]="!msg">
-                <mat-icon>send</mat-icon>
-              </button>
+              <div fxFlex.gt-md="92">
+                <quill-editor 
+                theme="bubble"
+                [(ngModel)]="msg"
+                placeholder="Send message"
+                ></quill-editor>
+              </div>
+          <div fxFlex.gt-md="8" >
+            <button  mat-fab color="warn" (click)="OnAddMsg()" [disabled]="!msg">
+              <mat-icon>send</mat-icon>
+            </button>
+          </div>
+             
             </div>
           </mat-card-actions>
         </mat-sidenav-container>

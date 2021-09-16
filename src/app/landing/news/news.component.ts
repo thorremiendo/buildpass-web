@@ -8,21 +8,20 @@ import { PreviewDialogComponent } from '../../shared/preview-dialog/preview-dial
 @Component({
   selector: 'app-news',
   templateUrl: './news.component.html',
-  styleUrls: ['./news.component.scss']
+  styleUrls: ['./news.component.scss'],
 })
 export class NewsComponent implements OnInit {
-  public data:any;
+  public data: any;
 
   constructor(
     private announcementService: AnnouncementService,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {
     //this.data = Announcement;
-
-   }
+  }
 
   ngOnInit(): void {
-    this.fetchActiveAnnouncements()
+    this.fetchActiveAnnouncements();
   }
 
   previewDialog(data) {
@@ -39,16 +38,7 @@ export class NewsComponent implements OnInit {
     const param = new HttpParams().set(key, value);
 
     this.announcementService.fetchAnnouncements(param).subscribe((data) => {
-      console.log(data)
       this.data = data.data;
     });
   }
-
 }
-
-
-
-
-
-
-

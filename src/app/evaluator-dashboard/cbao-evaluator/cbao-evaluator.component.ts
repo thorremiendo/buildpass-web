@@ -138,7 +138,7 @@ export class CbaoEvaluatorComponent implements OnInit {
                 });
                 this.dataSource = this.sortUserDocs(USER_FORMS);
                 this.occupancyDocs = USER_FORMS;
-                console.log('occupancy', this.occupancyDocs);
+
                 this.isLoading = false;
               });
           });
@@ -262,7 +262,6 @@ export class CbaoEvaluatorComponent implements OnInit {
                 e.document_id == 29
             );
             if (this.evaluatorRole.code == 'CBAO-BO') {
-              console.log('merging');
               this.isLoadingMergedPlans = true;
               this.waterMark.merge(this.plansDocuments).finally(() => {
                 this.isLoadingMergedPlans = false;
@@ -291,11 +290,10 @@ export class CbaoEvaluatorComponent implements OnInit {
           this.occupancyService
             .fetchUserDocsOnly(e.generated_application_id)
             .subscribe((res) => {
-              console.log('associated', res.data);
               res.data.forEach((element) => {
                 this.dataSource.push(element);
               });
-              console.log(this.dataSource);
+
               this.isLoading = false;
             });
         });
@@ -547,7 +545,6 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   nonCompliant() {
-    console.log(this.userDocuments);
     if (this.checkFormsReviewed()) {
       Swal.fire({
         title: 'Are you sure?',
@@ -794,7 +791,7 @@ export class CbaoEvaluatorComponent implements OnInit {
           .fetchApplicationInfo(this.applicationInfo.sub_permit_type_id)
           .subscribe((res) => {
             const subPermitStatus = res.data.application_status_id;
-            if (subPermitStatus == 11) {
+            if (subPermitStatus == 12 || subPermitStatus == 13) {
               this.forwardToBuildingOfficial();
             } else {
               this.openSnackBar(

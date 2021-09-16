@@ -99,12 +99,12 @@
                       color="accent"
                       (click)="openFormDialog(element)"
                       [disabled]="
-                        element.application_status_id !== 2 &&
-                        applicationDetails.application_status_id !== 10 &&
+                        (applicationDetails.application_status_id !== 2 &&
+                          applicationDetails.application_status_id !== 10) ||
                         element.document_id == 194
                       "
                     >
-                      Edit
+                      Evaluate
                     </button>
                     <ng-container>
                       <a

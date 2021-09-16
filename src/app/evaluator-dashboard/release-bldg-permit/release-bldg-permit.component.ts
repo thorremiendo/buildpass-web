@@ -40,7 +40,6 @@ export class ReleaseBldgPermitComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
     this.applicationId = this.data.route.snapshot.params.id;
     this.newApplicationService
       .fetchUserInfo(this.applicationId)
@@ -56,27 +55,38 @@ export class ReleaseBldgPermitComponent implements OnInit {
         this.applicationDetails = res.data;
 
         this.formData = {
-          owner_address: `${this.applicationDetails.applicant_detail.house_number}  ${this.applicationDetails.applicant_detail.street_name} ${this.applicationDetails.applicant_detail.barangay}`.toUpperCase(),
-          complete_applicant_name: `${this.applicationDetails.applicant_detail.first_name} ${this.applicationDetails.applicant_detail.middle_name} ${this.applicationDetails.applicant_detail.last_name}`.toUpperCase(),
-          project_title: `${this.applicationDetails.project_detail.project_title}`.toUpperCase(),
-          project_lot_number: `${this.applicationDetails.project_detail.lot_number}`.toUpperCase(),
-          project_block_number: `${this.applicationDetails.project_detail.block_number}`.toUpperCase(),
-          project_tct_number: `${this.applicationDetails.project_detail.tct_number}`.toUpperCase(),
-          project_street: `${this.applicationDetails.project_detail.street_name}`.toUpperCase(),
-          project_barangay: `${this.applicationDetails.project_detail.barangay}`.toUpperCase(),
+          owner_address:
+            `${this.applicationDetails.applicant_detail.house_number}  ${this.applicationDetails.applicant_detail.street_name} ${this.applicationDetails.applicant_detail.barangay}`.toUpperCase(),
+          complete_applicant_name:
+            `${this.applicationDetails.applicant_detail.first_name} ${this.applicationDetails.applicant_detail.middle_name} ${this.applicationDetails.applicant_detail.last_name}`.toUpperCase(),
+          project_title:
+            `${this.applicationDetails.project_detail.project_title}`.toUpperCase(),
+          project_lot_number:
+            `${this.applicationDetails.project_detail.lot_number}`.toUpperCase(),
+          project_block_number:
+            `${this.applicationDetails.project_detail.block_number}`.toUpperCase(),
+          project_tct_number:
+            `${this.applicationDetails.project_detail.tct_number}`.toUpperCase(),
+          project_street:
+            `${this.applicationDetails.project_detail.street_name}`.toUpperCase(),
+          project_barangay:
+            `${this.applicationDetails.project_detail.barangay}`.toUpperCase(),
           city: 'BAGUIO CITY',
           zip_code: '2600',
-          professional_in_charge_of_construction: `${this.applicationDetails.project_detail.inspector_name}`.toUpperCase(),
-          bp_classified_as: `${this.getOccupancyClassification()}`.toUpperCase(),
+          professional_in_charge_of_construction:
+            `${this.applicationDetails.project_detail.inspector_name}`.toUpperCase(),
+          bp_classified_as:
+            `${this.getOccupancyClassification()}`.toUpperCase(),
           total_project_cost: parseFloat(
             this.applicationDetails.project_detail.project_cost_cap
           ).toLocaleString(),
-          building_address: `${this.applicationDetails.project_detail.house_number} ${this.applicationDetails.project_detail.lot_number} ${this.applicationDetails.project_detail.street_name} ${this.applicationDetails.project_detail.barangay}`.toUpperCase(),
-          no_of_storeys: this.applicationDetails.project_detail
-            .number_of_storey,
+          building_address:
+            `${this.applicationDetails.project_detail.house_number} ${this.applicationDetails.project_detail.lot_number} ${this.applicationDetails.project_detail.street_name} ${this.applicationDetails.project_detail.barangay}`.toUpperCase(),
+          no_of_storeys:
+            this.applicationDetails.project_detail.number_of_storey,
           contact_no: this.applicationDetails.applicant_detail.contact_number,
-          official_receipt_number: this.applicationDetails
-            .official_receipt_number_releasing,
+          official_receipt_number:
+            this.applicationDetails.official_receipt_number_releasing,
           building_permit_number: this.applicationDetails.permit_released_code,
         };
       });
@@ -196,7 +206,8 @@ export class ReleaseBldgPermitComponent implements OnInit {
 
   public async saveDoc(): Promise<void> {
     this.isSubmitting = true;
-    const blob = await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    const blob =
+      await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
 
     const uploadDocumentData = {
       document_status_id: 1,

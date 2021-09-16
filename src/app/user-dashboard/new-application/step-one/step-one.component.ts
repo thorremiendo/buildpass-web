@@ -126,7 +126,6 @@ export class StepOneComponent implements OnInit {
       .fetchOngoingApplication(this.userInfo.id)
       .subscribe((res) => {
         this.userOngoingApplications = res.data;
-        console.log('ongoing', this.userOngoingApplications);
       });
   }
   createForm() {
@@ -284,19 +283,16 @@ export class StepOneComponent implements OnInit {
       ]);
     } else if (this.oldBpNumber) {
       if (this.oldBpInputs.length >= 1) {
-        console.log(this.oldBpInputs);
         this.oldBpInputs.forEach((input) => {
           this.occupancyService
             .fetchSpecificOldBp(input.input)
             .subscribe((res) => {
-              console.log(res);
               if (res.data.length == 0) {
                 this.invalidBps.push(input.input);
                 this.noBpError =
                   'The permit number you entered is not found in the system. Please verify that it is typed correctly or call CBAO at (074)442-2503 to  verify.';
               } else if (res.data[0]) {
                 this.oldBpDetails.push(res.data[0]);
-                console.log(this.oldBpDetails);
               }
             });
         });
@@ -308,9 +304,8 @@ export class StepOneComponent implements OnInit {
     this.oldBpDetails = [];
     this.noBpError = '';
     this.invalidBps = [];
-    console.log(this.oldBpInputs);
+
     if (this.oldBpInputs.length >= 1) {
-      console.log(this.oldBpInputs);
       this.oldBpInputs.forEach((input) => {
         this.occupancyService
           .fetchSpecificOldBp(input.input)
@@ -344,7 +339,7 @@ export class StepOneComponent implements OnInit {
       applicant_contact_number: this.userInfo.contact_number,
       applicant_email_address: this.userInfo.email_address,
     };
-    console.log(body);
+
     this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
       this.oldBpInputs.forEach((input) => {
         const body = {
@@ -353,9 +348,7 @@ export class StepOneComponent implements OnInit {
         };
         this.occupancyService
           .associateOldBp(res.data.id, body)
-          .subscribe((res) => {
-            console.log('added');
-          });
+          .subscribe((res) => {});
       });
       Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
         (result) => {
@@ -374,11 +367,26 @@ export class StepOneComponent implements OnInit {
       .subscribe((res) => {
         const cpdoStatus = res.data.cpdo_status_id;
         if (cpdoStatus == 1) {
-          console.log('OK');
+          this.patchExcavationDetails(res.data);
         } else {
           this.exacavationError =
             'Selected application is not yet approved by CPDO.';
         }
       });
+  }
+
+  patchExcavationDetails(data) {
+    // this.isRepresentative = data.is_representative;
+    this.isLotOwner = data.rol_status_id;
+    this.registeredOwner = data.is_registered_owner;
+    this.permitStepOneForm.patchValue({
+      is_representative: data.is_representative.toString(),
+      is_lot_owner: data.rol_status_id.toString(),
+      registered_owner: data.is_registered_owner.toString(),
+      is_within_subdivision: data.is_within_subdivision.toString(),
+      is_under_mortgage: data.is_under_mortgage.toString(),
+      is_owned_by_corporation: data.is_owned_by_corporation.toString(),
+      is_property_have_coowners: data.is_property_have_coowners.toString(),
+    });
   }
 }

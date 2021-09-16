@@ -133,6 +133,7 @@
               <mat-select
                 [(value)]="isRepresentative"
                 formControlName="is_representative"
+                [disabled]="selectedOngoingApplication"
               >
                 <mat-option value="2">Owner</mat-option>
                 <mat-option value="1">Engineer/Architect In-charge</mat-option>
@@ -146,7 +147,11 @@
             <ng-template #owner><h4>Right over land:</h4></ng-template>
             <mat-form-field appearance="outline">
               <mat-label>Choose</mat-label>
-              <mat-select [(value)]="isLotOwner" formControlName="is_lot_owner">
+              <mat-select
+                [(value)]="isLotOwner"
+                formControlName="is_lot_owner"
+                [disabled]="selectedOngoingApplication"
+              >
                 <mat-option value="1">Owner</mat-option>
                 <mat-option value="2">Lessee</mat-option>
               </mat-select>
@@ -164,6 +169,7 @@
               <mat-select
                 [(value)]="registeredOwner"
                 formControlName="registered_owner"
+                [disabled]="selectedOngoingApplication"
               >
                 <mat-option value="1">Yes</mat-option>
                 <mat-option value="2">No</mat-option>
@@ -354,7 +360,10 @@
             <h4>Is the property within a subdivision?</h4>
             <mat-form-field appearance="outline">
               <mat-label>Choose</mat-label>
-              <mat-select formControlName="is_within_subdivision">
+              <mat-select
+                formControlName="is_within_subdivision"
+                [disabled]="selectedOngoingApplication"
+              >
                 <mat-option value="1">Yes</mat-option>
                 <mat-option value="2">No</mat-option>
               </mat-select>
@@ -367,7 +376,10 @@
             <h4>Is this property under mortgage?</h4>
             <mat-form-field appearance="outline">
               <mat-label>Choose</mat-label>
-              <mat-select formControlName="is_under_mortgage">
+              <mat-select
+                formControlName="is_under_mortgage"
+                [disabled]="selectedOngoingApplication"
+              >
                 <mat-option value="1">Yes</mat-option>
                 <mat-option value="2">No</mat-option>
               </mat-select>
@@ -377,7 +389,10 @@
             <h4>Is this property owned by a corporation?</h4>
             <mat-form-field appearance="outline">
               <mat-label>Choose</mat-label>
-              <mat-select formControlName="is_owned_by_corporation">
+              <mat-select
+                formControlName="is_owned_by_corporation"
+                [disabled]="selectedOngoingApplication"
+              >
                 <mat-option value="1">Yes</mat-option>
                 <mat-option value="2">No</mat-option>
               </mat-select>
@@ -390,7 +405,10 @@
             <h4>Does the property have co-owner/s?</h4>
             <mat-form-field appearance="outline">
               <mat-label>Choose</mat-label>
-              <mat-select formControlName="is_property_have_coowners">
+              <mat-select
+                formControlName="is_property_have_coowners"
+                [disabled]="selectedOngoingApplication"
+              >
                 <mat-option value="1">Yes</mat-option>
                 <mat-option value="2">No</mat-option>
               </mat-select>
