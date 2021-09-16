@@ -3,15 +3,13 @@
     cursor: move;
     position: absolute;
     z-index: 1;
-    top: 20px;
+    top: 110px;
     left: 20px;
+    height: 130px;
 
     #e-sig-image-container {
       height: 100%;
       width: 100%;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
 
       img {
         height: 100%;

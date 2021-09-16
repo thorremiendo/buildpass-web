@@ -19,8 +19,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ESignatureComponent implements OnInit {
   @Input() props: [{ [key: string]: object | any }];
   public src;
-  private minimumHeight = null;
+  private minimumHeight = 80;
   private minimumWidth = null;
+  private maximumHeight = 180;
+  private maximumWidth = null;
   private originalHeight = null;
   private originalWidth = null;
   private originalX = null;
@@ -50,6 +52,15 @@ export class ESignatureComponent implements OnInit {
     this.applicationId = this.route.snapshot.params.id;
     this.documentId = this.route.snapshot.params.docId;
     this.userSignature = this.esignatureService.userSignature;
+    this.esigImage = new Image();
+    this.esigImage.src = this.userSignature;
+    if (Math.abs(this.esigImage.width) > Math.abs(this.esigImage.height)) {
+      this.minimumWidth = this.minimumHeight / (this.esigImage.height / this.esigImage.width);
+      this.maximumWidth = this.maximumHeight / (this.esigImage.height / this.esigImage.width);
+    } else {
+      this.minimumWidth = this.minimumHeight * (this.esigImage.width / this.esigImage.height);
+      this.maximumWidth = this.maximumHeight * (this.esigImage.width / this.esigImage.height);
+    }
     this.applicationService
       .fetchSpecificDocInfo(this.documentId)
       .subscribe((res) => {
@@ -59,21 +70,6 @@ export class ESignatureComponent implements OnInit {
           ].document_path;
         this.isLoading = false;
       });
-  }
-
-  ngAfterViewInit() {
-    if (!this.isLoading) {
-      const esigImageContainer = document.getElementById(
-        'e-sig-image-container'
-      );
-      const computedStyle = getComputedStyle(esigImageContainer);
-      const src = computedStyle.backgroundImage.replace(
-        /url\((['"])?(.*?)\1\)/gi,
-        '$2'
-      );
-      this.esigImage = new Image();
-      this.esigImage.src = src;
-    }
   }
 
   dragStart($event) {
@@ -92,11 +88,6 @@ export class ESignatureComponent implements OnInit {
     this.originalY = esigContainer.getBoundingClientRect().top;
     this.originalMouseX = $event.pageX;
     this.originalMouseY = $event.pageY;
-
-    if (!this.minimumHeight && !this.minimumWidth) {
-      this.minimumHeight = this.originalHeight / 4;
-      this.minimumWidth = this.originalWidth / 4;
-    }
   }
 
   dragEnd(event: CdkDragEnd) {
@@ -152,26 +143,22 @@ export class ESignatureComponent implements OnInit {
 
     if ($event.clientX != 0 && $event.clientY != 0) {
       if ($event.target.classList.contains('bottom-right-resize')) {
-        const height =
-          this.originalHeight + ($event.pageY - this.originalMouseY);
+        const height = this.originalHeight + ($event.pageY - this.originalMouseY);
         const width = this.originalWidth + ($event.pageX - this.originalMouseX);
-        if (height > this.minimumHeight && width > this.minimumWidth) {
+        if (height >= this.minimumHeight && height <= this.maximumHeight && width >= this.minimumWidth && width <= this.maximumWidth) {
           esigContainer.style.height = height + 'px';
           esigContainer.style.width = width + 'px';
 
           if (Math.abs(offsetX) > Math.abs(offsetY)) {
-            esigContainer.style.height =
-              width * (this.esigImage.height / this.esigImage.width) + 'px';
+            esigContainer.style.height = width * (this.esigImage.height / this.esigImage.width) + 'px';
           } else {
-            esigContainer.style.width =
-              height * (this.esigImage.width / this.esigImage.height) + 'px';
+            esigContainer.style.width = height * (this.esigImage.width / this.esigImage.height) + 'px';
           }
         }
       } else if ($event.target.classList.contains('bottom-left-resize')) {
-        const height =
-          this.originalHeight + ($event.pageY - this.originalMouseY);
+        const height = this.originalHeight + ($event.pageY - this.originalMouseY);
         const width = this.originalWidth - ($event.pageX - this.originalMouseX);
-        if (height > this.minimumHeight && width > this.minimumWidth) {
+        if (height >= this.minimumHeight && height <= this.maximumHeight && width >= this.minimumWidth && width <= this.maximumWidth) {
           esigContainer.style.height = height + 'px';
           esigContainer.style.width = width + 'px';
           esigContainer.style.left =
@@ -194,10 +181,9 @@ export class ESignatureComponent implements OnInit {
           }
         }
       } else if ($event.target.classList.contains('top-right-resize')) {
-        const height =
-          this.originalHeight - ($event.pageY - this.originalMouseY);
+        const height = this.originalHeight - ($event.pageY - this.originalMouseY);
         const width = this.originalWidth + ($event.pageX - this.originalMouseX);
-        if (height > this.minimumHeight && width > this.minimumWidth) {
+        if (height >= this.minimumHeight && height <= this.maximumHeight && width >= this.minimumWidth && width <= this.maximumWidth) {
           esigContainer.style.height = height + 'px';
           esigContainer.style.top =
             this.originalY +
@@ -222,10 +208,9 @@ export class ESignatureComponent implements OnInit {
           }
         }
       } else if ($event.target.classList.contains('top-left-resize')) {
-        const height =
-          this.originalHeight - ($event.pageY - this.originalMouseY);
+        const height = this.originalHeight - ($event.pageY - this.originalMouseY);
         const width = this.originalWidth - ($event.pageX - this.originalMouseX);
-        if (height > this.minimumHeight && width > this.minimumWidth) {
+        if (height >= this.minimumHeight && height <= this.maximumHeight && width >= this.minimumWidth && width <= this.maximumWidth) {
           esigContainer.style.height = height + 'px';
           esigContainer.style.top =
             this.originalY +
