@@ -302,31 +302,9 @@ export class CbaoEvaluatorComponent implements OnInit {
 
   checkTechnicalEvaluationDone() {
     const app = this.applicationInfo;
-    const status = [
-      {
-        id: app.cbao_arch_status_id,
-      },
-      {
-        id: app.cbao_elec_status_id,
-      },
-      {
-        id: app.cbao_san_status_id,
-      },
-      {
-        id: app.cbao_lg_status_id,
-      },
-      {
-        id: app.cbao_str_status_id,
-      },
-    ];
-    const isAllReviewed = status.every((tech) => tech.id == 1 || tech.id == 2);
-
-    return isAllReviewed;
-  }
-  checkTechnicalEvaluationCompliant() {
-    if (this.checkTechnicalEvaluationDone()) {
-      const app = this.applicationInfo;
-      const status = [
+    let status;
+    if (app.occupancy_classification_id == 1) {
+      status = [
         {
           id: app.cbao_arch_status_id,
         },
@@ -343,6 +321,77 @@ export class CbaoEvaluatorComponent implements OnInit {
           id: app.cbao_str_status_id,
         },
       ];
+    } else {
+      status = [
+        {
+          id: app.cbao_arch_status_id,
+        },
+        {
+          id: app.cbao_elec_status_id,
+        },
+        {
+          id: app.cbao_san_status_id,
+        },
+        {
+          id: app.cbao_lg_status_id,
+        },
+        {
+          id: app.cbao_str_status_id,
+        },
+        {
+          id: app.cbao_mec_status_id,
+        },
+      ];
+    }
+
+    const isAllReviewed = status.every((tech) => tech.id == 1 || tech.id == 2);
+
+    return isAllReviewed;
+  }
+  checkTechnicalEvaluationCompliant() {
+    if (this.checkTechnicalEvaluationDone()) {
+      const app = this.applicationInfo;
+      let status;
+      if (app.occupancy_classification_id == 1) {
+        status = [
+          {
+            id: app.cbao_arch_status_id,
+          },
+          {
+            id: app.cbao_elec_status_id,
+          },
+          {
+            id: app.cbao_san_status_id,
+          },
+          {
+            id: app.cbao_lg_status_id,
+          },
+          {
+            id: app.cbao_str_status_id,
+          },
+        ];
+      } else {
+        status = [
+          {
+            id: app.cbao_arch_status_id,
+          },
+          {
+            id: app.cbao_elec_status_id,
+          },
+          {
+            id: app.cbao_san_status_id,
+          },
+          {
+            id: app.cbao_lg_status_id,
+          },
+          {
+            id: app.cbao_str_status_id,
+          },
+          {
+            id: app.cbao_mec_status_id,
+          },
+        ];
+      }
       const isCompliant = status.every((tech) => tech.id == 1);
       if (isCompliant) {
         this.isLoading = true;
@@ -537,6 +586,13 @@ export class CbaoEvaluatorComponent implements OnInit {
             evaluator_user_id: this.evaluatorDetails.user_id,
           };
           this.updateCbaoStatus(elec);
+          break;
+        case 'CBAO-MEC':
+          const mec = {
+            cbao_mec_status_id: 2,
+            evaluator_user_id: this.evaluatorDetails.user_id,
+          };
+          this.updateCbaoStatus(mec);
           break;
       }
     } else {
@@ -991,6 +1047,13 @@ export class CbaoEvaluatorComponent implements OnInit {
           evaluator_user_id: this.evaluatorDetails.user_id,
         };
         this.updateCbaoStatus(elec);
+        break;
+      case 'CBAO-MEC':
+        const mec = {
+          cbao_mec_status_id: 1,
+          evaluator_user_id: this.evaluatorDetails.user_id,
+        };
+        this.updateCbaoStatus(mec);
         break;
     }
   }

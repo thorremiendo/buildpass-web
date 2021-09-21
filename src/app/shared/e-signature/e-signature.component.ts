@@ -311,7 +311,7 @@ export class ESignatureComponent implements OnInit {
     // window.open(file);
     this.isLoading = true;
     const body = {
-      document_status_id: 1,
+      // document_status_id: 1,
       document_path: blob,
     };
     this.applicationService

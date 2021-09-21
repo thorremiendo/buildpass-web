@@ -44,18 +44,8 @@ export class CpdoEvaluatorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.applicationId = this.route.snapshot.params.id;
     this.fetchDocTypes();
-    this.applicationService
-      .fetchUserDocs(this.applicationId)
-      .subscribe((result) => {
-        this.forms = result.data;
-        this.generateCpdoForms();
-        this.fetchEvaluatorDetails();
-        this.fetchApplicationDetails();
-        this.checkFormsCompliant();
-        this.checkFormsReviewed();
-      });
+    this.applicationId = this.route.snapshot.params.id;
   }
   fetchApplicationDetails() {
     this.isLoading = true;
@@ -466,6 +456,16 @@ export class CpdoEvaluatorComponent implements OnInit {
   fetchDocTypes() {
     this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
       this.documentTypes = res.data;
+      this.applicationService
+        .fetchUserDocs(this.applicationId)
+        .subscribe((result) => {
+          this.forms = result.data;
+          this.generateCpdoForms();
+          this.fetchEvaluatorDetails();
+          this.fetchApplicationDetails();
+          this.checkFormsCompliant();
+          this.checkFormsReviewed();
+        });
     });
   }
 }
