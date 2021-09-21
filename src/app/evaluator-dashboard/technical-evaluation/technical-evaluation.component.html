@@ -106,6 +106,29 @@
           }}
         </span>
       </p>
+      <p
+        *ngIf="
+          (applicationDetails.permit_type_id == 1 ||
+            applicationDetails.permit_type_id == 2) &&
+          applicationDetails.occupancy_classification_id !== 1
+        "
+      >
+        Mechanical:
+        <span
+          style="font-weight: bold"
+          [style.color]="
+            applicationDetails.cbao_mec_status_id == 1 ? 'green' : 'red'
+          "
+        >
+          {{
+            applicationDetails.cbao_mec_status_id == 1
+              ? "Approved"
+              : applicationDetails.cbao_mec_status_id == 2
+              ? "For Compliance"
+              : "Pending"
+          }}
+        </span>
+      </p>
     </div>
     <div class="col-md-6">
       <div *ngIf="cbaoTimeline">

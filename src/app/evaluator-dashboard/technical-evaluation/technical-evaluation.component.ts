@@ -14,6 +14,7 @@ export class TechnicalEvaluationComponent implements OnInit {
   constructor(private applicationServce: ApplicationInfoService) {}
 
   ngOnInit(): void {
+    console.log(this.applicationDetails);
     this.applicationServce
       .fetchCbaoTimeline(this.applicationDetails.id)
       .subscribe((res) => {
