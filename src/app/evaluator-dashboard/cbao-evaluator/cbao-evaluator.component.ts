@@ -404,7 +404,6 @@ export class CbaoEvaluatorComponent implements OnInit {
             .subscribe((res) => {
               Swal.fire('Success!', `CBAO Evaluation Done!`, 'success').then(
                 (result) => {
-                  debugger;
                   this.isLoading = false;
                   window.location.reload();
                 }
