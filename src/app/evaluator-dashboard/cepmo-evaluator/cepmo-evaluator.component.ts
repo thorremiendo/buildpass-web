@@ -44,18 +44,9 @@ export class CepmoEvaluatorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.fetchDocTypes();
     this.isLoading = true;
     this.applicationId = this.route.snapshot.params.id;
-    this.applicationService
-      .fetchUserDocs(this.applicationId)
-      .subscribe((result) => {
-        this.forms = result.data;
-        this.generateCepmoForms();
-        this.fetchEvaluatorDetails();
-        this.fetchApplicationDetails();
-        this.checkCepmoParallelDocs();
-      });
-    this.fetchDocTypes();
   }
   checkCepmoParallelDocs() {
     this.isLoading = true;
@@ -321,6 +312,15 @@ export class CepmoEvaluatorComponent implements OnInit {
   fetchDocTypes() {
     this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
       this.documentTypes = res.data;
+      this.applicationService
+        .fetchUserDocs(this.applicationId)
+        .subscribe((result) => {
+          this.forms = result.data;
+          this.generateCepmoForms();
+          this.fetchEvaluatorDetails();
+          this.fetchApplicationDetails();
+          this.checkCepmoParallelDocs();
+        });
     });
   }
 }
