@@ -136,7 +136,9 @@ export class FormDetailsComponent implements OnInit {
       this.data.form.document_id == 48 ||
       this.data.form.document_id == 106 ||
       this.data.form.document_id == 98 ||
-      this.data.form.document_id == 99
+      this.data.form.document_id == 99 ||
+      this.data.form.document_id == 64 ||
+      this.data.form.document_id == 65
     ) {
       return true;
     } else return false;
@@ -505,7 +507,9 @@ export class FormDetailsComponent implements OnInit {
         form.document_id == 48 ||
         form.document_id == 106 ||
         form.document_id == 98 ||
-        form.document_id == 99
+        form.document_id == 99 ||
+        form.document_id == 64 ||
+        form.document_id == 65
       ) {
         let body = {};
         const officeId = this.data.evaluator.office_id;
