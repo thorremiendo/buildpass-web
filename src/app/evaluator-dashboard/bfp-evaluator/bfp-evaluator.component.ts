@@ -48,18 +48,10 @@ export class BfpEvaluatorComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.fetchDocTypes();
     this.applicationId = this.route.snapshot.params.id;
     this.fetchApplicationDetails();
-    this.applicationService
-      .fetchUserDocs(this.applicationId)
-      .subscribe((result) => {
-        this.forms = result.data;
-        this.generateBfpForms();
-        this.fetchEvaluatorDetails();
-        this.checkBfpParallelDocs();
-        this.isLoading = false;
-      });
-    this.fetchDocTypes();
+
     this.changeDetectorRefs.detectChanges();
   }
 
@@ -359,6 +351,15 @@ export class BfpEvaluatorComponent implements OnInit {
   fetchDocTypes() {
     this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
       this.documentTypes = res.data;
+      this.applicationService
+        .fetchUserDocs(this.applicationId)
+        .subscribe((result) => {
+          this.forms = result.data;
+          this.generateBfpForms();
+          this.fetchEvaluatorDetails();
+          this.checkBfpParallelDocs();
+          this.isLoading = false;
+        });
     });
   }
 }
