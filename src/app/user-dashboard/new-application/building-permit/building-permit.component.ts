@@ -211,8 +211,9 @@ export class BuildingPermitComponent implements OnInit {
           ? this.updateForms()
           : this.fieldSets[0].documents.push(...this.isConstructionStatus);
         isOccupancyCommercial ? this.fieldSets[3].documents.push(47) : null;
-        isOccupancyCommercial ? this.fieldSets[1].documents.push(64) : null;
-        isOccupancyCommercial ? this.fieldSets[1].documents.push(65) : null;
+        isOccupancyCommercial ? this.addCommercialForms() : null;
+        // isOccupancyCommercial ? this.fieldSets[1].documents.push(64) : null;
+        // isOccupancyCommercial ? this.fieldSets[1].documents.push(65) : null;
         is3storeysOrMore
           ? this.fieldSets[2].documents.push(...this.is3storeysOrMore)
           : null;
@@ -238,6 +239,23 @@ export class BuildingPermitComponent implements OnInit {
       label: 'Step 6',
       sample: '',
     });
+  }
+
+  addCommercialForms() {
+    this.forms.push(
+      {
+        id: 64,
+        src: '../../../../assets/forms/updated/Electronics_Permit_(For_Commercial_Building_only)_0_(1).pdf',
+        label: 'Step 7',
+        sample: '',
+      },
+      {
+        id: 65,
+        src: '../../../../assets/forms/updated/Mechanical_Permit_(1).pdf',
+        label: 'Step 8',
+        sample: '',
+      }
+    );
   }
 
   // ngAfterViewInit() {
@@ -436,12 +454,12 @@ export class BuildingPermitComponent implements OnInit {
   initPdfViewer(event) {
     if (
       this.applicationDetails.construction_status_id !== 1 &&
-      event.previouslySelectedIndex <= 4
+      event.previouslySelectedIndex <= 6
     ) {
       this.upload(this.forms[event.previouslySelectedIndex], 'next');
     } else if (
       this.applicationDetails.construction_status_id == 1 &&
-      event.previouslySelectedIndex <= 5
+      event.previouslySelectedIndex <= 7
     ) {
       this.upload(this.forms[event.previouslySelectedIndex], 'next');
     }
