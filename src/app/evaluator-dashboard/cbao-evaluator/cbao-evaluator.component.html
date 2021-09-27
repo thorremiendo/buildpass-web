@@ -190,7 +190,10 @@
                             mat-menu-item
                             color="accent"
                             (click)="openFormDialog(element)"
-                            [disabled]="element.document_id == 194"
+                            [disabled]="
+                              element.document_id == 194 ||
+                              element.document_id == 44
+                            "
                           >
                             Evaluate
                           </button>
@@ -221,7 +224,10 @@
                               evaluatorRole.code == 'CBAO-REL' &&
                               element.document_id == 50
                             "
-                            [disabled]="element.document_id == 194"
+                            [disabled]="
+                              element.document_id == 194 ||
+                              element.document_id == 44
+                            "
                           >
                             Evaluate
                           </button>
@@ -231,7 +237,8 @@
                             (click)="openFormDialog(element)"
                             [disabled]="
                               applicationInfo.application_status_id !== 3 ||
-                              element.document_id == 194
+                              element.document_id == 194 ||
+                              element.document_id == 44
                             "
                             *ngIf="
                               evaluatorRole.code == 'CBAO-LG' ||
@@ -250,7 +257,8 @@
                             (click)="openFormDialog(element)"
                             [disabled]="
                               applicationInfo.application_status_id !== 12 ||
-                              element.document_id == 194
+                              element.document_id == 194 ||
+                              element.document_id == 44
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-DC'"
                           >
@@ -262,7 +270,8 @@
                             (click)="openFormDialog(element)"
                             [disabled]="
                               applicationInfo.application_status_id !== 13 ||
-                              element.document_id == 194
+                              element.document_id == 194 ||
+                              element.document_id == 44
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-BO'"
                           >
