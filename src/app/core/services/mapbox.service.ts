@@ -29,6 +29,9 @@ export class MapService {
         this.lat = data.features[0].center[1];
         this.lng = data.features[0].center[0];
         this.flyTo(data.features[0].center[0], data.features[0].center[1]);
+        window.localStorage.setItem('lng', this.lng.toString());
+        window.localStorage.setItem('lat', this.lat.toString());
+
         return data;
       }),
       catchError((error) => {
