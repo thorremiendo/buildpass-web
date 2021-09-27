@@ -398,6 +398,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         if (this.applicationInfo.parallel_cbao_status_id !== 1) {
           const body = {
             parallel_cbao_status_id: 1,
+            evaluator_user_id: this.evaluatorDetails.user_id,
           };
           this.applicationService
             .updateApplicationStatus(body, this.applicationId)
@@ -423,6 +424,7 @@ export class CbaoEvaluatorComponent implements OnInit {
         if (this.applicationInfo.parallel_cbao_status_id !== 2) {
           const body = {
             parallel_cbao_status_id: 2,
+            evaluator_user_id: this.evaluatorDetails.user_id,
           };
           this.applicationService
             .updateApplicationStatus(body, this.applicationId)
