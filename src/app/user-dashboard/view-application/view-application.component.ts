@@ -1,3 +1,4 @@
+import { AssociateBpEgppComponent } from './../../shared/associate-bp-egpp/associate-bp-egpp.component';
 import { WaterMarkService } from './../../core/services/watermark.service';
 import { RepresentativeDetailsComponent } from './../../shared/representative-details/representative-details.component';
 import { RemarksHistoryTableComponent } from './../../evaluator-dashboard/remarks-history-table/remarks-history-table.component';
@@ -92,29 +93,40 @@ export class ViewApplicationComponent implements OnInit {
     this.pdfService.flattenForm(pdfUrl);
   }
 
+  openAssociateBpEgpp(id) {
+    const dialogRef = this.dialog.open(AssociateBpEgppComponent, {
+      data: {
+        applicationDetails: this.applicationDetails,
+        userDetails: this.user,
+        id: id,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+
   ngOnInit(): void {
     this.fetchDocTypes();
     this.isAuthorized = false;
     this.applicationId = this.route.snapshot.params.id;
     this.user = JSON.parse(localStorage.getItem('user'));
-    this.applicationService
-      .verifyUserApplication(this.applicationId, this.user.id)
-      .subscribe(
-        (res) => {
-          this.isLoading = true;
-          this.isAuthorized = true;
-          this.fetchApplicationInfo();
-          this.fetchUserDocs();
-        },
-        (error) => {
-          this.router.navigateByUrl('dashboard/applications');
-        }
-      );
   }
 
   fetchDocTypes() {
     this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
       this.documentTypes = res.data;
+      this.applicationService
+        .verifyUserApplication(this.applicationId, this.user.id)
+        .subscribe(
+          (res) => {
+            this.isLoading = true;
+            this.isAuthorized = true;
+            this.fetchApplicationInfo();
+            this.fetchUserDocs();
+          },
+          (error) => {
+            this.router.navigateByUrl('dashboard/applications');
+          }
+        );
     });
   }
   getConstructionType(id): string {

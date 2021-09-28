@@ -117,12 +117,47 @@ export class NewApplicationService {
   updateRemark(id, remark) {
     const url = `/userdocs/remark/${id}/update`;
     return this.api.post(url, {
-      remarks: remark
+      remarks: remark,
     });
   }
 
   deleteRemark(id) {
     const url = `/userdocs/remark/${id}/remove`;
     return this.api.post(url, {});
+  }
+
+  fetchRegions(query) {
+    const url = `/regions?search_term=${query}`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+
+  fetchProvince(query, regionId) {
+    const url = `/provinces?search_term=${query}&region_id=${regionId}`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+  fetchCities(id) {
+    const url = `/cities?province_id=${id}`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
   }
 }

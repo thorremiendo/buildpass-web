@@ -46,7 +46,12 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
   public prcBack: File;
   public validIdFront: File;
   public validIdBack: File;
-
+  public regions = [];
+  public cities = [];
+  public provinces = [];
+  public selectedRegion;
+  public selectedProvince;
+  public selectedCity;
   get representativeDetailsFormControl() {
     return this.representativeDetailsForm.controls;
   }
@@ -81,6 +86,9 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
     );
   }
   ngOnInit(): void {
+    this.newApplicationService.fetchRegions('').subscribe((res) => {
+      this.regions = res.data;
+    });
     this.user = JSON.parse(localStorage.getItem('user'));
     if (localStorage.getItem('commonFieldsInfo')) {
       this.ownerDetails = JSON.parse(localStorage.getItem('commonFieldsInfo'));
@@ -113,6 +121,24 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
     }
   }
 
+  onRegionSelect(e) {
+    this.newApplicationService
+      .fetchProvince('', parseInt(e.value))
+      .subscribe((res) => {
+        this.provinces = res.data;
+      });
+  }
+  onProvinceSelect(e) {
+    this.newApplicationService
+      .fetchCities(parseInt(e.value))
+      .subscribe((res) => {
+        this.cities = res.data;
+      });
+  }
+  onCitySelect(e) {
+    console.log(this.selectedCity);
+  }
+
   patchDetails() {
     console.log(this.user);
     this.representativeDetailsForm.patchValue({
@@ -134,7 +160,7 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
       representative_suffix: [''],
       representative_house_number: ['', Validators.required],
       representative_street_name: [''],
-      representative_barangay: ['', Validators.required],
+      representative_barangay: [''],
       representative_contact_no: [
         '',
         [
@@ -161,7 +187,12 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
       rep_suffix_name: value.representative_suffix,
       rep_house_number: value.representative_house_number,
       rep_street_name: value.representative_street_name,
-      rep_barangay: value.representative_barangay,
+      rep_region_id: this.selectedRegion,
+      rep_province_id: this.selectedProvince,
+      rep_city_id: this.selectedCity,
+      rep_barangay: value.representative_barangay
+        ? value.representative_barangay
+        : 'n/a',
       rep_contact_number: value.representative_contact_no,
       rep_email_address: value.representative_email_address,
       prc_no: value.prcNo,
@@ -220,6 +251,9 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
         applicant_block_number: this.ownerDetails.owner_block_number,
         applicant_subdivision: this.ownerDetails.owner_subdivision,
         applicant_purok: this.ownerDetails.owner_purok,
+        applicant_region_id: this.ownerDetails.owner_region_id,
+        applicant_province_id: this.ownerDetails.owner_province_id,
+        applicant_city_id: this.ownerDetails.owner_city_id,
 
         ...this.representativeDetails,
       };
