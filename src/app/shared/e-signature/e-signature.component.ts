@@ -1,3 +1,4 @@
+import { EsigPdfPreviewComponent } from './../esig-pdf-preview/esig-pdf-preview.component';
 import { EsignatureService } from 'src/app/core/services/esignature.service';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +11,11 @@ import {
 } from '@angular/cdk/drag-drop';
 import { PDFDocument } from 'pdf-lib';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-e-signature',
@@ -42,7 +48,8 @@ export class ESignatureComponent implements OnInit {
     private applicationService: ApplicationInfoService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private esignatureService: EsignatureService
+    private esignatureService: EsignatureService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -55,11 +62,15 @@ export class ESignatureComponent implements OnInit {
     this.esigImage = new Image();
     this.esigImage.src = this.userSignature;
     if (Math.abs(this.esigImage.width) > Math.abs(this.esigImage.height)) {
-      this.minimumWidth = this.minimumHeight / (this.esigImage.height / this.esigImage.width);
-      this.maximumWidth = this.maximumHeight / (this.esigImage.height / this.esigImage.width);
+      this.minimumWidth =
+        this.minimumHeight / (this.esigImage.height / this.esigImage.width);
+      this.maximumWidth =
+        this.maximumHeight / (this.esigImage.height / this.esigImage.width);
     } else {
-      this.minimumWidth = this.minimumHeight * (this.esigImage.width / this.esigImage.height);
-      this.maximumWidth = this.maximumHeight * (this.esigImage.width / this.esigImage.height);
+      this.minimumWidth =
+        this.minimumHeight * (this.esigImage.width / this.esigImage.height);
+      this.maximumWidth =
+        this.maximumHeight * (this.esigImage.width / this.esigImage.height);
     }
     this.applicationService
       .fetchSpecificDocInfo(this.documentId)
@@ -143,22 +154,36 @@ export class ESignatureComponent implements OnInit {
 
     if ($event.clientX != 0 && $event.clientY != 0) {
       if ($event.target.classList.contains('bottom-right-resize')) {
-        const height = this.originalHeight + ($event.pageY - this.originalMouseY);
+        const height =
+          this.originalHeight + ($event.pageY - this.originalMouseY);
         const width = this.originalWidth + ($event.pageX - this.originalMouseX);
-        if (height >= this.minimumHeight && height <= this.maximumHeight && width >= this.minimumWidth && width <= this.maximumWidth) {
+        if (
+          height >= this.minimumHeight &&
+          height <= this.maximumHeight &&
+          width >= this.minimumWidth &&
+          width <= this.maximumWidth
+        ) {
           esigContainer.style.height = height + 'px';
           esigContainer.style.width = width + 'px';
 
           if (Math.abs(offsetX) > Math.abs(offsetY)) {
-            esigContainer.style.height = width * (this.esigImage.height / this.esigImage.width) + 'px';
+            esigContainer.style.height =
+              width * (this.esigImage.height / this.esigImage.width) + 'px';
           } else {
-            esigContainer.style.width = height * (this.esigImage.width / this.esigImage.height) + 'px';
+            esigContainer.style.width =
+              height * (this.esigImage.width / this.esigImage.height) + 'px';
           }
         }
       } else if ($event.target.classList.contains('bottom-left-resize')) {
-        const height = this.originalHeight + ($event.pageY - this.originalMouseY);
+        const height =
+          this.originalHeight + ($event.pageY - this.originalMouseY);
         const width = this.originalWidth - ($event.pageX - this.originalMouseX);
-        if (height >= this.minimumHeight && height <= this.maximumHeight && width >= this.minimumWidth && width <= this.maximumWidth) {
+        if (
+          height >= this.minimumHeight &&
+          height <= this.maximumHeight &&
+          width >= this.minimumWidth &&
+          width <= this.maximumWidth
+        ) {
           esigContainer.style.height = height + 'px';
           esigContainer.style.width = width + 'px';
           esigContainer.style.left =
@@ -181,9 +206,15 @@ export class ESignatureComponent implements OnInit {
           }
         }
       } else if ($event.target.classList.contains('top-right-resize')) {
-        const height = this.originalHeight - ($event.pageY - this.originalMouseY);
+        const height =
+          this.originalHeight - ($event.pageY - this.originalMouseY);
         const width = this.originalWidth + ($event.pageX - this.originalMouseX);
-        if (height >= this.minimumHeight && height <= this.maximumHeight && width >= this.minimumWidth && width <= this.maximumWidth) {
+        if (
+          height >= this.minimumHeight &&
+          height <= this.maximumHeight &&
+          width >= this.minimumWidth &&
+          width <= this.maximumWidth
+        ) {
           esigContainer.style.height = height + 'px';
           esigContainer.style.top =
             this.originalY +
@@ -208,9 +239,15 @@ export class ESignatureComponent implements OnInit {
           }
         }
       } else if ($event.target.classList.contains('top-left-resize')) {
-        const height = this.originalHeight - ($event.pageY - this.originalMouseY);
+        const height =
+          this.originalHeight - ($event.pageY - this.originalMouseY);
         const width = this.originalWidth - ($event.pageX - this.originalMouseX);
-        if (height >= this.minimumHeight && height <= this.maximumHeight && width >= this.minimumWidth && width <= this.maximumWidth) {
+        if (
+          height >= this.minimumHeight &&
+          height <= this.maximumHeight &&
+          width >= this.minimumWidth &&
+          width <= this.maximumWidth
+        ) {
           esigContainer.style.height = height + 'px';
           esigContainer.style.top =
             this.originalY +
@@ -309,20 +346,21 @@ export class ESignatureComponent implements OnInit {
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     // const file = window.URL.createObjectURL(blob);
     // window.open(file);
-    this.isLoading = true;
-    const body = {
-      // document_status_id: 1,
-      document_path: blob,
-    };
-    this.applicationService
-      .updateDocumentFile(body, this.documentId)
-      .subscribe((res) => {
-        this.isLoading = false;
-        this.openSnackBar('Success!');
-        setTimeout(() => {
-          this.router.navigate(['/evaluator/application', this.applicationId]);
-        }, 1000);
-      });
+    this.openFilePreview(blob);
+    // this.isLoading = true;
+    // const body = {
+    //   // document_status_id: 1,
+    //   document_path: blob,
+    // };
+    // this.applicationService
+    //   .updateDocumentFile(body, this.documentId)
+    //   .subscribe((res) => {
+    //     this.isLoading = false;
+    //     this.openSnackBar('Success!');
+    //     setTimeout(() => {
+    //       this.router.navigate(['/evaluator/application', this.applicationId]);
+    //     }, 1000);
+    //   });
   }
   openSnackBar(message: string) {
     this.snackBar.open(message, 'Close', {
@@ -330,5 +368,15 @@ export class ESignatureComponent implements OnInit {
       // horizontalPosition: 'right',
       // verticalPosition: 'top',
     });
+  }
+
+  openFilePreview(blob) {
+    const dialogRef = this.dialog.open(EsigPdfPreviewComponent, {
+      data: {
+        pdf: blob,
+        applicationId: this.applicationId,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 }
