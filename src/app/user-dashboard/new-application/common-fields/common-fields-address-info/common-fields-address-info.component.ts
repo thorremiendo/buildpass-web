@@ -1,3 +1,4 @@
+import { AppTitleService } from './../../../../core/services/app-title.service';
 import { OccupancyService } from './../../../../core/services/occupancy.service';
 import { MapService } from './../../../../core/services/mapbox.service';
 import { Component, OnInit } from '@angular/core';
@@ -66,7 +67,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     private barangayService: BarangayService,
     private mapService: MapService,
     private snackBar: MatSnackBar,
-    private occupancyService: OccupancyService
+    private occupancyService: OccupancyService,
+    private appTitle: AppTitleService
   ) {
     this.barangayService.getBarangayInfo().subscribe((data) => {
       this.barangay = data;
@@ -82,6 +84,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.appTitle.setTitle('BuildPASS');
     this.createForm();
     // this.initializeMap();
     this.user = JSON.parse(localStorage.getItem('user'));

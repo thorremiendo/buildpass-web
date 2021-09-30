@@ -1,3 +1,4 @@
+import { AppTitleService } from './../../../../core/services/app-title.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -63,7 +64,8 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
     private newApplicationFormService: NewApplicationFormService,
     private newApplicationService: NewApplicationService,
     private barangayService: BarangayService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private appTitle: AppTitleService
   ) {
     this.createForm();
     this.barangayService.getBarangayInfo().subscribe((data) => {
@@ -86,6 +88,7 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
     );
   }
   ngOnInit(): void {
+    this.appTitle.setTitle('BuildPASS');
     this.newApplicationService.fetchRegions('').subscribe((res) => {
       this.regions = res.data;
     });

@@ -1,3 +1,4 @@
+import { AppTitleService } from './../../core/services/app-title.service';
 import { AssociateBpEgppComponent } from './../../shared/associate-bp-egpp/associate-bp-egpp.component';
 import { WaterMarkService } from './../../core/services/watermark.service';
 import { RepresentativeDetailsComponent } from './../../shared/representative-details/representative-details.component';
@@ -51,7 +52,8 @@ export class ViewApplicationComponent implements OnInit {
     private applicationFeeService: ApplicationFeesService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private pdfService: WaterMarkService
+    private pdfService: WaterMarkService,
+    private appTitle: AppTitleService
   ) {}
   openProjectDialog(): void {
     const dialogRef = this.dialog.open(ProjectDetailsComponent, {
@@ -105,6 +107,7 @@ export class ViewApplicationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.appTitle.setTitle('BuildPASS');
     this.fetchDocTypes();
     this.isAuthorized = false;
     this.applicationId = this.route.snapshot.params.id;

@@ -1,3 +1,4 @@
+import { AppTitleService } from './../../../../core/services/app-title.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -64,7 +65,8 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     private newApplicationFormService: NewApplicationFormService,
     private newApplicationService: NewApplicationService,
     private barangayService: BarangayService,
-    private excavationService: ExcavationPermitService
+    private excavationService: ExcavationPermitService,
+    private appTitle: AppTitleService
   ) {
     this.createForm();
     this.barangayService.getBarangayInfo().subscribe((data) => {
@@ -81,6 +83,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.appTitle.setTitle('BuildPASS');
     this.isLoading = true;
     this.createForm();
     this.user = JSON.parse(localStorage.getItem('user'));
