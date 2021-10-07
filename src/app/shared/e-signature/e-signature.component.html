@@ -2,11 +2,8 @@
   <div id="e-signature">
     <div id="e-sig-container" cdkDrag (cdkDragEnded)="dragEnd($event)">
       <div class="resize-container">
-        <div
-          cdkDragHandle
-          id="e-sig-image-container"
-        >
-          <img [src]="userSignature" />
+        <div cdkDragHandle id="e-sig-image-container">
+          <img [@rotatedState]="state" [src]="userSignature" />
         </div>
         <div
           class="resize top-left-resize"

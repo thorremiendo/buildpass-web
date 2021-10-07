@@ -1,3 +1,4 @@
+import { WaterMarkService } from './../../core/services/watermark.service';
 import { EsigPdfPreviewComponent } from './../esig-pdf-preview/esig-pdf-preview.component';
 import { EsignatureService } from 'src/app/core/services/esignature.service';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
@@ -16,11 +17,27 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-
+import { degrees } from 'pdf-lib';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 @Component({
   selector: 'app-e-signature',
   templateUrl: './e-signature.component.html',
   styleUrls: ['./e-signature.component.scss'],
+  animations: [
+    // Each unique animation requires its own trigger. The first argument of the trigger function is the name
+    trigger('rotatedState', [
+      state('default', style({ transform: 'rotate(0)' })),
+      state('rotated', style({ transform: 'rotate(-180deg)' })),
+      transition('rotated => default', animate('1500ms ease-out')),
+      transition('default => rotated', animate('400ms ease-in')),
+    ]),
+  ],
 })
 export class ESignatureComponent implements OnInit {
   @Input() props: [{ [key: string]: object | any }];
@@ -43,13 +60,15 @@ export class ESignatureComponent implements OnInit {
   public isLoading: boolean;
   public userDetails;
   public userSignature;
+
   constructor(
     private route: ActivatedRoute,
     private applicationService: ApplicationInfoService,
     private snackBar: MatSnackBar,
     private router: Router,
     private esignatureService: EsignatureService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private waterMarkService: WaterMarkService
   ) {}
 
   ngOnInit() {
@@ -79,8 +98,30 @@ export class ESignatureComponent implements OnInit {
           res.data[0].document_history[
             res.data[0].document_history.length - 1
           ].document_path;
+        this.waterMarkService.rotatePdf(this.src);
         this.isLoading = false;
       });
+  }
+
+  flattenPdf(src) {
+    this.waterMarkService.flattenForm(src);
+  }
+
+  duplicate(src) {
+    this.waterMarkService.duplicate(src);
+  }
+
+  print(pdf) {
+    // Create an IFrame.
+    var iframe = document.createElement('iframe');
+    // Hide the IFrame.
+    iframe.style.visibility = 'hidden';
+    // Define the source.
+    iframe.src = pdf;
+    // Add the IFrame to the web page.
+    document.body.appendChild(iframe);
+    iframe.contentWindow.focus();
+    iframe.contentWindow.print(); // Print.
   }
 
   dragStart($event) {
@@ -372,6 +413,7 @@ export class ESignatureComponent implements OnInit {
 
   openFilePreview(blob) {
     const dialogRef = this.dialog.open(EsigPdfPreviewComponent, {
+      width: '1000px',
       data: {
         pdf: blob,
         applicationId: this.applicationId,
