@@ -65,3 +65,23 @@
 mat-icon:hover {
   cursor: pointer;
 }
+
+.inspection {
+  &__header {
+    display: flex;
+    flex-direction: row-reverse;
+
+    h1 {
+      color: #363738;
+      font-size: 24px;
+      font-weight: 600;
+    }
+  }
+  &__body {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+}

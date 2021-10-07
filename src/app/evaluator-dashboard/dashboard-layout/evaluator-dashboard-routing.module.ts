@@ -1,3 +1,4 @@
+import { SchedulingComponent } from './../scheduling/scheduling.component';
 import { EsignatureGuard } from './../../core/guard/esignature.guard';
 import { EsigPromptComponent } from './../../shared/esig-prompt/esig-prompt.component';
 import { OldbpMasterlistComponent } from './../oldbp-masterlist/oldbp-masterlist.component';
@@ -93,6 +94,10 @@ const routes: Routes = [
         path: 'report-issue',
         component: ReportIssueComponent,
         outlet: 'modal',
+      },
+      {
+        path: 'schedule',
+        component: SchedulingComponent,
       },
     ],
   },
