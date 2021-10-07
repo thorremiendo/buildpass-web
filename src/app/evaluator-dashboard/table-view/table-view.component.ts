@@ -1,3 +1,4 @@
+import { AppTitleService } from './../../core/services/app-title.service';
 import {
   Component,
   OnInit,
@@ -24,10 +25,12 @@ export class TableViewComponent implements OnInit, OnChanges {
   constructor(
     private router: Router,
     private applicationService: ApplicationInfoService,
-    private evaluatorService: EvaluatorService
+    private evaluatorService: EvaluatorService,
+    private appTitle: AppTitleService
   ) {}
 
   ngOnInit(): void {
+    this.appTitle.setTitle('BuildPASS');
     this.user = JSON.parse(localStorage.getItem('user'));
     this.applicationService
       .fetchCurrentApplications(this.user.id)

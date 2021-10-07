@@ -1,0 +1,28 @@
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  margin: 0;
+  padding: 20px;
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+
+    &__title {
+      color: rgba(128, 0, 0, 0.795);
+      font-weight: bold;
+      margin-top: 5px;
+    }
+    &__caption {
+      text-transform: uppercase;
+    }
+  }
+  &__action {
+      margin-top: 20px;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+}

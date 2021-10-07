@@ -22,6 +22,7 @@ import { ViewSDKClient } from 'src/app/core/services/view-sdk.service';
 import { WaterMarkService } from '../../core';
 import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
 import { documentTypes } from '../../core/enums/document-type.enum';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-form-details',
@@ -60,7 +61,8 @@ export class FormDetailsComponent implements OnInit {
     public dialogRef: MatDialogRef<FormDetailsComponent>,
     private applicationService: ApplicationInfoService,
     @Inject(MAT_DIALOG_DATA)
-    public data
+    public data,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -153,6 +155,7 @@ export class FormDetailsComponent implements OnInit {
     switch (type) {
       case 'selectedForm':
         this.selectedForm = file;
+        this.checkEncryptedFile(this.selectedForm);
         break;
     }
   }
@@ -162,6 +165,22 @@ export class FormDetailsComponent implements OnInit {
         this.selectedForm = null;
         break;
     }
+  }
+
+  checkEncryptedFile(file) {
+    var fileReader: FileReader = new FileReader();
+    fileReader.onload = (e) => {
+      const isEncrypted = fileReader.result.toString().includes('Encrypt');
+      if (isEncrypted) {
+        this.selectedForm = null;
+        this.openSnackBar('You can only upload unprotected PDF files.');
+        this.isSubmitting = false;
+      } else {
+        this.selectedForm = file;
+        this.isSubmitting = false;
+      }
+    };
+    fileReader.readAsText(file);
   }
 
   addRemarks() {
@@ -736,5 +755,11 @@ export class FormDetailsComponent implements OnInit {
     const angle = this.getCurrentRotation() - 90;
     const pdfViewer = document.getElementById('iframe-pdf-div');
     pdfViewer.style.transform = `rotate(${angle}deg)`;
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 4000,
+    });
   }
 }

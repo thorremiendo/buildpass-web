@@ -1,17 +1,18 @@
+import { AppTitleService } from './../../core/services/app-title.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../core/services/user.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { BarangayService } from '../../core/services/barangay.service';
-import { UpdatePasswordDialogComponent } from '../../shared/update-password-dialog/update-password-dialog.component'
+import { UpdatePasswordDialogComponent } from '../../shared/update-password-dialog/update-password-dialog.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-user-edit-profile',
   templateUrl: './user-edit-profile.component.html',
-  styleUrls: ['./user-edit-profile.component.scss']
+  styleUrls: ['./user-edit-profile.component.scss'],
 })
 export class UserEditProfileComponent implements OnInit {
   public selectedFile: File = null;
@@ -34,11 +35,15 @@ export class UserEditProfileComponent implements OnInit {
   }
 
   get displayIDPhoto(): string | ArrayBuffer {
-    return this._displayIdPhoto ? this._displayIdPhoto : this.userInfo.id_photo_path;
+    return this._displayIdPhoto
+      ? this._displayIdPhoto
+      : this.userInfo.id_photo_path;
   }
 
   get displaySelfiePhoto(): string | ArrayBuffer {
-    return this._displaySelfiePhoto ? this._displaySelfiePhoto : this.userInfo.selfie_with_id_path;
+    return this._displaySelfiePhoto
+      ? this._displaySelfiePhoto
+      : this.userInfo.selfie_with_id_path;
   }
 
   get userEditProfileFormControl() {
@@ -50,49 +55,55 @@ export class UserEditProfileComponent implements OnInit {
     private _userService: UserService,
     private _barangayService: BarangayService,
     private _matDialog: MatDialog,
-  ) {
-    
-  }
+    private appTitle: AppTitleService
+  ) {}
 
   createForm() {
     this._userEditProfileForm = this._fb.group({
-      first_name:[this.userInfo.first_name, Validators.required],
-      middle_name:[this.userInfo.middle_name],
-      last_name:[this.userInfo.last_name, Validators.required],
-      suffix_name:[this.userInfo.suffix_name],
-      birthdate:[new Date(this.userInfo.birthdate), Validators.required],
-      marital_status:[this.userInfo.marital_status_id, Validators.required],
-      gender:[this.userInfo.gender, Validators.required],
-      home_address:[this.userInfo.home_address, Validators.required],
-      barangay:[this.userInfo.barangay, Validators.required],
-      contact_number:[this.userInfo.contact_number, [Validators.required, Validators.maxLength(11),]],
-      id_number:[this.userInfo.id_number, Validators.required],
-      id_type:[this.userInfo.id_type, Validators.required],
+      first_name: [this.userInfo.first_name, Validators.required],
+      middle_name: [this.userInfo.middle_name],
+      last_name: [this.userInfo.last_name, Validators.required],
+      suffix_name: [this.userInfo.suffix_name],
+      birthdate: [new Date(this.userInfo.birthdate), Validators.required],
+      marital_status: [this.userInfo.marital_status_id, Validators.required],
+      gender: [this.userInfo.gender, Validators.required],
+      home_address: [this.userInfo.home_address, Validators.required],
+      barangay: [this.userInfo.barangay, Validators.required],
+      contact_number: [
+        this.userInfo.contact_number,
+        [Validators.required, Validators.maxLength(11)],
+      ],
+      id_number: [this.userInfo.id_number, Validators.required],
+      id_type: [this.userInfo.id_type, Validators.required],
     });
   }
-
 
   openDialog(userCredentials) {
     this._matDialog.open(UpdatePasswordDialogComponent, {
       data: userCredentials,
       height: 'auto',
       width: '500px',
-      
     });
-}
+  }
 
   openFileChooser() {
-    const element: HTMLElement = document.getElementById('photo') as HTMLElement;
+    const element: HTMLElement = document.getElementById(
+      'photo'
+    ) as HTMLElement;
     element.click();
   }
 
   openIdChooser() {
-    const element: HTMLElement = document.getElementById('id-photo') as HTMLElement;
+    const element: HTMLElement = document.getElementById(
+      'id-photo'
+    ) as HTMLElement;
     element.click();
   }
 
   openSelfieChooser() {
-    const element: HTMLElement = document.getElementById('selfie-photo') as HTMLElement;
+    const element: HTMLElement = document.getElementById(
+      'selfie-photo'
+    ) as HTMLElement;
     element.click();
   }
 
@@ -142,17 +153,19 @@ export class UserEditProfileComponent implements OnInit {
   }
 
   filterBarangays(value: string): Barangay[] {
-    return this._barangay.filter(option => option.name.toLowerCase().includes(value.toLowerCase()));
+    return this._barangay.filter((option) =>
+      option.name.toLowerCase().includes(value.toLowerCase())
+    );
   }
 
   displayBarangayName(value: number) {
     if (value != null) {
-      return this._barangay[value-1].name;
+      return this._barangay[value - 1].name;
     }
   }
 
-  dateToString(dateObject){
-    if(dateObject != null){
+  dateToString(dateObject) {
+    if (dateObject != null) {
       const birthdate = new Date(dateObject);
       let dd = birthdate.getDate();
       let mm = birthdate.getMonth() + 1;
@@ -160,31 +173,38 @@ export class UserEditProfileComponent implements OnInit {
       return `${yyyy}-${mm}-${dd}`;
     }
   }
-  
+
   ngOnInit(): void {
+    this.appTitle.setTitle('BuildPASS');
     if (localStorage.getItem('user') != null) {
       this.userInfo = JSON.parse(localStorage.getItem('user'));
       this.userInfo.marital_status_id = String(this.userInfo.marital_status_id);
       this.createForm();
     }
 
-    this._barangayService.getBarangayInfo().subscribe(data => {
+    this._barangayService.getBarangayInfo().subscribe((data) => {
       this._barangay = data;
-      this._filteredBarangayOptions = this.userEditProfileFormControl.barangay.valueChanges
-      .pipe(
-        startWith(''),
-        map(barangay => barangay ? this.filterBarangays(barangay) : this._barangay.slice())
-      );
+      this._filteredBarangayOptions =
+        this.userEditProfileFormControl.barangay.valueChanges.pipe(
+          startWith(''),
+          map((barangay) =>
+            barangay ? this.filterBarangays(barangay) : this._barangay.slice()
+          )
+        );
     });
-
   }
 
   onSubmit() {
     this._submitted = true;
 
-    if (this._userEditProfileForm.valid && (this.selectedFile || this.userInfo.id_photo_path) && (this.selectedPhoto || this.userInfo.photo_path) && (this.selectedSelfie || this.userInfo.selfie_with_id_path)) {
+    if (
+      this._userEditProfileForm.valid &&
+      (this.selectedFile || this.userInfo.id_photo_path) &&
+      (this.selectedPhoto || this.userInfo.photo_path) &&
+      (this.selectedSelfie || this.userInfo.selfie_with_id_path)
+    ) {
       this.isUpdating = true;
-      
+
       const user = {
         first_name: this._userEditProfileForm.value.first_name,
         middle_name: this._userEditProfileForm.value.middle_name,
@@ -202,7 +222,7 @@ export class UserEditProfileComponent implements OnInit {
         id_photo_path: this.selectedFile ? this.selectedFile : null,
         selfie_with_id_path: this.selectedSelfie ? this.selectedSelfie : null,
       };
-      
+
       this._userService
         .updateUserInfo(user, this.userInfo.id)
         .subscribe((result) => {
@@ -210,10 +230,10 @@ export class UserEditProfileComponent implements OnInit {
           const user = JSON.parse(localStorage.getItem('user'));
           const update = {
             ...user,
-            ...result['data']
+            ...result['data'],
           };
           localStorage.setItem('user', JSON.stringify(update));
-          
+
           Swal.fire('Success!', `Updated profile information.`, 'success').then(
             (result) => {
               window.location.reload();
@@ -221,9 +241,11 @@ export class UserEditProfileComponent implements OnInit {
           );
         });
     } else {
-      setTimeout(function() {
+      setTimeout(function () {
         const noFile = document.querySelectorAll('.no-file');
-        const invalidInput = document.querySelectorAll('.mat-form-field-invalid');
+        const invalidInput = document.querySelectorAll(
+          '.mat-form-field-invalid'
+        );
         if (noFile.length) {
           noFile[0].scrollIntoView();
         } else if (invalidInput.length) {
@@ -235,14 +257,14 @@ export class UserEditProfileComponent implements OnInit {
 }
 
 export interface Barangay {
-  id: number
-  b_id: number,
-  name:string,
+  id: number;
+  b_id: number;
+  name: string;
   locality_id: number;
-  province_id: number; 
+  province_id: number;
   zip_code: number;
   region_id: number;
-  country_id: number; 
-  created_at: string,
+  country_id: number;
+  created_at: string;
   updated_at: string;
 }

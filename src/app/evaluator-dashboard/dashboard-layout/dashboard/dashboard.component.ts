@@ -1,3 +1,4 @@
+import { AppTitleService } from './../../../core/services/app-title.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core';
 import { Component, OnInit } from '@angular/core';
@@ -9,7 +10,11 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private appTitle: AppTitleService
+  ) {
     this.authService.isAuthenticated
       .pipe(
         switchMap((isAuthenticated) => {
@@ -30,5 +35,7 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.appTitle.setTitle('BuildPASS Evaluator');
+  }
 }

@@ -1,5 +1,5 @@
+import { AuthService } from './../../core/services/auth.service';
 import { Component, OnInit, NgZone } from '@angular/core';
-import { AuthService } from '../../core/services/auth.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
@@ -7,6 +7,7 @@ import {
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 import { RegisterAccountFormService, User, UserService } from '../../core';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sign-in',
@@ -23,18 +24,16 @@ export class SignInComponent implements OnInit {
   public userDetails;
   public isSubmitting: boolean = false;
 
-  
-
   constructor(
     private _authService: AuthService,
     private _router: Router,
-    private _route :ActivatedRoute,
+    private _route: ActivatedRoute,
     private _fb: FormBuilder,
     private _ngZone: NgZone,
     private _afs: AngularFirestore,
     private _registerAccountFormService: RegisterAccountFormService,
     private _userService: UserService,
-    
+    private authService: AuthService
   ) {
     this.createForm();
   }
@@ -61,22 +60,22 @@ export class SignInComponent implements OnInit {
             this._authService.getToken(result.user.uid);
             this.isSubmitting = false;
           } else {
-            this._userService.autoResendVerification(this._signinForm.value.email).subscribe( res =>{
-              if(res.message == 'Email sent'){
-                window.alert('Email not yet verified, kindly check your email to verify');
-                this.isSubmitting = false;
-              }
-              else{
-                window.alert('Something went wrong kindly contact admin');
-
-              }
-            })
-           
+            this._userService
+              .autoResendVerification(this._signinForm.value.email)
+              .subscribe((res) => {
+                if (res.message == 'Email sent') {
+                  window.alert(
+                    'Email not yet verified, kindly check your email to verify'
+                  );
+                  this.isSubmitting = false;
+                } else {
+                  window.alert('Something went wrong kindly contact admin');
+                }
+              });
           }
         })
         .catch((error) => {
           this.isSubmitting = false;
-         
         });
     }
   }
@@ -107,7 +106,6 @@ export class SignInComponent implements OnInit {
       })
       .catch((error) => {
         this.isSubmitting = false;
-        
       });
   }
 
@@ -135,7 +133,7 @@ export class SignInComponent implements OnInit {
       last_name: user.family_name,
       emailVerified: user.verified_email,
       is_evaluator: false,
-      provider:'google'
+      provider: 'google',
     };
     return userRef.set(userData, {
       merge: true,
@@ -166,11 +164,30 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._route.queryParamMap.subscribe(queryParams => {
+    this.authService.isAuthenticated
+      .pipe(
+        switchMap((isAuthenticated) => {
+          if (!isAuthenticated) {
+            this._router.navigateByUrl('user/sign-in');
+          } else {
+            this._router.navigateByUrl('/dashboard/applications');
+          }
+          return this.authService.currentUser;
+        })
+      )
+      .subscribe((currentUser) => {
+        if (currentUser && currentUser.roles && currentUser.roles.length) {
+          this.authService.purgeAuth();
+          this._router.navigateByUrl('user/sign-in');
+        }
+
+        return;
+      });
+    this._route.queryParamMap.subscribe((queryParams) => {
       //var lang = queryParams.get('lang');
-      var mode =   queryParams.get('mode');
+      var mode = queryParams.get('mode');
       var actionCode = queryParams.get('oobCode');
-      
+
       switch (mode) {
         case 'resetPassword':
           this._authService.handleResetPassword(actionCode);
@@ -179,10 +196,7 @@ export class SignInComponent implements OnInit {
           this._authService.handleVerifyEmail(actionCode);
           break;
         default:
-
       }
     });
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('user');
   }
 }

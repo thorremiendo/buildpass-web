@@ -1,3 +1,4 @@
+import { AppTitleService } from './../../../../core/services/app-title.service';
 import { OccupancyService } from './../../../../core/services/occupancy.service';
 import { MapService } from './../../../../core/services/mapbox.service';
 import { Component, OnInit } from '@angular/core';
@@ -66,7 +67,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     private barangayService: BarangayService,
     private mapService: MapService,
     private snackBar: MatSnackBar,
-    private occupancyService: OccupancyService
+    private occupancyService: OccupancyService,
+    private appTitle: AppTitleService
   ) {
     this.barangayService.getBarangayInfo().subscribe((data) => {
       this.barangay = data;
@@ -82,6 +84,7 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.appTitle.setTitle('BuildPASS');
     this.createForm();
     // this.initializeMap();
     this.user = JSON.parse(localStorage.getItem('user'));
@@ -91,6 +94,15 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
     this.permitTypeId = this.applicationDetails.permit_type_id;
     this.mapService.buildMap();
     this.isLoading = false;
+    if (
+      window.localStorage.getItem('lng') &&
+      window.localStorage.getItem('lat')
+    ) {
+      this.mapService.flyTo(
+        parseFloat(window.localStorage.getItem('lng')),
+        parseFloat(window.localStorage.getItem('lat'))
+      );
+    }
   }
 
   private _filter(value: string): Barangay[] {
@@ -217,6 +229,9 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
         .then((result) => {
           localStorage.removeItem('newApplicationInfo');
           localStorage.removeItem('commonFieldsInfo');
+          localStorage.removeItem('lng');
+          localStorage.removeItem('lat');
+
           this.isLoading = false;
           switch (this.permitTypeId) {
             case '1':

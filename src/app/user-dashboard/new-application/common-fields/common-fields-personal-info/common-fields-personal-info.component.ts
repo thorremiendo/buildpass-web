@@ -1,3 +1,5 @@
+import { AppTitleService } from './../../../../core/services/app-title.service';
+import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
@@ -49,14 +51,22 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     return this._personalInfoFormCommonFields.controls;
   }
   _filteredBarangayOptions: Observable<Barangay[]>;
+  public regions = [];
+  public cities = [];
+  public provinces = [];
+  public selectedRegion;
+  public selectedProvince;
+  public selectedCity;
 
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
     private _registerAccountFormService: RegisterAccountFormService,
     private newApplicationFormService: NewApplicationFormService,
+    private newApplicationService: NewApplicationService,
     private barangayService: BarangayService,
-    private excavationService: ExcavationPermitService
+    private excavationService: ExcavationPermitService,
+    private appTitle: AppTitleService
   ) {
     this.createForm();
     this.barangayService.getBarangayInfo().subscribe((data) => {
@@ -73,6 +83,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.appTitle.setTitle('BuildPASS');
     this.isLoading = true;
     this.createForm();
     this.user = JSON.parse(localStorage.getItem('user'));
@@ -95,10 +106,30 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     if (this.applicationDetails.is_representative == 2) {
       this.patchUserDetails();
     }
-
+    this.newApplicationService.fetchRegions('').subscribe((res) => {
+      this.regions = res.data;
+      console.log(this.regions);
+    });
     this.isLoading = false;
   }
 
+  onRegionSelect(e) {
+    this.newApplicationService
+      .fetchProvince('', parseInt(e.value))
+      .subscribe((res) => {
+        this.provinces = res.data;
+      });
+  }
+  onProvinceSelect(e) {
+    this.newApplicationService
+      .fetchCities(parseInt(e.value))
+      .subscribe((res) => {
+        this.cities = res.data;
+      });
+  }
+  onCitySelect(e) {
+    console.log(this.selectedCity);
+  }
   patchUserDetails() {
     this._personalInfoFormCommonFields.patchValue({
       owner_first_name: this.user.first_name,
@@ -150,7 +181,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
       owner_block_number: [''],
       owner_purok: [''],
       owner_subdivision: [''],
-      owner_barangay: ['', Validators.required],
+      owner_barangay: [''],
       owner_province: [''],
       owner_municipality: [''],
       owner_zip_code: [''],
@@ -192,8 +223,13 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
       owner_floor_number:
         this._personalInfoFormCommonFields.value.owner_floor_number,
       owner_street: this._personalInfoFormCommonFields.value.owner_street,
-      owner_barangay: this._personalInfoFormCommonFields.value.owner_barangay,
+      owner_barangay: this._personalInfoFormCommonFields.value.owner_barangay
+        ? this._personalInfoFormCommonFields.value.owner_barangay
+        : 'n/a',
       owner_province: 'Benguet',
+      owner_province_id: this.selectedProvince,
+      owner_region_id: this.selectedRegion,
+      owner_city_id: this.selectedCity,
       owner_municipality: 'Baguio City',
       owner_zip_code: '2600',
       blank: this._personalInfoFormCommonFields.value.blank,
