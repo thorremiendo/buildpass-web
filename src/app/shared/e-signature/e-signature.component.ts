@@ -8,7 +8,7 @@ import {
   CdkDragMove,
   CdkDragDrop,
 } from '@angular/cdk/drag-drop';
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, degrees } from 'pdf-lib';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -29,8 +29,8 @@ export class ESignatureComponent implements OnInit {
   private originalY = null;
   private originalMouseX = null;
   private originalMouseY = null;
-  private targetPage = null;
   private esigImage = null;
+  private esigRotation = 0;
   public documentId;
   public applicationId;
   public documentPath;
@@ -248,6 +248,34 @@ export class ESignatureComponent implements OnInit {
     }
   }
 
+  rotate() {
+    this.esigRotation = this.getCurrentRotation() + 90;
+    const resizeContainer = document.getElementById('resize-container');
+    resizeContainer.style.transform = `rotate(${this.esigRotation}deg)`;
+  }
+
+  getCurrentRotation() {
+    var st = window.getComputedStyle(
+      document.getElementById('resize-container'),
+      null
+    );
+    var tm =
+      st.getPropertyValue('-webkit-transform') ||
+      st.getPropertyValue('-moz-transform') ||
+      st.getPropertyValue('-ms-transform') ||
+      st.getPropertyValue('-o-transform') ||
+      st.getPropertyValue('transform') ||
+      'none';
+    if (tm != 'none') {
+      var values = tm.split('(')[1].split(')')[0].split(',');
+      var angle = Math.round(
+        Math.atan2(Number(values[1]), Number(values[0])) * (180 / Math.PI)
+      );
+      return angle;
+    }
+    return 0;
+  }
+
   getTargetPage() {
     const esigTop = document
       .getElementById('e-sig-image-container')
@@ -261,6 +289,49 @@ export class ESignatureComponent implements OnInit {
     }
   }
 
+  getCoordinates(pages) {
+    const targetPage = this.getTargetPage();
+    const DOMPages = document.getElementsByClassName('page');
+    const pageOriginX = DOMPages[targetPage].getBoundingClientRect().left;
+    const pageOriginY = DOMPages[targetPage].getBoundingClientRect().top;
+
+    const esigImageContainer = document.getElementById('e-sig-image-container').getBoundingClientRect();
+    const imageHeight = (esigImageContainer.height / DOMPages[targetPage].getBoundingClientRect().height) * pages[targetPage].getSize().height;
+    const imageWidth = (esigImageContainer.width / DOMPages[targetPage].getBoundingClientRect().width) * pages[targetPage].getSize().width;
+    const xPercent = (esigImageContainer.left - pageOriginX) / DOMPages[targetPage].getBoundingClientRect().width;
+    const yPercent = (esigImageContainer.top - pageOriginY) / DOMPages[targetPage].getBoundingClientRect().height;
+    const xCoordinate = xPercent * pages[targetPage].getSize().width;
+    const yCoordinate = yPercent * pages[targetPage].getSize().height;
+
+    let data = {
+      imageHeight: imageHeight,
+      imageWidth: imageWidth,
+      xCoordinate: xCoordinate,
+      yCoordinate: pages[targetPage].getSize().height - yCoordinate - imageHeight,
+      rotation: this.esigRotation,
+      page: targetPage,
+    };
+
+    if (this.esigRotation == 90 || this.esigRotation == 270) {
+      data.imageHeight = imageWidth;
+      data.imageWidth = imageHeight;
+
+      if (this.esigRotation == 90) {
+        data.rotation = 270;
+        data.xCoordinate = xCoordinate;
+        data.yCoordinate = pages[targetPage].getSize().height - yCoordinate;
+      } else if (this.esigRotation == 270) {
+        data.rotation = 90;
+        data.xCoordinate = xCoordinate + imageWidth;
+      }
+    } else if (this.esigRotation == 180) {
+      data.xCoordinate = xCoordinate + imageWidth;
+      data.yCoordinate = pages[targetPage].getSize().height - yCoordinate;
+    }
+
+    return data;
+  }
+
   async insertEsig() {
     const esignatureBuffer = await fetch(this.userSignature).then((res) =>
       res.arrayBuffer()
@@ -271,38 +342,15 @@ export class ESignatureComponent implements OnInit {
     const pdfDocLoad = await PDFDocument.load(existingPdfBytes);
     const eSig = await pdfDocLoad.embedPng(esignatureBuffer);
 
-    const targetPage = this.getTargetPage();
-    const DOMPages = document.getElementsByClassName('page');
     const pages = pdfDocLoad.getPages();
-
-    const esigImageContainer = document
-      .getElementById('e-sig-image-container')
-      .getBoundingClientRect();
-    const pdfImageHeight =
-      (esigImageContainer.height /
-        DOMPages[targetPage].getBoundingClientRect().height) *
-      pages[targetPage].getSize().height;
-    const pdfImageWidth =
-      (esigImageContainer.width /
-        DOMPages[targetPage].getBoundingClientRect().width) *
-      pages[targetPage].getSize().width;
-
-    const xPercent =
-      (esigImageContainer.left -
-        DOMPages[targetPage].getBoundingClientRect().left) /
-      DOMPages[targetPage].getBoundingClientRect().width;
-    const yPercent =
-      (esigImageContainer.top -
-        DOMPages[targetPage].getBoundingClientRect().top) /
-      DOMPages[targetPage].getBoundingClientRect().height;
-    const pdfXCoordinate = xPercent * pages[targetPage].getSize().width;
-    const pdfYCoordinate = yPercent * pages[targetPage].getSize().height;
-
-    pages[targetPage].drawImage(eSig, {
-      x: pdfXCoordinate,
-      y: pages[targetPage].getSize().height - pdfYCoordinate - pdfImageHeight,
-      height: pdfImageHeight,
-      width: pdfImageWidth,
+    const data = this.getCoordinates(pages);
+    
+    pages[data.page].drawImage(eSig, {
+      x: data.xCoordinate,
+      y: data.yCoordinate,
+      height: data.imageHeight,
+      width: data.imageWidth,
+      rotate: degrees(Number(data.rotation)),
     });
 
     const pdfBytes = await pdfDocLoad.save();
@@ -324,6 +372,7 @@ export class ESignatureComponent implements OnInit {
         }, 1000);
       });
   }
+
   openSnackBar(message: string) {
     this.snackBar.open(message, 'Close', {
       duration: 2000,
