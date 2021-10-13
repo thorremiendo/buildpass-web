@@ -143,7 +143,6 @@ export class CommonFieldsRepresentativeComponent implements OnInit {
   }
 
   patchDetails() {
-    console.log(this.user);
     this.representativeDetailsForm.patchValue({
       representative_first_name: this.user.first_name,
       representative_middle_name: this.user.middle_name,

@@ -111,7 +111,7 @@ export class OccupancyUploadFileComponent implements OnInit {
       document_status: '0',
       is_uploaded_by_non_applicant: 1,
     };
-    console.log(uploadDocumentData);
+
     this.applicationService
       .submitDocument(uploadDocumentData)
       .subscribe((res) => {

@@ -108,7 +108,6 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     }
     this.newApplicationService.fetchRegions('').subscribe((res) => {
       this.regions = res.data;
-      console.log(this.regions);
     });
     this.isLoading = false;
   }

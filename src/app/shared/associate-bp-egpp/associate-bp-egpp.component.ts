@@ -48,7 +48,7 @@ export class AssociateBpEgppComponent implements OnInit {
                 e.main_permit_id == this.data.applicationDetails.id)
           );
         }
-        console.log(this.userOngoingApplications);
+
       });
   }
 
@@ -60,7 +60,7 @@ export class AssociateBpEgppComponent implements OnInit {
     this.applicationInfoService
       .fetchApplicationInfo(e.value)
       .subscribe((res) => {
-        console.log(res);
+
         this.buildingPermitDetails = res.data;
       });
   }
@@ -88,14 +88,14 @@ export class AssociateBpEgppComponent implements OnInit {
       };
     }
 
-    console.log(body);
+
     this.applicationInfoService
       .updateApplicationInfo(body, this.data.applicationDetails.id)
       .subscribe((res) => {
         this.isLoading = false;
         this.popout.openSnackBar('Success!');
         window.location.reload();
-        console.log(res.data);
+
       });
   }
 }

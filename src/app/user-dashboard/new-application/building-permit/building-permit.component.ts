@@ -124,7 +124,6 @@ export class BuildingPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
-        console.log(this.applicationDetails);
         this.saveRoute();
         this.zoningFormData = this.dataBindingService.getFormData(
           this.applicationDetails
@@ -267,7 +266,6 @@ export class BuildingPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
-        console.log(this.applicationDetails);
         this.formData = this.dataBindingService.getFormData(
           this.applicationDetails
         );

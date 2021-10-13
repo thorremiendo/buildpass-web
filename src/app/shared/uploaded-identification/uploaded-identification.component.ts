@@ -19,6 +19,6 @@ export class UploadedIdentificationComponent implements OnInit {
 
   ngOnInit(): void {
     this.images.push(this.data.image);
-    console.log(this.images);
+
   }
 }
