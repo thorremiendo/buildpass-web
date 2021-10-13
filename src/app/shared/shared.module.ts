@@ -45,6 +45,7 @@ import { AssociateOldBpComponent } from './associate-old-bp/associate-old-bp.com
 import { PdfFormSaveComponent } from './pdf-form-save/pdf-form-save.component';
 import { EsigPromptComponent } from './esig-prompt/esig-prompt.component';
 import { PreviewDialogComponent } from './preview-dialog/preview-dialog.component';
+import { AssociateBpEgppComponent } from './associate-bp-egpp/associate-bp-egpp.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { PreviewDialogComponent } from './preview-dialog/preview-dialog.componen
     PdfFormSaveComponent,
     EsigPromptComponent,
     PreviewDialogComponent,
+    AssociateBpEgppComponent,
   ],
   imports: [
     CommonModule,

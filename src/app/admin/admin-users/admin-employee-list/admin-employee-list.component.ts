@@ -7,6 +7,12 @@ import { AdminEmployeeCreateComponent } from '../admin-employee-create/admin-emp
 import { AdminEmployeeViewComponent } from '../admin-employee-view/admin-employee-view.component';
 import { EmployeeResetPasswordComponent } from '../../employee-reset-password/employee-reset-password.component'
 
+import { 
+  MatSnackBar, 
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition, 
+} from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-admin-employee-list',
   templateUrl: './admin-employee-list.component.html',
@@ -24,6 +30,10 @@ export class AdminEmployeeListComponent implements OnInit {
     'is_admin',
     'action',
   ];
+
+  private horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  private verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator = Object.create(null);
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(
@@ -32,16 +42,25 @@ export class AdminEmployeeListComponent implements OnInit {
 
   constructor(
     private _adminUserservice: AdminUserService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
-    this._adminUserservice.fetchEmployees().subscribe((data) => {      
+    this.fetchEmployees();
+  
+  }
+
+  fetchEmployees(){
+    this._adminUserservice.fetchEmployees().subscribe((data) => { 
+      console.log(data);     
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.paginator;
       this.isFetching = false;
     });
   }
+
+
 
   applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -85,11 +104,27 @@ export class AdminEmployeeListComponent implements OnInit {
     });
   }
 
-  evaluatorChangeStatus(id, status){
-    this._adminUserservice.evaluatorStatus(id, status).subscribe( res =>{
-      console.log(res);
-    })
-    
+  changeEvalautorStatus(id, currentStatus){
+    if(currentStatus == 1){
+      this._adminUserservice.deactivateEvaluator(id).subscribe((res) =>{
+        this.fetchEmployees();
+        this.snackBar.open(res.message, 'Close', {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+          duration: 5 * 1000,
+        });
+      });
+    }
+    else{
+      this._adminUserservice.activateEvaluator(id).subscribe((res) =>{
+        this.fetchEmployees();
+        this.snackBar.open(res.message, 'Close', {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+          duration: 5 * 1000,
+        });
+      })
+    }
   }
 
   approveFillingFee(value) {

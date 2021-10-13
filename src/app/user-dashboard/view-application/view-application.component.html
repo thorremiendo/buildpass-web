@@ -104,6 +104,34 @@
       <div class="mt-5">
         <ng-container
           *ngIf="
+            applicationDetails.permit_type_id == 3 &&
+            !applicationDetails.main_permit_id
+          "
+        >
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="openAssociateBpEgpp(1)"
+          >
+            Associate a Building Permit
+          </button>
+        </ng-container>
+        <ng-container
+          *ngIf="
+            applicationDetails.permit_type_id == 1 &&
+            !applicationDetails.sub_permit_type_id
+          "
+        >
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="openAssociateBpEgpp(2)"
+          >
+            Associate an Excavation Permit
+          </button>
+        </ng-container>
+        <ng-container
+          *ngIf="
             applicationDetails.permit_type_id !== 1 &&
             applicationDetails.main_permit_id
           "

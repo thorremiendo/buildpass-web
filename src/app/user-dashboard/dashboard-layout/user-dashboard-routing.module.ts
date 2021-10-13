@@ -161,6 +161,9 @@ const routes: Routes = [
       {
         path: 'applications',
         component: ExistingApplicationsComponent,
+        data: {
+          title: 'BuildPASS',
+        },
         children: [
           {
             path: '',
@@ -176,6 +179,9 @@ const routes: Routes = [
       {
         path: 'edit-profile',
         component: UserEditProfileComponent,
+        data: {
+          title: 'BuildPASS',
+        },
       },
       {
         path: 'feedback',
@@ -185,6 +191,9 @@ const routes: Routes = [
       {
         path: 'checklists',
         component: DownloadableFormsComponent,
+        data: {
+          title: 'BuildPASS',
+        },
       },
     ],
   },

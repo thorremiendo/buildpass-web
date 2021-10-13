@@ -16,6 +16,7 @@ export class EvaluatorSignInComponent implements OnInit {
   _submitted: boolean = false;
   _evaluatorSignInForm: FormGroup;
   public error;
+
   constructor(
     private _router: Router,
     private _fb: FormBuilder,
@@ -47,6 +48,13 @@ export class EvaluatorSignInComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.user = JSON.parse(localStorage.getItem('user'));
+    if (this.user) {
+      if (this.user.employee_detail) {
+        this.router.navigateByUrl('/evaluator/home/table');
+      }
+    }
+
     this.createForm();
     this.authService.isAuthenticated
       .pipe(

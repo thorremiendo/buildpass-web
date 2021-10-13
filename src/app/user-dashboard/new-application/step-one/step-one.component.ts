@@ -107,6 +107,8 @@ export class StepOneComponent implements OnInit {
     this.isLoading = false;
     localStorage.removeItem('newApplicationInfo');
     localStorage.removeItem('commonFieldsInfo');
+    localStorage.removeItem('lng');
+    localStorage.removeItem('lat');
   }
   getApplicationDescription(id): string {
     return applicationDescriptions[id];

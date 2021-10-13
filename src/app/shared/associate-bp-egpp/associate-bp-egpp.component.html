@@ -1,0 +1,55 @@
+<div class="container">
+  <h4 *ngIf="data.id == 1">Select Building Permit Application:</h4>
+  <h4 *ngIf="data.id == 2">Select Excavation Permit Application:</h4>
+  <mat-form-field appearance="outline">
+    <mat-label>Choose</mat-label>
+    <mat-select
+      [(value)]="selectedOngoingApplication"
+      (selectionChange)="excavationBpSelect($event)"
+    >
+      <mat-option
+        *ngFor="let item of userOngoingApplications"
+        value="{{ item.id }}"
+        >{{ item.ocpas_code }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+  <div class="container__details" *ngIf="buildingPermitDetails">
+    <p class="container__details__title">Permit Type:</p>
+    <p class="container__details__caption">
+      {{ getPermitType(buildingPermitDetails.permit_type_id) }}
+    </p>
+    <p class="container__details__title">Application Number:</p>
+    <p class="container__details__caption">
+      {{ buildingPermitDetails.ocpas_code }}
+    </p>
+    <p class="container__details__title">Applicant:</p>
+    <p class="container__details__caption">
+      {{ buildingPermitDetails.applicant_detail.first_name }}
+      {{ buildingPermitDetails.applicant_detail.last_name }}
+    </p>
+    <p class="container__details__title">Application Status:</p>
+    <p class="container__details__caption">
+      {{ getApplicationStatus(buildingPermitDetails.application_status_id) }}
+    </p>
+    <ng-container *ngIf="data.id == 1">
+      <p class="container__details__title">Building Permit Classification:</p>
+      <p class="container__details__caption">
+        {{
+          getClassification(buildingPermitDetails.occupancy_classification_id)
+        }}
+      </p>
+    </ng-container>
+  </div>
+
+  <div class="container__action">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="handleConfirm()"
+      *ngIf="selectedOngoingApplication"
+    >
+      Confirm
+    </button>
+  </div>
+</div>

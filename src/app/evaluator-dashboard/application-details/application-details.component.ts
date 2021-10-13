@@ -1,3 +1,4 @@
+import { AppTitleService } from './../../core/services/app-title.service';
 import { AssociateOldBpComponent } from './../../shared/associate-old-bp/associate-old-bp.component';
 import { OccupancyService } from './../../core/services/occupancy.service';
 import { OldBpDetailsComponent } from './../../shared/old-bp-details/old-bp-details.component';
@@ -43,7 +44,8 @@ export class ApplicationDetailsComponent implements OnInit {
     public dialog: MatDialog,
     public route: ActivatedRoute,
     public router: Router,
-    private occupancyService: OccupancyService
+    private occupancyService: OccupancyService,
+    private appTitle: AppTitleService
   ) {}
   openProjectDialog(): void {
     const dialogRef = this.dialog.open(ProjectDetailsComponent, {
@@ -69,6 +71,7 @@ export class ApplicationDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.appTitle.setTitle('BuildPASS');
     this.isLoading = true;
     this.applicationId = this.route.snapshot.params.id;
     this.applicationService

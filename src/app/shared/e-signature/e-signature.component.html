@@ -1,58 +1,75 @@
-<ng-container *ngIf="!isLoading">
-  <div id="e-signature">
-    <div id="e-sig-container" cdkDrag (cdkDragEnded)="dragEnd($event)">
-      <div class="resize-container">
-        <div
-          cdkDragHandle
-          id="e-sig-image-container"
-        >
-          <img [src]="userSignature" />
-        </div>
-        <div
-          class="resize top-left-resize"
-          draggable="true"
-          (dragstart)="dragStart($event)"
-          (dragover)="dragOver($event)"
-          (drag)="resize($event)"
-        ></div>
-        <div
-          class="resize top-right-resize"
-          draggable="true"
-          (dragstart)="dragStart($event)"
-          (dragover)="dragOver($event)"
-          (drag)="resize($event)"
-        ></div>
-        <div
-          class="resize bottom-left-resize"
-          draggable="true"
-          (dragstart)="dragStart($event)"
-          (dragover)="dragOver($event)"
-          (drag)="resize($event)"
-        ></div>
-        <div
-          class="resize bottom-right-resize"
-          draggable="true"
-          (dragstart)="dragStart($event)"
-          (dragover)="dragOver($event)"
-          (drag)="resize($event)"
-        ></div>
+<div id="e-signature">
+  <div id="e-sig-container" cdkDrag (cdkDragEnded)="dragEnd($event)">
+    <div id="resize-container">
+      <div cdkDragHandle id="e-sig-image-container">
+        <img [src]="esigSource" />
       </div>
+      <div
+        class="resize top-left-resize"
+        draggable="true"
+        (dragstart)="dragStart($event)"
+        (dragover)="dragOver($event)"
+        (drag)="resize($event)"
+      ></div>
+      <div
+        class="resize top-right-resize"
+        draggable="true"
+        (dragstart)="dragStart($event)"
+        (dragover)="dragOver($event)"
+        (drag)="resize($event)"
+      ></div>
+      <div
+        class="resize bottom-left-resize"
+        draggable="true"
+        (dragstart)="dragStart($event)"
+        (dragover)="dragOver($event)"
+        (drag)="resize($event)"
+      ></div>
+      <div
+        class="resize bottom-right-resize"
+        draggable="true"
+        (dragstart)="dragStart($event)"
+        (dragover)="dragOver($event)"
+        (drag)="resize($event)"
+      ></div>
     </div>
-    <pdf-viewer
-      [show-all]="true"
-      [render-text]="true"
-      [original-size]="true"
-      [fit-to-page]="false"
-      [src]="src"
-      [show-borders]="true"
-    ></pdf-viewer>
-    <button mat-button class="save-button" (click)="insertEsig()">
+  </div>
+
+  <pdf-viewer
+    [show-all]="false"
+    [(page)]="targetPage"
+    [render-text]="true"
+    [original-size]="true"
+    [fit-to-page]="false"
+    [src]="pdfSource"
+    [show-borders]="true"
+  ></pdf-viewer>
+
+  <div class="pdf-actions">
+    <div class="pdf-paginator">
+      <button mat-button (click)="previousPage()">
+        <mat-icon [inline]="true">arrow_back</mat-icon>
+      </button>
+      <div class="current-page">
+        {{ targetPage }}
+      </div>
+      <button mat-button (click)="nextPage()">
+        <mat-icon [inline]="true">arrow_forward</mat-icon>
+      </button>
+    </div>
+
+    <button
+      mat-button
+      class="submit"
+      (click)="insertEsig()"
+      [disabled]="isLoading"
+    >
       Insert Signature
     </button>
   </div>
-</ng-container>
-<ng-container *ngIf="isLoading">
-  <div class="spinner">
-    <mat-spinner></mat-spinner>
-  </div>
-</ng-container>
+  <ng-container *ngIf="isLoading">
+    <div>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </ng-container>
+</div>

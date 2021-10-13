@@ -1,3 +1,4 @@
+import { AppTitleService } from './../../core/services/app-title.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FeedService } from '../../core';
@@ -27,11 +28,13 @@ export class UserHomeComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private _router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private appTitle: AppTitleService
   ) {}
 
   ngOnInit(): void {
     this.userInfo = JSON.parse(localStorage.getItem('user'));
+    this.appTitle.setTitle('BuildPASS');
 
     if (this.userInfo) {
       this.userService

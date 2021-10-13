@@ -261,6 +261,47 @@
     <div class="row w-100">
       <div class="col-md-6">
         <mat-form-field appearance="outline">
+          <mat-label>Region</mat-label>
+          <mat-select
+            [(value)]="selectedRegion"
+            (selectionChange)="onRegionSelect($event)"
+          >
+            <mat-option *ngFor="let item of regions" value="{{ item.id }}">{{
+              item.name
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Province</mat-label>
+          <mat-select
+            [(value)]="selectedProvince"
+            (selectionChange)="onProvinceSelect($event)"
+          >
+            <mat-option *ngFor="let item of provinces" value="{{ item.id }}">{{
+              item.name
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row w-100">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>City/Municipality</mat-label>
+          <mat-select
+            [(value)]="selectedCity"
+            (selectionChange)="onCitySelect($event)"
+          >
+            <mat-option *ngFor="let item of cities" value="{{ item.id }}">{{
+              item.name
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6" *ngIf="selectedCity == 1591">
+        <mat-form-field appearance="outline">
           <mat-label>Barangay</mat-label>
           <input
             type="text"
@@ -338,7 +379,14 @@
   </div>
   <div class="row flex-row-reverse">
     <div class="m-4">
-      <button mat-raised-button color="primary" type="submit">Proceed</button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!selectedCity"
+      >
+        Proceed
+      </button>
     </div>
   </div>
 </form>
