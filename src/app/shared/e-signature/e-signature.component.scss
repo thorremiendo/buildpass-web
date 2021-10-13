@@ -54,26 +54,6 @@
         }
       }
     }
-
-    #actions-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      z-index: -100;
-
-      .rotate {
-        position: absolute;
-        right: -35px;
-        bottom: 0;
-        font-size: 20px;
-        margin: 0;
-        padding: 5px;
-        min-width: 0;
-        line-height: 1;
-      }
-    }
   }
 
   ::ng-deep pdf-viewer {
@@ -91,10 +71,36 @@
     }
   }
 
-  button {
-    display: block;
-    margin: 0 auto 50px;
-    background-color: maroon;
-    color: #fff;
+  .pdf-actions {
+    width: 150px;
+
+    .pdf-paginator {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin: 30px 0;
+
+      div {
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      button {
+        display: flex;
+        justify-content: center;
+        font-size: 18px;
+        background-color: maroon;
+        color: #fff;
+        width: 40px;
+        min-width: 0;
+      }
+    }
+  
+    .submit {
+      background-color: maroon;
+      color: #fff;
+      width: 100%;
+    }
   }
 }

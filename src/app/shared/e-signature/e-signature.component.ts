@@ -8,7 +8,7 @@ import {
   CdkDragMove,
   CdkDragDrop,
 } from '@angular/cdk/drag-drop';
-import { PDFDocument, degrees } from 'pdf-lib';
+import { PDFDocument, degrees, breakTextIntoLines } from 'pdf-lib';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -17,8 +17,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./e-signature.component.scss'],
 })
 export class ESignatureComponent implements OnInit {
-  @Input() props: [{ [key: string]: object | any }];
-  public src;
   private minimumHeight = 80;
   private minimumWidth = null;
   private maximumHeight = 180;
@@ -30,13 +28,12 @@ export class ESignatureComponent implements OnInit {
   private originalMouseX = null;
   private originalMouseY = null;
   private esigImage = null;
-  private esigRotation = 0;
   public documentId;
   public applicationId;
-  public documentPath;
-  public isLoading: boolean;
-  public userDetails;
-  public userSignature;
+  public pdfSource;
+  public esigSource;
+  public targetPage = 1;
+
   constructor(
     private route: ActivatedRoute,
     private applicationService: ApplicationInfoService,
@@ -46,30 +43,64 @@ export class ESignatureComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.openDialog();
-    this.isLoading = true;
-    this.userDetails = JSON.parse(localStorage.getItem('user'));
     this.applicationId = this.route.snapshot.params.id;
     this.documentId = this.route.snapshot.params.docId;
-    this.userSignature = this.esignatureService.userSignature;
-    this.esigImage = new Image();
-    this.esigImage.src = this.userSignature;
-    if (Math.abs(this.esigImage.width) > Math.abs(this.esigImage.height)) {
-      this.minimumWidth = this.minimumHeight / (this.esigImage.height / this.esigImage.width);
-      this.maximumWidth = this.maximumHeight / (this.esigImage.height / this.esigImage.width);
-    } else {
-      this.minimumWidth = this.minimumHeight * (this.esigImage.width / this.esigImage.height);
-      this.maximumWidth = this.maximumHeight * (this.esigImage.width / this.esigImage.height);
-    }
+    this.esigSource = this.esignatureService.userSignature;
+    this.getImageDimensions(this.esigSource);
+    
     this.applicationService
       .fetchSpecificDocInfo(this.documentId)
       .subscribe((res) => {
-        this.src =
+        this.pdfSource =
           res.data[0].document_history[
             res.data[0].document_history.length - 1
           ].document_path;
-        this.isLoading = false;
       });
+  }
+
+  getImageDimensions(data) {
+    const photoBlock = data.split(';');
+    const photoContentType = photoBlock[0].split(':')[1];
+    const photoRealData = photoBlock[1].split(',')[1];
+    const photoBlob = this.b64toBlob(photoRealData, photoContentType);
+
+    let reader = new FileReader();
+    reader.onload = (res) => {
+      this.esigImage = new Image();
+      this.esigImage.src = reader.result;
+      if (Math.abs(this.esigImage.width) > Math.abs(this.esigImage.height)) {
+        this.minimumWidth = this.minimumHeight / (this.esigImage.height / this.esigImage.width);
+        this.maximumWidth = this.maximumHeight / (this.esigImage.height / this.esigImage.width);
+      } else {
+        this.minimumWidth = this.minimumHeight * (this.esigImage.width / this.esigImage.height);
+        this.maximumWidth = this.maximumHeight * (this.esigImage.width / this.esigImage.height);
+      }
+    };
+    reader.readAsDataURL(photoBlob);
+  }
+
+  b64toBlob(b64Data, contentType) {
+    contentType = contentType || '';
+    const sliceSize = 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      var byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, { type: contentType });
+    return blob;
   }
 
   dragStart($event) {
@@ -276,71 +307,96 @@ export class ESignatureComponent implements OnInit {
     return 0;
   }
 
-  getTargetPage() {
-    const esigTop = document
-      .getElementById('e-sig-image-container')
-      .getBoundingClientRect().top;
-    const pages = document.getElementsByClassName('page');
-    for (let i = 0; i < pages.length; i++) {
-      const pageBottom = pages[i].getBoundingClientRect().bottom;
-      if (Number(esigTop) < Number(pageBottom)) {
-        return i;
+  getCoordinates(pages) {
+    const DOMPage = document.getElementsByClassName('page')[0];
+    const pageOriginX = DOMPage.getBoundingClientRect().left;
+    const pageOriginY = DOMPage.getBoundingClientRect().top;
+    const pageRotation = pages[this.targetPage - 1].getRotation().angle;
+    const esigImageContainer = document.getElementById('e-sig-image-container').getBoundingClientRect();
+
+    let imageHeight = null;
+    let imageWidth = null;
+    let xPercent = null;
+    let yPercent = null;
+    let xCoordinate = null;
+    let yCoordinate = null;
+    
+    if (pageRotation == 0 || pageRotation == 180) {
+      imageHeight = (esigImageContainer.height / DOMPage.getBoundingClientRect().height) * pages[this.targetPage - 1].getSize().height;
+      imageWidth = (esigImageContainer.width / DOMPage.getBoundingClientRect().width) * pages[this.targetPage - 1].getSize().width;
+      xPercent = (esigImageContainer.left - pageOriginX) / DOMPage.getBoundingClientRect().width;
+      yPercent = (esigImageContainer.top - pageOriginY) / DOMPage.getBoundingClientRect().height;
+      xCoordinate = xPercent * pages[this.targetPage - 1].getSize().width;
+      yCoordinate = yPercent * pages[this.targetPage - 1].getSize().height;
+    } else if (pageRotation == 90 || pageRotation == 270) {
+      imageHeight = (esigImageContainer.height / DOMPage.getBoundingClientRect().width) * pages[this.targetPage - 1].getSize().height;
+      imageWidth = (esigImageContainer.width / DOMPage.getBoundingClientRect().height) * pages[this.targetPage - 1].getSize().width;
+      xPercent = (esigImageContainer.left - pageOriginX) / DOMPage.getBoundingClientRect().width;
+      yPercent = (esigImageContainer.top - pageOriginY) / DOMPage.getBoundingClientRect().height;
+      xCoordinate = xPercent * pages[this.targetPage - 1].getSize().height;
+      yCoordinate = yPercent * pages[this.targetPage - 1].getSize().width;
+    }
+
+    switch (pageRotation) {
+      case 0:
+        return {
+          imageHeight: imageHeight,
+          imageWidth: imageWidth,
+          xCoordinate: xCoordinate,
+          yCoordinate: pages[this.targetPage - 1].getSize().height - yCoordinate - imageHeight,
+          rotation: pageRotation,
+          page: this.targetPage - 1,
+        };
+      case 90: {
+        return {
+          imageHeight: imageHeight,
+          imageWidth: imageWidth,
+          xCoordinate: yCoordinate + imageHeight,
+          yCoordinate: xCoordinate,
+          rotation: pageRotation,
+          page: this.targetPage - 1,
+        };
       }
+      case 180:
+        return {
+          imageHeight: imageHeight,
+          imageWidth: imageWidth,
+          xCoordinate: pages[this.targetPage - 1].getSize().width - xCoordinate,
+          yCoordinate: yCoordinate + imageHeight,
+          rotation: pageRotation,
+          page: this.targetPage - 1,
+        };
+      case 270:
+        return {
+          imageHeight: imageHeight,
+          imageWidth: imageWidth,
+          xCoordinate: pages[this.targetPage - 1].getSize().width - yCoordinate - imageHeight,
+          yCoordinate: pages[this.targetPage - 1].getSize().height - xCoordinate,
+          rotation: pageRotation,
+          page: this.targetPage - 1,
+        };
     }
   }
 
-  getCoordinates(pages) {
-    const targetPage = this.getTargetPage();
-    const DOMPages = document.getElementsByClassName('page');
-    const pageOriginX = DOMPages[targetPage].getBoundingClientRect().left;
-    const pageOriginY = DOMPages[targetPage].getBoundingClientRect().top;
-
-    const esigImageContainer = document.getElementById('e-sig-image-container').getBoundingClientRect();
-    const imageHeight = (esigImageContainer.height / DOMPages[targetPage].getBoundingClientRect().height) * pages[targetPage].getSize().height;
-    const imageWidth = (esigImageContainer.width / DOMPages[targetPage].getBoundingClientRect().width) * pages[targetPage].getSize().width;
-    const xPercent = (esigImageContainer.left - pageOriginX) / DOMPages[targetPage].getBoundingClientRect().width;
-    const yPercent = (esigImageContainer.top - pageOriginY) / DOMPages[targetPage].getBoundingClientRect().height;
-    const xCoordinate = xPercent * pages[targetPage].getSize().width;
-    const yCoordinate = yPercent * pages[targetPage].getSize().height;
-
-    let data = {
-      imageHeight: imageHeight,
-      imageWidth: imageWidth,
-      xCoordinate: xCoordinate,
-      yCoordinate: pages[targetPage].getSize().height - yCoordinate - imageHeight,
-      rotation: this.esigRotation,
-      page: targetPage,
-    };
-
-    if (this.esigRotation == 90 || this.esigRotation == 270) {
-      data.imageHeight = imageWidth;
-      data.imageWidth = imageHeight;
-
-      if (this.esigRotation == 90) {
-        data.rotation = 270;
-        data.xCoordinate = xCoordinate;
-        data.yCoordinate = pages[targetPage].getSize().height - yCoordinate;
-      } else if (this.esigRotation == 270) {
-        data.rotation = 90;
-        data.xCoordinate = xCoordinate + imageWidth;
-      }
-    } else if (this.esigRotation == 180) {
-      data.xCoordinate = xCoordinate + imageWidth;
-      data.yCoordinate = pages[targetPage].getSize().height - yCoordinate;
+  previousPage() {
+    if (this.targetPage - 1 != 0) {
+      this.targetPage = this.targetPage - 1;
     }
+  }
 
-    return data;
+  nextPage() {
+    this.targetPage = this.targetPage + 1;
   }
 
   async insertEsig() {
-    const esignatureBuffer = await fetch(this.userSignature).then((res) =>
+    const esigBuffer = await fetch(this.esigSource).then((res) =>
       res.arrayBuffer()
     );
-    const existingPdfBytes = await fetch(this.src).then((res) =>
+    const pdfBuffer = await fetch(this.pdfSource).then((res) =>
       res.arrayBuffer()
     );
-    const pdfDocLoad = await PDFDocument.load(existingPdfBytes);
-    const eSig = await pdfDocLoad.embedPng(esignatureBuffer);
+    const pdfDocLoad = await PDFDocument.load(pdfBuffer);
+    const eSig = await pdfDocLoad.embedPng(esigBuffer);
 
     const pages = pdfDocLoad.getPages();
     const data = this.getCoordinates(pages);
@@ -355,17 +411,12 @@ export class ESignatureComponent implements OnInit {
 
     const pdfBytes = await pdfDocLoad.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    // const file = window.URL.createObjectURL(blob);
-    // window.open(file);
-    this.isLoading = true;
     const body = {
-      // document_status_id: 1,
       document_path: blob,
     };
     this.applicationService
       .updateDocumentFile(body, this.documentId)
       .subscribe((res) => {
-        this.isLoading = false;
         this.openSnackBar('Success!');
         setTimeout(() => {
           this.router.navigate(['/evaluator/application', this.applicationId]);
@@ -376,8 +427,6 @@ export class ESignatureComponent implements OnInit {
   openSnackBar(message: string) {
     this.snackBar.open(message, 'Close', {
       duration: 2000,
-      // horizontalPosition: 'right',
-      // verticalPosition: 'top',
     });
   }
 }
