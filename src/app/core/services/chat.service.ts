@@ -34,11 +34,13 @@ export class ChatService {
     this.channel = this.pusher.subscribe(channel);
     this.channel.bind(
       `App\\Events\\${pusherBind}`,
-      (data: { type: string; msg: string; currentTime: string }) => {
+      (data: { type: string; msg: string; evaluator_name:string; evaluator_display_role:string, currentTime: string }) => {
         this.subject.next(
           new SelectedMessageModel(
             data.type,
             data.msg,
+            data.evaluator_name,
+            data.evaluator_display_role,
             new Date(data.currentTime)
           )
         );
@@ -69,14 +71,15 @@ export class ChatService {
     return this.api.post(url, body);
   }
 
-  sendConvo(chat_id, current_user_id, message) {
+  sendConvo(body) {
     const url = `/chat/message`;
 
-    var body = {
-      chat_id: chat_id,
-      current_user_id: current_user_id,
-      message: message,
-    };
+    // var body = {
+    //   chat_id: message.chat_id,
+    //   current_user_id: message.current_user_id,
+    //   current_evaluator_id: cur,
+    //   message: message,
+    // };
 
     return this.api.post(url, body).subscribe((result) => {});
   }
@@ -86,11 +89,13 @@ export class ChatService {
     this.channel = this.pusher.subscribe(channel);
     this.channel.bind(
       `App\\Events\\${pusherBind}`,
-      (data: { type: string; msg: string; currentTime: string }) => {
+      (data: { type: string; msg: string; evaluator_name:string; evaluator_display_role:string, currentTime: string }) => {
         this.subject.next(
           new SelectedMessageModel(
             data.type,
             data.msg,
+            data.evaluator_name,
+            data.evaluator_display_role,
             new Date(data.currentTime)
           )
         );

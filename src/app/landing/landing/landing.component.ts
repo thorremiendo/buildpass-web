@@ -19,9 +19,9 @@ export class LandingComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.authService.isLoggedIn){
-      console.log('naka login')
+      console.log('yes')
     } else {
-      console.log('hndi')
+      console.log('not')
     }
       this.meta.addTag({
         property: 'og:title',

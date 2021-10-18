@@ -30,6 +30,7 @@ export class BuildingPermitComponent implements OnInit {
   public electricalFormData;
   public situationalReportFormData;
   public sampleForm;
+  public isOptional: boolean = false;
   public forms: any = [
     {
       id: 1,
@@ -61,6 +62,18 @@ export class BuildingPermitComponent implements OnInit {
       src: '../../../../assets/forms/updated/situational_report.pdf',
       label: 'Step 5',
       sample: '../../../../assets/forms/sample/Situational.png',
+    },
+    {
+      id: 64,
+      src: '../../../../assets/forms/updated/Electronics_Permit_(For_Commercial_Building_only)_0_(1).pdf',
+      label: 'Step 7',
+      sample: '',
+    },
+    {
+      id: 65,
+      src: '../../../../assets/forms/updated/Mechanical_Permit_(1).pdf',
+      label: 'Step 8',
+      sample: '',
     },
   ];
 
@@ -124,7 +137,6 @@ export class BuildingPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
-        console.log(this.applicationDetails);
         this.saveRoute();
         this.zoningFormData = this.dataBindingService.getFormData(
           this.applicationDetails
@@ -211,11 +223,9 @@ export class BuildingPermitComponent implements OnInit {
           ? this.updateForms()
           : this.fieldSets[0].documents.push(...this.isConstructionStatus);
         isOccupancyCommercial ? this.fieldSets[3].documents.push(47) : null;
-        isOccupancyCommercial ? this.addCommercialForms() : null;
-        isOccupancyCommercial ? this.fieldSets[1].documents.push(64) : null;
-        isOccupancyCommercial ? this.fieldSets[1].documents.push(65) : null;
-        isOccupancyCommercial ? this.fieldSets[3].documents.push(196) : null;
-
+        // isOccupancyCommercial ? this.addCommercialForms() : null;
+        // isOccupancyCommercial ? this.fieldSets[1].documents.push(64) : null;
+        // isOccupancyCommercial ? this.fieldSets[1].documents.push(65) : null;
         is3storeysOrMore
           ? this.fieldSets[2].documents.push(...this.is3storeysOrMore)
           : null;
@@ -243,22 +253,22 @@ export class BuildingPermitComponent implements OnInit {
     });
   }
 
-  addCommercialForms() {
-    this.forms.push(
-      {
-        id: 195,
-        src: '../../../../assets/forms/updated/Electronics_Permit_(For_Commercial_Building_only)_0_(1).pdf',
-        label: 'Step 7',
-        sample: '',
-      },
-      {
-        id: 117,
-        src: '../../../../assets/forms/updated/Mechanical_Permit_(1).pdf',
-        label: 'Step 8',
-        sample: '',
-      }
-    );
-  }
+  // addCommercialForms() {
+  //   this.forms.push(
+  //     {
+  //       id: 64,
+  //       src: '../../../../assets/forms/updated/Electronics_Permit_(For_Commercial_Building_only)_0_(1).pdf',
+  //       label: 'Step 7',
+  //       sample: '',
+  //     },
+  //     {
+  //       id: 65,
+  //       src: '../../../../assets/forms/updated/Mechanical_Permit_(1).pdf',
+  //       label: 'Step 8',
+  //       sample: '',
+  //     }
+  //   );
+  // }
 
   // ngAfterViewInit() {
   //   this.saveRoute();
@@ -269,7 +279,6 @@ export class BuildingPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
-        console.log(this.applicationDetails);
         this.formData = this.dataBindingService.getFormData(
           this.applicationDetails
         );
@@ -543,5 +552,25 @@ export class BuildingPermitComponent implements OnInit {
 
   getDocumentInfoPath(id) {
     return documentInfo[id];
+  }
+
+  onToggleChange(e, form) {
+    console.log(form);
+    if (e.checked == true) {
+      this.submitNotApplicable(form);
+    }
+  }
+
+  async submitNotApplicable(form) {
+    let pdf = await fetch(
+      'https://s3-ap-southeast-1.amazonaws.com/baguio-ocpas/MaZXPXPOptMGBcvThBJ2VejNVzCEXVbEcYHZtU8y.pdf'
+    );
+    let data = await pdf.blob();
+    let metadata = {
+      type: 'application/pdf',
+    };
+    let file = new File([data], 'not-applicable.pdf', metadata);
+    this.submitDocument(file, form.id);
+    this.isOptional = false;
   }
 }

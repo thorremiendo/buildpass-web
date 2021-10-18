@@ -62,12 +62,14 @@ export class ChatBodyComponent implements OnInit {
       this.messageSubscription = this.chatService
         .getApplicantChatItems()
         .subscribe((data) => {
+          console.log(data);
           this.selectedMessage.push(data);
         });
 
       this.chatService
         .fetchConvo(this.userInfo.id, 'sender')
         .subscribe((data) => {
+          console.log(data);
           this.messages = data.data;
 
           if (this.messages.length != 0) {
@@ -180,12 +182,19 @@ export class ChatBodyComponent implements OnInit {
     //this.msg = this.myInput.nativeElement.value;
 
     if (this.msg !== '') {
-      this.chatService.sendConvo(this.chatId, this.userInfo.id, this.msg);
+
+      var body = {
+          chat_id: this.chatId,
+          current_user_id: this.userInfo.id,
+          current_evaluator_id: 0,
+          message: this.msg,
+        };
+        
+      }
       this.msg = '';
     }
 
-   
-  }
+  
 
   checkDate() {
     if (this.currentDay == 6 || this.currentDay == 7) {

@@ -71,8 +71,8 @@
               <td mat-cell *matCellDef="let user">
                 {{
                   user.employee_detail.is_enabled == 1
-                    ? "Approved"
-                    : "To Verify"
+                    ? "Active"
+                    : "Inactive"
                 }}
               </td>
             </ng-container>
@@ -103,20 +103,36 @@
                 </button>
                 <mat-menu #actionsMenu>
                   <button
-                    color="primary"
-                    mat-menu-item
-                    (click)="sendEmailResetPassword(user)"
-                  >
-                  <mat-icon>lock</mat-icon>
-                   <span>Reset Password</span> 
-                  </button>
-                  <button
                     mat-menu-item
                     color="primary"
                     (click)="editUser(user)"
                   >
-                  <mat-icon>visibility</mat-icon>
-                  <span>View User</span>
+                    <mat-icon>visibility</mat-icon>
+                    <span>View User</span>
+                  </button>
+                  <button
+                    color="primary"
+                    mat-menu-item
+                    (click)="sendEmailResetPassword(user)"
+                  >
+                    <mat-icon>password</mat-icon>
+                    <span>Reset Password</span>
+                  </button>
+                  <button
+                    color="primary"
+                    mat-menu-item
+                    (click)="changeEvalautorStatus(user.id, user.employee_detail.is_enabled)"
+                  >
+                    <mat-icon> {{
+                      user.employee_detail.is_enabled == 1
+                        ? "lock"
+                        : "lock_open"
+                    }}</mat-icon>
+                    <span>  {{
+                      user.employee_detail.is_enabled == 1
+                        ? "Deactivate"
+                        : "Activate"
+                    }}</span>
                   </button>
                 </mat-menu>
               </td>
