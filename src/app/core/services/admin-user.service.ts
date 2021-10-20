@@ -93,6 +93,20 @@ export class AdminUserService {
 
   }
 
+  activateEvaluator(id){
+    const url = `/user/${id}/employee/active`;
+
+    return this.apiService.post(url, null);
+
+  }
+
+  deactivateEvaluator(id){
+    const url = `/user/${id}/employee/inactive`;
+
+    return this.apiService.post(url, null);
+
+  }
+
 }
 
 

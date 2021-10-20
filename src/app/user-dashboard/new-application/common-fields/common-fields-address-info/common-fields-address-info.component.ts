@@ -72,7 +72,6 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
   ) {
     this.barangayService.getBarangayInfo().subscribe((data) => {
       this.barangay = data;
-      console.log(this.barangay);
       this._filteredBarangayOptions =
         this.projectDetailsFormControl.project_barangay.valueChanges.pipe(
           startWith(''),

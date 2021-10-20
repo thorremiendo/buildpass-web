@@ -1,54 +1,88 @@
-<div fxLayout="row" fxLayoutAlign="center start" >
-    <div fxFlex.gt-md="100" fxFlex.gt-sm="100" fxFlex="100">
-      <div *ngIf="messages?.length == 0">
-        <h2>No Message</h2>
-      </div>
-     
-      <mat-card class="mat-card-top chat-app" *ngIf="messages?.length != 0">
-        <mat-sidenav-container
-          [ngClass]="{ 'side-panel-opened': sidePanelOpened, 'side-panel-closed': !sidePanelOpened }">
-          <mat-sidenav #chatnav [mode]="isOver() ? 'over' : 'side'" [opened]="!isOver()" (open)="sidePanelOpened = true"
-            (close)="sidePanelOpened = false">
-            <mat-toolbar color="primary" class="no-shadow">
-              <div fxLayout="row" fxFlex="100">
-                <span class="m-t-3 font-14">
-                  <img [src]="userInfo.photo_path" class="img-circle vm m-r-10" width="40">{{userInfo.first_name}} {{userInfo.last_name}}</span>
-              </div>
-            </mat-toolbar>
-            <mat-nav-list *ngIf="messages">
-              <mat-list-item (click)="onSelect(message)" [class.active]="message === selectedMessage"
-                *ngFor="let message of messages.slice().reverse();">
-                <img mat-list-avatar src="{{message.sender_detail.photo_path}}" alt="sender profile picture">
-                 <h3 matLine>{{message.sender_detail.first_name}} {{message.sender_detail.last_name}} </h3> 
-                <!-- <h3 matLine>Test User</h3> -->
-                <p matLine class="text-muted"> {{message.subject}} </p>
-              </mat-list-item>
-            </mat-nav-list>
-          </mat-sidenav>
-          <mat-toolbar *ngIf="selectedMessage" class="bg-success no-shadow chat-right-panel" color="warn">
-            <div fxLayout="row" fxFlex="100" fxLayoutAlign="center center">
-              <button (click)="chatnav.toggle()" class="mr-1" mat-icon-button>
-                <mat-icon>short_text</mat-icon>
-              </button>
-              <span class="top-avatar m-r-10">
-                <img src="{{selectedMessage.sender_detail.photo_path}}" class="img-circle">
-              </span>
-              <div fxFlex>
-                <div class="font-14">{{selectedMessage.sender_detail.first_name}} {{selectedMessage.sender_detail.last_name}}</div>
-                <!-- <div class="font-14">Test User</div> -->
-              </div>
-              <button [matMenuTriggerFor]="them" mat-icon-button class="ml-1">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-              <mat-menu #them="matMenu" x-position="before">
-                <!-- <button mat-menu-item>Contact info</button>
-                <button mat-menu-item>Mute</button>
-                <button mat-menu-item>Delete chat</button> -->
-              </mat-menu>
+<div fxLayout="row" fxLayoutAlign="center start">
+  <div fxFlex.gt-md="100" fxFlex.gt-sm="100" fxFlex="100">
+    <div *ngIf="messages?.length == 0">
+      <h2>No Message</h2>
+    </div>
+
+    <mat-card class="mat-card-top chat-app" *ngIf="messages?.length != 0">
+      <mat-sidenav-container
+        [ngClass]="{
+          'side-panel-opened': sidePanelOpened,
+          'side-panel-closed': !sidePanelOpened
+        }"
+      >
+        <mat-sidenav
+          #chatnav
+          [mode]="isOver() ? 'over' : 'side'"
+          [opened]="!isOver()"
+          (open)="sidePanelOpened = true"
+          (close)="sidePanelOpened = false"
+        >
+          <mat-toolbar color="primary" class="no-shadow">
+            <div fxLayout="row" fxFlex="100">
+              <span class="m-t-3 font-14">
+                <img
+                  [src]="userInfo.photo_path"
+                  class="img-circle vm m-r-10"
+                  width="40"
+                />{{ userInfo.first_name }} {{ userInfo.last_name }}</span
+              >
             </div>
           </mat-toolbar>
-          <mat-card-content *ngIf="selectedMessage"class="chat-middle-box">
-            <perfect-scrollbar>
+          <mat-nav-list *ngIf="messages">
+            <mat-list-item
+              (click)="onSelect(message)"
+              [class.active]="message === selectedMessage"
+              *ngFor="let message of messages.slice().reverse()"
+            >
+              <img
+                mat-list-avatar
+                src="{{ message.sender_detail.photo_path }}"
+                alt="sender profile picture"
+              />
+              <h3 matLine>
+                {{ message.sender_detail.first_name }}
+                {{ message.sender_detail.last_name }}
+              </h3>
+              <!-- <h3 matLine>Test User</h3> -->
+              <p matLine class="text-muted">{{ message.subject }}</p>
+            </mat-list-item>
+          </mat-nav-list>
+        </mat-sidenav>
+        <mat-toolbar
+          *ngIf="selectedMessage"
+          class="bg-success no-shadow chat-right-panel"
+          color="warn"
+        >
+          <div fxLayout="row" fxFlex="100" fxLayoutAlign="center center">
+            <button (click)="chatnav.toggle()" class="mr-1" mat-icon-button>
+              <mat-icon>short_text</mat-icon>
+            </button>
+            <span class="top-avatar m-r-10">
+              <img
+                src="{{ selectedMessage.sender_detail.photo_path }}"
+                class="img-circle"
+              />
+            </span>
+            <div fxFlex>
+              <div class="font-14">
+                {{ selectedMessage.sender_detail.first_name }}
+                {{ selectedMessage.sender_detail.last_name }}
+              </div>
+              <!-- <div class="font-14">Test User</div> -->
+            </div>
+            <button [matMenuTriggerFor]="them" mat-icon-button class="ml-1">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #them="matMenu" x-position="before">
+              <!-- <button mat-menu-item>Contact info</button>
+                <button mat-menu-item>Mute</button>
+                <button mat-menu-item>Delete chat</button> -->
+            </mat-menu>
+          </div>
+        </mat-toolbar>
+        <mat-card-content *ngIf="selectedMessage" class="chat-middle-box">
+          <perfect-scrollbar>
             <ng-container *ngFor="let c of selectedMessage.convo">
               <ng-template [ngIf]="c.type == 'outgoing'" [ngIfElse]="evenblock">
                 <div class="chat-list odd">
@@ -57,47 +91,75 @@
                       <!-- <span>
                         <img src="{{selectedMessage.photo}}" class="img-circle" width="40"> 
                       </span> -->
-                      <span [innerHTML]="c.message">{{c.message}}</span>
-                   
+                      <span [innerHTML]="c.message">{{ c.message }}</span>
                     </div>
-                    <span class="chat-date">{{ c.created_at | date:'MMM d, y h:mm a'}}</span>
+                    <span *ngIf="c.created_at" class="chat-date">{{
+                      c.created_at | date: "MMM d, y h:mm a"
+                    }}</span>
+                    <span *ngIf="c.currentime" class="chat-date">{{
+                      c.created_at | date: "MMM d, y h:mm a"
+                    }}</span>
                   </div>
                 </div>
               </ng-template>
               <ng-template #evenblock>
                 <div class="chat-list even">
                   <div class="chat-message">
-                    <div class="chat-block bg-light-info"  [innerHTML]="c.message"></div>
-                    <span class="chat-date">{{ c.created_at |  date:'MMM d, y h:mm a' }}</span>
+                    <span *ngIf="c.evaluator_detail" class="chat-user">{{
+                      c.evaluator_detail.display_role
+                    }}
+                    {{
+                      c.evaluator_detail.first_name
+                    }}
+                    {{
+                      c.evaluator_detail.last_name
+                    }}
+                  </span>
+                  <span *ngIf="c.evaluator_name" class="chat-user">{{
+                    c.evaluator_display_role
+                  }}
+                  {{
+                    c.evaluator_name
+                  }}
+                </span>
+                    <div
+                      class="chat-block bg-light-info"
+                      [innerHTML]="c.message"
+                    ></div>
+                    <span *ngIf="c.created_at" class="chat-date">{{
+                      c.created_at | date: "MMM d, y h:mm a"
+                    }}</span>
+                    <span *ngIf="c.currentime" class="chat-date">{{
+                      c.created_at | date: "MMM d, y h:mm a"
+                    }}</span>
                   </div>
                 </div>
               </ng-template>
             </ng-container>
-
-            
           </perfect-scrollbar>
-  
-          </mat-card-content>
-          <mat-card-actions class="chat-footer">
-            <div fxLayout="row" layout-align="start center">
-              <div fxFlex.gt-md="92">
-                <quill-editor 
+        </mat-card-content>
+        <mat-card-actions class="chat-footer">
+          <div fxLayout="row" layout-align="start center">
+            <div fxFlex.gt-md="92">
+              <quill-editor
                 theme="bubble"
                 [(ngModel)]="msg"
                 placeholder="Send message"
-                ></quill-editor>
-              </div>
-          <div fxFlex.gt-md="8" >
-            <button  mat-fab color="warn" (click)="OnAddMsg()" [disabled]="!msg">
-              <mat-icon>send</mat-icon>
-            </button>
-          </div>
-             
+              ></quill-editor>
             </div>
-          </mat-card-actions>
-        </mat-sidenav-container>
-      </mat-card>
-     
-    </div>
+            <div fxFlex.gt-md="8">
+              <button
+                mat-fab
+                color="warn"
+                (click)="OnAddMsg()"
+                [disabled]="!msg"
+              >
+                <mat-icon>send</mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-card-actions>
+      </mat-sidenav-container>
+    </mat-card>
   </div>
-  
+</div>

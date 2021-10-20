@@ -11,6 +11,7 @@ import { messages } from './chat-data-sample';
 export class ChatBoxComponent implements OnInit {
   public userInfo;
   private officeId: string | number;
+  private evaluatorUserId: string | number;
   private chatId: number;
   private channel;
   private;
@@ -31,10 +32,12 @@ export class ChatBoxComponent implements OnInit {
     if (localStorage.getItem('user') != null) {
       this.userInfo = JSON.parse(localStorage.getItem('user'));
       this.officeId = this.userInfo.employee_detail.office_id;
+      this.evaluatorUserId = this.userInfo.id;
 
       this.messageSubscription = this.chatService
         .getApplicantChatItems()
         .subscribe((data) => {
+          console.log(data);
           this.selectedMessage.convo.push(data);
         });
 
@@ -42,7 +45,7 @@ export class ChatBoxComponent implements OnInit {
         .fetchConvo(this.officeId, 'reciever')
         .subscribe((result) => {
           this.messages = result.data;
-          //console.log(this.messages);
+          console.log(this.messages);
           if (this.messages != null) {
             this.selectedMessage = this.messages[0];
             if(this.selectedMessage){
@@ -69,6 +72,7 @@ export class ChatBoxComponent implements OnInit {
     let newChannel = message.channel;
     this.selectedMessage = message;
     this.chatId = this.selectedMessage.convo[0].chat_id;
+    console.log(this.selectedMessage);
 
     if (this.channel != newChannel) {
       this.channel = newChannel;
@@ -80,8 +84,17 @@ export class ChatBoxComponent implements OnInit {
   OnAddMsg(): void {
    
     if (this.msg !== '') {
-      this.chatService.sendConvo(this.chatId, this.userInfo.id, this.msg);
+
+      var body = {
+          chat_id: this.chatId,
+          current_user_id: this.userInfo.id,
+          current_evaluator_id: this.evaluatorUserId,
+          message: this.msg,
+        };
+        
+      }
+      this.chatService.sendConvo(body);
       this.msg = '';
     }
   }
-}
+

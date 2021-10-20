@@ -54,7 +54,6 @@ export class CfeiPermitComponent implements OnInit {
         .fetchApplicationInfo(this.applicationId)
         .subscribe((res) => {
           this.applicationDetails = res.data;
-          console.log(this.applicationDetails);
           const isFire =
             this.applicationDetails.is_affected_by_fire == 1 ? true : false;
           const isCalamity =
