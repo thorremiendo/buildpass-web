@@ -31,8 +31,8 @@
             After filling out the form, please click the next button to proceed
           </div>
           <mat-slide-toggle
-            [(ngModel)]="isOptional"
-            *ngIf="!form.path"
+            [ngModel]="form.is_applicable == 2 ? true : false"
+            *ngIf="form.id == 117 || form.id == 195"
             (change)="onToggleChange($event, form)"
             ><span style="font-size: 14px; font-weight: bold"
               >Not Applicable</span

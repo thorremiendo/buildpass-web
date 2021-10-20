@@ -64,13 +64,13 @@ export class BuildingPermitComponent implements OnInit {
       sample: '../../../../assets/forms/sample/Situational.png',
     },
     {
-      id: 64,
+      id: 195,
       src: '../../../../assets/forms/updated/Electronics_Permit_(For_Commercial_Building_only)_0_(1).pdf',
       label: 'Step 7',
       sample: '',
     },
     {
-      id: 65,
+      id: 117,
       src: '../../../../assets/forms/updated/Mechanical_Permit_(1).pdf',
       label: 'Step 8',
       sample: '',
@@ -86,7 +86,7 @@ export class BuildingPermitComponent implements OnInit {
     {
       label: `Step ${this.forms.length + 2}`,
       title: 'Plans',
-      documents: [194, 59, 61, 63, 62, 140],
+      documents: [194, 59, 61, 63, 62, 64, 65, 140],
     },
     {
       label: `Step ${this.forms.length + 3}`,
@@ -284,6 +284,7 @@ export class BuildingPermitComponent implements OnInit {
         );
         this.openSnackBar('Saved!');
         this.setFilePaths();
+        this.isLoading = false;
       });
   }
 
@@ -309,6 +310,7 @@ export class BuildingPermitComponent implements OnInit {
         sample: this.forms[i].sample,
         description: this.getDocType(this.forms[i].id),
         path: '',
+        is_applicable: 0,
       };
     }
     for (let i = 0; i < this.fieldSets.length; i++) {
@@ -336,6 +338,7 @@ export class BuildingPermitComponent implements OnInit {
           form.src = doc.document_path;
           form.path = doc.document_path;
           form.doc_id = doc.id;
+          form.is_applicable = doc.is_applicable;
         }
       });
     });
@@ -562,15 +565,42 @@ export class BuildingPermitComponent implements OnInit {
   }
 
   async submitNotApplicable(form) {
-    let pdf = await fetch(
-      'https://s3-ap-southeast-1.amazonaws.com/baguio-ocpas/MaZXPXPOptMGBcvThBJ2VejNVzCEXVbEcYHZtU8y.pdf'
-    );
-    let data = await pdf.blob();
-    let metadata = {
-      type: 'application/pdf',
-    };
-    let file = new File([data], 'not-applicable.pdf', metadata);
-    this.submitDocument(file, form.id);
+    console.log(form);
+    if (!form.path) {
+      const blob =
+        await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+      if (blob) {
+        this.isLoading = true;
+        const uploadDocumentData = {
+          application_id: this.applicationId,
+          user_id: this.user.id,
+          document_id: form.id,
+          document_path: blob,
+          document_status: '0',
+          is_applicable: 2,
+        };
+
+        this.newApplicationService
+          .submitDocument(uploadDocumentData)
+          .subscribe((res) => {
+            this.fetchApplicationInfo();
+          });
+      }
+    } else {
+      if (form.is_applicable == 2) {
+        this.applicationService
+          .updateDocumentFile({ is_applicable: 1 }, form.doc_id)
+          .subscribe((res) => {
+            this.fetchApplicationInfo();
+          });
+      } else if (form.is_applicable == 1 || form.is_applicable == 0) {
+        this.applicationService
+          .updateDocumentFile({ is_applicable: 2 }, form.doc_id)
+          .subscribe((res) => {
+            this.fetchApplicationInfo();
+          });
+      }
+    }
     this.isOptional = false;
   }
 }

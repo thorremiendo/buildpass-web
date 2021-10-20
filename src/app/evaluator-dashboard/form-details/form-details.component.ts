@@ -42,6 +42,7 @@ export class FormDetailsComponent implements OnInit {
   public revisionData;
   displayedColumns: string[] = ['index', 'remark', 'date'];
   public remarksForm: FormGroup;
+  public isFormApplicable;
 
   //adobe sdk
   previewFilePromise: any;
@@ -83,6 +84,7 @@ export class FormDetailsComponent implements OnInit {
     this.remarksForm = this.fb.group({
       remarks: new FormControl(''),
     });
+    this.isFormApplicable = this.data.form.is_applicable;
   }
   //adobe sdk functions
   ngAfterViewInit() {
@@ -761,5 +763,22 @@ export class FormDetailsComponent implements OnInit {
     this.snackBar.open(message, 'Close', {
       duration: 4000,
     });
+  }
+
+  onToggleChange(e, form) {
+    console.log(form);
+    if (this.isFormApplicable == 2) {
+      this.applicationService
+        .updateDocumentFile({ is_applicable: 1 }, form.id)
+        .subscribe((res) => {
+          this.isFormApplicable = res.data.is_applicable;
+        });
+    } else if (this.isFormApplicable == 1 || this.isFormApplicable == 0) {
+      this.applicationService
+        .updateDocumentFile({ is_applicable: 2 }, form.id)
+        .subscribe((res) => {
+          this.isFormApplicable = res.data.is_applicable;
+        });
+    }
   }
 }
