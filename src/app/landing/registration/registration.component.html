@@ -172,7 +172,7 @@
             <mat-form-field appearance="outline" *ngIf="this._barangay">
                 <mat-label>Barangay</mat-label>
                 <input type="text" placeholder="Select Barangay" aria-label="Barangay" matInput formControlName="barangay"
-                [matAutocomplete]="auto_barangay" required>
+                [matAutocomplete]="auto_barangay">
                 <mat-icon matSuffix>arrow_drop_down</mat-icon>
                 <mat-autocomplete #auto_barangay="matAutocomplete" [displayWith]="displayBarangayName.bind(this)" >
                 <mat-option *ngFor="let barangays of _filteredBarangayOptions | async" [value]="barangays.id">
