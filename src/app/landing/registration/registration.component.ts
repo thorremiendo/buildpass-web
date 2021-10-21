@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { BarangayService } from '../../core/services/barangay.service';
-import { RegisterAccountFormService } from '../../core/services/register-account-form.service';
+import { RegisterAccountFormService, NewApplicationService } from '../../core/services';
 import { AuthService } from '../../core/services/auth.service';
 import { DataPrivacyComponent } from '../data-privacy/data-privacy.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -23,6 +23,12 @@ export class RegistrationComponent implements OnInit {
   public maxLength: number = 11;
   public isUpdating: boolean = false;
   private registrationDetails;
+  public regions = [];
+  public cities = [];
+  public provinces = [];
+  public selectedRegion;
+  public selectedProvince;
+  public selectedCity;
 
   _registrationForm: FormGroup;
   _barangay: Barangay[];
@@ -52,6 +58,7 @@ export class RegistrationComponent implements OnInit {
     private _fb: FormBuilder,
     private _barangayService: BarangayService,
     private _registerAccountFormService: RegisterAccountFormService,
+    private _place: NewApplicationService,
     private _authService: AuthService,
     private _dialog: MatDialog,
     private _router: Router,
@@ -71,6 +78,24 @@ export class RegistrationComponent implements OnInit {
       id_number:['', Validators.required],
       id_type:['', Validators.required],
     });
+  }
+
+  onRegionSelect(e) {
+    this._place
+      .fetchProvince('', parseInt(e.value))
+      .subscribe((res) => {
+        this.provinces = res.data;
+      });
+  }
+  onProvinceSelect(e) {
+    this._place
+      .fetchCities(parseInt(e.value))
+      .subscribe((res) => {
+        this.cities = res.data;
+      });
+  }
+  onCitySelect(e) {
+    console.log(this.selectedCity);
   }
 
   openFileChooser() {
@@ -164,6 +189,10 @@ export class RegistrationComponent implements OnInit {
       } else {
         this._router.navigateByUrl('/user/sign-up');
       }
+
+      this._place.fetchRegions('').subscribe((res) => {
+        this.regions = res.data;
+      });
     });
 
     this._barangayService.getBarangayInfo().subscribe(data => {
@@ -196,6 +225,9 @@ export class RegistrationComponent implements OnInit {
               gender: this._registrationForm.value.gender,
               home_address: this._registrationForm.value.home_address,
               barangay: this._registrationForm.value.barangay,
+              city_id: this.selectedCity, 
+              province_id: this.selectedProvince, 
+              region_id:this.selectedRegion,
               contact_number: this._registrationForm.value.contact_number,
               id_number: this._registrationForm.value.id_number,
               id_type: this._registrationForm.value.id_type,
@@ -225,6 +257,9 @@ export class RegistrationComponent implements OnInit {
                 gender: this._registrationForm.value.gender,
                 home_address: this._registrationForm.value.home_address,
                 barangay: this._registrationForm.value.barangay,
+                city_id: this.selectedCity, 
+                province_id: this.selectedProvince, 
+                region_id:this.selectedRegion,
                 contact_number: this._registrationForm.value.contact_number,
                 id_number: this._registrationForm.value.id_number,
                 id_type: this._registrationForm.value.id_type,
