@@ -33,26 +33,26 @@ export class BuildingPermitComponent implements OnInit {
   public forms: any = [
     {
       id: 1,
-      src: '../../../../assets/forms/updated/Application_Form_for_Certificate_of_Zoning_Compliance.pdf',
+      src: '../../../../assets/forms/updated/zoning_application_form_october_21_2021.pdf',
       label: 'Step 1',
       sample:
         '../../../../assets/forms/sample/Zoning_Clearance_Form_4.07.21_PM.png',
     },
     {
       id: 2,
-      src: '../../../../assets/forms/updated/Unified_Application_for_Bldg_Permit.pdf',
+      src: '../../../../assets/forms/updated/unified_application_form_bp_(2)_october_21_2021.pdf',
       label: 'Step 2',
       sample: '../../../../assets/forms/sample/Unified_Building_Front.png',
     },
     {
       id: 3,
-      src: '../../../../assets/forms/updated/Sanitary-Plumbing_Permit_(BUILDING_PERMIT)_(1).pdf',
+      src: '../../../../assets/forms/updated/Sanitary_Permit_v3_october_21_2021.pdf',
       label: 'Step 3',
       sample: '../../../../assets/forms/sample/Sanitary_Permit.png',
     },
     {
       id: 4,
-      src: '../../../../assets/forms/updated/Electrical_Permit_(for_building_permit).pdf',
+      src: '../../../../assets/forms/updated/Electrical_Permit_V3_october_21_2021.pdf',
       label: 'Step 4',
       sample: '../../../../assets/forms/sample/Electrical.png',
     },

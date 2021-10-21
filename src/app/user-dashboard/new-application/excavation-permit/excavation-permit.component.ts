@@ -28,7 +28,7 @@ export class ExcavationPermitComponent implements OnInit {
   public forms: any = [
     {
       id: 5,
-      src: '../../../../assets/forms/updated/Excavation_and_Ground_Preparation_Permit.pdf',
+      src: '../../../../assets/forms/updated/excavation_permit_form_v3_(2)_october_21_2021.pdf',
     },
   ];
 
