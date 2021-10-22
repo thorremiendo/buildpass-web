@@ -46,6 +46,9 @@ import { PdfFormSaveComponent } from './pdf-form-save/pdf-form-save.component';
 import { EsigPromptComponent } from './esig-prompt/esig-prompt.component';
 import { PreviewDialogComponent } from './preview-dialog/preview-dialog.component';
 import { AssociateBpEgppComponent } from './associate-bp-egpp/associate-bp-egpp.component';
+import { EsigPdfPreviewComponent } from './esig-pdf-preview/esig-pdf-preview.component';
+import { InspectionCardComponent } from './inspection-card/inspection-card.component';
+import { InspectionDetailsComponent } from './inspection-details/inspection-details.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +80,9 @@ import { AssociateBpEgppComponent } from './associate-bp-egpp/associate-bp-egpp.
     EsigPromptComponent,
     PreviewDialogComponent,
     AssociateBpEgppComponent,
+    EsigPdfPreviewComponent,
+    InspectionCardComponent,
+    InspectionDetailsComponent,
   ],
   imports: [
     CommonModule,
@@ -110,6 +116,8 @@ import { AssociateBpEgppComponent } from './associate-bp-egpp/associate-bp-egpp.
     UploadedIdentificationComponent,
     PdfFormSaveComponent,
     PreviewDialogComponent,
+    InspectionCardComponent,
+    InspectionDetailsComponent,
   ],
   providers: [
     {

@@ -30,6 +30,7 @@ export class BuildingPermitComponent implements OnInit {
   public electricalFormData;
   public situationalReportFormData;
   public sampleForm;
+  public isOptional: boolean = false;
   public forms: any = [
     {
       id: 1,
@@ -62,6 +63,18 @@ export class BuildingPermitComponent implements OnInit {
       label: 'Step 5',
       sample: '../../../../assets/forms/sample/Situational.png',
     },
+    {
+      id: 195,
+      src: '../../../../assets/forms/updated/Electronics_Permit_(For_Commercial_Building_only)_0_(1).pdf',
+      label: 'Step 7',
+      sample: '',
+    },
+    {
+      id: 117,
+      src: '../../../../assets/forms/updated/Mechanical_Permit_(1).pdf',
+      label: 'Step 8',
+      sample: '',
+    },
   ];
 
   public fieldSets: any = [
@@ -73,7 +86,7 @@ export class BuildingPermitComponent implements OnInit {
     {
       label: `Step ${this.forms.length + 2}`,
       title: 'Plans',
-      documents: [194, 59, 61, 63, 62, 140],
+      documents: [194, 59, 61, 63, 62, 64, 65, 140],
     },
     {
       label: `Step ${this.forms.length + 3}`,
@@ -210,7 +223,7 @@ export class BuildingPermitComponent implements OnInit {
           ? this.updateForms()
           : this.fieldSets[0].documents.push(...this.isConstructionStatus);
         isOccupancyCommercial ? this.fieldSets[3].documents.push(47) : null;
-        isOccupancyCommercial ? this.addCommercialForms() : null;
+        // isOccupancyCommercial ? this.addCommercialForms() : null;
         // isOccupancyCommercial ? this.fieldSets[1].documents.push(64) : null;
         // isOccupancyCommercial ? this.fieldSets[1].documents.push(65) : null;
         is3storeysOrMore
@@ -240,22 +253,22 @@ export class BuildingPermitComponent implements OnInit {
     });
   }
 
-  addCommercialForms() {
-    this.forms.push(
-      {
-        id: 64,
-        src: '../../../../assets/forms/updated/Electronics_Permit_(For_Commercial_Building_only)_0_(1).pdf',
-        label: 'Step 7',
-        sample: '',
-      },
-      {
-        id: 65,
-        src: '../../../../assets/forms/updated/Mechanical_Permit_(1).pdf',
-        label: 'Step 8',
-        sample: '',
-      }
-    );
-  }
+  // addCommercialForms() {
+  //   this.forms.push(
+  //     {
+  //       id: 64,
+  //       src: '../../../../assets/forms/updated/Electronics_Permit_(For_Commercial_Building_only)_0_(1).pdf',
+  //       label: 'Step 7',
+  //       sample: '',
+  //     },
+  //     {
+  //       id: 65,
+  //       src: '../../../../assets/forms/updated/Mechanical_Permit_(1).pdf',
+  //       label: 'Step 8',
+  //       sample: '',
+  //     }
+  //   );
+  // }
 
   // ngAfterViewInit() {
   //   this.saveRoute();
@@ -271,6 +284,7 @@ export class BuildingPermitComponent implements OnInit {
         );
         this.openSnackBar('Saved!');
         this.setFilePaths();
+        this.isLoading = false;
       });
   }
 
@@ -296,6 +310,7 @@ export class BuildingPermitComponent implements OnInit {
         sample: this.forms[i].sample,
         description: this.getDocType(this.forms[i].id),
         path: '',
+        is_applicable: 0,
       };
     }
     for (let i = 0; i < this.fieldSets.length; i++) {
@@ -323,6 +338,7 @@ export class BuildingPermitComponent implements OnInit {
           form.src = doc.document_path;
           form.path = doc.document_path;
           form.doc_id = doc.id;
+          form.is_applicable = doc.is_applicable;
         }
       });
     });
@@ -539,5 +555,52 @@ export class BuildingPermitComponent implements OnInit {
 
   getDocumentInfoPath(id) {
     return documentInfo[id];
+  }
+
+  onToggleChange(e, form) {
+    console.log(form);
+    if (e.checked == true) {
+      this.submitNotApplicable(form);
+    }
+  }
+
+  async submitNotApplicable(form) {
+    console.log(form);
+    if (!form.path) {
+      const blob =
+        await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+      if (blob) {
+        this.isLoading = true;
+        const uploadDocumentData = {
+          application_id: this.applicationId,
+          user_id: this.user.id,
+          document_id: form.id,
+          document_path: blob,
+          document_status: '0',
+          is_applicable: 2,
+        };
+
+        this.newApplicationService
+          .submitDocument(uploadDocumentData)
+          .subscribe((res) => {
+            this.fetchApplicationInfo();
+          });
+      }
+    } else {
+      if (form.is_applicable == 2) {
+        this.applicationService
+          .updateDocumentFile({ is_applicable: 1 }, form.doc_id)
+          .subscribe((res) => {
+            this.fetchApplicationInfo();
+          });
+      } else if (form.is_applicable == 1 || form.is_applicable == 0) {
+        this.applicationService
+          .updateDocumentFile({ is_applicable: 2 }, form.doc_id)
+          .subscribe((res) => {
+            this.fetchApplicationInfo();
+          });
+      }
+    }
+    this.isOptional = false;
   }
 }

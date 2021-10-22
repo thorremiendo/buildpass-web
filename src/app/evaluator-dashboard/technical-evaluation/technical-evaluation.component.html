@@ -110,7 +110,8 @@
         *ngIf="
           (applicationDetails.permit_type_id == 1 ||
             applicationDetails.permit_type_id == 2) &&
-          applicationDetails.occupancy_classification_id !== 1
+          (applicationDetails.occupancy_classification_id !== 1 ||
+            checkMechanicalApplicable())
         "
       >
         Mechanical:

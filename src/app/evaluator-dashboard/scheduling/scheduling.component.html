@@ -1,0 +1,51 @@
+<div class="content">
+  <div class="content__top">
+    <div class="content__top__schedules">
+      <div class="content__top__schedules__header">
+        <mat-icon>checklist</mat-icon>
+        <p>
+          {{ selectedDate ? (selectedDate | date: "MMMM dd, yyyy") : "Today" }}
+        </p>
+      </div>
+      <div class="content__top__schedules__body">
+        <ng-container *ngFor="let item of inspectionsToday; let i = index">
+          <app-inspection-card
+            [details]="inspectionsToday[i]"
+            date="today"
+            [application]="inspectionsToday[i].application_id"
+            (click)="goToApplication(inspectionsToday[i].application_id)"
+          ></app-inspection-card>
+        </ng-container>
+      </div>
+    </div>
+    <div class="content__top__calendar">
+      <div class="content__top__calendar__header">
+        <mat-icon>event</mat-icon>
+        <p>Calendar</p>
+      </div>
+      <div class="content__top__calendar__body">
+        <ng-container *ngIf="!isLoading">
+          <mat-calendar
+            [startAt]="init"
+            [dateClass]="dateClass"
+            (selectedChange)="onSelect($event)"
+          ></mat-calendar>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="content__upcoming">
+    <div class="content__upcoming__header">
+      <h1>Upcoming Inspections</h1>
+    </div>
+    <div class="content__upcoming__body">
+      <ng-container *ngFor="let item of inspectionsUpcoming; let i = index">
+        <app-inspection-card
+          [details]="inspectionsUpcoming[i]"
+          [application]="inspectionsUpcoming[i].application_id"
+          (click)="goToApplication(inspectionsUpcoming[i].application_id)"
+        ></app-inspection-card>
+      </ng-container>
+    </div>
+  </div>
+</div>

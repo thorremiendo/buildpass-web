@@ -9,6 +9,7 @@ export class WaterMarkService {
   public mergedPlans;
   private comliantImgPath = '../../assets/compliant.png';
   private forComplianceImgPath = '../../assets/forCompliance.png';
+  public duplicatePdf;
   constructor(private api: ApiService) {}
 
   async insertWaterMark(doc_path: string, doc_type: string) {
@@ -171,36 +172,6 @@ export class WaterMarkService {
     return blob;
   }
 
-  async flattenForm(pdfUrl) {
-    // Fetch the PDF with form fields
-    const formUrl = pdfUrl;
-    const formPdfBytes = await fetch(formUrl).then((res) => res.arrayBuffer());
-
-    // Load a PDF with form fields
-    const pdfDoc = await PDFDocument.load(formPdfBytes);
-
-    // Get the form containing all the fields
-    const form = pdfDoc.getForm();
-
-    // Flatten the form's fields
-    form.flatten();
-
-    // Serialize the PDFDocument to bytes (a Uint8Array)
-    const pdfBytes = await pdfDoc.save();
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    const file = window.URL.createObjectURL(blob);
-    window.open(file); // open in new window
-  }
-
-  convertToBytes(url) {
-    if (url[0]) {
-      const bytes = fetch(url[0].document_path).then((res) =>
-        res.arrayBuffer()
-      );
-      return bytes;
-    }
-  }
-
   async merge(forms) {
     let architectural;
     let civil;
@@ -341,6 +312,89 @@ export class WaterMarkService {
     const file = window.URL.createObjectURL(blob);
     this.mergedPlans = file;
     // window.open(file); // open in new window
+  }
+
+  async rotatePdf(pdfUrl) {
+    // Fetch the PDF with form fields
+    const formUrl = pdfUrl;
+    const formPdfBytes = await fetch(formUrl).then((res) => res.arrayBuffer());
+
+    // Load a PDF with form fields
+    const pdfDoc = await PDFDocument.load(formPdfBytes);
+    const firstPage = pdfDoc.getPages()[0];
+
+    console.log('rotation', firstPage.getRotation());
+
+    firstPage.setRotation(degrees(0));
+
+    console.log('rotated', firstPage.getRotation());
+
+    // Serialize the PDFDocument to bytes (a Uint8Array)
+    const pdfBytes = await pdfDoc.save();
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const file = window.URL.createObjectURL(blob);
+    window.open(file); // open in new window
+  }
+
+  async flattenForm(pdfUrl) {
+    // Fetch the PDF with form fields
+    const formUrl = pdfUrl;
+    const formPdfBytes = await fetch(formUrl).then((res) => res.arrayBuffer());
+
+    // Load a PDF with form fields
+    const pdfDoc = await PDFDocument.load(formPdfBytes);
+
+    // Get the form containing all the fields
+    const form = pdfDoc.getForm();
+
+    // Flatten the form's fields
+    form.flatten();
+
+    // Serialize the PDFDocument to bytes (a Uint8Array)
+    const pdfBytes = await pdfDoc.save();
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const file = window.URL.createObjectURL(blob);
+    window.open(file); // open in new window
+  }
+
+  convertToBytes(url) {
+    if (url[0]) {
+      const bytes = fetch(url[0].document_path).then((res) =>
+        res.arrayBuffer()
+      );
+      return bytes;
+    }
+  }
+
+  convertBytes(url) {
+    if (url) {
+      const bytes = fetch(url).then((res) => res.arrayBuffer());
+      return bytes;
+    }
+  }
+
+  async duplicate(formUrl) {
+    let architectural;
+    const architectrualBytes = await this.convertBytes(formUrl);
+
+    architectural = await PDFDocument.load(architectrualBytes);
+
+    const mergedPdf = await PDFDocument.create();
+
+    if (architectural) {
+      const copiedPagesA = await mergedPdf.copyPages(
+        architectural,
+        architectural.getPageIndices()
+      );
+      copiedPagesA.forEach((page) => mergedPdf.addPage(page));
+    }
+
+    const mergedPdfFile = await mergedPdf.save();
+
+    const blob = new Blob([mergedPdfFile], { type: 'application/pdf' });
+    const file = window.URL.createObjectURL(blob);
+    // this.mergedPlans = file;
+    window.open(file); // open in new window
   }
 
   generateQrCode(id) {

@@ -238,6 +238,46 @@
       </mat-card-content>
     </mat-card>
   </div>
+  <div class="inspection" *ngIf="!isLoading">
+    <mat-card>
+      <mat-card-content>
+        <h4 style="color: maroon" class="mb-4">
+          <strong>Inspection Schedule </strong>
+          <hr />
+        </h4>
+        <mat-expansion-panel
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+          class="mb-2"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title
+              ><mat-icon aria-hidden="false" class="mr-2" style="color: maroon"
+                >event</mat-icon
+              >
+              Inspections</mat-panel-title
+            >
+          </mat-expansion-panel-header>
+
+          <ng-container *ngIf="inspections.length > 0; else noInspection">
+            <div class="inspection__body">
+              <ng-container *ngFor="let item of inspections; let i = index">
+                <app-inspection-card
+                  [details]="inspections[i]"
+                  [application]="inspections[i].application_id"
+                  (click)="viewInspection(inspections[i])"
+                ></app-inspection-card>
+              </ng-container>
+            </div>
+          </ng-container>
+          <ng-template #noInspection>
+            <p class="mt-5 text-center">No scheduled inspections</p>
+          </ng-template>
+        </mat-expansion-panel>
+        <div></div>
+      </mat-card-content>
+    </mat-card>
+  </div>
   <div class="app-forms" *ngIf="!isLoading">
     <mat-card>
       <mat-card-content>

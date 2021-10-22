@@ -1,3 +1,5 @@
+import { SchedulingService } from './../../core/services/scheduling.service';
+import { AddInspectionComponent } from './../add-inspection/add-inspection.component';
 import { AppTitleService } from './../../core/services/app-title.service';
 import { AssociateOldBpComponent } from './../../shared/associate-old-bp/associate-old-bp.component';
 import { OccupancyService } from './../../core/services/occupancy.service';
@@ -39,13 +41,15 @@ export class ApplicationDetailsComponent implements OnInit {
   public userDocuments;
   public oldBpInputs = [];
   public oldBpInfo = [];
+  public inspections = [];
   constructor(
     private applicationService: ApplicationInfoService,
     public dialog: MatDialog,
     public route: ActivatedRoute,
     public router: Router,
     private occupancyService: OccupancyService,
-    private appTitle: AppTitleService
+    private appTitle: AppTitleService,
+    private inspection: SchedulingService
   ) {}
   openProjectDialog(): void {
     const dialogRef = this.dialog.open(ProjectDetailsComponent, {
@@ -78,6 +82,7 @@ export class ApplicationDetailsComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
+        this.fetchApplicationInspections();
         this.fetchEvaluatorDetails();
         this.fetchUserDocs();
         if (this.applicationDetails.associated_released_permits.length > 0)
@@ -335,5 +340,34 @@ export class ApplicationDetailsComponent implements OnInit {
     ];
     const isNonCompliant = status.find((dep) => dep.id == 2);
     return isNonCompliant;
+  }
+
+  fetchApplicationInspections() {
+    this.inspection
+      .getApplicationInspections(this.applicationId)
+      .subscribe((res) => {
+        this.inspections = res.data;
+        console.log(this.inspections);
+      });
+  }
+  openScheduler() {
+    const dialogRef = this.dialog.open(AddInspectionComponent, {
+      width: '1000px',
+      height: '1200px',
+      position: { right: '0' },
+      data: {
+        evaluator: this.evaluatorDetails,
+        application: this.applicationDetails,
+      },
+    });
+    const sub = dialogRef.componentInstance.onClose.subscribe(() => {
+      this.fetchApplicationInspections();
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  goToApplication(id) {
+    console.log(id);
+    this.router.navigate(['evaluator/application', id]);
   }
 }
