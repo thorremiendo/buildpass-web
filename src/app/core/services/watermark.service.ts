@@ -7,51 +7,91 @@ import { ApiService } from './api.service';
 })
 export class WaterMarkService {
   public mergedPlans;
+  private comliantImgPath = '../../assets/watermark/compliant_with_logo.png';
+  private forComplianceImgPath = '../../assets/watermark/for_compliance_with_logo.png';
   constructor(private api: ApiService) {}
 
   async insertWaterMark(doc_path: string, doc_type: string) {
+    console.log(this.comliantImgPath);
     const url = doc_path;
 
     const existingPdfBytes = await fetch(url).then((res) => res.arrayBuffer());
     const pdfDocLoad = await PDFDocument.load(existingPdfBytes);
+
+    const compliantImgBytes = await fetch(this.comliantImgPath).then((res) =>
+      res.arrayBuffer()
+    );
+    const forComplianceImgBytes = await fetch(this.forComplianceImgPath).then(
+      (res) => res.arrayBuffer()
+    );
+
+    const compliantImg = await pdfDocLoad.embedPng(compliantImgBytes);
+    const forComplianceImg = await pdfDocLoad.embedPng(forComplianceImgBytes);
 
     const helveticaFont = await pdfDocLoad.embedFont(StandardFonts.Helvetica);
 
     const pages = pdfDocLoad.getPages();
     const pageCount = pages.length;
     const { width, height } = pages[0].getSize();
+    var pngDims;
+    var pngDimsfire;
 
     for (let i = 0; i < pageCount; i++) {
       switch (doc_type) {
         case 'compliant':
-          pages[i].drawText('Compliant', {
-            x: width / 2 - 150,
-            y: height / 2 + 150,
-            size: 80,
-            font: helveticaFont,
-            color: rgb(0, 1, 0),
-            opacity: 0.2,
+          pngDims = compliantImg.scale(0.5);
+          pngDimsfire = compliantImg.scale(0.4);
+          pages[i].drawImage(compliantImg, {
+            x: width / 2 - 340,
+            y: height / 2 + 200,
+            opacity: 0.5,
             rotate: degrees(-45),
+            width: pngDimsfire.width,
+            height: pngDimsfire.height,
           });
           break;
-        case 'non-compliant':
-          pages[i].drawText('Non Compliant', {
-            x: width / 2 - 200,
-            y: height / 2 + 150,
-            size: 80,
-            font: helveticaFont,
-            color: rgb(1, 0, 0),
-            opacity: 0.2,
+        case 'for-compliance':
+          pngDims = forComplianceImg.scale(0.5);
+          pngDimsfire = forComplianceImg.scale(0.4);
+          pages[i].drawImage(forComplianceImg, {
+            x: width / 2 - 320,
+            y: height / 2 + 200,
+            opacity: 0.5,
             rotate: degrees(-45),
+            width: pngDimsfire.width,
+            height: pngDimsfire.height,
           });
-          break;
+         break;
+        // case 'compliant':
+        //   pages[i].drawText('Compliant', {
+        //     x: width / 2 - 150,
+        //     y: height / 2 + 150,
+        //     size: 80,
+        //     font: helveticaFont,
+        //     color: rgb(0, 1, 0),
+        //     opacity: 0.2,
+        //     rotate: degrees(-45),
+        //   });
+        //   break;
+        // case 'non-compliant':
+        //   pages[i].drawText('Non Compliant', {
+        //     x: width / 2 - 200,
+        //     y: height / 2 + 150,
+        //     size: 80,
+        //     font: helveticaFont,
+        //     color: rgb(1, 0, 0),
+        //     opacity: 0.2,
+        //     rotate: degrees(-45),
+        //   });
+        //   break;
+      
       }
     }
 
     const pdfBytes = await pdfDocLoad.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    // const file = window.URL.createObjectURL(blob);
-    // window.open(file); // open in new window
+    const file = window.URL.createObjectURL(blob);
+    window.open(file); // open in new window
 
     return blob;
   }
