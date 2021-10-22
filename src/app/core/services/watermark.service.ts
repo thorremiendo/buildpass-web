@@ -7,12 +7,11 @@ import { ApiService } from './api.service';
 })
 export class WaterMarkService {
   public mergedPlans;
-  private comliantImgPath = '../../assets/watermark/compliant_with_logo.png';
-  private forComplianceImgPath = '../../assets/watermark/for_compliance_with_logo.png';
+  private comliantImgPath = '../../assets/compliant.png';
+  private forComplianceImgPath = '../../assets/forCompliance.png';
   constructor(private api: ApiService) {}
 
   async insertWaterMark(doc_path: string, doc_type: string) {
-    console.log(this.comliantImgPath);
     const url = doc_path;
 
     const existingPdfBytes = await fetch(url).then((res) => res.arrayBuffer());
@@ -36,6 +35,8 @@ export class WaterMarkService {
     var pngDims;
     var pngDimsfire;
 
+    console.log(doc_type);
+
     for (let i = 0; i < pageCount; i++) {
       switch (doc_type) {
         case 'compliant':
@@ -49,19 +50,20 @@ export class WaterMarkService {
             width: pngDimsfire.width,
             height: pngDimsfire.height,
           });
-          break;
+        break;
+
         case 'for-compliance':
           pngDims = forComplianceImg.scale(0.5);
           pngDimsfire = forComplianceImg.scale(0.4);
           pages[i].drawImage(forComplianceImg, {
-            x: width / 2 - 320,
+            x: width / 2 - 340,
             y: height / 2 + 200,
             opacity: 0.5,
             rotate: degrees(-45),
-            width: pngDimsfire.width,
+            width: pngDimsfire.width, 
             height: pngDimsfire.height,
           });
-         break;
+        break;
         // case 'compliant':
         //   pages[i].drawText('Compliant', {
         //     x: width / 2 - 150,
