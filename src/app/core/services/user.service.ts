@@ -71,7 +71,11 @@ export class UserService {
     };
 
     return this._api.post(url, body);
-    
+  }
 
+  changePassword(body){
+    const url ='/user/applicant/change-password';
+    
+    return this._api.post(url,body);
   }
 }

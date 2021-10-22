@@ -33,11 +33,20 @@ export class UpdatePasswordDialogComponent implements OnInit {
     private formValidator: FormValidatorService,
     private authService: AuthService,
     private dialogRef: MatDialogRef<UpdatePasswordDialogComponent>
-  ) {}
+  ) {
+    console.log(data)
+  }
 
   ngOnInit() {
     this.changePasswordForm = this.fb.group({
-        password: [
+      currentPassword: [
+        '',
+        Validators.compose([
+          Validators.required,
+          this.formValidator.patternValidator(),
+        ]),
+      ],
+        newPassword: [
           '',
           Validators.compose([
             Validators.required,
@@ -63,12 +72,18 @@ export class UpdatePasswordDialogComponent implements OnInit {
     this.submitted = true;
     if (this.changePasswordForm.valid) {
       this.loading = true;
-      const newPassword = this.changePasswordForm.value.password;
-      if (this.data.firebase_uid) {
-        this.authService
-          .ChangePassword(newPassword)
-          .then(res => {
+      const newPassword = this.changePasswordForm.value.newPassword;
+      if (this.data.email_address) {
+        const body = {
+          email_address:this.data.email_address,
+          password: this.changePasswordForm.value.currentPassword,
+          new_password: this.changePasswordForm.value.newPassword,
+        }
+        this.userService
+          .changePassword(body)
+          .subscribe(res => {
             this.snackBar.open('Password successfully changed.', 'Close', {
+              duration: 3000,
               horizontalPosition: 'center',
             });
             this.dialogRef.close();
@@ -83,6 +98,7 @@ export class UpdatePasswordDialogComponent implements OnInit {
           )
           .subscribe(res => {
             this.snackBar.open('Password successfully changed.', 'Close', {
+              duration: 3000,
               horizontalPosition: 'center',
             });
             this.dialogRef.close();
