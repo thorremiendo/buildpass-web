@@ -138,4 +138,6 @@ export class AdminEmployeeListComponent implements OnInit {
       this.message = res.message;
     });
   }
+
+  
 }

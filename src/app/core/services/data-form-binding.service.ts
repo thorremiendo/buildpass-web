@@ -878,6 +878,8 @@ export class DataFormBindingService {
     const formData = {
       owner_or_rep:
         `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      full_name:
+        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       applicant_full_name:
         `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       applicant_complete_address: `${

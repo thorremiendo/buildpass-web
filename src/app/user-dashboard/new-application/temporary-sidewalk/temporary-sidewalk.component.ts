@@ -25,7 +25,7 @@ export class TemporarySidewalkComponent implements OnInit {
   public forms: any = [
     {
       id: 108,
-      src: '../../../../assets/forms/updated/Temporary_Sidewalk_Enclosure_and_Occupancy_Permit_0_(3).pdf',
+      src: '../../../../assets/forms/updated/temporary_sidewalk_permit_form_v2_(3)_october_21_2021.pdf',
     },
   ];
 
