@@ -97,7 +97,7 @@ export class BuildingPermitComponent implements OnInit {
       label: `Step ${this.forms.length + 4}`,
       title:
         'Professional Tax Receipt and Professional Regulations Commission ID',
-      documents: [34, 35, 36, 46],
+      documents: [34, 35, 36, 46, 47, 196],
     },
     {
       label: `Step ${this.forms.length + 5}`,
@@ -494,6 +494,7 @@ export class BuildingPermitComponent implements OnInit {
   }
 
   public async upload(form, type): Promise<void> {
+    console.log(form);
     const data = this.formData;
     const blob =
       await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
@@ -527,9 +528,17 @@ export class BuildingPermitComponent implements OnInit {
         console.log('Blob failed');
       }
     } else {
-      const uploadDocumentData = {
-        document_status_id: 0,
-      };
+      let uploadDocumentData = {};
+      if (form.is_applicable == 2) {
+        uploadDocumentData = {
+          document_status_id: 1,
+        };
+      } else {
+        uploadDocumentData = {
+          document_status_id: 0,
+        };
+      }
+
       if (blob) {
         uploadDocumentData['document_path'] = blob;
       }
@@ -576,14 +585,19 @@ export class BuildingPermitComponent implements OnInit {
           user_id: this.user.id,
           document_id: form.id,
           document_path: blob,
-          document_status: '0',
+          document_status_id: 1,
           is_applicable: 2,
+          receiving_status_id: 1,
+          cbao_status_id: 1,
         };
 
         this.newApplicationService
           .submitDocument(uploadDocumentData)
           .subscribe((res) => {
             this.fetchApplicationInfo();
+            if (form.id == 195 || form.id == 117) {
+              this.uploadMechanicalElectronicsNotApplicable(form);
+            }
           });
       }
     } else {
@@ -602,5 +616,32 @@ export class BuildingPermitComponent implements OnInit {
       }
     }
     this.isOptional = false;
+  }
+
+  async uploadMechanicalElectronicsNotApplicable(form) {
+    let pdf = await fetch(
+      'https://s3-ap-southeast-1.amazonaws.com/baguio-ocpas/MaZXPXPOptMGBcvThBJ2VejNVzCEXVbEcYHZtU8y.pdf'
+    );
+    let data = await pdf.blob();
+    let metadata = {
+      type: 'application/pdf',
+    };
+    let file = new File([data], 'not-applicable.pdf', metadata);
+
+    const uploadDocumentData = {
+      application_id: this.applicationId,
+      user_id: this.user.id,
+      document_id: form.id == 117 ? 47 : 196,
+      document_path: file,
+      document_status_id: 1,
+      is_applicable: 2,
+      receiving_status_id: 1,
+      cbao_status_id: 1,
+    };
+    this.newApplicationService
+      .submitDocument(uploadDocumentData)
+      .subscribe((res) => {
+        this.fetchApplicationInfo();
+      });
   }
 }

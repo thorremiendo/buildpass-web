@@ -331,7 +331,9 @@
                     <td mat-cell *matCellDef="let element">
                       {{
                         !element.label
-                          ? getDocStatus(element.document_status_id)
+                          ? element.is_applicable == 2
+                            ? "Not Applicable"
+                            : getDocStatus(element.document_status_id)
                           : ""
                       }}
                     </td>
