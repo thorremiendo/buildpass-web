@@ -77,6 +77,12 @@ const EVALUATORMENUITEMS = [
     icon: 'home',
   },
   {
+    state: 'evaluator/schedule',
+    name: 'Schedule',
+    type: 'link',
+    icon: 'event_available',
+  },
+  {
     state: 'evaluator/new-tasks',
     name: 'Chat Box',
     type: 'link',

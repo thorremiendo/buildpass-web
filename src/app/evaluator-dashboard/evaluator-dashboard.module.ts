@@ -90,6 +90,9 @@ import { AttachBpComponent } from './attach-bp/attach-bp.component';
 import { OccupancyUploadFileComponent } from './occupancy-upload-file/occupancy-upload-file.component';
 import { InputPermitNumberComponent } from './input-permit-number/input-permit-number.component';
 import { OccupancyPermitActionsComponent } from './occupancy-permit-actions/occupancy-permit-actions.component';
+import { SchedulingComponent } from './scheduling/scheduling.component';
+import { AddInspectionComponent } from './add-inspection/add-inspection.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 @NgModule({
   declarations: [
@@ -137,9 +140,12 @@ import { OccupancyPermitActionsComponent } from './occupancy-permit-actions/occu
     OccupancyUploadFileComponent,
     InputPermitNumberComponent,
     OccupancyPermitActionsComponent,
+    SchedulingComponent,
+    AddInspectionComponent,
   ],
 
   imports: [
+    NgxMaterialTimepickerModule,
     CommonModule,
     EvaluatorRoutingModule,
     EvaluatorDashboardRoutingModule,

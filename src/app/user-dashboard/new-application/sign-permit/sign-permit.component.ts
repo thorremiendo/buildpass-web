@@ -26,7 +26,7 @@ export class SignPermitComponent implements OnInit {
   public forms: any = [
     {
       id: 108,
-      src: '../../../../assets/forms/updated/Scaffolding_Permit.pdf',
+      src: '../../../../assets/forms/updated/sign_permit_form_v2_(2)_october_21_2021.pdf',
     },
   ];
 

@@ -1,0 +1,185 @@
+::ng-deep .mat-dialog-container {
+  border-top-left-radius: 20px !important;
+  border-bottom-left-radius: 20px !important;
+  padding: 0;
+  margin: 0;
+}
+$primary: #f5bc3e;
+$text-color: #363738;
+$secondary: #006d77;
+.container {
+  padding: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  &__header {
+    display: flex;
+    flex: 1;
+    background-position: 50% 50%;
+    background-size: cover;
+    align-items: center;
+    padding: 0px 20px;
+    justify-content: space-between;
+
+    mat-icon {
+      font-size: 30px;
+    }
+
+    mat-icon:hover {
+      cursor: pointer;
+    }
+    &__content {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      &-logo {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 20px;
+        img {
+          width: 80%;
+        }
+      }
+      p {
+        color: white;
+      }
+      p:nth-of-type(1) {
+        font-size: 18px;
+      }
+      p:nth-of-type(2) {
+        color: rgb(250, 236, 223);
+      }
+      span {
+        background-color: $secondary;
+        padding: 10px;
+      }
+    }
+  }
+  &__body {
+    display: flex;
+    flex: 3;
+    flex-direction: column;
+    &__slot {
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      justify-content: space-evenly;
+      align-items: center;
+      padding: 20px 0px;
+      border-bottom: 1px solid #f3f3f3;
+      &-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: rgb(255, 255, 255);
+        box-shadow: 0px 1px 5px 7px rgba(0, 0, 0, 0.04);
+        -webkit-box-shadow: 0px 1px 5px 7px rgba(0, 0, 0, 0.04);
+        -moz-box-shadow: 0px 1px 5px 7px rgba(0, 0, 0, 0.04);
+
+        p:nth-of-type(1) {
+          font-weight: bold;
+        }
+        p:nth-of-type(2) {
+          font-size: 11px;
+        }
+      }
+      &-container:hover {
+        cursor: pointer;
+      }
+    }
+    &__content {
+      display: flex;
+      flex-direction: row;
+      flex: 5;
+      &__date,
+      &__time,
+      &__info {
+        padding: 20px;
+        flex-direction: column;
+        h2 {
+          color: $text-color;
+        }
+      }
+
+      &__date {
+        display: flex;
+        flex: 1;
+      }
+      &__time {
+        display: flex;
+        flex: 1;
+        background-color: rgb(255, 246, 246);
+        &-content {
+          display: flex;
+          width: 100%;
+          height: 50px;
+          align-items: center;
+          justify-content: space-between;
+          border-top: 1px solid rgb(241, 241, 241);
+          padding: 8px;
+
+          p {
+            padding: 0;
+            margin: 0;
+            color: $text-color;
+          }
+        }
+      }
+      &__info {
+        display: flex;
+        flex: 1;
+      }
+    }
+  }
+}
+
+.calendar-card {
+  width: 100%;
+}
+
+mat-icon {
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  color: white;
+}
+mat-form-field {
+  margin: 10px 0px;
+}
+
+button {
+  color: white;
+  margin-top: 10px;
+}
+
+.selected-time {
+  background-color: $primary;
+  border-radius: 5px;
+
+  p {
+    color: white;
+  }
+}
+
+.selected-slot {
+  background-color: $primary;
+  p {
+    color: rgb(92, 91, 91);
+  }
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}

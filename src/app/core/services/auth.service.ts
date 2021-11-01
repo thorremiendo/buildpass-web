@@ -172,6 +172,7 @@ export class AuthService {
   }
 
    // Change password
+   //firebase
    ChangePassword(passwordResetEmail){
     return new Promise<any>((resolve, reject) => {
       firebase

@@ -1,3 +1,5 @@
+import { WaterMarkService } from './../../core/services/watermark.service';
+import { EsigPdfPreviewComponent } from './../esig-pdf-preview/esig-pdf-preview.component';
 import { EsignatureService } from 'src/app/core/services/esignature.service';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,11 +12,31 @@ import {
 } from '@angular/cdk/drag-drop';
 import { PDFDocument, degrees, breakTextIntoLines } from 'pdf-lib';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 @Component({
   selector: 'app-e-signature',
   templateUrl: './e-signature.component.html',
   styleUrls: ['./e-signature.component.scss'],
+  animations: [
+    // Each unique animation requires its own trigger. The first argument of the trigger function is the name
+    trigger('rotatedState', [
+      state('default', style({ transform: 'rotate(0)' })),
+      state('rotated', style({ transform: 'rotate(-180deg)' })),
+      transition('rotated => default', animate('1500ms ease-out')),
+      transition('default => rotated', animate('400ms ease-in')),
+    ]),
+  ],
 })
 export class ESignatureComponent implements OnInit {
   private minimumHeight = 80;
@@ -39,7 +61,9 @@ export class ESignatureComponent implements OnInit {
     private applicationService: ApplicationInfoService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private esignatureService: EsignatureService
+    private esignatureService: EsignatureService,
+    public dialog: MatDialog,
+    private waterMarkService: WaterMarkService
   ) {}
 
   ngOnInit() {
@@ -484,5 +508,16 @@ export class ESignatureComponent implements OnInit {
     this.snackBar.open(message, 'Close', {
       duration: 2000,
     });
+  }
+
+  openFilePreview(blob) {
+    const dialogRef = this.dialog.open(EsigPdfPreviewComponent, {
+      width: '1000px',
+      data: {
+        pdf: blob,
+        applicationId: this.applicationId,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 }

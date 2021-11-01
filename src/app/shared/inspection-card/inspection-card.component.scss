@@ -1,0 +1,78 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins/breakpoints";
+
+$primary: #f5bc3e;
+$text-color: #464849;
+$secondary: #006d77;
+
+p {
+  margin: 0px;
+}
+.container__schedules__list__schedule {
+  display: flex;
+  flex: 1;
+  border-radius: 20px;
+  background-color: white;
+  padding: 20px;
+  margin: 10px;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0px 8px 30px rgba(222, 230, 241, 0.8);
+  border-left: 8px solid maroon;
+  min-width: 320px;
+
+  &--heading {
+    margin-bottom: 10px;
+    p {
+      color: $text-color;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  }
+  &--details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    p {
+      font-size: 12px;
+      color: grey;
+      font-weight: bold;
+      margin: 0;
+    }
+  }
+  &--footer {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    span {
+      border-radius: 10px;
+      padding: 5px;
+      color: white;
+      font-size: 11px;
+    }
+
+    mat-icon {
+      color: $secondary;
+      font-size: 32px;
+    }
+  }
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.01);
+  }
+}
+
+.vertical {
+  border-left: 4px solid $secondary;
+  padding-left: 10px;
+}
+
+.border_green {
+  border-left: 8px solid green;
+}
+
+.border_maroon {
+  border-left: 8px solid maroon;
+}

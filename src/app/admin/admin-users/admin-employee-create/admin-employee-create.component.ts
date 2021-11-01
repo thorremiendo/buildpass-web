@@ -24,7 +24,7 @@ export class AdminEmployeeCreateComponent implements OnInit {
   public isUpdating: boolean = false;
 
   _adminCreateUserForm: FormGroup;
-  _barangay: Barangay[];
+  public barangay: Barangay[];
   _office: string[] = Object.keys(Office)
     .map((key) => Office[key])
     .filter((k) => !(parseInt(k) >= 0));
@@ -39,15 +39,11 @@ export class AdminEmployeeCreateComponent implements OnInit {
   _submitted = false;
 
   get displayProfilePhoto(): string | ArrayBuffer {
-    return this._displayPhoto
-      ? this._displayPhoto
-      : 'https://baguio-visita.s3-ap-southeast-1.amazonaws.com/default-avatar.png';
+    return this._displayPhoto ? this._displayPhoto : '';
   }
 
   get displayIDPhoto(): string | ArrayBuffer {
-    return this._displayIdPhoto
-      ? this._displayIdPhoto
-      : 'https://baguio-visita.s3-ap-southeast-1.amazonaws.com/default-avatar.png';
+    return this._displayIdPhoto ? this._displayIdPhoto : '';
   }
 
   get adminCreateUserFormControl() {
@@ -59,7 +55,9 @@ export class AdminEmployeeCreateComponent implements OnInit {
     private _barangayService: BarangayService,
     private _registerAccountEvaluatorFormService: RegisterAccountEvaluatorFormService,
     public dialogRef: MatDialogRef<AdminEmployeeCreateComponent>
-  ) {}
+  ) {
+    this.createForm();
+  }
 
   closeModal() {
     this.dialogRef.close();
@@ -131,12 +129,6 @@ export class AdminEmployeeCreateComponent implements OnInit {
     }
   }
 
-  filterBarangays(value: string): Barangay[] {
-    return this._barangay.filter((option) =>
-      option.name.toLowerCase().includes(value.toLowerCase())
-    );
-  }
-
   filterOffice(value: string): string[] {
     return this._office.filter((option) =>
       option.toLowerCase().includes(value)
@@ -147,12 +139,6 @@ export class AdminEmployeeCreateComponent implements OnInit {
     return this._position.filter((option) =>
       option.toLowerCase().includes(value)
     );
-  }
-
-  displayBarangayName(value: number) {
-    if (value) {
-      return this._barangay[value - 1].name;
-    }
   }
 
   displayOfficeName(value: number) {
@@ -172,17 +158,8 @@ export class AdminEmployeeCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.createForm();
-
     this._barangayService.getBarangayInfo().subscribe((data) => {
-      this._barangay = data;
-      this._filteredBarangayOptions =
-        this.adminCreateUserFormControl.barangay.valueChanges.pipe(
-          startWith(''),
-          map((barangay) =>
-            barangay ? this.filterBarangays(barangay) : this._barangay.slice()
-          )
-        );
+      this.barangay = data; 
     });
 
     this._filteredOfficeOptions =
@@ -211,7 +188,8 @@ export class AdminEmployeeCreateComponent implements OnInit {
       marital_status_id: this._adminCreateUserForm.value.marital_status,
       gender: this._adminCreateUserForm.value.gender,
       home_address: this._adminCreateUserForm.value.home_address,
-      barangay_id: this._adminCreateUserForm.value.barangay,
+      barangay: this._adminCreateUserForm.value.barangay.name,
+      barangay_id: this._adminCreateUserForm.value.barangay.id,
       employee_no: this._adminCreateUserForm.value.employee_no,
       office_id: this._adminCreateUserForm.value.office,
       position: this._adminCreateUserForm.value.position,

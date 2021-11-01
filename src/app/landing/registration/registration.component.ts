@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { BarangayService } from '../../core/services/barangay.service';
-import { RegisterAccountFormService } from '../../core/services/register-account-form.service';
+import { RegisterAccountFormService, NewApplicationService } from '../../core/services';
 import { AuthService } from '../../core/services/auth.service';
 import { DataPrivacyComponent } from '../data-privacy/data-privacy.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -23,9 +22,15 @@ export class RegistrationComponent implements OnInit {
   public maxLength: number = 11;
   public isUpdating: boolean = false;
   private registrationDetails;
+  public regions = [];
+  public cities = [];
+  public provinces = [];
+  public selectedRegion;
+  public selectedProvince;
+  public selectedCity;
 
   _registrationForm: FormGroup;
-  _barangay: Barangay[];
+  public barangay: Barangay[];
   _filteredBarangayOptions: Observable<Barangay[]>;
   _displayPhoto: string | ArrayBuffer = '';
   _displayIdPhoto: string | ArrayBuffer = '';
@@ -52,6 +57,7 @@ export class RegistrationComponent implements OnInit {
     private _fb: FormBuilder,
     private _barangayService: BarangayService,
     private _registerAccountFormService: RegisterAccountFormService,
+    private _place: NewApplicationService,
     private _authService: AuthService,
     private _dialog: MatDialog,
     private _router: Router,
@@ -66,11 +72,38 @@ export class RegistrationComponent implements OnInit {
       marital_status:['', Validators.required],
       gender:['', Validators.required],
       home_address:['', Validators.required],
-      barangay:['', Validators.required],
+      barangay:['',],
       contact_number:['', [Validators.required, Validators.maxLength(11),]],
       id_number:['', Validators.required],
       id_type:['', Validators.required],
     });
+  }
+
+  onRegionSelect(e) {
+    this._place
+      .fetchProvince('', parseInt(e.value))
+      .subscribe((res) => {
+        this.provinces = res.data;
+      });
+  }
+  onProvinceSelect(e) {
+    this._place
+      .fetchCities(parseInt(e.value))
+      .subscribe((res) => {
+        this.cities = res.data;
+      });
+  }
+
+  onCitySelect(e) {
+    console.log(this.selectedCity);
+    if(this.selectedCity == 1591 && this.barangay == null){
+      this._barangayService.getBarangayInfo().subscribe(data => {
+        this.barangay = data;
+      });
+    }
+      this._registrationForm.patchValue({
+        barangay: ''
+      })
   }
 
   openFileChooser() {
@@ -133,16 +166,6 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  filterBarangays(value: string): Barangay[] {
-    return this._barangay.filter(option => option.name.toLowerCase().includes(value.toLowerCase()));
-  }
-
-  displayBarangayName(value: number) {
-    if (value) {
-      return this._barangay[value-1].name;
-    }
-  }
-
   dateToString(dateObject){
     if(dateObject != null){
       const birthdate = new Date(dateObject);
@@ -164,20 +187,27 @@ export class RegistrationComponent implements OnInit {
       } else {
         this._router.navigateByUrl('/user/sign-up');
       }
-    });
 
-    this._barangayService.getBarangayInfo().subscribe(data => {
-      this._barangay = data;
-      this._filteredBarangayOptions = this.registrationFormControl.barangay.valueChanges
-      .pipe(
-        startWith(''),
-        map(barangay => barangay ? this.filterBarangays(barangay) : this._barangay.slice())
-      );
+      this._place.fetchRegions('').subscribe((res) => {
+        this.regions = res.data;
+      });
     });
+  }
+
+  checkBarangay(){
+    if(this.selectedCity == 1591 ){
+      if(this._registrationForm.value.barangay.name){
+        return this._registrationForm.value.barangay.name;
+      }
+    }
+
+    else return this._registrationForm.value.barangay;
   }
 
   onSubmit() {
     this._submitted = true;
+    // console.log(this._registrationForm.value);
+    // console.log(this.checkBarangay());
 
     if (this._registrationForm.valid && this.selectedFile && this.selectedPhoto && this.selectedSelfie) {
       const dialogRef = this._dialog.open(DataPrivacyComponent);
@@ -195,7 +225,11 @@ export class RegistrationComponent implements OnInit {
               marital_status_id: this._registrationForm.value.marital_status,
               gender: this._registrationForm.value.gender,
               home_address: this._registrationForm.value.home_address,
-              barangay: this._registrationForm.value.barangay,
+              barangay: this.checkBarangay(),
+              barangay_id: this._registrationForm.value.barangay.id ? this._registrationForm.value.barangay.id : 0,
+              city_id: this.selectedCity, 
+              province_id: this.selectedProvince, 
+              region_id:this.selectedRegion,
               contact_number: this._registrationForm.value.contact_number,
               id_number: this._registrationForm.value.id_number,
               id_type: this._registrationForm.value.id_type,
@@ -224,7 +258,11 @@ export class RegistrationComponent implements OnInit {
                 marital_status_id: this._registrationForm.value.marital_status,
                 gender: this._registrationForm.value.gender,
                 home_address: this._registrationForm.value.home_address,
-                barangay: this._registrationForm.value.barangay,
+                barangay: this.checkBarangay(),
+                barangay_id: this._registrationForm.value.barangay.id ? this._registrationForm.value.barangay.id : 0,
+                city_id: this.selectedCity, 
+                province_id: this.selectedProvince, 
+                region_id:this.selectedRegion,
                 contact_number: this._registrationForm.value.contact_number,
                 id_number: this._registrationForm.value.id_number,
                 id_type: this._registrationForm.value.id_type,

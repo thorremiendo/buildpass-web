@@ -75,10 +75,6 @@ export class AdminApplicantListComponent implements OnInit {
    
   }
   
-
-
-  
-
   deleteUser(id){
     const dialogRef = this.matDialog.open(
       ApplicantDeleteDialog,{

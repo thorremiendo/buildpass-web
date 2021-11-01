@@ -58,4 +58,12 @@ export class SupportingDocumentsComponent implements OnInit {
       this.ngOnInit();
     });
   }
+  removeFile(file) {
+    console.log(file);
+    this.applicationService
+      .deleteSupportingFile(file.id, {})
+      .subscribe((res) => {
+        this.ngOnInit();
+      });
+  }
 }

@@ -151,8 +151,10 @@ export enum documentTypes {
   'Fire Certification' = 189,
   'CDRRMC Certification' = 190,
   'Barangay Certification' = 191,
-  'Certification of Electrical Engineer / Master Electrician in charge of installation' = 195,
-  'Certficate of Final Electrical Inspection Form' = 196,
+  // 'Certification of Electrical Engineer / Master Electrician in charge of installation' = 195,
+  // 'Certficate of Final Electrical Inspection Form' = 196,
   'Barangay certification indicating that kWhr Meter was installed during period of amnesty/moratorium' = 197,
   'Perspective Plan' = 194,
+  'Electronics Permit' = 195,
+  'Electronics Engineer' = 196,
 }

@@ -1,0 +1,53 @@
+<div
+  class="container__schedules__list__schedule"
+  [ngClass]="{
+    border_green: date == 'today',
+    border_maroon: date !== 'today'
+  }"
+>
+  <div class="container__schedules__list__schedule--heading">
+    <div class="d-flex flex-column">
+      <p style="text-transform: capitalize">
+        {{ details.evaluator_detail.first_name }}
+        {{ details.evaluator_detail.last_name }}
+      </p>
+      <p style="font-size: 16px; color: grey">
+        {{ getOffice(details.evaluator_detail.employee_detail.office_id) }}
+      </p>
+    </div>
+  </div>
+  <div class="container__schedules__list__schedule--details">
+    <div class="d-flex flex-column">
+      <div class="d-flex align-items-center">
+        <mat-icon class="mr-2">event</mat-icon>
+        <p style="font-size: 14px">Date</p>
+      </div>
+      <span style="font-size: 20px">{{
+        details.scheduled_date | date: "MMMM dd, yyyy"
+      }}</span>
+    </div>
+    <div class="d-flex flex-column">
+      <div class="d-flex align-items-center">
+        <mat-icon class="mr-2">schedule</mat-icon>
+        <p style="font-size: 14px">Time</p>
+      </div>
+
+      <span style="font-size: 20px">{{ details.scheduled_time }}</span>
+    </div>
+  </div>
+  <div class="container__schedules__list__schedule--footer">
+    <!-- <mat-icon>event</mat-icon> -->
+    <span
+      style="font-size: 16px; padding: 5px 8px"
+      [ngStyle]="{
+        'background-color':
+          details.status_id == 1
+            ? '#F9C232'
+            : details.status_id == 2
+            ? 'red'
+            : '#BE8381'
+      }"
+      >{{ getInspectionStatus(details.status_id) }}</span
+    >
+  </div>
+</div>

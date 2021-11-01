@@ -1,3 +1,5 @@
+import { InspectionDetailsComponent } from './../../shared/inspection-details/inspection-details.component';
+import { SchedulingService } from './../../core/services/scheduling.service';
 import { AppTitleService } from './../../core/services/app-title.service';
 import { AssociateBpEgppComponent } from './../../shared/associate-bp-egpp/associate-bp-egpp.component';
 import { WaterMarkService } from './../../core/services/watermark.service';
@@ -41,7 +43,7 @@ export class ViewApplicationComponent implements OnInit {
   public applicationDate;
   public dataSource;
   public documentTypes;
-
+  public inspections = [];
   displayedColumns: string[] = ['index', 'name', 'status', 'remarks', 'action'];
 
   constructor(
@@ -53,7 +55,8 @@ export class ViewApplicationComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private pdfService: WaterMarkService,
-    private appTitle: AppTitleService
+    private appTitle: AppTitleService,
+    private inspectionService: SchedulingService
   ) {}
   openProjectDialog(): void {
     const dialogRef = this.dialog.open(ProjectDetailsComponent, {
@@ -123,6 +126,7 @@ export class ViewApplicationComponent implements OnInit {
           (res) => {
             this.isLoading = true;
             this.isAuthorized = true;
+            this.fetchApplicationInspections();
             this.fetchApplicationInfo();
             this.fetchUserDocs();
           },
@@ -595,5 +599,26 @@ export class ViewApplicationComponent implements OnInit {
     this.snackBar.open(message, 'Close', {
       duration: 3000,
     });
+  }
+
+  fetchApplicationInspections() {
+    this.inspectionService
+      .getApplicationInspections(this.applicationId)
+      .subscribe((res) => {
+        this.inspections = res.data;
+        console.log(this.inspections);
+      });
+  }
+
+  viewInspection(inspection) {
+    const dialogRef = this.dialog.open(InspectionDetailsComponent, {
+      data: {
+        inspection: inspection,
+      },
+    });
+    const sub = dialogRef.componentInstance.onClose.subscribe(() => {
+      this.fetchApplicationInspections();
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 }

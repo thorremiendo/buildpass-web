@@ -26,7 +26,7 @@ export class ScaffoldingPermitComponent implements OnInit {
   public forms: any = [
     {
       id: 124,
-      src: '../../../../assets/forms/updated/Scaffolding_Permit.pdf',
+      src: '../../../../assets/forms/updated/scaffolding_permit_form_v2_(3)_october_21_2021.pdf',
     },
   ];
 

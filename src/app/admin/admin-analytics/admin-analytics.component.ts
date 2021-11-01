@@ -81,7 +81,7 @@ export class AdminAnalyticsComponent implements OnInit {
 
   noncompliant() {
     this.watermark
-      .insertWaterMark(this.testDoc, 'non-compliant')
+      .insertWaterMark(this.testDoc, 'for-compliance')
       .then((blob) => {});
   }
 
