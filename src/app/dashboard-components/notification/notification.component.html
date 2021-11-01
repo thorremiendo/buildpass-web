@@ -6,7 +6,7 @@
       </mat-icon>
     </p>
   </button>
-  <mat-menu  style="min-width: 400px;" #notification="matMenu" [overlapTrigger]="false">
+  <mat-menu  style="min-width: 400px !important;" #notification="matMenu" [overlapTrigger]="false">
     <div class="mailbox">
       <ul>
         <li>
@@ -34,7 +34,7 @@
                       </h5>
                       <span
                         class="mail-desc"
-                        [style.color]="feed.is_viewed == 0 ? 'maroon' : 'grey'"
+                        style.color="grey"
                       >
                         {{ feed.message }}
                       </span>
