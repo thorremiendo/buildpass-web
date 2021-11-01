@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { BarangayService } from '../../core/services/barangay.service';
 import { RegisterAccountFormService, NewApplicationService } from '../../core/services';
 import { AuthService } from '../../core/services/auth.service';
@@ -31,7 +30,7 @@ export class RegistrationComponent implements OnInit {
   public selectedCity;
 
   _registrationForm: FormGroup;
-  _barangay: Barangay[];
+  public barangay: Barangay[];
   _filteredBarangayOptions: Observable<Barangay[]>;
   _displayPhoto: string | ArrayBuffer = '';
   _displayIdPhoto: string | ArrayBuffer = '';
@@ -94,8 +93,17 @@ export class RegistrationComponent implements OnInit {
         this.cities = res.data;
       });
   }
+
   onCitySelect(e) {
     console.log(this.selectedCity);
+    if(this.selectedCity == 1591 && this.barangay == null){
+      this._barangayService.getBarangayInfo().subscribe(data => {
+        this.barangay = data;
+      });
+    }
+      this._registrationForm.patchValue({
+        barangay: ''
+      })
   }
 
   openFileChooser() {
@@ -158,16 +166,6 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  filterBarangays(value: string): Barangay[] {
-    return this._barangay.filter(option => option.name.toLowerCase().includes(value.toLowerCase()));
-  }
-
-  displayBarangayName(value: number) {
-    if (value) {
-      return this._barangay[value-1].name;
-    }
-  }
-
   dateToString(dateObject){
     if(dateObject != null){
       const birthdate = new Date(dateObject);
@@ -194,19 +192,22 @@ export class RegistrationComponent implements OnInit {
         this.regions = res.data;
       });
     });
+  }
 
-    this._barangayService.getBarangayInfo().subscribe(data => {
-      this._barangay = data;
-      this._filteredBarangayOptions = this.registrationFormControl.barangay.valueChanges
-      .pipe(
-        startWith(''),
-        map(barangay => barangay ? this.filterBarangays(barangay) : this._barangay.slice())
-      );
-    });
+  checkBarangay(){
+    if(this.selectedCity == 1591 ){
+      if(this._registrationForm.value.barangay.name){
+        return this._registrationForm.value.barangay.name;
+      }
+    }
+
+    else return this._registrationForm.value.barangay;
   }
 
   onSubmit() {
     this._submitted = true;
+    // console.log(this._registrationForm.value);
+    // console.log(this.checkBarangay());
 
     if (this._registrationForm.valid && this.selectedFile && this.selectedPhoto && this.selectedSelfie) {
       const dialogRef = this._dialog.open(DataPrivacyComponent);
@@ -224,7 +225,8 @@ export class RegistrationComponent implements OnInit {
               marital_status_id: this._registrationForm.value.marital_status,
               gender: this._registrationForm.value.gender,
               home_address: this._registrationForm.value.home_address,
-              barangay: this._registrationForm.value.barangay,
+              barangay: this.checkBarangay(),
+              barangay_id: this._registrationForm.value.barangay.id ? this._registrationForm.value.barangay.id : 0,
               city_id: this.selectedCity, 
               province_id: this.selectedProvince, 
               region_id:this.selectedRegion,
@@ -256,7 +258,8 @@ export class RegistrationComponent implements OnInit {
                 marital_status_id: this._registrationForm.value.marital_status,
                 gender: this._registrationForm.value.gender,
                 home_address: this._registrationForm.value.home_address,
-                barangay: this._registrationForm.value.barangay,
+                barangay: this.checkBarangay(),
+                barangay_id: this._registrationForm.value.barangay.id ? this._registrationForm.value.barangay.id : 0,
                 city_id: this.selectedCity, 
                 province_id: this.selectedProvince, 
                 region_id:this.selectedRegion,

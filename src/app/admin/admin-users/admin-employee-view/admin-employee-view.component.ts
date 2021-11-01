@@ -3,12 +3,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { 
+import {
   AdminUserService,
   UserService,
   BarangayService,
-  Position, Office
- } from '../../../core';
+  Position,
+  Office,
+  NewApplicationService
+} from '../../../core';
 
 @Component({
   selector: 'app-admin-employee-view',
@@ -18,12 +20,20 @@ import {
 export class AdminEmployeeViewComponent implements OnInit {
   public selectedFile: File = null;
   public selectedPhoto: File = null;
+  public selectedSelfie: File = null;
   public maxLength: number = 11;
   public isUpdating: boolean = false;
   public userInfo;
 
+  public regions = [];
+  public cities = [];
+  public provinces = [];
+  public selectedRegion;
+  public selectedProvince;
+  public selectedCity;
+
   _adminUpdateUserForm: FormGroup;
-  _barangay: Barangay[];
+  public barangay: Barangay[];
   _office: string[] = Object.keys(Office)
     .map((key) => Office[key])
     .filter((k) => !(parseInt(k) >= 0));
@@ -35,6 +45,7 @@ export class AdminEmployeeViewComponent implements OnInit {
   _filteredPositionOptions: Observable<string[]>;
   _displayPhoto: string | ArrayBuffer = '';
   _displayIdPhoto: string | ArrayBuffer = '';
+  _displaySelfiePhoto: string | ArrayBuffer = '';
   _submitted = false;
 
   get displayProfilePhoto(): string | ArrayBuffer {
@@ -47,6 +58,10 @@ export class AdminEmployeeViewComponent implements OnInit {
       : this.userInfo.id_photo_path;
   }
 
+  get displaySelfiePhoto(): string | ArrayBuffer {
+    return this._displaySelfiePhoto ? this._displaySelfiePhoto : this.userInfo.selfie_with_id_path;
+  }
+
   get adminUpdateUserFormControl() {
     return this._adminUpdateUserForm.controls;
   }
@@ -56,6 +71,7 @@ export class AdminEmployeeViewComponent implements OnInit {
     private _userService: UserService,
     private _barangayService: BarangayService,
     private _adminUserService: AdminUserService,
+    private _place: NewApplicationService,
     public dialogRef: MatDialogRef<AdminEmployeeViewComponent>,
     @Inject(MAT_DIALOG_DATA) public data
   ) {}
@@ -66,29 +82,27 @@ export class AdminEmployeeViewComponent implements OnInit {
 
   createForm() {
     this._adminUpdateUserForm = this._fb.group({
-      first_name: [this.userInfo.first_name, Validators.required],
-      middle_name: [this.userInfo.middle_name],
-      last_name: [this.userInfo.last_name, Validators.required],
-      suffix_name: [this.userInfo.suffix_name],
-      birthdate: [this.userInfo.birthdate, Validators.required],
-      marital_status: [this.userInfo.marital_status_id, Validators.required],
-      gender: [this.userInfo.gender, Validators.required],
-      home_address: [this.userInfo.home_address, Validators.required],
-      barangay: [this.userInfo.barangay_id, Validators.required],
-      employee_no: [Validators.required],
-      office: [Validators.required],
-      position: [Validators.required],
-      contact_number: [this.userInfo.contact_number,
-        [Validators.required, Validators.maxLength(11)],
-      ],
-      id_number: [this.userInfo.id_number, Validators.required],
-      id_type: [this.userInfo.id_type, Validators.required],
+      first_name: [],
+      middle_name: [],
+      last_name: [],
+      suffix_name: [],
+      birthdate: [],
+      marital_status: [],
+      gender: [],
+      home_address: [],
+      barangay: [],
+      employee_no: [],
+      office: [],
+      position: [],
+      contact_number: [Validators.maxLength(11)],
+      id_number: [],
+      id_type: [],
     });
 
     this.patchValue();
   }
 
-  patchValue(){
+  patchValue() {
     this._adminUpdateUserForm.patchValue({
       first_name: this.userInfo.first_name,
       middle_name: this.userInfo.middle_name,
@@ -98,22 +112,52 @@ export class AdminEmployeeViewComponent implements OnInit {
       marital_status: this.userInfo.marital_status_id,
       gender: this.userInfo.gender,
       home_address: this.userInfo.home_address,
-      barangay: this.userInfo.barangay_id,
-      contact_number:this.userInfo.contact_number,
+      barangay: this.userInfo.barangay,
+      contact_number: this.userInfo.contact_number,
       id_number: this.userInfo.id_number,
-      id_type: this.userInfo.id_type
-     
-    })
+      id_type: this.userInfo.id_type,
+    });
 
-    if(this.userInfo.employee_detail){
+    if (this.userInfo.employee_detail) {
       this._adminUpdateUserForm.patchValue({
         employee_no: this.userInfo.employee_detail.employee_no,
         office: this.userInfo.employee_detail.office_id,
         position: this.userInfo.employee_detail.position,
-       
-      })
+      });
     }
+
+    this.selectedPhoto = this.userInfo.photo_path;
+    this.selectedSelfie = this.userInfo.selfie_with_id_path;
+    this.selectedFile = this.userInfo.id_photo_path;
   }
+
+  onRegionSelect(e) {
+    this._place
+      .fetchProvince('', parseInt(e.value))
+      .subscribe((res) => {
+        this.provinces = res.data;
+      });
+  }
+  onProvinceSelect(e) {
+    this._place
+      .fetchCities(parseInt(e.value))
+      .subscribe((res) => {
+        this.cities = res.data;
+      });
+  }
+  
+  onCitySelect(e) {
+    console.log(this.selectedCity);
+    if(this.selectedCity == 1591 && this.barangay == null){
+      this._barangayService.getBarangayInfo().subscribe(data => {
+        this.barangay = data;
+      });
+    }
+      this._adminUpdateUserForm.patchValue({
+        barangay: ''
+      })
+  }
+
 
   openFileChooser() {
     const element: HTMLElement = document.getElementById(
@@ -129,6 +173,11 @@ export class AdminEmployeeViewComponent implements OnInit {
     element.click();
   }
 
+  openSelfieChooser() {
+    const element: HTMLElement = document.getElementById('selfie-photo') as HTMLElement;
+    element.click();
+  }
+
   handlePhotoFileChange($event) {
     this.selectedPhoto = $event.target.files[0];
     this.readSelectedPhotoInfo();
@@ -137,6 +186,11 @@ export class AdminEmployeeViewComponent implements OnInit {
   handleIDFileChange($event) {
     this.selectedFile = $event.target.files[0];
     this.readSelectedIdInfo();
+  }
+
+  handleSelfieFileChange($event) {
+    this.selectedSelfie = $event.target.files[0];
+    this.readSelectedSelfieInfo();
   }
 
   readSelectedPhotoInfo() {
@@ -159,10 +213,14 @@ export class AdminEmployeeViewComponent implements OnInit {
     }
   }
 
-  filterBarangays(value: string): Barangay[] {
-    return this._barangay.filter((option) =>
-      option.name.toLowerCase().includes(value.toLowerCase())
-    );
+  readSelectedSelfieInfo() {
+    if (this.selectedSelfie) {
+      let reader = new FileReader();
+      reader.onload = (res) => {
+        this._displaySelfiePhoto = reader.result;
+      };
+      reader.readAsDataURL(this.selectedSelfie);
+    }
   }
 
   filterOffice(value: string): string[] {
@@ -175,12 +233,6 @@ export class AdminEmployeeViewComponent implements OnInit {
     return this._position.filter((option) =>
       option.toLowerCase().includes(value)
     );
-  }
-
-  displayBarangayName(value: number) {
-    if (value != null) {
-      return this._barangay[value - 1].name;
-    }
   }
 
   displayOfficeName(value: number) {
@@ -199,6 +251,17 @@ export class AdminEmployeeViewComponent implements OnInit {
     }
   }
 
+  checkBarangay(){
+    if(this.selectedCity == 1591 ){
+      if(this._adminUpdateUserForm.value.barangay.name){
+        return this._adminUpdateUserForm.value.barangay.name;
+      }
+    }
+
+    else return this._adminUpdateUserForm.value.barangay;
+  }
+
+
   approveUser() {
     this.isUpdating = true;
     this._adminUserService
@@ -209,33 +272,29 @@ export class AdminEmployeeViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.userInfo = this.data.data;
-      if(this.userInfo){
-        this.userInfo.marital_status_id = String(this.userInfo.marital_status_id);
+    this.userInfo = this.data.data;
+    console.log(this.userInfo);
+    if (this.userInfo) {
+      this.userInfo.marital_status_id = String(this.userInfo.marital_status_id);
 
-        this.createForm();
-  
-        this._barangayService.getBarangayInfo().subscribe((data) => {
-          this._barangay = data;
-          this._filteredBarangayOptions = this.adminUpdateUserFormControl.barangay.valueChanges.pipe(
-            startWith(''),
-            map((barangay) =>
-              barangay ? this.filterBarangays(barangay) : this._barangay.slice()
-            )
-          );
-        });
-  
-        this._filteredOfficeOptions = this.adminUpdateUserFormControl.office.valueChanges.pipe(
+      this.createForm();
+
+      this._place.fetchRegions('').subscribe((res) => {
+        this.regions = res.data;
+      });
+
+      this._filteredOfficeOptions =
+        this.adminUpdateUserFormControl.office.valueChanges.pipe(
           startWith(''),
           map((value) => this.filterOffice(value))
         );
-  
-        this._filteredPositionOptions = this.adminUpdateUserFormControl.position.valueChanges.pipe(
+
+      this._filteredPositionOptions =
+        this.adminUpdateUserFormControl.position.valueChanges.pipe(
           startWith(''),
           map((value) => this.filterPosition(value))
         );
-
-      }
+    }
   }
 
   onSubmit() {
@@ -253,7 +312,8 @@ export class AdminEmployeeViewComponent implements OnInit {
         marital_status_id: this._adminUpdateUserForm.value.marital_status,
         gender: this._adminUpdateUserForm.value.gender,
         home_address: this._adminUpdateUserForm.value.home_address,
-        barangay: this._adminUpdateUserForm.value.barangay_id,
+        barangay: this.checkBarangay(),
+        barangay_id: this._adminUpdateUserForm.value.barangay.id ? this._adminUpdateUserForm.value.barangay.id : 0,
         employee_no: this._adminUpdateUserForm.value.employee_no,
         office_id: this._adminUpdateUserForm.value.office,
         position: this._adminUpdateUserForm.value.position,
@@ -262,6 +322,7 @@ export class AdminEmployeeViewComponent implements OnInit {
         id_type: this._adminUpdateUserForm.value.id_type,
         photo_path: this.selectedPhoto ? this.selectedPhoto : null,
         id_photo_path: this.selectedFile ? this.selectedFile : null,
+        selfie_with_id_path: this.selectedSelfie ? this.selectedSelfie : null,
       };
 
       this._userService
@@ -270,6 +331,7 @@ export class AdminEmployeeViewComponent implements OnInit {
           this.isUpdating = false;
         });
     }
+    
   }
 }
 

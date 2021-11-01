@@ -234,32 +234,34 @@
             </mat-form-field>
           </div>
         </div>
-
         <div class="row">
-          <div class="col-md-12" *ngIf="selectedCity == 1591">
-            <mat-form-field appearance="outline" *ngIf="this._barangay">
+          <div class="col-md-6" >
+            <mat-form-field appearance="outline">
               <mat-label>Barangay</mat-label>
-              <input
-                type="text"
-                placeholder="Select Barangay"
-                aria-label="Barangay"
-                matInput
-                formControlName="barangay"
-                [matAutocomplete]="auto_barangay"
-                required
-              />
-              <mat-icon matSuffix>arrow_drop_down</mat-icon>
-              <mat-autocomplete
-                #auto_barangay="matAutocomplete"
-                [displayWith]="displayBarangayName.bind(this)"
-              >
-                <mat-option
-                  *ngFor="let barangays of _filteredBarangayOptions | async"
-                  [value]="barangays.id"
-                >
-                  {{ barangays.name }}
-                </mat-option>
-              </mat-autocomplete>
+              <input *ngIf="selectedCity != 1591"
+              type="text"
+              placeholder="Select Barangay"
+              aria-label="Barangay"
+              matInput
+              formControlName="barangay"
+              required
+            />
+              <mat-select *ngIf="selectedCity == 1591"
+              type="text"
+              placeholder="Select Barangay"
+              aria-label="Barangay"
+              matInput
+              formControlName="barangay"
+              required
+            >
+            <mat-option
+            *ngFor="let barangays of barangay"
+            [value]="barangays"
+          >
+            {{ barangays.name }}
+          </mat-option>
+            </mat-select>
+           
               <mat-error
                 *ngIf="
                   (registrationFormControl.barangay.touched || _submitted) &&
@@ -270,9 +272,6 @@
               </mat-error>
             </mat-form-field>
           </div>
-        </div>
-
-        <div class="row">
           <div class="col-md-6">
             <mat-form-field appearance="outline">
               <mat-label>Contact Number</mat-label>
