@@ -1,5 +1,15 @@
 <ng-container>
-  <h2>{{ getDocType(data.form.document_id) }}</h2>
+  <div class="d-flex justify-content-between align-items-center">
+    <h2>{{ getDocType(data.form.document_id) }}</h2>
+    <mat-slide-toggle
+      [ngModel]="isFormApplicable == 2 ? true : false"
+      *ngIf="data.form.document_id == 117 || data.form.document_id == 195"
+      (change)="onToggleChange($event, data.form)"
+      ><span style="font-size: 14px; font-weight: bold"
+        >Not Applicable</span
+      ></mat-slide-toggle
+    >
+  </div>
   <div class="mt-3" *ngIf="!user.employee_detail">
     <div
       *ngIf="

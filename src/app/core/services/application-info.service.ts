@@ -126,6 +126,11 @@ export class ApplicationInfoService {
     );
   }
 
+  deleteSupportingFile(id, body) {
+    const url = `/application/${id}/supporting-file/remove`;
+    return this.api.post(url, body);
+  }
+
   fetchOngoingApplication(id) {
     const url = `/user/${id}/ongoing-application`;
 

@@ -30,6 +30,7 @@ export class BuildingPermitComponent implements OnInit {
   public electricalFormData;
   public situationalReportFormData;
   public sampleForm;
+  public isOptional: boolean = false;
   public forms: any = [
     {
       id: 1,
@@ -62,6 +63,18 @@ export class BuildingPermitComponent implements OnInit {
       label: 'Step 5',
       sample: '../../../../assets/forms/sample/Situational.png',
     },
+    {
+      id: 195,
+      src: '../../../../assets/forms/updated/Electronics_Permit_(For_Commercial_Building_only)_0_(1).pdf',
+      label: 'Step 7',
+      sample: '',
+    },
+    {
+      id: 117,
+      src: '../../../../assets/forms/updated/Mechanical_Permit_(1).pdf',
+      label: 'Step 8',
+      sample: '',
+    },
   ];
 
   public fieldSets: any = [
@@ -73,7 +86,7 @@ export class BuildingPermitComponent implements OnInit {
     {
       label: `Step ${this.forms.length + 2}`,
       title: 'Plans',
-      documents: [194, 59, 61, 63, 62, 140],
+      documents: [194, 59, 61, 63, 62, 64, 65, 140],
     },
     {
       label: `Step ${this.forms.length + 3}`,
@@ -84,7 +97,7 @@ export class BuildingPermitComponent implements OnInit {
       label: `Step ${this.forms.length + 4}`,
       title:
         'Professional Tax Receipt and Professional Regulations Commission ID',
-      documents: [34, 35, 36, 46],
+      documents: [34, 35, 36, 46, 47, 196],
     },
     {
       label: `Step ${this.forms.length + 5}`,
@@ -210,7 +223,7 @@ export class BuildingPermitComponent implements OnInit {
           ? this.updateForms()
           : this.fieldSets[0].documents.push(...this.isConstructionStatus);
         isOccupancyCommercial ? this.fieldSets[3].documents.push(47) : null;
-        isOccupancyCommercial ? this.addCommercialForms() : null;
+        // isOccupancyCommercial ? this.addCommercialForms() : null;
         // isOccupancyCommercial ? this.fieldSets[1].documents.push(64) : null;
         // isOccupancyCommercial ? this.fieldSets[1].documents.push(65) : null;
         is3storeysOrMore
@@ -240,22 +253,22 @@ export class BuildingPermitComponent implements OnInit {
     });
   }
 
-  addCommercialForms() {
-    this.forms.push(
-      {
-        id: 64,
-        src: '../../../../assets/forms/updated/Electronics_Permit_(For_Commercial_Building_only)_0_(1).pdf',
-        label: 'Step 7',
-        sample: '',
-      },
-      {
-        id: 65,
-        src: '../../../../assets/forms/updated/Mechanical_Permit_(1).pdf',
-        label: 'Step 8',
-        sample: '',
-      }
-    );
-  }
+  // addCommercialForms() {
+  //   this.forms.push(
+  //     {
+  //       id: 64,
+  //       src: '../../../../assets/forms/updated/Electronics_Permit_(For_Commercial_Building_only)_0_(1).pdf',
+  //       label: 'Step 7',
+  //       sample: '',
+  //     },
+  //     {
+  //       id: 65,
+  //       src: '../../../../assets/forms/updated/Mechanical_Permit_(1).pdf',
+  //       label: 'Step 8',
+  //       sample: '',
+  //     }
+  //   );
+  // }
 
   // ngAfterViewInit() {
   //   this.saveRoute();
@@ -271,6 +284,7 @@ export class BuildingPermitComponent implements OnInit {
         );
         this.openSnackBar('Saved!');
         this.setFilePaths();
+        this.isLoading = false;
       });
   }
 
@@ -296,6 +310,7 @@ export class BuildingPermitComponent implements OnInit {
         sample: this.forms[i].sample,
         description: this.getDocType(this.forms[i].id),
         path: '',
+        is_applicable: 0,
       };
     }
     for (let i = 0; i < this.fieldSets.length; i++) {
@@ -323,6 +338,7 @@ export class BuildingPermitComponent implements OnInit {
           form.src = doc.document_path;
           form.path = doc.document_path;
           form.doc_id = doc.id;
+          form.is_applicable = doc.is_applicable;
         }
       });
     });
@@ -478,6 +494,7 @@ export class BuildingPermitComponent implements OnInit {
   }
 
   public async upload(form, type): Promise<void> {
+    console.log(form);
     const data = this.formData;
     const blob =
       await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
@@ -511,9 +528,17 @@ export class BuildingPermitComponent implements OnInit {
         console.log('Blob failed');
       }
     } else {
-      const uploadDocumentData = {
-        document_status_id: 0,
-      };
+      let uploadDocumentData = {};
+      if (form.is_applicable == 2) {
+        uploadDocumentData = {
+          document_status_id: 1,
+        };
+      } else {
+        uploadDocumentData = {
+          document_status_id: 0,
+        };
+      }
+
       if (blob) {
         uploadDocumentData['document_path'] = blob;
       }
@@ -539,5 +564,84 @@ export class BuildingPermitComponent implements OnInit {
 
   getDocumentInfoPath(id) {
     return documentInfo[id];
+  }
+
+  onToggleChange(e, form) {
+    console.log(form);
+    if (e.checked == true) {
+      this.submitNotApplicable(form);
+    }
+  }
+
+  async submitNotApplicable(form) {
+    console.log(form);
+    if (!form.path) {
+      const blob =
+        await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+      if (blob) {
+        this.isLoading = true;
+        const uploadDocumentData = {
+          application_id: this.applicationId,
+          user_id: this.user.id,
+          document_id: form.id,
+          document_path: blob,
+          document_status_id: 1,
+          is_applicable: 2,
+          receiving_status_id: 1,
+          cbao_status_id: 1,
+        };
+
+        this.newApplicationService
+          .submitDocument(uploadDocumentData)
+          .subscribe((res) => {
+            this.fetchApplicationInfo();
+            if (form.id == 195 || form.id == 117) {
+              this.uploadMechanicalElectronicsNotApplicable(form);
+            }
+          });
+      }
+    } else {
+      if (form.is_applicable == 2) {
+        this.applicationService
+          .updateDocumentFile({ is_applicable: 1 }, form.doc_id)
+          .subscribe((res) => {
+            this.fetchApplicationInfo();
+          });
+      } else if (form.is_applicable == 1 || form.is_applicable == 0) {
+        this.applicationService
+          .updateDocumentFile({ is_applicable: 2 }, form.doc_id)
+          .subscribe((res) => {
+            this.fetchApplicationInfo();
+          });
+      }
+    }
+    this.isOptional = false;
+  }
+
+  async uploadMechanicalElectronicsNotApplicable(form) {
+    let pdf = await fetch(
+      'https://s3-ap-southeast-1.amazonaws.com/baguio-ocpas/MaZXPXPOptMGBcvThBJ2VejNVzCEXVbEcYHZtU8y.pdf'
+    );
+    let data = await pdf.blob();
+    let metadata = {
+      type: 'application/pdf',
+    };
+    let file = new File([data], 'not-applicable.pdf', metadata);
+
+    const uploadDocumentData = {
+      application_id: this.applicationId,
+      user_id: this.user.id,
+      document_id: form.id == 117 ? 47 : 196,
+      document_path: file,
+      document_status_id: 1,
+      is_applicable: 2,
+      receiving_status_id: 1,
+      cbao_status_id: 1,
+    };
+    this.newApplicationService
+      .submitDocument(uploadDocumentData)
+      .subscribe((res) => {
+        this.fetchApplicationInfo();
+      });
   }
 }

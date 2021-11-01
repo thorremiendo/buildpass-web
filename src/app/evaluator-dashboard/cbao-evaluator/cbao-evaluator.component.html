@@ -134,13 +134,22 @@
                     <div *ngIf="!element.label">
                       {{
                         evaluatorRole.code == "CBAO-REC"
-                          ? getDocStatus(element.receiving_status_id)
+                          ? getDocStatus(
+                              element.receiving_status_id,
+                              element.is_applicable
+                            )
                           : evaluatorRole.code == "CBAO-DC" ||
                             evaluatorRole.code == "CBAO-BO" ||
                             evaluatorRole.code == "CBAO-REL" ||
                             applicationInfo.permit_type_id !== 1
-                          ? getDocStatus(element.document_status_id)
-                          : getDocStatus(element.cbao_status_id)
+                          ? getDocStatus(
+                              element.document_status_id,
+                              element.is_applicable
+                            )
+                          : getDocStatus(
+                              element.cbao_status_id,
+                              element.is_applicable
+                            )
                       }}
                     </div>
                   </td>
@@ -399,7 +408,8 @@
                     <div
                       *ngIf="
                         evaluatorRole.code !== 'CBAO-BO' &&
-                        evaluatorRole.code !== 'CBAO-REC'
+                        evaluatorRole.code !== 'CBAO-REC' &&
+                        evaluatorRole.code !== 'CBAO-DC'
                       "
                     >
                       <button
@@ -455,7 +465,8 @@
                     <div
                       *ngIf="
                         evaluatorRole.code !== 'CBAO-BO' &&
-                        evaluatorRole.code !== 'CBAO-REC'
+                        evaluatorRole.code !== 'CBAO-REC' &&
+                        evaluatorRole.code !== 'CBAO-DC'
                       "
                     >
                       <button

@@ -7,6 +7,9 @@ import { ApiService } from './api.service';
 })
 export class WaterMarkService {
   public mergedPlans;
+  private comliantImgPath = '../../assets/compliant.png';
+  private forComplianceImgPath = '../../assets/forCompliance.png';
+  public duplicatePdf;
   constructor(private api: ApiService) {}
 
   async insertWaterMark(doc_path: string, doc_type: string) {
@@ -15,43 +18,83 @@ export class WaterMarkService {
     const existingPdfBytes = await fetch(url).then((res) => res.arrayBuffer());
     const pdfDocLoad = await PDFDocument.load(existingPdfBytes);
 
+    const compliantImgBytes = await fetch(this.comliantImgPath).then((res) =>
+      res.arrayBuffer()
+    );
+    const forComplianceImgBytes = await fetch(this.forComplianceImgPath).then(
+      (res) => res.arrayBuffer()
+    );
+
+    const compliantImg = await pdfDocLoad.embedPng(compliantImgBytes);
+    const forComplianceImg = await pdfDocLoad.embedPng(forComplianceImgBytes);
+
     const helveticaFont = await pdfDocLoad.embedFont(StandardFonts.Helvetica);
 
     const pages = pdfDocLoad.getPages();
     const pageCount = pages.length;
     const { width, height } = pages[0].getSize();
+    var pngDims;
+    var pngDimsfire;
+
+    console.log(doc_type);
 
     for (let i = 0; i < pageCount; i++) {
       switch (doc_type) {
         case 'compliant':
-          pages[i].drawText('Compliant', {
-            x: width / 2 - 150,
-            y: height / 2 + 150,
-            size: 80,
-            font: helveticaFont,
-            color: rgb(0, 1, 0),
-            opacity: 0.2,
+          pngDims = compliantImg.scale(0.5);
+          pngDimsfire = compliantImg.scale(0.4);
+          pages[i].drawImage(compliantImg, {
+            x: width / 2 - 340,
+            y: height / 2 + 200,
+            opacity: 0.5,
             rotate: degrees(-45),
+            width: pngDimsfire.width,
+            height: pngDimsfire.height,
           });
-          break;
-        case 'non-compliant':
-          pages[i].drawText('Non Compliant', {
-            x: width / 2 - 200,
-            y: height / 2 + 150,
-            size: 80,
-            font: helveticaFont,
-            color: rgb(1, 0, 0),
-            opacity: 0.2,
+        break;
+
+        case 'for-compliance':
+          pngDims = forComplianceImg.scale(0.5);
+          pngDimsfire = forComplianceImg.scale(0.4);
+          pages[i].drawImage(forComplianceImg, {
+            x: width / 2 - 340,
+            y: height / 2 + 200,
+            opacity: 0.5,
             rotate: degrees(-45),
+            width: pngDimsfire.width, 
+            height: pngDimsfire.height,
           });
-          break;
+        break;
+        // case 'compliant':
+        //   pages[i].drawText('Compliant', {
+        //     x: width / 2 - 150,
+        //     y: height / 2 + 150,
+        //     size: 80,
+        //     font: helveticaFont,
+        //     color: rgb(0, 1, 0),
+        //     opacity: 0.2,
+        //     rotate: degrees(-45),
+        //   });
+        //   break;
+        // case 'non-compliant':
+        //   pages[i].drawText('Non Compliant', {
+        //     x: width / 2 - 200,
+        //     y: height / 2 + 150,
+        //     size: 80,
+        //     font: helveticaFont,
+        //     color: rgb(1, 0, 0),
+        //     opacity: 0.2,
+        //     rotate: degrees(-45),
+        //   });
+        //   break;
+      
       }
     }
 
     const pdfBytes = await pdfDocLoad.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    // const file = window.URL.createObjectURL(blob);
-    // window.open(file); // open in new window
+    const file = window.URL.createObjectURL(blob);
+    window.open(file); // open in new window
 
     return blob;
   }
@@ -127,36 +170,6 @@ export class WaterMarkService {
     //window.open(file); // open in new window
 
     return blob;
-  }
-
-  async flattenForm(pdfUrl) {
-    // Fetch the PDF with form fields
-    const formUrl = pdfUrl;
-    const formPdfBytes = await fetch(formUrl).then((res) => res.arrayBuffer());
-
-    // Load a PDF with form fields
-    const pdfDoc = await PDFDocument.load(formPdfBytes);
-
-    // Get the form containing all the fields
-    const form = pdfDoc.getForm();
-
-    // Flatten the form's fields
-    form.flatten();
-
-    // Serialize the PDFDocument to bytes (a Uint8Array)
-    const pdfBytes = await pdfDoc.save();
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    const file = window.URL.createObjectURL(blob);
-    window.open(file); // open in new window
-  }
-
-  convertToBytes(url) {
-    if (url[0]) {
-      const bytes = fetch(url[0].document_path).then((res) =>
-        res.arrayBuffer()
-      );
-      return bytes;
-    }
   }
 
   async merge(forms) {
@@ -299,6 +312,89 @@ export class WaterMarkService {
     const file = window.URL.createObjectURL(blob);
     this.mergedPlans = file;
     // window.open(file); // open in new window
+  }
+
+  async rotatePdf(pdfUrl) {
+    // Fetch the PDF with form fields
+    const formUrl = pdfUrl;
+    const formPdfBytes = await fetch(formUrl).then((res) => res.arrayBuffer());
+
+    // Load a PDF with form fields
+    const pdfDoc = await PDFDocument.load(formPdfBytes);
+    const firstPage = pdfDoc.getPages()[0];
+
+    console.log('rotation', firstPage.getRotation());
+
+    firstPage.setRotation(degrees(0));
+
+    console.log('rotated', firstPage.getRotation());
+
+    // Serialize the PDFDocument to bytes (a Uint8Array)
+    const pdfBytes = await pdfDoc.save();
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const file = window.URL.createObjectURL(blob);
+    window.open(file); // open in new window
+  }
+
+  async flattenForm(pdfUrl) {
+    // Fetch the PDF with form fields
+    const formUrl = pdfUrl;
+    const formPdfBytes = await fetch(formUrl).then((res) => res.arrayBuffer());
+
+    // Load a PDF with form fields
+    const pdfDoc = await PDFDocument.load(formPdfBytes);
+
+    // Get the form containing all the fields
+    const form = pdfDoc.getForm();
+
+    // Flatten the form's fields
+    form.flatten();
+
+    // Serialize the PDFDocument to bytes (a Uint8Array)
+    const pdfBytes = await pdfDoc.save();
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const file = window.URL.createObjectURL(blob);
+    window.open(file); // open in new window
+  }
+
+  convertToBytes(url) {
+    if (url[0]) {
+      const bytes = fetch(url[0].document_path).then((res) =>
+        res.arrayBuffer()
+      );
+      return bytes;
+    }
+  }
+
+  convertBytes(url) {
+    if (url) {
+      const bytes = fetch(url).then((res) => res.arrayBuffer());
+      return bytes;
+    }
+  }
+
+  async duplicate(formUrl) {
+    let architectural;
+    const architectrualBytes = await this.convertBytes(formUrl);
+
+    architectural = await PDFDocument.load(architectrualBytes);
+
+    const mergedPdf = await PDFDocument.create();
+
+    if (architectural) {
+      const copiedPagesA = await mergedPdf.copyPages(
+        architectural,
+        architectural.getPageIndices()
+      );
+      copiedPagesA.forEach((page) => mergedPdf.addPage(page));
+    }
+
+    const mergedPdfFile = await mergedPdf.save();
+
+    const blob = new Blob([mergedPdfFile], { type: 'application/pdf' });
+    const file = window.URL.createObjectURL(blob);
+    // this.mergedPlans = file;
+    window.open(file); // open in new window
   }
 
   generateQrCode(id) {

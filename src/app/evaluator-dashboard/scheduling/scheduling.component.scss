@@ -1,0 +1,110 @@
+h1,
+p {
+  margin: 0;
+  padding: 0;
+}
+::ng-deep .mat-calendar {
+  border-radius: 20px;
+  box-shadow: 0px 8px 30px rgba(222, 230, 241, 0.8);
+}
+::ng-deep .mat-calendar-body-cell.selected > .mat-calendar-body-cell-content,
+::ng-deep
+  .mat-calendar-body-cell.selected:hover
+  > .mat-calendar-body-cell-content,
+::ng-deep
+  .mat-calendar-body-cell.selected
+  > .mat-calendar-body-cell-content:hover {
+  background-color: maroon !important;
+  color: #fff !important;
+}
+
+.content {
+  padding: 20px 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  &__top {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    flex-wrap: wrap;
+
+    &__schedules {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 0px 10px;
+      &__header {
+        padding: 0px 0px 20px 0px;
+        border-bottom: 1px solid rgba(128, 0, 0, 0.205);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+
+        p {
+          font-weight: 600;
+          color: #363738;
+          font-size: 20px;
+        }
+        mat-icon {
+          margin-right: 10px;
+          color: rgba(128, 0, 0, 0.705);
+        }
+      }
+      &__body {
+        display: flex;
+        flex-direction: column;
+        overflow-y: scroll;
+        max-height: 600px;
+      }
+    }
+    &__calendar {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: 0px 10px;
+
+      &__header {
+        padding: 0px 0px 20px 0px;
+        border-bottom: 1px solid rgba(128, 0, 0, 0.205);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+
+        p {
+          font-weight: 600;
+          color: #363738;
+          font-size: 20px;
+        }
+        mat-icon {
+          margin-right: 10px;
+          color: rgba(128, 0, 0, 0.705);
+        }
+      }
+    }
+  }
+  &__upcoming {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    &__header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      h1 {
+        color: #363738;
+        font-size: 24px;
+        font-weight: 600;
+      }
+    }
+    &__body {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+  }
+}

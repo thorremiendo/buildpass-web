@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="container__header">
+    <h1>
+      Inspection by
+      <span
+        >{{ data.inspection.evaluator_detail.first_name }}
+        {{ data.inspection.evaluator_detail.last_name }}</span
+      >
+    </h1>
+
+    <p>
+      {{
+        getOffice(data.inspection.evaluator_detail.employee_detail.office_id)
+      }}
+    </p>
+  </div>
+  <div class="container__body">
+    <div class="d-flex align-items-center flex-row mt-3">
+      <mat-icon style="margin-right: 5px; color: teal">schedule</mat-icon>
+      <p>{{ data.inspection.scheduled_time }}</p>
+    </div>
+    <div class="d-flex align-items-center flex-row mt-3">
+      <mat-icon style="margin-right: 5px; color: teal">event</mat-icon>
+      <p>{{ data.inspection.scheduled_date | date: "MMMM dd, yyyy" }}</p>
+    </div>
+
+    <div class="d-flex align-items-center flex-row mt-3">
+      <mat-icon style="margin-right: 5px; color: teal">email</mat-icon>
+      <p>{{ data.inspection.evaluator_detail.email_address }}</p>
+    </div>
+    <div class="d-flex align-items-center flex-row mt-3">
+      <mat-icon style="margin-right: 5px; color: teal">notes</mat-icon>
+      <p class="notes">{{ data.inspection.notes }}</p>
+    </div>
+    <div class="d-flex align-items-center flex-row mt-3">
+      <mat-icon style="margin-right: 5px; color: teal"
+        >label_important</mat-icon
+      >
+      <p>{{ getInspectionStatus(data.inspection.status_id) }}</p>
+    </div>
+  </div>
+  <div class="container__footer">
+    <button
+      mat-raised-button
+      color="primary"
+      style="color: white"
+      (click)="updateStatus(1)"
+    >
+      Approve
+    </button>
+    <button mat-raised-button color="accent" (click)="updateStatus(2)">
+      Reject
+    </button>
+  </div>
+</div>

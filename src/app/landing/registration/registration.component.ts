@@ -72,7 +72,7 @@ export class RegistrationComponent implements OnInit {
       marital_status:['', Validators.required],
       gender:['', Validators.required],
       home_address:['', Validators.required],
-      barangay:['', Validators.required],
+      barangay:['',],
       contact_number:['', [Validators.required, Validators.maxLength(11),]],
       id_number:['', Validators.required],
       id_type:['', Validators.required],
