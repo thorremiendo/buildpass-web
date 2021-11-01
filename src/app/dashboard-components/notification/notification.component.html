@@ -55,9 +55,6 @@
                   <a
                     *ngFor="let feed of feeds.slice().reverse(); let i = index"
                   >
-                    <!-- <div class="round {{feed.round}}">
-                                            <i class="{{feed.icon}}"></i>
-                                        </div>  -->
                     <div
                      *ngIf="feed.is_viewed == 1"
                       class="mail-content"
