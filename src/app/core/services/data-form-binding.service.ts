@@ -99,6 +99,9 @@ export class DataFormBindingService {
 
   handleSaveFormData(applicationId, formId, data) {
     const body = data;
+    body['project_cost_cap'] = data.project_cost_cap
+      ? data.project_cost_cap.replace(/[&\/\\#,+()$~%.'":*?<>{}P]/g, '')
+      : 'N/A';
     switch (formId) {
       case 1:
         const zoningBody = {
@@ -192,7 +195,9 @@ export class DataFormBindingService {
           project_tenure_temporary: data.project_tenure_temporary
             ? data.project_tenure_temporary
             : '',
-          project_cost_cap: data.project_cost_cap ? data.project_cost_cap : '',
+          project_cost_cap: data.project_cost_cap
+            ? data.project_cost_cap.replace(/[&\/\\#,+()$~%.'":*?<>{}P]/g, '')
+            : '',
           amount_in_words: data.amount_in_words ? data.amount_in_words : '',
           existing_land: data.existing_land ? data.existing_land : '',
           existing_land_residence: data.existing_land_residence
@@ -209,6 +214,7 @@ export class DataFormBindingService {
             : '',
           position_title: data.position_title ? data.position_title : '',
         };
+        console.log(zoningBody);
         this.submitZoningFormData(zoningBody, applicationId).subscribe(
           (res) => {
             this.applicationService
@@ -882,6 +888,8 @@ export class DataFormBindingService {
         `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       applicant_full_name:
         `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
+      applicant_full_name_notary:
+        `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       applicant_complete_address: `${
         applicantDetails.house_number ? applicantDetails.house_number : ''
       }  ${applicantDetails.lot_number ? applicantLot : ''} ${
@@ -939,7 +947,7 @@ export class DataFormBindingService {
           ? ''
           : applicantDetails.barangay.toUpperCase(),
       applicant_province: 'BENGUET',
-      applicant_city: 'BAGUIO CITY',
+      applicant_city: '',
       appicant_zipcode: '2600',
       project_house_number:
         projectDetails.house_number == '' ? '' : projectDetails.house_number,
@@ -984,6 +992,7 @@ export class DataFormBindingService {
           : projectDetails.project_title.toUpperCase(),
       // project_cost_cap: projectCostCap == '' ? '' : `${projectCostCap}`,
       project_cost_cap: projectDetails.project_cost_cap,
+      project_cost: projectDetails.project_cost_cap,
       project_tct_number:
         projectDetails.tct_number == '' ? '' : projectDetails.tct_number,
       project_tax_dec_number:
@@ -1030,6 +1039,10 @@ export class DataFormBindingService {
         representativeDetails == null ? 'N/A' : representativeDetails.prc_no,
       fulltime_inspector_ptr_no:
         representativeDetails == null ? 'N/A' : representativeDetails.ptc_no,
+      rep_contact_number:
+        representativeDetails == null
+          ? 'N/A'
+          : representativeDetails.contact_number,
       rep_first_name:
         representativeDetails == null
           ? 'N/A'

@@ -93,7 +93,6 @@ export class ApplicationDetailsComponent implements OnInit {
   openRepresentativeDialog() {
     const dialogRef = this.dialog.open(RepresentativeDetailsComponent, {
       width: '1200px',
-      height: '1200px',
       data: {
         representativeDetails: this.applicationDetails.representative_detail,
       },

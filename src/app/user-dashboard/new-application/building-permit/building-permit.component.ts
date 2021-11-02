@@ -53,7 +53,7 @@ export class BuildingPermitComponent implements OnInit {
     },
     {
       id: 4,
-      src: '../../../../assets/forms/updated/Electrical_Permit_V3_october_21_2021.pdf',
+      src: '../../../../assets/forms/updated/Electrical_Permit_V4.pdf',
       label: 'Step 4',
       sample: '../../../../assets/forms/sample/Electrical.png',
     },
@@ -137,6 +137,7 @@ export class BuildingPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
+        console.log(this.applicationDetails);
         this.saveRoute();
         this.zoningFormData = this.dataBindingService.getFormData(
           this.applicationDetails
