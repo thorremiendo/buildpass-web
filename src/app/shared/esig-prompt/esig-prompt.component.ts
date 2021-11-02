@@ -43,19 +43,28 @@ export class EsigPromptComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(PasswordPromptComponent, {
-      disableClose: true,
-      width: '400px',
-      data: {
-        signature: this.userSignature,
-        docId: this.docId,
-        appId: this.applicationId,
-      },
-    });
+    if (this.userDetails.user_roles[0].role[0].code == 'CBAO-BO') {
+      this.esignatureService.goToEsig(
+        this.applicationId,
+        this.docId,
+        this.userSignature
+      );
+      this.esignatureService.setStep(2);
+    } else {
+      const dialogRef = this.dialog.open(PasswordPromptComponent, {
+        disableClose: true,
+        width: '400px',
+        data: {
+          signature: this.userSignature,
+          docId: this.docId,
+          appId: this.applicationId,
+        },
+      });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
-    });
+      dialogRef.afterClosed().subscribe((result) => {
+        console.log(`Dialog result: ${result}`);
+      });
+    }
   }
 
   fetchUserSignature() {
