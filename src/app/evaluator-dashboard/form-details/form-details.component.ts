@@ -620,7 +620,7 @@ export class FormDetailsComponent implements OnInit {
         }
       } else {
         this.waterMark
-          .insertWaterMark(docPath, 'non-compliant')
+          .insertWaterMark(docPath, 'for-compliance')
           .then((blob) => {
             let body = {};
             const officeId = this.data.evaluator.office_id;
