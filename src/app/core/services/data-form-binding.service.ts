@@ -100,7 +100,7 @@ export class DataFormBindingService {
   handleSaveFormData(applicationId, formId, data) {
     const body = data;
     body['project_cost_cap'] = data.project_cost_cap
-      ? data.project_cost_cap.replace(/[&\/\\#,+()$~%.'":*?<>{}P]/g, '')
+      ? data.project_cost_cap.replace(/[&\/\\#,+()$~%'":*?<>{}P]/g, '')
       : 'N/A';
     switch (formId) {
       case 1:
@@ -196,7 +196,7 @@ export class DataFormBindingService {
             ? data.project_tenure_temporary
             : '',
           project_cost_cap: data.project_cost_cap
-            ? data.project_cost_cap.replace(/[&\/\\#,+()$~%.'":*?<>{}P]/g, '')
+            ? data.project_cost_cap.replace(/[&\/\\#,+()$~%'":*?<>{}P]/g, '')
             : '',
           amount_in_words: data.amount_in_words ? data.amount_in_words : '',
           existing_land: data.existing_land ? data.existing_land : '',

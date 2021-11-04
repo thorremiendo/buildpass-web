@@ -38,7 +38,7 @@ export class NotificationComponent implements OnInit {
 
         this.updateNotifTable();
      
-      
+
     }
   }
 
