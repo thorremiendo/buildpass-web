@@ -67,6 +67,36 @@ export class DownloadableFormsComponent implements OnInit {
       caption:
         'Civil Engineer Affidavit Pursuant to P.D. 1096, National Building Code of the Philippines and its IRR   ',
     },
+    {
+      title: '20 x 30 - 1',
+      src: '../../../assets/Format/20x30-1.pdf',
+      caption: 'Template for plans designed for BuildPASS Applications.',
+    },
+    {
+      title: '20 x 30 - 2',
+      src: '../../../assets/Format/20x30-2.pdf',
+      caption: 'Template for plans designed for BuildPASS Applications.',
+    },
+    {
+      title: '30 x 40 - 1',
+      src: '../../../assets/Format/30x40-1.pdf',
+      caption: 'Template for plans designed for BuildPASS Applications.',
+    },
+    {
+      title: '30 x 40 - 2',
+      src: '../../../assets/Format/30x40-2.pdf',
+      caption: 'Template for plans designed for BuildPASS Applications.',
+    },
+    {
+      title: 'A3 - 1',
+      src: '../../../assets/Format/A3-1.pdf',
+      caption: 'Template for plans designed for BuildPASS Applications.',
+    },
+    {
+      title: 'A3 - 2',
+      src: '../../../assets/Format/A3-2.pdf',
+      caption: 'Template for plans designed for BuildPASS Applications.',
+    },
   ];
 
   constructor() {}
