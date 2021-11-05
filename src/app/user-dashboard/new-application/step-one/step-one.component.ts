@@ -239,6 +239,23 @@ export class StepOneComponent implements OnInit {
     }
   }
 
+  canProceedRenovationAmendment() {
+    if (
+      this.selectedPermitType == 1 && //building permit
+      (this.constructionStatus == 4 || //renovation,amendment,additional floor
+        this.constructionStatus == 5 ||
+        this.constructionStatus == 6)
+    ) {
+      if (this.oldBpDetails.length >= 1 && !this.noBpError) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+
   navigateOtherPermits() {
     Swal.fire('Success!', 'Application Details Submitted!', 'success').then(
       (result) => {

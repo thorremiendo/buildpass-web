@@ -362,7 +362,9 @@
               <mat-label>Choose</mat-label>
               <mat-select
                 formControlName="is_within_subdivision"
-                [disabled]="selectedOngoingApplication"
+                [disabled]="
+                  selectedOngoingApplication || !canProceedRenovationAmendment()
+                "
               >
                 <mat-option value="1">Yes</mat-option>
                 <mat-option value="2">No</mat-option>
