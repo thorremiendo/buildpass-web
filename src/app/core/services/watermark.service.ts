@@ -94,7 +94,7 @@ export class WaterMarkService {
     const pdfBytes = await pdfDocLoad.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
-    window.open(file); // open in new window
+    // window.open(file); // open in new window
 
     return blob;
   }
