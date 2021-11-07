@@ -178,7 +178,9 @@
               *matRowDef="let row; columns: displayedColumns"
               [ngClass]="{
                 pending: row.bfp_status_id == 0,
-                compliant: row.bfp_status_id == 1,
+                'not-applicable':
+                  row.bfp_status_id == 1 && row.is_applicable == 2,
+                compliant: row.bfp_status_id == 1 && row.is_applicable !== 2,
                 'non-compliant': row.bfp_status_id == 2,
                 hidden: row.label && row.label == 'hidden'
               }"

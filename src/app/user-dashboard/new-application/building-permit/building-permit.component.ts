@@ -381,6 +381,38 @@ export class BuildingPermitComponent implements OnInit {
       });
   }
 
+  submitNotApplicableDocument(file: File, doctypeId: string) {
+    this.isLoading = true;
+    const uploadDocumentData = {
+      application_id: this.applicationId,
+      user_id: this.user.id,
+      document_id: doctypeId,
+      document_path: file,
+      document_status_id: 1,
+      is_applicable: 2,
+      receiving_status_id: 1,
+      cbao_status_id: 1,
+      bfp_status_id: 1,
+      cepmo_status_id: 1,
+    };
+
+    this.newApplicationService
+      .submitDocument(uploadDocumentData)
+      .subscribe((res) => {
+        this.isLoading = false;
+        const path = res.data.document_path;
+        this.forms.forEach((form) => {
+          if (form.id == doctypeId) form.path = path;
+        });
+        this.fieldSets.forEach((fieldSet) => {
+          fieldSet.documents.forEach((field) => {
+            if (field.id == doctypeId) field.path = path;
+          });
+        });
+        this.fetchApplicationInfo();
+      });
+  }
+
   getFieldSetsLength() {
     const length = [];
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
@@ -590,6 +622,8 @@ export class BuildingPermitComponent implements OnInit {
           is_applicable: 2,
           receiving_status_id: 1,
           cbao_status_id: 1,
+          bfp_status_id: 1,
+          cepmo_status_id: 1,
         };
 
         this.newApplicationService
@@ -638,6 +672,8 @@ export class BuildingPermitComponent implements OnInit {
       is_applicable: 2,
       receiving_status_id: 1,
       cbao_status_id: 1,
+      bfp_status_id: 1,
+      cepmo_status_id: 1,
     };
     this.newApplicationService
       .submitDocument(uploadDocumentData)

@@ -330,6 +330,7 @@ export class FormDetailsComponent implements OnInit {
     const findId = filters.find((e) => e == this.data.form.document_id);
     const uploadDocumentData = {
       document_status_id: 0,
+      is_applicable: 1,
     };
     if (this.selectedForm) {
       uploadDocumentData['document_path'] = this.selectedForm;

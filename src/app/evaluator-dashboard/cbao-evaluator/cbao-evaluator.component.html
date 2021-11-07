@@ -345,7 +345,12 @@
                   *matRowDef="let row; columns: displayedColumns"
                   [ngClass]="{
                     pending: row[documentStatusSelector] == 0,
-                    compliant: row[documentStatusSelector] == 1,
+                    'not-applicable':
+                      row[documentStatusSelector] == 1 &&
+                      row.is_applicable == 2,
+                    compliant:
+                      row[documentStatusSelector] == 1 &&
+                      row.is_applicable !== 2,
                     'non-compliant': row[documentStatusSelector] == 2,
                     hidden: row.label && row.label == 'hidden'
                   }"
@@ -478,7 +483,7 @@
                         Review Done (Compliant)
                       </button>
                     </div>
-                    <button
+                    <!-- <button
                       mat-raised-button
                       color="primary"
                       (click)="forPayment()"
@@ -489,7 +494,7 @@
                       "
                     >
                       Forward to Payment of Fees
-                    </button>
+                    </button> -->
                     <!-- <button
                       mat-raised-button
                       color="primary"

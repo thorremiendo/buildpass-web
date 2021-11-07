@@ -143,8 +143,10 @@ export class ReleaseBldgPermitComponent implements OnInit {
     }
   }
 
-  callSave() {
+  async callSave() {
     this.isSubmitting = true;
+    const blob =
+      await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     const uploadDocumentData = {
       application_id: this.applicationId,
       user_id: this.userId,
@@ -152,8 +154,8 @@ export class ReleaseBldgPermitComponent implements OnInit {
       document_status_id: 1,
     };
 
-    if (this.bpCertificate) {
-      uploadDocumentData['document_path'] = this.bpCertificate;
+    if (blob) {
+      uploadDocumentData['document_path'] = blob;
     }
 
     this.newApplicationService

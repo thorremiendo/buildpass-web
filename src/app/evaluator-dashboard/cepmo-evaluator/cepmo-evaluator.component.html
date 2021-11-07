@@ -177,7 +177,9 @@
               *matRowDef="let row; columns: displayedColumns"
               [ngClass]="{
                 pending: row.cepmo_status_id == 0,
-                compliant: row.cepmo_status_id == 1,
+                'not-applicable':
+                  row.cepmo_status_id == 1 && row.is_applicable == 2,
+                compliant: row.cepmo_status_id == 1 && row.is_applicable !== 2,
                 'non-compliant': row.cepmo_status_id == 2,
                 hidden: row.label && row.label == 'hidden'
               }"

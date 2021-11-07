@@ -22,10 +22,20 @@ table {
       color: lightgray;
     }
   }
+  .not-applicable {
+    background-color: rgb(248, 214, 151);
 
+    td:first-of-type {
+      color: orange;
+    }
+    td:nth-of-type(4) {
+      color: orange;
+      font-weight: 600;
+    }
+  }
   .compliant {
     background-color: #dcedc8;
-    
+
     td:first-of-type {
       color: green;
     }

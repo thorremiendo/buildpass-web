@@ -133,7 +133,10 @@
               *matRowDef="let row; columns: displayedColumns"
               [ngClass]="{
                 pending: row.document_status_id == 0,
-                compliant: row.document_status_id == 1,
+                'not-applicable':
+                  row.document_status_id == 1 && row.is_applicable == 2,
+                compliant:
+                  row.document_status_id == 1 && row.is_applicable !== 2,
                 'non-compliant': row.document_status_id == 2,
                 hidden: row.label && row.label == 'hidden'
               }"

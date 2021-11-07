@@ -16,7 +16,7 @@ export class FileUploadComponent implements OnInit {
   @Input() formId: string;
   @Input() applicationDetails;
   @Output() emitFile: EventEmitter<File> = new EventEmitter<File>();
-
+  @Output() emitNotApplicable: EventEmitter<File> = new EventEmitter<File>();
   public fileDescription: string;
   public filePath: string;
   public file: File;
@@ -37,7 +37,7 @@ export class FileUploadComponent implements OnInit {
     this.infoPath = this.info;
     this.checkIfPicture();
   }
-  
+
   checkIfPicture() {
     return this.fileDescription.includes('picture');
   }
@@ -94,7 +94,7 @@ export class FileUploadComponent implements OnInit {
       type: 'application/pdf',
     };
     let file = new File([data], 'not-applicable.pdf', metadata);
-    this.emitFile.emit(file);
+    this.emitNotApplicable.emit(file);
     this.isOptional = false;
     // const uploadDocumentData = {
     //   application_id: this.applicationDetails.id,

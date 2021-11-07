@@ -1,3 +1,5 @@
+import { NewApplicationService } from 'src/app/core/services/new-application.service';
+import { NewApplicationFormService } from './../../core/services/new-application-form-service';
 import { WaterMarkService } from './../../core/services/watermark.service';
 import { EsigPdfPreviewComponent } from './../esig-pdf-preview/esig-pdf-preview.component';
 import { EsignatureService } from 'src/app/core/services/esignature.service';
@@ -56,6 +58,8 @@ export class ESignatureComponent implements OnInit {
   public esigSource;
   public targetPage = 1;
   public isLoading: boolean = false;
+  public documentInfo;
+  public userDocuments;
   constructor(
     private route: ActivatedRoute,
     private applicationService: ApplicationInfoService,
@@ -63,7 +67,8 @@ export class ESignatureComponent implements OnInit {
     private router: Router,
     private esignatureService: EsignatureService,
     public dialog: MatDialog,
-    private waterMarkService: WaterMarkService
+    private waterMarkService: WaterMarkService,
+    private newApplicationService: NewApplicationService
   ) {}
 
   ngOnInit() {
@@ -76,8 +81,14 @@ export class ESignatureComponent implements OnInit {
     this.applicationService
       .fetchSpecificDocInfo(this.documentId)
       .subscribe((res) => {
-        this.isLoading = false;
+        this.documentInfo = res.data[0];
         this.pdfSource = res.data[0].document_path;
+        this.newApplicationService
+          .fetchApplicationInfo(this.applicationId)
+          .subscribe((res) => {
+            this.isLoading = false;
+            this.userDocuments = res.data.user_docs;
+          });
       });
   }
 
@@ -496,11 +507,26 @@ export class ESignatureComponent implements OnInit {
     this.applicationService
       .updateDocumentFile(body, this.documentId)
       .subscribe((res) => {
-        this.isLoading = false;
-        this.openSnackBar('Success!');
-        setTimeout(() => {
-          this.router.navigate(['/evaluator/application', this.applicationId]);
-        }, 1000);
+        if (this.documentInfo.document_id == 50) {
+          const body = {
+            application_status_id: 8,
+            bo_status_id: 1,
+          };
+          this.applicationService
+            .updateApplicationStatus(body, this.applicationId)
+            .subscribe((res) => {
+              this.addWatermarkToAllCompliant();
+            });
+        } else {
+          this.isLoading = false;
+          this.openSnackBar('Success!');
+          setTimeout(() => {
+            this.router.navigate([
+              '/evaluator/application',
+              this.applicationId,
+            ]);
+          }, 1000);
+        }
       });
   }
 
@@ -519,5 +545,39 @@ export class ESignatureComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  addWatermarkToAllCompliant() {
+    var count = 0;
+    var bar = new Promise<void>((resolve, reject) => {
+      this.userDocuments.forEach((element, index, array) => {
+        this.isLoading = true;
+        if (element.document_id !== 50) {
+          this.waterMarkService
+            .insertWaterMark(element.document_path, 'compliant')
+            .then((blob) => {
+              const updateFileData = {
+                document_status_id: 1,
+                document_path: blob,
+              };
+              this.newApplicationService
+                .updateDocumentFile(updateFileData, element.id)
+                .subscribe((res) => {
+                  count = count + 1;
+                  if (count === array.length - 1) {
+                    this.isLoading = false;
+                    this.openSnackBar('Success!');
+                    setTimeout(() => {
+                      this.router.navigate([
+                        '/evaluator/application',
+                        this.applicationId,
+                      ]);
+                    }, 1000);
+                  }
+                });
+            });
+        }
+      });
+    });
   }
 }

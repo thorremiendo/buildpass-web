@@ -465,7 +465,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     return this.documentTypes[id - 1].name;
   }
   getDocStatus(id, is_applicable): string {
-    if (is_applicable == 2) {
+    if (is_applicable == 2 && id == 1) {
       return 'Not Applicable';
     } else if (this.evaluatorRole.code == 'CBAO-REC' && id == '1') {
       return 'Submitted';

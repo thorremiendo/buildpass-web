@@ -151,6 +151,7 @@
         <div *ngFor="let field of fieldSet.documents">
           <app-file-upload
             (emitFile)="submitDocument($event, field.id)"
+            (emitNotApplicable)="submitNotApplicableDocument($event, field.id)"
             description="{{ field.description }}"
             path="{{ field.path }}"
             info="{{ field.info }}"
