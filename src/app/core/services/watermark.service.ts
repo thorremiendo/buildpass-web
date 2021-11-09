@@ -46,7 +46,7 @@ export class WaterMarkService {
           pages[i].drawImage(compliantImg, {
             x: width / 2 - 340,
             y: height / 2 + 200,
-            opacity: 0.5,
+            opacity: 0.8,
             rotate: degrees(-45),
             width: pngDimsfire.width,
             height: pngDimsfire.height,
@@ -59,7 +59,7 @@ export class WaterMarkService {
           pages[i].drawImage(forComplianceImg, {
             x: width / 2 - 340,
             y: height / 2 + 200,
-            opacity: 0.5,
+            opacity: 0.8,
             rotate: degrees(-45),
             width: pngDimsfire.width, 
             height: pngDimsfire.height,
@@ -333,7 +333,7 @@ export class WaterMarkService {
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
-    window.open(file); // open in new window
+
   }
 
   async flattenForm(pdfUrl) {
@@ -354,7 +354,7 @@ export class WaterMarkService {
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
-    window.open(file); // open in new window
+   
   }
 
   convertToBytes(url) {
@@ -394,7 +394,7 @@ export class WaterMarkService {
     const blob = new Blob([mergedPdfFile], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
     // this.mergedPlans = file;
-    window.open(file); // open in new window
+
   }
 
   generateQrCode(id) {

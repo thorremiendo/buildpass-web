@@ -63,7 +63,8 @@ export class FormDetailsComponent implements OnInit {
     private applicationService: ApplicationInfoService,
     @Inject(MAT_DIALOG_DATA)
     public data,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +72,7 @@ export class FormDetailsComponent implements OnInit {
       this.user = userSubject;
       if (localStorage.getItem('user')) {
         this.user = JSON.parse(localStorage.getItem('user'));
+        console.log('FORM', this.data);
       }
     });
     this.applicationId = this.data.route.snapshot.params.id;
@@ -781,5 +783,10 @@ export class FormDetailsComponent implements OnInit {
           this.isFormApplicable = res.data.is_applicable;
         });
     }
+  }
+
+  goToEsig(id) {
+    this.onNoClick(1);
+    this.router.navigate(['/evaluator/application', this.applicationId, id]);
   }
 }

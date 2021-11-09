@@ -35,11 +35,11 @@
     font-size: 16px;
 
     &.compliant {
-      background-color: #dcedc8;
+      background-color: #dcedc886;
     }
 
     &.non-compliant {
-      background-color: #ef7564;
+      background-color: #fa988b52;
     }
 
     .timeline-box-label {
@@ -266,7 +266,7 @@
     cursor: pointer;
 
     &.compliant {
-      background-color: #dcedc8;
+      background-color: #dcedc886;
 
       .mat-icon.compliant {
         display: block;
@@ -280,7 +280,7 @@
     }
 
     &.non-compliant {
-      background-color: #ef7564;
+      background-color: #fa988b52;
 
       .mat-icon.compliant {
         display: none;

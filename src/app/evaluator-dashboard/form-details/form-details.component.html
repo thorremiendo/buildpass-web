@@ -218,6 +218,31 @@
             color="primary"
             (click)="callSave()"
             [disabled]="!permitDetails.value.is_compliant || isSubmitting"
+            *ngIf="user.user_roles[0].role_id !== 4"
+          >
+            Save
+          </button>
+        </ng-container>
+        <ng-container *ngIf="user.user_roles[0].role_id == 4">
+          <ng-container *ngIf="data.form.document_status_id == 1">
+            <button
+              mat-raised-button
+              color="primary"
+              *ngIf="!permitDetails.value.is_compliant"
+              (click)="goToEsig(data.form.id)"
+            >
+              Sign Document
+            </button>
+          </ng-container>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="callSave()"
+            [disabled]="!permitDetails.value.is_compliant || isSubmitting"
+            *ngIf="
+              data.form.document_status_id !== 1 ||
+              permitDetails.value.is_compliant
+            "
           >
             Save
           </button>
