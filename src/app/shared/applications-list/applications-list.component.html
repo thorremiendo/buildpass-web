@@ -1,64 +1,7 @@
-<div class="application-filters">
-  <!-- <div class="filters-toggle">FILTER APPLICATIONS</div> -->
-  <div class="row">
-    <div class="col-12 col-md-6 offset-md-6">
-      <div class="row date-range-selector">
-        <div class="col-12 col-md-2">
-          Date :
-        </div>
-        <div class="col-12 col-md-5">
-          <mat-form-field appearance="outline">
-            <mat-label>From</mat-label>
-            <input
-              matInput
-              [matDatepicker]="picker"
-              [formControl]="dateStart"
-              readonly
-            />
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker touchUi #picker></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="col-12 col-md-5">
-          <mat-form-field appearance="outline">
-            <mat-label>To</mat-label>
-            <input
-              matInput
-              [matDatepicker]="picker2"
-              [formControl]="dateEnd"
-              readonly
-            />
-            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-            <mat-datepicker touchUi #picker2></mat-datepicker>
-          </mat-form-field>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 col-md-6">
-      <mat-form-field appearance="outline">
-        <mat-label>Search</mat-label>
-        <input matInput [formControl]="searchKey" />
-      </mat-form-field>
-    </div>
-    <div class="col-12 col-md-6">
-      <mat-form-field appearance="outline">
-        <mat-label>Permit Type</mat-label>
-        <mat-select [formControl]="permitType">
-          <mat-option value="0">All</mat-option>
-          <mat-option value="1">Building Permit</mat-option>
-          <mat-option value="2">Certificate of Occupancy</mat-option>
-          <mat-option value="3">Excavation Permit</mat-option>
-          <mat-option value="4">Fencing Permit</mat-option>
-          <mat-option value="5">Demolition Permit</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </div>
-</div>
 <div *ngIf="!loading">
   <mat-card
     class="application"
-    *ngFor="let application of currentItemsToShow"
+    *ngFor="let application of applications"
     (click)="chooseApplication(application)"
   >
     <div class="application-logo">
@@ -107,57 +50,32 @@
       <div class="application-type" *ngIf="application.permit_type_id">
         <div>
           {{ application.permit_type_id == 1 ? "Building Permit" : "" }}
-          {{
-            application.permit_type_id == 2 ? "Certificate of Occupancy" : ""
-          }}
+          {{ application.permit_type_id == 2 ? "Certificate of Occupancy" : "" }}
           {{ application.permit_type_id == 3 ? "Excavation Permit" : "" }}
           {{ application.permit_type_id == 4 ? "Fencing Permit" : "" }}
           {{ application.permit_type_id == 5 ? "Demolition Permit" : "" }}
           {{ application.permit_type_id == 6 ? "Scaffolding Permit" : "" }}
           {{ application.permit_type_id == 7 ? "Sign Permit" : "" }}
-          {{
-            application.permit_type_id == 8
-              ? "Temporary Side Walk Enclosure"
-              : ""
-          }}
+          {{ application.permit_type_id == 8 ? "Temporary Side Walk Enclosure" : "" }}
           {{ application.permit_type_id == 9 ? "Mechanical Permit" : "" }}
-          {{
-            application.permit_type_id == 10 &&
-            application.sub_permit_type_id == 1
-              ? "CFEI - Temporary Connection"
-              : ""
-          }}
-          {{
-            application.permit_type_id == 10 &&
-            application.sub_permit_type_id == 2
-              ? "CFEI - Additional Connection"
-              : ""
-          }}
-          {{
-            application.permit_type_id == 10 &&
-            application.sub_permit_type_id == 3
-              ? "CFEI - Structures with Building Permit / Occupancy Certificate"
-              : ""
-          }}
-          {{
-            application.permit_type_id == 10 &&
-            application.sub_permit_type_id == 4
-              ? "CFEI - Structures affected by fire or calamities"
-              : ""
-          }}
-          {{
-            application.permit_type_id == 10 &&
-            application.sub_permit_type_id == 5
-              ? "CFEI - Structures w/o Building Permit"
-              : ""
-          }}
-          <p *ngIf="application.permit_type_id == 1" style="color: maroon">
-            (
-            <span>{{
-              getConstructionType(application.construction_status_id)
-            }}</span>
-            )
-          </p>
+          {{ application.permit_type_id == 10 && application.sub_permit_type_id == 1 
+            ? "CFEI - Temporary Connection" 
+            : "" }}
+          {{ application.permit_type_id == 10 && application.sub_permit_type_id == 2
+            ? "CFEI - Additional Connection"
+            : "" }}
+          {{ application.permit_type_id == 10 && application.sub_permit_type_id == 3 
+            ? "CFEI - Structures with Building Permit / Occupancy Certificate"
+            : "" }}
+          {{ application.permit_type_id == 10 && application.sub_permit_type_id == 4 
+            ? "CFEI - Structures affected by fire or calamities" 
+            : "" }}
+          {{ application.permit_type_id == 10 && application.sub_permit_type_id == 5 
+            ? "CFEI - Structures w/o Building Permit" 
+            : "" }}
+          <span *ngIf="application?.construction_status_id">
+            ({{ getConstructionType(application.construction_status_id) }})
+          </span>
         </div>
 
         <div *ngIf="application?.submitted_at">
@@ -169,6 +87,9 @@
           {{ application.permit_application_code }}
         </div>
         <div>
+          <div *ngIf="application.reevaluation_status_id == 5">
+            FOR COMPLIANCE
+          </div>
           <button
             mat-button
             *ngIf="
@@ -236,12 +157,14 @@
             : ""
         }}
       </div>
+      <!--
       <div class="application-progress" *ngIf="application.status">
         <mat-icon [inline]="true">assignment</mat-icon>
         {{
           application.status.progress == "" ? "0" : application.status.progress
         }}%
       </div>
+      -->
     </div>
   </mat-card>
 </div>
@@ -254,7 +177,7 @@
 </div>
 
 <div
-  *ngIf="currentItemsToShow.length == 0 && !loading"
+  *ngIf="applications.length == 0 && !loading"
   class="no-applications-found"
 >
   No applications found
@@ -262,8 +185,9 @@
 
 <mat-paginator
   style="background-color: transparent"
+  [length]="applicationCount"
+  [pageIndex]="pageIndex"
+  [pageSize]="pageSize"
   (page)="onPageChange($event)"
-  [length]="filteredApplications.length"
-  [pageSize]="5"
 >
 </mat-paginator>

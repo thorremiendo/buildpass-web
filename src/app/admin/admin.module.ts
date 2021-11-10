@@ -20,6 +20,7 @@ import { AdminNewsEditorComponent } from './admin-news-announcement-editor/admin
 import { EditDialogComponent } from './admin-news-announcement-editor/edit-dialog/edit-dialog.component';
 import { AdminApplicationListComponent } from './admin-application-list/admin-application-list.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { CalendarModule } from 'angular-calendar';
 
 @NgModule({
   declarations: [ 
@@ -48,6 +49,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     AdminUsersModule,
     AdminDashboardModule,
     MaterialModule,
+    CalendarModule,
   ],
 
   providers: [

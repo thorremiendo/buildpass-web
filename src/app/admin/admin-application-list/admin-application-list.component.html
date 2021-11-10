@@ -1,6 +1,311 @@
-<app-applications-list
-  *ngIf="applications"
-  [applications]="applications"
-  (emitApplication)="viewApplication($event.id)"
->
-</app-applications-list>
+<div class="admin-home container-fluid">
+  <div class="row first-row">
+    <div class="col-12 col-md-6">
+      <mat-card>
+        <div class="welcome">
+          <div class="greeting">
+            Hello, {{userName}}!
+          </div>
+          <div class="stats">
+            <div class="task-count">
+              <div *ngIf="totalApplicationCount != 1">
+                There are 
+                <span 
+                  class="current-count"
+                  (click)="applicationStatus.setValue('0')"
+                >
+                  {{totalApplicationCount}} applications
+                </span>
+                waiting for evaluation.
+              </div>
+              <div *ngIf="totalApplicationCount == 1">
+                There is
+                <span 
+                  class="current-count"
+                  (click)="applicationStatus.setValue('0')"
+                >
+                  {{totalApplicationCount}} application
+                </span>
+                waiting for evaluation.
+              </div>
+            </div>
+            <div class="task-chart">
+              <div id="task-chart"></div>
+              <div class="task-chart-legend" *ngIf="applicationStats">
+                <ul>
+                  <li
+                    (click)="applicationStatus.setValue('1')"
+                    [ngClass]="{'active-category': applicationStatus.value == '1'}"
+                  >
+                    <div class="color"></div>
+                    <div class="legend">
+                      Receiving
+                      ({{applicationStats[0].value}})
+                    </div>
+                  </li>
+                  <li
+                    (click)="applicationStatus.setValue('2')"
+                    [ngClass]="{'active-category': applicationStatus.value == '2'}"
+                  >
+                    <div class="color"></div>
+                    <div class="legend">
+                      CPDO Evaluation
+                      ({{applicationStats[1].value + applicationStats[2].value}})
+                    </div>
+                  </li>
+                  <li
+                    (click)="applicationStatus.setValue('3')"
+                    [ngClass]="{'active-category': applicationStatus.value == '3'}"
+                  >
+                    <div class="color"></div>
+                    <div class="legend">
+                      CBAO, BFP, CEPMO Evaluation
+                      ({{applicationStats[3].value + applicationStats[4].value}})
+                    </div>
+                  </li>
+                  <li
+                    (click)="applicationStatus.setValue('4')"
+                    [ngClass]="{'active-category': applicationStatus.value == '4'}"
+                  >
+                    <div class="color"></div>
+                    <div class="legend">
+                      Division Chief Evaluation
+                      ({{applicationStats[5].value}})
+                    </div>
+                  </li>
+                  <li
+                    (click)="applicationStatus.setValue('5')"
+                    [ngClass]="{'active-category': applicationStatus.value == '5'}"
+                  >
+                    <div class="color"></div>
+                    <div class="legend">
+                      Building Official Evaluation
+                      ({{applicationStats[6].value}})
+                    </div>
+                  </li>
+                  <li 
+                    (click)="applicationStatus.setValue('6')"
+                    [ngClass]="{'active-category': applicationStatus.value == '6'}"
+                  >
+                    <div class="color"></div>
+                    <div class="legend">
+                      Releasing
+                      ({{applicationStats[7].value + applicationStats[8].value + applicationStats[9].value + applicationStats[10].value}})
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="categories">
+        <div>
+          <div class="category application-status">
+            <mat-card>
+              {{applicationStatus.value == '0' ? 'All Applications' : ''}}
+              {{applicationStatus.value == '1' ? 'Receiving' : ''}}
+              {{applicationStatus.value == '2' ? 'CPDO Evaluation' : ''}}
+              {{applicationStatus.value == '3' ? 'CBAO, BFP, CEPMO Evaluation' : ''}}
+              {{applicationStatus.value == '4' ? 'Division Chief Evaluation' : ''}}
+              {{applicationStatus.value == '5' ? 'Building Official Evaluation' : ''}}
+              {{applicationStatus.value == '6' ? 'Releasing' : ''}}
+            </mat-card>
+          </div>
+
+          <div class="category">
+            <mat-card 
+              [ngClass]="{'active-category': complianceStatus.value == '1'}"
+              (click)="complianceStatus.setValue('1')"
+            >
+              <span class="count">
+                {{evaluationApplicationCount}}
+              </span>
+              <br />
+              For Evaluation
+            </mat-card>
+          </div>
+          
+          <div class="category">
+            <mat-card
+              [ngClass]="{'active-category': complianceStatus.value == '2'}"
+              (click)="complianceStatus.setValue('2')"
+            >
+              <span class="count">
+                {{complianceApplicationCount}}
+              </span>
+              <br />
+              For Compliance
+            </mat-card>
+          </div>
+        </div>
+      </div>
+      <mat-card class="calendar">
+        <div class="month">
+          {{viewDate | date: 'MMMM yyyy'}}
+        </div>
+        <mwl-calendar-month-view
+          [viewDate]="viewDate"
+        >
+        </mwl-calendar-month-view>
+      </mat-card>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12" id="applications">
+      <div class="application-filters">
+        <div class="row">
+          <div class="col-6 search">
+            <mat-form-field appearance="outline">
+              <mat-label>Search</mat-label>
+              <input matInput [formControl]="searchKey" />
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+          <div class="col-6 toggle">
+            <button mat-stroked-button (click)="openFilters()">
+              Filter
+              <span class="filter-count" *ngIf="filterCount">
+                {{filterCount}}
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="loader">
+        <mat-progress-bar
+          *ngIf="loading"
+          mode="indeterminate"
+        ></mat-progress-bar>
+      </div>
+
+      <app-applications-list
+        *ngIf="applications"
+        [applications]="applications"
+        [applicationCount]="applicationCount"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        (emitIndex)="changeIndex($event.pageIndex)"
+        (emitApplication)="viewApplication($event.id)"
+      >
+      </app-applications-list>
+    </div>
+
+    
+    <ng-template #filtersTemplate class="container-fluid">
+      <div class="filters row">
+        <div class="col-12">
+          <div class="header row">
+            <div>
+              <span>
+                Filter Applications
+              </span>
+              <div class="horizontal-line"></div>
+            </div>
+            <mat-icon (click)="closeFilters()">close</mat-icon>
+          </div>
+          <div class="permit-type-selector row">
+            <div class="filter-label col-4">
+              Permit Type
+            </div>
+            <div class="col-8">
+              <mat-form-field appearance="outline">
+                <mat-select [formControl]="permitType">
+                  <mat-option value="0">All</mat-option>
+                  <mat-option value="1">Building Permit</mat-option>
+                  <mat-option value="2">Certificate of Occupancy</mat-option>
+                  <mat-option value="3">Excavation Permit</mat-option>
+                  <mat-option value="4">Fencing Permit</mat-option>
+                  <mat-option value="5">Demolition Permit</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="application-status-selector row">
+            <div class="filter-label col-4">
+              Application Status
+            </div>
+            <div class="col-8">
+              <mat-form-field appearance="outline">
+                <mat-select [formControl]="applicationStatus">
+                  <mat-option value="0">All</mat-option>
+                  <mat-option value="1">Receiving</mat-option>
+                  <mat-option value="2">CPDO Evaluation</mat-option>
+                  <mat-option value="3">CBAO, BFP, CEPMO Evaluation</mat-option>
+                  <mat-option value="4">Division Chief Evaluation</mat-option>
+                  <mat-option value="5">Building Official Evaluation</mat-option>
+                  <mat-option value="6">Releasing</mat-option>
+                  <mat-option value="7">Permit Released</mat-option>
+                  <mat-option value="8">Incomplete Application</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="compliance-status-selector row">
+            <div class="filter-label col-4">
+              Compliance Status
+            </div>
+            <div class="col-8">
+              <mat-form-field appearance="outline">
+                <mat-select [formControl]="complianceStatus">
+                  <!--<mat-option value="0">All</mat-option>-->
+                  <mat-option value="1">For Evaluation</mat-option>
+                  <mat-option value="2">For Compliance</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="date-range-selector row">
+            <div class="filter-label col-4">
+              Date Start
+            </div>
+            <div class="col-8">
+              <mat-form-field appearance="outline">
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  [formControl]="dateStart"
+                  readonly
+                />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker touchUi #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="filter-label col-4">
+              Date End
+            </div>
+            <div class="col-8">
+              <mat-form-field appearance="outline">
+                <input
+                  matInput
+                  [matDatepicker]="picker2"
+                  [formControl]="dateEnd"
+                  readonly
+                />
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker touchUi #picker2></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="clear-filters row" *ngIf="filterCount">
+            <span (click)="clearFilters()">
+              Clear Filters
+            </span>
+          </div>
+          <div class="filter-results row">
+            <div class="col-12">
+              Showing
+              <span>
+                {{ applicationCount }}
+                {{ applicationCount == 1 ? 'application' : 'applications'}}
+              </span>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>
