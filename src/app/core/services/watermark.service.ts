@@ -51,7 +51,7 @@ export class WaterMarkService {
             width: pngDimsfire.width,
             height: pngDimsfire.height,
           });
-        break;
+          break;
 
         case 'for-compliance':
           pngDims = forComplianceImg.scale(0.5);
@@ -61,10 +61,10 @@ export class WaterMarkService {
             y: height / 2 + 200,
             opacity: 0.8,
             rotate: degrees(-45),
-            width: pngDimsfire.width, 
+            width: pngDimsfire.width,
             height: pngDimsfire.height,
           });
-        break;
+          break;
         // case 'compliant':
         //   pages[i].drawText('Compliant', {
         //     x: width / 2 - 150,
@@ -87,7 +87,6 @@ export class WaterMarkService {
         //     rotate: degrees(-45),
         //   });
         //   break;
-      
       }
     }
 
@@ -333,7 +332,6 @@ export class WaterMarkService {
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
-
   }
 
   async flattenForm(pdfUrl) {
@@ -354,7 +352,7 @@ export class WaterMarkService {
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
-   
+    window.open(file);
   }
 
   convertToBytes(url) {
@@ -394,7 +392,6 @@ export class WaterMarkService {
     const blob = new Blob([mergedPdfFile], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
     // this.mergedPlans = file;
-
   }
 
   generateQrCode(id) {

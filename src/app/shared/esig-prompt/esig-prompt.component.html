@@ -9,11 +9,17 @@
       [show-borders]="true"
     ></pdf-viewer>
   </div>
-<!-- <img [src]="userSignature" alt=""> -->
-  <button mat-raised-button color="accent" (click)="selectSignature()">
-    Confirm
-  </button>
+  <!-- <img [src]="userSignature" alt=""> -->
 </ng-container>
+<p style="color: maroon; font-size: 14px;">Please wait for e-signature to show before clicking "Confirm".</p>
+<button
+  mat-raised-button
+  color="accent"
+  (click)="selectSignature()"
+  [disabled]="!userPdfSignature"
+>
+  {{ userPdfSignature ? "Confirm" : "Loading" }}
+</button>
 <ng-container *ngIf="isLoading">
   <div class="spinner">
     <mat-spinner></mat-spinner>
