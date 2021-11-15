@@ -44,13 +44,13 @@ export class NotificationComponent implements OnInit {
   }
 
   updateNotifTable(){
-    this.feedService.getNotifTable().subscribe((data) => {
+    this.feedService.getUnReadNotifTable().subscribe((data) => {
       console.log("unread",data)
       this.feeds = data.data;
       this.totalUnReadNotif = data.data.length;
     });
 
-    this.feedService.getUnseenNotif().subscribe( data => {
+    this.feedService.getReadNotifTable().subscribe( data => {
     console.log("read", data)
       this.unReadNotif = data.data;    
    

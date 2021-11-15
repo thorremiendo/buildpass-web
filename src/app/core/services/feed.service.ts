@@ -46,8 +46,8 @@ export class FeedService {
       this.channelName = `applicant-${this.user.user_credentials[0]?.firebase_uid}`;
       this.pusherBind = 'ApplicantStatusChanged';
     }
-    this.pusherSubscribe();
-    this.getNotifTable();
+    // this.pusherSubscribe();
+    // this.getUnreadTable();
   }
 
   pusherSubscribe() {
@@ -100,7 +100,7 @@ export class FeedService {
     return this._api.post(url, body);
   }
 
-  getNotifTable() {
+  getUnreadTable() {
     const url = `/notification/${this.notifChannel}/${this.channelType}`;
     return this._api.get(url).pipe(
       map((data: any) => {
@@ -111,6 +111,33 @@ export class FeedService {
       })
     );
   }
+
+  getReadNotifTable(){
+    const url = `/notification/${this.user.id}/user-notif/viewed`;
+
+    return this._api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+
+  getUnReadNotifTable(){
+    const url = `/notification/${this.user.id}/user-notif/unseen`;
+
+    return this._api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+
 
   getNotifMessageTable() {
     const url = `/chat/${this.user.id}/user-notif`;
@@ -124,20 +151,8 @@ export class FeedService {
     );
   }
 
-  getUnseenNotif(){
-    const url = `/notification/${this.user.id}/user-notif/unseen`;
-
-    return this._api.get(url).pipe(
-      map((data: any) => {
-        return data;
-      }),
-      catchError((error) => {
-        return throwError('Something went wrong.');
-      })
-    );
-
-
-  }
+  
+  
 
   getTotalUnseenChat() {
     const url = `/chat/${this.user.id}/unseen`;
