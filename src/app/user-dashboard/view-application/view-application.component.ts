@@ -300,7 +300,10 @@ export class ViewApplicationComponent implements OnInit {
               window.location.reload();
             });
           });
-      } else if (this.applicationDetails.cpdo_cod_status_id == 2) {
+      } else if (
+        this.applicationDetails.cpdo_cod_status_id == 2 &&
+        this.applicationDetails.cpdo_status_id == 1
+      ) {
         const body = {
           application_status_id: 10,
         };

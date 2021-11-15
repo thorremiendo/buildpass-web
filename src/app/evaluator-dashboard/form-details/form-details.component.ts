@@ -114,7 +114,7 @@ export class FormDetailsComponent implements OnInit {
           /* Set UI configurations */
           const customFlags = {
             showToolbar: true /* Default value is true */,
-            showCommentsPanel: true /* Default value is true */,
+            showCommentsPanel: false /* Default value is true */,
             downloadWithAnnotations: true /* Default value is false */,
             printWithAnnotations: true /* Default value is false */,
           };

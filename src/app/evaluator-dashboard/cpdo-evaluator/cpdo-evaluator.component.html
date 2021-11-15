@@ -166,8 +166,17 @@
                 mode="indeterminate"
                 *ngIf="isLoading"
               ></mat-progress-bar>
-              <div class="d-flex justify-content-between mt-5">
-                <button
+              <div class="d-flex flex-row-reverse mt-5">
+                <ng-container>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="handleReviewDone()"
+                  >
+                    Review Done
+                  </button>
+                </ng-container>
+                <!-- <button
                   mat-raised-button
                   color="warn"
                   [disabled]="
@@ -199,7 +208,7 @@
                   [disabled]="checkFormNonCompliant()"
                 >
                   For Approval of Clearance
-                </button>
+                </button> -->
               </div>
             </ng-container>
           </div>

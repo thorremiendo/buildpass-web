@@ -1,3 +1,4 @@
+import { PopOutNotificationsService } from './../../core/services/pop-out-notification.service';
 import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks-history-table.component';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {
@@ -40,7 +41,8 @@ export class CpdoEvaluatorComponent implements OnInit {
     public dialog: MatDialog,
     private userService: UserService,
     private newApplicationService: NewApplicationService,
-    private router: Router
+    private router: Router,
+    private snackbar: PopOutNotificationsService
   ) {}
 
   ngOnInit(): void {
@@ -67,6 +69,7 @@ export class CpdoEvaluatorComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
+    console.log(this.evaluatorRole);
     this.isLoading = false;
   }
 
@@ -245,7 +248,7 @@ export class CpdoEvaluatorComponent implements OnInit {
           this.isLoading = true;
           if (this.evaluatorRole.code == 'CPDO-ZI') {
             const body = {
-              application_status_id: 5,
+              application_status_id: 10,
               cpdo_status_id: 2,
             };
             this.applicationService
@@ -254,7 +257,7 @@ export class CpdoEvaluatorComponent implements OnInit {
                 this.isLoading = false;
                 Swal.fire(
                   'Success!',
-                  `Notified Applicant for Revision!`,
+                  `Forwarded to CPDO-COORDINATOR for evaluation.`,
                   'success'
                 ).then((result) => {
                   window.location.reload();
@@ -413,6 +416,7 @@ export class CpdoEvaluatorComponent implements OnInit {
     const body = {
       application_status_id: 3,
       cpdo_cod_status_id: 1,
+      cpdo_status_id: 1,
     };
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
@@ -471,5 +475,32 @@ export class CpdoEvaluatorComponent implements OnInit {
           this.checkFormsReviewed();
         });
     });
+  }
+
+  handleReviewDone() {
+    //CHECK EVALUATOR LOGGED IN
+    if (this.evaluatorRole.code == 'CPDO-ZI') {
+      //CHECK APPLICATION STATUS
+      if (this.applicationDetails.application_status_id == 2) {
+        //CHECK FORM STATUS
+        if (this.checkFormsCompliant()) {
+          this.forwardToCpdoCoordinator();
+        } else if (this.checkFormNonCompliant()) {
+          this.nonCompliant();
+        }
+      } else {
+        this.snackbar.openSnackBar('Action restricted.');
+      }
+    } else if (this.evaluatorRole.code == 'CPDO-COD') {
+      if (this.applicationDetails.application_status_id == 10) {
+        if (this.checkFormsCompliant()) {
+          this.handleApprove();
+        } else if (this.checkFormNonCompliant()) {
+          this.nonCompliant();
+        }
+      } else {
+        this.snackbar.openSnackBar('Action restricted.');
+      }
+    }
   }
 }

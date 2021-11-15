@@ -19,6 +19,7 @@ export class EsigPromptComponent implements OnInit {
   public isLoading: boolean = false;
   public userDetails;
   public userSignature;
+  public esigRendered: boolean = false;
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -65,6 +66,10 @@ export class EsigPromptComponent implements OnInit {
         console.log(`Dialog result: ${result}`);
       });
     }
+  }
+
+  pageRendered(e: CustomEvent) {
+    this.esigRendered = true;
   }
 
   fetchUserSignature() {
