@@ -18,7 +18,17 @@
       <ng-container matColumnDef="remark">
         <th mat-header-cell *matHeaderCellDef>Remark</th>
         <td mat-cell *matCellDef="let item">
-          {{ item.remarks ? item.remarks : "Compliant" }}
+          <ng-container *ngIf="editMode == false">
+            <span style="font-weight: 600; color: maroon">
+              {{ item.remarks ? item.remarks : "" }}
+            </span>
+          </ng-container>
+          <ng-container *ngIf="editMode == true">
+            <form [formGroup]="editRemarksForm">
+              <mat-form-field appearance="legacy">
+                <input matInput formControlName="updateRemark" />
+              </mat-form-field></form
+          ></ng-container>
         </td>
       </ng-container>
 
@@ -27,6 +37,28 @@
         <td mat-cell *matCellDef="let item">
           {{ item.evaluator_detail.first_name }}&nbsp;
           {{ item.evaluator_detail.last_name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let item">
+          <div
+            class="action-btns d-flex justify-content-center align-items-center"
+          >
+            <ng-container *ngIf="editMode == false; else update">
+              <mat-icon (click)="editRemark(item)">edit</mat-icon>
+              <mat-icon (click)="deleteRemark(item)">delete </mat-icon>
+            </ng-container>
+            <ng-template #update>
+              <button mat-button color="primary" (click)="updateRemark(item)">
+                Save
+              </button>
+              <button mat-button color="warn" (click)="editMode = false">
+                Cancel
+              </button>
+            </ng-template>
+          </div>
         </td>
       </ng-container>
 

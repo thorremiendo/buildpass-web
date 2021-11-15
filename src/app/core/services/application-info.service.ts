@@ -192,6 +192,16 @@ export class ApplicationInfoService {
     return this.api.post(url, body);
   }
 
+  editGeneralRemark(id, body) {
+    const url = `/application/${id}/remark/update`;
+    return this.api.post(url, body);
+  }
+
+  deleteGeneralRemark(id, {}) {
+    const url = `/application/${id}/remark/remove`;
+    return this.api.post(url, {});
+  }
+
   uploadUserSupportingDoc(body) {
     const url = `/userdocs/supporting-file`;
     return this.api.post(url, body);

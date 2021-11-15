@@ -16,12 +16,20 @@ export class GeneralRemarksComponent implements OnInit {
   @Input() evaluatorDetails;
 
   public remarksForm: FormGroup;
-  displayedColumns: string[] = ['index', 'date', 'remark', 'evaluator'];
+  public editRemarksForm: FormGroup;
+  displayedColumns: string[] = [
+    'index',
+    'date',
+    'remark',
+    'evaluator',
+    'action',
+  ];
   public isLoading: boolean = false;
   public remarksData;
   public applicationId;
   public applicationDetails;
   public isSubmitting: boolean = false;
+  public editMode: boolean = false;
   constructor(
     private fb: FormBuilder,
     private applicationService: ApplicationInfoService,
@@ -35,6 +43,37 @@ export class GeneralRemarksComponent implements OnInit {
     this.remarksForm = this.fb.group({
       remarks: new FormControl('', [Validators.required]),
     });
+    this.editRemarksForm = this.fb.group({
+      updateRemark: new FormControl('', [Validators.required]),
+    });
+  }
+
+  editRemark(item) {
+    console.log(item);
+    this.editMode = true;
+    this.editRemarksForm.patchValue({
+      updateRemark: item.remarks,
+    });
+  }
+
+  updateRemark(item) {
+    this.applicationService
+      .editGeneralRemark(item.id, {
+        remarks: this.editRemarksForm.value.updateRemark,
+      })
+      .subscribe((res) => {
+        this.editMode = false;
+        this.fetchApplicationDetails();
+      });
+  }
+  deleteRemark(item) {
+    console.log(item);
+    this.applicationService
+      .deleteGeneralRemark(item.id, {})
+      .subscribe((res) => {
+        console.log(res);
+        this.fetchApplicationDetails();
+      });
   }
 
   fetchApplicationDetails() {
@@ -44,7 +83,6 @@ export class GeneralRemarksComponent implements OnInit {
       .subscribe((result) => {
         this.applicationDetails = result.data;
         this.remarksData = this.applicationDetails.remarks;
-
         this.isLoading = false;
       });
   }
