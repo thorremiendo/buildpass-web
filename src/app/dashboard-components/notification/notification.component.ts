@@ -18,7 +18,8 @@ export class NotificationComponent implements OnInit {
   public feeds: Feed[] = [];
   public show_notif: boolean = true;
   public config: PerfectScrollbarConfigInterface = {};
-  public totalUnseenNotif: string | number;
+  public totalUnReadNotif: string | number;
+  public unReadNotif = [];
   private feedSubscription: Subscription;
 
   constructor(private feedService: FeedService, private router: Router) {}
@@ -44,17 +45,17 @@ export class NotificationComponent implements OnInit {
 
   updateNotifTable(){
     this.feedService.getNotifTable().subscribe((data) => {
-      //console.log(data)
+      console.log("unread",data)
       this.feeds = data.data;
+      this.totalUnReadNotif = data.data.length;
     });
 
-    this.feedService.getTotalUnseenNotif().subscribe( data => {
-      //console.log("hello"+JSON.stringify(data.data));
-      this.totalUnseenNotif = data.data;    
-    })
-
+    this.feedService.getUnseenNotif().subscribe( data => {
+    console.log("read", data)
+      this.unReadNotif = data.data;    
    
-    
+    })
+ 
   }
 
   openNotif(id, applicationId) {

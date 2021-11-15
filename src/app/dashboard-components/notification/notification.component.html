@@ -1,7 +1,7 @@
 <div *ngIf="show_notif == true">
   <button [matMenuTriggerFor]="notification" mat-icon-button class="m-r-5">
     <p class="pt-2">
-      <mat-icon matBadge="{{ totalUnseenNotif }}" matBadgeColor="secondary"
+      <mat-icon matBadge="{{ totalUnReadNotif }}" matBadgeColor="secondary"
         >notifications_none
       </mat-icon>
     </p>
@@ -18,31 +18,30 @@
               <div class="message-center" >
                 <perfect-scrollbar [config]="config">
                   <a
-                    *ngFor="let feed of feeds.slice().reverse(); let i = index"
+                    *ngFor="let unread of feeds.slice().reverse(); let i = index"
                   >
                     <!-- <div class="round {{feed.round}}">
                                             <i class="{{feed.icon}}"></i>
                                         </div>  -->
                     <div
-                     *ngIf="feed.is_viewed == 0"
                       class="mail-content"
-                      (click)="openNotif(feed.id, feed.application_id)"
+                      (click)="openNotif(unread.id, unread.application_id)"
                     >
                       <h5>
-                        {{ feed.application_number }} <br />
-                        {{ feed.status }}
+                        {{ unread.application_number }} <br />
+                        {{ unread.status }}
                       </h5>
                       <span
                         class="mail-desc"
                         style.color="grey"
                       >
-                        {{ feed.message }}
+                        {{ unread.message }}
                       </span>
                       <span
                         class="time"
-                        [style.color]="feed.is_viewed == 0 ? 'maroon' : 'grey'"
+                        [style.color]="unread.is_viewed == 0 ? 'maroon' : 'grey'"
                       >
-                        {{ feed.currentTime | dateAgo }}</span
+                        {{ unread.currentTime | dateAgo }}</span
                       >
                     </div>
                   </a>
@@ -53,28 +52,27 @@
               <div class="message-center">
                 <perfect-scrollbar [config]="config">
                   <a
-                    *ngFor="let feed of feeds.slice().reverse(); let i = index"
+                    *ngFor="let read of unReadNotif.slice().reverse(); let i = index"
                   >
                     <div
-                     *ngIf="feed.is_viewed == 1"
                       class="mail-content"
-                      (click)="openNotif(feed.id, feed.application_id)"
+                      (click)="openNotif(read.id, read.application_id)"
                     >
                       <h5>
-                        {{ feed.application_number }} <br />
-                        {{ feed.status }}
+                        {{ read.application_number }} <br />
+                        {{ read.status }}
                       </h5>
                       <span
                         class="mail-desc"
-                        [style.color]="feed.is_viewed == 0 ? 'maroon' : 'grey'"
+                        [style.color]="read.is_viewed == 0 ? 'maroon' : 'grey'"
                       >
-                        {{ feed.message }}
+                        {{ read.message }}
                       </span>
                       <span
                         class="time"
-                        [style.color]="feed.is_viewed == 0 ? 'maroon' : 'grey'"
+                        [style.color]="read.is_viewed == 0 ? 'maroon' : 'grey'"
                       >
-                        {{ feed.currentTime | dateAgo }}</span
+                        {{ read.currentTime | dateAgo }}</span
                       >
                     </div>
                   </a>

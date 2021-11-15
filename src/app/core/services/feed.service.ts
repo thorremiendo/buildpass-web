@@ -56,6 +56,8 @@ export class FeedService {
     this.channel.bind(
       `App\\Events\\${this.pusherBind}`,
       (data: {
+        id:number,
+        is_viewed:number,
         application_id: number;
         application_number: string;
         status: string;
@@ -64,6 +66,8 @@ export class FeedService {
       }) => {
         this.subject.next(
           new Feed(
+            data.id,
+            data.is_viewed,
             data.application_id,
             data.application_number,
             data.status,
@@ -120,8 +124,8 @@ export class FeedService {
     );
   }
 
-  getTotalUnseenNotif(){
-    const url = `/notification/${this.firebase_uid}/unseen`;
+  getUnseenNotif(){
+    const url = `/notification/${this.user.id}/user-notif/unseen`;
 
     return this._api.get(url).pipe(
       map((data: any) => {
