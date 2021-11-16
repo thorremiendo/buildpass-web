@@ -6,11 +6,11 @@
       </mat-icon>
     </p>
   </button>
-  <mat-menu  style="min-width: 400px !important;" #notification="matMenu" [overlapTrigger]="false">
+  <mat-menu #notification="matMenu" [overlapTrigger]="false">
     <div class="mailbox">
       <ul>
         <li>
-          <div class="drop-title text-center">Notification</div>
+          <div class="drop-title">Notification</div>
         </li>
         <li>
           <mat-tab-group mat-align-tabs="center" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">

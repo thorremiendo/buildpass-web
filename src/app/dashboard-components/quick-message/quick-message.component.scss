@@ -1,0 +1,32 @@
+.chat-container{
+    mat-dialog-container {
+        height: calc(100% - 96px);max-height: unset
+    
+        mat-dialog-actions {
+          margin-top: auto;
+        }
+      }
+}
+
+.reply-container{
+    height: fit-content !important;
+}
+
+.mat-dialog-override {
+    height: 0px;
+    mat-dialog-container {
+      > :first-child {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      mat-dialog-content,
+      div[mat-dialog-content] {
+        flex-grow: 1;
+        max-height: unset;
+      }
+    }
+  }
+
+  
+
