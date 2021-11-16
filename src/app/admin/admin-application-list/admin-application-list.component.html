@@ -16,7 +16,7 @@
                 >
                   {{totalApplicationCount}} applications
                 </span>
-                waiting for evaluation.
+                being evaluated.
               </div>
               <div *ngIf="totalApplicationCount == 1">
                 There is
@@ -26,7 +26,7 @@
                 >
                   {{totalApplicationCount}} application
                 </span>
-                waiting for evaluation.
+                being evaluated.
               </div>
             </div>
             <div class="task-chart">
@@ -138,6 +138,19 @@
               </span>
               <br />
               For Compliance
+            </mat-card>
+          </div>
+
+          <div class="category">
+            <mat-card 
+              [ngClass]="{'active-category': complianceStatus.value == '3'}"
+              (click)="complianceStatus.setValue('3')"
+            >
+              <span class="count">
+                {{reevaluationApplicationCount}}
+              </span>
+              <br />
+              For Re-Evaluation
             </mat-card>
           </div>
         </div>
@@ -254,6 +267,7 @@
                   <!--<mat-option value="0">All</mat-option>-->
                   <mat-option value="1">For Evaluation</mat-option>
                   <mat-option value="2">For Compliance</mat-option>
+                  <mat-option value="3">For Re-Evaluation</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>

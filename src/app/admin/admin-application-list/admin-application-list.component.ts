@@ -25,6 +25,7 @@ export class AdminApplicationListComponent implements OnInit {
   public totalApplicationCount = null;
   public evaluationApplicationCount = 0;
   public complianceApplicationCount = 0;
+  public reevaluationApplicationCount = 0;
   public searchKey = new FormControl('');
   public permitType = new FormControl('0');
   public applicationStatus = new FormControl('0');
@@ -163,6 +164,7 @@ export class AdminApplicationListComponent implements OnInit {
       permitType: this.permitType.value ? this.permitType.value : '',
       applicationStatus: this.applicationStatusValue ? this.applicationStatusValue : '',
       reevaluationStatus: null,
+      isReevaluationStatus: null,
       dateStart: this.dateStart.value ? moment( this.dateStart.value).format('YYYY-MM-DD') : '',
       dateEnd: this.dateEnd.value ? moment( this.dateEnd.value).format('YYYY-MM-DD') : '',
       pageIndex: this.pageIndex + 1,
@@ -170,19 +172,28 @@ export class AdminApplicationListComponent implements OnInit {
       incompleteFlag: this.applicationStatus.value == '8' ? 1 : '',
     }
 
-    let testParams = {...params};
-    this.adminService.fetchApplications(testParams).subscribe((data) => {
+    let countParams = {...params};
+    this.adminService.fetchApplications(countParams).subscribe((data) => {
       this.evaluationApplicationCount = data.total;
     });
-    testParams.reevaluationStatus = testParams.applicationStatus;
-    testParams.applicationStatus = [5];
-    this.adminService.fetchApplications(testParams).subscribe((data) => {
+
+    countParams.isReevaluationStatus = '1';
+    this.adminService.fetchApplications(countParams).subscribe((data) => {
+      this.reevaluationApplicationCount = data.total;
+    });
+
+    countParams.reevaluationStatus = countParams.applicationStatus;
+    countParams.applicationStatus = [5];
+    countParams.isReevaluationStatus = '0';
+    this.adminService.fetchApplications(countParams).subscribe((data) => {
       this.complianceApplicationCount = data.total;
     });
 
     if (this.complianceStatus.value == '2') {
       params.reevaluationStatus = params.applicationStatus;
       params.applicationStatus = [5];
+    } else if (this.complianceStatus.value == '3') {
+      params.isReevaluationStatus = '1';
     }
     this.adminService.fetchApplications(params).subscribe((data) => {
       this.applications = this.applicationModifications(data.data);

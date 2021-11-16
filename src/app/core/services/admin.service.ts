@@ -25,6 +25,7 @@ export class AdminService  {
         .set('permit_type_id', params.permitType ? params.permitType : '')
         .set('application_status_id', params.applicationStatus ? params.applicationStatus : '')
         .set('reevaluation_status_id', params.reevaluationStatus ? params.reevaluationStatus : '')
+        .set('is_reevaluation', params.isReevaluationStatus ? params.isReevaluationStatus : '')
         .set('date_range_start', params.dateStart ? params.dateStart : '')
         .set('date_range_end', params.dateEnd ? params.dateEnd : '')
         .set('page', params.pageIndex)
