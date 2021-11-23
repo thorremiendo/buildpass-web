@@ -223,7 +223,7 @@ export class BuildingPermitComponent implements OnInit {
         isConstructionStatus
           ? this.updateForms()
           : this.fieldSets[0].documents.push(...this.isConstructionStatus);
-        isOccupancyCommercial ? this.fieldSets[3].documents.push(47) : null;
+        // isOccupancyCommercial ? this.fieldSets[3].documents.push(47) : null;
         // isOccupancyCommercial ? this.addCommercialForms() : null;
         // isOccupancyCommercial ? this.fieldSets[1].documents.push(64) : null;
         // isOccupancyCommercial ? this.fieldSets[1].documents.push(65) : null;
@@ -463,8 +463,13 @@ export class BuildingPermitComponent implements OnInit {
     //   this.openSnackBar('Please upload all necessary documents!');
     // }
     if (environment.receiveApplications == true) {
+      console.log(
+        this.getFieldSetsLength(),
+        this.getFormsLength(),
+        this.getUniqueUserDocs()
+      );
       if (
-        this.getFieldSetsLength() + this.getFormsLength() <
+        this.getFieldSetsLength() + this.getFormsLength() ==
         this.getUniqueUserDocs()
       ) {
         this.isLoading = true;
