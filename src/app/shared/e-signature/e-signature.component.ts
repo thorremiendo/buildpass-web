@@ -504,9 +504,8 @@ export class ESignatureComponent implements OnInit {
     const body = {
       document_path: blob,
     };
-    this.applicationService
-      .updateDocumentFile(body, this.documentId)
-      .subscribe((res) => {
+    this.applicationService.updateDocumentFile(body, this.documentId).subscribe(
+      (res) => {
         if (this.documentInfo.document_id == 50) {
           const body = {
             application_status_id: 8,
@@ -527,7 +526,15 @@ export class ESignatureComponent implements OnInit {
             ]);
           }, 1000);
         }
-      });
+      },
+      (err) => {
+        this.isLoading = false;
+        this.openSnackBar('An error occured. Please try again.');
+        setTimeout(() => {
+          this.router.navigate(['/evaluator/application', this.applicationId]);
+        }, 1000);
+      }
+    );
   }
 
   openSnackBar(message: string) {

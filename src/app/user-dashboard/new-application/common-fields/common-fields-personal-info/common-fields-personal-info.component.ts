@@ -43,7 +43,23 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
   public barangay: Barangay[];
   public isLoading: boolean = true;
   public formChange;
-  tinMask = [/\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
+  tinMask = [
+    /\d/,
+    /\d/,
+    /\d/,
+    '-',
+    /\d/,
+    /\d/,
+    /\d/,
+    '-',
+    /\d/,
+    /\d/,
+    /\d/,
+    '-',
+    /\d/,
+    /\d/,
+    /\d/,
+  ];
   _personalInfoFormCommonFields: FormGroup;
   _submitted = false;
 
@@ -57,7 +73,9 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
   public selectedRegion;
   public selectedProvince;
   public selectedCity;
-
+  public regionName;
+  public provinceName;
+  public cityName;
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
@@ -108,6 +126,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     }
     this.newApplicationService.fetchRegions('').subscribe((res) => {
       this.regions = res.data;
+      console.log(this.regions);
     });
     this.isLoading = false;
   }
@@ -127,6 +146,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
       });
   }
   onCitySelect(e) {
+    // this.getNames();
     console.log(this.selectedCity);
   }
   patchUserDetails() {
@@ -155,7 +175,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
       owner_suffix: [''],
       owner_tin_number: [
         '',
-        [Validators.required, Validators.pattern('[0-9 -]{11}')],
+        [Validators.required, Validators.pattern('[0-9 -]{15}')],
       ],
       owner_contact_number: [
         '',
@@ -189,6 +209,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     this.isLoading = false;
     this._personalInfoFormCommonFields.valueChanges.subscribe((data) => {
       this.formChange = data;
+      console.log(this.selectedCity);
     });
   }
 
@@ -226,9 +247,9 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
         ? this._personalInfoFormCommonFields.value.owner_barangay
         : 'n/a',
       owner_province: 'Benguet',
-      owner_province_id: this.selectedProvince,
-      owner_region_id: this.selectedRegion,
-      owner_city_id: this.selectedCity,
+      owner_province_id: this.selectedProvince.id,
+      owner_region_id: this.selectedRegion.id,
+      owner_city_id: this.selectedCity.id,
       owner_municipality: 'Baguio City',
       owner_zip_code: '2600',
       blank: this._personalInfoFormCommonFields.value.blank,
@@ -264,4 +285,13 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
       });
     }
   }
+
+  // getNames() {
+  //   this.regionName = this.regions.filter((e) => e.id == this.selectedRegion);
+  //   this.provinceName = this.provinces.filter(
+  //     (e) => e.id == this.selectedProvince
+  //   );
+  //   this.cityName = this.cities.filter((e) => e.id == this.selectedCity);
+  //   console.log(this.regionName, this.provinceName, this.cityName)
+  // }
 }

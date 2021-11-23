@@ -29,36 +29,69 @@
             applicationInfo.application_status_id == 12
           "
         >
-          <h5>
-            <strong> BFP Status: </strong>
-            {{
-              applicationInfo.parallel_bfp_status_id == 0
-                ? "Pending"
-                : applicationInfo.parallel_bfp_status_id == 1
-                ? "Review Done - Compliant"
-                : "Review Done - Non Compliant"
-            }}
-          </h5>
-          <h5>
-            <strong> CEPMO Status: </strong>
-            {{
-              applicationInfo.parallel_cepmo_status_id == 0
-                ? "Pending"
-                : applicationInfo.parallel_cepmo_status_id == 1
-                ? "Review Done - Compliant"
-                : "Review Done - Non Compliant"
-            }}
-          </h5>
-          <h5>
-            <strong> CBAO Status: </strong>
-            {{
-              applicationInfo.parallel_cbao_status_id == 0
-                ? "Pending"
-                : applicationInfo.parallel_cbao_status_id == 1
-                ? "Review Done - Compliant"
-                : "Review Done - Non Compliant"
-            }}
-          </h5>
+          <div class="row ml-1">
+            <h5>
+              <strong> BFP Status: </strong>
+            </h5>
+            <h5
+              [style.color]="
+                applicationInfo.parallel_bfp_status_id !== 1
+                  ? 'red'
+                  : 'green'
+              "
+            >
+              &nbsp;
+              {{
+                applicationInfo.parallel_bfp_status_id == 0
+                  ? "Pending"
+                  : applicationInfo.parallel_bfp_status_id == 1
+                  ? "Review Done - Compliant"
+                  : "Review Done - Non Compliant"
+              }}
+            </h5>
+          </div>
+          <div class="row ml-1">
+            <h5>
+              <strong> CEPMO Status: </strong>
+            </h5>
+            <h5
+              [style.color]="
+                applicationInfo.parallel_cepmo_status_id !== 1
+                  ? 'red'
+                  : 'green'
+              "
+            >
+              &nbsp;
+              {{
+                applicationInfo.parallel_cepmo_status_id == 0
+                  ? "Pending"
+                  : applicationInfo.parallel_cepmo_status_id == 1
+                  ? "Review Done - Compliant"
+                  : "Review Done - Non Compliant"
+              }}
+            </h5>
+          </div>
+          <div class="row ml-1">
+            <h5>
+              <strong> CBAO Status: </strong>
+            </h5>
+            <h5
+              [style.color]="
+                applicationInfo.parallel_cbao_status_id !== 1
+                  ? 'red'
+                  : 'green'
+              "
+            >
+              &nbsp;
+              {{
+                applicationInfo.parallel_cbao_status_id == 0
+                  ? "Pending"
+                  : applicationInfo.parallel_cbao_status_id == 1
+                  ? "Review Done - Compliant"
+                  : "Review Done - Non Compliant"
+              }}
+            </h5>
+          </div>
         </div>
       </ng-container>
 
