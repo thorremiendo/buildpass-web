@@ -344,8 +344,8 @@
           {{ formChange.owner_last_name }}
           {{ formChange.owner_suffix }}
         </p>
-        <ng-container *ngIf="formChange.owner_house_number">
-          <h5>Applicant Complete Address:</h5>
+        <h5>Applicant Complete Address:</h5>
+        <ng-container>
           <p>
             #{{ formChange.owner_house_number }}
             {{ formChange.owner_lot_number }}
@@ -355,6 +355,11 @@
             {{ formChange.owner_subdivision }}
             {{ formChange.owner_barangay }}
           </p>
+        </ng-container>
+        <ng-container *ngIf="cityName !== null">
+          {{ regionName[0].name }}
+          {{ provinceName[0].name }}
+          {{ cityName[0].name }}
         </ng-container>
       </div>
     </div>

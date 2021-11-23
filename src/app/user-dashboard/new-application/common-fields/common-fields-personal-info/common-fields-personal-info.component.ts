@@ -75,7 +75,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
   public selectedCity;
   public regionName;
   public provinceName;
-  public cityName;
+  public cityName = null;
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
@@ -146,7 +146,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
       });
   }
   onCitySelect(e) {
-    // this.getNames();
+    this.getNames();
     console.log(this.selectedCity);
   }
   patchUserDetails() {
@@ -286,12 +286,13 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     }
   }
 
-  // getNames() {
-  //   this.regionName = this.regions.filter((e) => e.id == this.selectedRegion);
-  //   this.provinceName = this.provinces.filter(
-  //     (e) => e.id == this.selectedProvince
-  //   );
-  //   this.cityName = this.cities.filter((e) => e.id == this.selectedCity);
-  //   console.log(this.regionName, this.provinceName, this.cityName)
-  // }
+  getNames() {
+    this.regionName = this.regions.filter((e) => e.id == this.selectedRegion);
+    this.provinceName = this.provinces.filter(
+      (e) => e.id == this.selectedProvince
+    );
+    this.cityName = this.cities.filter((e) => e.id == this.selectedCity);
+    console.log('ADDRESS');
+    console.log(this.regionName, this.provinceName, this.cityName);
+  }
 }
