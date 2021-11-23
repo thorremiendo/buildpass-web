@@ -215,7 +215,10 @@
       </mat-card-content>
     </mat-card>
   </div>
-  <div class="inspection" *ngIf="!isLoading">
+  <div
+    class="inspection"
+    *ngIf="!isLoading && evaluatorRole.code !== 'CBAO-REC'"
+  >
     <mat-card>
       <mat-card-content>
         <h4 style="color: maroon" class="mb-4">
