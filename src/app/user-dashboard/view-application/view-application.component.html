@@ -334,7 +334,10 @@
                           ? element.is_applicable == 2 &&
                             element.document_status_id == 1
                             ? "Not Applicable"
-                            : getDocStatus(element.document_status_id)
+                            : applicationDetails.application_status_id == 1 && 
+                              element.document_status_id == 1
+                              ? "Received"
+                              : getDocStatus(element.document_status_id)
                           : ""
                       }}
                     </td>
