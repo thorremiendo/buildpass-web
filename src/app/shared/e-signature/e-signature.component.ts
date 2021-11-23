@@ -375,7 +375,7 @@ export class ESignatureComponent implements OnInit {
     const DOMPage = document.getElementsByClassName('page')[0];
     const pageOriginX = DOMPage.getBoundingClientRect().left;
     const pageOriginY = DOMPage.getBoundingClientRect().top;
-    const pageRotation = pages[this.targetPage - 1].getRotation().angle;
+    const pageRotation = pages[this.targetPage - 1].getRotation().angle % 360;
     const esigImageContainer = document
       .getElementById('e-sig-image-container')
       .getBoundingClientRect();
