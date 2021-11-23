@@ -464,7 +464,7 @@ export class BuildingPermitComponent implements OnInit {
     // }
     if (environment.receiveApplications == true) {
       if (
-        this.getFieldSetsLength() + this.getFormsLength() <
+        this.getFieldSetsLength() + this.getFormsLength() ==
         this.getUniqueUserDocs()
       ) {
         this.isLoading = true;
