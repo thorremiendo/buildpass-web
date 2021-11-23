@@ -65,13 +65,13 @@ export class BuildingPermitComponent implements OnInit {
     },
     {
       id: 195,
-      src: '../../../../assets/forms/updated/Electronics_Permit_(For_Commercial_Building_only)_0_(1).pdf',
+      src: '../../../../assets/forms/updated/Electronics_permit_form_november_23.pdf',
       label: 'Step 7',
       sample: '',
     },
     {
       id: 117,
-      src: '../../../../assets/forms/updated/Mechanical_Permit_(1).pdf',
+      src: '../../../../assets/forms/updated/Mechanical_permit_form_v2_november_23.pdf',
       label: 'Step 8',
       sample: '',
     },
@@ -464,7 +464,7 @@ export class BuildingPermitComponent implements OnInit {
     // }
     if (environment.receiveApplications == true) {
       if (
-        this.getFieldSetsLength() + this.getFormsLength() ==
+        this.getFieldSetsLength() + this.getFormsLength() <
         this.getUniqueUserDocs()
       ) {
         this.isLoading = true;
@@ -662,23 +662,50 @@ export class BuildingPermitComponent implements OnInit {
       type: 'application/pdf',
     };
     let file = new File([data], 'not-applicable.pdf', metadata);
-
-    const uploadDocumentData = {
-      application_id: this.applicationId,
-      user_id: this.user.id,
-      document_id: form.id == 117 ? 47 : 196,
-      document_path: file,
-      document_status_id: 1,
-      is_applicable: 2,
-      receiving_status_id: 1,
-      cbao_status_id: 1,
-      bfp_status_id: 1,
-      cepmo_status_id: 1,
-    };
-    this.newApplicationService
-      .submitDocument(uploadDocumentData)
-      .subscribe((res) => {
-        this.fetchApplicationInfo();
+    const associatedMechanicalDocs = [47, 65];
+    const associatedElectronicsDocs = [64, 196];
+    if (form.id == 117) {
+      associatedMechanicalDocs.forEach((e) => {
+        const uploadDocumentData = {
+          application_id: this.applicationId,
+          user_id: this.user.id,
+          document_id: e,
+          document_path: file,
+          document_status_id: 1,
+          is_applicable: 2,
+          receiving_status_id: 1,
+          cbao_status_id: 1,
+          bfp_status_id: 1,
+          cepmo_status_id: 1,
+        };
+        this.newApplicationService
+          .submitDocument(uploadDocumentData)
+          .subscribe((res) => {
+            console.log('MECHANICAL', res);
+            this.fetchApplicationInfo();
+          });
       });
+    } else {
+      associatedElectronicsDocs.forEach((e) => {
+        const uploadDocumentData = {
+          application_id: this.applicationId,
+          user_id: this.user.id,
+          document_id: e,
+          document_path: file,
+          document_status_id: 1,
+          is_applicable: 2,
+          receiving_status_id: 1,
+          cbao_status_id: 1,
+          bfp_status_id: 1,
+          cepmo_status_id: 1,
+        };
+        this.newApplicationService
+          .submitDocument(uploadDocumentData)
+          .subscribe((res) => {
+            console.log('ELECTRICAL', res);
+            this.fetchApplicationInfo();
+          });
+      });
+    }
   }
 }

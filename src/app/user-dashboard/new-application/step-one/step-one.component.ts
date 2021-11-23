@@ -248,6 +248,9 @@ export class StepOneComponent implements OnInit {
     ) {
       if (this.oldBpDetails.length >= 1 && !this.noBpError) {
         return true;
+      }
+      if (this.selectedBuildingPermit) {
+        return true;
       } else {
         return false;
       }
