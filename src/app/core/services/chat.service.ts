@@ -48,6 +48,25 @@ export class ChatService {
     );
   }
 
+  evaluatorChatSubscribe(channel) {
+    let pusherBind = 'RealTimeMessagingEvent';
+    this.channel = this.pusher.subscribe(channel);
+    this.channel.bind(
+      `App\\Events\\${pusherBind}`,
+      (data: { type: string; msg: string; evaluator_name:string; evaluator_display_role:string, currentTime: string }) => {
+        this.subject.next(
+          new SelectedMessageModel(
+            data.type,
+            data.msg,
+            data.evaluator_name,
+            data.evaluator_display_role,
+            new Date(data.currentTime)
+          )
+        );
+      }
+    );
+  }
+
   fetchConvo(id, user) {
     var url;
     if (user == 'sender') {
@@ -84,24 +103,7 @@ export class ChatService {
     return this.api.post(url, body).subscribe((result) => {});
   }
 
-  evaluatorChatSubscribe(channel) {
-    let pusherBind = 'RealTimeMessagingEvent';
-    this.channel = this.pusher.subscribe(channel);
-    this.channel.bind(
-      `App\\Events\\${pusherBind}`,
-      (data: { type: string; msg: string; evaluator_name:string; evaluator_display_role:string, currentTime: string }) => {
-        this.subject.next(
-          new SelectedMessageModel(
-            data.type,
-            data.msg,
-            data.evaluator_name,
-            data.evaluator_display_role,
-            new Date(data.currentTime)
-          )
-        );
-      }
-    );
-  }
+
 
   isViewed(chat_id) {
     const url = `/chat/${chat_id}/viewed`;

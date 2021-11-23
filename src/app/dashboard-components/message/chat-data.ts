@@ -13,7 +13,7 @@ export const messages = [{
             type: 'odd',
             msg: 'How are you my friend?',
             date: new Date('2016-01-06')
-        },
+        }, 
         {
             type: 'even',
             msg: 'I am good and what about you?',
