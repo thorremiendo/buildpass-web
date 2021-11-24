@@ -137,27 +137,9 @@ export class BuildingPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
+        this.fetchOutsideAddress();
         console.log(this.applicationDetails);
         this.saveRoute();
-        this.zoningFormData = this.dataBindingService.getFormData(
-          this.applicationDetails
-        );
-        this.formData = this.zoningFormData;
-        this.buildingFormData = this.dataBindingService.getFormData(
-          this.applicationDetails
-        );
-        this.sanitaryFormData = this.dataBindingService.getFormData(
-          this.applicationDetails
-        );
-        this.electricalFormData = this.dataBindingService.getFormData(
-          this.applicationDetails
-        );
-        this.noticeOfConstructionFormData = this.dataBindingService.getFormData(
-          this.applicationDetails
-        );
-        this.situationalReportFormData = this.dataBindingService.getFormData(
-          this.applicationDetails
-        );
 
         const isLessee =
           this.applicationDetails.rol_status_id == 2 ? true : false;
@@ -712,5 +694,49 @@ export class BuildingPermitComponent implements OnInit {
           });
       });
     }
+  }
+
+  fetchOutsideAddress() {
+    let region;
+    let province;
+    let city;
+    this.newApplicationService.fetchRegions('').subscribe((res) => {
+      region = res.data.filter(
+        (e) => e.id == this.applicationDetails.applicant_detail.region_id
+      );
+      this.newApplicationService
+        .fetchProvince('', parseInt(region[0].id))
+        .subscribe((res) => {
+          province = res.data.filter(
+            (e) => e.id == this.applicationDetails.applicant_detail.province_id
+          );
+          console.log(province);
+          this.newApplicationService
+            .fetchCities(parseInt(province[0].id))
+            .subscribe((res) => {
+              city = res.data.filter(
+                (e) => e.id == this.applicationDetails.applicant_detail.city_id
+              );
+              this.dataBindingService.outsideAddress = `${region[0].name} ${province[0].name} ${city[0].name}`;
+              this.zoningFormData = this.dataBindingService.getFormData(
+                this.applicationDetails
+              );
+              this.formData = this.zoningFormData;
+              this.buildingFormData = this.dataBindingService.getFormData(
+                this.applicationDetails
+              );
+              this.sanitaryFormData = this.dataBindingService.getFormData(
+                this.applicationDetails
+              );
+              this.electricalFormData = this.dataBindingService.getFormData(
+                this.applicationDetails
+              );
+              this.noticeOfConstructionFormData =
+                this.dataBindingService.getFormData(this.applicationDetails);
+              this.situationalReportFormData =
+                this.dataBindingService.getFormData(this.applicationDetails);
+            });
+        });
+    });
   }
 }

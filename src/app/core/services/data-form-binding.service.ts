@@ -15,7 +15,7 @@ export class DataFormBindingService {
   public projectDetails;
   public applicantDetails;
   public representativeDetails;
-
+  public outsideAddress;
   constructor(
     private api: ApiService,
     private applicationService: ApplicationInfoService
@@ -897,7 +897,9 @@ export class DataFormBindingService {
       } ${applicantDetails.street_name ? applicantDetails.street_name : ''}
       ${applicantDetails.purok ? applicantDetails.purok : ''} ${
         applicantDetails.subdivision ? applicantDetails.subdivision : ''
-      } ${applicantDetails.barangay}`.toUpperCase(),
+      } ${applicantDetails.barangay ? applicantDetails.barangay : ''} ${
+        this.outsideAddress
+      }`.toUpperCase(),
       applicant_first_name:
         applicantDetails.first_name == ''
           ? ''
