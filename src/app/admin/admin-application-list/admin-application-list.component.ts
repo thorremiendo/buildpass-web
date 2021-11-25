@@ -7,7 +7,6 @@ import { debounceTime } from 'rxjs/operators';
 import * as moment from 'moment';
 import ApexCharts from 'apexcharts';
 import { saveAs } from 'file-saver';
-import { filter } from 'rxjs-compat/operator/filter';
 
 @Component({
   selector: 'app-admin-application-list',
