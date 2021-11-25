@@ -75,7 +75,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
   public selectedCity;
   public regionName;
   public provinceName;
-  public cityName;
+  public cityName = null;
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
@@ -146,7 +146,7 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
       });
   }
   onCitySelect(e) {
-    // this.getNames();
+    this.getNames();
     console.log(this.selectedCity);
   }
   patchUserDetails() {
@@ -245,11 +245,11 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
       owner_street: this._personalInfoFormCommonFields.value.owner_street,
       owner_barangay: this._personalInfoFormCommonFields.value.owner_barangay
         ? this._personalInfoFormCommonFields.value.owner_barangay
-        : 'n/a',
+        : '',
       owner_province: 'Benguet',
-      owner_province_id: this.selectedProvince.id,
-      owner_region_id: this.selectedRegion.id,
-      owner_city_id: this.selectedCity.id,
+      owner_province_id: this.selectedProvince,
+      owner_region_id: this.selectedRegion,
+      owner_city_id: this.selectedCity,
       owner_municipality: 'Baguio City',
       owner_zip_code: '2600',
       blank: this._personalInfoFormCommonFields.value.blank,
@@ -273,7 +273,6 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     this.dateToString();
 
     this.createUserDetails();
-
     this.newApplicationFormService.setCommonFields(this.userDetails);
     if (!this._personalInfoFormCommonFields.valid) {
       Swal.fire('Notice!', `Please fill out all required fields!`, 'info').then(
@@ -286,12 +285,13 @@ export class CommonFieldsPersonalInfoComponent implements OnInit {
     }
   }
 
-  // getNames() {
-  //   this.regionName = this.regions.filter((e) => e.id == this.selectedRegion);
-  //   this.provinceName = this.provinces.filter(
-  //     (e) => e.id == this.selectedProvince
-  //   );
-  //   this.cityName = this.cities.filter((e) => e.id == this.selectedCity);
-  //   console.log(this.regionName, this.provinceName, this.cityName)
-  // }
+  getNames() {
+    this.regionName = this.regions.filter((e) => e.id == this.selectedRegion);
+    this.provinceName = this.provinces.filter(
+      (e) => e.id == this.selectedProvince
+    );
+    this.cityName = this.cities.filter((e) => e.id == this.selectedCity);
+    console.log('ADDRESS');
+    console.log(this.regionName, this.provinceName, this.cityName);
+  }
 }

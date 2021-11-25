@@ -29,6 +29,7 @@ import { MessageComponent } from './message/message.component';
 import { AdvancePieChartComponent } from './advance-pie-chart/advance-pie-chart.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { QuillModule } from 'ngx-quill';
+import { QuickMessageComponent } from './quick-message/quick-message.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -49,6 +50,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     TutorialComponent,
     MessageComponent,
     AdvancePieChartComponent,
+    QuickMessageComponent,
   ],
 
   imports: [

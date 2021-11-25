@@ -15,11 +15,35 @@ export class DataFormBindingService {
   public projectDetails;
   public applicantDetails;
   public representativeDetails;
-
+  public outsideAddress;
+  public userDetails = JSON.parse(localStorage.getItem('user'));
+  public userAddress;
   constructor(
     private api: ApiService,
-    private applicationService: ApplicationInfoService
-  ) {}
+    private applicationService: ApplicationInfoService,
+    private newApplicationService: NewApplicationService
+  ) {
+    let region;
+    let province;
+    let city;
+    this.newApplicationService.fetchRegions('').subscribe((res) => {
+      region = res.data.filter((e) => e.id == this.userDetails.region_id);
+      this.newApplicationService
+        .fetchProvince('', parseInt(region[0].id))
+        .subscribe((res) => {
+          province = res.data.filter(
+            (e) => e.id == this.userDetails.province_id
+          );
+          console.log(province);
+          this.newApplicationService
+            .fetchCities(parseInt(province[0].id))
+            .subscribe((res) => {
+              city = res.data.filter((e) => e.id == this.userDetails.city_id);
+              this.userAddress = `${this.userDetails.home_address} ${city[0].name} ${province[0].name}`;
+            });
+        });
+    });
+  }
 
   submitZoningFormData(body, id) {
     const url = `/formdata/${id}/zoning`;
@@ -881,7 +905,33 @@ export class DataFormBindingService {
     const projectBlock = `Block #${projectDetails.block_number}`;
     const applicantLot = `Lot #${applicantDetails.lot_number}`;
     const applicantBlock = `Block #${applicantDetails.block_number}`;
+
+    let completeAddress;
+    if (a.permit_type_id == 1 || a.permit_type_id == 2) {
+      completeAddress = `${
+        applicantDetails.house_number ? applicantDetails.house_number : ''
+      }  ${applicantDetails.lot_number ? applicantLot : ''} ${
+        applicantDetails.block_number ? applicantBlock : ''
+      } ${applicantDetails.street_name ? applicantDetails.street_name : ''}
+      ${applicantDetails.purok ? applicantDetails.purok : ''} ${
+        applicantDetails.subdivision ? applicantDetails.subdivision : ''
+      } ${applicantDetails.barangay ? applicantDetails.barangay : ''} ${
+        this.outsideAddress
+      }`;
+    } else {
+      completeAddress = this.userAddress;
+    }
     const formData = {
+      char_of_occupancy: `${
+        a.occupancy_classification_id == 1
+          ? 'Residential'
+          : a.occupancy_classification_id == 2
+          ? 'Commercial'
+          : a.occupancy_classification_id == 3
+          ? 'Institutional'
+          : 'Industrial'
+      }`.toUpperCase(),
+      form_of_ownership: a.rol_status_id == 1 ? 'OWNER' : 'LESSEE',
       owner_or_rep:
         `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       full_name:
@@ -890,14 +940,7 @@ export class DataFormBindingService {
         `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       applicant_full_name_notary:
         `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
-      applicant_complete_address: `${
-        applicantDetails.house_number ? applicantDetails.house_number : ''
-      }  ${applicantDetails.lot_number ? applicantLot : ''} ${
-        applicantDetails.block_number ? applicantBlock : ''
-      } ${applicantDetails.street_name ? applicantDetails.street_name : ''}
-      ${applicantDetails.purok ? applicantDetails.purok : ''} ${
-        applicantDetails.subdivision ? applicantDetails.subdivision : ''
-      } ${applicantDetails.barangay}`.toUpperCase(),
+      applicant_complete_address: completeAddress.toUpperCase(),
       applicant_first_name:
         applicantDetails.first_name == ''
           ? ''

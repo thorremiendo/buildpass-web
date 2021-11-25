@@ -137,27 +137,9 @@ export class BuildingPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
+        this.fetchOutsideAddress();
         console.log(this.applicationDetails);
         this.saveRoute();
-        this.zoningFormData = this.dataBindingService.getFormData(
-          this.applicationDetails
-        );
-        this.formData = this.zoningFormData;
-        this.buildingFormData = this.dataBindingService.getFormData(
-          this.applicationDetails
-        );
-        this.sanitaryFormData = this.dataBindingService.getFormData(
-          this.applicationDetails
-        );
-        this.electricalFormData = this.dataBindingService.getFormData(
-          this.applicationDetails
-        );
-        this.noticeOfConstructionFormData = this.dataBindingService.getFormData(
-          this.applicationDetails
-        );
-        this.situationalReportFormData = this.dataBindingService.getFormData(
-          this.applicationDetails
-        );
 
         const isLessee =
           this.applicationDetails.rol_status_id == 2 ? true : false;
@@ -223,7 +205,7 @@ export class BuildingPermitComponent implements OnInit {
         isConstructionStatus
           ? this.updateForms()
           : this.fieldSets[0].documents.push(...this.isConstructionStatus);
-        isOccupancyCommercial ? this.fieldSets[3].documents.push(47) : null;
+        // isOccupancyCommercial ? this.fieldSets[3].documents.push(47) : null;
         // isOccupancyCommercial ? this.addCommercialForms() : null;
         // isOccupancyCommercial ? this.fieldSets[1].documents.push(64) : null;
         // isOccupancyCommercial ? this.fieldSets[1].documents.push(65) : null;
@@ -463,8 +445,13 @@ export class BuildingPermitComponent implements OnInit {
     //   this.openSnackBar('Please upload all necessary documents!');
     // }
     if (environment.receiveApplications == true) {
+      console.log(
+        this.getFieldSetsLength(),
+        this.getFormsLength(),
+        this.getUniqueUserDocs()
+      );
       if (
-        this.getFieldSetsLength() + this.getFormsLength() <
+        this.getFieldSetsLength() + this.getFormsLength() ==
         this.getUniqueUserDocs()
       ) {
         this.isLoading = true;
@@ -603,52 +590,68 @@ export class BuildingPermitComponent implements OnInit {
     console.log(form);
     if (e.checked == true) {
       this.submitNotApplicable(form);
+    } else {
+      this.submitApplicable(form);
     }
+  }
+  async submitApplicable(form) {
+    console.log(form);
+    const blob =
+      await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    if (blob) {
+      this.isLoading = true;
+      const uploadDocumentData = {
+        application_id: this.applicationId,
+        user_id: this.user.id,
+        document_id: form.id,
+        document_path: blob,
+        document_status_id: 0,
+        is_applicable: 1,
+        receiving_status_id: 0,
+        cbao_status_id: 0,
+        bfp_status_id: 0,
+        cepmo_status_id: 0,
+      };
+
+      this.newApplicationService
+        .submitDocument(uploadDocumentData)
+        .subscribe((res) => {
+          this.fetchApplicationInfo();
+          if (form.id == 195 || form.id == 117) {
+            //DELETE ASSOCIATED FORMS
+          }
+        });
+    }
+    this.isOptional = false;
   }
 
   async submitNotApplicable(form) {
     console.log(form);
-    if (!form.path) {
-      const blob =
-        await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
-      if (blob) {
-        this.isLoading = true;
-        const uploadDocumentData = {
-          application_id: this.applicationId,
-          user_id: this.user.id,
-          document_id: form.id,
-          document_path: blob,
-          document_status_id: 1,
-          is_applicable: 2,
-          receiving_status_id: 1,
-          cbao_status_id: 1,
-          bfp_status_id: 1,
-          cepmo_status_id: 1,
-        };
+    const blob =
+      await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    if (blob) {
+      this.isLoading = true;
+      const uploadDocumentData = {
+        application_id: this.applicationId,
+        user_id: this.user.id,
+        document_id: form.id,
+        document_path: blob,
+        document_status_id: 1,
+        is_applicable: 2,
+        receiving_status_id: 1,
+        cbao_status_id: 1,
+        bfp_status_id: 1,
+        cepmo_status_id: 1,
+      };
 
-        this.newApplicationService
-          .submitDocument(uploadDocumentData)
-          .subscribe((res) => {
-            this.fetchApplicationInfo();
-            if (form.id == 195 || form.id == 117) {
-              this.uploadMechanicalElectronicsNotApplicable(form);
-            }
-          });
-      }
-    } else {
-      if (form.is_applicable == 2) {
-        this.applicationService
-          .updateDocumentFile({ is_applicable: 1 }, form.doc_id)
-          .subscribe((res) => {
-            this.fetchApplicationInfo();
-          });
-      } else if (form.is_applicable == 1 || form.is_applicable == 0) {
-        this.applicationService
-          .updateDocumentFile({ is_applicable: 2 }, form.doc_id)
-          .subscribe((res) => {
-            this.fetchApplicationInfo();
-          });
-      }
+      this.newApplicationService
+        .submitDocument(uploadDocumentData)
+        .subscribe((res) => {
+          this.fetchApplicationInfo();
+          if (form.id == 195 || form.id == 117) {
+            this.uploadMechanicalElectronicsNotApplicable(form);
+          }
+        });
     }
     this.isOptional = false;
   }
@@ -707,5 +710,49 @@ export class BuildingPermitComponent implements OnInit {
           });
       });
     }
+  }
+
+  fetchOutsideAddress() {
+    let region;
+    let province;
+    let city;
+    this.newApplicationService.fetchRegions('').subscribe((res) => {
+      region = res.data.filter(
+        (e) => e.id == this.applicationDetails.applicant_detail.region_id
+      );
+      this.newApplicationService
+        .fetchProvince('', parseInt(region[0].id))
+        .subscribe((res) => {
+          province = res.data.filter(
+            (e) => e.id == this.applicationDetails.applicant_detail.province_id
+          );
+          console.log(province);
+          this.newApplicationService
+            .fetchCities(parseInt(province[0].id))
+            .subscribe((res) => {
+              city = res.data.filter(
+                (e) => e.id == this.applicationDetails.applicant_detail.city_id
+              );
+              this.dataBindingService.outsideAddress = `${city[0].name} ${province[0].name}`;
+              this.zoningFormData = this.dataBindingService.getFormData(
+                this.applicationDetails
+              );
+              this.formData = this.zoningFormData;
+              this.buildingFormData = this.dataBindingService.getFormData(
+                this.applicationDetails
+              );
+              this.sanitaryFormData = this.dataBindingService.getFormData(
+                this.applicationDetails
+              );
+              this.electricalFormData = this.dataBindingService.getFormData(
+                this.applicationDetails
+              );
+              this.noticeOfConstructionFormData =
+                this.dataBindingService.getFormData(this.applicationDetails);
+              this.situationalReportFormData =
+                this.dataBindingService.getFormData(this.applicationDetails);
+            });
+        });
+    });
   }
 }
