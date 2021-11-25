@@ -241,6 +241,7 @@ export class CbaoEvaluatorComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationInfo = res.data;
+        console.log(this.applicationInfo);
         this.applicationService
           .fetchUserDocs(this.applicationId)
           .subscribe((result) => {
@@ -450,15 +451,22 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   fetchEvaluatorDetails() {
-    if (this.evaluatorRole.code == 'CBAO-REC')
-      this.documentStatusSelector = 'receiving_status_id';
-    else if (
-      this.evaluatorRole.code == 'CBAO-DC' ||
-      this.evaluatorRole.code == 'CBAO-BO' ||
-      this.evaluatorRole.code == 'CBAO-REL'
-    )
+    if (
+      this.applicationInfo.permit_type_id == 1 ||
+      this.applicationInfo.permit_type_id == 2
+    ) {
+      if (this.evaluatorRole.code == 'CBAO-REC')
+        this.documentStatusSelector = 'receiving_status_id';
+      else if (
+        this.evaluatorRole.code == 'CBAO-DC' ||
+        this.evaluatorRole.code == 'CBAO-BO' ||
+        this.evaluatorRole.code == 'CBAO-REL'
+      )
+        this.documentStatusSelector = 'document_status_id';
+      else this.documentStatusSelector = 'cbao_status_id';
+    } else {
       this.documentStatusSelector = 'document_status_id';
-    else this.documentStatusSelector = 'cbao_status_id';
+    }
   }
 
   getDocType(id): string {
