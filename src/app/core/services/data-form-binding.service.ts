@@ -15,7 +15,7 @@ export class DataFormBindingService {
   public projectDetails;
   public applicantDetails;
   public representativeDetails;
-
+  public outsideAddress;
   constructor(
     private api: ApiService,
     private applicationService: ApplicationInfoService
@@ -882,6 +882,15 @@ export class DataFormBindingService {
     const applicantLot = `Lot #${applicantDetails.lot_number}`;
     const applicantBlock = `Block #${applicantDetails.block_number}`;
     const formData = {
+      char_of_occupancy: `${
+        a.occupancy_classification_id == 1
+          ? 'Residential'
+          : a.occupancy_classification_id == 2
+          ? 'Commercial'
+          : a.occupancy_classification_id == 3
+          ? 'Institutional'
+          : 'Industrial'
+      }`.toUpperCase(),
       owner_or_rep:
         `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       full_name:
@@ -897,7 +906,9 @@ export class DataFormBindingService {
       } ${applicantDetails.street_name ? applicantDetails.street_name : ''}
       ${applicantDetails.purok ? applicantDetails.purok : ''} ${
         applicantDetails.subdivision ? applicantDetails.subdivision : ''
-      } ${applicantDetails.barangay}`.toUpperCase(),
+      } ${applicantDetails.barangay ? applicantDetails.barangay : ''} ${
+        this.outsideAddress
+      }`.toUpperCase(),
       applicant_first_name:
         applicantDetails.first_name == ''
           ? ''
