@@ -1,6 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ApplicationInfoService, EvaluatorService } from '../../core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import { EvaluatorService, AdminService } from '../../core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { debounceTime } from 'rxjs/operators';
+import * as moment from 'moment';
+import ApexCharts from 'apexcharts';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-evaluator-home',
@@ -8,83 +14,301 @@ import { ApplicationInfoService, EvaluatorService } from '../../core';
   styleUrls: ['./evaluator-home.component.scss'],
 })
 export class EvaluatorHomeComponent implements OnInit {
-  public userInfo;
+  @ViewChild('filtersTemplate', {static: true}) filtersTemplate: TemplateRef<any>;
+  private userInfo;
+  public userName;
   public applications;
-  public evaluatorDetails;
-  public date = new Date();
-  public loading: boolean = true;
+  public applicationCount;
+  public applicationStats;
+  public viewDate = new Date();
+  public evaluationApplicationCount = 0;
+  public complianceApplicationCount = 0;
+  public reevaluationApplicationCount = 0;
+  public searchKey = new FormControl('');
+  public permitType = new FormControl('0');
+  public applicationStatus = new FormControl('0');
+  public applicationStatusValue = [1, 2, 10, 3, 18, 12, 13, 4, 8];
+  public complianceStatus = new FormControl('1');
+  public dateStart = new FormControl('');
+  public dateEnd = new FormControl('');
+  public pageIndex = 0;
+  public pageSize = 5;
+  public filterCount = 1;
+  public loading: boolean = false;
+  private dialog;
 
-  public application: string | number;
-  public pending: string | number;
-  public current: string | number;
-  public completed: string | number;
-  public applicationStatusId: string | number;
-
-  navLinks: any[];
-  activeLinkIndex = -1;
-
-  constructor(
-    private _router: Router,
+  constructor (
+    private route: ActivatedRoute,
+    private router: Router,
     private evaluatorService: EvaluatorService,
-    private applicationInfoService: ApplicationInfoService
-  ) {
-    this.navLinks = [
-      {
-        label: 'List View',
-        link: './table',
-        index: 0,
-      },
-      {
-        label: 'Calendar View',
-        link: './calendar',
-        index: 1,
-      },
-    ];
-  }
+    private adminService: AdminService,
+    private matDialog: MatDialog,
+  ) {}
 
   ngOnInit(): void {
     this.userInfo = JSON.parse(localStorage.getItem('user'));
     if (this.userInfo) {
-      this.fetchTaskCount(this.userInfo.id);
+      this.userName = this.userInfo.first_name;
+      this.fetchApplications();
+      this.fetchApplicationStats();
+
+      this.searchKey.valueChanges.pipe(debounceTime(300)).subscribe((res) => {
+        this.pageIndex = 0;
+        this.getFilterCount();
+        this.fetchApplications();
+      });
+
+      this.permitType.valueChanges.subscribe((res) => {
+        this.pageIndex = 0;
+        this.getFilterCount();
+        this.fetchApplications();
+      });
+
+      this.applicationStatus.valueChanges.subscribe((res) => {
+        this.setApplicationStatus(res);
+        this.pageIndex = 0;
+        this.getFilterCount();
+        this.fetchApplications();
+      });
+
+      this.complianceStatus.valueChanges.subscribe((res) => {
+        this.pageIndex = 0;
+        this.getFilterCount();
+        this.fetchApplications();
+      });
+  
+      this.dateStart.valueChanges.subscribe((res) => {
+        this.pageIndex = 0;
+        this.getFilterCount();
+        this.fetchApplications();
+      });
+  
+      this.dateEnd.valueChanges.subscribe((res) => {
+        this.pageIndex = 0;
+        this.getFilterCount();
+        this.fetchApplications();
+      });
     }
   }
 
-  fetchTaskCount(id) {
-    this.evaluatorService.fetchTaskCount(id).subscribe(
-      (res) => {
-        let data = res.data[0];
-        this.application = data.application;
-        this.pending = data.pending;
-        this.current = data.current;
-        this.completed = data.completed;
-        this.loading = false;
-      },
-      (err) => {
-        console.log(err);
+  getFilterCount() {
+    let filterCount = 0;
+    if (Number(this.permitType.value)) filterCount++;
+    if (Number(this.applicationStatus.value)) filterCount++;
+    if (Number(this.complianceStatus.value)) filterCount++;
+    if (Number(this.dateStart.value)) filterCount++;
+    if (Number(this.dateEnd.value)) filterCount++;
+
+    this.filterCount = filterCount;
+  }
+
+  clearFilters() {
+    this.permitType.setValue('0');
+    this.applicationStatus.setValue('0');
+    this.dateStart.setValue(null);
+    this.dateEnd.setValue(null);
+  }
+
+  openFilters() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.height = "auto";
+    dialogConfig.width = "700px";
+
+    this.dialog = this.matDialog.open(this.filtersTemplate, dialogConfig);
+    this.dialog.afterClosed().subscribe(result => {
+      this.router.navigate([{outlets: {modal: null}}], {relativeTo: this.route.parent});
+    });
+  }
+
+  closeFilters() {
+    this.dialog.close();
+  }
+
+  setApplicationStatus(status) {
+    switch(status) {
+      case '0':
+        this.applicationStatusValue = [1, 2, 10, 3, 18, 12, 13, 4, 8];
+        break;
+      case '1':
+        this.applicationStatusValue = [1];
+        break;
+      case '2':
+        this.applicationStatusValue = [2, 10];
+        break;
+      case '3':
+        this.applicationStatusValue = [3, 18];
+        break;
+      case '4':
+        this.applicationStatusValue = [12];
+        break;
+      case '5':
+        this.applicationStatusValue = [13];
+        break;
+      case '6':
+        this.applicationStatusValue = [4, 8];
+        break;
+      case '7':
+        this.applicationStatusValue = [11];
+        break;
+      case '8':
+        this.applicationStatusValue = [6, 9];
+        break;
+    }
+  }
+
+  fetchApplications() {
+    this.loading = true;
+    const params = {
+      searchKey: this.searchKey.value ? this.searchKey.value : '',
+      permitType: this.permitType.value ? this.permitType.value : '',
+      complianceStatus: this.complianceStatus.value ? this.complianceStatus.value : '',
+      dateStart: this.dateStart.value ? moment( this.dateStart.value).format('YYYY-MM-DD') : '',
+      dateEnd: this.dateEnd.value ? moment( this.dateEnd.value).format('YYYY-MM-DD') : '',
+      pageIndex: this.pageIndex + 1,
+      pageSize: this.pageSize,
+      incompleteFlag: this.applicationStatus.value == '8' ? 1 : '',
+    }
+
+    this.evaluatorService.fetchApplications(params).subscribe((data) => {
+      this.applications = this.applicationModifications(data.data);
+      this.applicationCount = data.total;
+      this.loading = false;
+    });
+  }
+
+  applicationModifications(applications) {
+    applications.forEach(application => {
+      if (application.application_status_id == '5') {
+        const temp = application.application_status_id;
+        application.application_status_id = application.reevaluation_status_id;
+        application.reevaluation_status_id = temp;
       }
-    );
+    });
+
+    return applications;
   }
 
-  sendDataToTableView(status_id) {
-    this.applicationStatusId = status_id;
+  fetchApplicationStats() {
+    this.adminService.fetchApplicationTotalStatus().subscribe((data) => {
+      this.applicationStats = data.data;
+      this.initChart();
+    });
+
+    const params = {
+      searchKey: this.searchKey.value ? this.searchKey.value : '',
+      permitType: this.permitType.value ? this.permitType.value : '',
+      complianceStatus: this.complianceStatus.value ? this.complianceStatus.value : '',
+      dateStart: this.dateStart.value ? moment( this.dateStart.value).format('YYYY-MM-DD') : '',
+      dateEnd: this.dateEnd.value ? moment( this.dateEnd.value).format('YYYY-MM-DD') : '',
+      pageIndex: this.pageIndex + 1,
+      pageSize: this.pageSize,
+      incompleteFlag: this.applicationStatus.value == '8' ? 1 : '',
+    }
+
+    let countParams = {...params};
+    this.evaluatorService.fetchApplications(countParams).subscribe((data) => {
+      this.evaluationApplicationCount = data.total;
+    });
+
+    countParams.complianceStatus = '2';
+    this.evaluatorService.fetchApplications(countParams).subscribe((data) => {
+      this.complianceApplicationCount = data.total;
+    });
+
+    countParams.complianceStatus = '3'
+    this.evaluatorService.fetchApplications(countParams).subscribe((data) => {
+      this.reevaluationApplicationCount = data.total;
+    });
   }
 
-  // openApplication(id) {
-  //   this._router.navigate(['evaluator/application', id]);
-  // }
+  initChart() {
+    const chartOptions = {
+      series: [
+        this.applicationStats[0].value,
+        this.applicationStats[1].value + this.applicationStats[2].value,
+        this.applicationStats[3].value + this.applicationStats[4].value,
+        this.applicationStats[5].value,
+        this.applicationStats[6].value,
+        this.applicationStats[7].value + this.applicationStats[8].value + this.applicationStats[9].value + this.applicationStats[10].value,
+      ],
+      labels: [
+        'Receiving',
+        'CPDO Evaluation',
+        'CEPMO, BFP, CBAO Technical Evaluation',
+        'CBAO Division Chief Evaluation',
+        'Building Official Evaluation',
+        'Releasing',
+      ],
+      colors: [
+        '#FFFF00',
+        '#FFA500',
+        '#FF0000',
+        '#800080',
+        '#0000FF',
+        '#008000',
+      ],
+      chart: {
+        type: 'donut',
+        height: '100%',
+        width: '100%',
+      },
+      plotOptions: {
+        pie: {
+          expandOnClick: false,
+        }
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      legend: {
+        show: false,
+      },
+      tooltip: {
+        enabled: false,
+      },
+      states: {
+        hover: {
+          filter: {
+              type: 'none',
+          }
+        },
+        active: {
+          filter: {
+            type: 'none',
+          }
+        },
+      },
+    };
+    const chartContainer = document.getElementById('task-chart');
+    const taskChart = new ApexCharts(chartContainer, chartOptions);
+    taskChart.render();
+  }
 
-  // onSelect(data): void {
-  //   console.log('Item clicked', JSON.parse(JSON.stringify(data)));
-  // }
+  changeIndex(index) {
+    this.pageIndex = index;
+    this.fetchApplications();
+  }
 
-  // onActivate(data): void {
-  //   console.log('Activate', JSON.parse(JSON.stringify(data)));
-  // }
+  viewApplication(id) {
+    this.router.navigate(['evaluator/application', id]);
+  }
 
-  // onDeactivate(data): void {
-  //   console.log('Deactivate', JSON.parse(JSON.stringify(data)));
-  // }
-  // handleView() {
-  //   this._router.navigateByUrl('evaluator/application');
-  // }
+  exportResults() {
+    const data = [];
+    this.applications.forEach(application => {
+      data.push({
+        permit_application_code: application.permit_application_code,
+        ...application.applicant_detail,
+        ...application.project_detail,
+      });
+    });
+    const replacer = (key, value) => value === null ? '' : value;
+    const header = Object.keys(data[0]);
+    let csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
+    csv.unshift(header.join(','));
+    let csvArray = csv.join('\r\n');
+
+    var blob = new Blob([csvArray], {type: 'text/csv' })
+    saveAs(blob, "export.csv");
+  }
 }
