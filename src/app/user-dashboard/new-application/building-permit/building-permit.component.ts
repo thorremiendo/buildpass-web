@@ -733,7 +733,7 @@ export class BuildingPermitComponent implements OnInit {
               city = res.data.filter(
                 (e) => e.id == this.applicationDetails.applicant_detail.city_id
               );
-              this.dataBindingService.outsideAddress = `${region[0].name} ${province[0].name} ${city[0].name}`;
+              this.dataBindingService.outsideAddress = `${city[0].name} ${province[0].name}`;
               this.zoningFormData = this.dataBindingService.getFormData(
                 this.applicationDetails
               );
