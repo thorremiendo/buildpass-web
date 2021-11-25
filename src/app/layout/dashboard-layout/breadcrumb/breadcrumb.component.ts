@@ -2,6 +2,7 @@ import { Component, OnInit, Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, NavigationEnd, ActivatedRoute, Data } from '@angular/router';
 import { filter, map, mergeMap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -17,6 +18,7 @@ import { ApplicationInfoService } from 'src/app/core/services/application-info.s
 })
 export class BreadcrumbComponent implements OnInit {
   pageInfo: Data = Object.create(null);
+  version: String;
   
   constructor(
     private router: Router,
@@ -47,6 +49,7 @@ export class BreadcrumbComponent implements OnInit {
   }
 
   ngOnInit(): void{
+    this.version = environment.version;
    
   }
   
