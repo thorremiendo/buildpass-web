@@ -107,6 +107,7 @@ export class ExcavationPermitComponent implements OnInit {
       )
       .subscribe((res) => {
         this.applicationDetails = res.data;
+        console.log(this.applicationDetails);
         this.saveRoute();
         if (this.applicationDetails.main_permit_id == null) {
           this.fieldSets[3].documents.push(18);
