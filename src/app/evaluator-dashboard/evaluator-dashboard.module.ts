@@ -93,6 +93,7 @@ import { OccupancyPermitActionsComponent } from './occupancy-permit-actions/occu
 import { SchedulingComponent } from './scheduling/scheduling.component';
 import { AddInspectionComponent } from './add-inspection/add-inspection.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { EvalutorReminderComponent } from './evalutor-reminder/evalutor-reminder.component';
 
 @NgModule({
   declarations: [
@@ -142,6 +143,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     OccupancyPermitActionsComponent,
     SchedulingComponent,
     AddInspectionComponent,
+    EvalutorReminderComponent,
   ],
 
   imports: [

@@ -140,6 +140,7 @@ export class FeedService {
 
 
   getNotifMessageTable() {
+    this.checkUser();
     const url = `/chat/${this.user.id}/user-notif`;
     return this._api.get(url).pipe(
       map((data: any) => {

@@ -1,0 +1,66 @@
+<!-- <div fxLayout="row" fxLayoutAlign="center start">
+    <div fxFlex.gt-md="100" fxFlex.gt-sm="100" fxFlex="100">
+      <mat-card class="mat-card-top chat-app">
+          <mat-card-content class="chat-middle-box">
+           
+          </mat-card-content>
+          <mat-card-actions class="chat-footer">
+            <div fxLayout="row" layout-align="start center">
+              <mat-form-field class="mr-1 ml-1" fxFlex>
+                <input matInput [(ngModel)]="msg" placeholder="Send message" #myInput (keyup.enter)="OnAddMsg()">
+              </mat-form-field>
+              <button mat-fab color="warn" (click)="OnAddMsg()" [disabled]="!msg">
+                <mat-icon>send</mat-icon>
+              </button>
+            </div>
+          </mat-card-actions>
+      </mat-card>
+    </div>
+  </div> -->
+<div class="chat-container">
+    <mat-dialog-content>
+      <perfect-scrollbar>
+        <ng-container *ngFor="let c of selectedMessage">
+          <ng-template [ngIf]="c.type == 'odd'" [ngIfElse]="evenblock">
+            <div class="chat-list odd">
+              <div class="chat-message">
+                <div class="chat-block">
+                  <span>
+                    <img
+                      src="{{ selectedMessage.photo }}"
+                      class="img-circle"
+                      width="40"
+                    />
+                  </span>
+                  <span>{{ c.msg }}</span>
+                </div>
+                <span class="chat-date">{{ c.date | date }}</span>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template #evenblock>
+            <div class="chat-list even">
+              <div class="chat-message">
+                <div class="chat-block bg-light-info">{{ c.msg }}</div>
+                <span class="chat-date">{{ c.date | date }}</span>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
+      </perfect-scrollbar>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <mat-form-field class="mr-1 ml-1" fxFlex>
+        <input
+          matInput
+          [(ngModel)]="msg"
+          placeholder="Send message"
+          #myInput
+          (keyup.enter)="OnAddMsg()"
+        />
+      </mat-form-field>
+      <button mat-fab color="warn" (click)="OnAddMsg()" [disabled]="!msg">
+        <mat-icon>send</mat-icon>
+      </button>
+    </mat-dialog-actions>
+</div>
