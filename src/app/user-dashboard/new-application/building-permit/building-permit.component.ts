@@ -590,52 +590,68 @@ export class BuildingPermitComponent implements OnInit {
     console.log(form);
     if (e.checked == true) {
       this.submitNotApplicable(form);
+    } else {
+      this.submitApplicable(form);
     }
+  }
+  async submitApplicable(form) {
+    console.log(form);
+    const blob =
+      await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    if (blob) {
+      this.isLoading = true;
+      const uploadDocumentData = {
+        application_id: this.applicationId,
+        user_id: this.user.id,
+        document_id: form.id,
+        document_path: blob,
+        document_status_id: 0,
+        is_applicable: 1,
+        receiving_status_id: 0,
+        cbao_status_id: 0,
+        bfp_status_id: 0,
+        cepmo_status_id: 0,
+      };
+
+      this.newApplicationService
+        .submitDocument(uploadDocumentData)
+        .subscribe((res) => {
+          this.fetchApplicationInfo();
+          if (form.id == 195 || form.id == 117) {
+            //DELETE ASSOCIATED FORMS
+          }
+        });
+    }
+    this.isOptional = false;
   }
 
   async submitNotApplicable(form) {
     console.log(form);
-    if (!form.path) {
-      const blob =
-        await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
-      if (blob) {
-        this.isLoading = true;
-        const uploadDocumentData = {
-          application_id: this.applicationId,
-          user_id: this.user.id,
-          document_id: form.id,
-          document_path: blob,
-          document_status_id: 1,
-          is_applicable: 2,
-          receiving_status_id: 1,
-          cbao_status_id: 1,
-          bfp_status_id: 1,
-          cepmo_status_id: 1,
-        };
+    const blob =
+      await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    if (blob) {
+      this.isLoading = true;
+      const uploadDocumentData = {
+        application_id: this.applicationId,
+        user_id: this.user.id,
+        document_id: form.id,
+        document_path: blob,
+        document_status_id: 1,
+        is_applicable: 2,
+        receiving_status_id: 1,
+        cbao_status_id: 1,
+        bfp_status_id: 1,
+        cepmo_status_id: 1,
+      };
 
-        this.newApplicationService
-          .submitDocument(uploadDocumentData)
-          .subscribe((res) => {
-            this.fetchApplicationInfo();
-            if (form.id == 195 || form.id == 117) {
-              this.uploadMechanicalElectronicsNotApplicable(form);
-            }
-          });
-      }
-    } else {
-      if (form.is_applicable == 2) {
-        this.applicationService
-          .updateDocumentFile({ is_applicable: 1 }, form.doc_id)
-          .subscribe((res) => {
-            this.fetchApplicationInfo();
-          });
-      } else if (form.is_applicable == 1 || form.is_applicable == 0) {
-        this.applicationService
-          .updateDocumentFile({ is_applicable: 2 }, form.doc_id)
-          .subscribe((res) => {
-            this.fetchApplicationInfo();
-          });
-      }
+      this.newApplicationService
+        .submitDocument(uploadDocumentData)
+        .subscribe((res) => {
+          this.fetchApplicationInfo();
+          if (form.id == 195 || form.id == 117) {
+            this.uploadMechanicalElectronicsNotApplicable(form);
+          }
+        });
     }
     this.isOptional = false;
   }
