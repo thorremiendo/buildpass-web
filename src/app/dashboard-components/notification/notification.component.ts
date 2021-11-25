@@ -58,14 +58,18 @@ export class NotificationComponent implements OnInit {
  
   }
 
-  openNotif(id, applicationId) {
-    this.feedService.isViewed(id).subscribe( res => {
-      this.updateNotifTable();
-    });
+  openNotif(id, applicationId, is_viewed) {
+
+    if(is_viewed == 0 ){
+      this.feedService.isViewed(id).subscribe( res => {
+        this.updateNotifTable();
+      });
+    }
     if (this.user.is_evaluator == 1) {
       this.router.navigate(['evaluator/application', applicationId]).then(() => {});
     } else {
       this.router.navigate(['dashboard/applications/view', applicationId]);
     }
   }
+
 }
