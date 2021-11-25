@@ -483,10 +483,20 @@ export class CpdoEvaluatorComponent implements OnInit {
       //CHECK APPLICATION STATUS
       if (this.applicationDetails.application_status_id == 2) {
         //CHECK FORM STATUS
-        if (this.checkFormsCompliant()) {
-          this.forwardToCpdoCoordinator();
-        } else if (this.checkFormNonCompliant()) {
-          this.nonCompliant();
+        if (this.checkFormsReviewed()) {
+          if (this.checkFormsCompliant()) {
+            this.forwardToCpdoCoordinator();
+          } else if (this.checkFormNonCompliant()) {
+            this.nonCompliant();
+          }
+        } else {
+          Swal.fire(
+            'Notice!',
+            `Please review all documents first!`,
+            'info'
+          ).then((result) => {
+            this.isLoading = false;
+          });
         }
       } else {
         this.snackbar.openSnackBar('Action restricted.');

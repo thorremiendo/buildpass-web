@@ -69,7 +69,11 @@
         <div class="col-md-4">
           <div class="col">
             <h5 style="color: #7b7b7b">Application Status:</h5>
-            <h5>
+            <h5
+              [style.color]="
+                applicationDetails.application_status_id == 11 ? 'green' : 'red'
+              "
+            >
               <strong
                 >&nbsp;
                 {{
@@ -334,10 +338,10 @@
                           ? element.is_applicable == 2 &&
                             element.document_status_id == 1
                             ? "Not Applicable"
-                            : applicationDetails.application_status_id == 1 && 
+                            : applicationDetails.application_status_id == 1 &&
                               element.document_status_id == 1
-                              ? "Received"
-                              : getDocStatus(element.document_status_id)
+                            ? "Received"
+                            : getDocStatus(element.document_status_id)
                           : ""
                       }}
                     </td>
