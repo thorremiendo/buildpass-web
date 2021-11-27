@@ -24,6 +24,7 @@ export class EvaluatorHomeComponent implements OnInit {
   public evaluationApplicationCount = 0;
   public complianceApplicationCount = 0;
   public reevaluationApplicationCount = 0;
+  public evaluatedApplicationCount = 0;
   public searchKey = new FormControl('');
   public permitType = new FormControl('0');
   public applicationStatus = new FormControl('0');
@@ -205,19 +206,23 @@ export class EvaluatorHomeComponent implements OnInit {
       incompleteFlag: this.applicationStatus.value == '8' ? 1 : '',
     }
 
-    let countParams = {...params};
-    this.evaluatorService.fetchApplications(countParams).subscribe((data) => {
+    this.evaluatorService.fetchApplications(params).subscribe((data) => {
       this.evaluationApplicationCount = data.total;
     });
 
-    countParams.complianceStatus = '2';
-    this.evaluatorService.fetchApplications(countParams).subscribe((data) => {
+    params.complianceStatus = '2';
+    this.evaluatorService.fetchApplications(params).subscribe((data) => {
       this.complianceApplicationCount = data.total;
     });
 
-    countParams.complianceStatus = '3'
-    this.evaluatorService.fetchApplications(countParams).subscribe((data) => {
+    params.complianceStatus = '3'
+    this.evaluatorService.fetchApplications(params).subscribe((data) => {
       this.reevaluationApplicationCount = data.total;
+    });
+
+    params.complianceStatus = '4'
+    this.evaluatorService.fetchApplications(params).subscribe((data) => {
+      this.evaluatedApplicationCount = data.total;
     });
   }
 

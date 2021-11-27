@@ -11,6 +11,8 @@
     }
 
     .col-12:last-of-type {
+      display: flex;
+      justify-content: space-between;
       padding: 0 35px 20px 15px;
 
       .mat-card {
@@ -74,7 +76,6 @@
             li {
               display: flex;
               align-items: center;
-              cursor: pointer;
     
               .color {
                 border: 1px solid black;
@@ -134,7 +135,7 @@
 
       .category {
         text-align: center;
-        font-size: 18px;
+        font-size: 17px;
         font-weight: 400;
         line-height: 1.1;
 
@@ -254,6 +255,86 @@
 
   .loader {
     margin-top: 10px;
+  }
+
+  @media(min-width: 0.5px) and (max-width: 1000.5px) {
+    .first-row > .col-12 {
+      padding: 0 35px 20px !important;
+    }
+
+    .categories {
+      width: 100%;
+
+      > div {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .category {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    }
+
+    .calendar-container {
+      display: none;
+    }
+  }
+
+  @media(min-width: 1000.5px) and (max-width: 1200.5px) {
+    .first-row > .col-12 {
+      padding: 0 35px 20px !important;
+    }
+
+    .categories {
+      width: 100%;
+
+      > div {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .category {
+        width: 50%;
+        margin: 0 5px;
+      }
+    }
+
+    .calendar-container {
+      display: none;
+    }
+  }
+
+  @media(min-width: 1200.5px) and (max-width: 1700.5px) {
+    .first-row > .col-12 {
+      padding: 0 35px 20px;
+
+      &:first-of-type {
+        flex: 0 0 70%;
+      }
+
+      &:last-of-type {
+        flex: 0 0 30%;
+      }
+    } 
+
+    .categories {
+      width: 100%;
+
+      .category {
+        margin-bottom: 10px;
+      }
+    }
+
+    .calendar-container {
+      display: none;
+    }
+  }
+
+  @media(min-width: 1700.5px) {
+    .first-row > .col-12 {
+      flex: 0 0 50%;
+    } 
   }
 }
 
