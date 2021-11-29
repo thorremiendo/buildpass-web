@@ -25,5 +25,5 @@ export const environment = {
   weekend: true,
   receiveApplications: true,
 
-  version: "2.2.0"
+  version: "2.2.2"
 };
