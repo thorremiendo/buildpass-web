@@ -145,7 +145,18 @@ export class OtherPermitsComponent implements OnInit {
         window.location.reload();
       });
   }
-  forwardToDivisionChief() {}
+  forwardToDivisionChief() {
+    this.isLoading = true;
+    const body = {
+      application_status_id: 12,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        this.isLoading = false;
+        this.openSnackBar('Forwarded to Division Chief!');
+      });
+  }
   notifyBuildingOfficial() {
     this.isLoading = true;
     if (this.applicationInfo.main_permit_id) {
@@ -239,9 +250,11 @@ export class OtherPermitsComponent implements OnInit {
     this.applicationService
       .fetchTechnicalStatus(this.applicationId)
       .subscribe((res) => {
+        console.log(res);
         this.validateTechnicalStatus(res.data);
         if (this.validateTechnicalStatus(res.data) == true) {
           console.log('ready');
+          this.forwardToDivisionChief();
         } else {
           console.log('err');
         }
@@ -284,10 +297,12 @@ export class OtherPermitsComponent implements OnInit {
     }
   }
   updateCbaoStatus(body) {
+    this.isLoading = true;
     this.applicationService
       .updateCbaoStatus(body, this.applicationId)
       .subscribe((res) => {
         Swal.fire('Success!', `Review Saved!`, 'success').then((result) => {
+          this.isLoading = false;
           window.location.reload();
         });
       });
