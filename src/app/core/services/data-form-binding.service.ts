@@ -27,21 +27,23 @@ export class DataFormBindingService {
     let province;
     let city;
     this.newApplicationService.fetchRegions('').subscribe((res) => {
-      region = res.data.filter((e) => e.id == this.userDetails.region_id);
-      this.newApplicationService
-        .fetchProvince('', parseInt(region[0].id))
-        .subscribe((res) => {
-          province = res.data.filter(
-            (e) => e.id == this.userDetails.province_id
-          );
-          console.log(province);
-          this.newApplicationService
-            .fetchCities(parseInt(province[0].id))
-            .subscribe((res) => {
-              city = res.data.filter((e) => e.id == this.userDetails.city_id);
-              this.userAddress = `${this.userDetails.home_address} ${city[0].name} ${province[0].name}`;
-            });
-        });
+      if (this.userDetails.region_id) {
+        region = res.data.filter((e) => e.id == this.userDetails.region_id);
+        this.newApplicationService
+          .fetchProvince('', parseInt(region[0].id))
+          .subscribe((res) => {
+            province = res.data.filter(
+              (e) => e.id == this.userDetails.province_id
+            );
+            console.log(province);
+            this.newApplicationService
+              .fetchCities(parseInt(province[0].id))
+              .subscribe((res) => {
+                city = res.data.filter((e) => e.id == this.userDetails.city_id);
+                this.userAddress = `${this.userDetails.home_address} ${city[0].name} ${province[0].name}`;
+              });
+          });
+      }
     });
   }
 
@@ -940,7 +942,9 @@ export class DataFormBindingService {
         `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
       applicant_full_name_notary:
         `${applicantDetails.first_name} ${applicantDetails.last_name}`.toUpperCase(),
-      applicant_complete_address: completeAddress.toUpperCase(),
+      applicant_complete_address: completeAddress
+        ? completeAddress.toUpperCase()
+        : '',
       applicant_first_name:
         applicantDetails.first_name == ''
           ? ''

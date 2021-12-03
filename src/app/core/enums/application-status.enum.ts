@@ -8,7 +8,7 @@ export enum applicationStatus {
   'For Payment - Filing Fee' = 7,
   'Approved - Subject to Payment of Permit Fees' = 8,
   'Pending' = 9,
-  'For Approval of Zoning Clearance' = 10,
+  'For Review of the Zoning Coordinator' = 10,
   'Permit has been Released' = 11,
   'For Initial Evaluation of the Division Chief' = 12,
   'For Final Evaluation of the Building Official' = 13,
