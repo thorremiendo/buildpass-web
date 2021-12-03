@@ -47,8 +47,8 @@
       />
     </div>
     <div class="application-details">
-      <div class="application-type" *ngIf="application.permit_type_id">
-        <div>
+      <div>
+        <div class="application-type" *ngIf="application.permit_type_id">
           {{ application.permit_type_id == 1 ? "Building Permit" : "" }}
           {{ application.permit_type_id == 2 ? "Certificate of Occupancy" : "" }}
           {{ application.permit_type_id == 3 ? "Excavation Permit" : "" }}
@@ -73,98 +73,99 @@
           {{ application.permit_type_id == 10 && application.sub_permit_type_id == 5 
             ? "CFEI - Structures w/o Building Permit" 
             : "" }}
-          <span *ngIf="application?.construction_status_id">
+          <span *ngIf="application.construction_status_id">
             ({{ getConstructionType(application.construction_status_id) }})
           </span>
         </div>
-
-        <div *ngIf="application?.submitted_at">
+        <div class="application-date" *ngIf="application.submitted_at">
           {{ application.submitted_at | date: "MMMM dd, yyyy" }}
         </div>
       </div>
-      <div class="application-code">
-        <div>
+      <div>
+        <div class="application-code" *ngIf="application.permit_application_code">
           {{ application.permit_application_code }}
         </div>
-        <div>
-          <div *ngIf="application.reevaluation_status_id == 5">
-            FOR COMPLIANCE
-          </div>
-          <button
-            mat-button
-            *ngIf="
-              application.application_status_id == 6 &&
-              userInfo.id == application.user_id
-            "
-            (click)="
-              deleteApplication(application.id); $event.stopPropagation()
-            "
-          >
-            Delete
-          </button>
+        <div class="application-status" *ngIf="application.application_status_id">
+          {{ getApplicationStatus(application.application_status_id) }}
         </div>
       </div>
-      <div class="application-status" *ngIf="application.application_status_id">
-        {{ getApplicationStatus(application.application_status_id) }}
+      <div>
+        <div class="application-applicant" *ngIf="application.applicant_detail">
+          <mat-icon [inline]="true">person</mat-icon>
+          {{ application.applicant_detail.first_name }}
+          {{
+            application.applicant_detail.middle_name
+              ? application.applicant_detail.middle_name
+              : application.applicant_detail.middle_name == "N/A"
+              ? ""
+              : ""
+          }}
+          {{ application.applicant_detail.last_name }}
+          {{
+            application.applicant_detail.suffix_name != "na"
+              ? application.applicant_detail.suffix_name
+              : ""
+          }}
+        </div>
+        <div class="for-compliance" *ngIf="application.reevaluation_status_id == 5">
+          FOR COMPLIANCE
+        </div>
       </div>
-      <div class="application-applicant" *ngIf="application.applicant_detail">
-        <mat-icon [inline]="true">person</mat-icon>
-        {{ application.applicant_detail.first_name }}
-        {{
-          application.applicant_detail.middle_name
-            ? application.applicant_detail.middle_name
-            : application.applicant_detail.middle_name == "N/A"
-            ? ""
-            : ""
-        }}
-        {{ application.applicant_detail.last_name }}
-        {{
-          application.applicant_detail.suffix_name != "na"
-            ? application.applicant_detail.suffix_name
-            : ""
-        }}
+      <div>
+        <div class="application-location" *ngIf="application.project_detail">
+          <mat-icon [inline]="true">location_on</mat-icon>
+          {{
+            application.project_detail.block_number
+              ? "BLOCK " + application.project_detail.block_number
+              : ""
+          }}
+          {{
+            application.project_detail.lot_number
+              ? "LOT " + application.project_detail.lot_number
+              : ""
+          }}
+          {{
+            application.project_detail.house_number
+              ? "#" + application.project_detail.house_number
+              : ""
+          }}
+          {{
+            application.project_detail.street_name
+              ? application.project_detail.street_name
+              : ""
+          }}
+          {{
+            application.project_detail.subdivision
+              ? application.project_detail.subdivision
+              : ""
+          }}
+          {{
+            application.project_detail.barangay
+              ? application.project_detail.barangay
+              : ""
+          }}
+        </div>
+        <button
+          mat-button
+          *ngIf="
+            application.application_status_id == 6 &&
+            userInfo.id == application.user_id
+          "
+          (click)="
+            deleteApplication(application.id); $event.stopPropagation()
+          "
+        >
+          Delete
+        </button>
       </div>
-      <div class="application-location" *ngIf="application.project_detail">
-        <mat-icon [inline]="true">location_on</mat-icon>
-        {{
-          application.project_detail.block_number
-            ? "BLOCK " + application.project_detail.block_number
-            : ""
-        }}
-        {{
-          application.project_detail.lot_number
-            ? "LOT " + application.project_detail.lot_number
-            : ""
-        }}
-        {{
-          application.project_detail.house_number
-            ? "#" + application.project_detail.house_number
-            : ""
-        }}
-        {{
-          application.project_detail.street_name
-            ? application.project_detail.street_name
-            : ""
-        }}
-        {{
-          application.project_detail.subdivision
-            ? application.project_detail.subdivision
-            : ""
-        }}
-        {{
-          application.project_detail.barangay
-            ? application.project_detail.barangay
-            : ""
-        }}
+      <div>
+        <div class="application-latest-activity" *ngIf="application.latest_activity">
+          <mat-icon [inline]="true">assignment</mat-icon>
+          <span>{{application.latest_activity.status}}</span>
+          by <span>{{application.latest_activity.name}}</span>
+          on {{application.latest_activity.created_at | date: "MMM d, y h:mm a"}}
+        </div>
       </div>
-      <!--
-      <div class="application-progress" *ngIf="application.status">
-        <mat-icon [inline]="true">assignment</mat-icon>
-        {{
-          application.status.progress == "" ? "0" : application.status.progress
-        }}%
-      </div>
-      -->
     </div>
   </mat-card>
 </div>

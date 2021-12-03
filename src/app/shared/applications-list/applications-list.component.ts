@@ -31,8 +31,6 @@ export class ApplicationsListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   private userInfo;
-  public filteredApplications = [];
-  public currentItemsToShow = [];
   public loading: boolean = true;
 
   constructor(
@@ -41,11 +39,25 @@ export class ApplicationsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.userInfo = JSON.parse(localStorage.getItem('user'));
+    this.addLatestActivity(this.applications);
     this.loading = false;
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.applications = [...this.applications];
+    this.addLatestActivity(this.applications);
+    this.loading = false; 
+  }
+
+  addLatestActivity(applications) {
+    applications.forEach(application => {
+      this.applicationService
+        .fetchApplicationTmeline(application['id'])
+        .subscribe(res => {
+          application['latest_activity'] = res.data[res.data.length - 1];
+        });
+    });
+
+    return applications;
   }
 
   getApplicationStatus(id): string {
@@ -61,6 +73,7 @@ export class ApplicationsListComponent implements OnInit {
   }
 
   onPageChange($event) {
+    this.loading = true;
     this.emitIndex.emit($event);
   }
 

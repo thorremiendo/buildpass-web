@@ -292,6 +292,8 @@ export class EvaluatorHomeComponent implements OnInit {
   changeIndex(index) {
     this.pageIndex = index;
     this.fetchApplications();
+    const search = document.querySelectorAll('.search');
+    search[0].scrollIntoView();
   }
 
   viewApplication(id) {
