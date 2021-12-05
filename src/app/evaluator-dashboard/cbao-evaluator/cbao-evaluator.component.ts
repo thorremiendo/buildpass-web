@@ -126,23 +126,27 @@ export class CbaoEvaluatorComponent implements OnInit {
   filterUserDocs(forms) {
     const USER_FORMS = forms.filter((doc) => doc.document_id !== 107);
     if (this.applicationInfo.permit_type_id == 2) {
-      this.occupancyService
-        .fetchUserOldBp(this.applicationId)
-        .subscribe((res) => {
-          res.data.forEach((e) => {
-            this.occupancyService
-              .fetchUserDocsOnly(e.generated_application_id)
-              .subscribe((res) => {
-                res.data.forEach((element) => {
-                  USER_FORMS.push(element);
+      if (this.applicationInfo.associated_released_permits.length >= 1) {
+        this.occupancyService
+          .fetchUserOldBp(this.applicationId)
+          .subscribe((res) => {
+            res.data.forEach((e) => {
+              this.occupancyService
+                .fetchUserDocsOnly(e.generated_application_id)
+                .subscribe((res) => {
+                  res.data.forEach((element) => {
+                    USER_FORMS.push(element);
+                  });
+                  this.dataSource = this.sortUserDocs(USER_FORMS);
+                  this.occupancyDocs = USER_FORMS;
+                  this.isLoading = false;
                 });
-                this.dataSource = this.sortUserDocs(USER_FORMS);
-                this.occupancyDocs = USER_FORMS;
-
-                this.isLoading = false;
-              });
+            });
           });
-        });
+      } else {
+        this.dataSource = this.sortUserDocs(USER_FORMS);
+        this.occupancyDocs = USER_FORMS;
+      }
     }
     if (this.applicationInfo.permit_type_id !== 2) {
       this.dataSource = this.sortUserDocs(USER_FORMS);

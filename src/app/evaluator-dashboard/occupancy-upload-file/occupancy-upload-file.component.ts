@@ -46,7 +46,6 @@ export class OccupancyUploadFileComponent implements OnInit {
           doc.id == 77 ||
           doc.id == 79 ||
           doc.id == 81 ||
-          doc.id == 77 ||
           doc.id == 82 ||
           doc.id == 83 ||
           doc.id == 84 ||

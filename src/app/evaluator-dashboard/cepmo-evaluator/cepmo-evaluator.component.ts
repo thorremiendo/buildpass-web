@@ -90,7 +90,10 @@ export class CepmoEvaluatorComponent implements OnInit {
         obj.document_id == 59 ||
         obj.document_id == 63 ||
         obj.document_id == 140 ||
-        obj.document_id == 194
+        obj.document_id == 194 ||
+        obj.document_id == 202 ||
+        obj.document_id == 201 ||
+        obj.document_id == 200
     );
     this.dataSource = this.sortUserDocs(CEPMO_FORMS);
     this.userDocuments = CEPMO_FORMS;
@@ -259,7 +262,30 @@ export class CepmoEvaluatorComponent implements OnInit {
   }
   compliant() {
     this.isLoading = true;
-    if (this.checkWwmsUploaded()) {
+    if (this.applicationDetails.permit_type_id == 1) {
+      if (this.checkWwmsUploaded()) {
+        const body = {
+          parallel_cepmo_status_id: 1,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.isLoading = false;
+            Swal.fire('Success!', `Updated CEPMO Status!`, 'success').then(
+              (result) => {
+                window.location.reload();
+              }
+            );
+          });
+      } else {
+        this.isLoading = false;
+        Swal.fire(
+          'Warning!',
+          `Please Upload WWMS BP Certificate!`,
+          'warning'
+        ).then((result) => {});
+      }
+    } else if (this.applicationDetails.permit_type_id == 2) {
       const body = {
         parallel_cepmo_status_id: 1,
       };
@@ -273,13 +299,6 @@ export class CepmoEvaluatorComponent implements OnInit {
             }
           );
         });
-    } else {
-      this.isLoading = false;
-      Swal.fire(
-        'Warning!',
-        `Please Upload WWMS BP Certificate!`,
-        'warning'
-      ).then((result) => {});
     }
   }
   checkWwmsUploaded() {
