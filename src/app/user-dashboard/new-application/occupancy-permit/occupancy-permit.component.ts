@@ -74,6 +74,7 @@ export class OccupancyPermitComponent implements OnInit {
         .fetchApplicationInfo(this.applicationId)
         .subscribe((res) => {
           this.applicationDetails = res.data;
+
           console.log(this.applicationDetails);
           if (this.applicationDetails.old_permit_number) {
             this.applicationService
@@ -83,12 +84,17 @@ export class OccupancyPermitComponent implements OnInit {
               .subscribe((res) => {
                 this.linkedBuildingPermitDetails = res.data[0];
                 console.log('linked', this.linkedBuildingPermitDetails);
+                this.formData = this.dataBindingService.getFormData(
+                  this.linkedBuildingPermitDetails
+                );
               });
+          } else {
+            this.formData = this.dataBindingService.getFormData(
+              this.applicationDetails
+            );
           }
           this.saveRoute();
-          this.formData = this.dataBindingService.getFormData(
-            this.applicationDetails
-          );
+
           if (this.applicationDetails.associated_released_permits.length >= 1) {
             this.fieldSets[0].documents.push(...this.withOldBuildingPermit);
             this.fieldSets.push({
