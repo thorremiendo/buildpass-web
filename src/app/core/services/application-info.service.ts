@@ -65,6 +65,18 @@ export class ApplicationInfoService {
       })
     );
   }
+
+  fetchApplicationInfoByAPn(apn) {
+    const url = `/application/${apn}/apn`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
   fetchApplicationTmeline(id) {
     const url = `/application/${id}/timeline`;
     return this.api.get(url).pipe(

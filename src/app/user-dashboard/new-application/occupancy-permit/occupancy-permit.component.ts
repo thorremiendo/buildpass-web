@@ -21,6 +21,7 @@ export class OccupancyPermitComponent implements OnInit {
   public formData;
   public applicationId;
   public applicationDetails;
+  public linkedBuildingPermitDetails;
   public isLoading: boolean = false;
 
   public forms: any = [
@@ -44,19 +45,16 @@ export class OccupancyPermitComponent implements OnInit {
 
   public fieldSets: any = [
     {
-      label: 'Step 2',
+      label: '',
       title: 'Documentary Requirements',
       documents: [],
     },
   ];
 
   public withOldBuildingPermit: Array<any> = [
-    125, 59, 76, 78, 79, 84, 4, 64, 117, 86, 87, 34, 35, 46, 47, 21, 170, 14,
-    88, 173, 197, 199, 200, 201, 203, 208, 209, 211, 212,
+    125, 206, 84, 21, 88, 173, 197, 203, 212,
   ];
-  public withBuildpassBuildingPermit: Array<any> = [
-    201, 202, 203, 205, 206, 207, 208, 209, 211, 212,
-  ];
+  public withBuildpassBuildingPermit: Array<any> = [203, 205, 206, 209, 211];
 
   constructor(
     private newApplicationService: NewApplicationService,
@@ -76,17 +74,54 @@ export class OccupancyPermitComponent implements OnInit {
         .fetchApplicationInfo(this.applicationId)
         .subscribe((res) => {
           this.applicationDetails = res.data;
-          console.log('app', this.applicationDetails);
+          console.log(this.applicationDetails);
+          if (this.applicationDetails.old_permit_number) {
+            this.applicationService
+              .fetchApplicationInfoByAPn(
+                this.applicationDetails.old_permit_number
+              )
+              .subscribe((res) => {
+                this.linkedBuildingPermitDetails = res.data[0];
+                console.log('linked', this.linkedBuildingPermitDetails);
+              });
+          }
           this.saveRoute();
           this.formData = this.dataBindingService.getFormData(
             this.applicationDetails
           );
           if (this.applicationDetails.associated_released_permits.length >= 1) {
             this.fieldSets[0].documents.push(...this.withOldBuildingPermit);
+            this.fieldSets.push({
+              label: '',
+              title: 'Permits',
+              documents: [4, 117, 199],
+            });
+            this.fieldSets.push({
+              label: '',
+              title: 'Plans',
+              documents: [60, 205, 64, 200, 211],
+            });
+
+            this.fieldSets.push({
+              label: '',
+              title:
+                'Professional Tax Receipt and Professional Regulations Commission ID',
+              documents: [34, 35, 46, 47],
+            });
+            this.fieldSets.push({
+              label: '',
+              title: 'Other Requirements',
+              documents: [202, 86, 87, 170, 14, 201, 208, 209],
+            });
           } else {
             this.fieldSets[0].documents.push(
               ...this.withBuildpassBuildingPermit
             );
+            this.fieldSets.push({
+              label: '',
+              title: 'Other Requirements',
+              documents: [201, 202, 208],
+            });
           }
           this.initData();
           this.setFilePaths();
