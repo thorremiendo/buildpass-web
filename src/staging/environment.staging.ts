@@ -30,7 +30,7 @@ export const environment = {
     weekend: false,
     receiveApplications: true,
 
-    version: "2.2.2"
+    version: "2.3.0"
   };
   
   
