@@ -52,9 +52,9 @@ export class OccupancyPermitComponent implements OnInit {
   ];
 
   public withOldBuildingPermit: Array<any> = [
-    125, 206, 84, 21, 88, 173, 197, 203, 212,
+    125, 206, 84, 88, 173, 197, 203, 212,
   ];
-  public withBuildpassBuildingPermit: Array<any> = [203, 205, 206, 209, 211];
+  public withBuildpassBuildingPermit: Array<any> = [203, 206, 209];
 
   constructor(
     private newApplicationService: NewApplicationService,
@@ -99,20 +99,20 @@ export class OccupancyPermitComponent implements OnInit {
             this.fieldSets[0].documents.push(...this.withOldBuildingPermit);
             this.fieldSets.push({
               label: '',
-              title: 'Permits',
+              title: 'Approved Permits',
               documents: [4, 117, 199],
             });
             this.fieldSets.push({
               label: '',
-              title: 'Plans',
-              documents: [60, 205, 64, 200, 211],
+              title: 'Approved Building Plans',
+              documents: [60, 63, 12, 140, 59, 167, 64, 65],
             });
 
             this.fieldSets.push({
               label: '',
               title:
                 'Professional Tax Receipt and Professional Regulations Commission ID',
-              documents: [34, 35, 46, 47],
+              documents: [34, 35, 36, 196, 46, 47],
             });
             this.fieldSets.push({
               label: '',

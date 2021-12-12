@@ -28,21 +28,25 @@ export class FencingPermitComponent implements OnInit {
       id: 98,
       src: '../../../../assets/forms/updated/Fencing_permit_form_v4_(2)_october_21_2021.pdf',
     },
+    {
+      id: 48,
+      src: '../../../../assets/forms/updated/notice_of_construction.pdf',
+    },
   ];
 
   public fieldSets: any = [
     {
-      label: 'Step 2',
+      label: 'Step 3',
       title: 'Documentary Requirements',
       documents: [26, 104, 54, 39],
     },
     {
-      label: 'Step 3',
+      label: 'Step 4',
       title: 'Plans, Specifications',
       documents: [51, 33, 8, 52, 53, 101],
     },
     {
-      label: 'Step 4',
+      label: 'Step 5',
       title:
         'Photocopy of Professional Details (Professional Tax Receipt and Professional Regulations Commission ID, signed and sealed)',
       documents: [34],
@@ -334,7 +338,7 @@ export class FencingPermitComponent implements OnInit {
     //   this.openSnackBar('Please upload all necessary documents!');
     // }
     if (environment.receiveApplications == true) {
-      if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
+      if (this.getFieldSetsLength() + 2 == this.getUniqueUserDocs()) {
         this.isLoading = true;
         const body = {
           application_status_id: 9,
