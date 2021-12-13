@@ -35,9 +35,7 @@
             </h5>
             <h5
               [style.color]="
-                applicationInfo.parallel_bfp_status_id !== 1
-                  ? 'red'
-                  : 'green'
+                applicationInfo.parallel_bfp_status_id !== 1 ? 'red' : 'green'
               "
             >
               &nbsp;
@@ -56,9 +54,7 @@
             </h5>
             <h5
               [style.color]="
-                applicationInfo.parallel_cepmo_status_id !== 1
-                  ? 'red'
-                  : 'green'
+                applicationInfo.parallel_cepmo_status_id !== 1 ? 'red' : 'green'
               "
             >
               &nbsp;
@@ -77,9 +73,7 @@
             </h5>
             <h5
               [style.color]="
-                applicationInfo.parallel_cbao_status_id !== 1
-                  ? 'red'
-                  : 'green'
+                applicationInfo.parallel_cbao_status_id !== 1 ? 'red' : 'green'
               "
             >
               &nbsp;
@@ -101,7 +95,7 @@
             <mat-icon>assignment</mat-icon>
             Applicant Forms
           </ng-template>
-          <div class="mt-3" *ngIf="applicationInfo.permit_type_id == 2">
+          <!-- <div class="mt-3" *ngIf="applicationInfo.permit_type_id == 2">
             <button
               mat-raised-button
               color="accent"
@@ -109,7 +103,7 @@
             >
               <mat-icon>add</mat-icon>&nbsp;Upload File
             </button>
-          </div>
+          </div> -->
 
           <div>
             <div class="table-container" *ngIf="dataSource">
@@ -143,6 +137,7 @@
                         ? getDocType(element.document_id)
                         : element.label
                     }}
+                    <!-- {{ element.document_id }} -->
                   </td>
                 </ng-container>
 

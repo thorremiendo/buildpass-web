@@ -57,7 +57,7 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>folder</mat-icon>
-          Document Manager
+          Documents
         </ng-template>
         <app-applicant-building-permit-docs
           [forms]="applicationInfo.user_docs"
@@ -76,4 +76,9 @@
       </button>
     </div>
   </mat-card-content>
+  <ng-container *ngIf="isSubmitting">
+    <div>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </ng-container>
 </mat-card>

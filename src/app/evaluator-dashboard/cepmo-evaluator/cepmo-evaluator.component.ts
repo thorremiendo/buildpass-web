@@ -1,3 +1,4 @@
+import { ApplicationFeesService } from 'src/app/core/services/application-fees.service';
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks-history-table.component';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -34,19 +35,32 @@ export class CepmoEvaluatorComponent implements OnInit {
   public applicationDetails;
   public documentTypes;
   public userDocuments = [];
+  public cepmoFees;
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private newApplicationService: NewApplicationService,
     private eSignatureService: EsignatureService,
-    private router: Router
+    private router: Router,
+    private applicationFeeService: ApplicationFeesService
   ) {}
 
   ngOnInit(): void {
     this.fetchDocTypes();
     this.isLoading = true;
     this.applicationId = this.route.snapshot.params.id;
+    this.fetchApplicationFees();
+  }
+  fetchApplicationFees() {
+    const application_id = this.applicationId;
+    const office_id = 2;
+    this.applicationFeeService
+      .fetchFeesByOffice(application_id, office_id)
+      .subscribe((res) => {
+        this.cepmoFees = res.data;
+        console.log('fees', this.cepmoFees);
+      });
   }
   checkCepmoParallelDocs() {
     this.isLoading = true;
@@ -90,7 +104,10 @@ export class CepmoEvaluatorComponent implements OnInit {
         obj.document_id == 59 ||
         obj.document_id == 63 ||
         obj.document_id == 140 ||
-        obj.document_id == 194
+        obj.document_id == 194 ||
+        obj.document_id == 202 ||
+        obj.document_id == 201 ||
+        obj.document_id == 200
     );
     this.dataSource = this.sortUserDocs(CEPMO_FORMS);
     this.userDocuments = CEPMO_FORMS;
@@ -259,7 +276,39 @@ export class CepmoEvaluatorComponent implements OnInit {
   }
   compliant() {
     this.isLoading = true;
-    if (this.checkWwmsUploaded()) {
+    if (this.applicationDetails.permit_type_id == 1) {
+      if (this.checkWwmsUploaded()) {
+        if (this.cepmoFees[0].office !== 0) {
+          const body = {
+            parallel_cepmo_status_id: 1,
+          };
+          this.applicationService
+            .updateApplicationStatus(body, this.applicationId)
+            .subscribe((res) => {
+              this.isLoading = false;
+              Swal.fire('Success!', `Updated CEPMO Status!`, 'success').then(
+                (result) => {
+                  window.location.reload();
+                }
+              );
+            });
+        } else {
+          Swal.fire('Warning!', `Please add CEPMO Fees!`, 'warning').then(
+            (result) => {
+              window.location.reload();
+              this.isLoading = false;
+            }
+          );
+        }
+      } else {
+        this.isLoading = false;
+        Swal.fire(
+          'Warning!',
+          `Please Upload WWMS BP Certificate!`,
+          'warning'
+        ).then((result) => {});
+      }
+    } else if (this.applicationDetails.permit_type_id == 2) {
       const body = {
         parallel_cepmo_status_id: 1,
       };
@@ -273,13 +322,6 @@ export class CepmoEvaluatorComponent implements OnInit {
             }
           );
         });
-    } else {
-      this.isLoading = false;
-      Swal.fire(
-        'Warning!',
-        `Please Upload WWMS BP Certificate!`,
-        'warning'
-      ).then((result) => {});
     }
   }
   checkWwmsUploaded() {

@@ -21,6 +21,7 @@ export class OccupancyPermitComponent implements OnInit {
   public formData;
   public applicationId;
   public applicationDetails;
+  public linkedBuildingPermitDetails;
   public isLoading: boolean = false;
 
   public forms: any = [
@@ -29,7 +30,7 @@ export class OccupancyPermitComponent implements OnInit {
       src: '../../../../assets/forms/updated/Unified_Application_Form_for__Certificate_of_Occupancy_edited_02182020.pdf',
     },
     {
-      id: 77,
+      id: 204,
       src: '../../../../assets/forms/updated/Certificate_of_Completion.pdf',
     },
     {
@@ -44,11 +45,14 @@ export class OccupancyPermitComponent implements OnInit {
 
   public fieldSets: any = [
     {
-      label: 'Step 2',
+      label: '',
       title: 'Documentary Requirements',
-      documents: [76, 84, 86, 170, 178, 172, 173],
+      documents: [],
     },
   ];
+
+  public withOldBuildingPermit: Array<any> = [125, 206, 84, 88, 173, 203, 212];
+  public withBuildpassBuildingPermit: Array<any> = [203, 206];
 
   constructor(
     private newApplicationService: NewApplicationService,
@@ -68,11 +72,61 @@ export class OccupancyPermitComponent implements OnInit {
         .fetchApplicationInfo(this.applicationId)
         .subscribe((res) => {
           this.applicationDetails = res.data;
-          this.saveRoute();
-          this.formData = this.dataBindingService.getFormData(
-            this.applicationDetails
-          );
 
+          console.log(this.applicationDetails);
+          if (this.applicationDetails.old_permit_number) {
+            this.applicationService
+              .fetchApplicationInfoByAPn(
+                this.applicationDetails.old_permit_number
+              )
+              .subscribe((res) => {
+                this.linkedBuildingPermitDetails = res.data[0];
+                console.log('linked', this.linkedBuildingPermitDetails);
+                this.formData = this.dataBindingService.getFormData(
+                  this.linkedBuildingPermitDetails
+                );
+              });
+          } else {
+            this.formData = this.dataBindingService.getFormData(
+              this.applicationDetails
+            );
+          }
+          this.saveRoute();
+
+          if (this.applicationDetails.associated_released_permits.length >= 1) {
+            this.fieldSets[0].documents.push(...this.withOldBuildingPermit);
+            this.fieldSets.push({
+              label: '',
+              title: 'Approved Permits',
+              documents: [4, 117, 199, 195],
+            });
+            this.fieldSets.push({
+              label: '',
+              title: 'Approved Building Plans',
+              documents: [60, 63, 12, 59, 167, 64, 65],
+            });
+
+            this.fieldSets.push({
+              label: '',
+              title:
+                'Professional Tax Receipt and Professional Regulations Commission ID',
+              documents: [34, 35, 36, 196, 46, 47],
+            });
+            this.fieldSets.push({
+              label: '',
+              title: 'Other Requirements',
+              documents: [202, 14, 201, 216],
+            });
+          } else {
+            this.fieldSets[0].documents.push(
+              ...this.withBuildpassBuildingPermit
+            );
+            this.fieldSets.push({
+              label: '',
+              title: 'Other Requirements',
+              documents: [201, 202],
+            });
+          }
           this.initData();
           this.setFilePaths();
           this.pdfSource = this.forms[0].src;
@@ -83,7 +137,19 @@ export class OccupancyPermitComponent implements OnInit {
   // ngAfterViewInit() {
   //   this.saveRoute();
   // }
-
+  fetchApplicationInfo() {
+    this.applicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((res) => {
+        this.applicationDetails = res.data;
+        this.formData = this.dataBindingService.getFormData(
+          this.applicationDetails
+        );
+        this.openSnackBar('Saved!');
+        this.setFilePaths();
+        this.isLoading = false;
+      });
+  }
   saveRoute() {
     const body = {
       user_id: this.user.id,
@@ -125,7 +191,12 @@ export class OccupancyPermitComponent implements OnInit {
   }
 
   getDocType(id): string {
-    return documentTypes[id];
+    const array = [4, 117, 199, 60, 63, 12, 59, 167, 64, 65, 195];
+    if (array.includes(id)) {
+      return `Approved ${documentTypes[id]}`;
+    } else {
+      return documentTypes[id];
+    }
   }
 
   initData() {
@@ -242,6 +313,7 @@ export class OccupancyPermitComponent implements OnInit {
         this.updateFilePath();
       });
   }
+
   updateFilePath() {
     this.applicationService
       .fetchApplicationInfo(this.applicationId)
@@ -312,5 +384,37 @@ export class OccupancyPermitComponent implements OnInit {
     this.snackBar.open(message, 'Close', {
       duration: 2000,
     });
+  }
+
+  submitNotApplicableDocument(file: File, doctypeId: string) {
+    this.isLoading = true;
+    const uploadDocumentData = {
+      application_id: this.applicationId,
+      user_id: this.user.id,
+      document_id: doctypeId,
+      document_path: file,
+      document_status_id: 1,
+      is_applicable: 2,
+      receiving_status_id: 1,
+      cbao_status_id: 1,
+      bfp_status_id: 1,
+      cepmo_status_id: 1,
+    };
+
+    this.newApplicationService
+      .submitDocument(uploadDocumentData)
+      .subscribe((res) => {
+        this.isLoading = false;
+        const path = res.data.document_path;
+        this.forms.forEach((form) => {
+          if (form.id == doctypeId) form.path = path;
+        });
+        this.fieldSets.forEach((fieldSet) => {
+          fieldSet.documents.forEach((field) => {
+            if (field.id == doctypeId) field.path = path;
+          });
+        });
+        this.fetchApplicationInfo();
+      });
   }
 }

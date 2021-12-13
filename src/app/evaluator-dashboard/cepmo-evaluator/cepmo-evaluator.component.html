@@ -191,6 +191,7 @@
               mat-raised-button
               color="accent"
               (click)="openWwmsDialog()"
+              *ngIf="applicationDetails.permit_type_id == 1"
               [disabled]="
                 checkWwmsUploaded() ||
                 !checkFormsCompliant() ||

@@ -103,39 +103,42 @@ export class FireClearanceComponent implements OnInit {
 
   callSave() {
     this.isSubmitting = true;
-    const uploadDocumentData = {
-      application_id: this.applicationId,
-      user_id: this.userId,
-      document_id: 45,
-      document_status_id: 1,
-    };
+    const fsec = [45, 214, 215];
+    fsec.forEach((e) => {
+      const uploadDocumentData = {
+        application_id: this.applicationId,
+        user_id: this.userId,
+        document_id: e,
+        document_status_id: 1,
+      };
 
-    if (this.fireClearance) {
-      uploadDocumentData['document_path'] = this.fireClearance;
-    }
-    this.newApplicationService
-      .submitDocument(uploadDocumentData)
-      .subscribe((res) => {
-        const doc = res.data.document_path;
-        const id = res.data.id;
-        this.newApplicationService
-          .updateDocumentFile({ receiving_status_id: 1 }, id)
-          .subscribe((res) => {
-            this.newApplicationService
-              .updateDocumentFile({ bfp_status_id: 1 }, id)
-              .subscribe((res) => {
-                this.newApplicationService
-                  .updateDocumentFile({ cbao_status_id: 1 }, id)
-                  .subscribe((res) => {
-                    this.newApplicationService
-                      .updateDocumentFile({ cepmo_status_id: 1 }, id)
-                      .subscribe((res) => {
-                        this.addWaterMark(doc, id);
-                      });
-                  });
-              });
-          });
-      });
+      if (this.fireClearance) {
+        uploadDocumentData['document_path'] = this.fireClearance;
+      }
+      this.newApplicationService
+        .submitDocument(uploadDocumentData)
+        .subscribe((res) => {
+          const doc = res.data.document_path;
+          const id = res.data.id;
+          this.newApplicationService
+            .updateDocumentFile({ receiving_status_id: 1 }, id)
+            .subscribe((res) => {
+              this.newApplicationService
+                .updateDocumentFile({ bfp_status_id: 1 }, id)
+                .subscribe((res) => {
+                  this.newApplicationService
+                    .updateDocumentFile({ cbao_status_id: 1 }, id)
+                    .subscribe((res) => {
+                      this.newApplicationService
+                        .updateDocumentFile({ cepmo_status_id: 1 }, id)
+                        .subscribe((res) => {
+                          this.addWaterMark(doc, id);
+                        });
+                    });
+                });
+            });
+        });
+    });
   }
 
   addWaterMark(doc, id) {

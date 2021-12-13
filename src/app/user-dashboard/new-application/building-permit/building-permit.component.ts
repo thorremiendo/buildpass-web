@@ -75,6 +75,12 @@ export class BuildingPermitComponent implements OnInit {
       label: 'Step 8',
       sample: '',
     },
+    {
+      id: 108,
+      src: '../../../../assets/forms/updated/sign_permit_form_v2_(2)_october_21_2021.pdf',
+      label: 'Step 9',
+      sample: '',
+    },
   ];
 
   public fieldSets: any = [
@@ -86,7 +92,7 @@ export class BuildingPermitComponent implements OnInit {
     {
       label: `Step ${this.forms.length + 2}`,
       title: 'Plans',
-      documents: [194, 59, 61, 63, 62, 64, 65, 140],
+      documents: [194, 59, 61, 63, 62, 64, 65, 140, 115],
     },
     {
       label: `Step ${this.forms.length + 3}`,
@@ -488,12 +494,12 @@ export class BuildingPermitComponent implements OnInit {
   initPdfViewer(event) {
     if (
       this.applicationDetails.construction_status_id !== 1 &&
-      event.previouslySelectedIndex <= 6
+      event.previouslySelectedIndex <= 7
     ) {
       this.upload(this.forms[event.previouslySelectedIndex], 'next');
     } else if (
       this.applicationDetails.construction_status_id == 1 &&
-      event.previouslySelectedIndex <= 7
+      event.previouslySelectedIndex <= 8
     ) {
       this.upload(this.forms[event.previouslySelectedIndex], 'next');
     }
@@ -648,15 +654,15 @@ export class BuildingPermitComponent implements OnInit {
         .submitDocument(uploadDocumentData)
         .subscribe((res) => {
           this.fetchApplicationInfo();
-          if (form.id == 195 || form.id == 117) {
-            this.uploadMechanicalElectronicsNotApplicable(form);
+          if (form.id == 195 || form.id == 117 || form.id == 108) {
+            this.uploadAssociatedNotApplicable(form);
           }
         });
     }
     this.isOptional = false;
   }
 
-  async uploadMechanicalElectronicsNotApplicable(form) {
+  async uploadAssociatedNotApplicable(form) {
     let pdf = await fetch(
       'https://s3-ap-southeast-1.amazonaws.com/baguio-ocpas/MaZXPXPOptMGBcvThBJ2VejNVzCEXVbEcYHZtU8y.pdf'
     );
@@ -667,6 +673,7 @@ export class BuildingPermitComponent implements OnInit {
     let file = new File([data], 'not-applicable.pdf', metadata);
     const associatedMechanicalDocs = [47, 65];
     const associatedElectronicsDocs = [64, 196];
+    const associatedSignDocs = [115];
     if (form.id == 117) {
       associatedMechanicalDocs.forEach((e) => {
         const uploadDocumentData = {
@@ -688,7 +695,7 @@ export class BuildingPermitComponent implements OnInit {
             this.fetchApplicationInfo();
           });
       });
-    } else {
+    } else if (form.id == 195) {
       associatedElectronicsDocs.forEach((e) => {
         const uploadDocumentData = {
           application_id: this.applicationId,
@@ -706,6 +713,27 @@ export class BuildingPermitComponent implements OnInit {
           .submitDocument(uploadDocumentData)
           .subscribe((res) => {
             console.log('ELECTRICAL', res);
+            this.fetchApplicationInfo();
+          });
+      });
+    } else if (form.id == 108) {
+      associatedSignDocs.forEach((e) => {
+        const uploadDocumentData = {
+          application_id: this.applicationId,
+          user_id: this.user.id,
+          document_id: e,
+          document_path: file,
+          document_status_id: 1,
+          is_applicable: 2,
+          receiving_status_id: 1,
+          cbao_status_id: 1,
+          bfp_status_id: 1,
+          cepmo_status_id: 1,
+        };
+        this.newApplicationService
+          .submitDocument(uploadDocumentData)
+          .subscribe((res) => {
+            console.log('SIGN', res);
             this.fetchApplicationInfo();
           });
       });
