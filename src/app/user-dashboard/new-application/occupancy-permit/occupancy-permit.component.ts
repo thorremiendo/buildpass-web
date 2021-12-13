@@ -193,7 +193,12 @@ export class OccupancyPermitComponent implements OnInit {
   }
 
   getDocType(id): string {
-    return documentTypes[id];
+    const array = [4, 117, 199, 60, 63, 12, 140, 59, 167, 64, 65];
+    if (array.includes(id)) {
+      return `Approved ${documentTypes[id]}`;
+    } else {
+      return documentTypes[id];
+    }
   }
 
   initData() {
