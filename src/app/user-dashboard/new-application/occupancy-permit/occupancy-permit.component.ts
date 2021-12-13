@@ -52,7 +52,7 @@ export class OccupancyPermitComponent implements OnInit {
   ];
 
   public withOldBuildingPermit: Array<any> = [
-    125, 206, 84, 88, 173, 197, 203, 212,
+    125, 206, 84, 88, 173, 109, 203, 212,
   ];
   public withBuildpassBuildingPermit: Array<any> = [203, 206, 209];
 
