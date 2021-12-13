@@ -299,7 +299,7 @@ export class AdminApplicationListComponent implements OnInit {
   }
 
   viewApplication(id) {
-    this.router.navigate(['evaluator/application', id]);
+    this.router.navigate(['admin/dashboard/application', id]);
   }
 
   exportResults() {
