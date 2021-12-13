@@ -173,4 +173,5 @@ export enum documentTypes {
   'Certiticate of Completion, duly notarized' = 210,
   'As-Built Plans and Specifications, duly Signed and Sealed by Respective Professional Discipline (if changes were made from the Building Plans)' = 211,
   'Issued Fire Safety Evalution Clearance' = 212,
+  'Certificate of Construction' = 216,
 }

@@ -51,10 +51,8 @@ export class OccupancyPermitComponent implements OnInit {
     },
   ];
 
-  public withOldBuildingPermit: Array<any> = [
-    125, 206, 84, 88, 173, 109, 203, 212,
-  ];
-  public withBuildpassBuildingPermit: Array<any> = [203, 206, 209];
+  public withOldBuildingPermit: Array<any> = [125, 206, 84, 88, 173, 203, 212];
+  public withBuildpassBuildingPermit: Array<any> = [203, 206];
 
   constructor(
     private newApplicationService: NewApplicationService,
@@ -105,7 +103,7 @@ export class OccupancyPermitComponent implements OnInit {
             this.fieldSets.push({
               label: '',
               title: 'Approved Building Plans',
-              documents: [60, 63, 12, 140, 59, 167, 64, 65],
+              documents: [60, 63, 12, 59, 167, 64, 65],
             });
 
             this.fieldSets.push({
@@ -117,7 +115,7 @@ export class OccupancyPermitComponent implements OnInit {
             this.fieldSets.push({
               label: '',
               title: 'Other Requirements',
-              documents: [202, 86, 87, 170, 14, 201, 208, 209],
+              documents: [202, 14, 201, 216],
             });
           } else {
             this.fieldSets[0].documents.push(
@@ -126,7 +124,7 @@ export class OccupancyPermitComponent implements OnInit {
             this.fieldSets.push({
               label: '',
               title: 'Other Requirements',
-              documents: [201, 202, 208],
+              documents: [201, 202],
             });
           }
           this.initData();
@@ -193,7 +191,7 @@ export class OccupancyPermitComponent implements OnInit {
   }
 
   getDocType(id): string {
-    const array = [4, 117, 199, 60, 63, 12, 140, 59, 167, 64, 65, 195];
+    const array = [4, 117, 199, 60, 63, 12, 59, 167, 64, 65, 195];
     if (array.includes(id)) {
       return `Approved ${documentTypes[id]}`;
     } else {
