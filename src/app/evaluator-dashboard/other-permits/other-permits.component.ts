@@ -252,11 +252,13 @@ export class OtherPermitsComponent implements OnInit {
       .subscribe((res) => {
         console.log(res);
         this.validateTechnicalStatus(res.data);
-        if (this.validateTechnicalStatus(res.data) == true) {
-          console.log('ready');
-          this.forwardToDivisionChief();
-        } else {
-          console.log('err');
+        if (this.applicationInfo.application_status_id == 18) {
+          if (this.validateTechnicalStatus(res.data) == true) {
+            console.log('ready', res);
+            this.forwardToDivisionChief();
+          } else {
+            console.log('err');
+          }
         }
       });
   }
