@@ -296,6 +296,13 @@ export class OtherPermitsComponent implements OnInit {
         };
         this.updateCbaoStatus(elec);
         break;
+      case 'CBAO-ARCH':
+        const arch = {
+          cbao_arch_status_id: status,
+          evaluator_user_id: this.evaluatorDetails.user_id,
+        };
+        this.updateCbaoStatus(arch);
+        break;
     }
   }
   updateCbaoStatus(body) {
