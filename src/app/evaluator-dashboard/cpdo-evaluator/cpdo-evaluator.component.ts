@@ -88,7 +88,6 @@ export class CpdoEvaluatorComponent implements OnInit {
         doc.document_id == 59 ||
         doc.document_id == 74 ||
         doc.document_id == 75 ||
-        doc.document_id == 72 ||
         doc.document_id == 33 ||
         doc.document_id == 140 ||
         doc.document_id == 194
@@ -401,12 +400,14 @@ export class CpdoEvaluatorComponent implements OnInit {
         element.document_id !== 1 &&
         element.document_id !== 194
       ) {
-        let body = {
-          document_status_id: 0,
-        };
-        this.newApplicationService
-          .updateDocumentFile(body, element.id)
-          .subscribe((res) => {});
+        if (element.is_applicable !== 2) {
+          let body = {
+            document_status_id: 0,
+          };
+          this.newApplicationService
+            .updateDocumentFile(body, element.id)
+            .subscribe((res) => {});
+        }
       }
     });
     this.updateApplicationStatus();

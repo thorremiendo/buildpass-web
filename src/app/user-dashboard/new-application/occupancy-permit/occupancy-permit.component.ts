@@ -103,7 +103,7 @@ export class OccupancyPermitComponent implements OnInit {
             this.fieldSets.push({
               label: '',
               title: 'Approved Building Plans',
-              documents: [60, 63, 59, 167, 64, 65],
+              documents: [60, 63, 61, 167, 64, 65],
             });
 
             this.fieldSets.push({
@@ -191,7 +191,7 @@ export class OccupancyPermitComponent implements OnInit {
   }
 
   getDocType(id): string {
-    const array = [4, 117, 199, 60, 63, 59, 167, 64, 65, 195];
+    const array = [4, 117, 199, 60, 63, 61, 167, 64, 65, 195];
     if (array.includes(id)) {
       return `Approved ${documentTypes[id]}`.replace('Form', '');
     } else {

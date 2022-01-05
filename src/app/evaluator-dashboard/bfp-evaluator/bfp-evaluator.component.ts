@@ -102,11 +102,9 @@ export class BfpEvaluatorComponent implements OnInit {
         obj.document_id == 43 ||
         obj.document_id == 59 ||
         obj.document_id == 62 ||
-        obj.document_id == 65 ||
         obj.document_id == 45 ||
         obj.document_id == 49 ||
         obj.document_id == 140 ||
-        obj.document_id == 194 ||
         obj.document_id == 203 ||
         obj.document_id == 204 ||
         obj.document_id == 77 ||

@@ -208,8 +208,8 @@ export class ApplicationDetailsComponent implements OnInit {
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
             Swal.fire(
-              'Non Compliant',
-              `Forwarded to Division Chief for Evaluation!`,
+              'Evaluation Done',
+              `Forwarded to Division Chief!`,
               'warning'
             ).then((result) => {
               this.isLoading = false;
