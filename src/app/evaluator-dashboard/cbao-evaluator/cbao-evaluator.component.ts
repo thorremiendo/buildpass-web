@@ -859,19 +859,20 @@ export class CbaoEvaluatorComponent implements OnInit {
       ) {
         this.forwardToBuildingOfficial();
       } else {
-        this.applicationService
-          .fetchApplicationInfo(this.applicationInfo.sub_permit_type_id)
-          .subscribe((res) => {
-            const subPermitStatus = res.data.application_status_id;
-            if (subPermitStatus == 12 || subPermitStatus == 13) {
-              this.forwardToBuildingOfficial();
-            } else {
-              this.openSnackBar(
-                'Associated Excavation Permit is Still Under Evaluation!'
-              );
-              this.isLoading = false;
-            }
-          });
+        // this.applicationService
+        //   .fetchApplicationInfo(this.applicationInfo.sub_permit_type_id)
+        //   .subscribe((res) => {
+        //     const subPermitStatus = res.data.application_status_id;
+        //     if (subPermitStatus == 12 || subPermitStatus == 13) {
+        //       this.forwardToBuildingOfficial();
+        //     } else {
+        //       this.openSnackBar(
+        //         'Associated Excavation Permit is Still Under Evaluation!'
+        //       );
+        //       this.isLoading = false;
+        //     }
+        //   });
+        this.forwardToBuildingOfficial();
       }
     } else {
       Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
