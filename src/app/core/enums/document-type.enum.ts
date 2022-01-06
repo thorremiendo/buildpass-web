@@ -111,7 +111,7 @@ export enum documentTypes {
   'Duly Accomplished Sign Permit Form' = 108,
   'Certified True Copy of Title' = 109,
   'Contract of Lease, or Certified Copy of Authority to Construct on the subject property' = 110,
-  'Latest quarter of the real property tax receipy or Certifcate of Non-tax Delinquency with Documentary Stamp at City Treasurers Office' = 111,
+  'Latest quarter of the real property tax receipt or Certifcate of Non-tax Delinquency with Documentary Stamp at City Treasurers Office' = 111,
   'Tax Declaration with documentary stamp from City Assessors Office' = 112,
   'Authorization Letter of Special Power of Attorney from owner to Submit, follow-up, and receive approved permits' = 113,
   'Lot Plan and Site Development Plan' = 114,
