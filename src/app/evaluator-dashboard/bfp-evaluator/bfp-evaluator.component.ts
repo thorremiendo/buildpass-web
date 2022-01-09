@@ -301,7 +301,7 @@ export class BfpEvaluatorComponent implements OnInit {
             if (this.bfpFees[this.bfpFees.length - 1].office !== 0) {
               this.updateBfpStatus();
             } else {
-              Swal.fire('Warning!', `Please add BFP Fees!`, 'warning').then(
+              Swal.fire('Notice!', `Please add BFP Fees!`, 'warning').then(
                 (result) => {
                   window.location.reload();
                   this.isLoading = false;

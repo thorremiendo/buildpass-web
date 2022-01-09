@@ -444,7 +444,7 @@ export class CpdoEvaluatorComponent implements OnInit {
           if (this.cpdoFees[this.cpdoFees.length - 1].office !== 0) {
             this.updateFormStatus();
           } else {
-            Swal.fire('Warning!', `Please add CPDO Fees!`, 'warning').then(
+            Swal.fire('Notice!', `Please add CPDO Fees!`, 'warning').then(
               (result) => {
                 this.isLoading = false;
               }

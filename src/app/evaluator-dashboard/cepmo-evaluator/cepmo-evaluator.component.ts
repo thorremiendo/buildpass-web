@@ -299,7 +299,7 @@ export class CepmoEvaluatorComponent implements OnInit {
                   });
                 });
             } else {
-              Swal.fire('Warning!', `Please add CEPMO Fees!`, 'warning').then(
+              Swal.fire('Notice!', `Please add CEPMO Fees!`, 'warning').then(
                 (result) => {
                   window.location.reload();
                   this.isLoading = false;
