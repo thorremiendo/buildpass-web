@@ -445,7 +445,7 @@
                         evaluatorRole.code !== 'CBAO-DC'
                       "
                     >
-                      <button
+                      <!-- <button
                         mat-raised-button
                         color="primary"
                         (click)="handleTechnicalEvaluatorNonCompliant()"
@@ -456,6 +456,20 @@
                         "
                       >
                         Review Done (Non-Compliant)
+                      </button> -->
+
+                      <button
+                        mat-raised-button
+                        color="accent"
+                        (click)="handleReviewDone()"
+                        *ngIf="
+                          evaluatorRole.code !== 'CBAO-BO' &&
+                          evaluatorRole.code !== 'CBAO-REC' &&
+                          evaluatorRole.code !== 'CBAO-DC' &&
+                          applicationInfo.application_status_id == 3
+                        "
+                      >
+                        Review Done
                       </button>
                     </div>
                   </div>
@@ -495,7 +509,7 @@
                     >
                       Release Permit
                     </button>
-                    <div
+                    <!-- <div
                       *ngIf="
                         evaluatorRole.code !== 'CBAO-BO' &&
                         evaluatorRole.code !== 'CBAO-REC' &&
@@ -510,7 +524,7 @@
                       >
                         Review Done (Compliant)
                       </button>
-                    </div>
+                    </div> -->
                     <!-- <button
                       mat-raised-button
                       color="primary"

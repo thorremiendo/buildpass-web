@@ -436,6 +436,8 @@ export class FormDetailsComponent implements OnInit {
               };
               this.updateDoc(body, id);
             }
+            //UPDATE TECHNICAL STATUS
+            this.updateDocumentTechnicalStatus(id);
           } else if (this.data.userRole.code == 'CBAO-REC') {
             //BLDG PERMIT RECEIVING
             if (form.document_id == 194) {
@@ -496,12 +498,18 @@ export class FormDetailsComponent implements OnInit {
   }
 
   updateDoc(body, id) {
+    this.isSubmitting = true;
     this.newApplicationService.updateDocumentFile(body, id).subscribe((res) => {
       Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
         this.onNoClick(1);
         this.isSubmitting = false;
       });
     });
+  }
+  updateTechStatus(body, id) {
+    this.newApplicationService
+      .updateDocumentFile(body, id)
+      .subscribe((res) => {});
   }
 
   resetWatermark() {
@@ -720,7 +728,52 @@ export class FormDetailsComponent implements OnInit {
             }
           });
       }
+      //UPDATE TECHNICAL STATUS
+      this.updateDocumentTechnicalStatus(id);
     });
+  }
+
+  updateDocumentTechnicalStatus(id) {
+    switch (this.data.userRole.code) {
+      case 'CBAO-LG':
+        let lg = {
+          cbao_lg_status_id: this.permitDetails.value.is_compliant,
+        };
+        this.updateTechStatus(lg, id);
+        break;
+      case 'CBAO-ARCH':
+        let arch = {
+          cbao_arch_status_id: this.permitDetails.value.is_compliant,
+        };
+        this.updateTechStatus(arch, id);
+        break;
+      case 'CBAO-STR':
+        let str = {
+          cbao_str_status_id: this.permitDetails.value.is_compliant,
+        };
+        this.updateTechStatus(str, id);
+        break;
+      case 'CBAO-SAN':
+        let san = {
+          cbao_san_status_id: this.permitDetails.value.is_compliant,
+        };
+        this.updateTechStatus(san, id);
+        break;
+      case 'CBAO-ELEC':
+        let elec = {
+          cbao_elec_status_id: this.permitDetails.value.is_compliant,
+        };
+        this.updateTechStatus(elec, id);
+        break;
+      case 'CBAO-MEC':
+        let mec = {
+          cbao_mec_status_id: this.permitDetails.value.is_compliant,
+        };
+        this.updateTechStatus(mec, id);
+        break;
+      default:
+        break;
+    }
   }
 
   getCurrentRotation() {

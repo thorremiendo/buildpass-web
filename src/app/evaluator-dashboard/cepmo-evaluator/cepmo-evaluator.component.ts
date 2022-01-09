@@ -59,7 +59,6 @@ export class CepmoEvaluatorComponent implements OnInit {
       .fetchFeesByOffice(application_id, office_id)
       .subscribe((res) => {
         this.cepmoFees = res.data;
-        console.log('fees', this.cepmoFees);
       });
   }
   checkCepmoParallelDocs() {
@@ -283,7 +282,6 @@ export class CepmoEvaluatorComponent implements OnInit {
           .fetchFeesByOffice(application_id, office_id)
           .subscribe((res) => {
             this.cepmoFees = res.data;
-            console.log('fees', this.cepmoFees);
             if (this.cepmoFees[this.cepmoFees.length - 1].office !== 0) {
               const body = {
                 parallel_cepmo_status_id: 1,
