@@ -25,7 +25,7 @@
                                         </div>  -->
                     <div
                       class="mail-content"
-                      (click)="openNotif(unread.id, unread.application_id)"
+                      (click)="openNotif(unread.id, unread.application_id, unread.is_viewed)"
                     >
                       <h5>
                         {{ unread.application_number }} <br />
@@ -52,7 +52,7 @@
               <div class="message-center">
                 <perfect-scrollbar [config]="config">
                   <a
-                    *ngFor="let read of unReadNotif.slice().reverse(); let i = index"
+                    *ngFor="let read of readNotif; let i = index"
                   >
                     <div
                       class="mail-content"

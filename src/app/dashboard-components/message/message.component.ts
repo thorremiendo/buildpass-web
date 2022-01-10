@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FeedService } from '../../core';
+import { FeedService, ChatService } from '../../core';
+import { Subscription } from 'rxjs';
 import { messages } from "./chat-data"
 import { MatDialog } from '@angular/material/dialog';
 import { QuickMessageComponent } from '../quick-message/quick-message.component';
@@ -14,6 +15,23 @@ export class MessageComponent implements OnInit {
   // private user;
   public messageNotif = messages;
   public show_message_notif: boolean;
+  public userInfo;
+  private officeId: string | number;
+  private evaluatorUserId: string | number;
+  private chatId: number;
+  private channel;
+  private;
+
+  sidePanelOpened = true;
+  msg = '';
+
+  // MESSAGE
+  selectedMessage: any;
+  // tslint:disable-next-line - Disables all
+  messages: Object[];
+  //messages: Object[] = messages;
+
+  private messageSubscription: Subscription;
 
   mymessages = [
     {
@@ -40,13 +58,15 @@ export class MessageComponent implements OnInit {
   ];
 
   constructor(
-    private feedService: FeedService,
+    private chatService: ChatService,
     public chatDialog: MatDialog
     ) {
+      console.log("open message");
  
   }
 
   ngOnInit(): void {
+    console.log("open message");
 
     // this.user = JSON.parse(localStorage.getItem('user'));
     if (this.type == 'super admin' || this.type == "user") {
@@ -59,20 +79,55 @@ export class MessageComponent implements OnInit {
       //   this.messageNotif = data.data;
       // });
     }
+
+    if (localStorage.getItem('user') != null) {
+      this.userInfo = JSON.parse(localStorage.getItem('user'));
+      this.officeId = this.userInfo.employee_detail.office_id;
+      this.evaluatorUserId = this.userInfo.id;
+
+      // this.messageSubscription = this.chatService
+      //   .getApplicantChatItems()
+      //   .subscribe((data) => {
+      //     console.log(data);
+      //     this.selectedMessage.convo.push(data);
+      //   });
+      this.updateChatConvo();
+
+   
+    }
   }
 
-  openMessage(chat){
+  updateChatConvo(): void{
+    console.log("open CHat");
+    this.chatService
+    .fetchConvo(this.officeId, 'reciever')
+    .subscribe((result) => {
+      this.messages = result.data;
+      console.log(this.messages);
+      // if (this.messages != null) {
+      //   this.selectedMessage = this.messages[0];
+      //   if(this.selectedMessage){
+      //     this.chatId = this.selectedMessage.convo[0].chat_id;
+      //     this.channel = this.selectedMessage.channel;
+      //     this.chatService.evaluatorChatSubscribe(this.channel);
+      //   }
+      // }
+    });
+
+  }
+
+  openMessage(message): void{
     const dialogRef = this.chatDialog.open(QuickMessageComponent,{
-      data: chat,
+      data: message,
       height: "800px",
-      // width: "500px",
+      width: "500px",
       position: { right: '0'}
 
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      //this.chatService.unSubscribe(this.channel);
+      //console.log("unsubscribe");
     });
-    console.log(chat);
   }
 }
