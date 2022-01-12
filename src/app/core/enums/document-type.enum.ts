@@ -141,7 +141,7 @@ export enum documentTypes {
   'Location Sketch' = 170,
   'Picture of barracks / structure for temporary connection' = 171,
   'Applicants Valid ID' = 172,
-  'Certification of Electrical Engineer / Master Electrician in charge of Installation' = 173,
+  // 'Certification of Electrical Engineer / Master Electrician in charge of Installation' = 173,
   'Certificate of Final Electrical Inspection Form' = 174,
   'Certified True Copy of Occupancy Certficate' = 175,
   // 'Electrical Plan (Signed and Sealed by Professional Electrical Engineer' = 176,
