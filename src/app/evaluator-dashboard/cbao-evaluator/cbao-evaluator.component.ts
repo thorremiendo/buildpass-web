@@ -126,27 +126,29 @@ export class CbaoEvaluatorComponent implements OnInit {
   filterUserDocs(forms) {
     const USER_FORMS = forms.filter((doc) => doc.document_id !== 107);
     if (this.applicationInfo.permit_type_id == 2) {
-      if (this.applicationInfo.associated_released_permits.length >= 1) {
-        this.occupancyService
-          .fetchUserOldBp(this.applicationId)
-          .subscribe((res) => {
-            res.data.forEach((e) => {
-              this.occupancyService
-                .fetchUserDocsOnly(e.generated_application_id)
-                .subscribe((res) => {
-                  res.data.forEach((element) => {
-                    USER_FORMS.push(element);
-                  });
-                  this.dataSource = this.sortUserDocs(USER_FORMS);
-                  this.occupancyDocs = USER_FORMS;
-                  this.isLoading = false;
-                });
-            });
-          });
-      } else {
-        this.dataSource = this.sortUserDocs(USER_FORMS);
-        this.occupancyDocs = USER_FORMS;
-      }
+      // if (this.applicationInfo.associated_released_permits.length >= 1) {
+      //   this.occupancyService
+      //     .fetchUserOldBp(this.applicationId)
+      //     .subscribe((res) => {
+      //       res.data.forEach((e) => {
+      //         this.occupancyService
+      //           .fetchUserDocsOnly(e.generated_application_id)
+      //           .subscribe((res) => {
+      //             res.data.forEach((element) => {
+      //               USER_FORMS.push(element);
+      //             });
+      //             this.dataSource = this.sortUserDocs(USER_FORMS);
+      //             this.occupancyDocs = USER_FORMS;
+      //             this.isLoading = false;
+      //           });
+      //       });
+      //     });
+      // } else {
+      //   this.dataSource = this.sortUserDocs(USER_FORMS);
+      //   this.occupancyDocs = USER_FORMS;
+      // }
+      this.dataSource = this.sortUserDocs(USER_FORMS);
+      this.occupancyDocs = USER_FORMS;
     }
     if (this.applicationInfo.permit_type_id !== 2) {
       this.dataSource = this.sortUserDocs(USER_FORMS);
@@ -475,13 +477,13 @@ export class CbaoEvaluatorComponent implements OnInit {
   getDocType(id): string {
     return this.documentTypes[id - 1].name;
   }
-  getDocStatus(id, is_applicable): string {
-    if (is_applicable == 2 && id == 1) {
+  getDocStatus(status_id, is_applicable): string {
+    if (is_applicable == 2 && status_id == 1) {
       return 'Not Applicable';
-    } else if (this.evaluatorRole.code == 'CBAO-REC' && id == '1') {
+    } else if (this.evaluatorRole.code == 'CBAO-REC' && status_id == '1') {
       return 'Submitted';
     }
-    return documentStatus[id];
+    return documentStatus[status_id];
   }
 
   openFormDialog(element): void {

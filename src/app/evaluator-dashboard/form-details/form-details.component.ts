@@ -43,7 +43,7 @@ export class FormDetailsComponent implements OnInit {
   displayedColumns: string[] = ['index', 'remark', 'date'];
   public remarksForm: FormGroup;
   public isFormApplicable;
-
+  public unsavedRemark;
   //adobe sdk
   previewFilePromise: any;
   annotationManager: any;
@@ -72,7 +72,6 @@ export class FormDetailsComponent implements OnInit {
       this.user = userSubject;
       if (localStorage.getItem('user')) {
         this.user = JSON.parse(localStorage.getItem('user'));
-        console.log('FORM', this.data);
       }
     });
     this.applicationId = this.data.route.snapshot.params.id;
@@ -229,7 +228,20 @@ export class FormDetailsComponent implements OnInit {
           this.compliant(this.data.form, id);
         });
     } else if (this.permitDetails.value.is_compliant == 2) {
-      this.noncompliant(this.data.form, id);
+      if (this.unsavedRemark !== '') {
+        const newRemark = {
+          evaluator_user_id: this.data.evaluator.user_id,
+          remarks: this.unsavedRemark,
+        };
+        this.newApplicationService
+          .updateUserDocs(newRemark, this.data.form.id)
+          .subscribe((res) => {
+            this.unsavedRemark = '';
+            this.noncompliant(this.data.form, id);
+          });
+      } else {
+        this.noncompliant(this.data.form, id);
+      }
     }
   }
 
@@ -822,7 +834,6 @@ export class FormDetailsComponent implements OnInit {
   }
 
   onToggleChange(e, form) {
-    console.log(form);
     if (this.isFormApplicable == 2) {
       this.applicationService
         .updateDocumentFile({ is_applicable: 1 }, form.id)
@@ -831,7 +842,17 @@ export class FormDetailsComponent implements OnInit {
         });
     } else if (this.isFormApplicable == 1 || this.isFormApplicable == 0) {
       this.applicationService
-        .updateDocumentFile({ is_applicable: 2 }, form.id)
+        .updateDocumentFile(
+          {
+            is_applicable: 2,
+            document_status_id: 1,
+            receiving_status_id: 1,
+            cbao_status_id: 1,
+            bfp_status_id: 1,
+            cepmo_status_id: 1,
+          },
+          form.id
+        )
         .subscribe((res) => {
           this.isFormApplicable = res.data.is_applicable;
         });
@@ -841,5 +862,9 @@ export class FormDetailsComponent implements OnInit {
   goToEsig(id) {
     this.onNoClick(1);
     this.router.navigate(['/evaluator/application', this.applicationId, id]);
+  }
+
+  addUnsavedRemark(data) {
+    this.unsavedRemark = data;
   }
 }
