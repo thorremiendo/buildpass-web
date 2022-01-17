@@ -321,7 +321,6 @@ export class ApplicationDetailsComponent implements OnInit {
       },
     ];
     const isReviewed = status.every((dep) => dep.id == 1 || dep.id == 2);
-
     return isReviewed;
   }
   checkOfficeNonCompliant() {
