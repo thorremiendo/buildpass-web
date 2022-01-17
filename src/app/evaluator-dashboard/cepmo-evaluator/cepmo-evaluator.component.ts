@@ -105,7 +105,8 @@ export class CepmoEvaluatorComponent implements OnInit {
         obj.document_id == 140 ||
         obj.document_id == 202 ||
         obj.document_id == 201 ||
-        obj.document_id == 200
+        obj.document_id == 200 ||
+        obj.document_id == 194
     );
     this.dataSource = this.sortUserDocs(CEPMO_FORMS);
     this.userDocuments = CEPMO_FORMS;
