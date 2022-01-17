@@ -208,8 +208,8 @@ export class ApplicationDetailsComponent implements OnInit {
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
             Swal.fire(
-              'Non Compliant',
-              `Forwarded to Division Chief for Evaluation!`,
+              'Evaluation Done',
+              `Forwarded to Division Chief!`,
               'warning'
             ).then((result) => {
               this.isLoading = false;
@@ -321,7 +321,6 @@ export class ApplicationDetailsComponent implements OnInit {
       },
     ];
     const isReviewed = status.every((dep) => dep.id == 1 || dep.id == 2);
-
     return isReviewed;
   }
   checkOfficeNonCompliant() {

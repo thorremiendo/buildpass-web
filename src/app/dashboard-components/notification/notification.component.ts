@@ -5,6 +5,7 @@ import { Feed } from '../../core';
 import { Subscription } from 'rxjs';
 import { Channel } from 'pusher-js';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Component({
   selector: 'app-notification',
@@ -19,7 +20,7 @@ export class NotificationComponent implements OnInit {
   public show_notif: boolean = true;
   public config: PerfectScrollbarConfigInterface = {};
   public totalUnReadNotif: string | number;
-  public unReadNotif = [];
+  public readNotif = [];
   private feedSubscription: Subscription;
 
   constructor(private feedService: FeedService, private router: Router) {}
@@ -30,6 +31,7 @@ export class NotificationComponent implements OnInit {
       this.show_notif = false;
     } else {
       this.feedService.checkUser();
+      console.log("init");
 
       this.feedSubscription = this.feedService
         .getFeedItems()
@@ -52,14 +54,14 @@ export class NotificationComponent implements OnInit {
 
     this.feedService.getReadNotifTable().subscribe( data => {
     console.log("read", data)
-      this.unReadNotif = data.data;    
+      this.readNotif = data.data;    
    
     })
  
   }
 
   openNotif(id, applicationId, is_viewed) {
-
+    console.log(is_viewed);
     if(is_viewed == 0 ){
       this.feedService.isViewed(id).subscribe( res => {
         this.updateNotifTable();

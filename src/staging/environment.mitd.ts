@@ -1,13 +1,12 @@
 //staging environment
 //To Build project
-//ng build --configuration=staging 
+//ng build --configuration=mitd 
 //To run project
-//ng serve --configuration=staging
-
+//ng serve --configuration=mitd
 
 export const environment = {
     production: false,
-    api_url: `https://api.staging.buildpass.baguio.gov.ph/api`,
+    api_url: `http://192.168.3.162/api`,
   
     firebase: {
       apiKey: "AIzaSyCTCQAnOkASHslp8No3KbiiPuwMaJPixjM",

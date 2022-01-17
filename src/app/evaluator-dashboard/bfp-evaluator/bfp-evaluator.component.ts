@@ -17,6 +17,7 @@ import { ZoningCertificateComponent } from '../zoning-certificate/zoning-certifi
 import Swal from 'sweetalert2';
 import { FireClearanceComponent } from '../fire-clearance/fire-clearance.component';
 import { EsignatureService } from 'src/app/core/services/esignature.service';
+import { ApplicationFeesService } from 'src/app/core/services/application-fees.service';
 
 @Component({
   selector: 'app-bfp-evaluator',
@@ -35,6 +36,7 @@ export class BfpEvaluatorComponent implements OnInit {
   public evaluatorRole;
   public documentTypes;
   public userDocuments = [];
+  public bfpFees;
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
@@ -43,7 +45,8 @@ export class BfpEvaluatorComponent implements OnInit {
     private userService: UserService,
     private newApplicationService: NewApplicationService,
     private eSignatureService: EsignatureService,
-    private router: Router
+    private router: Router,
+    private applicationFeeService: ApplicationFeesService
   ) {}
 
   ngOnInit(): void {
@@ -102,11 +105,9 @@ export class BfpEvaluatorComponent implements OnInit {
         obj.document_id == 43 ||
         obj.document_id == 59 ||
         obj.document_id == 62 ||
-        obj.document_id == 65 ||
         obj.document_id == 45 ||
         obj.document_id == 49 ||
         obj.document_id == 140 ||
-        obj.document_id == 194 ||
         obj.document_id == 203 ||
         obj.document_id == 204 ||
         obj.document_id == 77 ||
@@ -291,7 +292,23 @@ export class BfpEvaluatorComponent implements OnInit {
     this.isLoading = true;
     if (this.applicationDetails.permit_type_id == 1) {
       if (this.checkFireSecUploaded() && this.checkChecklistUploaded()) {
-        this.updateBfpStatus();
+        const application_id = this.applicationId;
+        const office_id = 3;
+        this.applicationFeeService
+          .fetchFeesByOffice(application_id, office_id)
+          .subscribe((res) => {
+            this.bfpFees = res.data;
+            if (this.bfpFees[this.bfpFees.length - 1].office !== 0) {
+              this.updateBfpStatus();
+            } else {
+              Swal.fire('Notice!', `Please add BFP Fees!`, 'warning').then(
+                (result) => {
+                  window.location.reload();
+                  this.isLoading = false;
+                }
+              );
+            }
+          });
       } else {
         Swal.fire(
           'Warning!',

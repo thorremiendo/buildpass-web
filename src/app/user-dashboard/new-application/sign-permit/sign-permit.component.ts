@@ -72,9 +72,9 @@ export class SignPermitComponent implements OnInit {
         .subscribe((res) => {
           this.applicationDetails = res.data;
           this.saveRoute();
-          this.formData = this.dataBindingService.getFormData(
-            this.applicationDetails
-          );
+          // this.formData = this.dataBindingService.getFormData(
+          //   this.applicationDetails
+          // );
 
           const isRepresentative =
             this.applicationDetails.is_representative == '1' ? true : false;
@@ -106,8 +106,8 @@ export class SignPermitComponent implements OnInit {
             : null;
 
           this.initData();
-          this.setFilePaths();
           this.pdfSource = this.forms[0].src;
+          this.setFilePaths();
         });
     });
   }
@@ -187,6 +187,9 @@ export class SignPermitComponent implements OnInit {
       docs.forEach((doc) => {
         if (form.id == doc.document_id) {
           form.path = doc.document_path;
+          form.doc_id = doc.id;
+          this.pdfSource = form.path;
+          debugger;
         }
       });
     });
@@ -218,7 +221,7 @@ export class SignPermitComponent implements OnInit {
           .submitDocument(uploadDocumentData)
           .subscribe((res) => {
             this.isLoading = false;
-            this.updateApplicationInfoWithFormData();
+            // this.updateApplicationInfoWithFormData();
             this.updateFilePath();
           });
       } else {
@@ -234,7 +237,7 @@ export class SignPermitComponent implements OnInit {
       this.newApplicationService
         .updateDocumentFile(uploadDocumentData, form.doc_id)
         .subscribe((res) => {
-          this.updateApplicationInfoWithFormData();
+          // this.updateApplicationInfoWithFormData();
           this.openSnackBar('Saved!');
         });
     }

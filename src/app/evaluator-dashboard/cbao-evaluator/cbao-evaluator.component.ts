@@ -126,27 +126,29 @@ export class CbaoEvaluatorComponent implements OnInit {
   filterUserDocs(forms) {
     const USER_FORMS = forms.filter((doc) => doc.document_id !== 107);
     if (this.applicationInfo.permit_type_id == 2) {
-      if (this.applicationInfo.associated_released_permits.length >= 1) {
-        this.occupancyService
-          .fetchUserOldBp(this.applicationId)
-          .subscribe((res) => {
-            res.data.forEach((e) => {
-              this.occupancyService
-                .fetchUserDocsOnly(e.generated_application_id)
-                .subscribe((res) => {
-                  res.data.forEach((element) => {
-                    USER_FORMS.push(element);
-                  });
-                  this.dataSource = this.sortUserDocs(USER_FORMS);
-                  this.occupancyDocs = USER_FORMS;
-                  this.isLoading = false;
-                });
-            });
-          });
-      } else {
-        this.dataSource = this.sortUserDocs(USER_FORMS);
-        this.occupancyDocs = USER_FORMS;
-      }
+      // if (this.applicationInfo.associated_released_permits.length >= 1) {
+      //   this.occupancyService
+      //     .fetchUserOldBp(this.applicationId)
+      //     .subscribe((res) => {
+      //       res.data.forEach((e) => {
+      //         this.occupancyService
+      //           .fetchUserDocsOnly(e.generated_application_id)
+      //           .subscribe((res) => {
+      //             res.data.forEach((element) => {
+      //               USER_FORMS.push(element);
+      //             });
+      //             this.dataSource = this.sortUserDocs(USER_FORMS);
+      //             this.occupancyDocs = USER_FORMS;
+      //             this.isLoading = false;
+      //           });
+      //       });
+      //     });
+      // } else {
+      //   this.dataSource = this.sortUserDocs(USER_FORMS);
+      //   this.occupancyDocs = USER_FORMS;
+      // }
+      this.dataSource = this.sortUserDocs(USER_FORMS);
+      this.occupancyDocs = USER_FORMS;
     }
     if (this.applicationInfo.permit_type_id !== 2) {
       this.dataSource = this.sortUserDocs(USER_FORMS);
@@ -245,7 +247,6 @@ export class CbaoEvaluatorComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationInfo = res.data;
-        console.log(this.applicationInfo);
         this.applicationService
           .fetchUserDocs(this.applicationId)
           .subscribe((result) => {
@@ -476,13 +477,13 @@ export class CbaoEvaluatorComponent implements OnInit {
   getDocType(id): string {
     return this.documentTypes[id - 1].name;
   }
-  getDocStatus(id, is_applicable): string {
-    if (is_applicable == 2 && id == 1) {
+  getDocStatus(status_id, is_applicable): string {
+    if (is_applicable == 2 && status_id == 1) {
       return 'Not Applicable';
-    } else if (this.evaluatorRole.code == 'CBAO-REC' && id == '1') {
+    } else if (this.evaluatorRole.code == 'CBAO-REC' && status_id == '1') {
       return 'Submitted';
     }
-    return documentStatus[id];
+    return documentStatus[status_id];
   }
 
   openFormDialog(element): void {
@@ -499,7 +500,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.ngOnInit();
+      this.fetchApplicationInfo();
     });
   }
 
@@ -859,19 +860,20 @@ export class CbaoEvaluatorComponent implements OnInit {
       ) {
         this.forwardToBuildingOfficial();
       } else {
-        this.applicationService
-          .fetchApplicationInfo(this.applicationInfo.sub_permit_type_id)
-          .subscribe((res) => {
-            const subPermitStatus = res.data.application_status_id;
-            if (subPermitStatus == 12 || subPermitStatus == 13) {
-              this.forwardToBuildingOfficial();
-            } else {
-              this.openSnackBar(
-                'Associated Excavation Permit is Still Under Evaluation!'
-              );
-              this.isLoading = false;
-            }
-          });
+        // this.applicationService
+        //   .fetchApplicationInfo(this.applicationInfo.sub_permit_type_id)
+        //   .subscribe((res) => {
+        //     const subPermitStatus = res.data.application_status_id;
+        //     if (subPermitStatus == 12 || subPermitStatus == 13) {
+        //       this.forwardToBuildingOfficial();
+        //     } else {
+        //       this.openSnackBar(
+        //         'Associated Excavation Permit is Still Under Evaluation!'
+        //       );
+        //       this.isLoading = false;
+        //     }
+        //   });
+        this.forwardToBuildingOfficial();
       }
     } else {
       Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
@@ -1180,5 +1182,145 @@ export class CbaoEvaluatorComponent implements OnInit {
 
   openMergedPlans() {
     window.open(this.mergedPlans);
+  }
+
+  handleReviewDone() {
+    this.isLoading = true;
+    let userDocuments;
+    this.applicationService
+      .fetchUserDocs(this.applicationId)
+      .subscribe((result) => {
+        userDocuments = result.data;
+        switch (this.evaluatorRole.code) {
+          case 'CBAO-LG':
+            let lgEvaluated = this.userDocuments.every(
+              (form) => form.cbao_lg_status_id == 0
+            );
+            if (lgEvaluated) {
+              Swal.fire(
+                'Notice!',
+                `Please review a document first!`,
+                'warning'
+              ).then((result) => {});
+            } else {
+              const isNotCompliant = this.userDocuments.find(
+                (form) => form.cbao_lg_status_id == 2
+              );
+              if (isNotCompliant) {
+                this.handleTechnicalEvaluatorNonCompliant();
+              } else {
+                this.handleTechnicalEvaluatorCompliant();
+              }
+            }
+          case 'CBAO-ARCH':
+            const archEvaluated = this.userDocuments.every(
+              (form) => form.cbao_arch_status_id == 0
+            );
+            if (archEvaluated) {
+              Swal.fire(
+                'Notice!',
+                `Please review a document first!`,
+                'warning'
+              ).then((result) => {});
+            } else {
+              const isNotCompliant = this.userDocuments.find(
+                (form) => form.cbao_arch_status_id == 2
+              );
+              if (isNotCompliant) {
+                this.handleTechnicalEvaluatorNonCompliant();
+              } else {
+                this.handleTechnicalEvaluatorCompliant();
+              }
+            }
+            break;
+          case 'CBAO-STR':
+            const strEvaluated = this.userDocuments.every(
+              (form) => form.cbao_str_status_id == 0
+            );
+            if (strEvaluated) {
+              Swal.fire(
+                'Notice!',
+                `Please review a document first!`,
+                'warning'
+              ).then((result) => {});
+            } else {
+              const isNotCompliant = this.userDocuments.find(
+                (form) => form.cbao_str_status_id == 2
+              );
+              if (isNotCompliant) {
+                this.handleTechnicalEvaluatorNonCompliant();
+              } else {
+                this.handleTechnicalEvaluatorCompliant();
+              }
+            }
+            break;
+          case 'CBAO-SAN':
+            const sanEvaluated = this.userDocuments.every(
+              (form) => form.cbao_san_status_id == 0
+            );
+            if (sanEvaluated) {
+              Swal.fire(
+                'Notice!',
+                `Please review a document first!`,
+                'warning'
+              ).then((result) => {});
+            } else {
+              const isNotCompliant = this.userDocuments.find(
+                (form) => form.cbao_san_status_id == 2
+              );
+              if (isNotCompliant) {
+                this.handleTechnicalEvaluatorNonCompliant();
+              } else {
+                this.handleTechnicalEvaluatorCompliant();
+              }
+            }
+            break;
+          case 'CBAO-ELEC':
+            const elecEvaluated = this.userDocuments.every(
+              (form) => form.cbao_elec_status_id == 0
+            );
+            if (elecEvaluated) {
+              Swal.fire(
+                'Notice!',
+                `Please review a document first!`,
+                'warning'
+              ).then((result) => {});
+            } else {
+              const isNotCompliant = this.userDocuments.find(
+                (form) => form.cbao_elec_status_id == 2
+              );
+              if (isNotCompliant) {
+                this.handleTechnicalEvaluatorNonCompliant();
+              } else {
+                this.handleTechnicalEvaluatorCompliant();
+              }
+            }
+            break;
+          case 'CBAO-MEC':
+            const mecEvaluated = this.userDocuments.every(
+              (form) => form.cbao_mec_status_id == 0
+            );
+            if (mecEvaluated) {
+              Swal.fire(
+                'Notice!',
+                `Please review a document first!`,
+                'warning'
+              ).then((result) => {});
+            } else {
+              const isNotCompliant = this.userDocuments.find(
+                (form) => form.cbao_mec_status_id == 2
+              );
+              if (isNotCompliant) {
+                this.handleTechnicalEvaluatorNonCompliant();
+              } else {
+                this.handleTechnicalEvaluatorCompliant();
+              }
+            }
+            break;
+
+          default:
+            break;
+        }
+      });
   }
 }

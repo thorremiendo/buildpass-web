@@ -146,9 +146,12 @@
                 {{ item.status }}
               </strong>
             </h5>
-            <h6>
-              Evaluated by: {{ item.evaluator_detail.first_name }}
-              {{ item.evaluator_detail.last_name }}
+            <h6 *ngIf="item.evaluator_detail">
+              Evaluated by:
+              {{
+                item.evaluator_detail ? item.evaluator_detail.first_name : ""
+              }}
+              {{ item.evaluator_detail ? item.evaluator_detail.last_name : "" }}
             </h6>
             <h6>
               {{ item.created_at | date: "MMMM dd, yyyy hh:mm:ss a":"+0800" }}

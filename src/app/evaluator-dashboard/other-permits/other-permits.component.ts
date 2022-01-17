@@ -159,24 +159,25 @@ export class OtherPermitsComponent implements OnInit {
   }
   notifyBuildingOfficial() {
     this.isLoading = true;
-    if (this.applicationInfo.main_permit_id) {
-      this.applicationService
-        .fetchApplicationInfo(this.applicationInfo.main_permit_id)
-        .subscribe((res) => {
-          const status = res.data.application_status_id;
+    // if (this.applicationInfo.main_permit_id) {
+    //   this.applicationService
+    //     .fetchApplicationInfo(this.applicationInfo.main_permit_id)
+    //     .subscribe((res) => {
+    //       const status = res.data.application_status_id;
 
-          if (status == 12 || status == 13) {
-            this.forwardToBuildingOfficial();
-          } else {
-            this.isLoading = false;
-            this.openSnackBar(
-              'Associated Building Permit applicatition is still under technical evaluation.'
-            );
-          }
-        });
-    } else {
-      this.forwardToBuildingOfficial();
-    }
+    //       if (status == 12 || status == 13) {
+    //         this.forwardToBuildingOfficial();
+    //       } else {
+    //         this.isLoading = false;
+    //         this.openSnackBar(
+    //           'Associated Building Permit applicatition is still under technical evaluation.'
+    //         );
+    //       }
+    //     });
+    // } else {
+    //   this.forwardToBuildingOfficial();
+    // }
+    this.forwardToBuildingOfficial();
   }
   forwardToBuildingOfficial() {
     this.isLoading = true;

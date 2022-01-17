@@ -265,7 +265,7 @@ export class AuthService {
         this.router.navigateByUrl('/user/sign-in');
       });
   }
-  evaluatorSignOut() {
+  evaluatorSignOut(type?) {
     return firebase
       .auth()
       .signOut()
@@ -275,7 +275,12 @@ export class AuthService {
         localStorage.removeItem('applicationDetails');
         this.jwtService.removeToken();
         this.isAuthenticatedSubject.next(false);
-        this.router.navigateByUrl('/evaluator/sign-in');
+        if(type == 'admin'){
+          this.router.navigateByUrl('/admin/sign-in');
+        }
+        else if (type == 'evaluator'){
+          this.router.navigateByUrl('/evaluator/sign-in');
+        }
       });
   }
   treasurySignOut() {

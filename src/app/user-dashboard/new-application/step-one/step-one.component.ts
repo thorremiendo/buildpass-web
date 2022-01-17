@@ -360,6 +360,8 @@ export class StepOneComponent implements OnInit {
       applicant_suffix_name: this.userInfo.suffix_name,
       applicant_contact_number: this.userInfo.contact_number,
       applicant_email_address: this.userInfo.email_address,
+      occupancy_classification_id:
+        this.permitStepOneForm.value.occupancy_classification_id,
     };
 
     this.newApplicationSerivce.submitApplication(body).subscribe((res) => {

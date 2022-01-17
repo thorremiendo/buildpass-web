@@ -24,7 +24,9 @@
       <ng-container *ngIf="applicantForms">
         <div *ngFor="let category of sortedForms">
           <div *ngIf="category.data.length > 0">
-            <div class="mb-2">{{ category.label }}</div>
+            <div class="mb-2" style="font-weight: bold">
+              {{ category.label }}
+            </div>
             <ul>
               <li
                 class="d-flex justify-content-between"

@@ -1,5 +1,5 @@
 <div *ngIf="show_message_notif">
-    <button [matMenuTriggerFor]="message" mat-icon-button class="m-r-5">
+    <button [matMenuTriggerFor]="message" (menuOpened)="updateChatConvo()" mat-icon-button class="m-r-5">
         <p class="pt-2">
           <mat-icon matBadge="7" matBadgeColor="secondary"
             >mail
@@ -13,19 +13,20 @@
                 <div class="drop-title">New Messages</div>
             </li>
             <li>
-                <div class="message-center">
+                <div *ngIf="messages" class="message-center">
                     <perfect-scrollbar>
                         <!-- Message -->
-                        <a (click)="openMessage(mymessage.chat)" *ngFor="let mymessage of messageNotif">
+                        <a (click)="openMessage(message)" *ngFor="let message of messages.slice().reverse() "> 
                             <div class="user-img">
-                                <img src="{{mymessage.photo}}" alt="user" class="img-circle" width="40">
+                                <img src="{{ message.sender_detail.photo_path }}" alt="user" class="img-circle" width="40">
                                 <!-- <span class="profile-status {{mymessage.status}} pull-right"></span> -->
                             </div>
                             <div class="mail-content">
-                                <h5>{{mymessage.from}}</h5>
-                                <span class="mail-desc">{{mymessage.subject}}</span>
+                                <h5>{{ message.sender_detail.first_name }}
+                                    {{ message.sender_detail.last_name }}</h5>
+                                <span class="mail-desc">{{message.subject}}</span>
                                 <!-- <span class="time" [style.color] = "feed.is_viewed == 0 ? 'blue' : 'grey'"> {{ myMessage.created_at | dateAgo }}</span> -->
-                                <span class="time" [style.color] = "grey"> {{ mymessage.time }}</span>
+                                <span class="time" [style.color] = "grey"> {{ message.subject }}</span>
                             </div>
                         </a>
                         <!-- Message -->

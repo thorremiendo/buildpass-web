@@ -42,6 +42,29 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <ng-container *ngIf="selectedPermitType == '2'">
+        <h4>Is your Building Permit released through BuildPASS?</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Choose</mat-label>
+          <mat-select [(value)]="isBuildpassReleased">
+            <mat-option value="1">Yes</mat-option>
+            <mat-option value="2">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <ng-container *ngIf="isBuildpassReleased == 1">
+          <h4>Please select your Building Permit</h4>
+          <mat-form-field appearance="outline">
+            <mat-label>Choose</mat-label>
+            <mat-select [(value)]="selectedBuildingPermit">
+              <mat-option
+                *ngFor="let item of userBuildingPermits"
+                value="{{ item.id }}"
+                >{{ item.ocpas_code }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+      </ng-container>
       <ng-container *ngIf="selectedPermitType == '10'">
         <h4>CFEI Type:</h4>
         <mat-form-field appearance="outline">
@@ -108,24 +131,29 @@
         </mat-form-field>
       </ng-container>
       <div *ngIf="selectedPermitType">
+        <div>
+          <ng-container
+            *ngIf="
+              selectedPermitType == 1 ||
+              (selectedPermitType == 2 && isBuildpassReleased == 2)
+            "
+          >
+            <h4>Occupancy Classification:</h4>
+            <mat-form-field appearance="outline">
+              <mat-label>Choose</mat-label>
+              <mat-select
+                [(value)]="occupancyClassification"
+                formControlName="occupancy_classification_id"
+              >
+                <mat-option value="1">Residential</mat-option>
+                <mat-option value="2">Commercial</mat-option>
+                <mat-option value="3">Institutional</mat-option>
+                <mat-option value="4">Industrial</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+        </div>
         <ng-container *ngIf="selectedPermitType !== '2'">
-          <div>
-            <ng-container *ngIf="selectedPermitType == 1">
-              <h4>Occupancy Classification:</h4>
-              <mat-form-field appearance="outline">
-                <mat-label>Choose</mat-label>
-                <mat-select
-                  [(value)]="occupancyClassification"
-                  formControlName="occupancy_classification_id"
-                >
-                  <mat-option value="1">Residential</mat-option>
-                  <mat-option value="2">Commercial</mat-option>
-                  <mat-option value="3">Institutional</mat-option>
-                  <mat-option value="4">Industrial</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </ng-container>
-          </div>
           <div>
             <h4>Applicant Type:</h4>
             <mat-form-field appearance="outline">
@@ -227,29 +255,6 @@
                 </ng-container>
               </ng-container>
             </ng-container>
-          </ng-container>
-        </ng-container>
-        <ng-container *ngIf="selectedPermitType == '2'">
-          <h4>Is your Building Permit released through BuildPASS?</h4>
-          <mat-form-field appearance="outline">
-            <mat-label>Choose</mat-label>
-            <mat-select [(value)]="isBuildpassReleased">
-              <mat-option value="1">Yes</mat-option>
-              <mat-option value="2">No</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <ng-container *ngIf="isBuildpassReleased == 1">
-            <h4>Please select your Building Permit</h4>
-            <mat-form-field appearance="outline">
-              <mat-label>Choose</mat-label>
-              <mat-select [(value)]="selectedBuildingPermit">
-                <mat-option
-                  *ngFor="let item of userBuildingPermits"
-                  value="{{ item.id }}"
-                  >{{ item.ocpas_code }}</mat-option
-                >
-              </mat-select>
-            </mat-form-field>
           </ng-container>
         </ng-container>
         <ng-container *ngIf="isBuildpassReleased == 2">

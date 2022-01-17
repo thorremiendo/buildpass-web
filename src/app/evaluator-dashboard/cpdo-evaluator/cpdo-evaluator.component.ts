@@ -1,3 +1,4 @@
+import { ApplicationFeesService } from './../../core/services/application-fees.service';
 import { PopOutNotificationsService } from './../../core/services/pop-out-notification.service';
 import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks-history-table.component';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
@@ -33,6 +34,7 @@ export class CpdoEvaluatorComponent implements OnInit {
   public documentTypes;
   public isLoading: boolean = true;
   public userDocuments = [];
+  public cpdoFees;
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
   constructor(
@@ -42,7 +44,8 @@ export class CpdoEvaluatorComponent implements OnInit {
     private userService: UserService,
     private newApplicationService: NewApplicationService,
     private router: Router,
-    private snackbar: PopOutNotificationsService
+    private snackbar: PopOutNotificationsService,
+    private applicationFeeService: ApplicationFeesService
   ) {}
 
   ngOnInit(): void {
@@ -69,7 +72,6 @@ export class CpdoEvaluatorComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
-    console.log(this.evaluatorRole);
     this.isLoading = false;
   }
 
@@ -88,7 +90,6 @@ export class CpdoEvaluatorComponent implements OnInit {
         doc.document_id == 59 ||
         doc.document_id == 74 ||
         doc.document_id == 75 ||
-        doc.document_id == 72 ||
         doc.document_id == 33 ||
         doc.document_id == 140 ||
         doc.document_id == 194
@@ -401,12 +402,14 @@ export class CpdoEvaluatorComponent implements OnInit {
         element.document_id !== 1 &&
         element.document_id !== 194
       ) {
-        let body = {
-          document_status_id: 0,
-        };
-        this.newApplicationService
-          .updateDocumentFile(body, element.id)
-          .subscribe((res) => {});
+        if (element.is_applicable !== 2) {
+          let body = {
+            document_status_id: 0,
+          };
+          this.newApplicationService
+            .updateDocumentFile(body, element.id)
+            .subscribe((res) => {});
+        }
       }
     });
     this.updateApplicationStatus();
@@ -432,7 +435,22 @@ export class CpdoEvaluatorComponent implements OnInit {
   approveZoning() {
     this.isLoading = true;
     if (this.checkFormsCompliant()) {
-      this.updateFormStatus();
+      const application_id = this.applicationId;
+      const office_id = 1;
+      this.applicationFeeService
+        .fetchFeesByOffice(application_id, office_id)
+        .subscribe((res) => {
+          this.cpdoFees = res.data;
+          if (this.cpdoFees[this.cpdoFees.length - 1].office !== 0) {
+            this.updateFormStatus();
+          } else {
+            Swal.fire('Notice!', `Please add CPDO Fees!`, 'warning').then(
+              (result) => {
+                this.isLoading = false;
+              }
+            );
+          }
+        });
     } else {
       Swal.fire('Notice!', `Please review all documents first!`, 'info').then(
         (result) => {
