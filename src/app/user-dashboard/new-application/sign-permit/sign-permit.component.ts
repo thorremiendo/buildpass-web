@@ -49,7 +49,7 @@ export class SignPermitComponent implements OnInit {
   // public notRegisteredDocs: Array<any> = [120, 121];
   // public isWithinSubdivision: Array<any> = [72];
   // public isUnderMortgage: Array<any> = [73];
-  // public isOwnedByCorporation: Array<any> = [74];
+  public isOwnedByCorporation: Array<any> = [74];
   // public isHaveCoOwners: Array<any> = [75];
   // public if10000sqm: Array<any> = [40];
 
@@ -97,7 +97,9 @@ export class SignPermitComponent implements OnInit {
             this.applicationDetails.project_detail.total_floor_area >= 10000
               ? true
               : false;
-
+          isOwnedByCorporation
+            ? this.fieldSets[0].documents.push(...this.isOwnedByCorporation)
+            : null;
           isRepresentative
             ? this.fieldSets[0].documents.push(...this.representativeDocs)
             : null;
