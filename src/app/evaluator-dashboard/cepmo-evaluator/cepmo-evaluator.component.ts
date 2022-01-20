@@ -373,4 +373,33 @@ export class CepmoEvaluatorComponent implements OnInit {
         });
     });
   }
+
+  reviewDone() {
+    const notEvaluated = this.userDocuments.every(
+      (form) => form.cepmo_status_id == 0
+    );
+    if (notEvaluated) {
+      Swal.fire('Notice!', `Pleae evaluate a document!`, 'info').then(
+        (result) => {}
+      );
+    } else {
+      const allEvaluated = this.userDocuments.every(
+        (form) => form.cepmo_status_id !== 0
+      );
+      if (allEvaluated) {
+        let notCompliant = this.userDocuments.find(
+          (e) => e.cepmo_status_id == 2
+        );
+        if (notCompliant) {
+          this.nonCompliant();
+        } else {
+          this.compliant();
+        }
+      } else {
+        Swal.fire('Notice!', `Please evaluate all documents!`, 'info').then(
+          (result) => {}
+        );
+      }
+    }
+  }
 }
