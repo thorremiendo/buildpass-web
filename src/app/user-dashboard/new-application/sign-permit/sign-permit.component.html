@@ -48,7 +48,6 @@
               </div>
             </div>
           </mat-card-content>
-          <p>{{ pdfSource }}</p>
         </mat-card>
         <!-- <div class="step-label">2. Please upload the Notarized Form.</div>
           <div class="pdf-only">You can only upload PDF files.</div>
@@ -62,7 +61,7 @@
         <button
           mat-raised-button
           color="accent"
-          [routerLink]="['/dashboard/applications']"
+          (click)="upload(form, 'draft')"
         >
           Save as Draft
         </button>
@@ -70,7 +69,7 @@
           mat-raised-button
           color="primary"
           matStepperNext
-          (click)="upload(form)"
+          (click)="upload(form, 'next')"
         >
           Next
         </button>

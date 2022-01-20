@@ -22,7 +22,7 @@ export class SignPermitComponent implements OnInit {
   public applicationId;
   public applicationDetails;
   public isLoading: boolean = false;
-
+  public isSignPermit;
   public forms: any = [
     {
       id: 108,
@@ -72,9 +72,9 @@ export class SignPermitComponent implements OnInit {
         .subscribe((res) => {
           this.applicationDetails = res.data;
           this.saveRoute();
-          // this.formData = this.dataBindingService.getFormData(
-          //   this.applicationDetails
-          // );
+          this.isSignPermit = this.applicationDetails.user_docs.find(
+            (e) => e.document_id == 108
+          );
 
           const isRepresentative =
             this.applicationDetails.is_representative == '1' ? true : false;
@@ -106,7 +106,12 @@ export class SignPermitComponent implements OnInit {
             : null;
 
           this.initData();
-          this.pdfSource = this.forms[0].src;
+          if (!this.isSignPermit) {
+            this.formData = this.dataBindingService.getFormData(
+              this.applicationDetails
+            );
+            this.pdfSource = this.forms[0].src;
+          }
           this.setFilePaths();
         });
     });
@@ -152,7 +157,11 @@ export class SignPermitComponent implements OnInit {
     const index = event.selectedIndex;
     const pdfViewer = document.getElementById('pdf-viewer');
     const pdfContainer = document.getElementById(`form-${index}`);
-    this.forms[index] ? (this.pdfSource = this.forms[index].src) : null;
+    if (!this.isSignPermit) {
+      this.forms[index] ? (this.pdfSource = this.forms[index].src) : null;
+    } else {
+      this.pdfSource = this.isSignPermit.document_path;
+    }
     pdfContainer ? pdfContainer.appendChild(pdfViewer) : null;
   }
 
@@ -188,8 +197,7 @@ export class SignPermitComponent implements OnInit {
         if (form.id == doc.document_id) {
           form.path = doc.document_path;
           form.doc_id = doc.id;
-          this.pdfSource = form.path;
-          debugger;
+          this.pdfSource = this.isSignPermit ? form.path : null;
         }
       });
     });
@@ -203,7 +211,7 @@ export class SignPermitComponent implements OnInit {
       });
     });
   }
-  public async upload(form): Promise<void> {
+  public async upload(form, type): Promise<void> {
     const blob =
       await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     if (!form.path) {
@@ -221,7 +229,12 @@ export class SignPermitComponent implements OnInit {
           .submitDocument(uploadDocumentData)
           .subscribe((res) => {
             this.isLoading = false;
-            // this.updateApplicationInfoWithFormData();
+            if (type == 'draft') {
+              this.router.navigateByUrl('/dashboard/applications');
+            } else {
+              this.fetchApplicationInfo();
+            }
+
             this.updateFilePath();
           });
       } else {
@@ -237,10 +250,25 @@ export class SignPermitComponent implements OnInit {
       this.newApplicationService
         .updateDocumentFile(uploadDocumentData, form.doc_id)
         .subscribe((res) => {
-          // this.updateApplicationInfoWithFormData();
+          if (type == 'draft') {
+            this.router.navigateByUrl('/dashboard/applications');
+          } else {
+            this.fetchApplicationInfo();
+          }
           this.openSnackBar('Saved!');
         });
     }
+  }
+
+  fetchApplicationInfo() {
+    this.applicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((res) => {
+        this.applicationDetails = res.data;
+        this.openSnackBar('Saved!');
+        this.setFilePaths();
+        this.isLoading = false;
+      });
   }
   submitDocument(file: File, doctypeId: string) {
     const uploadDocumentData = {
