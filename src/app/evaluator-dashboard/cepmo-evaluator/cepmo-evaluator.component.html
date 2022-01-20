@@ -205,7 +205,7 @@
               *ngIf="isLoading"
             ></mat-progress-bar>
             <div class="d-flex justify-content-between mt-5">
-              <button
+              <!-- <button
                 mat-raised-button
                 color="warn"
                 (click)="nonCompliant()"
@@ -223,6 +223,10 @@
                 "
               >
                 Review Done (Compliant)
+              </button> -->
+              <div></div>
+              <button mat-raised-button color="primary" (click)="reviewDone()">
+                Review Done
               </button>
             </div>
           </div>

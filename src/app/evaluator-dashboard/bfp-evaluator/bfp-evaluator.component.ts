@@ -386,4 +386,31 @@ export class BfpEvaluatorComponent implements OnInit {
         });
     });
   }
+
+  reviewDone() {
+    const notEvaluated = this.userDocuments.every(
+      (form) => form.bfp_status_id == 0
+    );
+    if (notEvaluated) {
+      Swal.fire('Notice!', `Pleae evaluate a document!`, 'info').then(
+        (result) => {}
+      );
+    } else {
+      const allEvaluated = this.userDocuments.every(
+        (form) => form.bfp_status_id !== 0
+      );
+      if (allEvaluated) {
+        let notCompliant = this.userDocuments.find((e) => e.bfp_status_id == 2);
+        if (notCompliant) {
+          this.nonCompliant();
+        } else {
+          this.compliant();
+        }
+      } else {
+        Swal.fire('Notice!', `Please evaluate all documents!`, 'info').then(
+          (result) => {}
+        );
+      }
+    }
+  }
 }
