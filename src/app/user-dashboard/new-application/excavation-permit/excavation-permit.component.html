@@ -18,7 +18,7 @@
       <h1>{{ form.description }}</h1>
       <div class="fillable-form">
         <div class="step-label">
-          After filling out the form, please click the next button to proceed
+          After filling out the form, please click the next button to proceed.
         </div>
         <mat-card>
           <mat-card-content>
@@ -83,6 +83,16 @@
       <ng-template matStepLabel>{{ fieldSet.label }}</ng-template>
       <div class="fieldsets">
         <h1>{{ fieldSet.title }}</h1>
+        <div class="step-label">
+          Please make sure uploaded documents follow prescribed templates. Check 
+          <a
+            routerLink="/dashboard/checklists"
+            routerLinkActive="active"
+          >
+            downloadables
+          </a>
+          for more info.
+        </div>
         <div *ngFor="let field of fieldSet.documents">
           <app-file-upload
             (emitFile)="submitDocument($event, field.id)"
