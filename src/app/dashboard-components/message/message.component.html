@@ -1,7 +1,7 @@
 <div *ngIf="show_message_notif">
     <button [matMenuTriggerFor]="message" (menuOpened)="updateChatConvo()" mat-icon-button class="m-r-5">
         <p class="pt-2">
-          <mat-icon matBadge="7" matBadgeColor="secondary"
+          <mat-icon matBadge={{messages.length}} matBadgeColor="secondary"
             >mail
           </mat-icon>
         </p>

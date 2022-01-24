@@ -67,9 +67,10 @@ export class MessageComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("open message");
+    console.log(this.type);
 
     // this.user = JSON.parse(localStorage.getItem('user'));
-    if (this.type == 'super admin' || this.type == "user") {
+    if (this.type == 'super admin' || this.type == "user" || this.type == "treasury") {
       this.show_message_notif = false;
     } else {
       console.log(this.type);

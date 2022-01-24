@@ -27,7 +27,7 @@ export class NotificationComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
-    if (this.type == 'super admin') {
+    if (this.type == 'super admin' || this.type == "treasury") {
       this.show_notif = false;
     } else {
       this.feedService.checkUser();
