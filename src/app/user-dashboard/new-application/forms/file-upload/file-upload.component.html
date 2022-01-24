@@ -3,7 +3,7 @@
     <div class="file-description col-10">
       <p style="font-weight: bold; color: maroon">{{ fileDescription }}</p>
     </div>
-    <div class="col-2">
+    <div class="col-2" *ngIf="formId !== '194'">
       <mat-slide-toggle
         [(ngModel)]="isOptional"
         *ngIf="!filePath"

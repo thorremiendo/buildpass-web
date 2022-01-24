@@ -114,7 +114,8 @@ export class BfpEvaluatorComponent implements OnInit {
         obj.document_id == 78 ||
         obj.document_id == 92 ||
         obj.document_id == 205 ||
-        obj.document_id == 206
+        obj.document_id == 206 ||
+        obj.document_id == 194
     );
     this.dataSource = this.sortUserDocs(BFP_FORMS);
     this.userDocuments = BFP_FORMS;

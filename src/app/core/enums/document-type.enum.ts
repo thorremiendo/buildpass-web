@@ -115,7 +115,7 @@ export enum documentTypes {
   'Tax Declaration with documentary stamp from City Assessors Office' = 112,
   'Authorization Letter of Special Power of Attorney from owner to Submit, follow-up, and receive approved permits' = 113,
   'Lot Plan and Site Development Plan' = 114,
-  'Plans of Sign Strucutres' = 115,
+  'Plan of Sign Strucutres' = 115,
   'Specifications and Cost Estimates' = 116,
   'Mechanical Permit Form' = 117,
   'Photocopy of Building Permit' = 118,
