@@ -69,7 +69,7 @@ export class MessageComponent implements OnInit {
     console.log("open message");
 
     // this.user = JSON.parse(localStorage.getItem('user'));
-    if (this.type == 'super admin' || this.type == "user") {
+    if (this.type == 'super admin' || this.type == "user" || this.type == "treasury") {
       this.show_message_notif = false;
     } else {
       console.log(this.type);
