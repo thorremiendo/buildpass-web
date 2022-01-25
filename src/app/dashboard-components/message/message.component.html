@@ -24,9 +24,9 @@
                             <div class="mail-content">
                                 <h5>{{ message.sender_detail.first_name }}
                                     {{ message.sender_detail.last_name }}</h5>
-                                <span class="mail-desc">{{message.subject}}</span>
+                                <span class="mail-desc">{{message.convo[0].message}}</span>
                                 <!-- <span class="time" [style.color] = "feed.is_viewed == 0 ? 'blue' : 'grey'"> {{ myMessage.created_at | dateAgo }}</span> -->
-                                <span class="time" [style.color] = "grey"> {{ message.subject }}</span>
+                                <span class="time" [style.color] = "grey"> {{ message.created_at | dateAgo }}</span>
                             </div>
                         </a>
                         <!-- Message -->

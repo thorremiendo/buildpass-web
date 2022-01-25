@@ -31,8 +31,6 @@ export class NotificationComponent implements OnInit {
       this.show_notif = false;
     } else {
       this.feedService.checkUser();
-      console.log("init");
-
       this.feedSubscription = this.feedService
         .getFeedItems()
         .subscribe((feed: Feed) => {
@@ -68,9 +66,9 @@ export class NotificationComponent implements OnInit {
       });
     }
     if (this.user.is_evaluator == 1) {
-      this.router.navigate(['evaluator/application', applicationId]).then(() => {});
+      this.router.navigate(['evaluator/application', applicationId]).then(() => {window.location.reload()});
     } else {
-      this.router.navigate(['dashboard/applications/view', applicationId]);
+      this.router.navigate(['dashboard/applications/view', applicationId]).then(() => {window.location.reload()}) ;
     }
   }
 

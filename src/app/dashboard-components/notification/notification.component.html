@@ -2,7 +2,7 @@
   <button [matMenuTriggerFor]="notification" mat-icon-button class="m-r-5">
     <p class="pt-2">
       <mat-icon matBadge="{{ totalUnReadNotif }}" matBadgeColor="secondary"
-        >notifications_none
+        >notifications
       </mat-icon>
     </p>
   </button>
@@ -37,6 +37,7 @@
                       >
                         {{ unread.message }}
                       </span>
+                      <br>
                       <span
                         class="time"
                         [style.color]="unread.is_viewed == 0 ? 'maroon' : 'grey'"
@@ -68,6 +69,7 @@
                       >
                         {{ read.message }}
                       </span>
+                      <br>
                       <span
                         class="time"
                         [style.color]="read.is_viewed == 0 ? 'maroon' : 'grey'"

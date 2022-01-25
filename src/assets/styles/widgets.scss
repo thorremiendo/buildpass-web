@@ -10,7 +10,7 @@ File: scss
 /*User mail widgets*/
 /*******************/
 .mailbox {
-    width: 320px;
+    width: 350px;
     ul { margin: 0px;
             padding: 0px;
             li {
@@ -29,7 +29,7 @@ File: scss
         }
     }
     .message-center {
-        height: 230px;
+        height: 400px;
         overflow: auto;
         position: relative;
         a {
@@ -83,11 +83,12 @@ File: scss
                 }
             }
             .mail-content {
+                cursor: pointer;
 
                 h5 {
                     margin: 5px 0px 0;
                 }
-                .mail-desc,
+                .mail-desc
                 .time {
                     font-size: 12px;
                     display: block;
@@ -95,7 +96,7 @@ File: scss
                     text-overflow: ellipsis;
                     overflow: hidden;
                     color: $bodytext;
-                    //white-space: nowrap;
+                    white-space: nowrap;
                 }
             }
         }

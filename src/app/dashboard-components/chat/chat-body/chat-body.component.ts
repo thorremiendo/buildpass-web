@@ -195,8 +195,9 @@ export class ChatBodyComponent implements OnInit {
       }
 
       console.log(body);
-      this.msg = '';
+    
       this.chatService.sendConvo(body);
+      this.msg = '';
     }
 
   

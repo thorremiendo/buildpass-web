@@ -96,9 +96,9 @@
   }
 }
 
-.mail-content:hover {
-  cursor: pointer;
-}
-
 .cdk-overlay-pane {width: 100%!important;}
 .mat-menu-panel {max-width: 100%!important; min-width: 300px!important;}
+
+::ng-deep.mat-menu-panel {
+  max-width: none !important;
+}
