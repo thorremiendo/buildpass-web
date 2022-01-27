@@ -22,7 +22,7 @@ export class UserApplicationsTableComponent implements OnInit {
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.userService.fetchUserApplications(this.user.id).subscribe((result) => {
-      this.applications = result.data;
+      this.applications = result.data.data;
       this.applicationCount = this.applications.length;
     });
   }
