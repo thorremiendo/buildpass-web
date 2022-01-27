@@ -1,3 +1,4 @@
+import { ApplicationFeesService } from './../../core/services/application-fees.service';
 import { WaterMarkService } from './../../core/services/watermark.service';
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { ActivatedRoute } from '@angular/router';
@@ -25,7 +26,8 @@ export class OtherPermitsComponent implements OnInit {
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
     private newApplicationService: NewApplicationService,
-    private waterMarkService: WaterMarkService
+    private waterMarkService: WaterMarkService,
+    private applicationFeeService: ApplicationFeesService
   ) {}
 
   ngOnInit(): void {
@@ -275,36 +277,85 @@ export class OtherPermitsComponent implements OnInit {
     return check;
   }
   handleTechnicalStatus(status) {
-    switch (this.evaluatorRole.code) {
-      case 'CBAO-LG':
-        const lg = {
-          cbao_lg_status_id: status,
-          evaluator_user_id: this.evaluatorDetails.user_id,
-        };
-        this.updateCbaoStatus(lg);
-        break;
-      case 'CBAO-STR':
-        const str = {
-          cbao_str_status_id: status,
-          evaluator_user_id: this.evaluatorDetails.user_id,
-        };
-        this.updateCbaoStatus(str);
-        break;
-      case 'CBAO-ELEC':
-        const elec = {
-          cbao_elec_status_id: status,
-          evaluator_user_id: this.evaluatorDetails.user_id,
-        };
-        this.updateCbaoStatus(elec);
-        break;
-      case 'CBAO-ARCH':
-        const arch = {
-          cbao_arch_status_id: status,
-          evaluator_user_id: this.evaluatorDetails.user_id,
-        };
-        this.updateCbaoStatus(arch);
-        break;
-    }
+    const application_id = this.applicationId;
+    const office_id = 4;
+    let evaluators = [];
+    this.applicationFeeService
+      .fetchFeesByOffice(application_id, office_id)
+      .subscribe((res) => {
+        res.data.forEach((element) => {
+          if (element.evaluator_roles) {
+            evaluators.push(element.evaluator_roles.role[0].code);
+          }
+          switch (this.evaluatorRole.code) {
+            case 'CBAO-LG':
+              if (evaluators.find((e) => e == 'CBAO-LG')) {
+                const lg = {
+                  cbao_lg_status_id: status,
+                  evaluator_user_id: this.evaluatorDetails.user_id,
+                };
+                this.updateCbaoStatus(lg);
+              } else {
+                Swal.fire('Notice!', `Please add Fees!`, 'warning').then(
+                  (result) => {
+                    window.location.reload();
+                    this.isLoading = false;
+                  }
+                );
+              }
+
+              break;
+            case 'CBAO-STR':
+              if (evaluators.find((e) => e == 'CBAO-STR')) {
+                const str = {
+                  cbao_str_status_id: status,
+                  evaluator_user_id: this.evaluatorDetails.user_id,
+                };
+                this.updateCbaoStatus(str);
+              } else {
+                Swal.fire('Notice!', `Please add Fees!`, 'warning').then(
+                  (result) => {
+                    window.location.reload();
+                    this.isLoading = false;
+                  }
+                );
+              }
+              break;
+            case 'CBAO-ELEC':
+              if (evaluators.find((e) => e == 'CBAO-ELEC')) {
+                const elec = {
+                  cbao_elec_status_id: status,
+                  evaluator_user_id: this.evaluatorDetails.user_id,
+                };
+                this.updateCbaoStatus(elec);
+              } else {
+                Swal.fire('Notice!', `Please add Fees!`, 'warning').then(
+                  (result) => {
+                    window.location.reload();
+                    this.isLoading = false;
+                  }
+                );
+              }
+              break;
+            case 'CBAO-ARCH':
+              if (evaluators.find((e) => e == 'CBAO-ARCH')) {
+                const arch = {
+                  cbao_arch_status_id: status,
+                  evaluator_user_id: this.evaluatorDetails.user_id,
+                };
+                this.updateCbaoStatus(arch);
+              } else {
+                Swal.fire('Notice!', `Please add Fees!`, 'warning').then(
+                  (result) => {
+                    window.location.reload();
+                    this.isLoading = false;
+                  }
+                );
+              }
+              break;
+          }
+        });
+      });
   }
   updateCbaoStatus(body) {
     this.isLoading = true;
