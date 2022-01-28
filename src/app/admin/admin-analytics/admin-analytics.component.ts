@@ -11,9 +11,11 @@ export class AdminAnalyticsComponent implements OnInit {
   private testDoc: string =
     //'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/bldg-permit-certificate.pdf';
     //'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/Certificate-of-Zoning-Compliance-Form-BLANK-FORM.doc.pdf';
-     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/fsec.pdf';
+     //'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/fsec.pdf';
     //'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/wwms.pdf';
     //'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/checklist_for_building.pdf';
+    'https://ocpas-storage.s3.ap-southeast-1.amazonaws.com/30x40-1.pdf';
+    //'https://ocpas-storage.s3.ap-southeast-1.amazonaws.com/20x30-1.pdf'
 
   private doc_type: string =
     //'building-permit';
@@ -81,7 +83,7 @@ export class AdminAnalyticsComponent implements OnInit {
 
   noncompliant() {
     this.watermark
-      .insertWaterMark(this.testDoc, 'for-compliance')
+      .insertWaterMark(this.testDoc, 'compliant')
       .then((blob) => {});
   }
 
