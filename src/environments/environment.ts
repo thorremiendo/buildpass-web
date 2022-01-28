@@ -28,7 +28,7 @@ export const environment = {
   },
   weekend: false,
   receiveApplications: true,
-  version: '2.4.5',
+  version: '2.5.0',
 };
 
 /*
