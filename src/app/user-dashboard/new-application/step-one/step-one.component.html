@@ -14,6 +14,7 @@
             [(value)]="selectedPermitType"
             formControlName="application_type"
             selected="1"
+            [disabled]="isMaintenance"
           >
             <mat-option value="1" [disabled]="!receiveApplications"
               >Building Permit</mat-option
@@ -41,6 +42,16 @@
             >
           </mat-select>
         </mat-form-field>
+        <div class="maintenance" *ngIf="isMaintenance">
+          <span
+            ><span class="text-danger font-weight-bold"
+              >Our site is getting a little tune up and some love!</span
+            >
+            <br />We apologize for the convenience, but we are currently
+            performing some system maintenance. We will be back on February 4,
+            2022.</span
+          >
+        </div>
       </div>
       <ng-container *ngIf="selectedPermitType == '2'">
         <h4>Is your Building Permit released through BuildPASS?</h4>
@@ -437,6 +448,7 @@
             color="primary"
             (click)="callNext()"
             [disabled]="isSubmitting"
+            *ngIf="!isMaintenance"
           >
             Next
           </button>
@@ -449,6 +461,7 @@
             color="primary"
             (click)="callNext()"
             [disabled]="isSubmitting || exacavationError"
+            *ngIf="!isMaintenance"
           >
             Next
           </button>

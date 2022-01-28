@@ -34,12 +34,12 @@ export class SignPermitComponent implements OnInit {
     {
       label: 'Step 2',
       title: 'Documentary Requirements',
-      documents: [109, 111, 112],
+      documents: [109, 111, 112, 46],
     },
     {
       label: 'Step 3',
       title: 'Plans, Specifications',
-      documents: [114, 115, 116],
+      documents: [114, 115, 116, 62],
     },
   ];
 
@@ -199,6 +199,7 @@ export class SignPermitComponent implements OnInit {
         if (form.id == doc.document_id) {
           form.path = doc.document_path;
           form.doc_id = doc.id;
+          form.is_applicable = doc.is_applicable;
           this.pdfSource = this.isSignPermit ? form.path : null;
         }
       });
@@ -296,6 +297,38 @@ export class SignPermitComponent implements OnInit {
         });
 
         this.updateFilePath();
+      });
+  }
+
+  submitNotApplicableDocument(file: File, doctypeId: string) {
+    this.isLoading = true;
+    const uploadDocumentData = {
+      application_id: this.applicationId,
+      user_id: this.user.id,
+      document_id: doctypeId,
+      document_path: file,
+      document_status_id: 1,
+      is_applicable: 2,
+      receiving_status_id: 1,
+      cbao_status_id: 1,
+      bfp_status_id: 1,
+      cepmo_status_id: 1,
+    };
+
+    this.newApplicationService
+      .submitDocument(uploadDocumentData)
+      .subscribe((res) => {
+        this.isLoading = false;
+        const path = res.data.document_path;
+        this.forms.forEach((form) => {
+          if (form.id == doctypeId) form.path = path;
+        });
+        this.fieldSets.forEach((fieldSet) => {
+          fieldSet.documents.forEach((field) => {
+            if (field.id == doctypeId) field.path = path;
+          });
+        });
+        this.fetchApplicationInfo();
       });
   }
   updateFilePath() {

@@ -54,6 +54,7 @@ export class StepOneComponent implements OnInit {
   public excavationAssociated;
   public selectedOngoingApplication;
   public exacavationError;
+  public isMaintenance: boolean = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
