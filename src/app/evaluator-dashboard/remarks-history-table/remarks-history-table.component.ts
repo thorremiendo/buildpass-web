@@ -26,6 +26,8 @@ export class RemarksHistoryTableComponent implements OnInit {
   @Input() enableAddRemark: boolean;
   @ViewChild(MatTable) remarksTable: MatTable<any>;
   @Output() addUnsavedRemark: EventEmitter<any> = new EventEmitter();
+  @Output() clearRemark: EventEmitter<any> = new EventEmitter();
+
   public documentTypes;
   public documentId;
   public documentType;
@@ -165,6 +167,7 @@ export class RemarksHistoryTableComponent implements OnInit {
       .subscribe((res) => {
         this.fetchRemarks();
         this.newRemark = '';
+        this.clearRemark.emit();
       });
   }
 

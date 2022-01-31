@@ -867,4 +867,7 @@ export class FormDetailsComponent implements OnInit {
   addUnsavedRemark(data) {
     this.unsavedRemark = data;
   }
+  clearRemark() {
+    this.unsavedRemark = '';
+  }
 }
