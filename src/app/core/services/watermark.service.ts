@@ -35,37 +35,35 @@ export class WaterMarkService {
     const { width, height } = pages[0].getSize();
     var pngDims;
 
-    var image = forComplianceImg.scaleToFit(width, height) 
+    var image = forComplianceImg.scaleToFit(width, height);
 
-
-    console.log(width, height,image.width,image.height);
+    console.log(width, height, image.width, image.height);
     console.log(pages[0].getWidth(), pages[0].getHeight());
 
     for (let i = 0; i < pageCount; i++) {
       switch (doc_type) {
         case 'compliant':
-          pngDims = compliantImg.scaleToFit(width,height);
+          pngDims = compliantImg.scaleToFit(width, height);
           pages[i].drawImage(compliantImg, {
-            x: width / 2 - pngDims.width/2 + 100,
+            x: width / 2 - pngDims.width / 2 + 100,
             y: height / 2 + pngDims.height - 100,
             opacity: 0.8,
             rotate: degrees(-45),
             width: pngDims.width * 0.8,
-            height: pngDims.height  * 0.8,
-
+            height: pngDims.height * 0.8,
           });
 
           break;
 
         case 'for-compliance':
-          pngDims = forComplianceImg.scaleToFit(width,height);
+          pngDims = forComplianceImg.scaleToFit(width, height);
           pages[i].drawImage(forComplianceImg, {
-            x: width / 2 - pngDims.width/2 + 100,
+            x: width / 2 - pngDims.width / 2 + 100,
             y: height / 2 + pngDims.height - 100,
             opacity: 0.8,
             rotate: degrees(-45),
             width: pngDims.width * 0.7,
-            height: pngDims.height  * 0.7,
+            height: pngDims.height * 0.7,
           });
 
           break;
@@ -97,9 +95,9 @@ export class WaterMarkService {
     const pdfBytes = await pdfDocLoad.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
-     window.open(file); // open in new window
+    //  window.open(file); // open in new window
 
-    //return blob;
+    return blob;
   }
 
   async insertQrCode(doc_path, qr_code_path, doc_type) {
