@@ -39,7 +39,7 @@ export class MechanicalPermitComponent implements OnInit {
     {
       label: 'Step 3',
       title: 'Plans, Specifications',
-      documents: [150, 151, 152, 153, 154, 123],
+      documents: [150, 151, 152, 153, 123],
     },
   ];
 
