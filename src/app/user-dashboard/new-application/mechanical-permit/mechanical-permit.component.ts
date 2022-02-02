@@ -22,6 +22,7 @@ export class MechanicalPermitComponent implements OnInit {
   public applicationId;
   public applicationDetails;
   public isLoading: boolean = false;
+  public documentTypes;
 
   public forms: any = [
     {
@@ -39,7 +40,7 @@ export class MechanicalPermitComponent implements OnInit {
     {
       label: 'Step 3',
       title: 'Plans, Specifications',
-      documents: [150, 151, 152, 153, 123],
+      documents: [141, 142, 143, 144, 145, 123],
     },
   ];
 
@@ -55,7 +56,7 @@ export class MechanicalPermitComponent implements OnInit {
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
-      // this.documentTypes = res.data;
+      this.documentTypes = res.data;
       this.applicationId = localStorage.getItem('app_id');
       this.applicationService
         .fetchApplicationInfo(this.applicationId)
@@ -118,7 +119,7 @@ export class MechanicalPermitComponent implements OnInit {
   }
 
   getDocType(id): string {
-    return documentTypes[id];
+    return this.documentTypes[id - 1].name;
   }
 
   initData() {
