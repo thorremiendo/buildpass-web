@@ -7,7 +7,7 @@
 
 export const environment = {
     production: false,
-    api_url: `http://api.staging.buildpass.baguio.gov.ph/api`,
+    api_url: `https://api.staging.buildpass.baguio.gov.ph/api`,
   
     firebase: {
       apiKey: "AIzaSyCTCQAnOkASHslp8No3KbiiPuwMaJPixjM",
