@@ -23,6 +23,8 @@ export class AdminAnalyticsComponent implements OnInit {
     //'fire-permit';
     //'wwms-permit';
     'checklist-bldg';
+
+  public barChartData: any;
   public applicationStatusData:any;;
   public permitType:any;;
   public date = new Date();
@@ -61,11 +63,33 @@ export class AdminAnalyticsComponent implements OnInit {
   constructor(
     private watermark: WaterMarkService,
     private adminService: AdminService,
-    ) {}
+    ) {
+      this.barChartData =   [
+        {
+            name: 'Building Permit',
+            data: [44, 55, 57, 56, 61, 58, 44, 30, 300, 10, 11, 34],
+            color: '#400001',
+        },
+        {
+            name: 'Occupancy Permit',
+            data: [76, 85, 101, 98, 87, 105, 44, 55, 57, 56],
+            color: '#6d0303'
+        },
+        {
+          name: 'Other Permit',
+          data: [87, 105, 44, 55, 57, 56],
+          color: '#6d2303'
+      },
+   
+        
+    ]
+    }
 
   ngOnInit(): void {
     this.fetchDataForAnalytics();
-  }
+
+   
+    }
 
   select(data: string): void {
     console.log('Item clicked', data);
