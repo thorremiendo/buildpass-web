@@ -65,7 +65,29 @@ export class FormDetailsComponent implements OnInit {
     public data,
     private snackBar: MatSnackBar,
     private router: Router
-  ) {}
+  ) {
+    dialogRef.disableClose = true;
+    dialogRef.backdropClick().subscribe(() => {
+      if (this.permitDetails.value.is_compliant) {
+        Swal.fire({
+          title: 'You have unsaved changes, are you sure you want to close?',
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: `Yes`,
+          confirmButtonColor: '#330E08',
+          denyButtonColor: '#D2AB48',
+          denyButtonText: `No`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.dialogRef.close();
+          } else if (result.isDenied) {
+          }
+        });
+      } else {
+        this.dialogRef.close();
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.userService.cast.subscribe((userSubject) => {
@@ -143,7 +165,10 @@ export class FormDetailsComponent implements OnInit {
       this.data.form.document_id == 98 ||
       this.data.form.document_id == 99 ||
       this.data.form.document_id == 195 ||
-      this.data.form.document_id == 117
+      this.data.form.document_id == 117 ||
+      this.data.form.document_id == 108 ||
+      this.data.form.document_id == 146 ||
+      this.data.form.document_id == 124
     ) {
       return true;
     } else return false;
@@ -231,7 +256,7 @@ export class FormDetailsComponent implements OnInit {
       if (this.unsavedRemark !== '') {
         const newRemark = {
           evaluator_user_id: this.data.evaluator.user_id,
-          remarks: this.unsavedRemark,
+          remarks: this.unsavedRemark ? this.unsavedRemark : '',
         };
         this.newApplicationService
           .updateUserDocs(newRemark, this.data.form.id)
@@ -865,7 +890,7 @@ export class FormDetailsComponent implements OnInit {
   }
 
   addUnsavedRemark(data) {
-    this.unsavedRemark = data;
+    this.unsavedRemark = data ? data : '';
   }
   clearRemark() {
     this.unsavedRemark = '';

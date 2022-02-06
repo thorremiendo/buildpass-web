@@ -2,24 +2,26 @@
   <div class="row">
     <div class="col-md-6">
       <h4 style="font-weight: bold">Technical Evaluators Status:</h4>
+      <ng-container *ngIf="applicationDetails.permit_type_id !== 9">
+        <p>
+          Line and Grade:
+          <span
+            style="font-weight: bold"
+            [style.color]="
+              applicationDetails.cbao_lg_status_id == 1 ? 'green' : 'red'
+            "
+          >
+            {{
+              applicationDetails.cbao_lg_status_id == 1
+                ? "Approved"
+                : applicationDetails.cbao_lg_status_id == 2
+                ? "For Compliance"
+                : "Pending"
+            }}
+          </span>
+        </p>
+      </ng-container>
 
-      <p>
-        Line and Grade:
-        <span
-          style="font-weight: bold"
-          [style.color]="
-            applicationDetails.cbao_lg_status_id == 1 ? 'green' : 'red'
-          "
-        >
-          {{
-            applicationDetails.cbao_lg_status_id == 1
-              ? "Approved"
-              : applicationDetails.cbao_lg_status_id == 2
-              ? "For Compliance"
-              : "Pending"
-          }}
-        </span>
-      </p>
       <p
         *ngIf="
           applicationDetails.permit_type_id == 1 ||
@@ -107,10 +109,11 @@
       </p>
       <p
         *ngIf="
-          (applicationDetails.permit_type_id == 1 ||
+          ((applicationDetails.permit_type_id == 1 ||
             applicationDetails.permit_type_id == 2) &&
-          (applicationDetails.occupancy_classification_id !== 1 ||
-            checkMechanicalApplicable())
+            (applicationDetails.occupancy_classification_id !== 1 ||
+              checkMechanicalApplicable())) ||
+          applicationDetails.permit_type_id == 9
         "
       >
         Mechanical:

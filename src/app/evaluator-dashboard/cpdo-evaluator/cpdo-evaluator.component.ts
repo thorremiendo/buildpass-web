@@ -186,14 +186,16 @@ export class CpdoEvaluatorComponent implements OnInit {
   getDocType(id): string {
     return this.documentTypes[id - 1].name;
   }
-  getDocStatus(id): string {
+  getDocStatus(doc_status_id, is_applicable): string {
     if (
       this.applicationDetails.cpdo_status_id == '1' &&
       this.applicationDetails.cpdo_cod_status_id == '1'
     ) {
       return 'Compliant';
+    } else if (doc_status_id == 1 && is_applicable == 2) {
+      return 'Not Applicable';
     }
-    return documentStatus[id];
+    return documentStatus[doc_status_id];
   }
 
   openFormDialog(element): void {

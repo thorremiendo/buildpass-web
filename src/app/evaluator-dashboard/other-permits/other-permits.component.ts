@@ -353,6 +353,22 @@ export class OtherPermitsComponent implements OnInit {
                 );
               }
               break;
+            case 'CBAO-MEC':
+              if (evaluators.find((e) => e == 'CBAO-MEC')) {
+                const arch = {
+                  cbao_mec_status_id: status,
+                  evaluator_user_id: this.evaluatorDetails.user_id,
+                };
+                this.updateCbaoStatus(arch);
+              } else {
+                Swal.fire('Notice!', `Please add Fees!`, 'warning').then(
+                  (result) => {
+                    window.location.reload();
+                    this.isLoading = false;
+                  }
+                );
+              }
+              break;
           }
         });
       });
