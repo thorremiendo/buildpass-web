@@ -34,16 +34,17 @@
       ></div>
     </div>
   </div>
-
-  <pdf-viewer
-    [show-all]="false"
-    [(page)]="targetPage"
-    [render-text]="true"
-    [original-size]="true"
-    [fit-to-page]="false"
-    [src]="pdfSource"
-    [show-borders]="true"
-  ></pdf-viewer>
+  <ng-container *ngIf="!isLoading">
+    <pdf-viewer
+      [show-all]="false"
+      [(page)]="targetPage"
+      [render-text]="true"
+      [original-size]="true"
+      [fit-to-page]="false"
+      [src]="pdfSource"
+      [show-borders]="true"
+    ></pdf-viewer>
+  </ng-container>
 
   <div class="pdf-actions">
     <div class="pdf-paginator">
@@ -73,3 +74,4 @@
     </div>
   </ng-container>
 </div>
+{{ pdfSource ? "TRUE" : "FALSE" }}
