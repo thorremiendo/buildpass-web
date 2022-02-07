@@ -34,7 +34,7 @@
       ></div>
     </div>
   </div>
-  <ng-container *ngIf="!isLoading">
+  <ng-container *ngIf="pdfSource">
     <pdf-viewer
       [show-all]="false"
       [(page)]="targetPage"
