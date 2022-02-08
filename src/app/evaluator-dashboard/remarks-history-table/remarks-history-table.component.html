@@ -71,7 +71,13 @@
           <div class="remark-container">
             <div class="remark-content">
               <div class="remark-text">
-                {{ item.remarks ? item.remarks : "COMPLIANT" }}
+                {{
+                  item.remarks
+                    ? item.remarks
+                    : item.remarks == ""
+                    ? "COMPLIANT"
+                    : "NON COMPLIANT"
+                }}
               </div>
               <div class="remark-author">
                 {{

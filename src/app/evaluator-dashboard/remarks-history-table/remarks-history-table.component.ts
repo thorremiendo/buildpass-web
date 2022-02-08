@@ -67,6 +67,7 @@ export class RemarksHistoryTableComponent implements OnInit {
           this.officeId = this.data.evaluator
             ? this.data.evaluator.office_id
             : 7;
+
           this.sortByDate(this.filterByOffice());
         });
     });
@@ -132,10 +133,12 @@ export class RemarksHistoryTableComponent implements OnInit {
         });
 
         this.remarksSorted = sortedData;
+
         this.isLoading = false;
       });
     } else {
       this.remarksSorted = remarks;
+
       this.isLoading = false;
     }
   }

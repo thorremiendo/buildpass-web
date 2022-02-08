@@ -256,12 +256,12 @@ export class FormDetailsComponent implements OnInit {
       if (this.unsavedRemark !== '') {
         const newRemark = {
           evaluator_user_id: this.data.evaluator.user_id,
-          remarks: this.unsavedRemark ? this.unsavedRemark : '',
+          remarks: this.unsavedRemark ? this.unsavedRemark : 'NON COMPLIANT',
         };
         this.newApplicationService
           .updateUserDocs(newRemark, this.data.form.id)
           .subscribe((res) => {
-            this.unsavedRemark = '';
+            this.unsavedRemark = 'NON COMPLIANT';
             this.noncompliant(this.data.form, id);
           });
       } else {
