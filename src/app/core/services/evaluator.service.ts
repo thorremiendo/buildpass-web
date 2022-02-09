@@ -33,6 +33,7 @@ export class EvaluatorService {
         .set('compliance_status_id', params.complianceStatus ? params.complianceStatus : '')
         .set('date_range_start', params.dateStart ? params.dateStart : '')
         .set('date_range_end', params.dateEnd ? params.dateEnd : '')
+        .set('is_ascending', params.sortType ? params.sortType : '')
         .set('page', params.pageIndex)
         .set('items_per_page', params.pageSize)
         .set('is_include_incomplete', params.incompleteFlag);

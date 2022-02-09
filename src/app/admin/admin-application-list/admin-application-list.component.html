@@ -1,6 +1,6 @@
 <div class="admin-home container-fluid">
   <div class="row first-row">
-    <div class="col-12 col-md-6">
+    <div class="col-12">
       <mat-card>
         <div class="welcome">
           <div class="greeting">
@@ -100,7 +100,7 @@
         </div>
       </mat-card>
     </div>
-    <div class="col-12 col-md-6">
+    <div class="col-12">
       <div class="categories">
         <div>
           <div class="category application-status">
@@ -155,15 +155,17 @@
           </div>
         </div>
       </div>
-      <mat-card class="calendar">
-        <div class="month">
-          {{viewDate | date: 'MMMM yyyy'}}
-        </div>
-        <mwl-calendar-month-view
-          [viewDate]="viewDate"
-        >
-        </mwl-calendar-month-view>
-      </mat-card>
+      <div class="calendar-container">
+        <mat-card class="calendar">
+          <div class="month">
+            {{viewDate | date: 'MMMM yyyy'}}
+          </div>
+          <mwl-calendar-month-view
+            [viewDate]="viewDate"
+          >
+          </mwl-calendar-month-view>
+        </mat-card>
+      </div>
     </div>
   </div>
   <div class="row">
@@ -301,6 +303,19 @@
                 />
                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker touchUi #picker2></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="sort-selector row">
+            <div class="filter-label col-4">
+              Sort
+            </div>
+            <div class="col-8">
+              <mat-form-field appearance="outline">
+                <mat-select [formControl]="sortType">
+                  <mat-option value="0">Newest First</mat-option>
+                  <mat-option value="1">Oldest First</mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
           </div>

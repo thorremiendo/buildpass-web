@@ -6,14 +6,40 @@
       <div class="horizontal-line"></div>
     </div>
     <div class="col-12">
-      <div class="spinner" *ngIf="!applications">
-        <mat-spinner [diameter]="70"></mat-spinner>
+      <div class="application-filters">
+        <div class="row">
+          <div class="col-6 search">
+            <mat-form-field appearance="outline">
+              <mat-label>Search</mat-label>
+              <input matInput [formControl]="searchKey" />
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+          <div class="col-6 toggle">
+            <button mat-stroked-button (click)="openFilters()">
+              Filter
+              <span class="filter-count" *ngIf="filterCount">
+                {{filterCount}}
+              </span>
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="col-12">
+
+      <div class="loader">
+        <mat-progress-bar
+          *ngIf="loading"
+          mode="indeterminate"
+        ></mat-progress-bar>
+      </div>
+
       <app-applications-list
         *ngIf="applications"
         [applications]="applications"
+        [applicationCount]="applicationCount"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        (emitIndex)="changeIndex($event.pageIndex)"
         (emitApplication)="
           $event.application_status_id !== 6 && $event.application_status_id !== 9
             ? viewApplication($event.id)
@@ -27,4 +53,108 @@
       </app-applications-list>
     </div>
   </div>
+  <ng-template #filtersTemplate class="container-fluid">
+    <div class="filters row">
+      <div class="col-12">
+        <div class="header row">
+          <div>
+            <span>
+              Filter Applications
+            </span>
+            <div class="horizontal-line"></div>
+          </div>
+          <mat-icon (click)="closeFilters()">close</mat-icon>
+        </div>
+        <div class="permit-type-selector row">
+          <div class="filter-label col-4">
+            Permit Type
+          </div>
+          <div class="col-8">
+            <mat-form-field appearance="outline">
+              <mat-select [formControl]="permitType">
+                <mat-option value="0">All</mat-option>
+                <mat-option value="1">Building Permit</mat-option>
+                <mat-option value="2">Certificate of Occupancy</mat-option>
+                <mat-option value="3">Excavation Permit</mat-option>
+                <mat-option value="4">Fencing Permit</mat-option>
+                <mat-option value="5">Demolition Permit</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="compliance-status-selector row">
+          <div class="filter-label col-4">
+            Compliance Status
+          </div>
+          <div class="col-8">
+            <mat-form-field appearance="outline">
+              <mat-select [formControl]="complianceStatus">
+                <mat-option value="0">All</mat-option>
+                <mat-option value="1">For Compliance</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="date-range-selector row">
+          <div class="filter-label col-4">
+            Date Start
+          </div>
+          <div class="col-8">
+            <mat-form-field appearance="outline">
+              <input
+                matInput
+                [matDatepicker]="picker"
+                [formControl]="dateStart"
+                readonly
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker touchUi #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="filter-label col-4">
+            Date End
+          </div>
+          <div class="col-8">
+            <mat-form-field appearance="outline">
+              <input
+                matInput
+                [matDatepicker]="picker2"
+                [formControl]="dateEnd"
+                readonly
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker touchUi #picker2></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="sort-selector row">
+          <div class="filter-label col-4">
+            Sort
+          </div>
+          <div class="col-8">
+            <mat-form-field appearance="outline">
+              <mat-select [formControl]="sortType">
+                <mat-option value="0">Newest First</mat-option>
+                <mat-option value="1">Oldest First</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="clear-filters row" *ngIf="filterCount">
+          <span (click)="clearFilters()">
+            Clear Filters
+          </span>
+        </div>
+        <div class="filter-results row">
+          <div class="col-12">
+            Showing
+            <span>
+              {{ applicationCount }}
+              {{ applicationCount == 1 ? 'application' : 'applications'}}
+            </span>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </div>
