@@ -1,3 +1,4 @@
+import { StepOneDialogComponent } from './../../../shared/step-one-dialog/step-one-dialog.component';
 import { OccupancyService } from './../../../core/services/occupancy.service';
 import Swal from 'sweetalert2';
 import { ExcavationPermitService } from './../../../core/services/excavation-permit.service';
@@ -20,6 +21,8 @@ import { ApplicationInfoService } from 'src/app/core/services/application-info.s
 import { environment } from './../../../../environments/environment';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MatDialog } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-step-one',
   templateUrl: './step-one.component.html',
@@ -54,6 +57,7 @@ export class StepOneComponent implements OnInit {
   public excavationAssociated;
   public selectedOngoingApplication;
   public exacavationError;
+  public isMaintenance: boolean = false;
   selectable = true;
   removable = true;
   addOnBlur = true;
@@ -68,7 +72,8 @@ export class StepOneComponent implements OnInit {
     public excavationService: ExcavationPermitService,
     public applicationInfoService: ApplicationInfoService,
     private newApplicationSerivce: NewApplicationService,
-    private occupancyService: OccupancyService
+    private occupancyService: OccupancyService,
+    private dialog: MatDialog
   ) {}
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
@@ -90,6 +95,7 @@ export class StepOneComponent implements OnInit {
     }
   }
   ngOnInit(): void {
+    this.openDialog();
     this.receiveApplications = environment.receiveApplications;
 
     this.createForm();
@@ -109,6 +115,11 @@ export class StepOneComponent implements OnInit {
     localStorage.removeItem('commonFieldsInfo');
     localStorage.removeItem('lng');
     localStorage.removeItem('lat');
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(StepOneDialogComponent);
+    dialogRef.afterClosed().subscribe((result) => {});
   }
   getApplicationDescription(id): string {
     return applicationDescriptions[id];
@@ -360,6 +371,8 @@ export class StepOneComponent implements OnInit {
       applicant_suffix_name: this.userInfo.suffix_name,
       applicant_contact_number: this.userInfo.contact_number,
       applicant_email_address: this.userInfo.email_address,
+      occupancy_classification_id:
+        this.permitStepOneForm.value.occupancy_classification_id,
     };
 
     this.newApplicationSerivce.submitApplication(body).subscribe((res) => {

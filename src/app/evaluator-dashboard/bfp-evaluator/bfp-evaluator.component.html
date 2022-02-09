@@ -68,7 +68,7 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>assignment</mat-icon>
-          Applicant Forms
+          Documents
         </ng-template>
 
         <div>
@@ -221,7 +221,7 @@
               "
             >
               <div class="d-flex justify-content-between mt-5">
-                <div>
+                <!-- <div>
                   <button
                     mat-raised-button
                     color="warn"
@@ -241,6 +241,14 @@
                   (click)="compliant()"
                 >
                   Review Done (Compliant)
+                </button> -->
+                <div></div>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="reviewDone()"
+                >
+                  Review Done
                 </button>
               </div>
             </ng-container>

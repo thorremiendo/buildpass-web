@@ -453,6 +453,28 @@
     }
   }
 
+  .no-cpdo {
+    #cpdo {
+      display: none;
+    }
+
+    .column-1 > div {
+      position: relative;
+      padding-bottom: 20px;
+  
+      &:not(:last-of-type) > div::after {
+        outline: 2px solid maroon;
+        content: "";
+        position: absolute;
+        left: unset;
+        right: -30px;
+        top: 50px;
+        width: 27px;
+        height: 0;
+      }
+    }
+  }
+
   @media (max-width: 1199.5px) {
     .row > .col-12 > div::before,
     .row > .col-12 > div::after,

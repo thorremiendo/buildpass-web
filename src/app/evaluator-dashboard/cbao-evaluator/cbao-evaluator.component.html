@@ -93,7 +93,7 @@
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>assignment</mat-icon>
-            Applicant Forms
+            Documents
           </ng-template>
           <!-- <div class="mt-3" *ngIf="applicationInfo.permit_type_id == 2">
             <button
@@ -412,10 +412,28 @@
                 <div class="d-flex justify-content-between mt-5">
                   <div
                     *ngIf="
-                      applicationInfo.application_status_id !== 11 &&
-                      !checkFormsCompliant()
+                      evaluatorRole.code !== 'CBAO-BO' &&
+                      evaluatorRole.code !== 'CBAO-REC' &&
+                      evaluatorRole.code !== 'CBAO-DC'
                     "
+                    class="d-flex justify-content-between w-100"
                   >
+                    <div></div>
+                    <button
+                      mat-raised-button
+                      color="accent"
+                      (click)="handleReviewDone()"
+                      *ngIf="
+                        evaluatorRole.code !== 'CBAO-BO' &&
+                        evaluatorRole.code !== 'CBAO-REC' &&
+                        evaluatorRole.code !== 'CBAO-DC' &&
+                        applicationInfo.application_status_id == 3
+                      "
+                    >
+                      Review Done
+                    </button>
+                  </div>
+                  <div *ngIf="applicationInfo.application_status_id !== 11">
                     <div
                       *ngIf="
                         applicationInfo.application_status_id !== 5 &&
@@ -435,27 +453,6 @@
                         "
                       >
                         Return to Applicant
-                      </button>
-                    </div>
-
-                    <div
-                      *ngIf="
-                        evaluatorRole.code !== 'CBAO-BO' &&
-                        evaluatorRole.code !== 'CBAO-REC' &&
-                        evaluatorRole.code !== 'CBAO-DC'
-                      "
-                    >
-                      <button
-                        mat-raised-button
-                        color="primary"
-                        (click)="handleTechnicalEvaluatorNonCompliant()"
-                        *ngIf="applicationInfo.application_status_id == 3"
-                        [disabled]="
-                          evaluatorRole.code == 'CBAO-REC' &&
-                          applicationInfo.application_status_id !== 1
-                        "
-                      >
-                        Review Done (Non-Compliant)
                       </button>
                     </div>
                   </div>
@@ -495,7 +492,7 @@
                     >
                       Release Permit
                     </button>
-                    <div
+                    <!-- <div
                       *ngIf="
                         evaluatorRole.code !== 'CBAO-BO' &&
                         evaluatorRole.code !== 'CBAO-REC' &&
@@ -510,7 +507,7 @@
                       >
                         Review Done (Compliant)
                       </button>
-                    </div>
+                    </div> -->
                     <!-- <button
                       mat-raised-button
                       color="primary"

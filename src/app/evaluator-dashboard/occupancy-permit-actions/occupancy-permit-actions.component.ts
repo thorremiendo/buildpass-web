@@ -36,7 +36,8 @@ export class OccupancyPermitActionsComponent implements OnInit {
       this.evaluatorRole.code == 'CBAO-STR' ||
       this.evaluatorRole.code == 'CBAO-ARCH' ||
       this.evaluatorRole.code == 'CBAO-SAN' ||
-      this.evaluatorRole.code == 'CBAO-ELEC'
+      this.evaluatorRole.code == 'CBAO-ELEC' ||
+      this.evaluatorRole.code == 'CBAO-MEC'
     ) {
       return true;
     } else {
@@ -204,6 +205,13 @@ export class OccupancyPermitActionsComponent implements OnInit {
             evaluator_user_id: this.evaluatorDetails.user_id,
           };
           this.updateCbaoStatus(elec);
+          break;
+        case 'CBAO-MEC':
+          const mec = {
+            cbao_mec_status_id: 2,
+            evaluator_user_id: this.evaluatorDetails.user_id,
+          };
+          this.updateCbaoStatus(mec);
           break;
       }
     } else {

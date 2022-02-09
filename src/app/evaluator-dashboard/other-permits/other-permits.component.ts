@@ -1,3 +1,4 @@
+import { ApplicationFeesService } from './../../core/services/application-fees.service';
 import { WaterMarkService } from './../../core/services/watermark.service';
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { ActivatedRoute } from '@angular/router';
@@ -25,7 +26,8 @@ export class OtherPermitsComponent implements OnInit {
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
     private newApplicationService: NewApplicationService,
-    private waterMarkService: WaterMarkService
+    private waterMarkService: WaterMarkService,
+    private applicationFeeService: ApplicationFeesService
   ) {}
 
   ngOnInit(): void {
@@ -159,24 +161,25 @@ export class OtherPermitsComponent implements OnInit {
   }
   notifyBuildingOfficial() {
     this.isLoading = true;
-    if (this.applicationInfo.main_permit_id) {
-      this.applicationService
-        .fetchApplicationInfo(this.applicationInfo.main_permit_id)
-        .subscribe((res) => {
-          const status = res.data.application_status_id;
+    // if (this.applicationInfo.main_permit_id) {
+    //   this.applicationService
+    //     .fetchApplicationInfo(this.applicationInfo.main_permit_id)
+    //     .subscribe((res) => {
+    //       const status = res.data.application_status_id;
 
-          if (status == 12 || status == 13) {
-            this.forwardToBuildingOfficial();
-          } else {
-            this.isLoading = false;
-            this.openSnackBar(
-              'Associated Building Permit applicatition is still under technical evaluation.'
-            );
-          }
-        });
-    } else {
-      this.forwardToBuildingOfficial();
-    }
+    //       if (status == 12 || status == 13) {
+    //         this.forwardToBuildingOfficial();
+    //       } else {
+    //         this.isLoading = false;
+    //         this.openSnackBar(
+    //           'Associated Building Permit applicatition is still under technical evaluation.'
+    //         );
+    //       }
+    //     });
+    // } else {
+    //   this.forwardToBuildingOfficial();
+    // }
+    this.forwardToBuildingOfficial();
   }
   forwardToBuildingOfficial() {
     this.isLoading = true;
@@ -252,11 +255,13 @@ export class OtherPermitsComponent implements OnInit {
       .subscribe((res) => {
         console.log(res);
         this.validateTechnicalStatus(res.data);
-        if (this.validateTechnicalStatus(res.data) == true) {
-          console.log('ready');
-          this.forwardToDivisionChief();
-        } else {
-          console.log('err');
+        if (this.applicationInfo.application_status_id == 18) {
+          if (this.validateTechnicalStatus(res.data) == true) {
+            console.log('ready', res);
+            this.forwardToDivisionChief();
+          } else {
+            console.log('err');
+          }
         }
       });
   }
@@ -272,29 +277,101 @@ export class OtherPermitsComponent implements OnInit {
     return check;
   }
   handleTechnicalStatus(status) {
-    switch (this.evaluatorRole.code) {
-      case 'CBAO-LG':
-        const lg = {
-          cbao_lg_status_id: status,
-          evaluator_user_id: this.evaluatorDetails.user_id,
-        };
-        this.updateCbaoStatus(lg);
-        break;
-      case 'CBAO-STR':
-        const str = {
-          cbao_str_status_id: status,
-          evaluator_user_id: this.evaluatorDetails.user_id,
-        };
-        this.updateCbaoStatus(str);
-        break;
-      case 'CBAO-ELEC':
-        const elec = {
-          cbao_elec_status_id: status,
-          evaluator_user_id: this.evaluatorDetails.user_id,
-        };
-        this.updateCbaoStatus(elec);
-        break;
-    }
+    const application_id = this.applicationId;
+    const office_id = 4;
+    let evaluators = [];
+    this.applicationFeeService
+      .fetchFeesByOffice(application_id, office_id)
+      .subscribe((res) => {
+        res.data.forEach((element) => {
+          if (element.evaluator_roles) {
+            evaluators.push(element.evaluator_roles.role[0].code);
+          }
+          switch (this.evaluatorRole.code) {
+            case 'CBAO-LG':
+              if (evaluators.find((e) => e == 'CBAO-LG')) {
+                const lg = {
+                  cbao_lg_status_id: status,
+                  evaluator_user_id: this.evaluatorDetails.user_id,
+                };
+                this.updateCbaoStatus(lg);
+              } else {
+                Swal.fire('Notice!', `Please add Fees!`, 'warning').then(
+                  (result) => {
+                    window.location.reload();
+                    this.isLoading = false;
+                  }
+                );
+              }
+
+              break;
+            case 'CBAO-STR':
+              if (evaluators.find((e) => e == 'CBAO-STR')) {
+                const str = {
+                  cbao_str_status_id: status,
+                  evaluator_user_id: this.evaluatorDetails.user_id,
+                };
+                this.updateCbaoStatus(str);
+              } else {
+                Swal.fire('Notice!', `Please add Fees!`, 'warning').then(
+                  (result) => {
+                    window.location.reload();
+                    this.isLoading = false;
+                  }
+                );
+              }
+              break;
+            case 'CBAO-ELEC':
+              if (evaluators.find((e) => e == 'CBAO-ELEC')) {
+                const elec = {
+                  cbao_elec_status_id: status,
+                  evaluator_user_id: this.evaluatorDetails.user_id,
+                };
+                this.updateCbaoStatus(elec);
+              } else {
+                Swal.fire('Notice!', `Please add Fees!`, 'warning').then(
+                  (result) => {
+                    window.location.reload();
+                    this.isLoading = false;
+                  }
+                );
+              }
+              break;
+            case 'CBAO-ARCH':
+              if (evaluators.find((e) => e == 'CBAO-ARCH')) {
+                const arch = {
+                  cbao_arch_status_id: status,
+                  evaluator_user_id: this.evaluatorDetails.user_id,
+                };
+                this.updateCbaoStatus(arch);
+              } else {
+                Swal.fire('Notice!', `Please add Fees!`, 'warning').then(
+                  (result) => {
+                    window.location.reload();
+                    this.isLoading = false;
+                  }
+                );
+              }
+              break;
+            case 'CBAO-MEC':
+              if (evaluators.find((e) => e == 'CBAO-MEC')) {
+                const arch = {
+                  cbao_mec_status_id: status,
+                  evaluator_user_id: this.evaluatorDetails.user_id,
+                };
+                this.updateCbaoStatus(arch);
+              } else {
+                Swal.fire('Notice!', `Please add Fees!`, 'warning').then(
+                  (result) => {
+                    window.location.reload();
+                    this.isLoading = false;
+                  }
+                );
+              }
+              break;
+          }
+        });
+      });
   }
   updateCbaoStatus(body) {
     this.isLoading = true;

@@ -43,7 +43,7 @@ export class FormDetailsComponent implements OnInit {
   displayedColumns: string[] = ['index', 'remark', 'date'];
   public remarksForm: FormGroup;
   public isFormApplicable;
-
+  public unsavedRemark;
   //adobe sdk
   previewFilePromise: any;
   annotationManager: any;
@@ -65,14 +65,35 @@ export class FormDetailsComponent implements OnInit {
     public data,
     private snackBar: MatSnackBar,
     private router: Router
-  ) {}
+  ) {
+    dialogRef.disableClose = true;
+    dialogRef.backdropClick().subscribe(() => {
+      if (this.permitDetails.value.is_compliant) {
+        Swal.fire({
+          title: 'You have unsaved changes, are you sure you want to close?',
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: `Yes`,
+          confirmButtonColor: '#330E08',
+          denyButtonColor: '#D2AB48',
+          denyButtonText: `No`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.dialogRef.close();
+          } else if (result.isDenied) {
+          }
+        });
+      } else {
+        this.dialogRef.close();
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.userService.cast.subscribe((userSubject) => {
       this.user = userSubject;
       if (localStorage.getItem('user')) {
         this.user = JSON.parse(localStorage.getItem('user'));
-        console.log('FORM', this.data);
       }
     });
     this.applicationId = this.data.route.snapshot.params.id;
@@ -144,7 +165,10 @@ export class FormDetailsComponent implements OnInit {
       this.data.form.document_id == 98 ||
       this.data.form.document_id == 99 ||
       this.data.form.document_id == 195 ||
-      this.data.form.document_id == 117
+      this.data.form.document_id == 117 ||
+      this.data.form.document_id == 108 ||
+      this.data.form.document_id == 146 ||
+      this.data.form.document_id == 124
     ) {
       return true;
     } else return false;
@@ -229,7 +253,20 @@ export class FormDetailsComponent implements OnInit {
           this.compliant(this.data.form, id);
         });
     } else if (this.permitDetails.value.is_compliant == 2) {
-      this.noncompliant(this.data.form, id);
+      if (this.unsavedRemark !== '') {
+        const newRemark = {
+          evaluator_user_id: this.data.evaluator.user_id,
+          remarks: this.unsavedRemark ? this.unsavedRemark : 'NON COMPLIANT',
+        };
+        this.newApplicationService
+          .updateUserDocs(newRemark, this.data.form.id)
+          .subscribe((res) => {
+            this.unsavedRemark = 'NON COMPLIANT';
+            this.noncompliant(this.data.form, id);
+          });
+      } else {
+        this.noncompliant(this.data.form, id);
+      }
     }
   }
 
@@ -436,6 +473,8 @@ export class FormDetailsComponent implements OnInit {
               };
               this.updateDoc(body, id);
             }
+            //UPDATE TECHNICAL STATUS
+            this.updateDocumentTechnicalStatus(id);
           } else if (this.data.userRole.code == 'CBAO-REC') {
             //BLDG PERMIT RECEIVING
             if (form.document_id == 194) {
@@ -496,12 +535,18 @@ export class FormDetailsComponent implements OnInit {
   }
 
   updateDoc(body, id) {
+    this.isSubmitting = true;
     this.newApplicationService.updateDocumentFile(body, id).subscribe((res) => {
       Swal.fire('Success!', `Review saved!`, 'success').then((result) => {
         this.onNoClick(1);
         this.isSubmitting = false;
       });
     });
+  }
+  updateTechStatus(body, id) {
+    this.newApplicationService
+      .updateDocumentFile(body, id)
+      .subscribe((res) => {});
   }
 
   resetWatermark() {
@@ -720,7 +765,52 @@ export class FormDetailsComponent implements OnInit {
             }
           });
       }
+      //UPDATE TECHNICAL STATUS
+      this.updateDocumentTechnicalStatus(id);
     });
+  }
+
+  updateDocumentTechnicalStatus(id) {
+    switch (this.data.userRole.code) {
+      case 'CBAO-LG':
+        let lg = {
+          cbao_lg_status_id: this.permitDetails.value.is_compliant,
+        };
+        this.updateTechStatus(lg, id);
+        break;
+      case 'CBAO-ARCH':
+        let arch = {
+          cbao_arch_status_id: this.permitDetails.value.is_compliant,
+        };
+        this.updateTechStatus(arch, id);
+        break;
+      case 'CBAO-STR':
+        let str = {
+          cbao_str_status_id: this.permitDetails.value.is_compliant,
+        };
+        this.updateTechStatus(str, id);
+        break;
+      case 'CBAO-SAN':
+        let san = {
+          cbao_san_status_id: this.permitDetails.value.is_compliant,
+        };
+        this.updateTechStatus(san, id);
+        break;
+      case 'CBAO-ELEC':
+        let elec = {
+          cbao_elec_status_id: this.permitDetails.value.is_compliant,
+        };
+        this.updateTechStatus(elec, id);
+        break;
+      case 'CBAO-MEC':
+        let mec = {
+          cbao_mec_status_id: this.permitDetails.value.is_compliant,
+        };
+        this.updateTechStatus(mec, id);
+        break;
+      default:
+        break;
+    }
   }
 
   getCurrentRotation() {
@@ -769,7 +859,6 @@ export class FormDetailsComponent implements OnInit {
   }
 
   onToggleChange(e, form) {
-    console.log(form);
     if (this.isFormApplicable == 2) {
       this.applicationService
         .updateDocumentFile({ is_applicable: 1 }, form.id)
@@ -778,7 +867,17 @@ export class FormDetailsComponent implements OnInit {
         });
     } else if (this.isFormApplicable == 1 || this.isFormApplicable == 0) {
       this.applicationService
-        .updateDocumentFile({ is_applicable: 2 }, form.id)
+        .updateDocumentFile(
+          {
+            is_applicable: 2,
+            document_status_id: 1,
+            receiving_status_id: 1,
+            cbao_status_id: 1,
+            bfp_status_id: 1,
+            cepmo_status_id: 1,
+          },
+          form.id
+        )
         .subscribe((res) => {
           this.isFormApplicable = res.data.is_applicable;
         });
@@ -788,5 +887,12 @@ export class FormDetailsComponent implements OnInit {
   goToEsig(id) {
     this.onNoClick(1);
     this.router.navigate(['/evaluator/application', this.applicationId, id]);
+  }
+
+  addUnsavedRemark(data) {
+    this.unsavedRemark = data ? data : '';
+  }
+  clearRemark() {
+    this.unsavedRemark = '';
   }
 }

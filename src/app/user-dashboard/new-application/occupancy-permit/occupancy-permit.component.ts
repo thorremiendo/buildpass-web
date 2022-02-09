@@ -1,3 +1,4 @@
+import { documentTypes } from './../../../core/enums/document-type.enum';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
@@ -7,7 +8,6 @@ import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
 import { environment } from './../../../../environments/environment';
-import { documentTypes } from '../../../core/enums/document-type.enum';
 
 @Component({
   selector: 'app-occupancy-permit',
@@ -23,7 +23,7 @@ export class OccupancyPermitComponent implements OnInit {
   public applicationDetails;
   public linkedBuildingPermitDetails;
   public isLoading: boolean = false;
-
+  public documentTypes;
   public forms: any = [
     {
       id: 81,
@@ -38,8 +38,8 @@ export class OccupancyPermitComponent implements OnInit {
       src: '../../../../assets/forms/updated/Certificate_of_Final_Electrical_Inspection_E-05.pdf',
     },
     {
-      id: 82,
-      src: '../../../../assets/forms/updated/Certificate_of_Sanitary_-_Plumbing_Inspection.pdf',
+      id: 84,
+      src: '../../../../assets/forms/updated/Certificate_of_Inspection_Mechanical_Installation_1.pdf',
     },
   ];
 
@@ -51,7 +51,7 @@ export class OccupancyPermitComponent implements OnInit {
     },
   ];
 
-  public withOldBuildingPermit: Array<any> = [125, 206, 84, 88, 173, 203, 212];
+  public withOldBuildingPermit: Array<any> = [206, 88];
   public withBuildpassBuildingPermit: Array<any> = [203, 206];
 
   constructor(
@@ -66,7 +66,7 @@ export class OccupancyPermitComponent implements OnInit {
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
-      // this.documentTypes = res.data;
+      this.documentTypes = res.data;
       this.applicationId = localStorage.getItem('app_id');
       this.applicationService
         .fetchApplicationInfo(this.applicationId)
@@ -95,16 +95,16 @@ export class OccupancyPermitComponent implements OnInit {
 
           if (this.applicationDetails.associated_released_permits.length >= 1) {
             this.fieldSets[0].documents.push(...this.withOldBuildingPermit);
-            this.fieldSets.push({
-              label: '',
-              title: 'Approved Permits',
-              documents: [4, 117, 199, 195],
-            });
-            this.fieldSets.push({
-              label: '',
-              title: 'Approved Building Plans',
-              documents: [60, 63, 12, 59, 167, 64, 65],
-            });
+            // this.fieldSets.push({
+            //   label: '',
+            //   title: 'Approved Permits',
+            //   documents: [4, 117, 199, 195, 140, 29, 115, 30],
+            // });
+            // this.fieldSets.push({
+            //   label: '',
+            //   title: 'Approved Building Plans',
+            //   documents: [60, 63, 61, 167, 64, 65],
+            // });
 
             this.fieldSets.push({
               label: '',
@@ -115,7 +115,7 @@ export class OccupancyPermitComponent implements OnInit {
             this.fieldSets.push({
               label: '',
               title: 'Other Requirements',
-              documents: [202, 14, 201, 216],
+              documents: [202, 201, 14],
             });
           } else {
             this.fieldSets[0].documents.push(
@@ -191,12 +191,13 @@ export class OccupancyPermitComponent implements OnInit {
   }
 
   getDocType(id): string {
-    const array = [4, 117, 199, 60, 63, 12, 59, 167, 64, 65, 195];
-    if (array.includes(id)) {
-      return `Approved ${documentTypes[id]}`;
-    } else {
-      return documentTypes[id];
-    }
+    // const array = [4, 117, 199, 60, 63, 61, 167, 64, 65, 195];
+    // if (array.includes(id)) {
+    //   return `Approved ${documentTypes[id]}`.replace('Form', '');
+    // } else {
+    //   return documentTypes[id];
+    // }
+    return this.documentTypes[id - 1].name;
   }
 
   initData() {
@@ -370,8 +371,37 @@ export class OccupancyPermitComponent implements OnInit {
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)
           .subscribe((res) => {
-            this.isLoading = false;
-            this.router.navigate(['dashboard/new/summary', this.applicationId]);
+            const requiredDocs = [
+              125, 177, 203, 212, 4, 117, 199, 195, 140, 29, 115, 30, 60, 63,
+              61, 167, 64, 65, 216,
+            ];
+            var count = 0;
+            var bar = new Promise<void>((resolve, reject) => {
+              requiredDocs.forEach((element, index, array) => {
+                debugger;
+                this.isLoading = true;
+                const uploadDoc = {
+                  application_id: this.applicationId,
+                  user_id: this.user.id,
+                  document_id: element,
+                  document_path:
+                    'https://s3-ap-southeast-1.amazonaws.com/buildpass-storage/oCgTXNEEiktYux44i1cJCkNCiREKA5ABlOYeeUSC.pdf',
+                  is_document_string: 1,
+                };
+                this.newApplicationService
+                  .submitDocument(uploadDoc)
+                  .subscribe((res) => {
+                    count = count + 1;
+                    if (count === array.length - 1) {
+                      this.isLoading = false;
+                      this.router.navigate([
+                        'dashboard/new/summary',
+                        this.applicationId,
+                      ]);
+                    }
+                  });
+              });
+            });
           });
       } else {
         this.openSnackBar('Please upload all necessary documents!');

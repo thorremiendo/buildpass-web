@@ -20,29 +20,55 @@
 <div class="chat-container">
     <mat-dialog-content>
       <perfect-scrollbar>
-        <ng-container *ngFor="let c of selectedMessage">
-          <ng-template [ngIf]="c.type == 'odd'" [ngIfElse]="evenblock">
+        <ng-container *ngFor="let c of selectedMessage.convo">
+          <ng-template [ngIf]="c.type == 'outgoing'" [ngIfElse]="evenblock">
             <div class="chat-list odd">
               <div class="chat-message">
                 <div class="chat-block">
-                  <span>
-                    <img
-                      src="{{ selectedMessage.photo }}"
-                      class="img-circle"
-                      width="40"
-                    />
-                  </span>
-                  <span>{{ c.msg }}</span>
+                  <!-- <span>
+                    <img src="{{selectedMessage.photo}}" class="img-circle" width="40"> 
+                  </span> -->
+                  <span [innerHTML]="c.message">{{ c.message }}</span>
                 </div>
-                <span class="chat-date">{{ c.date | date }}</span>
+                <span *ngIf="c.created_at" class="chat-date">{{
+                  c.created_at | date: "MMM d, y h:mm a"
+                }}</span>
+                <span *ngIf="c.currentime" class="chat-date">{{
+                  c.created_at | date: "MMM d, y h:mm a"
+                }}</span>
               </div>
             </div>
           </ng-template>
           <ng-template #evenblock>
             <div class="chat-list even">
               <div class="chat-message">
-                <div class="chat-block bg-light-info">{{ c.msg }}</div>
-                <span class="chat-date">{{ c.date | date }}</span>
+                <span *ngIf="c.evaluator_detail" class="chat-user">{{
+                  c.evaluator_detail.display_role
+                }}
+                {{
+                  c.evaluator_detail.first_name
+                }}
+                {{
+                  c.evaluator_detail.last_name
+                }}
+              </span>
+              <span *ngIf="c.evaluator_name" class="chat-user">{{
+                c.evaluator_display_role
+              }}
+              {{
+                c.evaluator_name
+              }}
+            </span>
+                <div
+                  class="chat-block bg-light-info"
+                  [innerHTML]="c.message"
+                ></div>
+                <span *ngIf="c.created_at" class="chat-date">{{
+                  c.created_at | date: "MMM d, y h:mm a"
+                }}</span>
+                <span *ngIf="c.currentime" class="chat-date">{{
+                  c.created_at | date: "MMM d, y h:mm a"
+                }}</span>
               </div>
             </div>
           </ng-template>

@@ -96,7 +96,7 @@ export class BuildingPermitComponent implements OnInit {
     },
     {
       label: `Step ${this.forms.length + 3}`,
-      title: 'Designs, Specifications, Cost Estimate',
+      title: 'Building Specifications',
       documents: [30, 32, 33],
     },
     {

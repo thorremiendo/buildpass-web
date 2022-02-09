@@ -59,7 +59,6 @@ export class CepmoEvaluatorComponent implements OnInit {
       .fetchFeesByOffice(application_id, office_id)
       .subscribe((res) => {
         this.cepmoFees = res.data;
-        console.log('fees', this.cepmoFees);
       });
   }
   checkCepmoParallelDocs() {
@@ -104,10 +103,10 @@ export class CepmoEvaluatorComponent implements OnInit {
         obj.document_id == 59 ||
         obj.document_id == 63 ||
         obj.document_id == 140 ||
-        obj.document_id == 194 ||
         obj.document_id == 202 ||
         obj.document_id == 201 ||
-        obj.document_id == 200
+        obj.document_id == 200 ||
+        obj.document_id == 194
     );
     this.dataSource = this.sortUserDocs(CEPMO_FORMS);
     this.userDocuments = CEPMO_FORMS;
@@ -278,28 +277,37 @@ export class CepmoEvaluatorComponent implements OnInit {
     this.isLoading = true;
     if (this.applicationDetails.permit_type_id == 1) {
       if (this.checkWwmsUploaded()) {
-        if (this.cepmoFees[0].office !== 0) {
-          const body = {
-            parallel_cepmo_status_id: 1,
-          };
-          this.applicationService
-            .updateApplicationStatus(body, this.applicationId)
-            .subscribe((res) => {
-              this.isLoading = false;
-              Swal.fire('Success!', `Updated CEPMO Status!`, 'success').then(
+        const application_id = this.applicationId;
+        const office_id = 2;
+        this.applicationFeeService
+          .fetchFeesByOffice(application_id, office_id)
+          .subscribe((res) => {
+            this.cepmoFees = res.data;
+            if (this.cepmoFees[this.cepmoFees.length - 1].office !== 0) {
+              const body = {
+                parallel_cepmo_status_id: 1,
+              };
+              this.applicationService
+                .updateApplicationStatus(body, this.applicationId)
+                .subscribe((res) => {
+                  this.isLoading = false;
+                  Swal.fire(
+                    'Success!',
+                    `Updated CEPMO Status!`,
+                    'success'
+                  ).then((result) => {
+                    window.location.reload();
+                  });
+                });
+            } else {
+              Swal.fire('Notice!', `Please add CEPMO Fees!`, 'warning').then(
                 (result) => {
                   window.location.reload();
+                  this.isLoading = false;
                 }
               );
-            });
-        } else {
-          Swal.fire('Warning!', `Please add CEPMO Fees!`, 'warning').then(
-            (result) => {
-              window.location.reload();
-              this.isLoading = false;
             }
-          );
-        }
+          });
       } else {
         this.isLoading = false;
         Swal.fire(
@@ -364,5 +372,34 @@ export class CepmoEvaluatorComponent implements OnInit {
           this.checkCepmoParallelDocs();
         });
     });
+  }
+
+  reviewDone() {
+    const notEvaluated = this.userDocuments.every(
+      (form) => form.cepmo_status_id == 0
+    );
+    if (notEvaluated) {
+      Swal.fire('Notice!', `Pleae evaluate a document!`, 'info').then(
+        (result) => {}
+      );
+    } else {
+      const allEvaluated = this.userDocuments.every(
+        (form) => form.cepmo_status_id !== 0
+      );
+      if (allEvaluated) {
+        let notCompliant = this.userDocuments.find(
+          (e) => e.cepmo_status_id == 2
+        );
+        if (notCompliant) {
+          this.nonCompliant();
+        } else {
+          this.compliant();
+        }
+      } else {
+        Swal.fire('Notice!', `Please evaluate all documents!`, 'info').then(
+          (result) => {}
+        );
+      }
+    }
   }
 }

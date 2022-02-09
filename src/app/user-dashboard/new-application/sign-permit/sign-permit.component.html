@@ -15,7 +15,7 @@
 
       <div class="fillable-form">
         <div class="step-label">
-          After filling out the form, please click the next button to proceed
+          After filling out the form, please click the next button to proceed.
         </div>
         <mat-card>
           <mat-card-content>
@@ -61,7 +61,7 @@
         <button
           mat-raised-button
           color="accent"
-          [routerLink]="['/dashboard/applications']"
+          (click)="upload(form, 'draft')"
         >
           Save as Draft
         </button>
@@ -69,7 +69,7 @@
           mat-raised-button
           color="primary"
           matStepperNext
-          (click)="upload(form)"
+          (click)="upload(form, 'next')"
         >
           Next
         </button>
@@ -79,11 +79,21 @@
       <ng-template matStepLabel>{{ fieldSet.label }}</ng-template>
       <div class="fieldsets">
         <h1>{{ fieldSet.title }}</h1>
+        <div class="step-label">
+          Please make sure uploaded documents follow prescribed templates. Check
+          <a routerLink="/dashboard/checklists" routerLinkActive="active">
+            downloadables
+          </a>
+          for more info.
+        </div>
         <div *ngFor="let field of fieldSet.documents">
           <app-file-upload
             (emitFile)="submitDocument($event, field.id)"
+            (emitNotApplicable)="submitNotApplicableDocument($event, field.id)"
             description="{{ field.description }}"
             path="{{ field.path }}"
+            info="{{ field.info }}"
+            optional="{{ field.id !== '194' }}"
           ></app-file-upload>
         </div>
       </div>

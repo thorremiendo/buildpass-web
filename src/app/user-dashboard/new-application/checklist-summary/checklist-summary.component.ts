@@ -82,62 +82,7 @@ export class ChecklistSummaryComponent implements OnInit {
                     break;
                 }
 
-                this.sortedForms = {
-                  forms: {
-                    label: 'Forms',
-                    data: [],
-                  },
-                  documents: {
-                    label: 'Documentary Requirements',
-                    data: [],
-                  },
-                  plans: {
-                    label: 'Plans, Designs, Specifications, Cost Estimate',
-                    data: [],
-                  },
-                  professional: {
-                    label:
-                      'Photocopy of Professional Details (Professional Tax Receipt and Professional Regulation Commission ID, signed and sealed)',
-                    data: [],
-                  },
-                  affidavits: {
-                    label: 'Affidavits',
-                    data: [],
-                  },
-                  others: {
-                    label: 'Others',
-                    data: [],
-                  },
-                };
-
-                this.applicantForms.forEach((element) => {
-                  console.log(this.applicantForms);
-                  const docType =
-                    this.documentTypes[element.document_id - 1]
-                      .document_category_id;
-                  switch (docType) {
-                    case 1:
-                      this.sortedForms.forms.data.push(element);
-                      break;
-                    case 2:
-                      this.sortedForms.documents.data.push(element);
-                      break;
-                    case 3:
-                      this.sortedForms.plans.data.push(element);
-                      break;
-                    case 4:
-                      this.sortedForms.professional.data.push(element);
-                      break;
-                    case 5:
-                      this.sortedForms.affidavits.data.push(element);
-                      break;
-                    default:
-                      this.sortedForms.others.data.push(element);
-                      break;
-                  }
-                });
-                this.sortedForms = Object.values(this.sortedForms);
-                this.isLoading = false;
+                this.sortForms();
               });
           });
         },
@@ -146,9 +91,7 @@ export class ChecklistSummaryComponent implements OnInit {
         }
       );
   }
-  goToLink(url: string) {
-    window.open(url, '_blank');
-  }
+  
   getDocType(id): string {
     return this.documentTypes[id - 1].name;
   }
@@ -236,5 +179,88 @@ export class ChecklistSummaryComponent implements OnInit {
       'dashboard/new/success',
       { application_number: this.applicationInfo.ocpas_code },
     ]);
+  }
+
+  submitDocument(file: File, doctypeId: string) {
+    const uploadDocumentData = {
+      application_id: this.applicationId,
+      user_id: this.user.id,
+      document_id: doctypeId,
+      document_path: file,
+      document_status: '0',
+    };
+
+    this.newApplicationService
+      .submitDocument(uploadDocumentData)
+      .subscribe((res) => {
+        const path = res.data.document_path;
+        this.applicantForms.forEach((form, index) => {
+          if (form.document_id == doctypeId) form.document_path = path;
+          index++;
+          
+          if (index == this.applicantForms.length) this.sortForms();
+        });
+      });
+  }
+
+  sortForms() {
+    this.sortedForms = {
+      forms: {
+        label: 'Forms',
+        data: [],
+      },
+      documents: {
+        label: 'Documentary Requirements',
+        data: [],
+      },
+      plans: {
+        label: 'Plans, Designs, Specifications, Cost Estimate',
+        data: [],
+      },
+      professional: {
+        label:
+          'Photocopy of Professional Details (Professional Tax Receipt and Professional Regulation Commission ID, signed and sealed)',
+        data: [],
+      },
+      affidavits: {
+        label: 'Affidavits',
+        data: [],
+      },
+      others: {
+        label: 'Others',
+        data: [],
+      },
+    };
+
+    this.applicantForms.forEach((element) => {
+      const docType =
+        this.documentTypes[element.document_id - 1]
+          .document_category_id;
+
+      switch (docType) {
+        case 1:
+          this.sortedForms.forms.data.push(element);
+          break;
+        case 2:
+          this.sortedForms.documents.data.push(element);
+          break;
+        case 3:
+          this.sortedForms.plans.data.push(element);
+          break;
+        case 4:
+          this.sortedForms.professional.data.push(element);
+          break;
+        case 5:
+          this.sortedForms.affidavits.data.push(element);
+          break;
+        default:
+          this.sortedForms.others.data.push(element);
+          break;
+      }
+    });
+
+    this.sortedForms = Object.values(this.sortedForms);
+
+    this.isLoading = false;
   }
 }

@@ -53,6 +53,7 @@ import { ApplicationInfoComponent } from './application-info/application-info.co
 import { ApplicationDocsComponent } from './application-docs/application-docs.component';
 import { DocumentViewComponent } from './document-view/document-view.component';
 import { DocumentRemarksComponent } from './document-remarks/document-remarks.component';
+import { StepOneDialogComponent } from './step-one-dialog/step-one-dialog.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { DocumentRemarksComponent } from './document-remarks/document-remarks.co
     ApplicationDocsComponent,
     DocumentViewComponent,
     DocumentRemarksComponent,
+    StepOneDialogComponent,
   ],
   imports: [
     CommonModule,

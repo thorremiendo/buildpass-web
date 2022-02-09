@@ -114,6 +114,8 @@ export class ChatBodyComponent implements OnInit {
       current_user_id: this.userInfo.id,
     };
 
+    console.log(newConvo);
+
     this.chatService.applicantChatSubscribe(channel);
     this.chatService.createConvo(newConvo).subscribe((data) => {
       this.chatId = data.data;
@@ -191,6 +193,10 @@ export class ChatBodyComponent implements OnInit {
         };
         
       }
+
+      console.log(body);
+    
+      this.chatService.sendConvo(body);
       this.msg = '';
     }
 

@@ -22,7 +22,7 @@ export class SignPermitComponent implements OnInit {
   public applicationId;
   public applicationDetails;
   public isLoading: boolean = false;
-
+  public isSignPermit;
   public forms: any = [
     {
       id: 108,
@@ -34,12 +34,12 @@ export class SignPermitComponent implements OnInit {
     {
       label: 'Step 2',
       title: 'Documentary Requirements',
-      documents: [109, 111, 112],
+      documents: [109, 111, 112, 46],
     },
     {
       label: 'Step 3',
       title: 'Plans, Specifications',
-      documents: [114, 115, 116],
+      documents: [114, 115, 116, 62],
     },
   ];
 
@@ -49,7 +49,7 @@ export class SignPermitComponent implements OnInit {
   // public notRegisteredDocs: Array<any> = [120, 121];
   // public isWithinSubdivision: Array<any> = [72];
   // public isUnderMortgage: Array<any> = [73];
-  // public isOwnedByCorporation: Array<any> = [74];
+  public isOwnedByCorporation: Array<any> = [74];
   // public isHaveCoOwners: Array<any> = [75];
   // public if10000sqm: Array<any> = [40];
 
@@ -72,8 +72,8 @@ export class SignPermitComponent implements OnInit {
         .subscribe((res) => {
           this.applicationDetails = res.data;
           this.saveRoute();
-          this.formData = this.dataBindingService.getFormData(
-            this.applicationDetails
+          this.isSignPermit = this.applicationDetails.user_docs.find(
+            (e) => e.document_id == 108
           );
 
           const isRepresentative =
@@ -97,7 +97,9 @@ export class SignPermitComponent implements OnInit {
             this.applicationDetails.project_detail.total_floor_area >= 10000
               ? true
               : false;
-
+          isOwnedByCorporation
+            ? this.fieldSets[0].documents.push(...this.isOwnedByCorporation)
+            : null;
           isRepresentative
             ? this.fieldSets[0].documents.push(...this.representativeDocs)
             : null;
@@ -106,8 +108,13 @@ export class SignPermitComponent implements OnInit {
             : null;
 
           this.initData();
+          if (!this.isSignPermit) {
+            this.formData = this.dataBindingService.getFormData(
+              this.applicationDetails
+            );
+            this.pdfSource = this.forms[0].src;
+          }
           this.setFilePaths();
-          this.pdfSource = this.forms[0].src;
         });
     });
   }
@@ -152,7 +159,11 @@ export class SignPermitComponent implements OnInit {
     const index = event.selectedIndex;
     const pdfViewer = document.getElementById('pdf-viewer');
     const pdfContainer = document.getElementById(`form-${index}`);
-    this.forms[index] ? (this.pdfSource = this.forms[index].src) : null;
+    if (!this.isSignPermit) {
+      this.forms[index] ? (this.pdfSource = this.forms[index].src) : null;
+    } else {
+      this.pdfSource = this.isSignPermit.document_path;
+    }
     pdfContainer ? pdfContainer.appendChild(pdfViewer) : null;
   }
 
@@ -187,6 +198,9 @@ export class SignPermitComponent implements OnInit {
       docs.forEach((doc) => {
         if (form.id == doc.document_id) {
           form.path = doc.document_path;
+          form.doc_id = doc.id;
+          form.is_applicable = doc.is_applicable;
+          this.pdfSource = this.isSignPermit ? form.path : null;
         }
       });
     });
@@ -200,7 +214,7 @@ export class SignPermitComponent implements OnInit {
       });
     });
   }
-  public async upload(form): Promise<void> {
+  public async upload(form, type): Promise<void> {
     const blob =
       await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     if (!form.path) {
@@ -218,7 +232,12 @@ export class SignPermitComponent implements OnInit {
           .submitDocument(uploadDocumentData)
           .subscribe((res) => {
             this.isLoading = false;
-            this.updateApplicationInfoWithFormData();
+            if (type == 'draft') {
+              this.router.navigateByUrl('/dashboard/applications');
+            } else {
+              this.fetchApplicationInfo();
+            }
+
             this.updateFilePath();
           });
       } else {
@@ -234,10 +253,25 @@ export class SignPermitComponent implements OnInit {
       this.newApplicationService
         .updateDocumentFile(uploadDocumentData, form.doc_id)
         .subscribe((res) => {
-          this.updateApplicationInfoWithFormData();
+          if (type == 'draft') {
+            this.router.navigateByUrl('/dashboard/applications');
+          } else {
+            this.fetchApplicationInfo();
+          }
           this.openSnackBar('Saved!');
         });
     }
+  }
+
+  fetchApplicationInfo() {
+    this.applicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((res) => {
+        this.applicationDetails = res.data;
+        this.openSnackBar('Saved!');
+        this.setFilePaths();
+        this.isLoading = false;
+      });
   }
   submitDocument(file: File, doctypeId: string) {
     const uploadDocumentData = {
@@ -263,6 +297,38 @@ export class SignPermitComponent implements OnInit {
         });
 
         this.updateFilePath();
+      });
+  }
+
+  submitNotApplicableDocument(file: File, doctypeId: string) {
+    this.isLoading = true;
+    const uploadDocumentData = {
+      application_id: this.applicationId,
+      user_id: this.user.id,
+      document_id: doctypeId,
+      document_path: file,
+      document_status_id: 1,
+      is_applicable: 2,
+      receiving_status_id: 1,
+      cbao_status_id: 1,
+      bfp_status_id: 1,
+      cepmo_status_id: 1,
+    };
+
+    this.newApplicationService
+      .submitDocument(uploadDocumentData)
+      .subscribe((res) => {
+        this.isLoading = false;
+        const path = res.data.document_path;
+        this.forms.forEach((form) => {
+          if (form.id == doctypeId) form.path = path;
+        });
+        this.fieldSets.forEach((fieldSet) => {
+          fieldSet.documents.forEach((field) => {
+            if (field.id == doctypeId) field.path = path;
+          });
+        });
+        this.fetchApplicationInfo();
       });
   }
   updateFilePath() {

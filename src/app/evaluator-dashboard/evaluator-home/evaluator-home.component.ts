@@ -32,6 +32,7 @@ export class EvaluatorHomeComponent implements OnInit {
   public complianceStatus = new FormControl('1');
   public dateStart = new FormControl('');
   public dateEnd = new FormControl('');
+  public sortType = new FormControl('0');
   public pageIndex = 0;
   public pageSize = 5;
   public filterCount = 1;
@@ -87,6 +88,11 @@ export class EvaluatorHomeComponent implements OnInit {
       this.dateEnd.valueChanges.subscribe((res) => {
         this.pageIndex = 0;
         this.getFilterCount();
+        this.fetchApplications();
+      });
+
+      this.sortType.valueChanges.subscribe((res) => {
+        this.pageIndex = 0;
         this.fetchApplications();
       });
     }
@@ -165,6 +171,7 @@ export class EvaluatorHomeComponent implements OnInit {
       complianceStatus: this.complianceStatus.value ? this.complianceStatus.value : '',
       dateStart: this.dateStart.value ? moment( this.dateStart.value).format('YYYY-MM-DD') : '',
       dateEnd: this.dateEnd.value ? moment( this.dateEnd.value).format('YYYY-MM-DD') : '',
+      sortType: this.sortType.value ? this.sortType.value : '',
       pageIndex: this.pageIndex + 1,
       pageSize: this.pageSize,
       incompleteFlag: this.applicationStatus.value == '8' ? 1 : '',

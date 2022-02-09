@@ -2,7 +2,7 @@
   <button [matMenuTriggerFor]="notification" mat-icon-button class="m-r-5">
     <p class="pt-2">
       <mat-icon matBadge="{{ totalUnReadNotif }}" matBadgeColor="secondary"
-        >notifications_none
+        >notifications
       </mat-icon>
     </p>
   </button>
@@ -25,7 +25,7 @@
                                         </div>  -->
                     <div
                       class="mail-content"
-                      (click)="openNotif(unread.id, unread.application_id)"
+                      (click)="openNotif(unread.id, unread.application_id, unread.is_viewed)"
                     >
                       <h5>
                         {{ unread.application_number }} <br />
@@ -37,6 +37,7 @@
                       >
                         {{ unread.message }}
                       </span>
+                      <br>
                       <span
                         class="time"
                         [style.color]="unread.is_viewed == 0 ? 'maroon' : 'grey'"
@@ -52,7 +53,7 @@
               <div class="message-center">
                 <perfect-scrollbar [config]="config">
                   <a
-                    *ngFor="let read of unReadNotif.slice().reverse(); let i = index"
+                    *ngFor="let read of readNotif; let i = index"
                   >
                     <div
                       class="mail-content"
@@ -68,6 +69,7 @@
                       >
                         {{ read.message }}
                       </span>
+                      <br>
                       <span
                         class="time"
                         [style.color]="read.is_viewed == 0 ? 'maroon' : 'grey'"

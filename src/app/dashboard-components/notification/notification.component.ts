@@ -5,6 +5,7 @@ import { Feed } from '../../core';
 import { Subscription } from 'rxjs';
 import { Channel } from 'pusher-js';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Component({
   selector: 'app-notification',
@@ -19,18 +20,17 @@ export class NotificationComponent implements OnInit {
   public show_notif: boolean = true;
   public config: PerfectScrollbarConfigInterface = {};
   public totalUnReadNotif: string | number;
-  public unReadNotif = [];
+  public readNotif = [];
   private feedSubscription: Subscription;
 
   constructor(private feedService: FeedService, private router: Router) {}
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
-    if (this.type == 'super admin') {
+    if (this.type == 'super admin' || this.type == "treasury") {
       this.show_notif = false;
     } else {
       this.feedService.checkUser();
-
       this.feedSubscription = this.feedService
         .getFeedItems()
         .subscribe((feed: Feed) => {
@@ -52,23 +52,23 @@ export class NotificationComponent implements OnInit {
 
     this.feedService.getReadNotifTable().subscribe( data => {
     console.log("read", data)
-      this.unReadNotif = data.data;    
+      this.readNotif = data.data;    
    
     })
  
   }
 
   openNotif(id, applicationId, is_viewed) {
-
+    console.log(is_viewed);
     if(is_viewed == 0 ){
       this.feedService.isViewed(id).subscribe( res => {
         this.updateNotifTable();
       });
     }
     if (this.user.is_evaluator == 1) {
-      this.router.navigate(['evaluator/application', applicationId]).then(() => {});
+      this.router.navigate(['evaluator/application', applicationId]).then(() => {window.location.reload()});
     } else {
-      this.router.navigate(['dashboard/applications/view', applicationId]);
+      this.router.navigate(['dashboard/applications/view', applicationId]).then(() => {window.location.reload()}) ;
     }
   }
 
