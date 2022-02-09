@@ -329,7 +329,7 @@
           >
             <div class="timeline-box-label">Releasing</div>
             <ul>
-              <li *ngFor="let log of applicationTimeline['4.5']">
+              <li *ngFor="let log of applicationTimeline['6.0']">
                 <div [ngClass]="log.color">{{log.status}}</div>
                 <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
               </li>
@@ -341,7 +341,9 @@
             <mat-icon class="compliant">assignment_turned_in</mat-icon>
             <mat-icon class="non-compliant">assignment_late</mat-icon>
             <mat-icon class="pending">assignment</mat-icon>
-            <div class="expand" *ngIf="(applicationTimeline['4.5'] && applicationTimeline['4.5'].length > 1) || (applicationTimeline['4.6'] && applicationTimeline['4.6'].length > 1) || (applicationTimeline['4.5'] && applicationTimeline['4.6'] && (applicationTimeline['4.5'].length + applicationTimeline['4.6'].length > 1))">
+            <div class="expand" *ngIf="(
+              (applicationTimeline['6.0']?.length + applicationTimeline['4.6']?.length > 1)
+            )">
               <mat-icon [inline]="true">expand_more</mat-icon>
               <mat-icon [inline]="true">expand_less</mat-icon>
             </div>
