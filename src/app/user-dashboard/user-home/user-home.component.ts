@@ -40,7 +40,8 @@ export class UserHomeComponent implements OnInit {
       this.userService
         .fetchUserApplications(this.userInfo.id)
         .subscribe((data) => {
-          this.applications = data.data;
+          this.applications = data.data.data;
+          console.log('apps', this.applications);
         });
     }
     this.timer = setInterval(() => {
