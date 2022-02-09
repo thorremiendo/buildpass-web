@@ -49,6 +49,10 @@ import { AssociateBpEgppComponent } from './associate-bp-egpp/associate-bp-egpp.
 import { EsigPdfPreviewComponent } from './esig-pdf-preview/esig-pdf-preview.component';
 import { InspectionCardComponent } from './inspection-card/inspection-card.component';
 import { InspectionDetailsComponent } from './inspection-details/inspection-details.component';
+import { ApplicationInfoComponent } from './application-info/application-info.component';
+import { ApplicationDocsComponent } from './application-docs/application-docs.component';
+import { DocumentViewComponent } from './document-view/document-view.component';
+import { DocumentRemarksComponent } from './document-remarks/document-remarks.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +87,10 @@ import { InspectionDetailsComponent } from './inspection-details/inspection-deta
     EsigPdfPreviewComponent,
     InspectionCardComponent,
     InspectionDetailsComponent,
+    ApplicationInfoComponent,
+    ApplicationDocsComponent,
+    DocumentViewComponent,
+    DocumentRemarksComponent,
   ],
   imports: [
     CommonModule,
@@ -118,6 +126,10 @@ import { InspectionDetailsComponent } from './inspection-details/inspection-deta
     PreviewDialogComponent,
     InspectionCardComponent,
     InspectionDetailsComponent,
+    ApplicationInfoComponent,
+    ApplicationDocsComponent,
+    DocumentViewComponent,
+    DocumentRemarksComponent,
   ],
   providers: [
     {

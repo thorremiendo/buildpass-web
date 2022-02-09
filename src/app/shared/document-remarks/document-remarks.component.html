@@ -1,0 +1,118 @@
+<div class="document-remarks container-fluid" *ngIf="!loading">
+    <span class="filter-toggle" (click)="toggleFilter()" *ngIf="!showFilter && !enableAddRemark">Filter</span>
+    
+    <mat-form-field appearance="outline" *ngIf="officeId != 7 && showFilter">
+      <mat-label>Office</mat-label>
+      <mat-select [ngModel]="officeId.toString()" (selectionChange)="chooseOffice($event.value)">
+          <mat-option value="1">CPDO</mat-option>
+          <mat-option value="2">CEPMO</mat-option>
+          <mat-option value="3">BFP</mat-option>
+          <mat-option value="4">CBAO</mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <table mat-table [dataSource]="remarksSorted" class="remarks-table" #remarksTable>
+      <ng-container matColumnDef="compliance"> 
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let item; let i = index" class="compliance">
+          <mat-checkbox
+            *ngIf="!item.label && officeId != 7 && userId == item.evaluator_user_id && item.remarks"
+            [checked]="item.date_time_complied"
+            (change)="setRemarkCompliance(item.id, $event)"
+          ></mat-checkbox>
+          <mat-icon *ngIf="item.date_time_complied && (officeId == 7 || userId != item.evaluator_user_id)">
+            check
+          </mat-icon>
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="remark">
+        <th mat-header-cell *matHeaderCellDef>Remark</th>
+        <td mat-cell *matCellDef="let item">
+          <div *ngIf="item.label && item.label != 'current'">
+            RETURNED TO APPLICANT, {{ item.label | date: "MM/dd/yyyy hh:mm:ss a":"+0800" }}
+          </div>
+          <div *ngIf="!item.label" id="remark-{{item.id}}" class="remark">
+            <div class="remark-container">
+              <div class="remark-content">
+                <div class="remark-text">
+                  {{ item.remarks ? item.remarks : "COMPLIANT"}}
+                </div>
+                <div class="remark-author">
+                  {{ item.evaluator_detail.first_name + ' ' + item.evaluator_detail.last_name }}
+                  ( {{ getOfficeType(item.evaluator_detail.employee_detail.office_id) }} )
+                </div>
+              </div>
+              <div class="remark-details">
+                <div class="remark-actions"
+                  *ngIf="!item.label && officeId != 7 && userId == item.evaluator_user_id && item.remarks"
+                >
+                  <button
+                    mat-button
+                    (click)="editRemark(item.id)"
+                    class="edit-remark-button"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button
+                    mat-button
+                    (click)="deleteRemark(item.id)"
+                    class="delete-remark-button"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+                <div class="remark-dates">
+                  <div class="created-date" *ngIf="item.created_at">
+                    CREATED {{ item.created_at | date: "MM/dd/yyyy hh:mm:ss a":"+0800" }}
+                  </div>
+                  <div class="complied-date" *ngIf="item.date_time_complied">
+                    COMPLIED {{ item.date_time_complied | date: "MM/dd/yyyy hh:mm:ss a":"+0800" }}
+                  </div>
+                  <div class="updated-date" *ngIf="item.updated_at && item.updated_at != item.created_at && item.updated_at != item.date_time_complied">
+                    UPDATED {{ item.updated_at | date: "MM/dd/yyyy hh:mm:ss a":"+0800" }}
+                  </div>
+                </div>
+              </div>
+              <div class="edit-remark">
+                <mat-form-field appearance="outline">
+                  <textarea rows="3" matInput id="edit-remark-{{item.id}}" [value]="item.remarks ? item.remarks : 'COMPLIANT'"></textarea>
+                </mat-form-field>
+                <div class="remark-author">
+                  {{ item.evaluator_detail.first_name + ' ' + item.evaluator_detail.last_name }}
+                  ( {{ getOfficeType(item.evaluator_detail.employee_detail.office_id) }} )
+                </div>
+                <div class="buttons">
+                  <button mat-button (click)="updateRemark(item.id)">Save</button>
+                  <button mat-button (click)="editRemark(item.id)">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr 
+        mat-row 
+        *matRowDef="let items; columns: displayedColumns" 
+        [ngClass]="{'compliant': items.date_time_complied, 'label': items.label}"
+      ></tr>
+    </table>
+  
+    <div class="add-remark" *ngIf="enableAddRemark">
+      <mat-form-field appearance="outline">
+        <textarea rows="5" matInput [(ngModel)]="newRemark" placeholder="Add Remark"></textarea>
+      </mat-form-field>
+      <button
+        mat-raised-button
+        color="warn"
+        type="button"
+        [disabled]="!newRemark" 
+        (click)="addRemark()"
+      >
+        Add
+      </button>
+    </div>
+</div>
+  

@@ -1,0 +1,177 @@
+<div class="application-info container-fluid" *ngIf="applicationInfo">
+    <mat-card>
+        <div class="application-overview">
+            <div class="row-1">
+                <div class="application-number">
+                    {{applicationInfo.permit_application_code}}
+                </div>
+                <div class="application-date">
+                    {{applicationInfo.submitted_at | date: "MMMM dd, yyyy"}}
+                </div>
+            </div>
+            <div class="row-2">
+                <div class="applicant-info" *ngIf="applicationInfo.user_detail">
+                    <div class="applicant-photo">
+                        <img [src]="applicationInfo.user_detail.photo_path" />
+                    </div>
+                    <div class="applicant-name">
+                        {{applicationInfo.user_detail.first_name}}
+                        {{applicationInfo.user_detail.middle_name}}
+                        {{applicationInfo.user_detail.last_name}}
+                        {{applicationInfo.user_detail.suffix_name}}
+                    </div>
+                    <div class="applicant-email">
+                        {{applicationInfo.user_detail.email_address}}
+                    </div>
+                    <div class="applicant-contact">
+                        {{applicationInfo.user_detail.contact_number}}
+                    </div>
+                </div>
+                <div>
+                    <div class="application-status">
+                        {{getApplicationStatus(applicationInfo.application_status_id)}}
+                    </div>
+                    <div class="application-details">
+                        <div>
+                            <div class="division-header">
+                                PROJECT INFORMATION
+                            </div>
+                            <ul>
+                                <li>
+                                    <span *ngIf="applicationInfo.project_detail.block_number">
+                                        BLOCK {{applicationInfo.project_detail.block_number}}
+                                    </span>
+                                    <span *ngIf="applicationInfo.project_detail.lot_number">
+                                        LOT {{applicationInfo.project_detail.lot_number}}
+                                    </span>
+                                    <span *ngIf="applicationInfo.project_detail.house_number">
+                                        # {{applicationInfo.project_detail.house_number}}
+                                    </span>
+                                    {{applicationInfo.project_detail.street_name}}
+                                    {{applicationInfo.project_detail.subdivision}}
+                                    {{applicationInfo.project_detail.barangay}}
+                                </li>
+                                <li>
+                                    <span class="link">More Info</span>
+                                </li>
+                            </ul>
+                            <div class="division-header">
+                                IDENTIFICATION
+                            </div>
+                            <ul>
+                                <li>
+                                    <span class="link">
+                                        Uploaded ID
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="link">
+                                        Selfie with ID
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="division-header">
+                                PERMIT TYPE
+                            </div>
+                            <ul>
+                                <li>
+                                    {{getApplicationType(applicationInfo.permit_type_id)}}
+                                </li>
+                            </ul>
+                            <div class="division-header">
+                                ASSOCIATED PERMITS
+                            </div>
+                            <ul>
+                                <li *ngIf="applicationInfo.main_permit_id">
+                                    <span class="link" (click)="getApplicationInfo(applicationInfo.main_permit_id)">
+                                        Building Permit
+                                    </span>
+                                </li>
+                                <li *ngIf="applicationInfo.sub_permit_type_id">
+                                    <span class="link" (click)="getApplicationInfo(applicationInfo.sub_permit_type_id)">
+                                        Excavation Permit
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+    <mat-card>
+        <div class="application-tabs">
+            <mat-tab-group [(selectedIndex)]="selectedTab">
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        Application
+                    </ng-template>
+                    <mat-tab-group>
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                <mat-icon [inline]="true">folder_open</mat-icon>
+                                Documents
+                            </ng-template>
+                            <app-application-docs
+                                *ngIf="applicationDocs"
+                                [docs]="applicationDocs"
+                                (emitDocument)="viewDocument($event)"
+                            ></app-application-docs>
+                        </mat-tab>
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                <mat-icon [inline]="true">money</mat-icon>
+                                Fees
+                            </ng-template>
+                            TEST
+                        </mat-tab>
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                <mat-icon [inline]="true">comment</mat-icon>
+                                Remarks
+                            </ng-template>
+                            TEST
+                        </mat-tab>
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                <mat-icon [inline]="true">attachment</mat-icon>
+                                Attachments
+                            </ng-template>
+                            TEST
+                        </mat-tab>
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                <mat-icon [inline]="true">remove_red_eye</mat-icon>
+                                Inspections
+                            </ng-template>
+                            TEST
+                        </mat-tab>
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                <mat-icon [inline]="true">timeline</mat-icon>
+                                Timeline
+                            </ng-template>
+                            <app-application-timeline
+                                [id]="applicationInfo.id"
+                                [type]="applicationInfo.permit_type_id"
+                            ></app-application-timeline>
+                        </mat-tab>
+                    </mat-tab-group>
+                </mat-tab>
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        Document
+                    </ng-template>
+                    <app-document-view
+                        *ngIf="selectedDocument"
+                        [document]="selectedDocument"
+                        [tab]="selectedDocumentTab"
+                        (emitUpdate)="updateDocument($event)"
+                    ></app-document-view>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </mat-card>
+</div>

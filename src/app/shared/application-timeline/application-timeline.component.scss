@@ -92,6 +92,8 @@
 }
 
 .application-timeline.flowchart {
+  padding-left: 30px;
+
   .row > .col-12 {
     padding: 30px;
   }
@@ -260,7 +262,7 @@
     min-height: 100px;
     background-color: rgb(248, 248, 248);
     border-radius: 10px;
-    padding: 25px;
+    padding: 25px 25px 15px 25px;  
     font-size: 16px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     cursor: pointer;
@@ -310,12 +312,13 @@
     }
 
     .timeline-box-label {
-      font-size: 20px;
+      font-size: 17px;
       font-weight: 700;
       margin-bottom: 10px;
     }
 
     .timeline-box-division-label {
+      font-size: 15px;
       font-weight: 700;
       margin-top: 10px;
       margin-bottom: 5px;
@@ -334,6 +337,7 @@
         }
 
         div:first-of-type {
+          font-size: 15px;
           font-weight: 500;
 
           &.green {
@@ -353,9 +357,9 @@
     .mat-icon {
       display: none;
       position: absolute;
-      top: 30px;
-      right: 50px;
-      font-size: 40px;
+      top: 15px;
+      right: 25px;
+      font-size: 35px;
       font-weight: 800;
 
       &.compliant {
@@ -372,7 +376,7 @@
     .expand {
       display: flex;
       justify-content: center;
-      margin-top: 10px;
+      margin-top: 15px;
 
       .mat-icon {
         display: initial;
@@ -381,8 +385,7 @@
         right: 0;
         bottom: 0;
         left: 0;
-        color: maroon;
-        font-size: 35px;
+        font-size: 30px;
         height: 10px;
         line-height: 10px;
 
@@ -450,12 +453,17 @@
     }
   }
 
-  @media (max-width: 991.5px) {
+  @media (max-width: 1199.5px) {
     .row > .col-12 > div::before,
     .row > .col-12 > div::after,
     .timeline-box::before,
     .timeline-box::after {
       outline: none !important;
+    }
+
+    .column-1, .column-2, .column-3 {
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
     }
   }
 }
