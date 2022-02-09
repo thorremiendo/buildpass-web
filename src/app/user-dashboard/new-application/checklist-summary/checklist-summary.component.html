@@ -1,4 +1,4 @@
-<div class="container" *ngIf="!isLoading && isAuthorized">
+<div class="application-summary" *ngIf="!isLoading && isAuthorized">
   <div class="row">
     <div class="d-flex justify-content-between w-100">
       <div>
@@ -6,7 +6,7 @@
         <h3>Permit Category: {{ permitType }}</h3>
         <hr />
         <h3 class="pt-5">Application Summary</h3>
-        <p style="color: maroon">
+        <p style="color: maroon"> 
           <strong
             >To submit your application, click on the "Submit" button at the
             bottom part of this page.</strong
@@ -29,17 +29,33 @@
             </div>
             <ul>
               <li
-                class="d-flex justify-content-between"
                 *ngFor="let element of category.data; let i = index"
               >
-                {{ i + 1 }}. {{ getDocType(element.document_id) }}
-                <button
-                  mat-button
-                  color="primary"
-                  (click)="goToLink(element.document_path)"
-                >
-                  <u>View</u>
-                </button>
+                <div class="index">
+                  {{ i + 1 }}.
+                </div>
+                <div *ngIf="category.label == 'Forms'" class="document forms">
+                  <div class="file-description">
+                    {{ getDocType(element.document_id) }}
+                  </div>
+                  <div class="file-actions">
+                    <a
+                      [href]="element.document_path"
+                      target="_blank"
+                    >
+                      View
+                    </a>
+                    <mat-icon *ngIf="element.document_path"> check_circle </mat-icon>
+                  </div>
+                </div>
+                <app-file-upload
+                  *ngIf="category.label != 'Forms'"
+                  (emitFile)="submitDocument($event, element.document_id)"
+                  description="{{ getDocType(element.document_id) }}"
+                  path="{{ element.document_path }}"
+                  class="document"
+                ></app-file-upload>
+                <br />
               </li>
             </ul>
           </div>
