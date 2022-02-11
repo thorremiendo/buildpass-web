@@ -6,7 +6,7 @@ import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
-import { RegisterAccountFormService, User, UserService } from '../../core';
+import { RegisterAccountFormService, User, UserService, SnackBarService } from '../../core';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
@@ -24,6 +24,7 @@ export class SignInComponent implements OnInit {
   public userDetails;
   public isSubmitting: boolean = false;
 
+
   constructor(
     private _authService: AuthService,
     private _router: Router,
@@ -33,7 +34,8 @@ export class SignInComponent implements OnInit {
     private _afs: AngularFirestore,
     private _registerAccountFormService: RegisterAccountFormService,
     private _userService: UserService,
-    private authService: AuthService
+    private _snackBarService: SnackBarService,
+
   ) {
     this.createForm();
   }
@@ -55,26 +57,42 @@ export class SignInComponent implements OnInit {
       this._authService
         .SignIn(value)
         .then((result) => {
-          if (result.user.emailVerified == true) {
-            this.SetUserDataFire(result.user.uid, result.user.emailVerified);
-            this._authService.getToken(result.user.uid);
-            this.isSubmitting = false;
-          } else {
-            this._userService
-              .autoResendVerification(this._signinForm.value.email)
-              .subscribe((res) => {
-                if (res.message == 'Email sent') {
-                  window.alert(
-                    'Email not yet verified, kindly check your email to verify'
-                  );
-                  this.isSubmitting = false;
-                } else {
-                  window.alert('Something went wrong kindly contact admin');
-                }
+          var uid = result.user.uid
+          var emailVerified = result.user.emailVerified;
+          console.log(result)
+          this._authService.getToken(result.user.uid).subscribe(
+            (result) => {
+            if (emailVerified) {
+              this.SetUserDataFire(uid, emailVerified);
+              const token = result.data.token;
+              this._authService.saveToken(token);
+              this._userService.getUserInfo(uid).subscribe((data) => {
+                this._authService.currentUserSubject.next(data);
+                this._router.navigate(['dashboard/home']);
               });
-          }
+              this.isSubmitting = false;
+            }
+            // else{
+
+            // }
+          },
+            (err) => {
+              this.isSubmitting = false;
+               let errorMessage = err.error.message;
+               console.log(errorMessage);
+               if(errorMessage == "User Not Found."){
+                this._snackBarService.open(errorMessage, close)
+                this._registerAccountFormService.setRegisterAccountInfo(value);
+                this._router.navigate(['registration']);
+
+               }
+
+            });
+    
         })
         .catch((error) => {
+          console.log(error);
+         // this._snackBarService.open(error,close,3)
           this.isSubmitting = false;
         });
     }
@@ -105,6 +123,7 @@ export class SignInComponent implements OnInit {
         });
       })
       .catch((error) => {
+        this._snackBarService.open(error,close,3)
         this.isSubmitting = false;
       });
   }
@@ -164,7 +183,7 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.isAuthenticated
+    this._authService.isAuthenticated
       .pipe(
         switchMap((isAuthenticated) => {
           if (!isAuthenticated) {
@@ -172,12 +191,12 @@ export class SignInComponent implements OnInit {
           } else {
             this._router.navigateByUrl('/dashboard/applications');
           }
-          return this.authService.currentUser;
+          return this._authService.currentUser;
         })
       )
       .subscribe((currentUser) => {
         if (currentUser && currentUser.roles && currentUser.roles.length) {
-          this.authService.purgeAuth();
+          this._authService.purgeAuth();
           this._router.navigateByUrl('user/sign-in');
         }
 
