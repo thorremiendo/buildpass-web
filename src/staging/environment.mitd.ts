@@ -6,7 +6,7 @@
 
 export const environment = {
     production: false,
-    api_url: `https://buildtest.baguio.gov.ph/api/api`,
+    api_url: `https://buildtest.baguio.gov.ph/api`,
   
     firebase: {
       apiKey: "AIzaSyCTCQAnOkASHslp8No3KbiiPuwMaJPixjM",
