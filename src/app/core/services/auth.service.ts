@@ -124,7 +124,8 @@ export class AuthService {
         window.alert('Email Verified');
       })
       .catch((error) => {
-        window.alert(error.message);
+        this.snackBarService.open(error.message, 'close')
+        //window.alert(error.message);
       });
   }
 

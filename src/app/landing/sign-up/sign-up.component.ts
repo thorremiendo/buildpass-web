@@ -102,7 +102,7 @@ export class SignUpComponent implements OnInit {
             this.fireBaseUid = result.user;
             this.fireBaseUser = user;
             this.SetUserDataFireGoogle(this.fireBaseUser);
-            this.createUserDetailsGoogle(this.fireBaseUser);
+            //this.createUserDetailsGoogle(this.fireBaseUser);
             this._registerAccountFormService.setRegisterAccountInfo(
               this.userDetails
             );
@@ -134,22 +134,24 @@ export class SignUpComponent implements OnInit {
       is_evaluator: false,
       provider: 'google',
     };
+
+    this.userDetails = userData
     return userRef.set(userData, {
       merge: true,
     });
   }
 
-  createUserDetailsGoogle(user) {
-    this.userDetails = {
-      firebase_uid: this.fireBaseUid.uid,
-      first_name: user.given_name,
-      last_name: user.family_name,
-      email: user.email,
-      is_evaluator: false,
-      emailVerified: user.verified_email,
-      provider: 'google',
-    };
-  }
+  // createUserDetailsGoogle(user) {
+  //   this.userDetails = {
+  //     uid: this.fireBaseUid.uid,
+  //     first_name: user.given_name,
+  //     last_name: user.family_name,
+  //     email: user.email,
+  //     is_evaluator: false,
+  //     emailVerified: user.verified_email,
+  //     provider: 'google',
+  //   };
+  // }
 
   get signupFormControl() {
     return this._signupForm.controls;
