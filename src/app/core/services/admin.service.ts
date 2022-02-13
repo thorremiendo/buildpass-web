@@ -28,6 +28,7 @@ export class AdminService  {
         .set('is_reevaluation', params.isReevaluationStatus ? params.isReevaluationStatus : '')
         .set('date_range_start', params.dateStart ? params.dateStart : '')
         .set('date_range_end', params.dateEnd ? params.dateEnd : '')
+        .set('is_ascending', params.sortType ? params.sortType : '')
         .set('page', params.pageIndex)
         .set('items_per_page', params.pageSize)
         .set('is_include_incomplete', params.incompleteFlag);

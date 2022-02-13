@@ -1,54 +1,47 @@
 <div class="file-upload container-fluid">
-  <div class="row">
-    <div class="file-description col-10">
-      <p style="font-weight: bold; color: maroon">{{ fileDescription }}</p>
+  <div class="document">
+    <div class="file-description">
+      {{ description }}
     </div>
-    <div class="col-2" *ngIf="formId !== '194'">
-      <mat-slide-toggle
-        [(ngModel)]="isOptional"
-        *ngIf="!filePath"
-        (change)="onToggleChange($event)"
-        ><span style="font-size: 14px; font-weight: bold"
-          >Not Applicable</span
-        ></mat-slide-toggle
-      >
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-8"></div>
-    <div class="file-actions col-4">
+    <div class="file-actions">
       <div *ngIf="!loading">
-        <a *ngIf="infoPath" [href]="infoPath" target="_blank">Info</a>
-        <a *ngIf="filePath" [href]="filePath" target="_blank">View File</a>
-        <span *ngIf="filePath" (click)="toggleEditMode()">{{
-          editMode ? "Close" : "Change"
-        }}</span>
-        <mat-icon *ngIf="file || filePath"> check_circle </mat-icon>
+        <a *ngIf="info" [href]="info" target="_blank">Info</a>
+        
+        <a *ngIf="filePath" [href]="filePath" target="_blank">View</a>
+
+        <span *ngIf="filePath"
+          (click)="toggleEditMode()"
+        >
+          {{ editMode ? "Close" : "Change" }}
+        </span>
+
+        <mat-icon *ngIf="filePath"> check_circle </mat-icon>
+
+        <mat-slide-toggle
+          *ngIf="!filePath && optional"
+          [(ngModel)]="isOptional"
+          (change)="toggleOptional($event)"
+        >
+          Not Applicable
+        </mat-slide-toggle>
       </div>
-      <mat-spinner *ngIf="loading" [diameter]="20"> </mat-spinner>
+
+      <mat-spinner *ngIf="loading" [diameter]="20"></mat-spinner>
     </div>
   </div>
 
-  <ng-container *ngIf="!isOptional">
-    <ngx-dropzone
-      *ngIf="!filePath || editMode"
-      (change)="onSelect($event)"
-      [multiple]="false"
-      accept="application/pdf"
-      [disabled]="loading"
-    >
-      <ngx-dropzone-label> Click here to upload your file. </ngx-dropzone-label>
-      <ngx-dropzone-preview
-        *ngIf="file"
-        [removable]="false"
-        (removed)="onRemove()"
-        class="mx-auto"
+  <div *ngIf="!isOptional && (!filePath || editMode)">
+    <div class="file-drop">
+      <ngx-dropzone
+        (change)="onSelect($event)"
+        accept="application/pdf"
+        [multiple]="false"
+        [disabled]="loading"
       >
         <ngx-dropzone-label>
-          {{ file.name }}
-          ({{ file.type }})
+          Click here or drop file to upload.
         </ngx-dropzone-label>
-      </ngx-dropzone-preview>
-    </ngx-dropzone>
-  </ng-container>
+      </ngx-dropzone>
+    </div>
+  </div>
 </div>

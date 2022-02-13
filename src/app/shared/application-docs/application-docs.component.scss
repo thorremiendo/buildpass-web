@@ -1,0 +1,158 @@
+.application-docs {
+    .loader {
+        display: flex;
+        justify-content: center;
+        margin: 70px 0;
+    }
+    
+    table {
+        width: 100%;
+
+        .mat-header-cell {
+            font-size: 15px;
+            font-weight: 600;
+            text-align: center;
+            color: black;
+            text-decoration: none !important;
+        }
+
+        .doc-category-header {
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none !important;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .pending {
+            td:first-of-type {
+                color: lightgray;
+            }
+        }
+
+        .not-applicable {
+            background-color: rgb(248, 214, 151);
+
+            td:first-of-type {
+                color: orange;
+            }
+
+            td:nth-of-type(3) {
+                color: orange;
+                font-weight: 600;
+            }
+        }
+        
+        .compliant {
+            background-color: #dcedc8;
+
+            td:first-of-type {
+                color: green;
+            }
+
+            td:nth-of-type(3) {
+                color: green;
+                font-weight: 600;
+            }
+        }
+
+        .non-compliant {
+            background-color: #cf513d;
+
+            td {
+                color: #fff !important;
+            }
+
+            td:nth-of-type(3) {
+                font-weight: 600;
+            }
+        }
+
+        .remark {
+            cursor: pointer;
+        }
+    }
+
+    .mat-column-index {
+        word-wrap: break-word !important;
+        white-space: unset !important;
+        flex: 0 0 5% !important;
+        width: 5% !important;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-word;
+        -ms-hyphens: auto;
+        -moz-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto;
+
+        ::ng-deep .mat-icon {
+            font-size: 25px;
+            margin-right: 15px;
+        }
+    }
+
+    .mat-column-name {
+        word-wrap: break-word !important;
+        white-space: unset !important;
+        flex: 0 0 65% !important;
+        width: 65% !important;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-word;
+        -ms-hyphens: auto;
+        -moz-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto;
+        font-size: 15px;
+
+        .document-link {
+            padding: 10px 0;
+            display: block;
+            width: 100%;
+            cursor: pointer;
+
+            &:hover {
+                font-weight: 400;
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .mat-column-status {
+        word-wrap: break-word !important;
+        white-space: unset !important;
+        flex: 0 0 20% !important;
+        width: 20% !important;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-word;
+        -ms-hyphens: auto;
+        -moz-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto;
+        text-align: center;
+    }
+
+    .mat-column-remarks {
+        word-wrap: break-word !important;
+        white-space: unset !important;
+        flex: 0 0 10% !important;
+        width: 10% !important;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-word;
+        -ms-hyphens: auto;
+        -moz-hyphens: auto;
+        -webkit-hyphens: auto;
+        hyphens: auto;
+        text-align: center;
+
+        ::ng-deep .mat-icon {
+            font-size: 25px;
+            margin-right: 15px;
+        }
+    }
+}

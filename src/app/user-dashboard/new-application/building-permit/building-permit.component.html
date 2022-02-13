@@ -164,8 +164,7 @@
             description="{{ field.description }}"
             path="{{ field.path }}"
             info="{{ field.info }}"
-            formId="{{ field.id }}"
-            [applicationDetails]="applicationDetails"
+            optional="{{ field.id !== '194' }}"
           ></app-file-upload>
         </div>
       </div>

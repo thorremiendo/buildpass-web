@@ -49,6 +49,10 @@ import { AssociateBpEgppComponent } from './associate-bp-egpp/associate-bp-egpp.
 import { EsigPdfPreviewComponent } from './esig-pdf-preview/esig-pdf-preview.component';
 import { InspectionCardComponent } from './inspection-card/inspection-card.component';
 import { InspectionDetailsComponent } from './inspection-details/inspection-details.component';
+import { ApplicationInfoComponent } from './application-info/application-info.component';
+import { ApplicationDocsComponent } from './application-docs/application-docs.component';
+import { DocumentViewComponent } from './document-view/document-view.component';
+import { DocumentRemarksComponent } from './document-remarks/document-remarks.component';
 import { StepOneDialogComponent } from './step-one-dialog/step-one-dialog.component';
 
 @NgModule({
@@ -84,6 +88,10 @@ import { StepOneDialogComponent } from './step-one-dialog/step-one-dialog.compon
     EsigPdfPreviewComponent,
     InspectionCardComponent,
     InspectionDetailsComponent,
+    ApplicationInfoComponent,
+    ApplicationDocsComponent,
+    DocumentViewComponent,
+    DocumentRemarksComponent,
     StepOneDialogComponent,
   ],
   imports: [
@@ -120,6 +128,10 @@ import { StepOneDialogComponent } from './step-one-dialog/step-one-dialog.compon
     PreviewDialogComponent,
     InspectionCardComponent,
     InspectionDetailsComponent,
+    ApplicationInfoComponent,
+    ApplicationDocsComponent,
+    DocumentViewComponent,
+    DocumentRemarksComponent,
   ],
   providers: [
     {

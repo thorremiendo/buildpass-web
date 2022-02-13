@@ -282,6 +282,19 @@
               </mat-form-field>
             </div>
           </div>
+          <div class="sort-selector row">
+            <div class="filter-label col-4">
+              Sort
+            </div>
+            <div class="col-8">
+              <mat-form-field appearance="outline">
+                <mat-select [formControl]="sortType">
+                  <mat-option value="0">Newest First</mat-option>
+                  <mat-option value="1">Oldest First</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
           <div class="clear-filters row" *ngIf="filterCount">
             <span (click)="clearFilters()">
               Clear Filters

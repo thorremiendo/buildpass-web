@@ -1,15 +1,53 @@
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins/breakpoints";
+.application-summary {
+  padding: 0 50px 30px;
 
-
-.container {
-  h4 {
-    color:maroon;
-    font-weight: 600;
+  .illustration{
+    width: 200px;
+    height: auto;
   }
-}
-.illustration{
-  width: 200px;
-  height: auto;
+
+  ul {
+    list-style: none;
+
+    li {
+      display: flex;
+
+      .index {
+        font-weight: 400;
+        min-width: 10px;
+        text-align: right;
+      }
+
+      .document {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 15px;
+        width: 100%;
+
+        &.forms {
+          margin-bottom: 15px;
+        }
+        
+        .file-description {
+          font-weight: 500;
+        }
+
+        .file-actions {
+          display: flex;
+          align-items: flex-start;
+          justify-content: flex-end;
+
+          a, span {
+            margin: 0 10px;
+            cursor: pointer;
+          }
+
+          .mat-icon {
+            color: green;
+          }
+        }
+      }
+    }
+  }
 }

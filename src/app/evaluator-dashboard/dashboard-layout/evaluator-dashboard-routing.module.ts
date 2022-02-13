@@ -22,6 +22,7 @@ import { EvaluatorGuard } from 'src/app/core/guard/evaluator.guard';
 import { EvaluatorAuthGuard } from 'src/app/core/guard/evaluator-guard';
 import { FeedbackComponent } from 'src/app/shared/feedback/feedback.component';
 import { ReportIssueComponent } from 'src/app/shared/report-issue/report-issue.component';
+import { ApplicationInfoComponent } from 'src/app/shared/application-info/application-info.component';
 
 const routes: Routes = [
   {
@@ -63,6 +64,10 @@ const routes: Routes = [
       {
         path: 'application/:id',
         component: ApplicationDetailsComponent,
+      },
+      {
+        path: 'application/:id/test',
+        component: ApplicationInfoComponent,
       },
       {
         path: 'application/:id/:docId',

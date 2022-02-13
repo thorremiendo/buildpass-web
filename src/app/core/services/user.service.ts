@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { distinctUntilChanged, map, catchError } from 'rxjs/operators';
 import { UserModel } from '../models/user.model';
 import { ApiService } from './api.service';
+import { HttpParams } from "@angular/common/http";
 import * as Rx from 'rxjs/Rx';
 
 @Injectable({
@@ -51,17 +52,22 @@ export class UserService {
     );
   }
 
-  fetchUserApplications(id: string | number): Observable<any> {
-    const url = `/user/${id}/application`;
+  fetchUserApplications(params): Observable<any> {
+    const url = `/user/${params.userId}/application`;
+    let httpParams;
+    if (params) {
+      httpParams = new HttpParams()
+        .set('search_term', params.searchKey ? params.searchKey : '')
+        .set('permit_type_id', params.permitType ? params.permitType : '')
+        .set('is_compliance', params.complianceStatus ? params.complianceStatus : '')
+        .set('date_range_start', params.dateStart ? params.dateStart : '')
+        .set('date_range_end', params.dateEnd ? params.dateEnd : '')
+        .set('is_ascending', params.sortType ? params.sortType : '')
+        .set('page', params.pageIndex)
+        .set('items_per_page', params.pageSize)
+    }
 
-    return this._api.get(url).pipe(
-      map((data: any) => {
-        return data;
-      }),
-      catchError((error) => {
-        return throwError('Something went wrong.');
-      })
-    );
+    return this._api.get(url, httpParams).pipe(map(res => res.data));
   }
 
   autoResendVerification(email){

@@ -1,0 +1,119 @@
+.application-info {
+    .application-overview {
+        padding: 30px;
+
+        .row-1 {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .row-2 {
+            display: flex;
+
+            > div:first-of-type {
+                width: 30%;
+            }
+
+            > div:last-of-type {
+                width: 70%;
+            }
+        }
+
+        .application-number {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .application-date {
+            font-size: 16px;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .applicant-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 25px 0 0;
+
+            .applicant-photo {
+                display: flex;
+                justify-content: center;
+                height: 130px;
+                width: 130px;
+                border-radius: 100%;
+                overflow: hidden;
+                margin-bottom: 15px;
+
+                img {
+                    height: 130px;
+                }
+            }
+
+            .applicant-name {
+                font-size: 18px;
+                font-weight: 700;
+            }
+
+            .applicant-email,
+            .applicant-contact {
+                font-size: 15px;
+            }
+        }
+
+        .application-status {
+            font-size: 25px;
+            font-weight: 700;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .application-details {
+            display: flex;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+
+            > div {
+                width: 40%;
+            }
+
+            .division-header {
+                font-weight: 600;
+            }
+
+            ul {
+                margin: 0 0 20px 0;
+                padding: 0;
+                list-style-type: none;
+
+                li {
+                    font-size: 15px;
+                }
+            }
+
+            .link {
+                color:#007bff;
+                cursor: pointer;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+    .application-tabs {
+        padding: 30px;
+
+        > .mat-tab-group > ::ng-deep .mat-tab-header {
+            display: none;
+        }
+
+        ::ng-deep .mat-tab-label {
+            .mat-icon {
+                font-size: 25px;
+                padding-right: 5px;
+            }
+        }
+    }
+}

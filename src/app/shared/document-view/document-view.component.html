@@ -1,0 +1,69 @@
+<div class="document-view" *ngIf="document">
+    <div class="row-1">
+        <div class="back-button" (click)="goBack()">
+            <mat-icon [inline]="true">
+                keyboard_backspace
+            </mat-icon>
+            <span>Back</span>
+        </div>
+        <div class="document-name" *ngIf="documentType">
+            {{documentType}}
+        </div>
+    </div>
+    <div>
+        <mat-tab-group [(selectedIndex)]="tab">
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon [inline]="true">
+                        assignment
+                    </mat-icon>
+                    Document
+                </ng-template>
+                <div 
+                    class="pdf-viewer" 
+                    [ngClass]="{'hidden': loading}"
+                >
+                    <ngx-extended-pdf-viewer
+                        [src]="document.document_path"
+                        [showToolbar]="true"
+                        [showSidebarButton]="false"
+                        [showFindButton]="false"
+                        [showPagingButtons]="false"
+                        [showZoomButtons]="true"
+                        [showPresentationModeButton]="true"
+                        [showOpenFileButton]="false"
+                        [showPrintButton]="false"
+                        [showDownloadButton]="true"
+                        [showBookmarkButton]="false"
+                        [showSecondaryToolbarButton]="true"
+                        [showRotateButton]="true"
+                        [showHandToolButton]="false"
+                        [showScrollingButton]="false"
+                        [showSpreadButton]="false"
+                        [showPropertiesButton]="false"
+                        [useBrowserLocale]="true"
+                        [ignoreKeyboard]="true"
+                        [zoom]="'page-width'"
+                        pageViewMode="infinite-scroll"
+                        (pdfLoaded)="pdfLoaded($event)"
+                    >
+                    </ngx-extended-pdf-viewer>
+                </div>
+                <div class="loader" *ngIf="loading">
+                    <mat-spinner [diameter]="50"></mat-spinner>
+                </div>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon [inline]="true">
+                        comment
+                    </mat-icon>
+                    Remarks
+                </ng-template>
+                <app-document-remarks
+                    [document]="document"
+                ></app-document-remarks>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>
