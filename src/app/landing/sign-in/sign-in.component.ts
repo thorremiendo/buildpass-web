@@ -6,7 +6,12 @@ import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
-import { RegisterAccountFormService, User, UserService, SnackBarService } from '../../core';
+import {
+  RegisterAccountFormService,
+  User,
+  UserService,
+  SnackBarService,
+} from '../../core';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
@@ -24,7 +29,6 @@ export class SignInComponent implements OnInit {
   public userDetails;
   public isSubmitting: boolean = false;
 
-
   constructor(
     private _authService: AuthService,
     private _router: Router,
@@ -34,8 +38,7 @@ export class SignInComponent implements OnInit {
     private _afs: AngularFirestore,
     private _registerAccountFormService: RegisterAccountFormService,
     private _userService: UserService,
-    private _snackBarService: SnackBarService,
-
+    private _snackBarService: SnackBarService
   ) {
     this.createForm();
   }
@@ -57,49 +60,49 @@ export class SignInComponent implements OnInit {
       this._authService
         .SignIn(value)
         .then((result) => {
-
           this.user = {
             uid: result.user.uid,
             emailVerified: result.user.emailVerified,
             email: result.user.email,
-            status: 'incomplete'
-          }
+            status: 'incomplete',
+          };
 
-         
-          console.log(result)
+          console.log(result);
           this._authService.getToken(this.user.uid).subscribe(
             (result) => {
-            if (this.user.emailVerified) {
-              this.SetUserDataFire(this.user.uid, this.user.emailVerified);
-              const token = result.data.token;
-              this._authService.saveToken(token);
-              this._userService.getUserInfo(this.user.uid).subscribe((data) => {
-                this._authService.currentUserSubject.next(data);
-                this._router.navigate(['dashboard/home']);
-              });
-              this.isSubmitting = false;
-            }
-            // else{
-
-            // }
-          },
+              if (this.user.emailVerified) {
+                this.SetUserDataFire(this.user.uid, this.user.emailVerified);
+                const token = result.data.token;
+                this._authService.saveToken(token);
+                this._userService
+                  .getUserInfo(this.user.uid)
+                  .subscribe((data) => {
+                    this._authService.currentUserSubject.next(data);
+                    this._router.navigate(['dashboard/home']);
+                  });
+                this.isSubmitting = false;
+              }
+            },
             (err) => {
               this.isSubmitting = false;
-               let errorMessage = err.error.message;
-               console.log(errorMessage);
-               if(errorMessage == "User Not Found."){
-                this._snackBarService.open('Please complete your registration', 'close')
-                this._registerAccountFormService.setRegisterAccountInfo(this.user);
+              let errorMessage = err.error.message;
+              console.log(errorMessage);
+              if (errorMessage == 'User Not Found.') {
+                this._snackBarService.open(
+                  'Please complete your registration',
+                  'close'
+                );
+                this._registerAccountFormService.setRegisterAccountInfo(
+                  this.user
+                );
                 this._router.navigate(['registration']);
-
-               }
-
-            });
-    
+              }
+            }
+          );
         })
         .catch((error) => {
           console.log(error);
-         // this._snackBarService.open(error,close,3)
+          // this._snackBarService.open(error,close,3)
           this.isSubmitting = false;
         });
     }
@@ -130,7 +133,7 @@ export class SignInComponent implements OnInit {
         });
       })
       .catch((error) => {
-        this._snackBarService.open(error,close,3)
+        this._snackBarService.open(error, 'close');
         this.isSubmitting = false;
       });
   }
