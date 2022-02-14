@@ -14,7 +14,7 @@ import {
 } from '@angular/fire/firestore';
 import { FormValidatorService } from '../../core/services/form-validator.service';
 import { User } from '../../core/models/user.model';
-import { RegisterAccountFormService } from '../../core';
+import { RegisterAccountFormService, SnackBarService, UserService } from '../../core';
 
 @Component({
   selector: 'app-sign-up',
@@ -26,7 +26,7 @@ export class SignUpComponent implements OnInit {
   public fireBaseUid: any;
   public hide: boolean = true;
   public userDetails;
-
+  private user;
   _signupForm: FormGroup;
   _submitted = false;
 
@@ -37,7 +37,9 @@ export class SignUpComponent implements OnInit {
     private _formValidator: FormValidatorService,
     private _afs: AngularFirestore,
     private _registerAccountFormService: RegisterAccountFormService,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
+    private _snackBarService: SnackBarService,
+    private _userService: UserService,
   ) {
     this.createForm();
   }
@@ -89,14 +91,55 @@ export class SignUpComponent implements OnInit {
     }
   }
 
-  tryGoogle() {
+   tryGoogle() {
+    //this.isSubmitting = true;
     this._authService
       .GoogleAuth()
       .then((result) => {
-        this._authService.currentUserSubject.next(result);
         this._ngZone.run(() => {
+
+          this.user = {
+            uid: result.user.uid,
+            emailVerified: result.user.emailVerified,
+            email: result.user.email,
+            status: 'incomplete',
+          };
+
           if (result.additionalUserInfo.isNewUser != true) {
-            this._authService.getToken(result.user.uid);
+            this.SetUserDataFire(this.user.uid, this.user.emailVerified);
+            //this._authService.getToken(result.user.uid);
+            this._authService.getToken(this.user.uid).subscribe(
+              (result) => {
+                if (this.user.emailVerified) {
+                  this.SetUserDataFire(this.user.uid, this.user.emailVerified);
+                  const token = result.data.token;
+                  this._authService.saveToken(token);
+                  this._userService
+                    .getUserInfo(this.user.uid)
+                    .subscribe((data) => {
+                      this._authService.currentUserSubject.next(data);
+                      this._router.navigate(['dashboard/home']);
+                    });
+                 // this.isSubmitting = false;
+                }
+              },
+              (err) => {
+                //this.isSubmitting = false;
+                let errorMessage = err.error.message;
+                console.log(errorMessage);
+                if (errorMessage == 'User Not Found.') {
+                  this._snackBarService.open(
+                    'Please complete your registration',
+                    'close'
+                  );
+                  this._registerAccountFormService.setRegisterAccountInfo(
+                    this.user
+                  );
+                  this._router.navigate(['registration']);
+                }
+              }
+            );
+           // this.isSubmitting = false;
           } else {
             const user = result.additionalUserInfo.profile;
             this.fireBaseUid = result.user;
@@ -106,14 +149,14 @@ export class SignUpComponent implements OnInit {
             this._registerAccountFormService.setRegisterAccountInfo(
               this.userDetails
             );
+           // this.isSubmitting = false;
             this._router.navigateByUrl('registration');
           }
         });
-        // this.SetUserData(result.user);
       })
       .catch((error) => {
-        console.log(error.message);
-        window.alert(error.message);
+        this._snackBarService.open(error, 'close');
+        //this.isSubmitting = false;
       });
   }
 
@@ -121,12 +164,25 @@ export class SignUpComponent implements OnInit {
     this.createForm();
   }
 
+  SetUserDataFire(user, emailVerified) {
+    const userRef: AngularFirestoreDocument<any> = this._afs.doc(
+      `users/${user}`
+    );
+
+    const userData = {
+      emailVerified: emailVerified,
+    };
+    return userRef.set(userData, {
+      merge: true,
+    });
+  }
+
   SetUserDataFireGoogle(user) {
     const userRef: AngularFirestoreDocument<any> = this._afs.doc(
       `users/${this.fireBaseUid.uid}`
     );
-    const userData: User = {
-      firebase_uid: this.fireBaseUid.uid,
+    const userData = {
+      uid: this.fireBaseUid.uid,
       email: user.email,
       first_name: user.given_name,
       last_name: user.family_name,
@@ -136,6 +192,7 @@ export class SignUpComponent implements OnInit {
     };
 
     this.userDetails = userData
+
     return userRef.set(userData, {
       merge: true,
     });

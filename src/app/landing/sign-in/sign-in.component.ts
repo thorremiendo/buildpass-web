@@ -162,7 +162,7 @@ export class SignInComponent implements OnInit {
             this.fireBaseUid = result.user;
             this.fireBaseUser = user;
             this.SetUserDataFireGoogle(this.fireBaseUser);
-            this.createUserDetailsGoogle(this.fireBaseUser);
+            //this.createUserDetailsGoogle(this.fireBaseUser);
             this._registerAccountFormService.setRegisterAccountInfo(
               this.userDetails
             );
@@ -194,8 +194,8 @@ export class SignInComponent implements OnInit {
     const userRef: AngularFirestoreDocument<any> = this._afs.doc(
       `users/${this.fireBaseUid.uid}`
     );
-    const userData: User = {
-      firebase_uid: this.fireBaseUid.uid,
+    const userData = {
+      uid: this.fireBaseUid.uid,
       email: user.email,
       first_name: user.given_name,
       last_name: user.family_name,
@@ -203,33 +203,35 @@ export class SignInComponent implements OnInit {
       is_evaluator: false,
       provider: 'google',
     };
+
+    this.userDetails = userData;
     return userRef.set(userData, {
       merge: true,
     });
   }
 
-  createUserDetails(value) {
-    this.userDetails = {
-      firebase_uid: this.fireBaseUser.uid,
-      first_name: value.first_name,
-      last_name: value.last_name,
-      email_address: value.email,
-      is_evaluator: false,
-      emailVerified: this.fireBaseUser.emailVerified,
-    };
-  }
+  // createUserDetails(value) {
+  //   this.userDetails = {
+  //     firebase_uid: this.fireBaseUser.uid,
+  //     first_name: value.first_name,
+  //     last_name: value.last_name,
+  //     email_address: value.email,
+  //     is_evaluator: false,
+  //     emailVerified: this.fireBaseUser.emailVerified,
+  //   };
+  // }
 
-  createUserDetailsGoogle(user) {
-    this.userDetails = {
-      firebase_uid: this.fireBaseUid.uid,
-      first_name: user.given_name,
-      last_name: user.family_name,
-      email: user.email,
-      is_evaluator: false,
-      emailVerified: user.verified_email,
-      provider: 'google',
-    };
-  }
+  // createUserDetailsGoogle(user) {
+  //   this.userDetails = {
+  //     firebase_uid: this.fireBaseUid.uid,
+  //     first_name: user.given_name,
+  //     last_name: user.family_name,
+  //     email: user.email,
+  //     is_evaluator: false,
+  //     emailVerified: user.verified_email,
+  //     provider: 'google',
+  //   };
+  // }
 
   ngOnInit(): void {
     this._authService.isAuthenticated
