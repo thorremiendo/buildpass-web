@@ -114,9 +114,48 @@ export class SignInComponent implements OnInit {
       .GoogleAuth()
       .then((result) => {
         this._ngZone.run(() => {
+
+          this.user = {
+            uid: result.user.uid,
+            emailVerified: result.user.emailVerified,
+            email: result.user.email,
+            status: 'incomplete',
+          };
+
           if (result.additionalUserInfo.isNewUser != true) {
-            this.SetUserDataFire(result.user.uid, result.user.emailVerified);
-            this._authService.getToken(result.user.uid);
+            this.SetUserDataFire(this.user.uid, this.user.emailVerified);
+            //this._authService.getToken(result.user.uid);
+            this._authService.getToken(this.user.uid).subscribe(
+              (result) => {
+                if (this.user.emailVerified) {
+                  this.SetUserDataFire(this.user.uid, this.user.emailVerified);
+                  const token = result.data.token;
+                  this._authService.saveToken(token);
+                  this._userService
+                    .getUserInfo(this.user.uid)
+                    .subscribe((data) => {
+                      this._authService.currentUserSubject.next(data);
+                      this._router.navigate(['dashboard/home']);
+                    });
+                  this.isSubmitting = false;
+                }
+              },
+              (err) => {
+                this.isSubmitting = false;
+                let errorMessage = err.error.message;
+                console.log(errorMessage);
+                if (errorMessage == 'User Not Found.') {
+                  this._snackBarService.open(
+                    'Please complete your registration',
+                    'close'
+                  );
+                  this._registerAccountFormService.setRegisterAccountInfo(
+                    this.user
+                  );
+                  this._router.navigate(['registration']);
+                }
+              }
+            );
             this.isSubmitting = false;
           } else {
             const user = result.additionalUserInfo.profile;
