@@ -1,40 +1,60 @@
 <div *ngIf="show_message_notif">
-    <button [matMenuTriggerFor]="message" (menuOpened)="updateChatConvo()" mat-icon-button class="m-r-5">
-        <p class="pt-2">
-          <mat-icon matBadge={{messages.length}} matBadgeColor="secondary"
-            >mail
-          </mat-icon>
-        </p>
-</button>
-<mat-menu #message="matMenu" class="mymessage">
+  <button
+    [matMenuTriggerFor]="message"
+    (menuOpened)="updateChatConvo()"
+    mat-icon-button
+    class="m-r-5"
+  >
+    <p class="pt-2">
+      <mat-icon matBadge="{{ messages.length }}" matBadgeColor="secondary"
+        >mail
+      </mat-icon>
+    </p>
+  </button>
+  <mat-menu #message="matMenu" class="mymessage">
     <div class="mailbox">
-        <ul>
-            <li>
-                <div class="drop-title">New Messages</div>
-            </li>
-            <li>
-                <div *ngIf="messages" class="message-center">
-                    <perfect-scrollbar>
-                        <!-- Message -->
-                        <a (click)="openMessage(message)" *ngFor="let message of messages.slice().reverse() "> 
-                            <div class="user-img">
-                                <img src="{{ message.sender_detail.photo_path }}" alt="user" class="img-circle" width="40">
-                                <!-- <span class="profile-status {{mymessage.status}} pull-right"></span> -->
-                            </div>
-                            <div class="mail-content">
-                                <h5>{{ message.sender_detail.first_name }}
-                                    {{ message.sender_detail.last_name }}</h5>
-                                <span class="mail-desc">{{message.convo[0].message}}</span>
-                                <!-- <span class="time" [style.color] = "feed.is_viewed == 0 ? 'blue' : 'grey'"> {{ myMessage.created_at | dateAgo }}</span> -->
-                                <span class="time" [style.color] = "grey"> {{ message.created_at | dateAgo }}</span>
-                            </div>
-                        </a>
-                        <!-- Message -->
-                    </perfect-scrollbar>
+      <ul>
+        <li>
+          <div class="drop-title">New Messages</div>
+        </li>
+        <li>
+          <div *ngIf="messages" class="message-center">
+            <perfect-scrollbar>
+              <!-- Message -->
+              <a
+                (click)="openMessage(message)"
+                *ngFor="let message of messages.slice().reverse()"
+              >
+                <div class="user-img">
+                  <img
+                    src="{{
+                      message.sender_detail
+                        ? message.sender_detail.photo_path
+                        : '../../../../../assets/images/avatar.png'
+                    }}"
+                    alt="user"
+                    class="img-circle"
+                    width="40"
+                  />
+                  <!-- <span class="profile-status {{mymessage.status}} pull-right"></span> -->
                 </div>
-            </li>
-        </ul>
+                <div class="mail-content">
+                  <h5>
+                    {{ message.sender_detail?.first_name }}
+                    {{ message.sender_detail?.last_name }}
+                  </h5>
+                  <span class="mail-desc">{{ message.convo[0].message }}</span>
+                  <!-- <span class="time" [style.color] = "feed.is_viewed == 0 ? 'blue' : 'grey'"> {{ myMessage.created_at | dateAgo }}</span> -->
+                  <span class="time" [style.color]="grey">
+                    {{ message.created_at | dateAgo }}</span
+                  >
+                </div>
+              </a>
+              <!-- Message -->
+            </perfect-scrollbar>
+          </div>
+        </li>
+      </ul>
     </div>
-</mat-menu>
-
+  </mat-menu>
 </div>
