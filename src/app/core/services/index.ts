@@ -19,3 +19,4 @@ export * from './admin.service';
 export * from './announcement.service';
 export * from './convertImage.service';
 export * from './new-application.service';
+export * from './snackbar.service';

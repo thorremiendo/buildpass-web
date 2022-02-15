@@ -180,6 +180,7 @@ export class RegistrationComponent implements OnInit {
     this._registerAccountFormService.cast.subscribe(registerAccountSubject => {
       if (Object.keys(registerAccountSubject).length > 0) {
         this.registrationDetails = registerAccountSubject;
+        console.log(this.registrationDetails)
         this._registrationForm.patchValue({
           first_name: this.registrationDetails.first_name,
           last_name: this.registrationDetails.last_name
@@ -204,6 +205,38 @@ export class RegistrationComponent implements OnInit {
     else return this._registrationForm.value.barangay;
   }
 
+  userData(){
+    const user = {
+      first_name: this._registrationForm.value.first_name,
+      middle_name: this._registrationForm.value.middle_name,
+      last_name: this._registrationForm.value.last_name,
+      suffix_name: this._registrationForm.value.suffix_name,
+      birthdate: this.dateToString(this._registrationForm.value.birthdate),
+      marital_status_id: this._registrationForm.value.marital_status,
+      gender: this._registrationForm.value.gender,
+      home_address: this._registrationForm.value.home_address,
+      barangay: this.checkBarangay(),
+      barangay_id: this._registrationForm.value.barangay.id ? this._registrationForm.value.barangay.id : 0,
+      city_id: this.selectedCity, 
+      province_id: this.selectedProvince, 
+      region_id:this.selectedRegion,
+      contact_number: this._registrationForm.value.contact_number,
+      id_number: this._registrationForm.value.id_number,
+      id_type: this._registrationForm.value.id_type,
+      photo_path: this.selectedPhoto ? this.selectedPhoto : null,
+      id_photo_path: this.selectedFile ? this.selectedFile : null,
+      selfie_with_id_path: this.selectedSelfie ? this.selectedSelfie : null,
+      firebase_uid: this.registrationDetails.uid,
+      email_address: this.registrationDetails.email,
+      emailVerified: this.registrationDetails.emailVerified,
+      is_evaluator: false,
+    };
+
+    return user;
+
+
+  }
+
   onSubmit() {
     this._submitted = true;
     // console.log(this._registrationForm.value);
@@ -216,36 +249,31 @@ export class RegistrationComponent implements OnInit {
           this.isUpdating = true;
 
           if (this.registrationDetails.provider == 'google') {
-            const user = {
-              first_name: this._registrationForm.value.first_name,
-              middle_name: this._registrationForm.value.middle_name,
-              last_name: this._registrationForm.value.last_name,
-              suffix_name: this._registrationForm.value.suffix_name,
-              birthdate: this.dateToString(this._registrationForm.value.birthdate),
-              marital_status_id: this._registrationForm.value.marital_status,
-              gender: this._registrationForm.value.gender,
-              home_address: this._registrationForm.value.home_address,
-              barangay: this.checkBarangay(),
-              barangay_id: this._registrationForm.value.barangay.id ? this._registrationForm.value.barangay.id : 0,
-              city_id: this.selectedCity, 
-              province_id: this.selectedProvince, 
-              region_id:this.selectedRegion,
-              contact_number: this._registrationForm.value.contact_number,
-              id_number: this._registrationForm.value.id_number,
-              id_type: this._registrationForm.value.id_type,
-              photo_path: this.selectedPhoto ? this.selectedPhoto : null,
-              id_photo_path: this.selectedFile ? this.selectedFile : null,
-              selfie_with_id_path: this.selectedSelfie ? this.selectedSelfie : null,
-              firebase_uid: this.registrationDetails.firebase_uid,
-              email_address: this.registrationDetails.email,
-              emailVerified: this.registrationDetails.emailVerified,
-              is_evaluator: false,
-            };
-
-            this._registerAccountFormService.submitRegisterAccountInfo(user).subscribe((res) => {
+           
+            this._registerAccountFormService.submitRegisterAccountInfo(this.userData()).subscribe((res) => {
               this._authService.SendVerificationMail();
+            },
+            (err)=>{
+              this.isUpdating = false;
+              console.log(err);
+              this._snackbar.open(err, 'close', {
+                duration: 3000,
+              });
             });
-          } else {
+          }
+          else if(this.registrationDetails.status == 'incomplete'){
+            this._registerAccountFormService.submitRegisterAccountInfo(this.userData()).subscribe((res) => {
+              this._authService.SendVerificationMail();
+            },
+            (err)=>{
+              this.isUpdating = false;
+              console.log(err);
+              this._snackbar.open(err, 'close', {
+                duration: 3000,
+              });
+            });
+          }
+          else {
             this._authService
             .SignUp(this.registrationDetails)
             .then(result => {
@@ -277,6 +305,13 @@ export class RegistrationComponent implements OnInit {
 
               this._registerAccountFormService.submitRegisterAccountInfo(user).subscribe((res) => {
                 this._authService.SendVerificationMail();
+              });
+            },
+            (err)=>{
+              this.isUpdating = false;
+              console.log(err);
+              this._snackbar.open(err, 'close', {
+                duration: 3000,
               });
             });
           }

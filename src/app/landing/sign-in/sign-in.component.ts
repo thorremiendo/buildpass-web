@@ -6,7 +6,12 @@ import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
-import { RegisterAccountFormService, User, UserService } from '../../core';
+import {
+  RegisterAccountFormService,
+  User,
+  UserService,
+  SnackBarService,
+} from '../../core';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
@@ -33,7 +38,7 @@ export class SignInComponent implements OnInit {
     private _afs: AngularFirestore,
     private _registerAccountFormService: RegisterAccountFormService,
     private _userService: UserService,
-    private authService: AuthService
+    private _snackBarService: SnackBarService
   ) {
     this.createForm();
   }
@@ -55,26 +60,49 @@ export class SignInComponent implements OnInit {
       this._authService
         .SignIn(value)
         .then((result) => {
-          if (result.user.emailVerified == true) {
-            this.SetUserDataFire(result.user.uid, result.user.emailVerified);
-            this._authService.getToken(result.user.uid);
-            this.isSubmitting = false;
-          } else {
-            this._userService
-              .autoResendVerification(this._signinForm.value.email)
-              .subscribe((res) => {
-                if (res.message == 'Email sent') {
-                  window.alert(
-                    'Email not yet verified, kindly check your email to verify'
-                  );
-                  this.isSubmitting = false;
-                } else {
-                  window.alert('Something went wrong kindly contact admin');
-                }
-              });
-          }
+          this.user = {
+            uid: result.user.uid,
+            emailVerified: result.user.emailVerified,
+            email: result.user.email,
+            status: 'incomplete',
+          };
+
+          console.log(result);
+          this._authService.getToken(this.user.uid).subscribe(
+            (result) => {
+              if (this.user.emailVerified) {
+                this.SetUserDataFire(this.user.uid, this.user.emailVerified);
+                const token = result.data.token;
+                this._authService.saveToken(token);
+                this._userService
+                  .getUserInfo(this.user.uid)
+                  .subscribe((data) => {
+                    this._authService.currentUserSubject.next(data);
+                    this._router.navigate(['dashboard/home']);
+                  });
+                this.isSubmitting = false;
+              }
+            },
+            (err) => {
+              this.isSubmitting = false;
+              let errorMessage = err.error.message;
+              console.log(errorMessage);
+              if (errorMessage == 'User Not Found.') {
+                this._snackBarService.open(
+                  'Please complete your registration',
+                  'close'
+                );
+                this._registerAccountFormService.setRegisterAccountInfo(
+                  this.user
+                );
+                this._router.navigate(['registration']);
+              }
+            }
+          );
         })
         .catch((error) => {
+          console.log(error);
+          // this._snackBarService.open(error,close,3)
           this.isSubmitting = false;
         });
     }
@@ -86,16 +114,55 @@ export class SignInComponent implements OnInit {
       .GoogleAuth()
       .then((result) => {
         this._ngZone.run(() => {
+
+          this.user = {
+            uid: result.user.uid,
+            emailVerified: result.user.emailVerified,
+            email: result.user.email,
+            status: 'incomplete',
+          };
+
           if (result.additionalUserInfo.isNewUser != true) {
-            this.SetUserDataFire(result.user.uid, result.user.emailVerified);
-            this._authService.getToken(result.user.uid);
+            this.SetUserDataFire(this.user.uid, this.user.emailVerified);
+            //this._authService.getToken(result.user.uid);
+            this._authService.getToken(this.user.uid).subscribe(
+              (result) => {
+                if (this.user.emailVerified) {
+                  this.SetUserDataFire(this.user.uid, this.user.emailVerified);
+                  const token = result.data.token;
+                  this._authService.saveToken(token);
+                  this._userService
+                    .getUserInfo(this.user.uid)
+                    .subscribe((data) => {
+                      this._authService.currentUserSubject.next(data);
+                      this._router.navigate(['dashboard/home']);
+                    });
+                  this.isSubmitting = false;
+                }
+              },
+              (err) => {
+                this.isSubmitting = false;
+                let errorMessage = err.error.message;
+                console.log(errorMessage);
+                if (errorMessage == 'User Not Found.') {
+                  this._snackBarService.open(
+                    'Please complete your registration',
+                    'close'
+                  );
+                  this._registerAccountFormService.setRegisterAccountInfo(
+                    this.user
+                  );
+                  this._router.navigate(['registration']);
+                }
+              }
+            );
             this.isSubmitting = false;
           } else {
             const user = result.additionalUserInfo.profile;
             this.fireBaseUid = result.user;
             this.fireBaseUser = user;
             this.SetUserDataFireGoogle(this.fireBaseUser);
-            this.createUserDetailsGoogle(this.fireBaseUser);
+            //this.createUserDetailsGoogle(this.fireBaseUser);
             this._registerAccountFormService.setRegisterAccountInfo(
               this.userDetails
             );
@@ -105,6 +172,7 @@ export class SignInComponent implements OnInit {
         });
       })
       .catch((error) => {
+        this._snackBarService.open(error, 'close');
         this.isSubmitting = false;
       });
   }
@@ -126,8 +194,8 @@ export class SignInComponent implements OnInit {
     const userRef: AngularFirestoreDocument<any> = this._afs.doc(
       `users/${this.fireBaseUid.uid}`
     );
-    const userData: User = {
-      firebase_uid: this.fireBaseUid.uid,
+    const userData = {
+      uid: this.fireBaseUid.uid,
       email: user.email,
       first_name: user.given_name,
       last_name: user.family_name,
@@ -135,36 +203,38 @@ export class SignInComponent implements OnInit {
       is_evaluator: false,
       provider: 'google',
     };
+
+    this.userDetails = userData;
     return userRef.set(userData, {
       merge: true,
     });
   }
 
-  createUserDetails(value) {
-    this.userDetails = {
-      firebase_uid: this.fireBaseUser.uid,
-      first_name: value.first_name,
-      last_name: value.last_name,
-      email_address: value.email,
-      is_evaluator: false,
-      emailVerified: this.fireBaseUser.emailVerified,
-    };
-  }
+  // createUserDetails(value) {
+  //   this.userDetails = {
+  //     firebase_uid: this.fireBaseUser.uid,
+  //     first_name: value.first_name,
+  //     last_name: value.last_name,
+  //     email_address: value.email,
+  //     is_evaluator: false,
+  //     emailVerified: this.fireBaseUser.emailVerified,
+  //   };
+  // }
 
-  createUserDetailsGoogle(user) {
-    this.userDetails = {
-      firebase_uid: this.fireBaseUid.uid,
-      first_name: user.given_name,
-      last_name: user.family_name,
-      email: user.email,
-      is_evaluator: false,
-      emailVerified: user.verified_email,
-      provider: 'google',
-    };
-  }
+  // createUserDetailsGoogle(user) {
+  //   this.userDetails = {
+  //     firebase_uid: this.fireBaseUid.uid,
+  //     first_name: user.given_name,
+  //     last_name: user.family_name,
+  //     email: user.email,
+  //     is_evaluator: false,
+  //     emailVerified: user.verified_email,
+  //     provider: 'google',
+  //   };
+  // }
 
   ngOnInit(): void {
-    this.authService.isAuthenticated
+    this._authService.isAuthenticated
       .pipe(
         switchMap((isAuthenticated) => {
           if (!isAuthenticated) {
@@ -172,12 +242,12 @@ export class SignInComponent implements OnInit {
           } else {
             this._router.navigateByUrl('/dashboard/applications');
           }
-          return this.authService.currentUser;
+          return this._authService.currentUser;
         })
       )
       .subscribe((currentUser) => {
         if (currentUser && currentUser.roles && currentUser.roles.length) {
-          this.authService.purgeAuth();
+          this._authService.purgeAuth();
           this._router.navigateByUrl('user/sign-in');
         }
 

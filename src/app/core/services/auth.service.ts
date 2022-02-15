@@ -14,6 +14,7 @@ import { UserService } from './user.service';
 import { ApiService } from '../services/api.service';
 import * as LogRocket from 'logrocket';
 import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
+import { SnackBarService } from '.';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +36,8 @@ export class AuthService {
     public ngZone: NgZone, // NgZone service to remove outside scope warning
     public userService: UserService,
     public jwtService: JwtService,
-    public apiService: ApiService
+    public apiService: ApiService,
+    private snackBarService: SnackBarService,
   ) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
@@ -81,7 +83,8 @@ export class AuthService {
         })
         .catch((error) => {
           resolve(error);
-          window.alert(error.message);
+          this.snackBarService.open(error.message, 'close')
+          //window.alert(error.message);
         });
     });
   }
@@ -97,7 +100,8 @@ export class AuthService {
         })
         .catch((error) => {
           resolve(error);
-          window.alert(error.message);
+          this.snackBarService.open(error.message, 'close')
+          //window.alert(error.message);
         });
     });
   }
@@ -120,7 +124,8 @@ export class AuthService {
         window.alert('Email Verified');
       })
       .catch((error) => {
-        window.alert(error.message);
+        this.snackBarService.open(error.message, 'close')
+        //window.alert(error.message);
       });
   }
 
@@ -139,7 +144,8 @@ export class AuthService {
           resolve(email);
         })
         .catch((error) => {
-          window.alert(error.message);
+          this.snackBarService.open(error.message, 'close')
+          //window.alert(error.message);
         });
     });
   }
@@ -154,7 +160,8 @@ export class AuthService {
         localStorage.removeItem('actionCode');
       })
       .catch((error) => {
-        window.alert(error.message);
+        this.snackBarService.open(error.message, 'close')
+        //window.alert(error.message);
       });
   }
 
@@ -167,7 +174,8 @@ export class AuthService {
         window.alert('Password reset email sent, check your inbox.');
       })
       .catch((error) => {
-        window.alert(error);
+        this.snackBarService.open(error.message, 'close')
+        //window.alert(error);
       });
   }
 
@@ -184,7 +192,8 @@ export class AuthService {
       })
       .catch((error) => {
         resolve ("Something went wrong")
-        window.alert(error);
+        this.snackBarService.open(error.message, 'close')
+       // window.alert(error);
       });
   });
 }
@@ -208,7 +217,8 @@ export class AuthService {
           resolve(result);
         })
         .catch((error) => {
-          window.alert(error.message);
+          this.snackBarService.open(error.message, 'close')
+          //window.alert(error.message);
         });
     });
   }
@@ -226,7 +236,8 @@ export class AuthService {
           resolve(result);
         })
         .catch((error) => {
-          window.alert(error.message);
+          this.snackBarService.open(error.message, 'close')
+          //window.alert(error.message);
         });
     });
   }
@@ -241,15 +252,18 @@ export class AuthService {
     const body = {
       firebase_uid: `${uid}`,
     };
-
-    return this.apiService.post(url, body).subscribe((res) => {
-      const token = res.data.token;
-      this.jwtService.saveToken(token);
-      this.userService.getUserInfo(uid).subscribe((data) => {
-        this.currentUserSubject.next(data);
-        this.router.navigate(['dashboard/home']);
-      });
-    });
+    return this.apiService.post(url, body)
+    // this.apiService.post(url, body).subscribe((res) => {
+    //   const token = res.data.token;
+    //   this.jwtService.saveToken(token);
+    //   this.userService.getUserInfo(uid).subscribe((data) => {
+    //     this.currentUserSubject.next(data);
+    //     this.router.navigate(['dashboard/home']);
+    //   });
+    // },
+    // (err)=>{
+    //   console.log(err);
+    // });
   }
 
   userSignOut() {
