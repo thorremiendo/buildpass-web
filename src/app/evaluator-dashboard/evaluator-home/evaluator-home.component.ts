@@ -1,3 +1,5 @@
+import { PopOutNotificationsService } from './../../core/services/pop-out-notification.service';
+import { AuthService } from './../../core/services/auth.service';
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
@@ -7,6 +9,7 @@ import { debounceTime } from 'rxjs/operators';
 import * as moment from 'moment';
 import ApexCharts from 'apexcharts';
 import { saveAs } from 'file-saver';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-evaluator-home',
@@ -14,7 +17,8 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./evaluator-home.component.scss'],
 })
 export class EvaluatorHomeComponent implements OnInit {
-  @ViewChild('filtersTemplate', {static: true}) filtersTemplate: TemplateRef<any>;
+  @ViewChild('filtersTemplate', { static: true })
+  filtersTemplate: TemplateRef<any>;
   private userInfo;
   public userName;
   public applications;
@@ -39,18 +43,28 @@ export class EvaluatorHomeComponent implements OnInit {
   public loading: boolean = false;
   private dialog;
 
-  constructor (
+  constructor(
     private route: ActivatedRoute,
     private router: Router,
     private evaluatorService: EvaluatorService,
     private adminService: AdminService,
     private matDialog: MatDialog,
+    private authService: AuthService,
+    private notif: PopOutNotificationsService
   ) {}
 
   ngOnInit(): void {
     this.userInfo = JSON.parse(localStorage.getItem('user'));
     if (this.userInfo) {
       this.userName = this.userInfo.first_name;
+      if (
+        environment.restrictCbao == true &&
+        this.userInfo.employee_detail.office_id == 4
+      ) {
+        this.authService.purgeAuth();
+        this.notif.openInfoToast('Restricted Access');
+      }
+
       this.fetchApplications();
       this.fetchApplicationStats();
 
@@ -78,13 +92,13 @@ export class EvaluatorHomeComponent implements OnInit {
         this.getFilterCount();
         this.fetchApplications();
       });
-  
+
       this.dateStart.valueChanges.subscribe((res) => {
         this.pageIndex = 0;
         this.getFilterCount();
         this.fetchApplications();
       });
-  
+
       this.dateEnd.valueChanges.subscribe((res) => {
         this.pageIndex = 0;
         this.getFilterCount();
@@ -118,12 +132,14 @@ export class EvaluatorHomeComponent implements OnInit {
 
   openFilters() {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.height = "auto";
-    dialogConfig.width = "700px";
+    dialogConfig.height = 'auto';
+    dialogConfig.width = '700px';
 
     this.dialog = this.matDialog.open(this.filtersTemplate, dialogConfig);
-    this.dialog.afterClosed().subscribe(result => {
-      this.router.navigate([{outlets: {modal: null}}], {relativeTo: this.route.parent});
+    this.dialog.afterClosed().subscribe((result) => {
+      this.router.navigate([{ outlets: { modal: null } }], {
+        relativeTo: this.route.parent,
+      });
     });
   }
 
@@ -132,7 +148,7 @@ export class EvaluatorHomeComponent implements OnInit {
   }
 
   setApplicationStatus(status) {
-    switch(status) {
+    switch (status) {
       case '0':
         this.applicationStatusValue = [1, 2, 10, 3, 18, 12, 13, 4, 8];
         break;
@@ -168,14 +184,20 @@ export class EvaluatorHomeComponent implements OnInit {
     const params = {
       searchKey: this.searchKey.value ? this.searchKey.value : '',
       permitType: this.permitType.value ? this.permitType.value : '',
-      complianceStatus: this.complianceStatus.value ? this.complianceStatus.value : '',
-      dateStart: this.dateStart.value ? moment( this.dateStart.value).format('YYYY-MM-DD') : '',
-      dateEnd: this.dateEnd.value ? moment( this.dateEnd.value).format('YYYY-MM-DD') : '',
+      complianceStatus: this.complianceStatus.value
+        ? this.complianceStatus.value
+        : '',
+      dateStart: this.dateStart.value
+        ? moment(this.dateStart.value).format('YYYY-MM-DD')
+        : '',
+      dateEnd: this.dateEnd.value
+        ? moment(this.dateEnd.value).format('YYYY-MM-DD')
+        : '',
       sortType: this.sortType.value ? this.sortType.value : '',
       pageIndex: this.pageIndex + 1,
       pageSize: this.pageSize,
       incompleteFlag: this.applicationStatus.value == '8' ? 1 : '',
-    }
+    };
 
     this.evaluatorService.fetchApplications(params).subscribe((data) => {
       this.applications = this.applicationModifications(data.data);
@@ -185,7 +207,7 @@ export class EvaluatorHomeComponent implements OnInit {
   }
 
   applicationModifications(applications) {
-    applications.forEach(application => {
+    applications.forEach((application) => {
       if (application.application_status_id == '5') {
         const temp = application.application_status_id;
         application.application_status_id = application.reevaluation_status_id;
@@ -205,13 +227,19 @@ export class EvaluatorHomeComponent implements OnInit {
     const params = {
       searchKey: this.searchKey.value ? this.searchKey.value : '',
       permitType: this.permitType.value ? this.permitType.value : '',
-      complianceStatus: this.complianceStatus.value ? this.complianceStatus.value : '',
-      dateStart: this.dateStart.value ? moment( this.dateStart.value).format('YYYY-MM-DD') : '',
-      dateEnd: this.dateEnd.value ? moment( this.dateEnd.value).format('YYYY-MM-DD') : '',
+      complianceStatus: this.complianceStatus.value
+        ? this.complianceStatus.value
+        : '',
+      dateStart: this.dateStart.value
+        ? moment(this.dateStart.value).format('YYYY-MM-DD')
+        : '',
+      dateEnd: this.dateEnd.value
+        ? moment(this.dateEnd.value).format('YYYY-MM-DD')
+        : '',
       pageIndex: this.pageIndex + 1,
       pageSize: this.pageSize,
       incompleteFlag: this.applicationStatus.value == '8' ? 1 : '',
-    }
+    };
 
     this.evaluatorService.fetchApplications(params).subscribe((data) => {
       this.evaluationApplicationCount = data.total;
@@ -222,12 +250,12 @@ export class EvaluatorHomeComponent implements OnInit {
       this.complianceApplicationCount = data.total;
     });
 
-    params.complianceStatus = '3'
+    params.complianceStatus = '3';
     this.evaluatorService.fetchApplications(params).subscribe((data) => {
       this.reevaluationApplicationCount = data.total;
     });
 
-    params.complianceStatus = '4'
+    params.complianceStatus = '4';
     this.evaluatorService.fetchApplications(params).subscribe((data) => {
       this.evaluatedApplicationCount = data.total;
     });
@@ -241,7 +269,10 @@ export class EvaluatorHomeComponent implements OnInit {
         this.applicationStats[3].value + this.applicationStats[4].value,
         this.applicationStats[5].value,
         this.applicationStats[6].value,
-        this.applicationStats[7].value + this.applicationStats[8].value + this.applicationStats[9].value + this.applicationStats[10].value,
+        this.applicationStats[7].value +
+          this.applicationStats[8].value +
+          this.applicationStats[9].value +
+          this.applicationStats[10].value,
       ],
       labels: [
         'Receiving',
@@ -267,7 +298,7 @@ export class EvaluatorHomeComponent implements OnInit {
       plotOptions: {
         pie: {
           expandOnClick: false,
-        }
+        },
       },
       dataLabels: {
         enabled: false,
@@ -281,13 +312,13 @@ export class EvaluatorHomeComponent implements OnInit {
       states: {
         hover: {
           filter: {
-              type: 'none',
-          }
+            type: 'none',
+          },
         },
         active: {
           filter: {
             type: 'none',
-          }
+          },
         },
       },
     };
@@ -309,20 +340,24 @@ export class EvaluatorHomeComponent implements OnInit {
 
   exportResults() {
     const data = [];
-    this.applications.forEach(application => {
+    this.applications.forEach((application) => {
       data.push({
         permit_application_code: application.permit_application_code,
         ...application.applicant_detail,
         ...application.project_detail,
       });
     });
-    const replacer = (key, value) => value === null ? '' : value;
+    const replacer = (key, value) => (value === null ? '' : value);
     const header = Object.keys(data[0]);
-    let csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
+    let csv = data.map((row) =>
+      header
+        .map((fieldName) => JSON.stringify(row[fieldName], replacer))
+        .join(',')
+    );
     csv.unshift(header.join(','));
     let csvArray = csv.join('\r\n');
 
-    var blob = new Blob([csvArray], {type: 'text/csv' })
-    saveAs(blob, "export.csv");
+    var blob = new Blob([csvArray], { type: 'text/csv' });
+    saveAs(blob, 'export.csv');
   }
 }
