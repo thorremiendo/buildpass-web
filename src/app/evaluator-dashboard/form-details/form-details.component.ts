@@ -68,7 +68,7 @@ export class FormDetailsComponent implements OnInit {
   ) {
     dialogRef.disableClose = true;
     dialogRef.backdropClick().subscribe(() => {
-      if (this.permitDetails.value.is_compliant) {
+      if (this.permitDetails.value.is_compliant == 2) {
         Swal.fire({
           title: 'You have unsaved changes, are you sure you want to close?',
           showDenyButton: true,
