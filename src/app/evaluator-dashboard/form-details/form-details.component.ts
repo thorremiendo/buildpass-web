@@ -189,6 +189,7 @@ export class FormDetailsComponent implements OnInit {
         break;
     }
   }
+
   onRemove(type) {
     switch (type) {
       case 'selectedForm':
