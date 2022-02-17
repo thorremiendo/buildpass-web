@@ -24,6 +24,6 @@ export const environment = {
   },
   weekend: true,
   receiveApplications: true,
-
+  restrictCbao: false,
   version: "2.5.5"
 };
