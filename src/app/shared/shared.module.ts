@@ -54,6 +54,7 @@ import { ApplicationDocsComponent } from './application-docs/application-docs.co
 import { DocumentViewComponent } from './document-view/document-view.component';
 import { DocumentRemarksComponent } from './document-remarks/document-remarks.component';
 import { StepOneDialogComponent } from './step-one-dialog/step-one-dialog.component';
+import { ReviewButtonComponent } from './review-button/review-button.component';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { StepOneDialogComponent } from './step-one-dialog/step-one-dialog.compon
     DocumentViewComponent,
     DocumentRemarksComponent,
     StepOneDialogComponent,
+    ReviewButtonComponent,
   ],
   imports: [
     CommonModule,
