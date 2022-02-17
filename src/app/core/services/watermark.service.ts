@@ -66,7 +66,7 @@ export class WaterMarkService {
             height: pngDims.height * 0.7,
           });
 
-          break;
+        //   break;
         // case 'compliant':
         //   pages[i].drawText('Compliant', {
         //     x: width / 2 - 150,
@@ -78,7 +78,7 @@ export class WaterMarkService {
         //     rotate: degrees(-45),
         //   });
         //   break;
-        // case 'non-compliant':
+        // case 'for-compliance':
         //   pages[i].drawText('Non Compliant', {
         //     x: width / 2 - 200,
         //     y: height / 2 + 150,
@@ -95,7 +95,7 @@ export class WaterMarkService {
     const pdfBytes = await pdfDocLoad.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
-    //  window.open(file); // open in new window
+    window.open(file); // open in new window
 
     return blob;
   }

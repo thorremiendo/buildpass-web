@@ -64,6 +64,7 @@ export class RemarksHistoryTableComponent implements OnInit {
           this.documentType = this.data.form.document_id;
           this.applicationTimeline = res.data;
           this.remarks = this.data.form.document_revision;
+          console.log(this.remarks);
           this.officeId = this.data.evaluator
             ? this.data.evaluator.office_id
             : 7;
