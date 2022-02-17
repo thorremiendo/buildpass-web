@@ -323,7 +323,7 @@ export class StepOneComponent implements OnInit {
               if (res.data.length == 0) {
                 this.invalidBps.push(input.input);
                 this.noBpError =
-                  'The permit number you entered is not found in the system. Please verify that it is typed correctly or call CBAO at (074)442-2503 to  verify.';
+                  'The permit number you entered is not found. Contact us through building.baguiocity@gmail.com or (074)442-2503 to verify your  permit number.';
               } else if (res.data[0]) {
                 this.oldBpDetails.push(res.data[0]);
               }
@@ -346,7 +346,7 @@ export class StepOneComponent implements OnInit {
             if (res.data.length == 0) {
               this.invalidBps.push(input.input);
               this.noBpError =
-                'The permit number you entered is not found in the system. Please verify that it is typed correctly or call CBAO at (074)442-2503 to  verify.';
+                'The permit number you entered is not found. Contact us through building.baguiocity@gmail.com or (074)442-2503 to verify your  permit number.';
             } else if (res.data[0]) {
               this.oldBpDetails.push(res.data[0]);
             }
