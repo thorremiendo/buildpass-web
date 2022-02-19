@@ -7,31 +7,31 @@
   </div>
   <div class="row edit-profile">
     <div class="col-12">
-        <div class="user-avatar-container">
-            <div
-              class="user-avatar"
-              [ngClass]="_submitted && !selectedPhoto ? 'no-file' : ''"
-            >
-              <img [src]="displayProfilePhoto" alt="" />
-            </div>
-            <div class="edit-avatar">
-              <button
-                class="btn btn-dark btn-sm"
-                type="button"
-                (click)="openFileChooser()"
-              >
-                <i class="fa fa-edit"></i>
-              </button>
-            </div>
-          </div>
-        <div class="avatar-label">Profile Picture</div>
-        <input
-          type="file"
-          class="sr-only"
-          id="photo"
-          accept="image/*"
-          (change)="handlePhotoFileChange($event)"
-        />
+      <div class="user-avatar-container">
+        <div
+          class="user-avatar"
+          [ngClass]="_submitted && !selectedPhoto ? 'no-file' : ''"
+        >
+          <img [src]="displayProfilePhoto" alt="" />
+        </div>
+        <div class="edit-avatar">
+          <button
+            class="btn btn-dark btn-sm"
+            type="button"
+            (click)="openFileChooser()"
+          >
+            <i class="fa fa-edit"></i>
+          </button>
+        </div>
+      </div>
+      <div class="avatar-label">Profile Picture</div>
+      <input
+        type="file"
+        class="sr-only"
+        id="photo"
+        accept="image/*"
+        (change)="handlePhotoFileChange($event)"
+      />
     </div>
     <div class="col-12">
       <mat-card>
@@ -234,7 +234,7 @@
                       adminCreateUserFormControl.employee_no.errors?.required
                     "
                   >
-                    Employee Number is required
+                    Contact number is required
                   </mat-error>
                 </mat-form-field>
               </div>
@@ -310,7 +310,14 @@
               <div class="col-md-6">
                 <mat-form-field appearance="outline">
                   <mat-label>Access Role</mat-label>
-                  <input matInput formControlName="role_id" required />
+                  <mat-select formControlName="role_id" required>
+                    <mat-option
+                      *ngFor="let role of accessRoles"
+                      [value]="role.id"
+                    >
+                      {{ role.name }}
+                    </mat-option>
+                  </mat-select>
                   <mat-error
                     *ngIf="
                       (adminCreateUserFormControl.role_id.touched ||
@@ -366,6 +373,110 @@
                   <mat-hint align="end"
                     >{{ contact.value.length }} / {{ maxLength }}</mat-hint
                   >
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 section-header">Credentials</div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Username</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    formControlName="username"
+                    required
+                  />
+                  <mat-error
+                    *ngIf="
+                      (adminCreateUserFormControl.username.touched ||
+                        _submitted) &&
+                      adminCreateUserFormControl.username.errors?.required
+                    "
+                  >
+                    Username is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline">
+                  <mat-label>Enter your password</mat-label>
+                  <input
+                    matInput
+                    [type]="hide ? 'password' : 'text'"
+                    formControlName="password"
+                  />
+                  <button
+                    mat-icon-button
+                    matSuffix
+                    (click)="hide = !hide"
+                    [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide"
+                    type="button"
+                    tabindex="-1"
+                  >
+                    <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      (adminCreateUserFormControl.password.touched || _submitted) &&
+                      adminCreateUserFormControl.password.errors?.required
+                    "
+                  >
+                    Password is Required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      adminCreateUserFormControl.password.touched &&
+                      adminCreateUserFormControl.password.errors?.invalidPassword
+                    "
+                  >
+                    Password should have minimum 8 characters, at least 1 uppercase
+                    letter, 1 lowercase letter and 1 number
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <!-- <div class="row text-right">
+            </div> -->
+            <div class="row">
+              <div class="col-md-6" ></div>
+              <div class="col-md-6" >
+                <mat-form-field appearance="outline">
+                  <mat-label>Re-type your password</mat-label>
+                  <input
+                    matInput
+                    [type]="hide ? 'password' : 'text'"
+                    formControlName="confirmPassword"
+                  />
+                  <button
+                    mat-icon-button
+                    matSuffix
+                    (click)="hide = !hide"
+                    [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide"
+                    type="button"
+                    tabindex="-1"
+                  >
+                    <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      (adminCreateUserFormControl.confirmPassword.touched || _submitted) &&
+                      adminCreateUserFormControl.confirmPassword.errors?.required
+                    "
+                  >
+                    Confirm Password is Required
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      adminCreateUserFormControl.confirmPassword.touched &&
+                      adminCreateUserFormControl.confirmPassword.errors?.passwordMismatch
+                    "
+                  >
+                    Confirm Password does not match
+                  </mat-error>
                 </mat-form-field>
               </div>
             </div>
