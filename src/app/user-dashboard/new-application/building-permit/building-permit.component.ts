@@ -420,61 +420,34 @@ export class BuildingPermitComponent implements OnInit {
   }
 
   submitApplication() {
-    // if (this.getFieldSetsLength() + 6 == this.getUniqueUserDocs()) {
-    //   this.isLoading = true;
-    //   if (this.dateService.isWeekend() === false) {
-    //     console.log(this.dateService.isWorkHours());
-    //     if (this.dateService.isWorkHours() === true) {
-    //       const body = {
-    //         application_status_id: 9,
-    //       };
-    //       this.applicationService
-    //         .updateApplicationStatus(body, this.applicationId)
-    //         .subscribe((res) => {
-    //           this.isLoading = false;
-    //           this.router.navigate([
-    //             'dashboard/new/summary',
-    //             this.applicationId,
-    //           ]);
-    //         });
-    //     } else {
-    //       this.isLoading = false;
-    //       this.openSnackBar(
-    //         'You can only submit applications during Working Hours (8am - 5pm).'
-    //       );
-    //     }
-    //   } else {
-    //     this.openSnackBar('You can only submit applications on Weekdays.');
-    //     this.isLoading = false;
-    //   }
-    // } else {
-    //   this.openSnackBar('Please upload all necessary documents!');
-    // }
-    if (environment.receiveApplications == true) {
-      console.log(
-        this.getFieldSetsLength(),
-        this.getFormsLength(),
-        this.getUniqueUserDocs()
-      );
-      if (
-        this.getFieldSetsLength() + this.getFormsLength() ==
-        this.getUniqueUserDocs()
-      ) {
-        this.isLoading = true;
-        const body = {
-          application_status_id: 9,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            this.router.navigate(['dashboard/new/summary', this.applicationId]);
-          });
-      } else {
-        this.openSnackBar('Please upload all necessary documents!');
-      }
+    if (this.dateService.isWeekend() === true) {
+      this.openSnackBar('You can only submit applications on Weekdays.');
+      this.isLoading = false;
     } else {
-      this.openSnackBar('Sorry, system is under maintenance.');
+      if (environment.receiveApplications == true) {
+        if (
+          this.getFieldSetsLength() + this.getFormsLength() ==
+          this.getUniqueUserDocs()
+        ) {
+          this.isLoading = true;
+          const body = {
+            application_status_id: 9,
+          };
+          this.applicationService
+            .updateApplicationStatus(body, this.applicationId)
+            .subscribe((res) => {
+              this.isLoading = false;
+              this.router.navigate([
+                'dashboard/new/summary',
+                this.applicationId,
+              ]);
+            });
+        } else {
+          this.openSnackBar('Please upload all necessary documents!');
+        }
+      } else {
+        this.openSnackBar('Sorry, system is under maintenance.');
+      }
     }
   }
   checkExistingZoningFormData() {
