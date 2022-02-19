@@ -567,19 +567,7 @@ export class FormDetailsComponent implements OnInit {
     this.isSubmitting = true;
     this.newApplicationService.fetchDocumentPath(id).subscribe((res) => {
       var docPath = res.data.document_path;
-      if (
-        form.document_id == 1 ||
-        form.document_id == 2 ||
-        form.document_id == 3 ||
-        form.document_id == 4 ||
-        form.document_id == 5 ||
-        form.document_id == 48 ||
-        form.document_id == 106 ||
-        form.document_id == 98 ||
-        form.document_id == 99 ||
-        form.document_id == 195 ||
-        form.document_id == 117
-      ) {
+      if (this.isDocumentAForm()) {
         let body = {};
         const officeId = this.data.evaluator.office_id;
         const permitType = this.data.application.permit_type_id;

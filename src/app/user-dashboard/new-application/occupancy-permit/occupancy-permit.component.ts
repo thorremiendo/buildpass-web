@@ -1,3 +1,4 @@
+import { GetDateService } from './../../../core/services/get-date.service';
 import { documentTypes } from './../../../core/enums/document-type.enum';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -60,7 +61,8 @@ export class OccupancyPermitComponent implements OnInit {
     private dataBindingService: DataFormBindingService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService
+    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService,
+    private dateService: GetDateService
   ) {}
 
   ngOnInit(): void {
@@ -343,71 +345,60 @@ export class OccupancyPermitComponent implements OnInit {
   }
 
   submitApplication() {
-    // if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
-    //   this.isSubmitting = true;
-    //   const data = {
-    //     application_status_id: 9,
-    //   };
-    //   this.applicationService
-    //     .updateApplicationStatus(data, this.applicationId)
-    //     .subscribe((res) => {
-    //       this.isSubmitting = true;
-    //       this.router.navigate(['dashboard/new/summary', this.applicationId]);
-    //       localStorage.removeItem('app_id');
-    //       localStorage.removeItem('application_details_for_excavation');
-    //     });
-    // } else {
-    //   this.openSnackBar('Please upload all necessary documents!');
-    // }
-    if (environment.receiveApplications == true) {
-      if (
-        this.getFieldSetsLength() + this.getFormsLength() ==
-        this.getUniqueUserDocs()
-      ) {
-        this.isLoading = true;
-        const body = {
-          application_status_id: 9,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            const requiredDocs = [
-              125, 177, 203, 212, 4, 117, 199, 195, 140, 29, 115, 30, 60, 63,
-              61, 167, 64, 65, 216,
-            ];
-            var count = 0;
-            var bar = new Promise<void>((resolve, reject) => {
-              requiredDocs.forEach((element, index, array) => {
-                debugger;
-                this.isLoading = true;
-                const uploadDoc = {
-                  application_id: this.applicationId,
-                  user_id: this.user.id,
-                  document_id: element,
-                  document_path:
-                    'https://s3-ap-southeast-1.amazonaws.com/buildpass-storage/oCgTXNEEiktYux44i1cJCkNCiREKA5ABlOYeeUSC.pdf',
-                  is_document_string: 1,
-                };
-                this.newApplicationService
-                  .submitDocument(uploadDoc)
-                  .subscribe((res) => {
-                    count = count + 1;
-                    if (count === array.length - 1) {
-                      this.isLoading = false;
-                      this.router.navigate([
-                        'dashboard/new/summary',
-                        this.applicationId,
-                      ]);
-                    }
-                  });
+    if (this.dateService.isWeekend() === true) {
+      this.openSnackBar('You can only submit applications on Weekdays.');
+      this.isLoading = false;
+    } else {
+      if (environment.receiveApplications == true) {
+        if (
+          this.getFieldSetsLength() + this.getFormsLength() ==
+          this.getUniqueUserDocs()
+        ) {
+          this.isLoading = true;
+          const body = {
+            application_status_id: 9,
+          };
+          this.applicationService
+            .updateApplicationStatus(body, this.applicationId)
+            .subscribe((res) => {
+              const requiredDocs = [
+                125, 177, 203, 212, 4, 117, 199, 195, 140, 29, 115, 30, 60, 63,
+                61, 167, 64, 65, 216,
+              ];
+              var count = 0;
+              var bar = new Promise<void>((resolve, reject) => {
+                requiredDocs.forEach((element, index, array) => {
+                  debugger;
+                  this.isLoading = true;
+                  const uploadDoc = {
+                    application_id: this.applicationId,
+                    user_id: this.user.id,
+                    document_id: element,
+                    document_path:
+                      'https://s3-ap-southeast-1.amazonaws.com/buildpass-storage/oCgTXNEEiktYux44i1cJCkNCiREKA5ABlOYeeUSC.pdf',
+                    is_document_string: 1,
+                  };
+                  this.newApplicationService
+                    .submitDocument(uploadDoc)
+                    .subscribe((res) => {
+                      count = count + 1;
+                      if (count === array.length - 1) {
+                        this.isLoading = false;
+                        this.router.navigate([
+                          'dashboard/new/summary',
+                          this.applicationId,
+                        ]);
+                      }
+                    });
+                });
               });
             });
-          });
+        } else {
+          this.openSnackBar('Please upload all necessary documents!');
+        }
       } else {
-        this.openSnackBar('Please upload all necessary documents!');
+        this.openSnackBar('Sorry, system is under maintenance.');
       }
-    } else {
-      this.openSnackBar('Sorry, system is under maintenance.');
     }
   }
   openSnackBar(message: string) {
