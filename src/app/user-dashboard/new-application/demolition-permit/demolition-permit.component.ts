@@ -329,7 +329,7 @@ export class DemolitionPermitComponent implements OnInit {
 
   submitApplication() {
     if (this.dateService.isWeekend() === true) {
-      this.openSnackBar('You can only submit applications on Weekdays.');
+      this.openSnackBar('Please submit application during weekdays.');
       this.isLoading = false;
     } else {
       if (environment.receiveApplications == true) {
