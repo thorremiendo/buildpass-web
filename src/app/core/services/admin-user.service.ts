@@ -107,6 +107,14 @@ export class AdminUserService {
 
   }
 
+  getAccessRole(){
+    const url = `/role`;
+
+    return this.apiService.get(url);
+
+
+  }
+
 }
 
 
