@@ -74,7 +74,11 @@
                 {{
                   item.remarks
                     ? item.remarks
-                    : item.remarks == ""
+                    : item.remarks == "" &&
+                      item.evaluator_detail.display_role == "RECEIVING"
+                    ? "SUBMITTED"
+                    : item.remarks == "" &&
+                      item.evaluator_detail.display_role !== "RECEIVING"
                     ? "COMPLIANT"
                     : "NON COMPLIANT"
                 }}

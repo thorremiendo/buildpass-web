@@ -10,6 +10,9 @@ import {
   AuthService,
   Position,
   Office,
+  AdminUserService,
+  FormValidatorService,
+  SnackBarService,
 } from '../../../core';
 
 @Component({
@@ -22,6 +25,10 @@ export class AdminEmployeeCreateComponent implements OnInit {
   public selectedPhoto: File = null;
   public maxLength: number = 11;
   public isUpdating: boolean = false;
+  public hide: boolean = true;
+  public accessRoles:any;
+  public offices:any;
+  public positions: any;
 
   _adminCreateUserForm: FormGroup;
   public barangay: Barangay[];
@@ -54,7 +61,10 @@ export class AdminEmployeeCreateComponent implements OnInit {
     private _fb: FormBuilder,
     private _barangayService: BarangayService,
     private _registerAccountEvaluatorFormService: RegisterAccountEvaluatorFormService,
-    public dialogRef: MatDialogRef<AdminEmployeeCreateComponent>
+    public dialogRef: MatDialogRef<AdminEmployeeCreateComponent>,
+    private _adminUserService: AdminUserService,
+    private _formValidator: FormValidatorService,
+    private _snackbarService: SnackBarService,
   ) {
     this.createForm();
   }
@@ -78,11 +88,21 @@ export class AdminEmployeeCreateComponent implements OnInit {
       office: ['', Validators.required],
       position: ['', Validators.required],
       contact_number: ['', [Validators.required, Validators.maxLength(11)]],
-      id_number: ['', Validators.required],
-      id_type: ['', Validators.required],
+      id_number: ['',],
+      id_type: ['',],
       email: ['', Validators.required],
       role_id: ['', Validators.required],
-    });
+      username:['', Validators.required],
+      password: [
+        '',
+        Validators.compose([
+          Validators.required,
+          this._formValidator.patternValidator(),
+        ]),
+      ],
+      confirmPassword: ['', [Validators.required]],
+    }
+    );
   }
 
   openFileChooser() {
@@ -173,6 +193,27 @@ export class AdminEmployeeCreateComponent implements OnInit {
         startWith(''),
         map((value) => this.filterPosition(value))
       );
+
+    this._adminUserService.getAccessRole().subscribe((data)=>{
+      this.accessRoles = data.data;
+    },
+    (err)=>{
+      console.log(err);
+    });
+
+    this._adminUserService.getOffice().subscribe((data)=>{
+      this.offices = data.data;
+    },
+    (err)=>{
+      console.log(err);
+    });
+
+    this._adminUserService.getPosition().subscribe((data)=>{
+      this.positions = data.data;
+    },
+    (err)=>{
+      console.log(err);
+    });
   }
 
   onSubmit() {
@@ -194,21 +235,33 @@ export class AdminEmployeeCreateComponent implements OnInit {
       office_id: this._adminCreateUserForm.value.office,
       position: this._adminCreateUserForm.value.position,
       contact_number: this._adminCreateUserForm.value.contact_number,
-      id_number: this._adminCreateUserForm.value.id_number,
-      id_type: this._adminCreateUserForm.value.id_type,
+      email_addres: this._adminCreateUserForm.value.email,
       photo_path: this.selectedPhoto,
-      id_photo_path: this.selectedFile,
       is_evaluator: 1,
       role_id: this._adminCreateUserForm.value.role_id,
+      username: this._adminCreateUserForm.value.username,
+      password: this._adminCreateUserForm.value.password,
+      //id_number: this._adminCreateUserForm.value.id_number,
+      //id_type: this._adminCreateUserForm.value.id_type,
+      //id_photo_path: this.selectedFile,
+     
     };
+
+    //console.log(user);
 
     this._registerAccountEvaluatorFormService
       .submitRegisterAccountInfo(user)
       .subscribe((res) => {
+        this._submitted = false;
         this.isUpdating = false;
         Swal.fire('Success!', `Evaluator Created`, 'success').then((result) => {
           window.location.reload();
         });
+      },
+      (error)=>{
+        this._snackbarService.open("Something went wrong", "close", 5);
+        this._submitted = false;
+        this.isUpdating = false;
       });
   }
 }

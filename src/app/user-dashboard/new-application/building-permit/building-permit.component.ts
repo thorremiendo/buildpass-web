@@ -31,6 +31,7 @@ export class BuildingPermitComponent implements OnInit {
   public situationalReportFormData;
   public sampleForm;
   public isOptional: boolean = false;
+  public documentTypes;
   public forms: any = [
     {
       id: 1,
@@ -137,98 +138,106 @@ export class BuildingPermitComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
-    this.applicationId = localStorage.getItem('app_id');
+    this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
+      this.documentTypes = res.data;
 
-    this.applicationService
-      .fetchApplicationInfo(this.applicationId)
-      .subscribe((res) => {
-        this.applicationDetails = res.data;
-        this.fetchOutsideAddress();
-        console.log(this.applicationDetails);
-        this.saveRoute();
+      this.applicationId = localStorage.getItem('app_id');
 
-        const isLessee =
-          this.applicationDetails.rol_status_id == 2 ? true : false;
-        const isRegisteredOwner =
-          this.applicationDetails.is_registered_owner == 1 ? true : false;
-        const isNotRegisteredOwner =
-          this.applicationDetails.is_registered_owner == 2 ? true : false;
-        const isWithinSubdivision =
-          this.applicationDetails.is_within_subdivision == 1 ? true : false;
-        const isUnderMortgage =
-          this.applicationDetails.is_under_mortgage == 1 ? true : false;
-        const isOwnedByCorporation =
-          this.applicationDetails.is_owned_by_corporation == 1 ? true : false;
-        const isHaveCoOwners =
-          this.applicationDetails.is_property_have_coowners == 1 ? true : false;
-        const isConstructionStatus =
-          this.applicationDetails.construction_status_id == 1 ? true : false;
-        const if10000sqm =
-          this.applicationDetails.project_detail.total_floor_area >= 10000
-            ? true
-            : false;
-        const isOccupancyCommercial =
-          this.applicationDetails.occupancy_classification_id !== 1
-            ? true
-            : false;
-        const is3storeysOrMore =
-          this.applicationDetails.project_detail.number_of_storey >= 3
-            ? true
-            : false;
-        const ifFloorArea20sqmOrMore =
-          this.applicationDetails.project_detail.total_floor_area > 20
-            ? true
-            : false;
-        const isNoAsBuilt =
-          this.applicationDetails.construction_status_id !== 3 ? true : false;
-        const isEngineerArchitect =
-          this.applicationDetails.is_representative == 1 ? true : false;
-        isNoAsBuilt
-          ? this.fieldSets[4].documents.push(...this.isNotAsBuilt)
-          : null;
-        if10000sqm
-          ? this.fieldSets[4].documents.push(...this.if10000sqm)
-          : null;
-        isLessee ? this.fieldSets[0].documents.push(...this.lesseeDocs) : null;
-        isRegisteredOwner
-          ? this.fieldSets[0].documents.push(...this.registeredDocs)
-          : null;
-        isNotRegisteredOwner
-          ? this.fieldSets[0].documents.push(...this.notRegisteredDocs)
-          : null;
-        isWithinSubdivision
-          ? this.fieldSets[4].documents.push(...this.isWithinSubdivision)
-          : null;
-        isUnderMortgage
-          ? this.fieldSets[4].documents.push(...this.isUnderMortgage)
-          : null;
-        isOwnedByCorporation
-          ? this.fieldSets[4].documents.push(...this.isOwnedByCorporation)
-          : null;
-        isHaveCoOwners
-          ? this.fieldSets[4].documents.push(...this.isHaveCoOwners)
-          : null;
-        isConstructionStatus
-          ? this.updateForms()
-          : this.fieldSets[0].documents.push(...this.isConstructionStatus);
-        // isOccupancyCommercial ? this.fieldSets[3].documents.push(47) : null;
-        // isOccupancyCommercial ? this.addCommercialForms() : null;
-        // isOccupancyCommercial ? this.fieldSets[1].documents.push(64) : null;
-        // isOccupancyCommercial ? this.fieldSets[1].documents.push(65) : null;
-        is3storeysOrMore
-          ? this.fieldSets[2].documents.push(...this.is3storeysOrMore)
-          : null;
-        ifFloorArea20sqmOrMore
-          ? this.fieldSets[2].documents.push(...this.ifFloorArea20sqmOrMore)
-          : null;
-        // isEngineerArchitect
-        //   ? this.fieldSets[4].documents.push(...this.isEnginnerArchictect)
-        //   : null;
-        this.initData();
-        this.setFilePaths();
-        this.pdfSource = this.forms[0].src;
-        this.sampleForm = this.forms[0].sample;
-      });
+      this.applicationService
+        .fetchApplicationInfo(this.applicationId)
+        .subscribe((res) => {
+          this.applicationDetails = res.data;
+          this.fetchOutsideAddress();
+          console.log(this.applicationDetails);
+          this.saveRoute();
+
+          const isLessee =
+            this.applicationDetails.rol_status_id == 2 ? true : false;
+          const isRegisteredOwner =
+            this.applicationDetails.is_registered_owner == 1 ? true : false;
+          const isNotRegisteredOwner =
+            this.applicationDetails.is_registered_owner == 2 ? true : false;
+          const isWithinSubdivision =
+            this.applicationDetails.is_within_subdivision == 1 ? true : false;
+          const isUnderMortgage =
+            this.applicationDetails.is_under_mortgage == 1 ? true : false;
+          const isOwnedByCorporation =
+            this.applicationDetails.is_owned_by_corporation == 1 ? true : false;
+          const isHaveCoOwners =
+            this.applicationDetails.is_property_have_coowners == 1
+              ? true
+              : false;
+          const isConstructionStatus =
+            this.applicationDetails.construction_status_id == 1 ? true : false;
+          const if10000sqm =
+            this.applicationDetails.project_detail.total_floor_area >= 10000
+              ? true
+              : false;
+          const isOccupancyCommercial =
+            this.applicationDetails.occupancy_classification_id !== 1
+              ? true
+              : false;
+          const is3storeysOrMore =
+            this.applicationDetails.project_detail.number_of_storey >= 3
+              ? true
+              : false;
+          const ifFloorArea20sqmOrMore =
+            this.applicationDetails.project_detail.total_floor_area > 20
+              ? true
+              : false;
+          const isNoAsBuilt =
+            this.applicationDetails.construction_status_id !== 3 ? true : false;
+          const isEngineerArchitect =
+            this.applicationDetails.is_representative == 1 ? true : false;
+          isNoAsBuilt
+            ? this.fieldSets[4].documents.push(...this.isNotAsBuilt)
+            : null;
+          if10000sqm
+            ? this.fieldSets[4].documents.push(...this.if10000sqm)
+            : null;
+          isLessee
+            ? this.fieldSets[0].documents.push(...this.lesseeDocs)
+            : null;
+          isRegisteredOwner
+            ? this.fieldSets[0].documents.push(...this.registeredDocs)
+            : null;
+          isNotRegisteredOwner
+            ? this.fieldSets[0].documents.push(...this.notRegisteredDocs)
+            : null;
+          isWithinSubdivision
+            ? this.fieldSets[4].documents.push(...this.isWithinSubdivision)
+            : null;
+          isUnderMortgage
+            ? this.fieldSets[4].documents.push(...this.isUnderMortgage)
+            : null;
+          isOwnedByCorporation
+            ? this.fieldSets[4].documents.push(...this.isOwnedByCorporation)
+            : null;
+          isHaveCoOwners
+            ? this.fieldSets[4].documents.push(...this.isHaveCoOwners)
+            : null;
+          isConstructionStatus
+            ? this.updateForms()
+            : this.fieldSets[0].documents.push(...this.isConstructionStatus);
+          // isOccupancyCommercial ? this.fieldSets[3].documents.push(47) : null;
+          // isOccupancyCommercial ? this.addCommercialForms() : null;
+          // isOccupancyCommercial ? this.fieldSets[1].documents.push(64) : null;
+          // isOccupancyCommercial ? this.fieldSets[1].documents.push(65) : null;
+          is3storeysOrMore
+            ? this.fieldSets[2].documents.push(...this.is3storeysOrMore)
+            : null;
+          ifFloorArea20sqmOrMore
+            ? this.fieldSets[2].documents.push(...this.ifFloorArea20sqmOrMore)
+            : null;
+          // isEngineerArchitect
+          //   ? this.fieldSets[4].documents.push(...this.isEnginnerArchictect)
+          //   : null;
+          this.initData();
+          this.setFilePaths();
+          this.pdfSource = this.forms[0].src;
+          this.sampleForm = this.forms[0].sample;
+        });
+    });
 
     this.isLoading = false;
   }
@@ -287,7 +296,8 @@ export class BuildingPermitComponent implements OnInit {
   }
 
   getDocType(id): string {
-    return documentTypes[id];
+    // return documentTypes[id];
+    return this.documentTypes[id - 1].name;
   }
 
   initData() {
@@ -420,61 +430,34 @@ export class BuildingPermitComponent implements OnInit {
   }
 
   submitApplication() {
-    // if (this.getFieldSetsLength() + 6 == this.getUniqueUserDocs()) {
-    //   this.isLoading = true;
-    //   if (this.dateService.isWeekend() === false) {
-    //     console.log(this.dateService.isWorkHours());
-    //     if (this.dateService.isWorkHours() === true) {
-    //       const body = {
-    //         application_status_id: 9,
-    //       };
-    //       this.applicationService
-    //         .updateApplicationStatus(body, this.applicationId)
-    //         .subscribe((res) => {
-    //           this.isLoading = false;
-    //           this.router.navigate([
-    //             'dashboard/new/summary',
-    //             this.applicationId,
-    //           ]);
-    //         });
-    //     } else {
-    //       this.isLoading = false;
-    //       this.openSnackBar(
-    //         'You can only submit applications during Working Hours (8am - 5pm).'
-    //       );
-    //     }
-    //   } else {
-    //     this.openSnackBar('You can only submit applications on Weekdays.');
-    //     this.isLoading = false;
-    //   }
-    // } else {
-    //   this.openSnackBar('Please upload all necessary documents!');
-    // }
-    if (environment.receiveApplications == true) {
-      console.log(
-        this.getFieldSetsLength(),
-        this.getFormsLength(),
-        this.getUniqueUserDocs()
-      );
-      if (
-        this.getFieldSetsLength() + this.getFormsLength() ==
-        this.getUniqueUserDocs()
-      ) {
-        this.isLoading = true;
-        const body = {
-          application_status_id: 9,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            this.router.navigate(['dashboard/new/summary', this.applicationId]);
-          });
-      } else {
-        this.openSnackBar('Please upload all necessary documents!');
-      }
+    if (this.dateService.isWeekend() === true) {
+      this.openSnackBar('Please submit application during weekdays.');
+      this.isLoading = false;
     } else {
-      this.openSnackBar('Sorry, system is under maintenance.');
+      if (environment.receiveApplications == true) {
+        if (
+          this.getFieldSetsLength() + this.getFormsLength() ==
+          this.getUniqueUserDocs()
+        ) {
+          this.isLoading = true;
+          const body = {
+            application_status_id: 9,
+          };
+          this.applicationService
+            .updateApplicationStatus(body, this.applicationId)
+            .subscribe((res) => {
+              this.isLoading = false;
+              this.router.navigate([
+                'dashboard/new/summary',
+                this.applicationId,
+              ]);
+            });
+        } else {
+          this.openSnackBar('Please upload all necessary documents!');
+        }
+      } else {
+        this.openSnackBar('Sorry, system is under maintenance.');
+      }
     }
   }
   checkExistingZoningFormData() {

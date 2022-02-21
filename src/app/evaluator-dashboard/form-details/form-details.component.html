@@ -270,7 +270,13 @@
         </mat-expansion-panel-header>
         <app-remarks-history-table></app-remarks-history-table>
       </mat-expansion-panel>
+      <div class="row justify-content-center px-2" *ngIf="!isDocumentAForm()">
+        <div class="info-label w-100">
+          Please upload the complete set of document including correction.
+        </div>
+      </div>
       <ng-container *ngIf="isDocumentAForm(); else uploadFiles"> </ng-container>
+
       <ng-template #uploadFiles>
         <ngx-dropzone
           (change)="onSelect($event, 'selectedForm')"

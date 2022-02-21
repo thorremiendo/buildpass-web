@@ -1,3 +1,4 @@
+import { GetDateService } from './../../../core/services/get-date.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
@@ -7,7 +8,7 @@ import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
 import { environment } from './../../../../environments/environment';
-import { documentTypes } from '../../../core/enums/document-type.enum';
+// import { documentTypes } from '../../../core/enums/document-type.enum';
 
 @Component({
   selector: 'app-cfei-permit',
@@ -22,6 +23,7 @@ export class CfeiPermitComponent implements OnInit {
   public applicationId;
   public applicationDetails;
   public isLoading: boolean = false;
+  public documentTypes;
 
   public forms: any = [];
 
@@ -42,13 +44,14 @@ export class CfeiPermitComponent implements OnInit {
     private dataBindingService: DataFormBindingService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService
+    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService,
+    private dateService: GetDateService
   ) {}
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
-      // this.documentTypes = res.data;
+      this.documentTypes = res.data;
       this.applicationId = localStorage.getItem('app_id');
       this.applicationService
         .fetchApplicationInfo(this.applicationId)
@@ -87,7 +90,7 @@ export class CfeiPermitComponent implements OnInit {
                 id: 174,
                 src: '../../../../assets/forms/updated/Certificate_of_Final_Electrical_Inspection_E-05.pdf',
               });
-              this.fieldSets[0].documents.push(175, 176, 170, 178, 172, 173);
+              this.fieldSets[0].documents.push(175, 170, 178, 172, 173);
               break;
             case 3:
               this.forms.push({
@@ -101,7 +104,7 @@ export class CfeiPermitComponent implements OnInit {
                 id: 174,
                 src: '../../../../assets/forms/updated/Certificate_of_Final_Electrical_Inspection_E-05.pdf',
               });
-              this.fieldSets[0].documents.push(191, 170, 178, 172, 195);
+              this.fieldSets[0].documents.push(170, 178, 172, 195);
               break;
             case 5:
               this.forms.push({
@@ -171,7 +174,7 @@ export class CfeiPermitComponent implements OnInit {
   }
 
   getDocType(id): string {
-    return documentTypes[id];
+    return this.documentTypes[id - 1].name;
   }
 
   initData() {
@@ -316,39 +319,31 @@ export class CfeiPermitComponent implements OnInit {
   }
 
   submitApplication() {
-    // if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
-    //   this.isSubmitting = true;
-    //   const data = {
-    //     application_status_id: 9,
-    //   };
-    //   this.applicationService
-    //     .updateApplicationStatus(data, this.applicationId)
-    //     .subscribe((res) => {
-    //       this.isSubmitting = true;
-    //       this.router.navigate(['dashboard/new/summary', this.applicationId]);
-    //       localStorage.removeItem('app_id');
-    //       localStorage.removeItem('application_details_for_excavation');
-    //     });
-    // } else {
-    //   this.openSnackBar('Please upload all necessary documents!');
-    // }
-    if (environment.receiveApplications == true) {
-      if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
-        this.isLoading = true;
-        const body = {
-          application_status_id: 9,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            this.router.navigate(['dashboard/new/summary', this.applicationId]);
-          });
-      } else {
-        this.openSnackBar('Please upload all necessary documents!');
-      }
+    if (this.dateService.isWeekend() === true) {
+      this.openSnackBar('Please submit application during weekdays.');
+      this.isLoading = false;
     } else {
-      this.openSnackBar('Sorry, system is under maintenance.');
+      if (environment.receiveApplications == true) {
+        if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
+          this.isLoading = true;
+          const body = {
+            application_status_id: 9,
+          };
+          this.applicationService
+            .updateApplicationStatus(body, this.applicationId)
+            .subscribe((res) => {
+              this.isLoading = false;
+              this.router.navigate([
+                'dashboard/new/summary',
+                this.applicationId,
+              ]);
+            });
+        } else {
+          this.openSnackBar('Please upload all necessary documents!');
+        }
+      } else {
+        this.openSnackBar('Sorry, system is under maintenance.');
+      }
     }
   }
   openSnackBar(message: string) {

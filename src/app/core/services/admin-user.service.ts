@@ -107,6 +107,27 @@ export class AdminUserService {
 
   }
 
+  getAccessRole(){
+    const url = `/role`;
+
+    return this.apiService.get(url);
+
+  }
+
+  getOffice(){
+    const url = `/office`;
+
+    return this.apiService.get(url);
+
+  }
+
+  getPosition(){
+    const url = `/position`;
+
+    return this.apiService.get(url);
+
+  }
+
 }
 
 

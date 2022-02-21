@@ -1,3 +1,4 @@
+import { GetDateService } from './../../../core/services/get-date.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
@@ -85,7 +86,8 @@ export class ExcavationPermitComponent implements OnInit {
     private dataBindingService: DataFormBindingService,
     private router: Router,
     private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dateService: GetDateService
   ) {}
 
   ngOnInit(): void {
@@ -465,41 +467,31 @@ export class ExcavationPermitComponent implements OnInit {
   }
 
   submitApplication() {
-    // if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
-    //   this.isSubmitting = true;
-    //   const id = this.excavationId ? this.excavationId : this.applicationId;
-
-    //   const data = {
-    //     application_status_id: 9,
-    //   };
-    //   this.applicationService
-    //     .updateApplicationStatus(data, id)
-    //     .subscribe((res) => {
-    //       this.isSubmitting = true;
-    //       this.router.navigate(['dashboard/new/summary', id]);
-    //       localStorage.removeItem('app_id');
-    //       localStorage.removeItem('application_details_for_excavation');
-    //     });
-    // } else {
-    //   this.openSnackBar('Please upload all necessary documents!');
-    // }
-    if (environment.receiveApplications == true) {
-      if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
-        this.isLoading = true;
-        const body = {
-          application_status_id: 9,
-        };
-        this.applicationService
-          .updateApplicationStatus(body, this.applicationId)
-          .subscribe((res) => {
-            this.isLoading = false;
-            this.router.navigate(['dashboard/new/summary', this.applicationId]);
-          });
-      } else {
-        this.openSnackBar('Please upload all necessary documents!');
-      }
+    if (this.dateService.isWeekend() === true) {
+      this.openSnackBar('Please submit application during weekdays.');
+      this.isLoading = false;
     } else {
-      this.openSnackBar('Sorry, system is under maintenance.');
+      if (environment.receiveApplications == true) {
+        if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
+          this.isLoading = true;
+          const body = {
+            application_status_id: 9,
+          };
+          this.applicationService
+            .updateApplicationStatus(body, this.applicationId)
+            .subscribe((res) => {
+              this.isLoading = false;
+              this.router.navigate([
+                'dashboard/new/summary',
+                this.applicationId,
+              ]);
+            });
+        } else {
+          this.openSnackBar('Please upload all necessary documents!');
+        }
+      } else {
+        this.openSnackBar('Sorry, system is under maintenance.');
+      }
     }
   }
   openSnackBar(message: string) {
