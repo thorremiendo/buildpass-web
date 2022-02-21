@@ -12,6 +12,7 @@ import {
   Office,
   AdminUserService,
   FormValidatorService,
+  SnackBarService,
 } from '../../../core';
 
 @Component({
@@ -26,6 +27,8 @@ export class AdminEmployeeCreateComponent implements OnInit {
   public isUpdating: boolean = false;
   public hide: boolean = true;
   public accessRoles:any;
+  public offices:any;
+  public positions: any;
 
   _adminCreateUserForm: FormGroup;
   public barangay: Barangay[];
@@ -61,6 +64,7 @@ export class AdminEmployeeCreateComponent implements OnInit {
     public dialogRef: MatDialogRef<AdminEmployeeCreateComponent>,
     private _adminUserService: AdminUserService,
     private _formValidator: FormValidatorService,
+    private _snackbarService: SnackBarService,
   ) {
     this.createForm();
   }
@@ -196,6 +200,20 @@ export class AdminEmployeeCreateComponent implements OnInit {
     (err)=>{
       console.log(err);
     });
+
+    this._adminUserService.getOffice().subscribe((data)=>{
+      this.offices = data.data;
+    },
+    (err)=>{
+      console.log(err);
+    });
+
+    this._adminUserService.getPosition().subscribe((data)=>{
+      this.positions = data.data;
+    },
+    (err)=>{
+      console.log(err);
+    });
   }
 
   onSubmit() {
@@ -229,13 +247,21 @@ export class AdminEmployeeCreateComponent implements OnInit {
      
     };
 
+    //console.log(user);
+
     this._registerAccountEvaluatorFormService
       .submitRegisterAccountInfo(user)
       .subscribe((res) => {
+        this._submitted = false;
         this.isUpdating = false;
         Swal.fire('Success!', `Evaluator Created`, 'success').then((result) => {
           window.location.reload();
         });
+      },
+      (error)=>{
+        this._snackbarService.open("Something went wrong", "close", 5);
+        this._submitted = false;
+        this.isUpdating = false;
       });
   }
 }
