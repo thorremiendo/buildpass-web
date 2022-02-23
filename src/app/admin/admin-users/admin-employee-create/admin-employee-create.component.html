@@ -241,7 +241,15 @@
               <div class="col-md-6">
                 <mat-form-field appearance="outline">
                   <mat-label>Office</mat-label>
-                  <input
+                  <mat-select formControlName="office" required>
+                    <mat-option
+                      *ngFor="let office of offices"
+                      [value]="office.id"
+                    >
+                      {{ office.name }}
+                    </mat-option>
+                  </mat-select>
+                  <!-- <input
                     type="text"
                     matInput
                     formControlName="office"
@@ -258,11 +266,11 @@
                         let office of _filteredOfficeOptions | async;
                         let i = index
                       "
-                      [value]="i"
+                      [value]="office."
                     >
                       {{ office }}
                     </mat-option>
-                  </mat-autocomplete>
+                  </mat-autocomplete> -->
                   <mat-error
                     *ngIf="
                       (adminCreateUserFormControl.office.touched ||
@@ -280,7 +288,15 @@
               <div class="col-md-6">
                 <mat-form-field appearance="outline">
                   <mat-label>Position</mat-label>
-                  <input
+                  <mat-select formControlName="position" required>
+                    <mat-option
+                      *ngFor="let position of positions"
+                      [value]="position.id"
+                    >
+                      {{ position.name }}
+                    </mat-option>
+                  </mat-select>
+                  <!-- <input
                     type="text"
                     matInput
                     formControlName="position"
@@ -295,7 +311,7 @@
                     >
                       {{ position }}
                     </mat-option>
-                  </mat-autocomplete>
+                  </mat-autocomplete> -->
                   <mat-error
                     *ngIf="
                       (adminCreateUserFormControl.position.touched ||
