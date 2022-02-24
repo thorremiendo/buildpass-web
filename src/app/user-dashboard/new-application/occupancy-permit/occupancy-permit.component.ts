@@ -25,6 +25,7 @@ export class OccupancyPermitComponent implements OnInit {
   public linkedBuildingPermitDetails;
   public isLoading: boolean = false;
   public documentTypes;
+  public isOptional: boolean = false;
   public forms: any = [
     {
       id: 81,
@@ -53,7 +54,7 @@ export class OccupancyPermitComponent implements OnInit {
   ];
 
   public withOldBuildingPermit: Array<any> = [206, 88];
-  public withBuildpassBuildingPermit: Array<any> = [203, 206];
+  public withBuildpassBuildingPermit: Array<any> = [206];
 
   constructor(
     private newApplicationService: NewApplicationService,
@@ -210,6 +211,7 @@ export class OccupancyPermitComponent implements OnInit {
         src: this.forms[i].src,
         description: this.getDocType(this.forms[i].id),
         path: '',
+        is_applicable: 0,
       };
     }
     for (let i = 0; i < this.fieldSets.length; i++) {
@@ -237,7 +239,10 @@ export class OccupancyPermitComponent implements OnInit {
     this.forms.forEach((form) => {
       docs.forEach((doc) => {
         if (form.id == doc.document_id) {
+          form.src = doc.document_path;
           form.path = doc.document_path;
+          form.doc_id = doc.id;
+          form.is_applicable = doc.is_applicable;
         }
       });
     });
@@ -361,37 +366,88 @@ export class OccupancyPermitComponent implements OnInit {
           this.applicationService
             .updateApplicationStatus(body, this.applicationId)
             .subscribe((res) => {
-              const requiredDocs = [
-                125, 177, 203, 212, 4, 117, 199, 195, 140, 29, 115, 30, 60, 63,
-                61, 167, 64, 65, 216,
-              ];
-              var count = 0;
-              var bar = new Promise<void>((resolve, reject) => {
-                requiredDocs.forEach((element, index, array) => {
-                  debugger;
-                  this.isLoading = true;
-                  const uploadDoc = {
-                    application_id: this.applicationId,
-                    user_id: this.user.id,
-                    document_id: element,
-                    document_path:
-                      'https://s3-ap-southeast-1.amazonaws.com/buildpass-storage/oCgTXNEEiktYux44i1cJCkNCiREKA5ABlOYeeUSC.pdf',
-                    is_document_string: 1,
-                  };
-                  this.newApplicationService
-                    .submitDocument(uploadDoc)
-                    .subscribe((res) => {
-                      count = count + 1;
-                      if (count === array.length - 1) {
-                        this.isLoading = false;
-                        this.router.navigate([
-                          'dashboard/new/summary',
-                          this.applicationId,
-                        ]);
-                      }
-                    });
+              if (
+                this.applicationDetails.associated_released_permits.length >= 1
+              ) {
+                const oldBpDocs = [
+                  125, 177, 212, 4, 117, 199, 195, 140, 29, 115, 30, 60, 63, 61,
+                  167, 64, 65, 216,
+                ];
+                //OLD BPS
+                var count = 0;
+                var bar = new Promise<void>((resolve, reject) => {
+                  oldBpDocs.forEach((element, index, array) => {
+                    this.isLoading = true;
+                    const uploadDoc = {
+                      application_id: this.applicationId,
+                      user_id: this.user.id,
+                      document_id: element,
+                      document_path:
+                        'https://s3-ap-southeast-1.amazonaws.com/buildpass-storage/oCgTXNEEiktYux44i1cJCkNCiREKA5ABlOYeeUSC.pdf',
+                      is_document_string: 1,
+                    };
+                    this.newApplicationService
+                      .submitDocument(uploadDoc)
+                      .subscribe((res) => {
+                        count = count + 1;
+                        if (count === array.length - 1) {
+                          this.isLoading = false;
+                          this.router.navigate([
+                            'dashboard/new/summary',
+                            this.applicationId,
+                          ]);
+                        }
+                      });
+                  });
                 });
-              });
+              } else {
+                const releasedBpDocs = [
+                  125, 177, 212, 4, 117, 199, 195, 140, 29, 115, 30, 60, 63, 61,
+                  167, 64, 65, 216, 194,
+                ];
+                let docs = [];
+                let count = 0;
+                const existingDocs =
+                  this.linkedBuildingPermitDetails.user_docs.forEach(
+                    (element) => {
+                      const requiredDoc = releasedBpDocs.find(
+                        (e) => e == element.document_id
+                      );
+                      if (requiredDoc) {
+                        docs.push(element);
+                      }
+                      count = count + 1;
+                    }
+                  );
+                if (
+                  count == this.linkedBuildingPermitDetails.user_docs.length
+                ) {
+                  let count2 = 0;
+                  const upload = docs.forEach((doc) => {
+                    this.isSubmitting = true;
+                    const uploadDoc = {
+                      application_id: this.applicationId,
+                      user_id: this.user.id,
+                      document_id: doc.document_id,
+                      document_path: doc.document_path,
+                      is_document_string: 1,
+                    };
+                    this.newApplicationService
+                      .submitDocument(uploadDoc)
+                      .subscribe((res) => {
+                        count2 = count2 + 1;
+                        if (count2 == docs.length) {
+                          debugger;
+                          this.isSubmitting = false;
+                          this.router.navigate([
+                            'dashboard/new/summary',
+                            this.applicationId,
+                          ]);
+                        }
+                      });
+                  });
+                }
+              }
             });
         } else {
           this.openSnackBar('Please upload all necessary documents!');
@@ -437,5 +493,70 @@ export class OccupancyPermitComponent implements OnInit {
         });
         this.fetchApplicationInfo();
       });
+  }
+
+  onToggleChange(e, form) {
+    console.log(form);
+    if (e.checked == true) {
+      this.submitNotApplicable(form);
+    } else {
+      this.submitApplicable(form);
+    }
+  }
+
+  async submitNotApplicable(form) {
+    console.log(form);
+    const blob =
+      await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    if (blob) {
+      this.isLoading = true;
+      const uploadDocumentData = {
+        application_id: this.applicationId,
+        user_id: this.user.id,
+        document_id: form.id,
+        document_path: blob,
+        document_status_id: 1,
+        is_applicable: 2,
+        receiving_status_id: 1,
+        cbao_status_id: 1,
+        bfp_status_id: 1,
+        cepmo_status_id: 1,
+      };
+
+      this.newApplicationService
+        .submitDocument(uploadDocumentData)
+        .subscribe((res) => {
+          this.fetchApplicationInfo();
+        });
+    }
+    this.isOptional = false;
+  }
+
+  async submitApplicable(form) {
+    console.log(form);
+    const blob =
+      await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
+    if (blob) {
+      this.isLoading = true;
+      const uploadDocumentData = {
+        application_id: this.applicationId,
+        user_id: this.user.id,
+        document_id: form.id,
+        document_path: blob,
+        document_status_id: 0,
+        is_applicable: 1,
+        receiving_status_id: 0,
+        cbao_status_id: 0,
+        bfp_status_id: 0,
+        cepmo_status_id: 0,
+      };
+
+      this.newApplicationService
+        .submitDocument(uploadDocumentData)
+        .subscribe((res) => {
+          this.fetchApplicationInfo();
+        });
+    }
+    this.isOptional = false;
   }
 }
