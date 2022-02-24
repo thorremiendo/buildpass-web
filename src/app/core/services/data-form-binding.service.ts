@@ -920,14 +920,17 @@ export class DataFormBindingService {
       } ${applicantDetails.barangay ? applicantDetails.barangay : ''} ${
         this.outsideAddress
       }`;
+      if (completeAddress.includes('undefined')) {
+        completeAddress = this.userAddress;
+      }
     } else {
       completeAddress = this.userAddress;
     }
     const formData = {
-      // building_permit_number:
-      //   a.associated_released_permits.length >= 1
-      //     ? a.associated_released_permits[0].old_permit_number
-      //     : a.permit_application_code,
+      building_permit_number:
+        a.associated_released_permits.length >= 1
+          ? a.associated_released_permits[0].old_permit_number
+          : a.permit_released_code,
       char_of_occupancy: `${
         a.occupancy_classification_id == 1
           ? 'Residential'

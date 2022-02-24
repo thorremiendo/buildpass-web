@@ -21,7 +21,7 @@
           <mat-toolbar color="primary" class="no-shadow">
             <div fxLayout="row" fxFlex="100">
               <span class="m-t-3 font-14">
-                <img
+                <img *ngIf="userInfo.photo_path"
                   [src]="userInfo.photo_path"
                   class="img-circle vm m-r-10"
                   width="40"
