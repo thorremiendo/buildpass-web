@@ -486,7 +486,9 @@ export class ESignatureComponent implements OnInit {
       res.arrayBuffer()
     );
 
-    const pdfDocLoad = await PDFDocument.load(pdfBuffer);
+    const pdfDocLoad = await PDFDocument.load(pdfBuffer, {
+      parseSpeed: Infinity,
+    });
     const eSig = await pdfDocLoad.embedPng(esigBuffer);
 
     const pages = pdfDocLoad.getPages();
@@ -499,22 +501,17 @@ export class ESignatureComponent implements OnInit {
       width: data.imageWidth,
       rotate: degrees(Number(data.rotation)),
     });
-    debugger;
-
-    const pdfBytes = await pdfDocLoad.save();
-    debugger;
+    const pdfBytes = await pdfDocLoad.save({
+      objectsPerTick: Infinity,
+    });
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    debugger;
     const file = window.URL.createObjectURL(blob);
-    window.open(file); // open in new window
-    debugger;
 
     const body = {
       document_path: blob,
     };
     this.applicationService.updateDocumentFile(body, this.documentId).subscribe(
       (res) => {
-        debugger;
         if (this.documentInfo.document_id == 50) {
           const body = {
             application_status_id: 8,
