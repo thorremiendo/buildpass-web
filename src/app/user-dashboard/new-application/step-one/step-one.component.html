@@ -74,6 +74,12 @@
               >
             </mat-select>
           </mat-form-field>
+          <p
+            class="text-center fw-bold"
+            *ngIf="userBuildingPermits.length == 0"
+          >
+            No data
+          </p>
         </ng-container>
       </ng-container>
       <ng-container *ngIf="selectedPermitType == '10'">
@@ -263,6 +269,12 @@
                       >
                     </mat-select>
                   </mat-form-field>
+                  <p
+                    class="text-center fw-bold"
+                    *ngIf="userBuildingPermits.length == 0"
+                  >
+                    No data
+                  </p>
                 </ng-container>
               </ng-container>
             </ng-container>

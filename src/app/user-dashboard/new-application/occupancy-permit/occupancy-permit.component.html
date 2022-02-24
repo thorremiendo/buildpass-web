@@ -14,8 +14,17 @@
       <h1>{{ form.description }}</h1>
 
       <div class="fillable-form">
-        <div class="step-label">
-          After filling out the form, please click the next button to proceed.
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="step-label">
+            After filling out the form, please click the next button to proceed.
+          </div>
+          <mat-slide-toggle
+            [ngModel]="form.is_applicable == 2 ? true : false"
+            (change)="onToggleChange($event, form)"
+            ><span style="font-size: 14px; font-weight: bold"
+              >Not Applicable</span
+            ></mat-slide-toggle
+          >
         </div>
         <mat-card>
           <mat-card-content>
@@ -80,11 +89,8 @@
       <div class="fieldsets">
         <h1>{{ fieldSet.title }}</h1>
         <div class="step-label">
-          Please make sure uploaded documents follow prescribed templates. Check 
-          <a
-            routerLink="/dashboard/checklists"
-            routerLinkActive="active"
-          >
+          Please make sure uploaded documents follow prescribed templates. Check
+          <a routerLink="/dashboard/checklists" routerLinkActive="active">
             downloadables
           </a>
           for more info.
@@ -96,6 +102,7 @@
             (emitNotApplicable)="submitNotApplicableDocument($event, field.id)"
             description="{{ field.description }}"
             path="{{ field.path }}"
+            optional="{{ field.id !== '194' }}"
           ></app-file-upload>
         </div>
       </div>

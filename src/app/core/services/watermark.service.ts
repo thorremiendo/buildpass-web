@@ -14,88 +14,94 @@ export class WaterMarkService {
 
   async insertWaterMark(doc_path: string, doc_type: string) {
     const url = doc_path;
-
     const existingPdfBytes = await fetch(url).then((res) => res.arrayBuffer());
-    const pdfDocLoad = await PDFDocument.load(existingPdfBytes);
 
-    // const compliantImgBytes = await fetch(this.comliantImgPath).then((res) =>
-    //   res.arrayBuffer()
-    // );
-    // const forComplianceImgBytes = await fetch(this.forComplianceImgPath).then(
-    //   (res) => res.arrayBuffer()
-    // );
+    const pdfDocLoad = await PDFDocument.load(existingPdfBytes, {
+      parseSpeed: Infinity,
+    });
 
-    // const compliantImg = await pdfDocLoad.embedPng(compliantImgBytes);
-    // const forComplianceImg = await pdfDocLoad.embedPng(forComplianceImgBytes);
+    const compliantImgBytes = await fetch(this.comliantImgPath).then((res) =>
+      res.arrayBuffer()
+    );
+    const forComplianceImgBytes = await fetch(this.forComplianceImgPath).then(
+      (res) => res.arrayBuffer()
+    );
+
+    const compliantImg = await pdfDocLoad.embedPng(compliantImgBytes);
+    const forComplianceImg = await pdfDocLoad.embedPng(forComplianceImgBytes);
 
     const helveticaFont = await pdfDocLoad.embedFont(StandardFonts.Helvetica);
 
     const pages = pdfDocLoad.getPages();
+
     const pageCount = pages.length;
     const { width, height } = pages[0].getSize();
     var pngDims;
 
-    // var image = forComplianceImg.scaleToFit(width, height);
+    var image = forComplianceImg.scaleToFit(width, height);
 
     // console.log(width, height, image.width, image.height);
-    console.log(pages[0].getWidth(), pages[0].getHeight());
+    // console.log(pages[0].getWidth(), pages[0].getHeight());
 
     for (let i = 0; i < pageCount; i++) {
       switch (doc_type) {
-        // case 'compliant':
-        //   pngDims = compliantImg.scaleToFit(width, height);
-        //   pages[i].drawImage(compliantImg, {
-        //     x: width / 2 - pngDims.width / 2 + 100,
-        //     y: height / 2 + pngDims.height - 100,
-        //     opacity: 0.8,
-        //     rotate: degrees(-45),
-        //     width: pngDims.width * 0.8,
-        //     height: pngDims.height * 0.8,
-        //   });
-
-        //   break;
-
-        // case 'for-compliance':
-        //   pngDims = forComplianceImg.scaleToFit(width, height);
-        //   pages[i].drawImage(forComplianceImg, {
-        //     x: width / 2 - pngDims.width / 2 + 100,
-        //     y: height / 2 + pngDims.height - 100,
-        //     opacity: 0.8,
-        //     rotate: degrees(-45),
-        //     width: pngDims.width * 0.7,
-        //     height: pngDims.height * 0.7,
-        //   });
-
-        // break;
         case 'compliant':
-          pages[i].drawText('COMPLIANT', {
-            x: width / 2 - 150,
-            y: height / 2 + 150,
-            size: 80,
-            font: helveticaFont,
-            color: rgb(0, 1, 0),
-            opacity: 0.2,
+          pngDims = compliantImg.scaleToFit(width, height);
+          pages[i].drawImage(compliantImg, {
+            x: width / 2 - pngDims.width / 2 + 100,
+            y: height / 2 + pngDims.height - 100,
+            opacity: 0.8,
             rotate: degrees(-45),
+            width: pngDims.width * 0.8,
+            height: pngDims.height * 0.8,
           });
+
           break;
+
         case 'for-compliance':
-          pages[i].drawText('NON COMPLIANT', {
-            x: width / 2 - 200,
-            y: height / 2 + 150,
-            size: 80,
-            font: helveticaFont,
-            color: rgb(1, 0, 0),
-            opacity: 0.2,
+          pngDims = forComplianceImg.scaleToFit(width, height);
+          pages[i].drawImage(forComplianceImg, {
+            x: width / 2 - pngDims.width / 2 + 100,
+            y: height / 2 + pngDims.height - 100,
+            opacity: 0.8,
             rotate: degrees(-45),
+            width: pngDims.width * 0.7,
+            height: pngDims.height * 0.7,
           });
+
           break;
+        // case 'compliant':
+        //   pages[i].drawText('COMPLIANT', {
+        //     x: width / 2 - 150,
+        //     y: height / 2 + 150,
+        //     size: 60,
+        //     font: helveticaFont,
+        //     color: rgb(0, 1, 0),
+        //     opacity: 0.2,
+        //     rotate: degrees(-45),
+        //   });
+        //   break;
+        // case 'for-compliance':
+        //   pages[i].drawText('NON COMPLIANT', {
+        //     x: width / 2 - 200,
+        //     y: height / 2 + 150,
+        //     size: 60,
+        //     font: helveticaFont,
+        //     color: rgb(1, 0, 0),
+        //     opacity: 0.2,
+        //     rotate: degrees(-45),
+        //   });
+        //   break;
       }
     }
 
-    const pdfBytes = await pdfDocLoad.save();
+    const pdfBytes = await pdfDocLoad.save({
+      objectsPerTick: Infinity,
+    });
+
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
-    // window.open(file); // open in new window
+    window.open(file); // open in new window
 
     return blob;
   }
