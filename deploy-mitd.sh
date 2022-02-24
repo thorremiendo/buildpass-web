@@ -1,8 +1,11 @@
-echo "Installing source NPM dependencies..."
-npm install
+# echo "Installing source NPM dependencies..."
+# npm install
+
+read -p "Enter source API: " API
+echo "API source is ${API}"
 
 echo "Build Started"
-ng build --configuration=mitd
+ng build --configuration=${API}
 
 echo "Build Done"
 
@@ -16,8 +19,9 @@ echo "<IfModule mod_rewrite.c>
         RewriteCond %{REQUEST_FILENAME} !-d
         RewriteRule . /index.html [L]
 </IfModule>" > dist/ocpas-web/.htaccess
-echo ".htaccess created"
-echo "Deployment Complete"
 
+echo ".htaccess created"
+
+echo "Deployment Complete"
 
 exit 0
