@@ -1,5 +1,5 @@
-# echo "Installing source NPM dependencies..."
-# npm install
+echo "Installing source NPM dependencies..."
+npm install
 
 read -p "Enter source API: " API
 echo "API source is ${API}"
