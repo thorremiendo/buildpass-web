@@ -561,36 +561,34 @@ export class ESignatureComponent implements OnInit {
   }
 
   addWatermarkToAllCompliant() {
+    this.isLoading = true;
     var count = 0;
-    var bar = new Promise<void>((resolve, reject) => {
-      this.userDocuments.forEach((element, index, array) => {
-        this.isLoading = true;
-        if (element.document_id !== 50) {
-          this.waterMarkService
-            .insertWaterMark(element.document_path, 'compliant')
-            .then((blob) => {
-              const updateFileData = {
-                document_status_id: 1,
-                document_path: blob,
-              };
-              this.newApplicationService
-                .updateDocumentFile(updateFileData, element.id)
-                .subscribe((res) => {
-                  count = count + 1;
-                  if (count === array.length - 1) {
-                    this.isLoading = false;
-                    this.openSnackBar('Success!');
-                    setTimeout(() => {
-                      this.router.navigate([
-                        '/evaluator/application',
-                        this.applicationId,
-                      ]);
-                    }, 1000);
-                  }
-                });
-            });
-        }
-      });
+    this.userDocuments.forEach((element, index, array) => {
+      if (element.document_id !== 50) {
+        this.waterMarkService
+          .insertWaterMark(element.document_path, 'compliant')
+          .then((blob) => {
+            const updateFileData = {
+              document_status_id: 1,
+              document_path: blob,
+            };
+            this.newApplicationService
+              .updateDocumentFile(updateFileData, element.id)
+              .subscribe((res) => {
+                count = count + 1;
+                if (count === array.length - 1) {
+                  this.isLoading = false;
+                  this.openSnackBar('Success!');
+                  setTimeout(() => {
+                    this.router.navigate([
+                      '/evaluator/application',
+                      this.applicationId,
+                    ]);
+                  }, 1000);
+                }
+              });
+          });
+      }
     });
   }
 }
