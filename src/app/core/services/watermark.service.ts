@@ -213,31 +213,49 @@ export class WaterMarkService {
     const structuralBytes = await this.convertToBytes(structuralUrl);
 
     if (architectrualBytes) {
-      architectural = await PDFDocument.load(architectrualBytes);
+      architectural = await PDFDocument.load(architectrualBytes, {
+        parseSpeed: Infinity,
+      });
     }
     if (civilBytes) {
-      civil = await PDFDocument.load(civilBytes);
+      civil = await PDFDocument.load(civilBytes, {
+        parseSpeed: Infinity,
+      });
     }
     if (sanitaryBytes) {
-      sanitary = await PDFDocument.load(sanitaryBytes);
+      sanitary = await PDFDocument.load(sanitaryBytes, {
+        parseSpeed: Infinity,
+      });
     }
     if (electricalBytes) {
-      electrical = await PDFDocument.load(electricalBytes);
+      electrical = await PDFDocument.load(electricalBytes, {
+        parseSpeed: Infinity,
+      });
     }
     if (electricalDesignBytes) {
-      electricalDesign = await PDFDocument.load(electricalDesignBytes);
+      electricalDesign = await PDFDocument.load(electricalDesignBytes, {
+        parseSpeed: Infinity,
+      });
     }
     if (buildingSpecBytes) {
-      buildingSpec = await PDFDocument.load(buildingSpecBytes);
+      buildingSpec = await PDFDocument.load(buildingSpecBytes, {
+        parseSpeed: Infinity,
+      });
     }
     if (billOfMaterialsBytes) {
-      billOfMaterials = await PDFDocument.load(billOfMaterialsBytes);
+      billOfMaterials = await PDFDocument.load(billOfMaterialsBytes, {
+        parseSpeed: Infinity,
+      });
     }
     if (soilAnalaysisBytes) {
-      soilAnalysis = await PDFDocument.load(soilAnalaysisBytes);
+      soilAnalysis = await PDFDocument.load(soilAnalaysisBytes, {
+        parseSpeed: Infinity,
+      });
     }
     if (structuralBytes) {
-      structural = await PDFDocument.load(structuralBytes);
+      structural = await PDFDocument.load(structuralBytes, {
+        parseSpeed: Infinity,
+      });
     }
 
     const mergedPdf = await PDFDocument.create();
@@ -313,7 +331,9 @@ export class WaterMarkService {
       copiedPagesI.forEach((page) => mergedPdf.addPage(page));
     }
 
-    const mergedPdfFile = await mergedPdf.save();
+    const mergedPdfFile = await mergedPdf.save({
+      objectsPerTick: Infinity,
+    });
 
     const blob = new Blob([mergedPdfFile], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
