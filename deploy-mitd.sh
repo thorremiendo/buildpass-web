@@ -2,10 +2,16 @@ echo "Installing source NPM dependencies..."
 npm install
 
 read -p "Enter source API: " API
-echo "API source is ${API}"
 
 echo "Build Started"
-ng build --configuration=${API}
+
+if [ "$API" == "prod" ]; then
+   echo "API source is ${API}"
+   ng build --prod
+else
+  echo "API source is ${API}"
+  ng build --configuration=${API}
+fi
 
 echo "Build Done"
 
