@@ -561,10 +561,10 @@ export class ESignatureComponent implements OnInit {
   }
 
   addWatermarkToAllCompliant() {
+    this.isLoading = true;
     var count = 0;
     var bar = new Promise<void>((resolve, reject) => {
       this.userDocuments.forEach((element, index, array) => {
-        this.isLoading = true;
         if (element.document_id !== 50) {
           this.waterMarkService
             .insertWaterMark(element.document_path, 'compliant')
