@@ -55,6 +55,8 @@ export class ChatBoxComponent implements OnInit {
             }
          
           }
+
+          console.log(this.selectedMessage)
         });
     }
   }
