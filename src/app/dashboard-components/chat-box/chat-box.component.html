@@ -35,12 +35,12 @@
               [class.active]="message === selectedMessage"
               *ngFor="let message of messages.slice().reverse()"
             >
-              <img
+              <img *ngIf="message.sender_detail"
                 mat-list-avatar
                 src="{{ message.sender_detail.photo_path }}"
                 alt="sender profile picture"
               />
-              <h3 matLine>
+              <h3 *ngIf="message.sender_detail" matLine>
                 {{ message.sender_detail.first_name }}
                 {{ message.sender_detail.last_name }}
               </h3>

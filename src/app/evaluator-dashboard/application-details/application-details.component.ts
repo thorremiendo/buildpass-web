@@ -22,6 +22,7 @@ import { departmentStatus } from 'src/app/core/enums/department-status.enum';
 import { applicationTypes } from '../../core/enums/application-type.enum';
 import { constructionType } from '../../core/enums/construction-type.enum';
 import { InputPermitNumberComponent } from '../input-permit-number/input-permit-number.component';
+import { AdminEditDialogComponent } from 'src/app/shared/admin-edit-dialog/admin-edit-dialog.component';
 
 @Component({
   selector: 'app-application-details',
@@ -363,6 +364,21 @@ export class ApplicationDetailsComponent implements OnInit {
       this.fetchApplicationInspections();
     });
     dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  openAdminEditDialog(applicationId,currentStatus){
+    const dialogRef = this.dialog.open(AdminEditDialogComponent, {
+      //width: '1000px',
+      data: {
+        type:'Application',
+        title:'Change Application Status',
+        applicationId: applicationId,
+        currentStatus: currentStatus,
+      },
+    });
+
+    //dialogRef.afterClosed().subscribe((result) => {});
+
   }
 
   goToApplication(id) {
