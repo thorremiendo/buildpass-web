@@ -26,6 +26,7 @@ export class ExcavationPermitComponent implements OnInit {
   public exisitingApplicationInfo;
   public excavationId;
   public renderFields: any = [];
+  public excavationPermitForm;
   public forms: any = [
     {
       id: 5,
@@ -102,15 +103,13 @@ export class ExcavationPermitComponent implements OnInit {
     });
   }
 
-  fetchApplicationInfo() {
+  setExcavationPermit() {
     this.applicationService
-      .fetchApplicationInfo(
-        this.excavationId ? this.excavationId : this.applicationId
-      )
+      .fetchUserDocs(this.excavationId ? this.excavationId : this.applicationId)
       .subscribe((res) => {
-        this.applicationDetails = res.data;
-        console.log(this.applicationDetails);
-        this.saveRoute();
+        this.excavationPermitForm = this.applicationDetails.user_docs.find(
+          (e) => e.document_id == 5
+        );
         if (this.applicationDetails.main_permit_id == null) {
           this.fieldSets[3].documents.push(18);
           this.fieldSets[0].documents.push(26, 104);
@@ -161,21 +160,31 @@ export class ExcavationPermitComponent implements OnInit {
             ? this.fieldSets[3].documents.push(...this.isHaveCoOwners)
             : null;
 
-          this.formData = this.dataBindingService.getFormData(
-            this.applicationDetails
-          );
           this.renderFields = this.fieldSets;
         } else {
+          this.renderFields = this.fieldSetsWithBuildingPermit;
+        }
+        this.initData();
+        if (!this.excavationPermitForm) {
           this.formData = this.dataBindingService.getFormData(
             this.applicationDetails
           );
-          this.renderFields = this.fieldSetsWithBuildingPermit;
+          this.pdfSource = this.forms[0].src;
         }
-
-        this.initData();
         this.setFilePaths();
-        this.pdfSource = this.forms[0].src;
         this.isLoading = false;
+      });
+  }
+
+  fetchApplicationInfo() {
+    this.applicationService
+      .fetchApplicationInfo(
+        this.excavationId ? this.excavationId : this.applicationId
+      )
+      .subscribe((res) => {
+        this.applicationDetails = res.data;
+        this.setExcavationPermit();
+        this.saveRoute();
       });
   }
   checkBuildingPermitExcavation() {
@@ -239,14 +248,16 @@ export class ExcavationPermitComponent implements OnInit {
       });
   }
 
-  public async upload(form): Promise<void> {
+  public async upload(form, type): Promise<void> {
     this.isSubmitting = true;
     const blob =
       await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
-    this.dataBindingService.handleSaveExcavationForm(
-      this.applicationId,
-      this.formData
-    );
+    if (this.formData) {
+      this.dataBindingService.handleSaveExcavationForm(
+        this.applicationId,
+        this.formData
+      );
+    }
     if (!form.path) {
       if (blob) {
         this.isLoading = true;
@@ -263,7 +274,12 @@ export class ExcavationPermitComponent implements OnInit {
           .subscribe((res) => {
             this.isLoading = false;
             this.isSubmitting = false;
-            this.updateApplicationInfoWithFormData();
+            if (type == 'draft') {
+              this.router.navigateByUrl('/dashboard/applications');
+            } else {
+              this.setFilePaths();
+            }
+            // this.updateApplicationInfoWithFormData();
             this.updateFilePath();
           });
       } else {
@@ -280,7 +296,12 @@ export class ExcavationPermitComponent implements OnInit {
       this.newApplicationService
         .updateDocumentFile(uploadDocumentData, form.doc_id)
         .subscribe((res) => {
-          this.updateApplicationInfoWithFormData();
+          // this.updateApplicationInfoWithFormData();
+          if (type == 'draft') {
+            this.router.navigateByUrl('/dashboard/applications');
+          } else {
+            this.setFilePaths();
+          }
           this.openSnackBar('Saved!');
           this.isSubmitting = false;
         });
@@ -382,7 +403,11 @@ export class ExcavationPermitComponent implements OnInit {
     const index = event.selectedIndex;
     const pdfViewer = document.getElementById('pdf-viewer');
     const pdfContainer = document.getElementById(`form-${index}`);
-    this.forms[index] ? (this.pdfSource = this.forms[index].src) : null;
+    if (!this.excavationPermitForm) {
+      this.forms[index] ? (this.pdfSource = this.forms[index].src) : null;
+    } else {
+      this.pdfSource = this.excavationPermitForm.document_path;
+    }
     pdfContainer ? pdfContainer.appendChild(pdfViewer) : null;
   }
 
@@ -422,6 +447,8 @@ export class ExcavationPermitComponent implements OnInit {
           form.src = doc.document_path;
           form.path = doc.document_path;
           form.doc_id = doc.id;
+          form.is_applicable = doc.is_applicable;
+          this.pdfSource = this.excavationPermitForm ? form.path : null;
         }
       });
     });
