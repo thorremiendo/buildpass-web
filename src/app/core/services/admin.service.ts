@@ -64,4 +64,23 @@ export class AdminService  {
   
   }
 
+  fetchAllApplicationStatusList(){
+    const url = `/admin/application/status`;
+
+    return this.api.get(url);
+  
+  }
+
+  changeApplicationStatus(application_id,newStatus){
+    const url = `/admin/application/${application_id}/updateStatus`;
+
+    var body = {
+      application_status_id: newStatus
+    }
+
+    return this.api.post(url, body)
+
+  }
+
+
 }
