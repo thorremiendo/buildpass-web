@@ -64,7 +64,7 @@
         <button
           mat-raised-button
           color="accent"
-          [routerLink]="['/dashboard/applications']"
+          (click)="upload(form, 'draft')"
         >
           Save as Draft
         </button>
@@ -72,8 +72,7 @@
           mat-raised-button
           color="primary"
           matStepperNext
-          (click)="upload(form)"
-          [disabled]="isSubmitting"
+          (click)="upload(form, 'next')"
         >
           Next
         </button>
@@ -84,11 +83,8 @@
       <div class="fieldsets">
         <h1>{{ fieldSet.title }}</h1>
         <div class="step-label">
-          Please make sure uploaded documents follow prescribed templates. Check 
-          <a
-            routerLink="/dashboard/checklists"
-            routerLinkActive="active"
-          >
+          Please make sure uploaded documents follow prescribed templates. Check
+          <a routerLink="/dashboard/checklists" routerLinkActive="active">
             downloadables
           </a>
           for more info.
