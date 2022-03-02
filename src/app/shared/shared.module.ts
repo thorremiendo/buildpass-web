@@ -55,6 +55,7 @@ import { DocumentViewComponent } from './document-view/document-view.component';
 import { DocumentRemarksComponent } from './document-remarks/document-remarks.component';
 import { StepOneDialogComponent } from './step-one-dialog/step-one-dialog.component';
 import { ReviewButtonComponent } from './review-button/review-button.component';
+import { AdminEditDialogComponent } from './admin-edit-dialog/admin-edit-dialog.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { ReviewButtonComponent } from './review-button/review-button.component';
     DocumentRemarksComponent,
     StepOneDialogComponent,
     ReviewButtonComponent,
+    AdminEditDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -134,6 +136,7 @@ import { ReviewButtonComponent } from './review-button/review-button.component';
     ApplicationDocsComponent,
     DocumentViewComponent,
     DocumentRemarksComponent,
+    AdminEditDialogComponent
   ],
   providers: [
     {

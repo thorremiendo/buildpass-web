@@ -72,7 +72,15 @@
           </div>
           <div class="col-md-4">
             <div class="col">
-              <h5 style="color: #7b7b7b">Application Status:</h5>
+              <h5 style="color: #7b7b7b">Application Status: 
+                <mat-icon *ngIf="this.user.is_admin == 1"
+                  class="material-icons-outlined"
+                  (click)="openAdminEditDialog(applicationId, getApplicationStatus(
+                    applicationDetails.application_status_id
+                  ))">
+                  edit
+                </mat-icon></h5>
+                
               <h5
                 [style.color]="
                   applicationDetails.application_status_id == 11
