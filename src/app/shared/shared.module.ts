@@ -136,7 +136,8 @@ import { AdminEditDialogComponent } from './admin-edit-dialog/admin-edit-dialog.
     ApplicationDocsComponent,
     DocumentViewComponent,
     DocumentRemarksComponent,
-    AdminEditDialogComponent
+    AdminEditDialogComponent,
+    ReviewButtonComponent,
   ],
   providers: [
     {

@@ -49,7 +49,7 @@ export class OccupancyPermitComponent implements OnInit {
     {
       label: '',
       title: 'Documentary Requirements',
-      documents: [],
+      documents: [87],
     },
   ];
 
@@ -437,7 +437,6 @@ export class OccupancyPermitComponent implements OnInit {
                       .subscribe((res) => {
                         count2 = count2 + 1;
                         if (count2 == docs.length) {
-                          debugger;
                           this.isSubmitting = false;
                           this.router.navigate([
                             'dashboard/new/summary',
