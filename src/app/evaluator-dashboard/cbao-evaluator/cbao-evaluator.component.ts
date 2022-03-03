@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 import { ReleaseBldgPermitComponent } from '../release-bldg-permit/release-bldg-permit.component';
 import { WaterMarkService } from '../../core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AdminEditDialogComponent } from 'src/app/shared/admin-edit-dialog/admin-edit-dialog.component';
 
 @Component({
   selector: 'app-cbao-evaluator',
@@ -1322,5 +1323,25 @@ export class CbaoEvaluatorComponent implements OnInit {
             break;
         }
       });
+  };
+
+  openAdminEditDialog(id,currentStatus){
+    //console.log(id,currentStatus)
+    const dialogRef = this.dialog.open(AdminEditDialogComponent, {
+      //width: '1000px',
+      data: {
+        type:'Document',
+        title:'Change Document Status',
+        id: id,
+        currentStatus: currentStatus,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {});
+
   }
+
+
+
+
 }

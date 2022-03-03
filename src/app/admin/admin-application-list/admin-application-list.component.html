@@ -246,7 +246,12 @@
             <div class="col-8">
               <mat-form-field appearance="outline">
                 <mat-select [formControl]="applicationStatus">
-                  <mat-option value="0">All</mat-option>
+                  <mat-option
+                  *ngFor="let applicationStatusList of applicationStatusLists"
+                  value="{{ applicationStatusList.id }}"
+                  >{{ applicationStatusList.name }}
+                </mat-option>
+                  <!-- <mat-option value="0">All</mat-option>
                   <mat-option value="1">Receiving</mat-option>
                   <mat-option value="2">CPDO Evaluation</mat-option>
                   <mat-option value="3">CBAO, BFP, CEPMO Evaluation</mat-option>
@@ -254,26 +259,26 @@
                   <mat-option value="5">Building Official Evaluation</mat-option>
                   <mat-option value="6">Releasing</mat-option>
                   <mat-option value="7">Permit Released</mat-option>
-                  <mat-option value="8">Incomplete Application</mat-option>
+                  <mat-option value="8">Incomplete Application</mat-option> -->
                 </mat-select>
               </mat-form-field>
             </div>
           </div>
-          <div class="compliance-status-selector row">
+          <!-- <div class="compliance-status-selector row">
             <div class="filter-label col-4">
               Compliance Status
             </div>
             <div class="col-8">
               <mat-form-field appearance="outline">
                 <mat-select [formControl]="complianceStatus">
-                  <!--<mat-option value="0">All</mat-option>-->
+                  <mat-option value="0">All</mat-option>
                   <mat-option value="1">For Evaluation</mat-option>
                   <mat-option value="2">For Compliance</mat-option>
                   <mat-option value="3">For Re-Evaluation</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
-          </div>
+          </div> -->
           <div class="date-range-selector row">
             <div class="filter-label col-4">
               Date Start
