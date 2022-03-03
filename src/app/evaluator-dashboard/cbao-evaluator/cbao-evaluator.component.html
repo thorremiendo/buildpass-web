@@ -222,7 +222,7 @@
                         Select <mat-icon> arrow_drop_down </mat-icon>
                       </button>
                       <mat-menu #menu="matMenu">
-                        <ng-container *ngIf="evaluatorRole.code == 'SPRADM'">
+                        <!-- <ng-container *ngIf="evaluatorRole.code == 'SPRADM'">
                           <button
                             mat-menu-item
                             color="accent"
@@ -234,12 +234,12 @@
                           >
                             Evaluate
                           </button>
-                        </ng-container>
+                        </ng-container> -->
 
                         <ng-container
                           *ngIf="
                             applicationInfo.permit_type_id == 1 ||
-                            applicationInfo.permit_type_id == 2
+                            applicationInfo.permit_type_id == 2 
                           "
                         >
                           <button
@@ -331,6 +331,18 @@
                             Evaluate
                           </button>
                         </ng-container>
+                      
+                        <button
+                          mat-menu-item
+                          color="accent"
+                          (click)="openAdminEditDialog(element.id,element.document_status_id)"
+                          *ngIf="evaluatorRole.code == 'SPRADM'"
+                  
+                        >
+                          Change Status
+                        </button>
+                    
+                      
                         <ng-container>
                           <a
                             mat-menu-item
@@ -344,7 +356,7 @@
                           mat-menu-item
                           color="accent"
                           (click)="goToEsig(element.id)"
-                          *ngIf="evaluatorRole.code !== 'CBAO-REL'"
+                          *ngIf="evaluatorRole.code !== 'CBAO-REL' && evaluatorRole.code !== 'SPRADM'"
                           [disabled]="evaluatorRole.code == 'CBAO-REC'"
                         >
                           Sign Document

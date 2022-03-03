@@ -37,7 +37,9 @@ export class AdminApplicationListComponent implements OnInit {
   public pageSize = 5;
   public filterCount = 1;
   public loading: boolean = false;
+  public applicationStatusLists;
   private dialog;
+  
 
   constructor (
     private route: ActivatedRoute,
@@ -66,6 +68,7 @@ export class AdminApplicationListComponent implements OnInit {
       });
 
       this.applicationStatus.valueChanges.subscribe((res) => {
+        console.log(res);
         this.setApplicationStatus(res);
         this.pageIndex = 0;
         this.getFilterCount();
@@ -93,6 +96,10 @@ export class AdminApplicationListComponent implements OnInit {
       this.sortType.valueChanges.subscribe((res) => {
         this.pageIndex = 0;
         this.fetchApplications();
+      });
+
+      this.adminService.fetchAllApplicationStatusList().subscribe((data) => {
+        this.applicationStatusLists = data.data;
       });
     }
   }
@@ -159,6 +166,9 @@ export class AdminApplicationListComponent implements OnInit {
       case '8':
         this.applicationStatusValue = [6, 9];
         break;
+      case '26':
+        this.applicationStatusValue = [26];
+      break;
     }
   }
 
@@ -177,6 +187,8 @@ export class AdminApplicationListComponent implements OnInit {
       pageSize: this.pageSize,
       incompleteFlag: this.applicationStatus.value == '8' ? 1 : '',
     }
+
+    console.log(params);
 
     let countParams = {...params};
     this.adminService.fetchApplications(countParams).subscribe((data) => {
@@ -207,6 +219,8 @@ export class AdminApplicationListComponent implements OnInit {
       this.loading = false;
     });
   }
+
+
 
   applicationModifications(applications) {
     applications.forEach(application => {
