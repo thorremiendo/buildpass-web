@@ -1,3 +1,4 @@
+import { PopOutNotificationsService } from './../../core/services/pop-out-notification.service';
 import { ApplicationInfoService } from './../../core/services/application-info.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
@@ -28,6 +29,7 @@ export class ReleaseBldgPermitComponent implements OnInit {
   public userInfo;
   public bpCertificate: File;
   public isSubmitting: boolean = false;
+  private alert: PopOutNotificationsService;
   constructor(
     private newApplicationService: NewApplicationService,
     public dialogRef: MatDialogRef<ReleaseBldgPermitComponent>,
@@ -195,12 +197,23 @@ export class ReleaseBldgPermitComponent implements OnInit {
           this.newApplicationService
             .updateDocumentFile(updateFileData, id)
             .subscribe((res) => {
-              Swal.fire('Success!', `Building Permit Uploaded`, 'success').then(
-                (result) => {
-                  this.isSubmitting = true;
-                  this.onNoClick();
-                }
-              );
+              const body = {
+                application_status_id: 8,
+                bo_status_id: 1,
+              };
+              this.applicationService
+                .updateApplicationStatus(body, this.applicationId)
+                .subscribe((res) => {
+                  Swal.fire(
+                    'Success!',
+                    `Building Permit Uploaded`,
+                    'success'
+                  ).then((result) => {
+                    this.isSubmitting = true;
+                    this.onNoClick();
+                    window.location.reload();
+                  });
+                });
             });
         });
     });

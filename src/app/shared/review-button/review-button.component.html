@@ -1,1 +1,10 @@
-<p>review-button works!</p>
+<div class="d-flex justify-content-end w-100">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="handleReviewDone()"
+    [disabled]="isLoading || !isAuthorized()"
+  >
+    {{ isLoading ? "Saving" : "Review Done" }}
+  </button>
+</div>

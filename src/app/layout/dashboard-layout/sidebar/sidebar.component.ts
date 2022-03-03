@@ -73,7 +73,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     if (this.userInfo.employee_detail != null) {
       this.evaluatorDetails = JSON.parse(localStorage.getItem('user'));
       this.employeeDetails = this.evaluatorDetails.employee_detail;
-
       this._isLoading = false;
       let office_id = this.employeeDetails.office_id;
       this.officeToString(office_id);
