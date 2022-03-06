@@ -461,17 +461,22 @@ export class CbaoEvaluatorComponent implements OnInit {
       this.applicationInfo.permit_type_id == 1 ||
       this.applicationInfo.permit_type_id == 2
     ) {
-      if (this.evaluatorRole.code == 'CBAO-REC')
+      if (this.evaluatorRole.code == 'CBAO-REC') {
         this.documentStatusSelector = 'receiving_status_id';
-      else if (
+      } else if (
         this.evaluatorRole.code == 'CBAO-DC' ||
         this.evaluatorRole.code == 'CBAO-BO' ||
         this.evaluatorRole.code == 'CBAO-REL'
-      )
+      ) {
         this.documentStatusSelector = 'document_status_id';
-      else this.documentStatusSelector = 'cbao_status_id';
+      } else this.documentStatusSelector = 'cbao_status_id';
     } else {
-      this.documentStatusSelector = 'document_status_id';
+      //OTHER PERMITS
+      if (this.evaluatorRole.code == 'CBAO-REC') {
+        this.documentStatusSelector = 'receiving_status_id';
+      } else {
+        this.documentStatusSelector = 'document_status_id';
+      }
     }
   }
 
@@ -712,9 +717,11 @@ export class CbaoEvaluatorComponent implements OnInit {
           obj.document_id == 59 ||
           obj.document_id == 74 ||
           obj.document_id == 75 ||
-          obj.document_id == 72 ||
           obj.document_id == 33 ||
-          obj.document_id == 140
+          obj.document_id == 140 ||
+          obj.document_id == 194 ||
+          obj.document_id == 103 ||
+          obj.document_id == 104
       );
       const forReview = CPDO_FORMS.forEach((element) => {
         let body = {
@@ -1323,25 +1330,20 @@ export class CbaoEvaluatorComponent implements OnInit {
             break;
         }
       });
-  };
+  }
 
-  openAdminEditDialog(id,currentStatus){
+  openAdminEditDialog(id, currentStatus) {
     //console.log(id,currentStatus)
     const dialogRef = this.dialog.open(AdminEditDialogComponent, {
       //width: '1000px',
       data: {
-        type:'Document',
-        title:'Change Document Status',
+        type: 'Document',
+        title: 'Change Document Status',
         id: id,
         currentStatus: currentStatus,
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {});
-
   }
-
-
-
-
 }
