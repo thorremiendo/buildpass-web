@@ -16,4 +16,5 @@ export enum applicationStatus {
   'Hard Copies Received' = 17,
   'For Technical Evaluation' = 18,
   'For Signature' = 24,
+  'Archived' = 26
 }

@@ -10,8 +10,8 @@ import { AdminService } from 'src/app/core';
   styleUrls: ['./admin-edit-dialog.component.scss']
 })
 export class AdminEditDialogComponent implements OnInit {
-  public applicationStatusLists
-  public newApplicationStatus = new FormControl('');
+  public statusLists
+  public newStatus = new FormControl('');
   public loading:boolean = false;
 
   constructor(
@@ -27,13 +27,17 @@ export class AdminEditDialogComponent implements OnInit {
       case "Application":
         console.log(this.data.type)
         this.adminService.fetchAllApplicationStatusList().subscribe((data) => {
-          this.applicationStatusLists = data.data;
+          this.statusLists = data.data;
        
-          console.log(this.applicationStatusLists);
+          console.log(this.statusLists);
         });
         break;
       case "Document":
-        console.log(this.data.type)
+        this.adminService.fetchAllDocumentStatusList().subscribe((data) => {
+          this.statusLists = data.data;
+       
+          console.log(this.statusLists);
+        });
         break;
     }
 
@@ -43,7 +47,7 @@ export class AdminEditDialogComponent implements OnInit {
     switch (this.data.type) {
       case "Application":
         this.loading = true;
-        this.adminService.changeApplicationStatus(this.data.applicationId, this.newApplicationStatus.value)
+        this.adminService.changeApplicationStatus(this.data.id, this.newStatus.value)
           .subscribe((result) => {
             console.log(result);
             window.location.reload();
@@ -56,7 +60,16 @@ export class AdminEditDialogComponent implements OnInit {
 
         break;
       case "Document":
-        console.log(this.data.type)
+        this.adminService.changeDocumentStatus(this.data.id, this.newStatus.value)
+        .subscribe((result) => {
+          console.log(result);
+          window.location.reload();
+          this.loading =false;
+
+        },
+        (error)=>{
+          console.log(error);
+        });
         break;
     }
 

@@ -513,15 +513,7 @@ export class ESignatureComponent implements OnInit {
     this.applicationService.updateDocumentFile(body, this.documentId).subscribe(
       (res) => {
         if (this.documentInfo.document_id == 50) {
-          const body = {
-            application_status_id: 8,
-            bo_status_id: 1,
-          };
-          this.applicationService
-            .updateApplicationStatus(body, this.applicationId)
-            .subscribe((res) => {
-              this.addWatermarkToAllCompliant();
-            });
+          this.addWatermarkToAllCompliant();
         } else {
           this.isLoading = false;
           this.openSnackBar('Success!');

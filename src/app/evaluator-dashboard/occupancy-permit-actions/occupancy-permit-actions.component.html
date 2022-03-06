@@ -1,5 +1,5 @@
 <div class="action__buttons mt-5">
-  <ng-container *ngIf="evaluatorRole.code == 'CBAO-REC'">
+  <!-- <ng-container *ngIf="evaluatorRole.code == 'CBAO-REC'">
     <div class="d-flex justify-content-between">
       <button
         mat-raised-button
@@ -82,7 +82,13 @@
         Forward to Payment
       </button>
     </div>
-  </ng-container>
+  </ng-container> -->
+  <app-review-button
+    [docs]="occupancyDocs"
+    [applicationInfo]="applicationInfo"
+    [evaluatorDetails]="evaluatorDetails"
+    [evaluatorRole]="evaluatorRole"
+  ></app-review-button>
 </div>
 <ng-container *ngIf="isLoading">
   <div class="mt-5">

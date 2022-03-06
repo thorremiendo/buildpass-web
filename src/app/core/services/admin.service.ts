@@ -71,11 +71,30 @@ export class AdminService  {
   
   }
 
+  fetchAllDocumentStatusList(){
+    const url = `/admin/document/status`;
+
+    return this.api.get(url);
+  
+  }
+
   changeApplicationStatus(application_id,newStatus){
     const url = `/admin/application/${application_id}/updateStatus`;
 
     var body = {
       application_status_id: newStatus
+    }
+
+    return this.api.post(url, body)
+
+  }
+
+  changeDocumentStatus(document_id,newStatus, document?){
+    const url = `/admin/userdocs/${document_id}/update`;
+
+    var body = {
+      document_status_id: newStatus,
+      document_path: document ? document : '' ,
     }
 
     return this.api.post(url, body)
