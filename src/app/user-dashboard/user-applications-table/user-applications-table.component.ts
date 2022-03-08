@@ -93,12 +93,12 @@ export class UserApplicationsTableComponent implements OnInit {
       pageSize: this.pageSize,
     }
 
-    this.userService.fetchUserApplications(params).subscribe((data) => {
+    this.userService.fetchUserApplications(params, this.userInfo.id).subscribe((data) => {
       this.applications = data.data;
       this.applicationCount = data.total;
       this.loading = false;
     });
-  }
+  } 
 
   getFilterCount() {
     let filterCount = 0;

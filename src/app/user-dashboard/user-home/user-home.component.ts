@@ -34,13 +34,13 @@ export class UserHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.userInfo = JSON.parse(localStorage.getItem('user'));
+    console.log(this.userInfo.id)
     this.appTitle.setTitle('BuildPASS');
-
-    if (this.userInfo) {
+    if (this.userInfo.id) {
       this.userService
-        .fetchUserApplications(this.userInfo.id)
+        .fetchUserApplications(null, this.userInfo.id)
         .subscribe((data) => {
-          this.applications = data.data.data;
+          this.applications = data.data;
           console.log('apps', this.applications);
         });
     }

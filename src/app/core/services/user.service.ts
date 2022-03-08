@@ -52,8 +52,9 @@ export class UserService {
     );
   }
 
-  fetchUserApplications(params): Observable<any> {
-    const url = `/user/${params.userId}/application`;
+  fetchUserApplications(params, id?): Observable<any> {
+    //console.log("api"params);
+    const url = `/user/${id}/application`;
     let httpParams;
     if (params) {
       httpParams = new HttpParams()
