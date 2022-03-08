@@ -193,6 +193,7 @@ export class ExcavationPermitComponent implements OnInit {
         localStorage.getItem('application_details_for_excavation')
       );
       this.submitExcavationDetails();
+      //WITH ASSOCIATED BUILDING PERMIT
     } else {
       this.fetchApplicationInfo();
     }
@@ -308,8 +309,9 @@ export class ExcavationPermitComponent implements OnInit {
     }
   }
   submitExcavationDetails() {
+    const associatedBuildingPermitId = this.applicationId;
     const body = {
-      main_permit_id: this.applicationId,
+      main_permit_id: associatedBuildingPermitId,
       permit_type_id: 3,
       user_id: this.user.id,
       is_representative: this.exisitingApplicationInfo.is_representative,
@@ -379,8 +381,17 @@ export class ExcavationPermitComponent implements OnInit {
     };
     this.newApplicationService.submitApplication(body).subscribe((res) => {
       this.excavationId = res.data.id;
-      localStorage.removeItem('application_details_for_excavation');
-      this.fetchApplicationInfo();
+      this.applicationId = res.data.id;
+      const body = {
+        sub_permit_type_id: parseInt(this.excavationId),
+      };
+
+      this.applicationService
+        .updateApplicationInfo(body, associatedBuildingPermitId)
+        .subscribe((res) => {
+          localStorage.removeItem('application_details_for_excavation');
+          this.fetchApplicationInfo();
+        });
     });
   }
 

@@ -81,8 +81,7 @@ export class ChecklistSummaryComponent implements OnInit {
                     this.permitType = 'Sign Permit';
                     break;
                 }
-
-                this.sortForms();
+                if (this.applicantForms) this.sortForms();
               });
           });
         },
@@ -91,7 +90,7 @@ export class ChecklistSummaryComponent implements OnInit {
         }
       );
   }
-  
+
   getDocType(id): string {
     return this.documentTypes[id - 1].name;
   }
@@ -197,7 +196,7 @@ export class ChecklistSummaryComponent implements OnInit {
         this.applicantForms.forEach((form, index) => {
           if (form.document_id == doctypeId) form.document_path = path;
           index++;
-          
+
           if (index == this.applicantForms.length) this.sortForms();
         });
       });
@@ -234,8 +233,7 @@ export class ChecklistSummaryComponent implements OnInit {
 
     this.applicantForms.forEach((element) => {
       const docType =
-        this.documentTypes[element.document_id - 1]
-          .document_category_id;
+        this.documentTypes[element.document_id - 1]?.document_category_id;
 
       switch (docType) {
         case 1:
