@@ -484,12 +484,13 @@ export class CbaoEvaluatorComponent implements OnInit {
     return this.documentTypes[id - 1].name;
   }
   getDocStatus(status_id, is_applicable): string {
-    if (is_applicable == 2 && status_id == 1) {
+    if (status_id == 1 && is_applicable == 2) {
       return 'Not Applicable';
     } else if (this.evaluatorRole.code == 'CBAO-REC' && status_id == '1') {
       return 'Submitted';
+    } else {
+      return documentStatus[status_id];
     }
-    return documentStatus[status_id];
   }
 
   openFormDialog(element): void {

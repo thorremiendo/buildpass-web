@@ -169,7 +169,8 @@
                           : evaluatorRole.code == "CBAO-DC" ||
                             evaluatorRole.code == "CBAO-BO" ||
                             evaluatorRole.code == "CBAO-REL" ||
-                            applicationInfo.permit_type_id !== 1
+                            (applicationInfo.permit_type_id !== 1 &&
+                              applicationInfo.permit_type_id !== 2)
                           ? getDocStatus(
                               element.document_status_id,
                               element.is_applicable
@@ -239,7 +240,7 @@
                         <ng-container
                           *ngIf="
                             applicationInfo.permit_type_id == 1 ||
-                            applicationInfo.permit_type_id == 2 
+                            applicationInfo.permit_type_id == 2
                           "
                         >
                           <button
@@ -331,18 +332,21 @@
                             Evaluate
                           </button>
                         </ng-container>
-                      
+
                         <button
                           mat-menu-item
                           color="accent"
-                          (click)="openAdminEditDialog(element.id,element.document_status_id)"
+                          (click)="
+                            openAdminEditDialog(
+                              element.id,
+                              element.document_status_id
+                            )
+                          "
                           *ngIf="evaluatorRole.code == 'SPRADM'"
-                  
                         >
                           Change Status
                         </button>
-                    
-                      
+
                         <ng-container>
                           <a
                             mat-menu-item
@@ -356,7 +360,10 @@
                           mat-menu-item
                           color="accent"
                           (click)="goToEsig(element.id)"
-                          *ngIf="evaluatorRole.code !== 'CBAO-REL' && evaluatorRole.code !== 'SPRADM'"
+                          *ngIf="
+                            evaluatorRole.code !== 'CBAO-REL' &&
+                            evaluatorRole.code !== 'SPRADM'
+                          "
                           [disabled]="evaluatorRole.code == 'CBAO-REC'"
                         >
                           Sign Document
