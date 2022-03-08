@@ -372,7 +372,7 @@ export class ApplicationDetailsComponent implements OnInit {
       data: {
         type:'Application',
         title:'Change Application Status',
-        applicationId: applicationId,
+        id: applicationId,
         currentStatus: currentStatus,
       },
     });

@@ -25,7 +25,7 @@ export class AdminEditDialogComponent implements OnInit {
 
     switch (this.data.type) {
       case "Application":
-        console.log(this.data.type)
+        //console.log(this.data.type)
         this.adminService.fetchAllApplicationStatusList().subscribe((data) => {
           this.statusLists = data.data;
        
@@ -46,6 +46,7 @@ export class AdminEditDialogComponent implements OnInit {
   saveChange() {
     switch (this.data.type) {
       case "Application":
+        //console.log(this.data);
         this.loading = true;
         this.adminService.changeApplicationStatus(this.data.id, this.newStatus.value)
           .subscribe((result) => {
@@ -60,6 +61,7 @@ export class AdminEditDialogComponent implements OnInit {
 
         break;
       case "Document":
+        this.loading = true;
         this.adminService.changeDocumentStatus(this.data.id, this.newStatus.value)
         .subscribe((result) => {
           console.log(result);
