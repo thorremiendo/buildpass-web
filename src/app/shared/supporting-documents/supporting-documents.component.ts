@@ -66,4 +66,11 @@ export class SupportingDocumentsComponent implements OnInit {
         this.ngOnInit();
       });
   }
+  isDisabled() {
+    if (this.userDetails) {
+      if (this.applicationDetails.application_status_id !== 5) return true;
+    } else if (this.evaluatorDetails) {
+      return false;
+    }
+  }
 }

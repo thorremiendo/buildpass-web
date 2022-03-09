@@ -72,7 +72,7 @@
           mat-raised-button
           color="primary"
           (click)="handleAddSupportingDocument()"
-          [disabled]="applicationDetails.application_status_id !== 5"
+          [disabled]="isDisabled()"
         >
           Add a supporting document
         </button>
