@@ -59,7 +59,7 @@
               <mat-icon>short_text</mat-icon>
             </button>
             <span class="top-avatar m-r-10">
-              <img
+              <img *ngIf="selectedMessage.sender_detail.photo_path"
                 src="{{ selectedMessage.sender_detail.photo_path }}"
                 class="img-circle"
               />
@@ -88,9 +88,9 @@
                 <div class="chat-list odd">
                   <div class="chat-message">
                     <div class="chat-block">
-                      <!-- <span>
+                      <span>
                         <img src="{{selectedMessage.photo}}" class="img-circle" width="40"> 
-                      </span> -->
+                      </span>
                       <span [innerHTML]="c.message">{{ c.message }}</span>
                     </div>
                     <span *ngIf="c.created_at" class="chat-date">{{

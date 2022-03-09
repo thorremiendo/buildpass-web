@@ -22,7 +22,8 @@ export const environment = {
       accessToken:
         'pk.eyJ1IjoidGhvcnJlbWllbmRvIiwiYSI6ImNraGs1MnF4MDFsZG4yeW53M3U3ZjJ4ZTMifQ.a5GU9EWk45shfNxhK07G-w',
     },
-    adobe_key: '3ff0dea6d3f6421b98eb54c89d3c274a',
+    //adobe_key: '3ff0dea6d3f6421b98eb54c89d3c274a', // staging
+    adobe_key: 'e83df846abd641138b1813c47c1cfeb6', // buildtest
     pusher: {
       key: '5aaab0a1fdf76144a6ff',
       cluster: 'ap1',
@@ -30,7 +31,7 @@ export const environment = {
     weekend: false,
     receiveApplications: true,
     restrictCbao: false,
-    version: "2.6.8"
+    version: "2.7.0"
   };
   
   

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,9 @@ export class GetDateService {
 
   isWeekend() {
     var date = new Date();
-    return date.getDay() === 6 || date.getDay() === 0;
+    if (environment.weekend == true) {
+      return date.getDay() === 6 || date.getDay() === 0;
+    } else return false;
   }
 
   isWorkHours() {
