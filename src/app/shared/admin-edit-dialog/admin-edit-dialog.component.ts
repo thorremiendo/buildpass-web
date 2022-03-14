@@ -21,7 +21,7 @@ export class AdminEditDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data);
+    //console.log(this.data.currentStatus);
 
     switch (this.data.type) {
       case "Application":
@@ -29,14 +29,14 @@ export class AdminEditDialogComponent implements OnInit {
         this.adminService.fetchAllApplicationStatusList().subscribe((data) => {
           this.statusLists = data.data;
        
-          console.log(this.statusLists);
+          //console.log(this.statusLists);
         });
         break;
       case "Document":
         this.adminService.fetchAllDocumentStatusList().subscribe((data) => {
           this.statusLists = data.data;
        
-          console.log(this.statusLists);
+          //console.log(this.statusLists);
         });
         break;
     }
@@ -46,7 +46,7 @@ export class AdminEditDialogComponent implements OnInit {
   saveChange() {
     switch (this.data.type) {
       case "Application":
-        //console.log(this.data);
+        //console.log(this.data.type);
         this.loading = true;
         this.adminService.changeApplicationStatus(this.data.id, this.newStatus.value)
           .subscribe((result) => {

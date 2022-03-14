@@ -6,19 +6,10 @@
     <div class="row">
         <div class="col">
             <p class="subtitle">Current Status:</p>
-           
-            <ng-template *ngIf="data.type == 'Application'; else Document"  >
-              <p>{{data.currentStatus}}</p>
-            </ng-template>
-
-            <ng-template #Document>
-              <p>{{data.currentStatus == '0' ? 'For review' :
-                  data.currentStatus == '1' ? 'Compliance' :
-                'For Compliance'}}</p>
-            </ng-template>
-
-          
-
+                <p *ngIf= "data.type == 'Application'">{{data.currentStatus}}</p>
+                <p  *ngIf="data.type == 'Document'">{{data.currentStatus == '0' ? 'For review' :
+                    data.currentStatus == '1' ? 'Compliance' :
+                  'For Compliance'}}</p>
         </div>
         <div class="col">
             <p class="subtitle">Change to:</p>

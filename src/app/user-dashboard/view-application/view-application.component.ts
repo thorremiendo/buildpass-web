@@ -488,20 +488,35 @@ export class ViewApplicationComponent implements OnInit {
   }
 
   openFormDialog(element): void {
-    const dialogRef = this.dialog.open(FormDetailsComponent, {
-      width: '1500px',
-      height: '2000px',
-      data: {
-        evaluator: this.evaluatorDetails,
-        form: element,
-        route: this.route,
-        application: this.applicationDetails,
-      },
-    });
+    if (element.document_status_id == 1) {
+      Swal.fire({
+        title: 'Document is compliant',
+        text: '',
+        icon: 'info',
+      });
+    } else if (this.applicationDetails.application_status_id !== 5) {
+      Swal.fire({
+        title: 'Application is still being evaluated',
+        text: 'Please edit the file if the status of your application is "For Compliance".',
+        icon: 'info',
+        imageUrl: '../../../assets/status-for-compliance.png',
+      });
+    } else {
+      const dialogRef = this.dialog.open(FormDetailsComponent, {
+        width: '1500px',
+        height: '2000px',
+        data: {
+          evaluator: this.evaluatorDetails,
+          form: element,
+          route: this.route,
+          application: this.applicationDetails,
+        },
+      });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      this.ngOnInit();
-    });
+      dialogRef.afterClosed().subscribe((result) => {
+        this.ngOnInit();
+      });
+    }
   }
 
   openRemarksHistory(e) {
@@ -623,5 +638,19 @@ export class ViewApplicationComponent implements OnInit {
       this.fetchApplicationInspections();
     });
     dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  getReminder() {
+    let status = this.applicationDetails.application_status_id;
+    let evaluation = [2, 3, 12, 13, 18];
+    if (status == 5) {
+      return 'Please edit your files now!';
+    } else if (evaluation.find((e) => e == status)) {
+      return 'Your files is being evaluated as of the moment. You can not edit any document submitted until the status turns to "For Compliance"';
+    } else if (status == 8) {
+      return 'Please check your fees and pay at the CBAO and check your email for the instructions in printing your documents.';
+    } else if (status == 4) {
+      return 'Visit CBAO together with the printed, signed and sealed documents and claim your permit.';
+    }
   }
 }
