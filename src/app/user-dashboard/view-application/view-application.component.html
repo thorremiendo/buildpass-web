@@ -1,202 +1,231 @@
 <div class="app-details" *ngIf="applicationDetails && isAuthorized">
-  <mat-card>
-    <mat-card-content>
-      <div class="d-flex justify-content-between">
-        <div>
-          <h4 style="color: #313131" class="mb-4">
-            <strong>Application Details</strong>
-          </h4>
-        </div>
-      </div>
-      <div class="row mb-1">
-        <div class="avatar-container col-md-4 text-center">
-          <div>
-            <h5 style="text-transform: uppercase">
-              <strong
-                >&nbsp;{{
-                  applicationDetails.applicant_detail.first_name
-                }}&nbsp;{{
-                  applicationDetails.applicant_detail.last_name
-                }}</strong
+  <div class="row">
+    <div class="col-lg-8 col-md-12">
+      <mat-card class="heading__card">
+        <mat-card-content>
+          <div class="d-flex justify-content-between">
+            <div>
+              <h4 style="color: #313131" class="mb-4">
+                <strong>Application Details</strong>
+              </h4>
+            </div>
+          </div>
+          <div class="row mb-1">
+            <div class="avatar-container col-md-4 text-center">
+              <div>
+                <h5 style="text-transform: uppercase">
+                  <strong
+                    >&nbsp;{{
+                      applicationDetails.applicant_detail.first_name
+                    }}&nbsp;{{
+                      applicationDetails.applicant_detail.last_name
+                    }}</strong
+                  >
+                </h5>
+              </div>
+              <div>
+                <h5 style="color: #7b7b7b" style="text-transform: uppercase">
+                  {{ applicationDetails.applicant_detail.email_address }}
+                </h5>
+              </div>
+              <div>
+                <h5 style="color: #7b7b7b">
+                  {{ applicationDetails.applicant_detail.contact_number }}
+                </h5>
+              </div>
+              <div>
+                <h5 style="color: #7b7b7b">
+                  {{ applicationDetails.applicant_detail.barangay }}
+                </h5>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="col">
+                <h5 style="color: #7b7b7b">Application Number:</h5>
+                <h5>
+                  <strong>{{
+                    applicationDetails.permit_application_code
+                  }}</strong>
+                </h5>
+              </div>
+              <div class="col">
+                <h5 style="color: #7b7b7b">Date Submitted:</h5>
+                <h5>
+                  <strong
+                    >&nbsp;{{
+                      applicationDetails.submitted_at | date: "MMMM dd, yyyy"
+                    }}</strong
+                  >
+                </h5>
+              </div>
+              <div
+                class="col"
+                *ngIf="applicationDetails.permit_released_code !== null"
               >
-            </h5>
+                <h5 style="color: #7b7b7b">Permit Number:</h5>
+                <h5 style="color: green">
+                  <strong
+                    >&nbsp;{{ applicationDetails.permit_released_code }}</strong
+                  >
+                </h5>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="col">
+                <h5 style="color: #7b7b7b">Application Type:</h5>
+                <h5>
+                  <strong
+                    >&nbsp;{{
+                      getApplicationType(applicationDetails.permit_type_id)
+                    }}</strong
+                  >
+                </h5>
+              </div>
+              <div class="col">
+                <h5 style="color: #7b7b7b">Construction Type:</h5>
+                <h5>
+                  <strong
+                    >&nbsp;
+                    {{
+                      getConstructionType(
+                        applicationDetails.construction_status_id
+                      )
+                    }}
+                  </strong>
+                </h5>
+              </div>
+            </div>
           </div>
-          <div>
-            <h5 style="color: #7b7b7b" style="text-transform: uppercase">
-              {{ applicationDetails.applicant_detail.email_address }}
-            </h5>
-          </div>
-          <div>
-            <h5 style="color: #7b7b7b">
-              {{ applicationDetails.applicant_detail.contact_number }}
-            </h5>
-          </div>
-          <div>
-            <h5 style="color: #7b7b7b">
-              {{ applicationDetails.applicant_detail.barangay }}
-            </h5>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="col">
-            <h5 style="color: #7b7b7b">Application Number:</h5>
-            <h5>
-              <strong>{{ applicationDetails.permit_application_code }}</strong>
-            </h5>
-          </div>
-          <div class="col">
-            <h5 style="color: #7b7b7b">Date Submitted:</h5>
-            <h5>
-              <strong
-                >&nbsp;{{
-                  applicationDetails.submitted_at | date: "MMMM dd, yyyy"
-                }}</strong
-              >
-            </h5>
-          </div>
-          <div
-            class="col"
-            *ngIf="applicationDetails.permit_released_code !== null"
-          >
-            <h5 style="color: #7b7b7b">Permit Number:</h5>
-            <h5 style="color: green">
-              <strong
-                >&nbsp;{{ applicationDetails.permit_released_code }}</strong
-              >
-            </h5>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="col">
-            <h5 style="color: #7b7b7b">Application Status:</h5>
-            <h5
-              [style.color]="
-                applicationDetails.application_status_id == 11 ? 'green' : 'red'
+          <div class="mt-5">
+            <ng-container
+              *ngIf="
+                applicationDetails.permit_type_id == 3 &&
+                !applicationDetails.main_permit_id
               "
             >
-              <strong
-                >&nbsp;
-                {{
-                  getApplicationStatus(applicationDetails.application_status_id)
-                }}
-              </strong>
-            </h5>
-          </div>
-          <div class="col">
-            <h5 style="color: #7b7b7b">Application Type:</h5>
-            <h5>
-              <strong
-                >&nbsp;{{
-                  getApplicationType(applicationDetails.permit_type_id)
-                }}</strong
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="openAssociateBpEgpp(1)"
               >
-            </h5>
-          </div>
-          <div class="col">
-            <h5 style="color: #7b7b7b">Construction Type:</h5>
-            <h5>
-              <strong
-                >&nbsp;
-                {{
-                  getConstructionType(applicationDetails.construction_status_id)
-                }}
-              </strong>
-            </h5>
-          </div>
-        </div>
-      </div>
-      <div class="mt-5">
-        <ng-container
-          *ngIf="
-            applicationDetails.permit_type_id == 3 &&
-            !applicationDetails.main_permit_id
-          "
-        >
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="openAssociateBpEgpp(1)"
-          >
-            Associate a Building Permit
-          </button>
-        </ng-container>
-        <ng-container
-          *ngIf="
-            applicationDetails.permit_type_id == 1 &&
-            !applicationDetails.sub_permit_type_id
-          "
-        >
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="openAssociateBpEgpp(2)"
-          >
-            Associate an Excavation Permit
-          </button>
-        </ng-container>
-        <ng-container
-          *ngIf="
-            applicationDetails.permit_type_id !== 1 &&
-            applicationDetails.main_permit_id
-          "
-        >
-          <a
-            [routerLink]="['../', applicationDetails.main_permit_id]"
-            routerLinkActive="active"
-            target="_blank"
-          >
-            <button mat-raised-button class="ml-2" color="primary">
-              View Associated Building Permit
-            </button></a
-          ></ng-container
-        >
-        <ng-container
-          *ngIf="
-            applicationDetails.permit_type_id == 1 &&
-            applicationDetails.sub_permit_type_id
-          "
-        >
-          <a
-            [routerLink]="['../', applicationDetails.sub_permit_type_id]"
-            routerLinkActive="active"
-            target="_blank"
-          >
-            <button mat-raised-button class="ml-2" color="primary">
-              View Associated Excavation Permit
-            </button></a
-          ></ng-container
-        >
+                Associate a Building Permit
+              </button>
+            </ng-container>
+            <ng-container
+              *ngIf="
+                applicationDetails.permit_type_id == 1 &&
+                !applicationDetails.sub_permit_type_id
+              "
+            >
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="openAssociateBpEgpp(2)"
+              >
+                Associate an Excavation Permit
+              </button>
+            </ng-container>
+            <ng-container
+              *ngIf="
+                applicationDetails.permit_type_id !== 1 &&
+                applicationDetails.main_permit_id
+              "
+            >
+              <a
+                [routerLink]="['../', applicationDetails.main_permit_id]"
+                routerLinkActive="active"
+                target="_blank"
+              >
+                <button mat-raised-button class="ml-2" color="primary">
+                  View Associated Building Permit
+                </button></a
+              ></ng-container
+            >
+            <ng-container
+              *ngIf="
+                applicationDetails.permit_type_id == 1 &&
+                applicationDetails.sub_permit_type_id
+              "
+            >
+              <a
+                [routerLink]="['../', applicationDetails.sub_permit_type_id]"
+                routerLinkActive="active"
+                target="_blank"
+              >
+                <button mat-raised-button class="ml-2" color="primary">
+                  View Associated Excavation Permit
+                </button></a
+              ></ng-container
+            >
 
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="openProjectDialog()"
-          class="ml-2"
-          *ngIf="applicationDetails.permit_type_id == 1"
-        >
-          Project Details
-        </button>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="openProjectDialog()"
+              class="ml-2"
+              *ngIf="applicationDetails.permit_type_id == 1"
+            >
+              Project Details
+            </button>
 
-        <button
-          class="ml-2"
-          mat-raised-button
-          color="primary"
-          (click)="openRepresentativeDialog()"
-          *ngIf="applicationDetails.is_representative == 1"
-        >
-          Engineer/Architect In-charge Details
-        </button>
-        <button
-          mat-raised-button
-          class="ml-2"
-          color="accent"
-          (click)="openFeesDialog()"
-        >
-          View Fees
-        </button>
-      </div>
-    </mat-card-content>
-  </mat-card>
+            <button
+              class="ml-2"
+              mat-raised-button
+              color="primary"
+              (click)="openRepresentativeDialog()"
+              *ngIf="applicationDetails.is_representative == 1"
+            >
+              Engineer/Architect In-charge Details
+            </button>
+            <button
+              mat-raised-button
+              class="ml-2"
+              color="accent"
+              (click)="openFeesDialog()"
+            >
+              View Fees
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-lg-4 col-md-12">
+      <mat-card class="heading__card">
+        <mat-card-content>
+          <div class="d-flex justify-content-between">
+            <div>
+              <h3 style="color: #313131" class="mb-4">
+                <strong>Application Status</strong>
+              </h3>
+            </div>
+          </div>
+          <div class="col heading__card__content">
+            <div class="heading__card__content__status">
+              <h2
+                [style.color]="
+                  applicationDetails.application_status_id == 11
+                    ? 'green'
+                    : 'red'
+                "
+              >
+                <strong
+                  >&nbsp;
+                  {{
+                    getApplicationStatus(
+                      applicationDetails.application_status_id
+                    )
+                  }}
+                </strong>
+              </h2>
+            </div>
+            <div class="heading__card__content__reminder">
+              {{ getReminder() }}
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
 
   <div class="app-timeline">
     <mat-card>
@@ -271,6 +300,29 @@
           </ng-template>
         </mat-expansion-panel>
         <div></div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div>
+    <mat-card style="background-color: #f9c132e3">
+      <mat-card-content>
+        <h4 class="text-center">
+          <strong>For assistance in using BuildPASS: </strong>
+        </h4>
+        <h5>Call or text:</h5>
+        <div class="d-flex justify-content-around align-items-center">
+          <div class="col">
+            <h5>
+              City Buildings and Architecture Office:
+              <span style="font-weight: 600">+63-926-121-2394</span>
+            </h5>
+            <h5>City Planning and Development Office:</h5>
+          </div>
+          <div class="col">
+            <h5>City Environment and Parks Management Office:</h5>
+            <h5>Bureau of Fire Protection:</h5>
+          </div>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>
@@ -374,10 +426,6 @@
                           "
                         >
                           <button
-                            [disabled]="
-                              element.document_status_id == 1 ||
-                              applicationDetails.application_status_id !== 5
-                            "
                             mat-menu-item
                             color="accent"
                             (click)="openFormDialog(element)"

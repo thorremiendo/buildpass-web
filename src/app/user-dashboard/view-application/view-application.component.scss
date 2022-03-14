@@ -217,3 +217,23 @@ mat-icon:hover {
     flex-wrap: wrap;
   }
 }
+
+.heading__card {
+  min-height: 300px;
+
+  &__content {
+    &__status {
+      text-align: center;
+    }
+    &__reminder {
+      min-height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      background-color: #f9c232;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+  }
+}
