@@ -642,7 +642,7 @@ export class ViewApplicationComponent implements OnInit {
 
   getReminder() {
     let status = this.applicationDetails.application_status_id;
-    let evaluation = [2, 3, 12, 13, 18];
+    let evaluation = [1, 2, 3, 12, 13, 18];
     if (status == 5) {
       return 'Please edit your files now!';
     } else if (evaluation.find((e) => e == status)) {
