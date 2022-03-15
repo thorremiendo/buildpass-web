@@ -646,7 +646,7 @@ export class ViewApplicationComponent implements OnInit {
     if (status == 5) {
       return 'Please edit your files now!';
     } else if (evaluation.find((e) => e == status)) {
-      return 'Your files is being evaluated as of the moment. You can not edit any document submitted until the status turns to "For Compliance"';
+      return 'Your application is being evaluated as of the moment. You can not edit any document submitted until the status turns to "For Compliance"';
     } else if (status == 8) {
       return 'Please check your fees and pay at the CBAO and check your email for the instructions in printing your documents.';
     } else if (status == 4) {

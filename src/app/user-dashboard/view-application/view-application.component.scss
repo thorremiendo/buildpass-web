@@ -1,3 +1,5 @@
+@import url("https://use.typekit.net/esm6qln.css");
+
 table {
   width: 100%;
 
@@ -224,16 +226,24 @@ mat-icon:hover {
   &__content {
     &__status {
       text-align: center;
+
+      h2 {
+        font-family: cooper-black-std, serif !important;
+        font-weight: 400;
+        font-style: normal;
+      }
     }
     &__reminder {
       min-height: 60px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       padding: 10px;
       background-color: #f9c232;
       border-radius: 10px;
-      font-weight: 600;
+
+      p {
+        text-align: center;
+        font-weight: 600;
+        font-style: normal;
+      }
     }
   }
 }

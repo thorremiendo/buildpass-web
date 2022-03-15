@@ -720,7 +720,6 @@ export class CbaoEvaluatorComponent implements OnInit {
           obj.document_id == 75 ||
           obj.document_id == 33 ||
           obj.document_id == 140 ||
-          obj.document_id == 194 ||
           obj.document_id == 103 ||
           obj.document_id == 104
       );
