@@ -478,7 +478,7 @@ export class FormDetailsComponent implements OnInit {
       } else if (this.data.userRole.code == 'CBAO-REC') {
         //BLDG PERMIT RECEIVING
         if (form.document_id == 194) {
-          //Perspective Plan
+          //Sheet 1
           body = {
             document_status_id: this.permitDetails.value.is_compliant,
             receiving_status_id: this.permitDetails.value.is_compliant,
