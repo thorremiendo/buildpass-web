@@ -156,24 +156,35 @@ export class FormDetailsComponent implements OnInit {
   }
 
   isDocumentAForm() {
-    if (
-      this.data.form.document_id == 1 ||
-      this.data.form.document_id == 2 ||
-      this.data.form.document_id == 3 ||
-      this.data.form.document_id == 4 ||
-      this.data.form.document_id == 5 ||
-      this.data.form.document_id == 48 ||
-      this.data.form.document_id == 106 ||
-      this.data.form.document_id == 98 ||
-      this.data.form.document_id == 99 ||
-      this.data.form.document_id == 195 ||
-      this.data.form.document_id == 117 ||
-      this.data.form.document_id == 108 ||
-      this.data.form.document_id == 146 ||
-      this.data.form.document_id == 124
-    ) {
-      return true;
-    } else return false;
+    if (this.data.application.permit_type_id !== 2) {
+      if (
+        this.data.form.document_id == 1 ||
+        this.data.form.document_id == 2 ||
+        this.data.form.document_id == 3 ||
+        this.data.form.document_id == 4 ||
+        this.data.form.document_id == 5 ||
+        this.data.form.document_id == 48 ||
+        this.data.form.document_id == 106 ||
+        this.data.form.document_id == 98 ||
+        this.data.form.document_id == 99 ||
+        this.data.form.document_id == 195 ||
+        this.data.form.document_id == 117 ||
+        this.data.form.document_id == 108 ||
+        this.data.form.document_id == 146 ||
+        this.data.form.document_id == 124
+      ) {
+        return true;
+      } else return false;
+    } else if (this.data.application.permit_type_id == 2) {
+      if (
+        this.data.form.document_id == 81 ||
+        this.data.form.document_id == 204 ||
+        this.data.form.document_id == 83 ||
+        this.data.form.document_id == 84
+      ) {
+        return true;
+      } else return false;
+    }
   }
 
   getDocType(id): string {
