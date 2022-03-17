@@ -24,7 +24,10 @@
                 </h5>
               </div>
               <div>
-                <h5 style="color: #7b7b7b" style="text-transform: uppercase">
+                <h5
+                  style="color: #7b7b7b"
+                  style="text-transform: uppercase; word-wrap: break-word"
+                >
                   {{ applicationDetails.applicant_detail.email_address }}
                 </h5>
               </div>
@@ -219,7 +222,9 @@
               </h2>
             </div>
             <div class="heading__card__content__reminder">
-              {{ getReminder() }}
+              <p>
+                {{ getReminder() }}
+              </p>
             </div>
           </div>
         </mat-card-content>
@@ -313,14 +318,27 @@
         <div class="d-flex justify-content-around align-items-center">
           <div class="col">
             <h5>
-              City Buildings and Architecture Office:
-              <span style="font-weight: 600">+63-926-121-2394</span>
+              City Buildings and Architecture Office: <br />
+              <span style="font-weight: 600"
+                >+63-926-121-2394 or (074)442-2503</span
+              >
             </h5>
-            <h5>City Planning and Development Office:</h5>
+            <h5>
+              City Planning and Development Office: <br />
+              <span style="font-weight: 600"> (074)300-6548</span>
+            </h5>
           </div>
           <div class="col">
-            <h5>City Environment and Parks Management Office:</h5>
-            <h5>Bureau of Fire Protection:</h5>
+            <h5>
+              City Environment and Parks Management Office: <br />
+              <span style="font-weight: 600"> (074)300-6500</span>
+            </h5>
+            <h5>
+              Bureau of Fire Protection: <br />
+              <span style="font-weight: 600">
+                (074)442-2222 or (074)443-7089</span
+              >
+            </h5>
           </div>
         </div>
       </mat-card-content>
