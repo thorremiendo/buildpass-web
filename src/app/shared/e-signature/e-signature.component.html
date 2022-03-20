@@ -1,39 +1,42 @@
 <div id="e-signature">
-  <div id="e-sig-container" cdkDrag (cdkDragEnded)="dragEnd($event)">
-    <div id="resize-container">
-      <div cdkDragHandle id="e-sig-image-container">
-        <img [src]="esigSource" />
+  <ng-container *ngIf="this.documentInfo.document_id !== 50">
+    <div id="e-sig-container" cdkDrag (cdkDragEnded)="dragEnd($event)">
+      <div id="resize-container">
+        <div cdkDragHandle id="e-sig-image-container">
+          <img [src]="esigSource" />
+        </div>
+        <div
+          class="resize top-left-resize"
+          draggable="true"
+          (dragstart)="dragStart($event)"
+          (dragover)="dragOver($event)"
+          (drag)="resize($event)"
+        ></div>
+        <div
+          class="resize top-right-resize"
+          draggable="true"
+          (dragstart)="dragStart($event)"
+          (dragover)="dragOver($event)"
+          (drag)="resize($event)"
+        ></div>
+        <div
+          class="resize bottom-left-resize"
+          draggable="true"
+          (dragstart)="dragStart($event)"
+          (dragover)="dragOver($event)"
+          (drag)="resize($event)"
+        ></div>
+        <div
+          class="resize bottom-right-resize"
+          draggable="true"
+          (dragstart)="dragStart($event)"
+          (dragover)="dragOver($event)"
+          (drag)="resize($event)"
+        ></div>
       </div>
-      <div
-        class="resize top-left-resize"
-        draggable="true"
-        (dragstart)="dragStart($event)"
-        (dragover)="dragOver($event)"
-        (drag)="resize($event)"
-      ></div>
-      <div
-        class="resize top-right-resize"
-        draggable="true"
-        (dragstart)="dragStart($event)"
-        (dragover)="dragOver($event)"
-        (drag)="resize($event)"
-      ></div>
-      <div
-        class="resize bottom-left-resize"
-        draggable="true"
-        (dragstart)="dragStart($event)"
-        (dragover)="dragOver($event)"
-        (drag)="resize($event)"
-      ></div>
-      <div
-        class="resize bottom-right-resize"
-        draggable="true"
-        (dragstart)="dragStart($event)"
-        (dragover)="dragOver($event)"
-        (drag)="resize($event)"
-      ></div>
     </div>
-  </div>
+  </ng-container>
+
   <ng-container *ngIf="pdfSource">
     <pdf-viewer
       [show-all]="false"
@@ -64,8 +67,18 @@
       class="submit"
       (click)="insertEsig()"
       [disabled]="isLoading"
+      *ngIf="this.documentInfo.document_id !== 50"
     >
       Insert Signature
+    </button>
+    <button
+      mat-button
+      class="submit"
+      (click)="bldgPermitSignature()"
+      [disabled]="isLoading"
+      *ngIf="this.documentInfo.document_id == 50"
+    >
+      Sign
     </button>
   </div>
   <ng-container *ngIf="isLoading">
