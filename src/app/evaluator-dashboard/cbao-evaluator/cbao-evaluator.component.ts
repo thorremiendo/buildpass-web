@@ -1,3 +1,4 @@
+import { AdminWatermarkComponent } from './../../shared/admin-watermark/admin-watermark.component';
 import { OccupancyService } from './../../core/services/occupancy.service';
 import { OccupancyUploadFileComponent } from './../occupancy-upload-file/occupancy-upload-file.component';
 import { EsignatureService } from './../../core/services/esignature.service';
@@ -1341,6 +1342,16 @@ export class CbaoEvaluatorComponent implements OnInit {
         title: 'Change Document Status',
         id: id,
         currentStatus: currentStatus,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  openAdminWatermark(document) {
+    const dialogRef = this.dialog.open(AdminWatermarkComponent, {
+      data: {
+        document: document,
       },
     });
 

@@ -346,6 +346,14 @@
                         >
                           Change Status
                         </button>
+                        <button
+                          mat-menu-item
+                          color="accent"
+                          (click)="openAdminWatermark(element)"
+                          *ngIf="evaluatorRole.code == 'SPRADM'"
+                        >
+                          Insert Watermark
+                        </button>
 
                         <ng-container>
                           <a
