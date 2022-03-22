@@ -1,3 +1,4 @@
+import { CheckEvaluatorFeesService } from './../../core/services/check-evaluator-fees.service';
 import { ApplicationInfoService } from 'src/app/core/services/application-info.service';
 import { PopOutNotificationsService } from './../../core/services/pop-out-notification.service';
 import { Component, Input, OnInit } from '@angular/core';
@@ -17,7 +18,8 @@ export class ReviewButtonComponent implements OnInit {
   constructor(
     private alert: PopOutNotificationsService,
     private applicationService: ApplicationInfoService,
-    private newApplicationService: NewApplicationService
+    private newApplicationService: NewApplicationService,
+    private checkFees: CheckEvaluatorFeesService
   ) {}
 
   ngOnInit(): void {}
@@ -50,6 +52,7 @@ export class ReviewButtonComponent implements OnInit {
           );
           if (lgEvaluated) {
             this.alert.openSnackBar('Please review a document first.');
+            this.isLoading = false;
           } else {
             const isNotCompliant = this.docs.find(
               (form) => form.cbao_lg_status_id == 2
@@ -60,12 +63,14 @@ export class ReviewButtonComponent implements OnInit {
               this.handleTechnicalEvaluatorCompliant();
             }
           }
+          break;
         case 'CBAO-ARCH':
           const archEvaluated = this.docs.every(
             (form) => form.cbao_arch_status_id == 0
           );
           if (archEvaluated) {
             this.alert.openSnackBar('Please review a document first.');
+            this.isLoading = false;
           } else {
             const isNotCompliant = this.docs.find(
               (form) => form.cbao_arch_status_id == 2
@@ -83,6 +88,7 @@ export class ReviewButtonComponent implements OnInit {
           );
           if (strEvaluated) {
             this.alert.openSnackBar('Please review a document first.');
+            this.isLoading = false;
           } else {
             const isNotCompliant = this.docs.find(
               (form) => form.cbao_str_status_id == 2
@@ -100,6 +106,7 @@ export class ReviewButtonComponent implements OnInit {
           );
           if (sanEvaluated) {
             this.alert.openSnackBar('Please review a document first.');
+            this.isLoading = false;
           } else {
             const isNotCompliant = this.docs.find(
               (form) => form.cbao_san_status_id == 2
@@ -117,6 +124,7 @@ export class ReviewButtonComponent implements OnInit {
           );
           if (elecEvaluated) {
             this.alert.openSnackBar('Please review a document first.');
+            this.isLoading = false;
           } else {
             const isNotCompliant = this.docs.find(
               (form) => form.cbao_elec_status_id == 2
@@ -134,6 +142,7 @@ export class ReviewButtonComponent implements OnInit {
           );
           if (mecEvaluated) {
             this.alert.openSnackBar('Please review a document first.');
+            this.isLoading = false;
           } else {
             const isNotCompliant = this.docs.find(
               (form) => form.cbao_mec_status_id == 2
@@ -358,50 +367,59 @@ export class ReviewButtonComponent implements OnInit {
   }
 
   handleTechnicalEvaluatorCompliant() {
-    switch (this.evaluatorRole.code) {
-      case 'CBAO-LG':
-        const lg = {
-          cbao_lg_status_id: 1,
-          evaluator_user_id: this.evaluatorDetails.user_id,
-        };
-        this.updateCbaoStatus(lg);
-        break;
-      case 'CBAO-ARCH':
-        const arch = {
-          cbao_arch_status_id: 1,
-          evaluator_user_id: this.evaluatorDetails.user_id,
-        };
-        this.updateCbaoStatus(arch);
-        break;
-      case 'CBAO-STR':
-        const str = {
-          cbao_str_status_id: 1,
-          evaluator_user_id: this.evaluatorDetails.user_id,
-        };
-        this.updateCbaoStatus(str);
-        break;
-      case 'CBAO-SAN':
-        const san = {
-          cbao_san_status_id: 1,
-          evaluator_user_id: this.evaluatorDetails.user_id,
-        };
-        this.updateCbaoStatus(san);
-        break;
-      case 'CBAO-ELEC':
-        const elec = {
-          cbao_elec_status_id: 1,
-          evaluator_user_id: this.evaluatorDetails.user_id,
-        };
-        this.updateCbaoStatus(elec);
-        break;
-      case 'CBAO-MEC':
-        const mec = {
-          cbao_mec_status_id: 1,
-          evaluator_user_id: this.evaluatorDetails.user_id,
-        };
-        this.updateCbaoStatus(mec);
-        break;
-    }
+    this.checkFees
+      .checkEvaluatorFees(4, this.applicationInfo.id, this.evaluatorRole.code)
+      .subscribe((res) => {
+        if (res == true) {
+          switch (this.evaluatorRole.code) {
+            case 'CBAO-LG':
+              const lg = {
+                cbao_lg_status_id: 1,
+                evaluator_user_id: this.evaluatorDetails.user_id,
+              };
+              this.updateCbaoStatus(lg);
+              break;
+            case 'CBAO-ARCH':
+              const arch = {
+                cbao_arch_status_id: 1,
+                evaluator_user_id: this.evaluatorDetails.user_id,
+              };
+              this.updateCbaoStatus(arch);
+              break;
+            case 'CBAO-STR':
+              const str = {
+                cbao_str_status_id: 1,
+                evaluator_user_id: this.evaluatorDetails.user_id,
+              };
+              this.updateCbaoStatus(str);
+              break;
+            case 'CBAO-SAN':
+              const san = {
+                cbao_san_status_id: 1,
+                evaluator_user_id: this.evaluatorDetails.user_id,
+              };
+              this.updateCbaoStatus(san);
+              break;
+            case 'CBAO-ELEC':
+              const elec = {
+                cbao_elec_status_id: 1,
+                evaluator_user_id: this.evaluatorDetails.user_id,
+              };
+              this.updateCbaoStatus(elec);
+              break;
+            case 'CBAO-MEC':
+              const mec = {
+                cbao_mec_status_id: 1,
+                evaluator_user_id: this.evaluatorDetails.user_id,
+              };
+              this.updateCbaoStatus(mec);
+              break;
+          }
+        } else {
+          this.alert.openSuccessToast('Please add a fee');
+          this.isLoading = false;
+        }
+      });
   }
 
   updateCbaoStatus(body) {

@@ -346,6 +346,25 @@
                         >
                           Change Status
                         </button>
+                        <button
+                          mat-menu-item
+                          color="accent"
+                          (click)="openAdminWatermark(element)"
+                          *ngIf="evaluatorRole.code == 'SPRADM'"
+                        >
+                          Insert Watermark
+                        </button>
+                        <button
+                          mat-menu-item
+                          color="accent"
+                          (click)="openBldgPermitDialog(element)"
+                          *ngIf="
+                            this.user.user_roles[0].is_special == 1 &&
+                            element.document_id == 50
+                          "
+                        >
+                          Update
+                        </button>
 
                         <ng-container>
                           <a
@@ -408,20 +427,7 @@
             <div class="action__buttons">
               <ng-container *ngIf="applicationInfo.permit_type_id == 1">
                 <!-- TODO MAKE THIS A COMPONENT -->
-                <div *ngIf="applicationInfo.application_status_id == 13">
-                  <button
-                    class="mt-2 w-100"
-                    mat-raised-button
-                    color="primary"
-                    (click)="openBldgPermitDialog()"
-                    *ngIf="evaluatorRole.code == 'CBAO-BO'"
-                    [disabled]="
-                      checkBuildingPermitUploaded() || checkFormNonCompliant()
-                    "
-                  >
-                    Release Building Permit
-                  </button>
-                </div>
+
                 <mat-progress-bar
                   mode="indeterminate"
                   *ngIf="isLoading"
@@ -476,6 +482,21 @@
                     </div>
                   </div>
                   <div>
+                    <div *ngIf="applicationInfo.application_status_id == 13">
+                      <button
+                        class="mt-2 w-100"
+                        mat-raised-button
+                        color="primary"
+                        (click)="callSave()"
+                        *ngIf="evaluatorRole.code == 'CBAO-BO'"
+                        [disabled]="
+                          checkBuildingPermitUploaded() ||
+                          checkFormNonCompliant()
+                        "
+                      >
+                        Approve
+                      </button>
+                    </div>
                     <button
                       [disabled]="checkFormNonCompliant()"
                       mat-raised-button
