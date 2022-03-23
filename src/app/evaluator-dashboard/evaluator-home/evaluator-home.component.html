@@ -34,6 +34,7 @@
               <div class="task-chart-legend" *ngIf="applicationStats">
                 <ul>
                   <li
+                    (click)="applicationStatus.setValue('1'); complianceStatus.setValue('0');"
                     [ngClass]="{'active-category': applicationStatus.value == '1'}"
                   >
                     <div class="color"></div>
@@ -43,6 +44,7 @@
                     </div>
                   </li>
                   <li
+                    (click)="applicationStatus.setValue('2'); complianceStatus.setValue('0');"
                     [ngClass]="{'active-category': applicationStatus.value == '2'}"
                   >
                     <div class="color"></div>
@@ -52,6 +54,7 @@
                     </div>
                   </li>
                   <li
+                    (click)="applicationStatus.setValue('3'); complianceStatus.setValue('0');"
                     [ngClass]="{'active-category': applicationStatus.value == '3'}"
                   >
                     <div class="color"></div>
@@ -61,6 +64,7 @@
                     </div>
                   </li>
                   <li
+                    (click)="applicationStatus.setValue('4'); complianceStatus.setValue('0');"
                     [ngClass]="{'active-category': applicationStatus.value == '4'}"
                   >
                     <div class="color"></div>
@@ -70,6 +74,7 @@
                     </div>
                   </li>
                   <li
+                    (click)="applicationStatus.setValue('5'); complianceStatus.setValue('0');"
                     [ngClass]="{'active-category': applicationStatus.value == '5'}"
                   >
                     <div class="color"></div>
@@ -79,6 +84,7 @@
                     </div>
                   </li>
                   <li
+                    (click)="applicationStatus.setValue('6'); complianceStatus.setValue('0');"
                     [ngClass]="{'active-category': applicationStatus.value == '6'}"
                   >
                     <div class="color"></div>
@@ -100,7 +106,7 @@
           <div class="category">
             <mat-card 
               [ngClass]="{'active-category': complianceStatus.value == '1'}"
-              (click)="complianceStatus.setValue('1')"
+              (click)="complianceStatus.setValue('1'); applicationStatus.setValue('0');"
             >
               <span class="count">
                 {{evaluationApplicationCount}}
@@ -113,7 +119,7 @@
           <div class="category">
             <mat-card
               [ngClass]="{'active-category': complianceStatus.value == '2'}"
-              (click)="complianceStatus.setValue('2')"
+              (click)="complianceStatus.setValue('2'); applicationStatus.setValue('0');"
             >
               <span class="count">
                 {{complianceApplicationCount}}
@@ -126,7 +132,7 @@
           <div class="category">
             <mat-card 
               [ngClass]="{'active-category': complianceStatus.value == '3'}"
-              (click)="complianceStatus.setValue('3')"
+              (click)="complianceStatus.setValue('3'); applicationStatus.setValue('0');"
             >
               <span class="count">
                 {{reevaluationApplicationCount}}
@@ -139,7 +145,7 @@
           <div class="category">
             <mat-card 
               [ngClass]="{'active-category': complianceStatus.value == '4'}"
-              (click)="complianceStatus.setValue('4')"
+              (click)="complianceStatus.setValue('4'); applicationStatus.setValue('0');"
             >
               <span class="count">
                 {{evaluatedApplicationCount}}
@@ -241,7 +247,7 @@
             <div class="col-8">
               <mat-form-field appearance="outline">
                 <mat-select [formControl]="complianceStatus">
-                  <!--<mat-option value="0">All</mat-option>-->
+                  <mat-option value="0">All</mat-option>
                   <mat-option value="1">For Evaluation</mat-option>
                   <mat-option value="2">For Compliance</mat-option>
                   <mat-option value="3">For Re-Evaluation</mat-option>
