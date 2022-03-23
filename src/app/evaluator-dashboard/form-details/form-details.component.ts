@@ -462,7 +462,6 @@ export class FormDetailsComponent implements OnInit {
     } else if (officeId == 4) {
       //CBAO
       if (
-        (permitType == 1 || permitType == 2) &&
         this.data.userRole.code !== 'CBAO-REC' &&
         this.data.userRole.code !== 'CBAO-DC'
       ) {

@@ -56,6 +56,7 @@ import { DocumentRemarksComponent } from './document-remarks/document-remarks.co
 import { StepOneDialogComponent } from './step-one-dialog/step-one-dialog.component';
 import { ReviewButtonComponent } from './review-button/review-button.component';
 import { AdminEditDialogComponent } from './admin-edit-dialog/admin-edit-dialog.component';
+import { AdminWatermarkComponent } from './admin-watermark/admin-watermark.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +98,7 @@ import { AdminEditDialogComponent } from './admin-edit-dialog/admin-edit-dialog.
     StepOneDialogComponent,
     ReviewButtonComponent,
     AdminEditDialogComponent,
+    AdminWatermarkComponent,
   ],
   imports: [
     CommonModule,
@@ -111,6 +113,7 @@ import { AdminEditDialogComponent } from './admin-edit-dialog/admin-edit-dialog.
     PdfViewerModule,
   ],
   exports: [
+    AdminWatermarkComponent,
     AccordionAnchorDirective,
     AccordionDirective,
     AccordionLinkDirective,
