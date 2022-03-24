@@ -17,6 +17,7 @@ import { ZoningCertificateComponent } from '../zoning-certificate/zoning-certifi
 import Swal from 'sweetalert2';
 import { WwwmsCertificateComponent } from '../wwwms-certificate/wwwms-certificate.component';
 import { EsignatureService } from 'src/app/core/services/esignature.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-cepmo-evaluator',
@@ -36,6 +37,9 @@ export class CepmoEvaluatorComponent implements OnInit {
   public documentTypes;
   public userDocuments = [];
   public cepmoFees;
+  public searchKey = new FormControl('');
+  public unfilteredData = [];
+  
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
@@ -51,6 +55,16 @@ export class CepmoEvaluatorComponent implements OnInit {
     this.isLoading = true;
     this.applicationId = this.route.snapshot.params.id;
     this.fetchApplicationFees();
+
+    this.searchKey.valueChanges.subscribe((res) => {
+      this.dataSource = this.sortUserDocs(
+        this.unfilteredData.filter(document => {
+          const docName = document.docName;
+          if (docName && docName.toLowerCase().includes(res.toLowerCase())) return true;
+          else return false;
+        })
+      );
+    });
   }
   fetchApplicationFees() {
     const application_id = this.applicationId;
@@ -110,6 +124,7 @@ export class CepmoEvaluatorComponent implements OnInit {
     );
     this.dataSource = this.sortUserDocs(CEPMO_FORMS);
     this.userDocuments = CEPMO_FORMS;
+    this.unfilteredData = CEPMO_FORMS;
   }
 
   sortUserDocs(docs) {
@@ -144,6 +159,10 @@ export class CepmoEvaluatorComponent implements OnInit {
     docs.forEach((element) => {
       const docType =
         this.documentTypes[element.document_id - 1].document_category_id;
+      const docName = 
+        this.documentTypes[element.document_id - 1].name;
+      element.docName = docName;
+
       switch (docType) {
         case 1:
           sortedForms.forms.data.push(element);

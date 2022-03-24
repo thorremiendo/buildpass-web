@@ -27,6 +27,14 @@
           Documents
         </ng-template>
         <div>
+          <div class="document-search col-12 col-md-6">
+            <mat-form-field appearance="outline">
+              <mat-label>Search</mat-label>
+              <input matInput [formControl]="searchKey" />
+              <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+          </div>
+          
           <table mat-table [dataSource]="dataSource">
             <!-- Index Column -->
             <ng-container matColumnDef="index">

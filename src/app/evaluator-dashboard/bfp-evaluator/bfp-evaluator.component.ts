@@ -18,6 +18,7 @@ import Swal from 'sweetalert2';
 import { FireClearanceComponent } from '../fire-clearance/fire-clearance.component';
 import { EsignatureService } from 'src/app/core/services/esignature.service';
 import { ApplicationFeesService } from 'src/app/core/services/application-fees.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-bfp-evaluator',
@@ -37,6 +38,9 @@ export class BfpEvaluatorComponent implements OnInit {
   public documentTypes;
   public userDocuments = [];
   public bfpFees;
+  public searchKey = new FormControl('');
+  public unfilteredData = [];
+
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
@@ -56,6 +60,16 @@ export class BfpEvaluatorComponent implements OnInit {
     this.fetchApplicationDetails();
 
     this.changeDetectorRefs.detectChanges();
+
+    this.searchKey.valueChanges.subscribe((res) => {
+      this.dataSource = this.sortUserDocs(
+        this.unfilteredData.filter(document => {
+          const docName = document.docName;
+          if (docName && docName.toLowerCase().includes(res.toLowerCase())) return true;
+          else return false;
+        })
+      );
+    });
   }
 
   checkBfpParallelDocs() {
@@ -121,6 +135,7 @@ export class BfpEvaluatorComponent implements OnInit {
     );
     this.dataSource = this.sortUserDocs(BFP_FORMS);
     this.userDocuments = BFP_FORMS;
+    this.unfilteredData = BFP_FORMS;
   }
 
   sortUserDocs(docs) {
@@ -155,6 +170,10 @@ export class BfpEvaluatorComponent implements OnInit {
     docs.forEach((element) => {
       const docType =
         this.documentTypes[element.document_id - 1].document_category_id;
+      const docName = 
+        this.documentTypes[element.document_id - 1].name;
+      element.docName = docName;
+
       switch (docType) {
         case 1:
           sortedForms.forms.data.push(element);
