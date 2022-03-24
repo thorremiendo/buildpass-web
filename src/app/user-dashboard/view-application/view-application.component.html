@@ -355,6 +355,14 @@
             </ng-template>
             <div>
               <div>
+                <div class="document-search col-12 col-md-6">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Search</mat-label>
+                    <input matInput [formControl]="searchKey" />
+                    <mat-icon matSuffix>search</mat-icon>
+                  </mat-form-field>
+                </div>
+                
                 <table mat-table [dataSource]="dataSource">
                   <!--- Note that these columns can be defined in any order.
                               The actual rendered columns are set as a property on the row definition" -->

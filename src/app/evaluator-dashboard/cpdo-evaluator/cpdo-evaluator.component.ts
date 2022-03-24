@@ -16,6 +16,7 @@ import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { ZoningCertificateComponent } from '../zoning-certificate/zoning-certificate.component';
 import Swal from 'sweetalert2';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-cpdo-evaluator',
@@ -37,6 +38,9 @@ export class CpdoEvaluatorComponent implements OnInit {
   public cpdoFees;
   public pdfSrc =
     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/forms/Application_Form_for_Certificate_of_Zoning_Compliance-revised_by_TSA-Sept_4__2020+(1).pdf';
+  public searchKey = new FormControl('');
+  public unfilteredData = [];
+
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
@@ -51,6 +55,16 @@ export class CpdoEvaluatorComponent implements OnInit {
   ngOnInit(): void {
     this.fetchDocTypes();
     this.applicationId = this.route.snapshot.params.id;
+
+    this.searchKey.valueChanges.subscribe((res) => {
+      this.dataSource = this.sortUserDocs(
+        this.unfilteredData.filter(document => {
+          const docName = document.docName;
+          if (docName && docName.toLowerCase().includes(res.toLowerCase())) return true;
+          else return false;
+        })
+      );
+    });
   }
   fetchApplicationDetails() {
     this.isLoading = true;
@@ -98,6 +112,7 @@ export class CpdoEvaluatorComponent implements OnInit {
     );
     this.dataSource = this.sortUserDocs(CPDO_FORMS);
     this.userDocuments = CPDO_FORMS;
+    this.unfilteredData = CPDO_FORMS;
   }
 
   sortUserDocs(docs) {
@@ -132,6 +147,10 @@ export class CpdoEvaluatorComponent implements OnInit {
     docs.forEach((element) => {
       const docType =
         this.documentTypes[element.document_id - 1].document_category_id;
+      const docName = 
+        this.documentTypes[element.document_id - 1].name;
+      element.docName = docName;
+
       switch (docType) {
         case 1:
           sortedForms.forms.data.push(element);

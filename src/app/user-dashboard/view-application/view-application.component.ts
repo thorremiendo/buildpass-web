@@ -25,6 +25,7 @@ import { ApplicationFeesService } from 'src/app/core/services/application-fees.s
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { constructionType } from '../../core/enums/construction-type.enum';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-view-application',
@@ -45,6 +46,8 @@ export class ViewApplicationComponent implements OnInit {
   public documentTypes;
   public inspections = [];
   displayedColumns: string[] = ['index', 'name', 'status', 'remarks', 'action'];
+  public searchKey = new FormControl('');
+  public unfilteredData = null;
 
   constructor(
     private applicationService: ApplicationInfoService,
@@ -115,6 +118,16 @@ export class ViewApplicationComponent implements OnInit {
     this.isAuthorized = false;
     this.applicationId = this.route.snapshot.params.id;
     this.user = JSON.parse(localStorage.getItem('user'));
+
+    this.searchKey.valueChanges.subscribe((res) => {
+      this.sortUserDocs(
+        this.unfilteredData.filter(document => {
+          const docName = document.docName;
+          if (docName && docName.toLowerCase().includes(res.toLowerCase())) return true;
+          else return false;
+        })
+      );
+    });
   }
 
   fetchDocTypes() {
@@ -153,10 +166,11 @@ export class ViewApplicationComponent implements OnInit {
     this.applicationService
       .fetchUserDocs(this.applicationId)
       .subscribe((result) => {
-        this.filterUserDocs(result.data);
+        this.sortUserDocs(result.data);
+        this.unfilteredData = result.data;
       });
   }
-  filterUserDocs(forms) {
+  sortUserDocs(forms) {
     const sortedForms = {
       forms: {
         label: 'Forms',
@@ -191,6 +205,10 @@ export class ViewApplicationComponent implements OnInit {
     filteredDocs.forEach((element) => {
       const docType =
         this.documentTypes[element.document_id - 1].document_category_id;
+      const docName = 
+        this.documentTypes[element.document_id - 1].name;
+      element.docName = docName;
+
       switch (docType) {
         case 1:
           sortedForms.forms.data.push(element);
