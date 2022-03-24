@@ -55,6 +55,25 @@ table {
       font-weight: 600;
     }
   }
+
+  tr:hover {
+    background-color: #f9c232;
+    cursor: pointer;
+
+    td {
+      color: #000 !important;
+      font-weight: 700 !important;
+    }
+  }
+}
+
+.document-search {
+  margin: 10px 0;
+  padding: 0;
+
+  ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
 }
 
 .mat-column-index {

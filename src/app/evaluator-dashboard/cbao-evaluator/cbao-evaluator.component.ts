@@ -15,6 +15,7 @@ import { ReleaseBldgPermitComponent } from '../release-bldg-permit/release-bldg-
 import { WaterMarkService } from '../../core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AdminEditDialogComponent } from 'src/app/shared/admin-edit-dialog/admin-edit-dialog.component';
+import { FormControl } from '@angular/forms';
 import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
 
 @Component({
@@ -48,6 +49,9 @@ export class CbaoEvaluatorComponent implements OnInit {
   public mergedPlans;
   public isLoadingMergedPlans: boolean = false;
   public occupancyDocs = [];
+  public searchKey = new FormControl('');
+  public unfilteredData = [];
+
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
@@ -67,6 +71,16 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.fetchApplicationInfo();
     this.changeDetectorRefs.detectChanges();
     this.fetchDocTypes();
+
+    this.searchKey.valueChanges.subscribe((res) => {
+      this.dataSource = this.sortUserDocs(
+        this.unfilteredData.filter(document => {
+          const docName = document.docName;
+          if (docName && docName.toLowerCase().includes(res.toLowerCase())) return true;
+          else return false;
+        })
+      );
+    });
   }
 
   openOccupancyFileUpload() {
@@ -152,10 +166,12 @@ export class CbaoEvaluatorComponent implements OnInit {
       //   this.occupancyDocs = USER_FORMS;
       // }
       this.dataSource = this.sortUserDocs(USER_FORMS);
+      this.unfilteredData = this.dataSource;
       this.occupancyDocs = USER_FORMS;
     }
     if (this.applicationInfo.permit_type_id !== 2) {
       this.dataSource = this.sortUserDocs(USER_FORMS);
+      this.unfilteredData = this.dataSource;
     }
     this.isLoading = false;
   }
@@ -192,6 +208,10 @@ export class CbaoEvaluatorComponent implements OnInit {
     docs.forEach((element) => {
       const docType =
         this.documentTypes[element.document_id - 1].document_category_id;
+      const docName = 
+        this.documentTypes[element.document_id - 1].name;
+      element.docName = docName;
+      
       switch (docType) {
         case 1:
           sortedForms.forms.data.push(element);

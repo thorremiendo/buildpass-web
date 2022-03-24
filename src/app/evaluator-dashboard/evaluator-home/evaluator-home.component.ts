@@ -199,11 +199,23 @@ export class EvaluatorHomeComponent implements OnInit {
       incompleteFlag: this.applicationStatus.value == '8' ? 1 : '',
     };
 
-    this.evaluatorService.fetchApplications(params).subscribe((data) => {
-      this.applications = this.applicationModifications(data.data);
-      this.applicationCount = data.total;
-      this.loading = false;
-    });
+    if (this.complianceStatus.value == '0') {
+      const adminParams = {
+        ...params,
+        applicationStatus: this.applicationStatusValue ? this.applicationStatusValue : '',
+      };
+      this.adminService.fetchApplications(adminParams).subscribe((data) => {
+        this.applications = this.applicationModifications(data.data);
+        this.applicationCount = data.total;
+        this.loading = false;
+      });
+    } else {
+      this.evaluatorService.fetchApplications(params).subscribe((data) => {
+        this.applications = this.applicationModifications(data.data);
+        this.applicationCount = data.total;
+        this.loading = false;
+      });
+    }
   }
 
   applicationModifications(applications) {
