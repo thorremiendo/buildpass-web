@@ -1,0 +1,16 @@
+<mat-form-field appearance="outline">
+  <mat-label>Select Watermark:</mat-label>
+  <mat-select [formControl]="watermarkType">
+    <mat-option value="1">Compliant</mat-option>
+    <mat-option value="2">Non Compliant</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<button
+  mat-raised-button
+  color="primary"
+  (click)="insertWatermark()"
+  [disabled]="isLoading"
+>
+  {{ isLoading ? "Saving" : "Save" }}
+</button>

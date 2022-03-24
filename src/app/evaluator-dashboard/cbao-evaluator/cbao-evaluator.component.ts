@@ -1,3 +1,4 @@
+import { AdminWatermarkComponent } from './../../shared/admin-watermark/admin-watermark.component';
 import { OccupancyService } from './../../core/services/occupancy.service';
 import { OccupancyUploadFileComponent } from './../occupancy-upload-file/occupancy-upload-file.component';
 import { EsignatureService } from './../../core/services/esignature.service';
@@ -14,6 +15,8 @@ import { ReleaseBldgPermitComponent } from '../release-bldg-permit/release-bldg-
 import { WaterMarkService } from '../../core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AdminEditDialogComponent } from 'src/app/shared/admin-edit-dialog/admin-edit-dialog.component';
+import { FormControl } from '@angular/forms';
+import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
 
 @Component({
   selector: 'app-cbao-evaluator',
@@ -46,6 +49,9 @@ export class CbaoEvaluatorComponent implements OnInit {
   public mergedPlans;
   public isLoadingMergedPlans: boolean = false;
   public occupancyDocs = [];
+  public searchKey = new FormControl('');
+  public unfilteredData = [];
+
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
@@ -56,7 +62,8 @@ export class CbaoEvaluatorComponent implements OnInit {
     private snackBar: MatSnackBar,
     private eSignatureService: EsignatureService,
     private occupancyService: OccupancyService,
-    private router: Router
+    private router: Router,
+    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService
   ) {}
 
   ngOnInit(): void {
@@ -64,6 +71,16 @@ export class CbaoEvaluatorComponent implements OnInit {
     this.fetchApplicationInfo();
     this.changeDetectorRefs.detectChanges();
     this.fetchDocTypes();
+
+    this.searchKey.valueChanges.subscribe((res) => {
+      this.dataSource = this.sortUserDocs(
+        this.unfilteredData.filter(document => {
+          const docName = document.docName;
+          if (docName && docName.toLowerCase().includes(res.toLowerCase())) return true;
+          else return false;
+        })
+      );
+    });
   }
 
   openOccupancyFileUpload() {
@@ -149,10 +166,12 @@ export class CbaoEvaluatorComponent implements OnInit {
       //   this.occupancyDocs = USER_FORMS;
       // }
       this.dataSource = this.sortUserDocs(USER_FORMS);
+      this.unfilteredData = this.dataSource;
       this.occupancyDocs = USER_FORMS;
     }
     if (this.applicationInfo.permit_type_id !== 2) {
       this.dataSource = this.sortUserDocs(USER_FORMS);
+      this.unfilteredData = this.dataSource;
     }
     this.isLoading = false;
   }
@@ -189,6 +208,10 @@ export class CbaoEvaluatorComponent implements OnInit {
     docs.forEach((element) => {
       const docType =
         this.documentTypes[element.document_id - 1].document_category_id;
+      const docName = 
+        this.documentTypes[element.document_id - 1].name;
+      element.docName = docName;
+      
       switch (docType) {
         case 1:
           sortedForms.forms.data.push(element);
@@ -1141,7 +1164,6 @@ export class CbaoEvaluatorComponent implements OnInit {
   openBldgPermitDialog(e) {
     const dialogRef = this.dialog.open(ReleaseBldgPermitComponent, {
       width: '1500px',
-      height: '2000px',
       data: {
         evaluator: this.evaluatorDetails,
         form: e,
@@ -1345,5 +1367,87 @@ export class CbaoEvaluatorComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  openAdminWatermark(document) {
+    const dialogRef = this.dialog.open(AdminWatermarkComponent, {
+      data: {
+        document: document,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  async callSave() {
+    this.isLoading = true;
+    const uploadDocumentData = {
+      application_id: this.applicationId,
+      user_id: this.evaluatorDetails.user_id,
+      document_id: 50,
+      document_status_id: 1,
+      is_document_string: 1,
+      document_path:
+        'https://s3-ap-southeast-1.amazonaws.com/baguio-ocpas/EmzEcDCiyHbGKve0XteLdUd7LBGiBz5s102QQEGd.pdf',
+    };
+
+    this.newApplicationService
+      .submitDocument(uploadDocumentData)
+      .subscribe((res) => {
+        const doc = res.data.document_path;
+        const id = res.data.id;
+        this.newApplicationService
+          .updateDocumentFile({ receiving_status_id: 1 }, id)
+          .subscribe((res) => {
+            this.newApplicationService
+              .updateDocumentFile({ bfp_status_id: 1 }, id)
+              .subscribe((res) => {
+                this.newApplicationService
+                  .updateDocumentFile({ cbao_status_id: 1 }, id)
+                  .subscribe((res) => {
+                    this.newApplicationService
+                      .updateDocumentFile({ cepmo_status_id: 1 }, id)
+                      .subscribe((res) => {
+                        this.addWaterMark(doc, id);
+                      });
+                  });
+              });
+          });
+      });
+  }
+
+  addWaterMark(doc, id) {
+    this.waterMark.generateQrCode(this.applicationId).subscribe((res) => {
+      this.waterMark
+        .insertQrCode(doc, res.data, 'building-permit')
+        .then((blob) => {
+          const updateFileData = {
+            document_status_id: 1,
+            document_path: blob,
+          };
+          this.newApplicationService
+            .updateDocumentFile(updateFileData, id)
+            .subscribe((res) => {
+              const body = {
+                application_status_id: 24,
+                bo_status_id: 1,
+              };
+              this.applicationService
+                .updateApplicationStatus(body, this.applicationId)
+                .subscribe((res) => {
+                  Swal.fire(
+                    'Success!',
+                    `Building Permit Approved`,
+                    'success'
+                  ).then((result) => {
+                    this.isLoading = false;
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 1000);
+                  });
+                });
+            });
+        });
+    });
   }
 }

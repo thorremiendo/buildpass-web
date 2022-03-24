@@ -29,7 +29,6 @@ export class ReleaseBldgPermitComponent implements OnInit {
   public userInfo;
   public bpCertificate: File;
   public isSubmitting: boolean = false;
-  private alert: PopOutNotificationsService;
   constructor(
     private newApplicationService: NewApplicationService,
     public dialogRef: MatDialogRef<ReleaseBldgPermitComponent>,
@@ -38,10 +37,12 @@ export class ReleaseBldgPermitComponent implements OnInit {
     private viewSDKClient: ViewSDKClient,
     private watermark: WaterMarkService,
     private applicationService: ApplicationInfoService,
-    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService
+    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService,
+    private alert: PopOutNotificationsService
   ) {}
 
   ngOnInit(): void {
+    console.log(this.data);
     this.applicationId = this.data.route.snapshot.params.id;
     this.newApplicationService
       .fetchUserInfo(this.applicationId)
@@ -161,7 +162,7 @@ export class ReleaseBldgPermitComponent implements OnInit {
     }
 
     this.newApplicationService
-      .submitDocument(uploadDocumentData)
+      .updateDocumentFile(uploadDocumentData, this.data.form.id)
       .subscribe((res) => {
         const doc = res.data.document_path;
         const id = res.data.id;
@@ -177,7 +178,24 @@ export class ReleaseBldgPermitComponent implements OnInit {
                     this.newApplicationService
                       .updateDocumentFile({ cepmo_status_id: 1 }, id)
                       .subscribe((res) => {
-                        this.addWaterMark(doc, id);
+                        this.watermark
+                          .generateQrCode(this.applicationId)
+                          .subscribe((res) => {
+                            this.watermark
+                              .insertQrCode(doc, res.data, 'building-permit')
+                              .then((blob) => {
+                                const updateFileData = {
+                                  document_status_id: 1,
+                                  document_path: blob,
+                                };
+                                this.newApplicationService
+                                  .updateDocumentFile(updateFileData, id)
+                                  .subscribe((res) => {
+                                    this.isSubmitting = false;
+                                    this.alert.openSuccessToast('Saved!');
+                                  });
+                              });
+                          });
                       });
                   });
               });

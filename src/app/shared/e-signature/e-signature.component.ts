@@ -1,3 +1,4 @@
+import { PopOutNotificationsService } from './../../core/services/pop-out-notification.service';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
 import { NewApplicationFormService } from './../../core/services/new-application-form-service';
 import { WaterMarkService } from './../../core/services/watermark.service';
@@ -68,7 +69,8 @@ export class ESignatureComponent implements OnInit {
     private esignatureService: EsignatureService,
     public dialog: MatDialog,
     private waterMarkService: WaterMarkService,
-    private newApplicationService: NewApplicationService
+    private newApplicationService: NewApplicationService,
+    private alert: PopOutNotificationsService
   ) {}
 
   ngOnInit() {
@@ -569,6 +571,9 @@ export class ESignatureComponent implements OnInit {
                 .updateDocumentFile(updateFileData, element.id)
                 .subscribe((res) => {
                   count = count + 1;
+                  this.alert.openSuccessToast(
+                    `${count}/${array.length} documents done.`
+                  );
                   if (count === array.length - 1) {
                     this.isLoading = false;
                     this.openSnackBar('Success!');
@@ -584,5 +589,56 @@ export class ESignatureComponent implements OnInit {
         }
       });
     });
+  }
+
+  async bldgPermitSignature() {
+    const url = this.pdfSource;
+    const qr_code_bytes = await fetch(this.esigSource).then((res) =>
+      res.arrayBuffer()
+    );
+
+    const existingPdfBytes = await fetch(url).then((res) => res.arrayBuffer());
+    const pdfDocLoad = await PDFDocument.load(existingPdfBytes, {
+      parseSpeed: Infinity,
+    });
+    const qr_code = await pdfDocLoad.embedPng(qr_code_bytes);
+
+    const pages = pdfDocLoad.getPages();
+    const pageCount = pages.length;
+    const { width, height } = pages[0].getSize();
+    const pngDims = qr_code.scale(0.5);
+    const pngDimsfire = qr_code.scale(0.4);
+
+    for (let i = 0; i < pageCount; i++) {
+      pages[0].drawImage(qr_code, {
+        x: width / 2 - 120,
+        y: height / 2 - 230,
+        width: pngDims.width * 1.5,
+        height: pngDims.height * 1.5,
+      });
+    }
+
+    const pdfBytes = await pdfDocLoad.save({ objectsPerTick: Infinity });
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const file = window.URL.createObjectURL(blob);
+    // window.open(file); // open in new window
+    const updateFileData = {
+      document_status_id: 1,
+      document_path: blob,
+    };
+    this.isLoading = true;
+    this.newApplicationService
+      .updateDocumentFile(updateFileData, this.documentId)
+      .subscribe((res) => {
+        const body = {
+          application_status_id: 8,
+          bo_status_id: 1,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.addWatermarkToAllCompliant();
+          });
+      });
   }
 }

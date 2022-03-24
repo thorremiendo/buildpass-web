@@ -1,6 +1,28 @@
 <div class="other__permit">
+  <ng-container
+    *ngIf="
+      evaluatorRole.code !== 'CBAO-REC' &&
+      evaluatorRole.code !== 'CBAO-DC' &&
+      evaluatorRole.code !== 'CBAO-BO' &&
+      evaluatorRole.code !== 'CBAO-REL'
+    "
+  ></ng-container>
   <div class="other__permit__buttons">
-    <button
+    <div class="d-flex justify-content-between w-100">
+      <div></div>
+      <button
+        [disabled]="
+          checkFormsCompliant() || applicationInfo.application_status_id !== 18
+        "
+        mat-raised-button
+        color="primary"
+        (click)="handleReviewDone()"
+      >
+        Review Done
+      </button>
+    </div>
+
+    <!-- <button
       mat-raised-button
       color="accent"
       [disabled]="
@@ -15,7 +37,7 @@
       "
     >
       <mat-icon>cancel</mat-icon> Review Done (Non-Compliant)
-    </button>
+    </button> -->
     <button
       mat-raised-button
       color="accent"
@@ -45,7 +67,7 @@
       Forward to Technical Evaluators
       <mat-icon>arrow_right</mat-icon>
     </button>
-    <button
+    <!-- <button
       mat-raised-button
       color="primary"
       (click)="handleTechnicalStatus(1)"
@@ -58,7 +80,7 @@
       "
     >
       Review Done (Compliant) <mat-icon>arrow_right</mat-icon>
-    </button>
+    </button> -->
     <button
       mat-raised-button
       color="primary"
