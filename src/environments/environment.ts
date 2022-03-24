@@ -29,7 +29,7 @@ export const environment = {
   weekend: false,
   receiveApplications: true,
   restrictCbao: false,
-  version: '2.7.4',
+  version: '2.7.5',
 };
 
 /*
