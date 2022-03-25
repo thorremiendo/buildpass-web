@@ -36,12 +36,16 @@
             {{
               item.evaluator_detail
                 ? item.evaluator_detail.first_name
-                : item.applicant_detail.first_name
+                : item.applicant_detail
+                ? item.applicant_detail.first_name
+                : "--"
             }}
             {{
               item.evaluator_detail
                 ? item.evaluator_detail.last_name
-                : item.applicant_detail.last_name
+                : item.applicant_detail
+                ? item.applicant_detail.last_name
+                : "--"
             }}
           </td>
         </ng-container>
