@@ -35,26 +35,26 @@ export class BuildingPermitComponent implements OnInit {
   public forms: any = [
     {
       id: 1,
-      src: '../../../../assets/forms/updated/zoning_application_form_october_21_2021.pdf',
+      src: '../../../../assets/forms/updated/version-3/Zoning_Application_Form_rev3.pdf',
       label: 'Step 1',
       sample:
         '../../../../assets/forms/sample/Zoning_Clearance_Form_4.07.21_PM.png',
     },
     {
       id: 2,
-      src: '../../../../assets/forms/updated/unified_application_form_bp_(2)_october_21_2021.pdf',
+      src: '../../../../assets/forms/updated/version-3/building_permit_rev3.pdf',
       label: 'Step 2',
       sample: '../../../../assets/forms/sample/Unified_Building_Front.png',
     },
     {
       id: 3,
-      src: '../../../../assets/forms/updated/Sanitary_Permit_v3_october_21_2021.pdf',
+      src: '../../../../assets/forms/updated/version-3/Sanitary_Permit_Form.pdf',
       label: 'Step 3',
       sample: '../../../../assets/forms/sample/Sanitary_Permit.png',
     },
     {
       id: 4,
-      src: '../../../../assets/forms/updated/Electrical_Permit_V4.pdf',
+      src: '../../../../assets/forms/updated/version-3/Eleectrical_Permit_Form_rev3.pdf',
       label: 'Step 4',
       sample: '../../../../assets/forms/sample/Electrical.png',
     },
@@ -66,19 +66,19 @@ export class BuildingPermitComponent implements OnInit {
     },
     {
       id: 195,
-      src: '../../../../assets/forms/updated/Electronics_permit_form_november_23.pdf',
+      src: '../../../../assets/forms/updated/version-3/Electronics_Permit_Form_rev3.pdf',
       label: 'Step 7',
       sample: '',
     },
     {
       id: 117,
-      src: '../../../../assets/forms/updated/Mechanical_permit_form_v2_november_23.pdf',
+      src: '../../../../assets/forms/updated/version-3/Mechanical_Permit_Form_rev3.pdf',
       label: 'Step 8',
       sample: '',
     },
     {
       id: 108,
-      src: '../../../../assets/forms/updated/sign_permit_form_v2_(2)_october_21_2021.pdf',
+      src: '../../../../assets/forms/updated/version-3/Sign_Permit_Form_rev3.pdf',
       label: 'Step 9',
       sample: '',
     },
