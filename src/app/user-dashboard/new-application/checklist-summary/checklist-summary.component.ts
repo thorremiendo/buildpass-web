@@ -108,44 +108,16 @@ export class ChecklistSummaryComponent implements OnInit {
   }
 
   submit() {
-    if (this.applicationInfo.permit_type_id == '1') {
-      Swal.fire({
-        title: 'Do you need an Excavation Permit?',
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: `Yes`,
-        confirmButtonColor: '#330E08',
-        denyButtonColor: '#D2AB48',
-        denyButtonText: `No`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.isLoading = true;
-          this.updateApplicationWithExcavation();
-        } else if (result.isDenied) {
-          this.isLoading = true;
-          const body = {
-            application_status_id: 1,
-          };
-          this.applicationService
-            .updateApplicationStatus(body, this.applicationId)
-            .subscribe((res) => {
-              this.isLoading = false;
-              this.goToSuccessPage();
-            });
-        }
+    this.isLoading = true;
+    const body = {
+      application_status_id: 1,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationId)
+      .subscribe((res) => {
+        this.isLoading = false;
+        this.goToSuccessPage();
       });
-    } else {
-      this.isLoading = true;
-      const body = {
-        application_status_id: 1,
-      };
-      this.applicationService
-        .updateApplicationStatus(body, this.applicationId)
-        .subscribe((res) => {
-          this.isLoading = false;
-          this.goToSuccessPage();
-        });
-    }
   }
 
   updateApplicationWithExcavation() {
