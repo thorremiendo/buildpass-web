@@ -214,7 +214,10 @@
               mat-raised-button
               color="accent"
               (click)="openCertificateDialog()"
-              *ngIf="applicationDetails.permit_type_id == 2"
+              *ngIf="
+                applicationDetails.permit_type_id == 2 &&
+                !checkCertificateUploaded()
+              "
               [disabled]="applicationDetails.application_status_id !== 3"
             >
               Upload CEPMO Certificate

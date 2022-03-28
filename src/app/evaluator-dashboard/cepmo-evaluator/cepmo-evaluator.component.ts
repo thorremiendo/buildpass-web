@@ -113,6 +113,7 @@ export class CepmoEvaluatorComponent implements OnInit {
   generateCepmoForms() {
     let CEPMO_FORMS;
     if (this.applicationDetails.permit_type_id == 2) {
+      //OCCUPANCY FORMS
       CEPMO_FORMS = this.forms.filter(
         (obj) =>
           obj.document_id == 43 ||
@@ -125,7 +126,8 @@ export class CepmoEvaluatorComponent implements OnInit {
           obj.document_id == 200 ||
           obj.document_id == 194 ||
           obj.document_id == 26 ||
-          obj.document_id == 50
+          obj.document_id == 50 ||
+          obj.document_id == 223
       );
     } else {
       CEPMO_FORMS = this.forms.filter(
@@ -140,7 +142,8 @@ export class CepmoEvaluatorComponent implements OnInit {
           obj.document_id == 202 ||
           obj.document_id == 201 ||
           obj.document_id == 200 ||
-          obj.document_id == 194
+          obj.document_id == 194 ||
+          obj.document_id == 221
       );
     }
 
@@ -375,6 +378,12 @@ export class CepmoEvaluatorComponent implements OnInit {
   checkWwmsUploaded() {
     this.generateCepmoForms();
     const find = this.userDocuments.find((form) => form.document_id == 44);
+    return find;
+  }
+
+  checkCertificateUploaded() {
+    this.generateCepmoForms();
+    const find = this.userDocuments.find((form) => form.document_id == 223);
     return find;
   }
   openRemarksHistory(e) {
