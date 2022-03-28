@@ -57,6 +57,8 @@ import { StepOneDialogComponent } from './step-one-dialog/step-one-dialog.compon
 import { ReviewButtonComponent } from './review-button/review-button.component';
 import { AdminEditDialogComponent } from './admin-edit-dialog/admin-edit-dialog.component';
 import { AdminWatermarkComponent } from './admin-watermark/admin-watermark.component';
+import { FsicUploadComponent } from './fsic-upload/fsic-upload.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [
@@ -99,8 +101,10 @@ import { AdminWatermarkComponent } from './admin-watermark/admin-watermark.compo
     ReviewButtonComponent,
     AdminEditDialogComponent,
     AdminWatermarkComponent,
+    FsicUploadComponent,
   ],
   imports: [
+    NgxDropzoneModule,
     CommonModule,
     FormsModule,
     MaterialModule,

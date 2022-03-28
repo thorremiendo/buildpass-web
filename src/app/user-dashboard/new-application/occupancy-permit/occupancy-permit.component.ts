@@ -53,7 +53,7 @@ export class OccupancyPermitComponent implements OnInit {
     },
   ];
 
-  public withOldBuildingPermit: Array<any> = [206, 88];
+  public withOldBuildingPermit: Array<any> = [206, 88, 50, 43];
   public withBuildpassBuildingPermit: Array<any> = [206];
 
   constructor(
@@ -403,7 +403,7 @@ export class OccupancyPermitComponent implements OnInit {
               } else {
                 const releasedBpDocs = [
                   125, 177, 212, 4, 117, 199, 195, 140, 29, 115, 30, 60, 63, 61,
-                  167, 64, 65, 216, 194,
+                  167, 64, 65, 216, 194, 50, 43,
                 ];
                 let docs = [];
                 let count = 0;
