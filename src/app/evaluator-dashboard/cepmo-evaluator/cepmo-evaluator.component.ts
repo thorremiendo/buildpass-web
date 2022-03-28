@@ -1,3 +1,4 @@
+import { CepmoCertificateComponent } from './../../shared/cepmo-certificate/cepmo-certificate.component';
 import { ApplicationFeesService } from 'src/app/core/services/application-fees.service';
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks-history-table.component';
@@ -441,5 +442,18 @@ export class CepmoEvaluatorComponent implements OnInit {
     }
   }
 
-  openCertificateDialog() {}
+  openCertificateDialog() {
+    const dialogRef = this.dialog.open(CepmoCertificateComponent, {
+      width: '1500px',
+      data: {
+        evaluator: this.evaluatorDetails,
+        form: this.forms,
+        route: this.route,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.ngOnInit();
+    });
+  }
 }

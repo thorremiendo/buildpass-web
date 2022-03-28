@@ -59,6 +59,7 @@ import { AdminEditDialogComponent } from './admin-edit-dialog/admin-edit-dialog.
 import { AdminWatermarkComponent } from './admin-watermark/admin-watermark.component';
 import { FsicUploadComponent } from './fsic-upload/fsic-upload.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { CepmoCertificateComponent } from './cepmo-certificate/cepmo-certificate.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +103,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     AdminEditDialogComponent,
     AdminWatermarkComponent,
     FsicUploadComponent,
+    CepmoCertificateComponent,
   ],
   imports: [
     NgxDropzoneModule,
