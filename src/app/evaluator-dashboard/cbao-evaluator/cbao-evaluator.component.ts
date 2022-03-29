@@ -1,3 +1,4 @@
+import { UpdateDocumentFileComponent } from './../../shared/update-document-file/update-document-file.component';
 import { UploadTarpaulinComponent } from './../../shared/upload-tarpaulin/upload-tarpaulin.component';
 import { AdminWatermarkComponent } from './../../shared/admin-watermark/admin-watermark.component';
 import { OccupancyService } from './../../core/services/occupancy.service';
@@ -1487,5 +1488,21 @@ export class CbaoEvaluatorComponent implements OnInit {
               });
           });
       });
+  }
+
+  openUpdateDocumentFile(e) {
+    const dialogRef = this.dialog.open(UpdateDocumentFileComponent, {
+      width: '1000px',
+      height: '900px',
+      data: {
+        document: e,
+        evaluator: this.evaluatorDetails,
+        application: this.applicationInfo,
+      },
+    });
+    const sub = dialogRef.componentInstance.onClose.subscribe(() => {
+      this.fetchApplicationInfo();
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 }

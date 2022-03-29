@@ -370,6 +370,17 @@
                         >
                           Update
                         </button>
+                        <button
+                          mat-menu-item
+                          color="accent"
+                          (click)="openUpdateDocumentFile(element)"
+                          *ngIf="
+                            applicationInfo.permit_type_id == 2 &&
+                            evaluatorRole.code == 'CBAO-REC'
+                          "
+                        >
+                          Update File
+                        </button>
 
                         <ng-container>
                           <a
