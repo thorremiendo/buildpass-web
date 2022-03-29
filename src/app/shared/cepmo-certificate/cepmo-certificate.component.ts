@@ -69,7 +69,7 @@ export class CepmoCertificateComponent implements OnInit {
     const uploadDocumentData = {
       application_id: this.applicationId,
       user_id: this.userId,
-      document_id: 203,
+      document_id: 223,
       document_status_id: 1,
     };
 
