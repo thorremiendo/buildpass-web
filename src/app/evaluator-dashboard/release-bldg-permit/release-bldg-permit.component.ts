@@ -22,7 +22,7 @@ import { NgxExtendedPdfViewerService } from 'ngx-extended-pdf-viewer';
 })
 export class ReleaseBldgPermitComponent implements OnInit {
   public applicationDetails;
-  public src = '../../../assets/forms/bldg-permit-certificate.pdf';
+  public src;
   public formData = {};
   public userId;
   public applicationId;
@@ -43,6 +43,7 @@ export class ReleaseBldgPermitComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.data);
+    this.src = this.data.form.document_path;
     this.applicationId = this.data.route.snapshot.params.id;
     this.newApplicationService
       .fetchUserInfo(this.applicationId)
@@ -56,71 +57,66 @@ export class ReleaseBldgPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
-
-        this.formData = {
-          owner_address:
-            `${this.applicationDetails.applicant_detail.house_number}  ${this.applicationDetails.applicant_detail.street_name} ${this.applicationDetails.applicant_detail.barangay}`.toUpperCase(),
-          complete_applicant_name:
-            `${this.applicationDetails.applicant_detail.first_name} ${this.applicationDetails.applicant_detail.middle_name} ${this.applicationDetails.applicant_detail.last_name}`.toUpperCase(),
-          project_title:
-            `${this.applicationDetails.project_detail.project_title}`.toUpperCase(),
-          project_lot_number:
-            `${this.applicationDetails.project_detail.lot_number}`.toUpperCase(),
-          project_block_number:
-            `${this.applicationDetails.project_detail.block_number}`.toUpperCase(),
-          project_tct_number:
-            `${this.applicationDetails.project_detail.tct_number}`.toUpperCase(),
-          project_street:
-            `${this.applicationDetails.project_detail.street_name}`.toUpperCase(),
-          project_barangay:
-            `${this.applicationDetails.project_detail.barangay}`.toUpperCase(),
-          city: 'BAGUIO CITY',
-          zip_code: '2600',
-          professional_in_charge_of_construction:
-            `${this.applicationDetails.project_detail.inspector_name}`.toUpperCase(),
-          bp_classified_as:
-            `${this.getOccupancyClassification()}`.toUpperCase(),
-          total_project_cost: parseFloat(
-            this.applicationDetails.project_detail.project_cost_cap
-          ).toLocaleString(),
-          building_address:
-            `${this.applicationDetails.project_detail.house_number} ${this.applicationDetails.project_detail.lot_number} ${this.applicationDetails.project_detail.street_name} ${this.applicationDetails.project_detail.barangay}`.toUpperCase(),
-          no_of_storeys:
-            this.applicationDetails.project_detail.number_of_storey,
-          contact_no: this.applicationDetails.applicant_detail.contact_number,
-          official_receipt_number:
-            this.applicationDetails.official_receipt_number_releasing,
-          building_permit_number: this.applicationDetails.permit_released_code,
-        };
+        if (this.data.form.document_id == 50) {
+          this.formData = {
+            owner_address:
+              `${this.applicationDetails.applicant_detail.house_number}  ${this.applicationDetails.applicant_detail.street_name} ${this.applicationDetails.applicant_detail.barangay}`.toUpperCase(),
+            complete_applicant_name:
+              `${this.applicationDetails.applicant_detail.first_name} ${this.applicationDetails.applicant_detail.middle_name} ${this.applicationDetails.applicant_detail.last_name}`.toUpperCase(),
+            project_title:
+              `${this.applicationDetails.project_detail.project_title}`.toUpperCase(),
+            project_lot_number:
+              `${this.applicationDetails.project_detail.lot_number}`.toUpperCase(),
+            project_block_number:
+              `${this.applicationDetails.project_detail.block_number}`.toUpperCase(),
+            project_tct_number:
+              `${this.applicationDetails.project_detail.tct_number}`.toUpperCase(),
+            project_street:
+              `${this.applicationDetails.project_detail.street_name}`.toUpperCase(),
+            project_barangay:
+              `${this.applicationDetails.project_detail.barangay}`.toUpperCase(),
+            city: 'BAGUIO CITY',
+            zip_code: '2600',
+            professional_in_charge_of_construction:
+              `${this.applicationDetails.project_detail.inspector_name}`.toUpperCase(),
+            bp_classified_as:
+              `${this.getOccupancyClassification()}`.toUpperCase(),
+            total_project_cost: parseFloat(
+              this.applicationDetails.project_detail.project_cost_cap
+            ).toLocaleString(),
+            building_address:
+              `${this.applicationDetails.project_detail.house_number} ${this.applicationDetails.project_detail.lot_number} ${this.applicationDetails.project_detail.street_name} ${this.applicationDetails.project_detail.barangay}`.toUpperCase(),
+            no_of_storeys:
+              this.applicationDetails.project_detail.number_of_storey,
+            contact_no: this.applicationDetails.applicant_detail.contact_number,
+            official_receipt_number:
+              this.applicationDetails.official_receipt_number_releasing,
+            building_permit_number:
+              this.applicationDetails.permit_released_code,
+          };
+          console.log(this.formData);
+        } else if (this.data.form.document_id == 15) {
+          this.formData = {
+            complete_applicant_name:
+              `${this.applicationDetails.applicant_detail.first_name} ${this.applicationDetails.applicant_detail.middle_name} ${this.applicationDetails.applicant_detail.last_name}`.toUpperCase(),
+            name_of_project:
+              `${this.applicationDetails.project_detail.project_title}`.toUpperCase(),
+            incharge:
+              `${this.applicationDetails.project_detail.inspector_name}`.toUpperCase(),
+            location:
+              `${this.applicationDetails.project_detail.house_number} ${this.applicationDetails.project_detail.lot_number} ${this.applicationDetails.project_detail.street_name} ${this.applicationDetails.project_detail.barangay}`.toUpperCase(),
+            orno: this.applicationDetails.official_receipt_number_releasing,
+            permit_no: this.applicationDetails.permit_released_code,
+          };
+          console.log(this.formData);
+        }
       });
   }
-  //adobe sdk functions
-  // ngAfterViewInit() {
-  //   this.viewSDKClient.url =
-  //     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/Checklist_Residential.pdf';
-  //   this.viewSDKClient.ready().then(() => {
-  //     /* Invoke the file preview and get the Promise object */
-  //     this.previewFilePromise = this.viewSDKClient.previewFile(
-  //       'pdf-div',
-  //       this.viewerConfig
-  //     );
-  //     /* Use the annotation manager interface to invoke the commenting APIs */
-  //     this.previewFilePromise.then((adobeViewer: any) => {
-  //       adobeViewer.getAnnotationManager().then((annotManager: any) => {
-  //         this.annotationManager = annotManager;
-  //         /* Set UI configurations */
-  //         const customFlags = {
-  //           /* showToolbar: false,   /* Default value is true */
-  //           showCommentsPanel: false /* Default value is true */,
-  //           downloadWithAnnotations: true /* Default value is false */,
-  //           printWithAnnotations: true /* Default value is false */,
-  //         };
-  //         this.annotationManager.setConfig(customFlags);
-  //         this.viewSDKClient.registerSaveApiHandler('bfpChecklist');
-  //       });
-  //     });
-  //   });
-  // }
+
+  isPageRendered(e) {
+    console.log(e);
+  }
+
   onNoClick(): void {
     this.dialogRef.close();
   }
@@ -153,7 +149,7 @@ export class ReleaseBldgPermitComponent implements OnInit {
     const uploadDocumentData = {
       application_id: this.applicationId,
       user_id: this.userId,
-      document_id: 50,
+      document_id: this.data.form.document_id,
       document_status_id: 1,
     };
 
@@ -181,20 +177,27 @@ export class ReleaseBldgPermitComponent implements OnInit {
                         this.watermark
                           .generateQrCode(this.applicationId)
                           .subscribe((res) => {
-                            this.watermark
-                              .insertQrCode(doc, res.data, 'building-permit')
-                              .then((blob) => {
-                                const updateFileData = {
-                                  document_status_id: 1,
-                                  document_path: blob,
-                                };
-                                this.newApplicationService
-                                  .updateDocumentFile(updateFileData, id)
-                                  .subscribe((res) => {
-                                    this.isSubmitting = false;
-                                    this.alert.openSuccessToast('Saved!');
-                                  });
-                              });
+                            if (this.data.form.document_id == 50) {
+                              this.watermark
+                                .insertQrCode(doc, res.data, 'building-permit')
+                                .then((blob) => {
+                                  const updateFileData = {
+                                    document_status_id: 1,
+                                    document_path: blob,
+                                  };
+                                  this.newApplicationService
+                                    .updateDocumentFile(updateFileData, id)
+                                    .subscribe((res) => {
+                                      this.isSubmitting = false;
+                                      this.alert.openSuccessToast('Saved!');
+                                      this.onNoClick();
+                                    });
+                                });
+                            } else {
+                              this.isSubmitting = false;
+                              this.alert.openSuccessToast('Saved!');
+                              this.onNoClick();
+                            }
                           });
                       });
                   });

@@ -1,3 +1,4 @@
+import { UploadTarpaulinComponent } from './../../shared/upload-tarpaulin/upload-tarpaulin.component';
 import { AdminWatermarkComponent } from './../../shared/admin-watermark/admin-watermark.component';
 import { OccupancyService } from './../../core/services/occupancy.service';
 import { OccupancyUploadFileComponent } from './../occupancy-upload-file/occupancy-upload-file.component';
@@ -74,9 +75,10 @@ export class CbaoEvaluatorComponent implements OnInit {
 
     this.searchKey.valueChanges.subscribe((res) => {
       this.dataSource = this.sortUserDocs(
-        this.unfilteredData.filter(document => {
+        this.unfilteredData.filter((document) => {
           const docName = document.docName;
-          if (docName && docName.toLowerCase().includes(res.toLowerCase())) return true;
+          if (docName && docName.toLowerCase().includes(res.toLowerCase()))
+            return true;
           else return false;
         })
       );
@@ -208,10 +210,9 @@ export class CbaoEvaluatorComponent implements OnInit {
     docs.forEach((element) => {
       const docType =
         this.documentTypes[element.document_id - 1].document_category_id;
-      const docName = 
-        this.documentTypes[element.document_id - 1].name;
+      const docName = this.documentTypes[element.document_id - 1].name;
       element.docName = docName;
-      
+
       switch (docType) {
         case 1:
           sortedForms.forms.data.push(element);
@@ -1161,9 +1162,10 @@ export class CbaoEvaluatorComponent implements OnInit {
       }
     });
   }
-  openBldgPermitDialog(e) {
+  openUploadDocument(e) {
     const dialogRef = this.dialog.open(ReleaseBldgPermitComponent, {
       width: '1500px',
+      height: '800px',
       data: {
         evaluator: this.evaluatorDetails,
         form: e,
@@ -1435,19 +1437,55 @@ export class CbaoEvaluatorComponent implements OnInit {
               this.applicationService
                 .updateApplicationStatus(body, this.applicationId)
                 .subscribe((res) => {
-                  Swal.fire(
-                    'Success!',
-                    `Building Permit Approved`,
-                    'success'
-                  ).then((result) => {
-                    this.isLoading = false;
-                    setTimeout(() => {
-                      window.location.reload();
-                    }, 1000);
-                  });
+                  this.uploadTarpaulin();
                 });
             });
         });
     });
+  }
+
+  uploadTarpaulin() {
+    const uploadDocumentData = {
+      application_id: this.applicationId,
+      user_id: this.evaluatorDetails.user_id,
+      document_id: 15,
+      document_status_id: 1,
+      is_document_string: 1,
+      document_path:
+        'https://s3-ap-southeast-1.amazonaws.com/buildpass-storage/3ie6gjilH2VpUFdnxWzE3lQIGpvplQs1C0pGZX0Z.pdf',
+    };
+
+    this.newApplicationService
+      .submitDocument(uploadDocumentData)
+      .subscribe((res) => {
+        const doc = res.data.document_path;
+        const id = res.data.id;
+        this.newApplicationService
+          .updateDocumentFile({ receiving_status_id: 1 }, id)
+          .subscribe((res) => {
+            this.newApplicationService
+              .updateDocumentFile({ bfp_status_id: 1 }, id)
+              .subscribe((res) => {
+                this.newApplicationService
+                  .updateDocumentFile({ cbao_status_id: 1 }, id)
+                  .subscribe((res) => {
+                    this.newApplicationService
+                      .updateDocumentFile({ cepmo_status_id: 1 }, id)
+                      .subscribe((res) => {
+                        Swal.fire(
+                          'Success!',
+                          `Building Permit Approved`,
+                          'success'
+                        ).then((result) => {
+                          this.isLoading = false;
+                          setTimeout(() => {
+                            window.location.reload();
+                          }, 1000);
+                        });
+                      });
+                  });
+              });
+          });
+      });
   }
 }

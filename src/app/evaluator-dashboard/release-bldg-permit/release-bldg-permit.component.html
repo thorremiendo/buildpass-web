@@ -1,7 +1,7 @@
 <div *ngIf="applicationDetails">
   <div>
     <h4 style="color: #400c06" class="mb-4">
-      <strong>Building Permit Certificate</strong>
+      <strong>{{ data.form.docName }}</strong>
     </h4>
   </div>
   <ngx-extended-pdf-viewer
@@ -23,6 +23,7 @@
     [showSpreadButton]="false"
     [showPropertiesButton]="false"
     [useBrowserLocale]="true"
+    (pageRendered)="isPageRendered($event)"
     height="1000px"
     zoom="100%"
     [(formData)]="formData"
