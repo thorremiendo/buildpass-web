@@ -64,7 +64,9 @@ export class OccupancyUploadFileComponent implements OnInit {
           doc.id == 170 ||
           doc.id == 14 ||
           doc.id == 88 ||
-          doc.id == 173
+          doc.id == 173 ||
+          doc.id == 43 ||
+          doc.id == 59
       );
       this.documentList = DOCS;
     });
@@ -102,13 +104,12 @@ export class OccupancyUploadFileComponent implements OnInit {
     this.isLoading = true;
     const application = this.data.application;
     const uploadDocumentData = {
-      application_id: this.selectedOldBpNumber,
+      application_id: this.data.application.id,
       user_id: application.user_id,
       evaluator_user_id: this.evaluator.employee_detail.user_id,
       document_id: this.selectedDocument,
       document_path: this.selectedFile,
       document_status: '0',
-      is_uploaded_by_non_applicant: 1,
     };
 
     this.applicationService
