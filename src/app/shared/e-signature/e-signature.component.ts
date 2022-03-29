@@ -78,13 +78,13 @@ export class ESignatureComponent implements OnInit {
     this.applicationId = this.route.snapshot.params.id;
     this.documentId = this.route.snapshot.params.docId;
     this.esigSource = this.esignatureService.userSignature;
-    this.getImageDimensions(this.esigSource);
 
     this.applicationService
       .fetchSpecificDocInfo(this.documentId)
       .subscribe((res) => {
         this.documentInfo = res.data[0];
         this.pdfSource = res.data[0].document_path;
+        this.getImageDimensions(this.esigSource);
         this.newApplicationService
           .fetchApplicationInfo(this.applicationId)
           .subscribe((res) => {
