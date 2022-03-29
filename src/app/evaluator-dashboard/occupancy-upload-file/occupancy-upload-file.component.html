@@ -8,7 +8,7 @@
       }}</mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field appearance="outline">
+  <!-- <mat-form-field appearance="outline">
     <mat-label>Choose Existing BP Number</mat-label>
     <mat-select [(value)]="selectedOldBpNumber">
       <mat-option
@@ -17,7 +17,7 @@
         >{{ item.old_permit_number }}</mat-option
       >
     </mat-select>
-  </mat-form-field>
+  </mat-form-field> -->
   <ngx-dropzone
     (change)="onSelect($event, 'selectedFile')"
     [multiple]="false"
