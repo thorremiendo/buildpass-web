@@ -61,6 +61,7 @@ import { FsicUploadComponent } from './fsic-upload/fsic-upload.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CepmoCertificateComponent } from './cepmo-certificate/cepmo-certificate.component';
 import { UploadTarpaulinComponent } from './upload-tarpaulin/upload-tarpaulin.component';
+import { UpdateDocumentFileComponent } from './update-document-file/update-document-file.component';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,7 @@ import { UploadTarpaulinComponent } from './upload-tarpaulin/upload-tarpaulin.co
     FsicUploadComponent,
     CepmoCertificateComponent,
     UploadTarpaulinComponent,
+    UpdateDocumentFileComponent,
   ],
   imports: [
     NgxDropzoneModule,

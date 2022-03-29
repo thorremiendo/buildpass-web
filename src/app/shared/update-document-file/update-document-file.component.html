@@ -1,0 +1,43 @@
+<div class="p-2">
+  <h5>{{ this.data.document.docName }}</h5>
+  <ngx-extended-pdf-viewer
+    [src]="data.document.document_path"
+    [showToolbar]="true"
+    [showSidebarButton]="false"
+    [showFindButton]="false"
+    [showPagingButtons]="false"
+    [showZoomButtons]="true"
+    [showPresentationModeButton]="true"
+    [showOpenFileButton]="false"
+    [showPrintButton]="false"
+    [showDownloadButton]="true"
+    [showBookmarkButton]="false"
+    [showSecondaryToolbarButton]="true"
+    [showRotateButton]="false"
+    [showHandToolButton]="false"
+    [showScrollingButton]="false"
+    [showSpreadButton]="false"
+    [showPropertiesButton]="false"
+    [useBrowserLocale]="true"
+    height="1000px"
+    zoom="100%"
+  >
+  </ngx-extended-pdf-viewer>
+  <div class="mt-2">
+    <ngx-dropzone
+      (change)="onSelect($event)"
+      accept="application/pdf"
+      [multiple]="false"
+      [disabled]="loading"
+    >
+      <ngx-dropzone-label>
+        Click here or drop file to upload.
+      </ngx-dropzone-label>
+    </ngx-dropzone>
+  </div>
+  <ng-container *ngIf="loading">
+    <div>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </ng-container>
+</div>

@@ -897,4 +897,26 @@ export class FormDetailsComponent implements OnInit {
   clearRemark() {
     this.unsavedRemark = '';
   }
+
+  isFormReviewable() {
+    if (this.data.application.permit_type_id == 2) {
+      if (
+        this.data.form.document_id !== 49 &&
+        this.data.form.document_id !== 44 &&
+        this.data.form.document_id !== 45
+      ) {
+        return true;
+      } else return false;
+    } else {
+      if (
+        this.data.form.document_id !== 49 &&
+        this.data.form.document_id !== 44 &&
+        this.data.form.document_id !== 45 &&
+        this.data.form.document_id !== 43 &&
+        this.data.form.document_id !== 50
+      ) {
+        return true;
+      } else return false;
+    }
+  }
 }
