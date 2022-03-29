@@ -140,11 +140,7 @@
                     *matCellDef="let element"
                     [ngClass]="{ 'doc-category-header': element.label }"
                   >
-                    {{
-                      !element.label
-                        ? element.docName
-                        : element.label
-                    }}
+                    {{ !element.label ? element.docName : element.label }}
                     <!-- {{ element.document_id }} -->
                   </td>
                 </ng-container>
@@ -365,10 +361,11 @@
                         <button
                           mat-menu-item
                           color="accent"
-                          (click)="openBldgPermitDialog(element)"
+                          (click)="openUploadDocument(element)"
                           *ngIf="
                             this.user.user_roles[0].is_special == 1 &&
-                            element.document_id == 50
+                            (element.document_id == 50 ||
+                              element.document_id == 15)
                           "
                         >
                           Update

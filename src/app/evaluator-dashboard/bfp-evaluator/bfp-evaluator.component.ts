@@ -1,3 +1,4 @@
+import { FsicUploadComponent } from './../../shared/fsic-upload/fsic-upload.component';
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { BfpResidentialChecklistComponent } from './../bfp-residential-checklist/bfp-residential-checklist.component';
 import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks-history-table.component';
@@ -63,9 +64,10 @@ export class BfpEvaluatorComponent implements OnInit {
 
     this.searchKey.valueChanges.subscribe((res) => {
       this.dataSource = this.sortUserDocs(
-        this.unfilteredData.filter(document => {
+        this.unfilteredData.filter((document) => {
           const docName = document.docName;
-          if (docName && docName.toLowerCase().includes(res.toLowerCase())) return true;
+          if (docName && docName.toLowerCase().includes(res.toLowerCase()))
+            return true;
           else return false;
         })
       );
@@ -131,7 +133,11 @@ export class BfpEvaluatorComponent implements OnInit {
         obj.document_id == 206 ||
         obj.document_id == 194 ||
         obj.document_id == 65 ||
-        obj.document_id == 79
+        obj.document_id == 79 ||
+        obj.document_id == 80 ||
+        obj.document_id == 81 ||
+        obj.document_id == 50 ||
+        obj.document_id == 43
     );
     this.dataSource = this.sortUserDocs(BFP_FORMS);
     this.userDocuments = BFP_FORMS;
@@ -170,8 +176,7 @@ export class BfpEvaluatorComponent implements OnInit {
     docs.forEach((element) => {
       const docType =
         this.documentTypes[element.document_id - 1].document_category_id;
-      const docName = 
-        this.documentTypes[element.document_id - 1].name;
+      const docName = this.documentTypes[element.document_id - 1].name;
       element.docName = docName;
 
       switch (docType) {
@@ -264,6 +269,21 @@ export class BfpEvaluatorComponent implements OnInit {
     });
   }
 
+  openFsicDialog() {
+    const dialogRef = this.dialog.open(FsicUploadComponent, {
+      width: '1500px',
+      data: {
+        evaluator: this.evaluatorDetails,
+        form: this.forms,
+        route: this.route,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.ngOnInit();
+    });
+  }
+
   openFormDialog(element): void {
     const dialogRef = this.dialog.open(FormDetailsComponent, {
       width: '1500px',
@@ -308,6 +328,12 @@ export class BfpEvaluatorComponent implements OnInit {
       (form) => form.bfp_status_id == 1 || form.bfp_status_id == 2
     );
     return isReviewed;
+  }
+
+  checkFsicUploaded() {
+    this.generateBfpForms();
+    const find = this.userDocuments.find((form) => form.document_id == 203);
+    return find;
   }
 
   compliant() {

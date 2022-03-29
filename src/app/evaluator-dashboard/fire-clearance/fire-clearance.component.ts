@@ -54,33 +54,7 @@ export class FireClearanceComponent implements OnInit {
         this.formData = this.formBinding.getFormData(this.applicationDetails);
       });
   }
-  //adobe sdk functions
-  // ngAfterViewInit() {
-  //   this.viewSDKClient.url =
-  //     'https://baguio-ocpas.s3-ap-southeast-1.amazonaws.com/Checklist_Residential.pdf';
-  //   this.viewSDKClient.ready().then(() => {
-  //     /* Invoke the file preview and get the Promise object */
-  //     this.previewFilePromise = this.viewSDKClient.previewFile(
-  //       'pdf-div',
-  //       this.viewerConfig
-  //     );
-  //     /* Use the annotation manager interface to invoke the commenting APIs */
-  //     this.previewFilePromise.then((adobeViewer: any) => {
-  //       adobeViewer.getAnnotationManager().then((annotManager: any) => {
-  //         this.annotationManager = annotManager;
-  //         /* Set UI configurations */
-  //         const customFlags = {
-  //           /* showToolbar: false,   /* Default value is true */
-  //           showCommentsPanel: false /* Default value is true */,
-  //           downloadWithAnnotations: true /* Default value is false */,
-  //           printWithAnnotations: true /* Default value is false */,
-  //         };
-  //         this.annotationManager.setConfig(customFlags);
-  //         this.viewSDKClient.registerSaveApiHandler('bfpChecklist');
-  //       });
-  //     });
-  //   });
-  // }
+
   onNoClick(): void {
     this.dialogRef.close();
   }
