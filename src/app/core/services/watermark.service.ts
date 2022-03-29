@@ -50,7 +50,7 @@ export class WaterMarkService {
           pages[i].drawImage(compliantImg, {
             x: width / 2 - pngDims.width / 2 + 100,
             y: height / 2 + pngDims.height - 100,
-            opacity: 0.8,
+            opacity: 0.6,
             rotate: degrees(-45),
             width: pngDims.width * 0.8,
             height: pngDims.height * 0.8,
@@ -63,7 +63,7 @@ export class WaterMarkService {
           pages[i].drawImage(forComplianceImg, {
             x: width / 2 - pngDims.width / 2 + 100,
             y: height / 2 + pngDims.height - 100,
-            opacity: 0.8,
+            opacity: 0.6,
             rotate: degrees(-45),
             width: pngDims.width * 0.7,
             height: pngDims.height * 0.7,

@@ -70,7 +70,7 @@
           <mat-icon>assignment</mat-icon>
           Documents
         </ng-template>
-        
+
         <div class="document-search col-12 col-md-6">
           <mat-form-field appearance="outline">
             <mat-label>Search</mat-label>
@@ -208,6 +208,19 @@
               "
             >
               Upload WWMS BP Certificate
+            </button>
+            <button
+              class="mt-2 w-100"
+              mat-raised-button
+              color="accent"
+              (click)="openCertificateDialog()"
+              *ngIf="
+                applicationDetails.permit_type_id == 2 &&
+                !checkCertificateUploaded()
+              "
+              [disabled]="applicationDetails.application_status_id !== 3"
+            >
+              Upload CEPMO Certificate
             </button>
             <mat-progress-bar
               mode="indeterminate"

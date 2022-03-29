@@ -57,6 +57,11 @@ import { StepOneDialogComponent } from './step-one-dialog/step-one-dialog.compon
 import { ReviewButtonComponent } from './review-button/review-button.component';
 import { AdminEditDialogComponent } from './admin-edit-dialog/admin-edit-dialog.component';
 import { AdminWatermarkComponent } from './admin-watermark/admin-watermark.component';
+import { FsicUploadComponent } from './fsic-upload/fsic-upload.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { CepmoCertificateComponent } from './cepmo-certificate/cepmo-certificate.component';
+import { UploadTarpaulinComponent } from './upload-tarpaulin/upload-tarpaulin.component';
+import { UpdateDocumentFileComponent } from './update-document-file/update-document-file.component';
 
 @NgModule({
   declarations: [
@@ -99,8 +104,13 @@ import { AdminWatermarkComponent } from './admin-watermark/admin-watermark.compo
     ReviewButtonComponent,
     AdminEditDialogComponent,
     AdminWatermarkComponent,
+    FsicUploadComponent,
+    CepmoCertificateComponent,
+    UploadTarpaulinComponent,
+    UpdateDocumentFileComponent,
   ],
   imports: [
+    NgxDropzoneModule,
     CommonModule,
     FormsModule,
     MaterialModule,

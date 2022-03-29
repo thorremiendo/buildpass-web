@@ -79,7 +79,7 @@
               <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
           </div>
-          
+
           <table mat-table [dataSource]="dataSource">
             <!-- Index Column -->
             <ng-container matColumnDef="index">
@@ -214,6 +214,18 @@
               [disabled]="applicationDetails.application_status_id !== 3"
             >
               Upload Fire Safety Evaluation Clearance
+            </button>
+          </ng-container>
+          <ng-container *ngIf="applicationDetails.permit_type_id == 2">
+            <button
+              class="mt-2 w-100"
+              mat-raised-button
+              color="accent"
+              *ngIf="!checkFsicUploaded()"
+              (click)="openFsicDialog()"
+              [disabled]="applicationDetails.application_status_id !== 3"
+            >
+              Upload FSIC
             </button>
           </ng-container>
 

@@ -32,6 +32,7 @@ export class AssociateBpEgppComponent implements OnInit {
       .fetchOngoingApplication(this.data.userDetails.id)
       .subscribe((res) => {
         if (this.data.id == 1) {
+          //ASSOCIATE A BLDF PERMIT
           this.userOngoingApplications = res.data.filter(
             (e) =>
               e.ocpas_code &&
@@ -40,6 +41,7 @@ export class AssociateBpEgppComponent implements OnInit {
                 e.sub_permit_type_id == this.data.applicationDetails.id)
           );
         } else if (this.data.id == 2) {
+          //ASSOCIATE AN EXCAV
           this.userOngoingApplications = res.data.filter(
             (e) =>
               e.ocpas_code &&
@@ -48,7 +50,6 @@ export class AssociateBpEgppComponent implements OnInit {
                 e.main_permit_id == this.data.applicationDetails.id)
           );
         }
-
       });
   }
 
@@ -60,7 +61,6 @@ export class AssociateBpEgppComponent implements OnInit {
     this.applicationInfoService
       .fetchApplicationInfo(e.value)
       .subscribe((res) => {
-
         this.buildingPermitDetails = res.data;
       });
   }
@@ -82,20 +82,44 @@ export class AssociateBpEgppComponent implements OnInit {
       body = {
         main_permit_id: parseInt(this.selectedOngoingApplication),
       };
+      this.applicationInfoService
+        .updateApplicationInfo(body, this.data.applicationDetails.id)
+        .subscribe((res) => {
+          body = {
+            sub_permit_type_id: parseInt(this.data.applicationDetails.id),
+          };
+          this.applicationInfoService
+            .updateApplicationInfo(
+              body,
+              parseInt(this.selectedOngoingApplication)
+            )
+            .subscribe((res) => {
+              this.isLoading = false;
+              this.popout.openSnackBar('Success!');
+              window.location.reload();
+            });
+        });
     } else if (this.data.id == 2) {
       body = {
         sub_permit_type_id: parseInt(this.selectedOngoingApplication),
       };
+      this.applicationInfoService
+        .updateApplicationInfo(body, this.data.applicationDetails.id)
+        .subscribe((res) => {
+          body = {
+            main_permit_id: parseInt(this.data.applicationDetails.id),
+          };
+          this.applicationInfoService
+            .updateApplicationInfo(
+              body,
+              parseInt(this.selectedOngoingApplication)
+            )
+            .subscribe((res) => {
+              this.isLoading = false;
+              this.popout.openSnackBar('Success!');
+              window.location.reload();
+            });
+        });
     }
-
-
-    this.applicationInfoService
-      .updateApplicationInfo(body, this.data.applicationDetails.id)
-      .subscribe((res) => {
-        this.isLoading = false;
-        this.popout.openSnackBar('Success!');
-        window.location.reload();
-
-      });
   }
 }

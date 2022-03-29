@@ -95,15 +95,21 @@
             <mat-icon>assignment</mat-icon>
             Documents
           </ng-template>
-          <!-- <div class="mt-3" *ngIf="applicationInfo.permit_type_id == 2">
+          <div
+            class="mt-3"
+            *ngIf="
+              applicationInfo.permit_type_id == 2 &&
+              evaluatorRole.code == 'SPRADM'
+            "
+          >
             <button
               mat-raised-button
               color="accent"
               (click)="openOccupancyFileUpload()"
             >
-              <mat-icon>add</mat-icon>&nbsp;Upload File
+              Upload File
             </button>
-          </div> -->
+          </div>
 
           <div>
             <div class="document-search col-12 col-md-6">
@@ -140,11 +146,7 @@
                     *matCellDef="let element"
                     [ngClass]="{ 'doc-category-header': element.label }"
                   >
-                    {{
-                      !element.label
-                        ? element.docName
-                        : element.label
-                    }}
+                    {{ !element.label ? element.docName : element.label }}
                     <!-- {{ element.document_id }} -->
                   </td>
                 </ng-container>
@@ -156,7 +158,7 @@
                     <div *ngIf="!element.label">
                       {{
                         element.is_uploaded_by_non_applicant == 1
-                          ? "Receiving"
+                          ? "Admin"
                           : "Applicant"
                       }}
                     </div>
@@ -365,13 +367,25 @@
                         <button
                           mat-menu-item
                           color="accent"
-                          (click)="openBldgPermitDialog(element)"
+                          (click)="openUploadDocument(element)"
                           *ngIf="
                             this.user.user_roles[0].is_special == 1 &&
-                            element.document_id == 50
+                            (element.document_id == 50 ||
+                              element.document_id == 15)
                           "
                         >
                           Update
+                        </button>
+                        <button
+                          mat-menu-item
+                          color="accent"
+                          (click)="openUpdateDocumentFile(element)"
+                          *ngIf="
+                            applicationInfo.permit_type_id == 2 &&
+                            evaluatorRole.code == 'CBAO-REC'
+                          "
+                        >
+                          Update File
                         </button>
 
                         <ng-container>

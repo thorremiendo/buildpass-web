@@ -1,3 +1,4 @@
+import { CepmoCertificateComponent } from './../../shared/cepmo-certificate/cepmo-certificate.component';
 import { ApplicationFeesService } from 'src/app/core/services/application-fees.service';
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { RemarksHistoryTableComponent } from './../remarks-history-table/remarks-history-table.component';
@@ -39,7 +40,7 @@ export class CepmoEvaluatorComponent implements OnInit {
   public cepmoFees;
   public searchKey = new FormControl('');
   public unfilteredData = [];
-  
+
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
@@ -58,9 +59,10 @@ export class CepmoEvaluatorComponent implements OnInit {
 
     this.searchKey.valueChanges.subscribe((res) => {
       this.dataSource = this.sortUserDocs(
-        this.unfilteredData.filter(document => {
+        this.unfilteredData.filter((document) => {
           const docName = document.docName;
-          if (docName && docName.toLowerCase().includes(res.toLowerCase())) return true;
+          if (docName && docName.toLowerCase().includes(res.toLowerCase()))
+            return true;
           else return false;
         })
       );
@@ -98,6 +100,7 @@ export class CepmoEvaluatorComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
+        this.generateCepmoForms();
         this.isLoading = false;
       });
   }
@@ -108,20 +111,42 @@ export class CepmoEvaluatorComponent implements OnInit {
     this.isLoading = false;
   }
   generateCepmoForms() {
-    const CEPMO_FORMS = this.forms.filter(
-      (obj) =>
-        obj.document_id == 43 ||
-        obj.document_id == 28 ||
-        obj.document_id == 36 ||
-        obj.document_id == 44 ||
-        obj.document_id == 59 ||
-        obj.document_id == 63 ||
-        obj.document_id == 140 ||
-        obj.document_id == 202 ||
-        obj.document_id == 201 ||
-        obj.document_id == 200 ||
-        obj.document_id == 194
-    );
+    let CEPMO_FORMS;
+    if (this.applicationDetails.permit_type_id == 2) {
+      //OCCUPANCY FORMS
+      CEPMO_FORMS = this.forms.filter(
+        (obj) =>
+          obj.document_id == 43 ||
+          obj.document_id == 28 ||
+          obj.document_id == 36 ||
+          obj.document_id == 44 ||
+          obj.document_id == 59 ||
+          obj.document_id == 202 ||
+          obj.document_id == 201 ||
+          obj.document_id == 200 ||
+          obj.document_id == 194 ||
+          obj.document_id == 26 ||
+          obj.document_id == 50 ||
+          obj.document_id == 223
+      );
+    } else {
+      CEPMO_FORMS = this.forms.filter(
+        (obj) =>
+          obj.document_id == 43 ||
+          obj.document_id == 28 ||
+          obj.document_id == 36 ||
+          obj.document_id == 44 ||
+          obj.document_id == 59 ||
+          obj.document_id == 63 ||
+          obj.document_id == 140 ||
+          obj.document_id == 202 ||
+          obj.document_id == 201 ||
+          obj.document_id == 200 ||
+          obj.document_id == 194 ||
+          obj.document_id == 221
+      );
+    }
+
     this.dataSource = this.sortUserDocs(CEPMO_FORMS);
     this.userDocuments = CEPMO_FORMS;
     this.unfilteredData = CEPMO_FORMS;
@@ -159,8 +184,7 @@ export class CepmoEvaluatorComponent implements OnInit {
     docs.forEach((element) => {
       const docType =
         this.documentTypes[element.document_id - 1].document_category_id;
-      const docName = 
-        this.documentTypes[element.document_id - 1].name;
+      const docName = this.documentTypes[element.document_id - 1].name;
       element.docName = docName;
 
       switch (docType) {
@@ -356,6 +380,12 @@ export class CepmoEvaluatorComponent implements OnInit {
     const find = this.userDocuments.find((form) => form.document_id == 44);
     return find;
   }
+
+  checkCertificateUploaded() {
+    this.generateCepmoForms();
+    const find = this.userDocuments.find((form) => form.document_id == 223);
+    return find;
+  }
   openRemarksHistory(e) {
     const dialogRef = this.dialog.open(RemarksHistoryTableComponent, {
       width: '1000px',
@@ -385,7 +415,6 @@ export class CepmoEvaluatorComponent implements OnInit {
         .fetchUserDocs(this.applicationId)
         .subscribe((result) => {
           this.forms = result.data;
-          this.generateCepmoForms();
           this.fetchEvaluatorDetails();
           this.fetchApplicationDetails();
           this.checkCepmoParallelDocs();
@@ -420,5 +449,20 @@ export class CepmoEvaluatorComponent implements OnInit {
         );
       }
     }
+  }
+
+  openCertificateDialog() {
+    const dialogRef = this.dialog.open(CepmoCertificateComponent, {
+      width: '1500px',
+      data: {
+        evaluator: this.evaluatorDetails,
+        form: this.forms,
+        route: this.route,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.ngOnInit();
+    });
   }
 }
