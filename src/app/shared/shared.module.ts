@@ -60,6 +60,7 @@ import { AdminWatermarkComponent } from './admin-watermark/admin-watermark.compo
 import { FsicUploadComponent } from './fsic-upload/fsic-upload.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CepmoCertificateComponent } from './cepmo-certificate/cepmo-certificate.component';
+import { UploadTarpaulinComponent } from './upload-tarpaulin/upload-tarpaulin.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +105,7 @@ import { CepmoCertificateComponent } from './cepmo-certificate/cepmo-certificate
     AdminWatermarkComponent,
     FsicUploadComponent,
     CepmoCertificateComponent,
+    UploadTarpaulinComponent,
   ],
   imports: [
     NgxDropzoneModule,
