@@ -2,11 +2,23 @@
   <h4>Please select a document/file</h4>
   <mat-form-field appearance="outline">
     <mat-label>Choose</mat-label>
-    <mat-select [(value)]="selectedDocument">
-      <mat-option *ngFor="let item of documentList" value="{{ item.id }}">{{
-        item.name
-      }}</mat-option>
-    </mat-select>
+    <input
+      type="text"
+      placeholder="Select Document"
+      matInput
+      [formControl]="selectedDocument"
+      [matAutocomplete]="auto"
+    />
+    <mat-icon matSuffix>arrow_drop_down</mat-icon>
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option
+        *ngFor="let documents of filteredDocuments | async"
+        [value]="documents.name"
+        (click)="onDocumentSelected()"
+      >
+        {{ documents.name }}
+      </mat-option>
+    </mat-autocomplete>
   </mat-form-field>
   <!-- <mat-form-field appearance="outline">
     <mat-label>Choose Existing BP Number</mat-label>

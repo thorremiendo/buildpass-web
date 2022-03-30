@@ -1,3 +1,4 @@
+import { FormControl } from '@angular/forms';
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { OccupancyService } from './../../core/services/occupancy.service';
 import { Component, OnInit, Inject } from '@angular/core';
@@ -8,6 +9,8 @@ import {
 } from '@angular/material/dialog';
 import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-occupancy-upload-file',
@@ -15,7 +18,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./occupancy-upload-file.component.scss'],
 })
 export class OccupancyUploadFileComponent implements OnInit {
-  public selectedDocument;
+  public selectedDocId;
+  public selectedDocument = new FormControl();
   public documentList;
   public oldBpDetails;
   public selectedFile: File;
@@ -24,6 +28,7 @@ export class OccupancyUploadFileComponent implements OnInit {
   public selectedOldBpDetails;
   public evaluator;
   public isLoading: boolean = false;
+  filteredDocuments: Observable<any[]>;
   constructor(
     public dialogRef: MatDialogRef<OccupancyUploadFileComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -31,50 +36,36 @@ export class OccupancyUploadFileComponent implements OnInit {
     private occupancyService: OccupancyService,
     private applicationService: NewApplicationService,
     private snackBar: MatSnackBar
-  ) {}
+  ) {
+    this.applicationService.fetchDocumentTypes().subscribe((res) => {
+      this.documentList = res.data;
+      console.log(this.documentList);
+
+      this.filteredDocuments = this.selectedDocument.valueChanges.pipe(
+        startWith(''),
+        map((document) =>
+          document ? this._filter(document) : this.documentList.slice()
+        )
+      );
+    });
+  }
 
   ngOnInit(): void {
     this.evaluator = JSON.parse(localStorage.getItem('user'));
-    this.applicationService.fetchDocumentTypes().subscribe((res) => {
-      const DOCS = res.data.filter(
-        (doc) =>
-          doc.id == 26 ||
-          doc.id == 50 ||
-          doc.id == 3 ||
-          doc.id == 59 ||
-          doc.id == 76 ||
-          doc.id == 77 ||
-          doc.id == 79 ||
-          doc.id == 81 ||
-          doc.id == 82 ||
-          doc.id == 83 ||
-          doc.id == 84 ||
-          doc.id == 125 ||
-          doc.id == 4 ||
-          doc.id == 64 ||
-          doc.id == 117 ||
-          doc.id == 86 ||
-          doc.id == 87 ||
-          doc.id == 34 ||
-          doc.id == 35 ||
-          doc.id == 46 ||
-          doc.id == 47 ||
-          doc.id == 57 ||
-          doc.id == 21 ||
-          doc.id == 170 ||
-          doc.id == 14 ||
-          doc.id == 88 ||
-          doc.id == 173 ||
-          doc.id == 43 ||
-          doc.id == 59
-      );
-      this.documentList = DOCS;
-    });
+
     this.occupancyService
       .fetchUserOldBp(this.data.application.id)
       .subscribe((res) => {
         this.oldBpList = res.data;
       });
+  }
+
+  private _filter(value) {
+    const filterValue = value.toLowerCase();
+
+    return this.documentList.filter((option) =>
+      option.name.toLowerCase().includes(filterValue)
+    );
   }
 
   onSelect($event: NgxDropzoneChangeEvent, type) {
@@ -107,7 +98,7 @@ export class OccupancyUploadFileComponent implements OnInit {
       application_id: this.data.application.id,
       user_id: application.user_id,
       evaluator_user_id: this.evaluator.employee_detail.user_id,
-      document_id: this.selectedDocument,
+      document_id: this.selectedDocId.id,
       document_path: this.selectedFile,
       document_status: '0',
     };
@@ -126,5 +117,12 @@ export class OccupancyUploadFileComponent implements OnInit {
       // horizontalPosition: 'right',
       // verticalPosition: 'top',
     });
+  }
+
+  onDocumentSelected() {
+    this.selectedDocId = this.documentList.find(
+      (doc) => doc.name === this.selectedDocument.value
+    );
+    console.log(this.selectedDocId);
   }
 }
