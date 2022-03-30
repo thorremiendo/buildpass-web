@@ -58,7 +58,6 @@ export class BfpEvaluatorComponent implements OnInit {
     this.isLoading = true;
     this.fetchDocTypes();
     this.applicationId = this.route.snapshot.params.id;
-    this.fetchApplicationDetails();
 
     this.changeDetectorRefs.detectChanges();
 
@@ -111,34 +110,71 @@ export class BfpEvaluatorComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
+        this.generateBfpForms();
       });
   }
   generateBfpForms() {
-    const BFP_FORMS = this.forms.filter(
-      (obj) =>
-        obj.document_id == 32 ||
-        obj.document_id == 33 ||
-        obj.document_id == 43 ||
-        obj.document_id == 59 ||
-        obj.document_id == 62 ||
-        obj.document_id == 45 ||
-        obj.document_id == 49 ||
-        obj.document_id == 140 ||
-        obj.document_id == 203 ||
-        obj.document_id == 204 ||
-        obj.document_id == 77 ||
-        obj.document_id == 78 ||
-        obj.document_id == 92 ||
-        obj.document_id == 205 ||
-        obj.document_id == 206 ||
-        obj.document_id == 194 ||
-        obj.document_id == 65 ||
-        obj.document_id == 79 ||
-        obj.document_id == 80 ||
-        obj.document_id == 81 ||
-        obj.document_id == 50 ||
-        obj.document_id == 43
-    );
+    let BFP_FORMS;
+    if (this.applicationDetails.permit_type_id == 2) {
+      //OCCUPANCY
+      BFP_FORMS = this.forms.filter(
+        (obj) =>
+          obj.document_id == 32 ||
+          obj.document_id == 33 ||
+          obj.document_id == 43 ||
+          obj.document_id == 59 ||
+          obj.document_id == 62 ||
+          obj.document_id == 45 ||
+          obj.document_id == 49 ||
+          obj.document_id == 140 ||
+          obj.document_id == 203 ||
+          obj.document_id == 204 ||
+          obj.document_id == 77 ||
+          obj.document_id == 78 ||
+          obj.document_id == 92 ||
+          obj.document_id == 205 ||
+          obj.document_id == 206 ||
+          obj.document_id == 194 ||
+          obj.document_id == 65 ||
+          obj.document_id == 79 ||
+          obj.document_id == 80 ||
+          obj.document_id == 81 ||
+          obj.document_id == 50 ||
+          obj.document_id == 43 ||
+          obj.document_id == 59 ||
+          obj.document_id == 60 ||
+          obj.document_id == 62 ||
+          obj.document_id == 140 ||
+          obj.document_id == 65
+      );
+    } else {
+      BFP_FORMS = this.forms.filter(
+        (obj) =>
+          obj.document_id == 32 ||
+          obj.document_id == 33 ||
+          obj.document_id == 43 ||
+          obj.document_id == 59 ||
+          obj.document_id == 62 ||
+          obj.document_id == 45 ||
+          obj.document_id == 49 ||
+          obj.document_id == 140 ||
+          obj.document_id == 203 ||
+          obj.document_id == 204 ||
+          obj.document_id == 77 ||
+          obj.document_id == 78 ||
+          obj.document_id == 92 ||
+          obj.document_id == 205 ||
+          obj.document_id == 206 ||
+          obj.document_id == 194 ||
+          obj.document_id == 65 ||
+          obj.document_id == 79 ||
+          obj.document_id == 80 ||
+          obj.document_id == 81 ||
+          obj.document_id == 50 ||
+          obj.document_id == 43
+      );
+    }
+
     this.dataSource = this.sortUserDocs(BFP_FORMS);
     this.userDocuments = BFP_FORMS;
     this.unfilteredData = BFP_FORMS;
@@ -427,7 +463,7 @@ export class BfpEvaluatorComponent implements OnInit {
         .fetchUserDocs(this.applicationId)
         .subscribe((result) => {
           this.forms = result.data;
-          this.generateBfpForms();
+          this.fetchApplicationDetails();
           this.fetchEvaluatorDetails();
           this.checkBfpParallelDocs();
           this.isLoading = false;

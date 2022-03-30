@@ -11,9 +11,7 @@
     >
       <div></div>
       <button
-        [disabled]="
-          checkFormsCompliant() || applicationInfo.application_status_id !== 18
-        "
+        [disabled]="applicationInfo.application_status_id !== 18"
         mat-raised-button
         color="primary"
         (click)="handleReviewDone()"
