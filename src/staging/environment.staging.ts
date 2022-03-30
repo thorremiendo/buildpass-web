@@ -31,7 +31,7 @@ export const environment = {
     weekend: false,
     receiveApplications: true,
     restrictCbao: false,
-    version: "2.8.5"
+    version: "2.8.6"
   };
   
   
