@@ -367,6 +367,14 @@
                         <button
                           mat-menu-item
                           color="accent"
+                          (click)="deleteUserDocument(element)"
+                          *ngIf="evaluatorRole.code == 'SPRADM'"
+                        >
+                          Delete File
+                        </button>
+                        <button
+                          mat-menu-item
+                          color="accent"
                           (click)="openUploadDocument(element)"
                           *ngIf="
                             this.user.user_roles[0].is_special == 1 &&

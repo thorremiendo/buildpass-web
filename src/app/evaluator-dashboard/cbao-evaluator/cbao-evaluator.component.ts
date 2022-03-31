@@ -1,3 +1,4 @@
+import { UserDocumentsService } from './../../core/services/user-documents.service';
 import { UpdateDocumentFileComponent } from './../../shared/update-document-file/update-document-file.component';
 import { UploadTarpaulinComponent } from './../../shared/upload-tarpaulin/upload-tarpaulin.component';
 import { AdminWatermarkComponent } from './../../shared/admin-watermark/admin-watermark.component';
@@ -65,7 +66,8 @@ export class CbaoEvaluatorComponent implements OnInit {
     private eSignatureService: EsignatureService,
     private occupancyService: OccupancyService,
     private router: Router,
-    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService
+    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService,
+    private userDocumentService: UserDocumentsService
   ) {}
 
   ngOnInit(): void {
@@ -1504,5 +1506,14 @@ export class CbaoEvaluatorComponent implements OnInit {
       this.fetchApplicationInfo();
     });
     dialogRef.afterClosed().subscribe((result) => {});
+  }
+  deleteUserDocument(e) {
+    this.isLoading = true;
+    console.log(e);
+    this.userDocumentService.deleteUserDocument(e.id).subscribe((res) => {
+      console.log(res);
+      this.isLoading = false;
+      this.fetchApplicationInfo();
+    });
   }
 }
