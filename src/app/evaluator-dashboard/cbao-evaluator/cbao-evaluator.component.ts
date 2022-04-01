@@ -1,3 +1,4 @@
+import { UserDocumentsService } from './../../core/services/user-documents.service';
 import { UpdateDocumentFileComponent } from './../../shared/update-document-file/update-document-file.component';
 import { UploadTarpaulinComponent } from './../../shared/upload-tarpaulin/upload-tarpaulin.component';
 import { AdminWatermarkComponent } from './../../shared/admin-watermark/admin-watermark.component';
@@ -65,7 +66,8 @@ export class CbaoEvaluatorComponent implements OnInit {
     private eSignatureService: EsignatureService,
     private occupancyService: OccupancyService,
     private router: Router,
-    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService
+    private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService,
+    private userDocumentService: UserDocumentsService
   ) {}
 
   ngOnInit(): void {
@@ -1504,5 +1506,30 @@ export class CbaoEvaluatorComponent implements OnInit {
       this.fetchApplicationInfo();
     });
     dialogRef.afterClosed().subscribe((result) => {});
+  }
+  deleteUserDocument(e) {
+    this.isLoading = true;
+    Swal.fire({
+      title: `Are you sure you want to delete ${e.docName}`,
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: `Yes`,
+      confirmButtonColor: '#330E08',
+      denyButtonColor: '#D2AB48',
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
+        this.userDocumentService.deleteUserDocument(e.id).subscribe((res) => {
+          console.log(res);
+          this.isLoading = false;
+          this.fetchApplicationInfo();
+        });
+      } else if (result.isDenied) {
+        this.isLoading = false;
+      } else {
+        this.isLoading = false;
+      }
+    });
   }
 }
