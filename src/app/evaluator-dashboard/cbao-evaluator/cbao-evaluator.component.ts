@@ -1509,11 +1509,27 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
   deleteUserDocument(e) {
     this.isLoading = true;
-    console.log(e);
-    this.userDocumentService.deleteUserDocument(e.id).subscribe((res) => {
-      console.log(res);
-      this.isLoading = false;
-      this.fetchApplicationInfo();
+    Swal.fire({
+      title: `Are you sure you want to delete ${e.docName}`,
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: `Yes`,
+      confirmButtonColor: '#330E08',
+      denyButtonColor: '#D2AB48',
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
+        this.userDocumentService.deleteUserDocument(e.id).subscribe((res) => {
+          console.log(res);
+          this.isLoading = false;
+          this.fetchApplicationInfo();
+        });
+      } else if (result.isDenied) {
+        this.isLoading = false;
+      } else {
+        this.isLoading = false;
+      }
     });
   }
 }
