@@ -569,22 +569,35 @@ export class ESignatureComponent implements OnInit {
               };
               this.newApplicationService
                 .updateDocumentFile(updateFileData, element.id)
-                .subscribe((res) => {
-                  count = count + 1;
-                  this.alert.openSuccessToast(
-                    `${count}/${array.length} documents done.`
-                  );
-                  if (count === array.length - 1) {
-                    this.isLoading = false;
-                    this.openSnackBar('Success!');
+                .subscribe(
+                  (res) => {
+                    count = count + 1;
+                    this.alert.openSuccessToast(
+                      `${count}/${array.length} documents done.`
+                    );
+                    if (count === array.length - 1) {
+                      this.isLoading = false;
+                      this.openSnackBar('Success!');
+                      setTimeout(() => {
+                        this.router.navigate([
+                          '/evaluator/application',
+                          this.applicationId,
+                        ]);
+                      }, 1000);
+                    }
+                  },
+                  (err) => {
+                    this.alert.openSuccessToast(
+                      'An error occured. Please try again'
+                    );
                     setTimeout(() => {
                       this.router.navigate([
                         '/evaluator/application',
                         this.applicationId,
                       ]);
-                    }, 1000);
+                    }, 2000);
                   }
-                });
+                );
             });
         }
       });
@@ -613,8 +626,8 @@ export class ESignatureComponent implements OnInit {
       pages[0].drawImage(qr_code, {
         x: width / 2 - 120,
         y: height / 2 - 230,
-        width: pngDims.width * 1.5,
-        height: pngDims.height * 1.5,
+        width: pngDims.width * 0.75,
+        height: pngDims.height * 0.75,
       });
     }
 
