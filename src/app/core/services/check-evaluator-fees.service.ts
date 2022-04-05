@@ -56,6 +56,13 @@ export class CheckEvaluatorFeesService {
                 fee.next(false);
               }
               break;
+            case 'CBAO-SAN':
+              if (evaluators.find((e) => e == 'CBAO-SAN')) {
+                fee.next(true);
+              } else {
+                fee.next(false);
+              }
+              break;
           }
         });
       });
