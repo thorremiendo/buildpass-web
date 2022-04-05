@@ -1,6 +1,6 @@
 export enum applicationTypes {
   'Building Permit' = 1,
-  'Occupancy Permit' = 2,
+  'Certificate of Occupancy' = 2,
   'Excavation Permit' = 3,
   'Fencing Permit' = 4,
   'Demolition Permit' = 5,

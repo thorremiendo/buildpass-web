@@ -118,9 +118,7 @@ export class CepmoEvaluatorComponent implements OnInit {
         (obj) =>
           obj.document_id == 43 ||
           obj.document_id == 28 ||
-          obj.document_id == 36 ||
           obj.document_id == 44 ||
-          obj.document_id == 59 ||
           obj.document_id == 202 ||
           obj.document_id == 201 ||
           obj.document_id == 200 ||
