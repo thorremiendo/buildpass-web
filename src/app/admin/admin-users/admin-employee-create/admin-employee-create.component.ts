@@ -235,7 +235,7 @@ export class AdminEmployeeCreateComponent implements OnInit {
       office_id: this._adminCreateUserForm.value.office,
       position: this._adminCreateUserForm.value.position,
       contact_number: this._adminCreateUserForm.value.contact_number,
-      email_addres: this._adminCreateUserForm.value.email,
+      email_address: this._adminCreateUserForm.value.email,
       photo_path: this.selectedPhoto,
       is_evaluator: 1,
       role_id: this._adminCreateUserForm.value.role_id,
