@@ -69,7 +69,7 @@
       [disabled]="isLoading"
       *ngIf="this.documentInfo.document_id !== 50"
     >
-      Insert Signature
+      {{ isLoading ? "Saving" : "Insert Signature" }}
     </button>
     <button
       mat-button
@@ -78,11 +78,11 @@
       [disabled]="isLoading"
       *ngIf="this.documentInfo.document_id == 50"
     >
-      Sign
+      {{ isLoading ? "Saving" : "Sign" }}
     </button>
   </div>
   <ng-container *ngIf="isLoading">
-    <div>
+    <div class="mt-2">
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
   </ng-container>

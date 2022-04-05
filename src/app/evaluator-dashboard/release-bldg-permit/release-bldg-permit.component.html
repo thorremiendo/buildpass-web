@@ -4,6 +4,18 @@
       <strong>{{ data.form.docName }}</strong>
     </h4>
   </div>
+  <div class="d-flex justify-content-between mb-2">
+    <div></div>
+    <button
+      class="text-right mt-3"
+      mat-raised-button
+      color="primary"
+      [disabled]="isSubmitting"
+      (click)="callSave()"
+    >
+      Save
+    </button>
+  </div>
   <ngx-extended-pdf-viewer
     [src]="src"
     [showToolbar]="true"
@@ -69,7 +81,6 @@
       color="primary"
       [disabled]="isSubmitting"
       (click)="callSave()"
-      *ngIf="applicationDetails.application_status_id == 24"
     >
       Save
     </button>
