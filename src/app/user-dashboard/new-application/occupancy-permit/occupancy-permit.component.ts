@@ -43,6 +43,10 @@ export class OccupancyPermitComponent implements OnInit {
       id: 84,
       src: '../../../../assets/forms/updated/Certificate_of_Inspection_Mechanical_Installation_1.pdf',
     },
+    {
+      id: 4,
+      src: '../../../../assets/forms/updated/version-3/Eleectrical_Permit_Form_rev3.pdf',
+    },
   ];
 
   public fieldSets: any = [
@@ -53,7 +57,7 @@ export class OccupancyPermitComponent implements OnInit {
     },
   ];
 
-  public withOldBuildingPermit: Array<any> = [206, 88];
+  public withOldBuildingPermit: Array<any> = [206, 88, 86];
   public withBuildpassBuildingPermit: Array<any> = [206];
 
   constructor(
