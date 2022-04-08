@@ -417,7 +417,7 @@ export class OccupancyPermitComponent implements OnInit {
                       const requiredDoc = releasedBpDocs.find(
                         (e) => e == element.document_id
                       );
-                      if (requiredDoc) {
+                      if (requiredDoc && element.is_applicable !== 2) {
                         docs.push(element);
                       }
                       count = count + 1;
