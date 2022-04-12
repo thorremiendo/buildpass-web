@@ -95,13 +95,7 @@
             <mat-icon>assignment</mat-icon>
             Documents
           </ng-template>
-          <div
-            class="mt-3"
-            *ngIf="
-              applicationInfo.permit_type_id == 2 &&
-              evaluatorRole.code == 'SPRADM'
-            "
-          >
+          <div class="mt-3" *ngIf="evaluatorRole.code == 'SPRADM'">
             <button
               mat-raised-button
               color="accent"
