@@ -26,6 +26,10 @@ export class OccupancyPermitComponent implements OnInit {
   public isLoading: boolean = false;
   public documentTypes;
   public isOptional: boolean = false;
+  public notReleasedBpFormData;
+  public releasedBpFormData;
+  public userDocs;
+  public hasUploadedFile: boolean = false;
   public forms: any = [
     {
       id: 81,
@@ -43,10 +47,10 @@ export class OccupancyPermitComponent implements OnInit {
       id: 84,
       src: '../../../../assets/forms/updated/Certificate_of_Inspection_Mechanical_Installation_1.pdf',
     },
-    {
-      id: 4,
-      src: '../../../../assets/forms/updated/version-3/Eleectrical_Permit_Form_rev3.pdf',
-    },
+    // {
+    //   id: 4,
+    //   src: '../../../../assets/forms/updated/version-3/Eleectrical_Permit_Form_rev3.pdf',
+    // },
   ];
 
   public fieldSets: any = [
@@ -80,24 +84,18 @@ export class OccupancyPermitComponent implements OnInit {
         .subscribe((res) => {
           this.applicationDetails = res.data;
 
-          console.log(this.applicationDetails);
-          if (this.applicationDetails.old_permit_number) {
-            this.applicationService
-              .fetchApplicationInfoByAPn(
-                this.applicationDetails.old_permit_number
-              )
-              .subscribe((res) => {
-                this.linkedBuildingPermitDetails = res.data[0];
-                console.log('linked', this.linkedBuildingPermitDetails);
-                this.formData = this.dataBindingService.getFormData(
-                  this.linkedBuildingPermitDetails
-                );
-              });
-          } else {
-            this.formData = this.dataBindingService.getFormData(
-              this.applicationDetails
-            );
-          }
+          this.applicationDetails.user_docs.forEach((element) => {
+            if (element.document_id == 81) {
+              this.forms[0].src = element.document_path;
+            } else if (element.document_id == 204) {
+              this.forms[1].src = element.document_path;
+            } else if (element.document_id == 83) {
+              this.forms[2].src = element.document_path;
+            } else if (element.document_id == 84) {
+              this.forms[3].src = element.document_path;
+            }
+          });
+
           this.saveRoute();
 
           if (this.applicationDetails.associated_released_permits.length >= 1) {
@@ -134,9 +132,30 @@ export class OccupancyPermitComponent implements OnInit {
               documents: [201, 202],
             });
           }
-          this.initData();
-          this.setFilePaths();
-          this.pdfSource = this.forms[0].src;
+
+          if (this.applicationDetails.old_permit_number) {
+            this.applicationService
+              .fetchApplicationInfoByAPn(
+                this.applicationDetails.old_permit_number
+              )
+              .subscribe((res) => {
+                this.linkedBuildingPermitDetails = res.data[0];
+                console.log('linked', this.linkedBuildingPermitDetails);
+                this.formData = this.dataBindingService.getFormData(
+                  this.linkedBuildingPermitDetails
+                );
+                this.initData();
+                this.setFilePaths();
+                this.pdfSource = this.forms[0].src;
+              });
+          } else {
+            this.formData = this.dataBindingService.getFormData(
+              this.applicationDetails
+            );
+            this.initData();
+            this.setFilePaths();
+            this.pdfSource = this.forms[0].src;
+          }
         });
     });
   }
@@ -193,7 +212,8 @@ export class OccupancyPermitComponent implements OnInit {
     const index = event.selectedIndex;
     const pdfViewer = document.getElementById('pdf-viewer');
     const pdfContainer = document.getElementById(`form-${index}`);
-    this.forms[index] ? (this.pdfSource = this.forms[index].src) : null;
+    // this.forms[index] ? (this.pdfSource = this.forms[index].src) : null;
+    this.pdfSource = this.forms[index].src;
     pdfContainer ? pdfContainer.appendChild(pdfViewer) : null;
   }
 
@@ -247,6 +267,7 @@ export class OccupancyPermitComponent implements OnInit {
           form.path = doc.document_path;
           form.doc_id = doc.id;
           form.is_applicable = doc.is_applicable;
+          // this.pdfSource = doc.document_path ? doc.document_path : form.src;
         }
       });
     });
@@ -260,7 +281,7 @@ export class OccupancyPermitComponent implements OnInit {
       });
     });
   }
-  public async upload(form): Promise<void> {
+  public async upload(form, type): Promise<void> {
     const blob =
       await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     if (!form.path) {
@@ -278,7 +299,11 @@ export class OccupancyPermitComponent implements OnInit {
           .submitDocument(uploadDocumentData)
           .subscribe((res) => {
             this.isLoading = false;
-            this.updateApplicationInfoWithFormData();
+            if (type == 'draft') {
+              this.router.navigateByUrl('/dashboard/applications');
+            } else {
+              this.fetchApplicationInfo();
+            }
             this.updateFilePath();
           });
       } else {
@@ -294,7 +319,12 @@ export class OccupancyPermitComponent implements OnInit {
       this.newApplicationService
         .updateDocumentFile(uploadDocumentData, form.doc_id)
         .subscribe((res) => {
-          this.updateApplicationInfoWithFormData();
+          // this.updateApplicationInfoWithFormData();
+          if (type == 'draft') {
+            this.router.navigateByUrl('/dashboard/applications');
+          } else {
+            this.fetchApplicationInfo();
+          }
           this.openSnackBar('Saved!');
         });
     }
