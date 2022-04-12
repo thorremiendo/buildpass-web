@@ -139,6 +139,7 @@ export class OccupancyPermitComponent implements OnInit {
                 this.applicationDetails.old_permit_number
               )
               .subscribe((res) => {
+                console.log('released', res);
                 this.linkedBuildingPermitDetails = res.data[0];
                 console.log('linked', this.linkedBuildingPermitDetails);
                 this.formData = this.dataBindingService.getFormData(

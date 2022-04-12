@@ -30,7 +30,6 @@
           <mat-card-content>
             <div id="form-{{ i }}">
               <div id="pdf-viewer" *ngIf="i == 0 && pdfSource">
-                {{ pdfSource }}
                 <ngx-extended-pdf-viewer
                   [src]="pdfSource"
                   [showToolbar]="true"

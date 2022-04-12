@@ -49,7 +49,7 @@ export class ApplicationSummaryComponent implements OnInit {
       applicant_suffix_name: this.userInfo.suffix_name,
       applicant_contact_number: this.userInfo.contact_number,
       applicant_email_address: this.userInfo.email_address,
-      old_permit_number: this.applicationInfo.ocpas_code,
+      old_permit_number: this.applicationInfo.permit_application_code,
     };
 
     this.newApplicationSerivce.submitApplication(body).subscribe((res) => {
