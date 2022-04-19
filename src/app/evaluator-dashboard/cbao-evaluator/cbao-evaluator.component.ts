@@ -1432,7 +1432,7 @@ export class CbaoEvaluatorComponent implements OnInit {
       document_status_id: 1,
       is_document_string: 1,
       document_path:
-        'https://s3-ap-southeast-1.amazonaws.com/buildpass-storage/3ie6gjilH2VpUFdnxWzE3lQIGpvplQs1C0pGZX0Z.pdf',
+        'https://s3-ap-southeast-1.amazonaws.com/buildpass-storage/SSSDEq6yrGUfoh2H3T0VRXB96rmZAGTUpTUCEPL7.pdf',
     };
 
     this.newApplicationService
