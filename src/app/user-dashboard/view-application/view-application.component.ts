@@ -121,9 +121,10 @@ export class ViewApplicationComponent implements OnInit {
 
     this.searchKey.valueChanges.subscribe((res) => {
       this.sortUserDocs(
-        this.unfilteredData.filter(document => {
+        this.unfilteredData.filter((document) => {
           const docName = document.docName;
-          if (docName && docName.toLowerCase().includes(res.toLowerCase())) return true;
+          if (docName && docName.toLowerCase().includes(res.toLowerCase()))
+            return true;
           else return false;
         })
       );
@@ -205,8 +206,7 @@ export class ViewApplicationComponent implements OnInit {
     filteredDocs.forEach((element) => {
       const docType =
         this.documentTypes[element.document_id - 1].document_category_id;
-      const docName = 
-        this.documentTypes[element.document_id - 1].name;
+      const docName = this.documentTypes[element.document_id - 1].name;
       element.docName = docName;
 
       switch (docType) {
@@ -436,6 +436,9 @@ export class ViewApplicationComponent implements OnInit {
       {
         cbao_str_status_id: app.cbao_str_status_id,
       },
+      {
+        cbao_mec_status_id: app.cbao_mec_status_id,
+      },
     ];
     status.forEach((tech) => {
       if (tech.cbao_arch_status_id == 2) {
@@ -461,6 +464,11 @@ export class ViewApplicationComponent implements OnInit {
       } else if (tech.cbao_str_status_id == 2) {
         const body = {
           cbao_str_status_id: 0,
+        };
+        this.updateTechnicalEvaluationStatus(body);
+      } else if (tech.cbao_mec_status_id == 2) {
+        const body = {
+          cbao_mec_status_id: 0,
         };
         this.updateTechnicalEvaluationStatus(body);
       }

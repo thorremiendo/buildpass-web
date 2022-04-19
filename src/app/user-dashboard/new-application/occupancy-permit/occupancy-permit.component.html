@@ -51,7 +51,9 @@
                   [useBrowserLocale]="true"
                   height="1000px"
                   zoom="100%"
-                  [(formData)]="formData"
+                  [formData]="
+                    pdfSource.includes('assets/forms') ? formData : ''
+                  "
                 >
                 </ngx-extended-pdf-viewer>
               </div>
@@ -71,6 +73,7 @@
           mat-raised-button
           color="accent"
           [routerLink]="['/dashboard/applications']"
+          (click)="upload(form, 'draft')"
         >
           Save as Draft
         </button>
@@ -78,7 +81,7 @@
           mat-raised-button
           color="primary"
           matStepperNext
-          (click)="upload(form)"
+          (click)="upload(form, 'next')"
         >
           Next
         </button>

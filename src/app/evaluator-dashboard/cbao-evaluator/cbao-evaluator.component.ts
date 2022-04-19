@@ -1386,39 +1386,7 @@ export class CbaoEvaluatorComponent implements OnInit {
 
   async callSave() {
     this.isLoading = true;
-    const uploadDocumentData = {
-      application_id: this.applicationId,
-      user_id: this.evaluatorDetails.user_id,
-      document_id: 50,
-      document_status_id: 1,
-      is_document_string: 1,
-      document_path:
-        'https://s3-ap-southeast-1.amazonaws.com/baguio-ocpas/EmzEcDCiyHbGKve0XteLdUd7LBGiBz5s102QQEGd.pdf',
-    };
-
-    this.newApplicationService
-      .submitDocument(uploadDocumentData)
-      .subscribe((res) => {
-        const doc = res.data.document_path;
-        const id = res.data.id;
-        this.newApplicationService
-          .updateDocumentFile({ receiving_status_id: 1 }, id)
-          .subscribe((res) => {
-            this.newApplicationService
-              .updateDocumentFile({ bfp_status_id: 1 }, id)
-              .subscribe((res) => {
-                this.newApplicationService
-                  .updateDocumentFile({ cbao_status_id: 1 }, id)
-                  .subscribe((res) => {
-                    this.newApplicationService
-                      .updateDocumentFile({ cepmo_status_id: 1 }, id)
-                      .subscribe((res) => {
-                        this.addWaterMark(doc, id);
-                      });
-                  });
-              });
-          });
-      });
+    this.uploadTarpaulin();
   }
 
   addWaterMark(doc, id) {
@@ -1440,7 +1408,16 @@ export class CbaoEvaluatorComponent implements OnInit {
               this.applicationService
                 .updateApplicationStatus(body, this.applicationId)
                 .subscribe((res) => {
-                  this.uploadTarpaulin();
+                  Swal.fire(
+                    'Success!',
+                    `Building Permit Approved`,
+                    'success'
+                  ).then((result) => {
+                    this.isLoading = false;
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 1000);
+                  });
                 });
             });
         });
@@ -1455,7 +1432,7 @@ export class CbaoEvaluatorComponent implements OnInit {
       document_status_id: 1,
       is_document_string: 1,
       document_path:
-        'https://s3-ap-southeast-1.amazonaws.com/buildpass-storage/3ie6gjilH2VpUFdnxWzE3lQIGpvplQs1C0pGZX0Z.pdf',
+        'https://s3-ap-southeast-1.amazonaws.com/buildpass-storage/SSSDEq6yrGUfoh2H3T0VRXB96rmZAGTUpTUCEPL7.pdf',
     };
 
     this.newApplicationService
@@ -1475,16 +1452,48 @@ export class CbaoEvaluatorComponent implements OnInit {
                     this.newApplicationService
                       .updateDocumentFile({ cepmo_status_id: 1 }, id)
                       .subscribe((res) => {
-                        Swal.fire(
-                          'Success!',
-                          `Building Permit Approved`,
-                          'success'
-                        ).then((result) => {
-                          this.isLoading = false;
-                          setTimeout(() => {
-                            window.location.reload();
-                          }, 1000);
-                        });
+                        const uploadDocumentData = {
+                          application_id: this.applicationId,
+                          user_id: this.evaluatorDetails.user_id,
+                          document_id: 50,
+                          document_status_id: 1,
+                          is_document_string: 1,
+                          document_path:
+                            'https://s3-ap-southeast-1.amazonaws.com/baguio-ocpas/EmzEcDCiyHbGKve0XteLdUd7LBGiBz5s102QQEGd.pdf',
+                        };
+
+                        this.newApplicationService
+                          .submitDocument(uploadDocumentData)
+                          .subscribe((res) => {
+                            const doc = res.data.document_path;
+                            const id = res.data.id;
+                            this.newApplicationService
+                              .updateDocumentFile(
+                                { receiving_status_id: 1 },
+                                id
+                              )
+                              .subscribe((res) => {
+                                this.newApplicationService
+                                  .updateDocumentFile({ bfp_status_id: 1 }, id)
+                                  .subscribe((res) => {
+                                    this.newApplicationService
+                                      .updateDocumentFile(
+                                        { cbao_status_id: 1 },
+                                        id
+                                      )
+                                      .subscribe((res) => {
+                                        this.newApplicationService
+                                          .updateDocumentFile(
+                                            { cepmo_status_id: 1 },
+                                            id
+                                          )
+                                          .subscribe((res) => {
+                                            this.addWaterMark(doc, id);
+                                          });
+                                      });
+                                  });
+                              });
+                          });
                       });
                   });
               });
