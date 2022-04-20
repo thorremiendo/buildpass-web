@@ -25,5 +25,5 @@ export const environment = {
   weekend: true,
   receiveApplications: true,
   restrictCbao: false,
-  version: "2.9.1"
+  version: require('../../package.json').version
 };
