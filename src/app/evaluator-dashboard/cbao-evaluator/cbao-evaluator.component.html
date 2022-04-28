@@ -384,8 +384,8 @@
                           color="accent"
                           (click)="openUpdateDocumentFile(element)"
                           *ngIf="
-                            applicationInfo.permit_type_id == 2 &&
-                            evaluatorRole.code == 'CBAO-REC'
+                            evaluatorRole.code == 'CBAO-REC' ||
+                            evaluatorRole.code == 'SPRADM'
                           "
                         >
                           Update File
