@@ -178,7 +178,9 @@ export class BuildingPermitComponent implements OnInit {
               ? true
               : false;
           const is3storeysOrMore =
-            this.applicationDetails.project_detail.number_of_storey >= 3
+            this.applicationDetails.project_detail.number_of_storey +
+              this.applicationDetails.project_detail.number_of_basement >=
+            3
               ? true
               : false;
           const ifFloorArea20sqmOrMore =

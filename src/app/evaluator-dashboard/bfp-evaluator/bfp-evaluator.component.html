@@ -194,6 +194,15 @@
               }"
             ></tr>
           </table>
+          <button
+            class="mt-2 w-100"
+            mat-raised-button
+            color="primary"
+            *ngIf="isNonCompliant"
+            (click)="noticeUpload()"
+          >
+            Upload Notice to Comply
+          </button>
           <ng-container *ngIf="applicationDetails.permit_type_id == 1">
             <button
               class="mt-2 w-100"

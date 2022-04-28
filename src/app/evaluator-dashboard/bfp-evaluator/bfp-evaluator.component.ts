@@ -1,3 +1,4 @@
+import { UploadDocumentComponent } from './../../shared/upload-document/upload-document.component';
 import { FsicUploadComponent } from './../../shared/fsic-upload/fsic-upload.component';
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { BfpResidentialChecklistComponent } from './../bfp-residential-checklist/bfp-residential-checklist.component';
@@ -41,7 +42,7 @@ export class BfpEvaluatorComponent implements OnInit {
   public bfpFees;
   public searchKey = new FormControl('');
   public unfilteredData = [];
-
+  public isNonCompliant: boolean = false;
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
@@ -178,6 +179,8 @@ export class BfpEvaluatorComponent implements OnInit {
     this.dataSource = this.sortUserDocs(BFP_FORMS);
     this.userDocuments = BFP_FORMS;
     this.unfilteredData = BFP_FORMS;
+    const find = this.userDocuments.find((e) => e.bfp_status_id == 2);
+    if (find) this.isNonCompliant = true;
   }
 
   sortUserDocs(docs) {
@@ -320,6 +323,19 @@ export class BfpEvaluatorComponent implements OnInit {
     });
   }
 
+  noticeUpload(): void {
+    const dialogRef = this.dialog.open(UploadDocumentComponent, {
+      width: '1500px',
+      data: {
+        evaluator: this.evaluatorDetails,
+        application: this.applicationDetails,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.ngOnInit();
+    });
+  }
   openFormDialog(element): void {
     const dialogRef = this.dialog.open(FormDetailsComponent, {
       width: '1500px',
