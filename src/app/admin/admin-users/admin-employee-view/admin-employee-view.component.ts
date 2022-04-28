@@ -97,6 +97,7 @@ export class AdminEmployeeViewComponent implements OnInit {
       contact_number: [Validators.maxLength(11)],
       id_number: [],
       id_type: [],
+      email_address:[]
     });
 
     this.patchValue();
@@ -116,6 +117,7 @@ export class AdminEmployeeViewComponent implements OnInit {
       contact_number: this.userInfo.contact_number,
       id_number: this.userInfo.id_number,
       id_type: this.userInfo.id_type,
+      email_address: this.userInfo.email_address
     });
 
     if (this.userInfo.employee_detail) {
@@ -323,6 +325,7 @@ export class AdminEmployeeViewComponent implements OnInit {
         photo_path: this.selectedPhoto ? this.selectedPhoto : null,
         id_photo_path: this.selectedFile ? this.selectedFile : null,
         selfie_with_id_path: this.selectedSelfie ? this.selectedSelfie : null,
+        email_address: this._adminUpdateUserForm.value.email_address,
       };
 
       this._userService
