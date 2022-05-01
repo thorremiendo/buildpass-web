@@ -9,7 +9,8 @@ import {
   BarangayService,
   Position,
   Office,
-  NewApplicationService
+  NewApplicationService,
+  SnackBarService
 } from '../../../core';
 
 @Component({
@@ -72,6 +73,7 @@ export class AdminEmployeeViewComponent implements OnInit {
     private _barangayService: BarangayService,
     private _adminUserService: AdminUserService,
     private _place: NewApplicationService,
+    private _snackbarService:SnackBarService,
     public dialogRef: MatDialogRef<AdminEmployeeViewComponent>,
     @Inject(MAT_DIALOG_DATA) public data
   ) {}
@@ -300,10 +302,19 @@ export class AdminEmployeeViewComponent implements OnInit {
   }
 
   onSubmit() {
+    let barangay_id;
     this._submitted = true;
 
     if (this._adminUpdateUserForm.valid) {
       this.isUpdating = true;
+
+      // if(!this._adminUpdateUserForm.value.barangay.id){
+      //   barangay_id = 0  
+      // }
+
+      // else{
+      //   barangay_id = this._adminUpdateUserForm.value.barangay.id
+      // }
 
       const user = {
         first_name: this._adminUpdateUserForm.value.first_name,
@@ -315,7 +326,7 @@ export class AdminEmployeeViewComponent implements OnInit {
         gender: this._adminUpdateUserForm.value.gender,
         home_address: this._adminUpdateUserForm.value.home_address,
         barangay: this.checkBarangay(),
-        barangay_id: this._adminUpdateUserForm.value.barangay.id ? this._adminUpdateUserForm.value.barangay.id : 0,
+        barangay_id: this._adminUpdateUserForm.value.barangay?.id ? this._adminUpdateUserForm.value.barangay?.id : 0,
         employee_no: this._adminUpdateUserForm.value.employee_no,
         office_id: this._adminUpdateUserForm.value.office,
         position: this._adminUpdateUserForm.value.position,
@@ -328,10 +339,18 @@ export class AdminEmployeeViewComponent implements OnInit {
         email_address: this._adminUpdateUserForm.value.email_address,
       };
 
+      // console.log(user, this.userInfo.id)
+      // console.log(this._adminUpdateUserForm.value.barangay)
+
       this._userService
         .updateUserInfo(user, this.userInfo.id)
         .subscribe((result) => {
           this.isUpdating = false;
+        },
+        (error)=>{
+          const errorMessage = error.error.message;
+          console.log(errorMessage, error)
+          this._snackbarService.open(errorMessage,"close",3000)
         });
     }
     
