@@ -5,7 +5,9 @@
     accept="application/pdf"
     class="mt-3"
   >
-    <ngx-dropzone-label>Click here to upload file! </ngx-dropzone-label>
+    <ngx-dropzone-label
+      >Click here to upload {{ data.document }}!
+    </ngx-dropzone-label>
     <ngx-dropzone-preview
       *ngIf="selectedFile"
       [removable]="true"

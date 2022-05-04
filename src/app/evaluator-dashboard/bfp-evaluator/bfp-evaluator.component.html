@@ -152,15 +152,14 @@
                       color="accent"
                       [disabled]="
                         applicationDetails.application_status_id !== 3 ||
-                        element.document_id == 194
+                        element.document_id == 194 ||
+                        element.document_id == 224
                       "
                       (click)="openFormDialog(element)"
                     >
                       Evaluate
                     </button>
-                    <ng-container
-                      *ngIf="applicationDetails.application_status_id !== 3"
-                    >
+                    <ng-container>
                       <a
                         mat-menu-item
                         href="{{ element.document_path }}"
@@ -175,6 +174,14 @@
                       *ngIf="evaluatorRole.code !== 'CBAO-REL'"
                     >
                       Sign Document
+                    </button>
+                    <button
+                      mat-menu-item
+                      color="accent"
+                      (click)="openUpdateDocumentFile(element)"
+                      *ngIf="element.document_id == 224"
+                    >
+                      Update Document
                     </button>
                   </mat-menu>
                 </div>
@@ -198,7 +205,7 @@
             class="mt-2 w-100"
             mat-raised-button
             color="primary"
-            *ngIf="isNonCompliant"
+            *ngIf="isNonCompliant && !hasNoticeToComply()"
             (click)="noticeUpload()"
           >
             Upload Notice to Comply

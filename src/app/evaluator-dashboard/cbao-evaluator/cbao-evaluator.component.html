@@ -281,7 +281,8 @@
                             [disabled]="
                               applicationInfo.application_status_id !== 3 ||
                               element.document_id == 194 ||
-                              element.document_id == 44
+                              element.document_id == 44 ||
+                              element.document_id == 224
                             "
                             *ngIf="
                               evaluatorRole.code == 'CBAO-LG' ||
@@ -301,7 +302,8 @@
                             [disabled]="
                               applicationInfo.application_status_id !== 12 ||
                               element.document_id == 194 ||
-                              element.document_id == 44
+                              element.document_id == 44 ||
+                              element.document_id == 224
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-DC'"
                           >
@@ -314,7 +316,8 @@
                             [disabled]="
                               applicationInfo.application_status_id !== 13 ||
                               element.document_id == 194 ||
-                              element.document_id == 44
+                              element.document_id == 44 ||
+                              element.document_id == 224
                             "
                             *ngIf="evaluatorRole.code == 'CBAO-BO'"
                           >

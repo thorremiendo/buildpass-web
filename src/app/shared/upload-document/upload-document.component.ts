@@ -58,7 +58,7 @@ export class UploadDocumentComponent implements OnInit {
     const uploadDocumentData = {
       application_id: this.data.application.id,
       user_id: application.user_id,
-      evaluator_user_id: this.evaluator.employee_detail.user_id,
+      evaluator_user_id: this.evaluator.user_id,
       document_id: 224,
       document_path: this.selectedFile,
       document_status: 1,
@@ -67,9 +67,21 @@ export class UploadDocumentComponent implements OnInit {
     this.applicationService
       .submitDocument(uploadDocumentData)
       .subscribe((res) => {
-        this.popout.openSnackBar('Saved!');
-        this.isLoading = false;
-        window.location.reload();
+        this.applicationService
+          .updateDocumentFile({ bfp_status_id: 1 }, res.data.id)
+          .subscribe((res) => {
+            this.applicationService
+              .updateDocumentFile({ cbao_status_id: 1 }, res.data.id)
+              .subscribe((res) => {
+                this.applicationService
+                  .updateDocumentFile({ cepmo_status_id: 1 }, res.data.id)
+                  .subscribe((res) => {
+                    this.popout.openSnackBar('Saved!');
+                    this.isLoading = false;
+                    window.location.reload();
+                  });
+              });
+          });
       });
   }
 }
