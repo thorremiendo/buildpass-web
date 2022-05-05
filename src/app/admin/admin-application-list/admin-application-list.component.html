@@ -54,14 +54,45 @@
                     </div>
                   </li>
                   <li
-                    (click)="applicationStatus.setValue('3')"
+                    class="has-nested-list"
                     [ngClass]="{'active-category': applicationStatus.value == '3'}"
                   >
-                    <div class="color"></div>
-                    <div class="legend">
-                      CBAO, BFP, CEPMO Evaluation
-                      ({{applicationStats[3].value + applicationStats[4].value}})
+                    <div (click)="applicationStatus.setValue('3')">
+                      <div class="color"></div>
+                      <div class="legend">
+                        CBAO, BFP, CEPMO Evaluation
+                        ({{applicationStats[3].value + applicationStats[4].value}})
+                      </div>
                     </div>
+                    <ul>
+                      <li
+                        (click)="applicationStatus.setValue('3.1')"
+                        [ngClass]="{'active-category': applicationStatus.value == '3.1'}"
+                      >
+                        <div class="legend">
+                          CBAO Evaluation
+                          ({{applicationStats[20].value}})
+                        </div>
+                      </li>
+                      <li 
+                        (click)="applicationStatus.setValue('3.2')"
+                        [ngClass]="{'active-category': applicationStatus.value == '3.2'}"
+                      >
+                        <div class="legend">
+                          BFP Evaluation
+                          ({{applicationStats[19].value}})
+                        </div>
+                      </li>
+                      <li 
+                        (click)="applicationStatus.setValue('3.3')"
+                        [ngClass]="{'active-category': applicationStatus.value == '3.3'}"
+                      >
+                        <div class="legend">
+                          CEPMO Evaluation
+                          ({{applicationStats[18].value}})
+                        </div>
+                      </li>
+                    </ul>
                   </li>
                   <li
                     (click)="applicationStatus.setValue('4')"
@@ -109,6 +140,9 @@
               {{applicationStatus.value == '1' ? 'Receiving' : ''}}
               {{applicationStatus.value == '2' ? 'CPDO Evaluation' : ''}}
               {{applicationStatus.value == '3' ? 'CBAO, BFP, CEPMO Evaluation' : ''}}
+              {{applicationStatus.value == '3.1' ? 'CBAO Evaluation' : ''}}
+              {{applicationStatus.value == '3.2' ? 'BFP Evaluation' : ''}}
+              {{applicationStatus.value == '3.3' ? 'CEPMO Evaluation' : ''}}
               {{applicationStatus.value == '4' ? 'Division Chief Evaluation' : ''}}
               {{applicationStatus.value == '5' ? 'Building Official Evaluation' : ''}}
               {{applicationStatus.value == '6' ? 'Releasing' : ''}}
@@ -247,10 +281,10 @@
               <mat-form-field appearance="outline">
                 <mat-select [formControl]="applicationStatus">
                   <mat-option
-                  *ngFor="let applicationStatusList of applicationStatusLists"
-                  value="{{ applicationStatusList.id }}"
-                  >{{ applicationStatusList.name }}
-                </mat-option>
+                    *ngFor="let applicationStatusList of applicationStatusLists"
+                    value="{{ applicationStatusList.id }}"
+                    >{{ applicationStatusList.name }}
+                  </mat-option>
                   <!-- <mat-option value="0">All</mat-option>
                   <mat-option value="1">Receiving</mat-option>
                   <mat-option value="2">CPDO Evaluation</mat-option>
@@ -260,6 +294,9 @@
                   <mat-option value="6">Releasing</mat-option>
                   <mat-option value="7">Permit Released</mat-option>
                   <mat-option value="8">Incomplete Application</mat-option> -->
+                  <mat-option value="3.1">CBAO Evaluation</mat-option>
+                  <mat-option value="3.2">BFP Evaluation</mat-option>
+                  <mat-option value="3.3">CEPMO Evaluation</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
