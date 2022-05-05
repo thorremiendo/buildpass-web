@@ -53,7 +53,7 @@ export class AdminEmployeeListComponent implements OnInit {
 
   fetchEmployees(){
     this._adminUserservice.fetchEmployees().subscribe((data) => { 
-      console.log(data);     
+      //console.log(data);     
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.paginator;
       this.isFetching = false;

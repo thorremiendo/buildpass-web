@@ -29,7 +29,7 @@ export const environment = {
   weekend: false,
   receiveApplications: true,
   restrictCbao: false,
-  version: require('../../package.json').version + '-dev'
+  version: require('../../package.json').version + '-dev',
 };
 
 /*

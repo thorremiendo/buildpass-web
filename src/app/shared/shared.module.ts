@@ -62,6 +62,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CepmoCertificateComponent } from './cepmo-certificate/cepmo-certificate.component';
 import { UploadTarpaulinComponent } from './upload-tarpaulin/upload-tarpaulin.component';
 import { UpdateDocumentFileComponent } from './update-document-file/update-document-file.component';
+import { UploadDocumentComponent } from './upload-document/upload-document.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +109,7 @@ import { UpdateDocumentFileComponent } from './update-document-file/update-docum
     CepmoCertificateComponent,
     UploadTarpaulinComponent,
     UpdateDocumentFileComponent,
+    UploadDocumentComponent,
   ],
   imports: [
     NgxDropzoneModule,

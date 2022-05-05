@@ -34,7 +34,7 @@
               <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
           </div>
-          
+
           <table mat-table [dataSource]="dataSource">
             <!-- Index Column -->
             <ng-container matColumnDef="index">
@@ -164,11 +164,7 @@
                 mat-raised-button
                 color="accent"
                 (click)="openZoningDialog()"
-                *ngIf="
-                  evaluatorRole.code == 'CPDO-COD' &&
-                  applicationDetails.application_status_id == '10' &&
-                  !checkCertificateUploaded()
-                "
+                *ngIf="!checkCertificateUploaded()"
                 [disabled]="
                   checkCertificateUploaded() || !checkFormsCompliant()
                 "

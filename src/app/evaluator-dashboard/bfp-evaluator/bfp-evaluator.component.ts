@@ -1,3 +1,4 @@
+import { UploadDocumentComponent } from './../../shared/upload-document/upload-document.component';
 import { FsicUploadComponent } from './../../shared/fsic-upload/fsic-upload.component';
 import { NewApplicationService } from './../../core/services/new-application.service';
 import { BfpResidentialChecklistComponent } from './../bfp-residential-checklist/bfp-residential-checklist.component';
@@ -20,6 +21,7 @@ import { FireClearanceComponent } from '../fire-clearance/fire-clearance.compone
 import { EsignatureService } from 'src/app/core/services/esignature.service';
 import { ApplicationFeesService } from 'src/app/core/services/application-fees.service';
 import { FormControl } from '@angular/forms';
+import { UpdateDocumentFileComponent } from 'src/app/shared/update-document-file/update-document-file.component';
 
 @Component({
   selector: 'app-bfp-evaluator',
@@ -41,7 +43,7 @@ export class BfpEvaluatorComponent implements OnInit {
   public bfpFees;
   public searchKey = new FormControl('');
   public unfilteredData = [];
-
+  public isNonCompliant: boolean = false;
   constructor(
     private applicationService: ApplicationInfoService,
     private route: ActivatedRoute,
@@ -145,7 +147,8 @@ export class BfpEvaluatorComponent implements OnInit {
           obj.document_id == 60 ||
           obj.document_id == 62 ||
           obj.document_id == 140 ||
-          obj.document_id == 65
+          obj.document_id == 65 ||
+          obj.document_id == 224
       );
     } else {
       BFP_FORMS = this.forms.filter(
@@ -171,13 +174,20 @@ export class BfpEvaluatorComponent implements OnInit {
           obj.document_id == 80 ||
           obj.document_id == 81 ||
           obj.document_id == 50 ||
-          obj.document_id == 43
+          obj.document_id == 43 ||
+          obj.document_id == 224
       );
     }
 
     this.dataSource = this.sortUserDocs(BFP_FORMS);
     this.userDocuments = BFP_FORMS;
     this.unfilteredData = BFP_FORMS;
+    const find = this.userDocuments.find((e) => e.bfp_status_id == 2);
+    if (find) this.isNonCompliant = true;
+  }
+
+  hasNoticeToComply() {
+    return this.userDocuments.find((e) => e.document_id == 224);
   }
 
   sortUserDocs(docs) {
@@ -320,6 +330,20 @@ export class BfpEvaluatorComponent implements OnInit {
     });
   }
 
+  noticeUpload(): void {
+    const dialogRef = this.dialog.open(UploadDocumentComponent, {
+      width: '1000px',
+      data: {
+        evaluator: this.evaluatorDetails,
+        application: this.applicationDetails,
+        document: 'Notice to Comply',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.ngOnInit();
+    });
+  }
   openFormDialog(element): void {
     const dialogRef = this.dialog.open(FormDetailsComponent, {
       width: '1500px',
@@ -496,5 +520,21 @@ export class BfpEvaluatorComponent implements OnInit {
         );
       }
     }
+  }
+
+  openUpdateDocumentFile(e) {
+    const dialogRef = this.dialog.open(UpdateDocumentFileComponent, {
+      width: '1000px',
+      height: '900px',
+      data: {
+        document: e,
+        evaluator: this.evaluatorDetails,
+        application: this.applicationDetails,
+      },
+    });
+    const sub = dialogRef.componentInstance.onClose.subscribe(() => {
+      this.ngOnInit();
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 }

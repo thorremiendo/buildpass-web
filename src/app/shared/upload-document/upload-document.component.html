@@ -1,0 +1,36 @@
+<div class="container">
+  <ngx-dropzone
+    (change)="onSelect($event, 'selectedFile')"
+    [multiple]="false"
+    accept="application/pdf"
+    class="mt-3"
+  >
+    <ngx-dropzone-label
+      >Click here to upload {{ data.document }}!
+    </ngx-dropzone-label>
+    <ngx-dropzone-preview
+      *ngIf="selectedFile"
+      [removable]="true"
+      (removed)="onRemove('selectedFile')"
+      class="mx-auto"
+    >
+      <ngx-dropzone-label
+        >{{ selectedFile.name }} ({{ selectedFile.type }})</ngx-dropzone-label
+      >
+    </ngx-dropzone-preview>
+  </ngx-dropzone>
+  <button
+    class="text-right mt-3"
+    mat-raised-button
+    color="primary"
+    (click)="handleFileUpload()"
+    [disabled]="isLoading"
+  >
+    Submit
+  </button>
+  <ng-container *ngIf="isLoading">
+    <div>
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  </ng-container>
+</div>

@@ -58,9 +58,10 @@ export class CpdoEvaluatorComponent implements OnInit {
 
     this.searchKey.valueChanges.subscribe((res) => {
       this.dataSource = this.sortUserDocs(
-        this.unfilteredData.filter(document => {
+        this.unfilteredData.filter((document) => {
           const docName = document.docName;
-          if (docName && docName.toLowerCase().includes(res.toLowerCase())) return true;
+          if (docName && docName.toLowerCase().includes(res.toLowerCase()))
+            return true;
           else return false;
         })
       );
@@ -147,8 +148,7 @@ export class CpdoEvaluatorComponent implements OnInit {
     docs.forEach((element) => {
       const docType =
         this.documentTypes[element.document_id - 1].document_category_id;
-      const docName = 
-        this.documentTypes[element.document_id - 1].name;
+      const docName = this.documentTypes[element.document_id - 1].name;
       element.docName = docName;
 
       switch (docType) {
@@ -244,8 +244,7 @@ export class CpdoEvaluatorComponent implements OnInit {
   }
   openZoningDialog() {
     const dialogRef = this.dialog.open(ZoningCertificateComponent, {
-      width: '1500px',
-      height: '400px',
+      width: '1000px',
       data: {
         evaluator: this.evaluatorDetails,
         form: this.forms,
