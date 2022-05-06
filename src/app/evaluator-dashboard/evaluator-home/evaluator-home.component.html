@@ -54,14 +54,45 @@
                     </div>
                   </li>
                   <li
-                    (click)="applicationStatus.setValue('3'); complianceStatus.setValue('0');"
+                    class="has-nested-list"
                     [ngClass]="{'active-category': applicationStatus.value == '3'}"
                   >
-                    <div class="color"></div>
-                    <div class="legend">
-                      CBAO, BFP, CEPMO Evaluation
-                      ({{applicationStats[3].value + applicationStats[4].value}})
+                    <div (click)="applicationStatus.setValue('3'); complianceStatus.setValue('0');">
+                      <div class="color"></div>
+                      <div class="legend">
+                        CBAO, BFP, CEPMO Evaluation
+                        ({{applicationStats[3].value + applicationStats[4].value}})
+                      </div>
                     </div>
+                    <ul>
+                      <li
+                        (click)="applicationStatus.setValue('3.1'); complianceStatus.setValue('0');"
+                        [ngClass]="{'active-category': applicationStatus.value == '3.1'}"
+                      >
+                        <div class="legend">
+                          CBAO Evaluation
+                          ({{applicationStats[20].value}})
+                        </div>
+                      </li>
+                      <li 
+                        (click)="applicationStatus.setValue('3.2'); complianceStatus.setValue('0');"
+                        [ngClass]="{'active-category': applicationStatus.value == '3.2'}"
+                      >
+                        <div class="legend">
+                          BFP Evaluation
+                          ({{applicationStats[19].value}})
+                        </div>
+                      </li>
+                      <li 
+                        (click)="applicationStatus.setValue('3.3'); complianceStatus.setValue('0');"
+                        [ngClass]="{'active-category': applicationStatus.value == '3.3'}"
+                      >
+                        <div class="legend">
+                          CEPMO Evaluation
+                          ({{applicationStats[18].value}})
+                        </div>
+                      </li>
+                    </ul>
                   </li>
                   <li
                     (click)="applicationStatus.setValue('4'); complianceStatus.setValue('0');"

@@ -71,7 +71,8 @@ export class EvaluatorHomeComponent implements OnInit {
       this.searchKey.valueChanges.pipe(debounceTime(300)).subscribe((res) => {
         this.pageIndex = 0;
         this.getFilterCount();
-        this.fetchApplications();
+        if (this.searchKey.value) this.searchAllApplications();
+        else this.fetchApplications();
       });
 
       this.permitType.valueChanges.subscribe((res) => {
@@ -161,6 +162,15 @@ export class EvaluatorHomeComponent implements OnInit {
       case '3':
         this.applicationStatusValue = [3, 18];
         break;
+      case '3.1':
+        this.applicationStatusValue = [3.1];
+        break;
+      case '3.2':
+        this.applicationStatusValue = [3.2];
+        break;
+      case '3.3':
+        this.applicationStatusValue = [3.3];
+        break;
       case '4':
         this.applicationStatusValue = [12];
         break;
@@ -181,8 +191,9 @@ export class EvaluatorHomeComponent implements OnInit {
 
   fetchApplications() {
     this.loading = true;
+    this.searchKey.setValue('', {emitEvent: false});
     const params = {
-      searchKey: this.searchKey.value ? this.searchKey.value : '',
+      //searchKey: this.searchKey.value ? this.searchKey.value : '',
       permitType: this.permitType.value ? this.permitType.value : '',
       complianceStatus: this.complianceStatus.value
         ? this.complianceStatus.value
@@ -216,6 +227,29 @@ export class EvaluatorHomeComponent implements OnInit {
         this.loading = false;
       });
     }
+  }
+
+  searchAllApplications() {
+    this.loading = true;
+    const params = {
+      searchKey: this.searchKey.value ? this.searchKey.value : '',
+      permitType: '',
+      applicationStatus: '',
+      reevaluationStatus: null,
+      isReevaluationStatus: null,
+      dateStart: '',
+      dateEnd: '',
+      sortType: '',
+      pageIndex: this.pageIndex + 1,
+      pageSize: this.pageSize,
+      incompleteFlag: this.applicationStatus.value == '8' ? 1 : '',
+    }
+
+    this.adminService.fetchApplications(params).subscribe((data) => {
+      this.applications = this.applicationModifications(data.data);
+      this.applicationCount = data.total;
+      this.loading = false;
+    });
   }
 
   applicationModifications(applications) {
@@ -304,8 +338,8 @@ export class EvaluatorHomeComponent implements OnInit {
       ],
       chart: {
         type: 'donut',
-        height: '100%',
-        width: '100%',
+        height: '150px',
+        width: '150px',
       },
       plotOptions: {
         pie: {
