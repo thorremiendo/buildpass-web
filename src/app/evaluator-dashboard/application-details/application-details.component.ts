@@ -23,6 +23,7 @@ import { applicationTypes } from '../../core/enums/application-type.enum';
 import { constructionType } from '../../core/enums/construction-type.enum';
 import { InputPermitNumberComponent } from '../input-permit-number/input-permit-number.component';
 import { AdminEditDialogComponent } from 'src/app/shared/admin-edit-dialog/admin-edit-dialog.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-application-details',
@@ -30,6 +31,8 @@ import { AdminEditDialogComponent } from 'src/app/shared/admin-edit-dialog/admin
   styleUrls: ['./application-details.component.scss'],
 })
 export class ApplicationDetailsComponent implements OnInit {
+  public fullPartialDetails = new FormControl();
+
   panelOpenState = false;
   public applicationFee;
   public isLoading = true;
@@ -43,6 +46,7 @@ export class ApplicationDetailsComponent implements OnInit {
   public oldBpInputs = [];
   public oldBpInfo = [];
   public inspections = [];
+  public editMode: boolean = false;
   constructor(
     private applicationService: ApplicationInfoService,
     public dialog: MatDialog,
@@ -366,23 +370,37 @@ export class ApplicationDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {});
   }
 
-  openAdminEditDialog(applicationId,currentStatus){
+  openAdminEditDialog(applicationId, currentStatus) {
     const dialogRef = this.dialog.open(AdminEditDialogComponent, {
       //width: '1000px',
       data: {
-        type:'Application',
-        title:'Change Application Status',
+        type: 'Application',
+        title: 'Change Application Status',
         id: applicationId,
         currentStatus: currentStatus,
       },
     });
 
     //dialogRef.afterClosed().subscribe((result) => {});
-
   }
 
   goToApplication(id) {
     console.log(id);
     this.router.navigate(['evaluator/application', id]);
+  }
+
+  updateFullPartial() {
+    const payload = {
+      full_partial_details: this.fullPartialDetails.value,
+    };
+    if (this.fullPartialDetails.value) {
+      this.applicationService
+        .updateApplicationInfo(payload, this.applicationId)
+        .subscribe((res) => {
+          console.log(res);
+          this.editMode = !this.editMode;
+          this.ngOnInit();
+        });
+    }
   }
 }

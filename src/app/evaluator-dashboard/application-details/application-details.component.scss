@@ -85,3 +85,10 @@ mat-icon:hover {
     flex-wrap: wrap;
   }
 }
+
+.full-partial {
+  display: flex;
+  flex-direction: column;
+  border: 1px dashed rgb(67, 67, 67);
+  padding: 10px;
+}
