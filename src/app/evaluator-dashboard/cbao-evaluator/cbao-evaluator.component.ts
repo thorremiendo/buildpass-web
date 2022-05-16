@@ -147,7 +147,9 @@ export class CbaoEvaluatorComponent implements OnInit {
   }
 
   filterUserDocs(forms) {
-    const USER_FORMS = forms.filter((doc) => doc.document_id !== 107);
+    const USER_FORMS = forms.filter(
+      (doc) => doc.document_id !== 107 && doc.document_id !== 224
+    );
     if (this.applicationInfo.permit_type_id == 2) {
       // if (this.applicationInfo.associated_released_permits.length >= 1) {
       //   this.occupancyService
