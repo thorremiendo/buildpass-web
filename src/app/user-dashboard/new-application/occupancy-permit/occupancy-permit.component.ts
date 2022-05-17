@@ -405,7 +405,7 @@ export class OccupancyPermitComponent implements OnInit {
                 this.applicationDetails.associated_released_permits.length >= 1
               ) {
                 const oldBpDocs = [
-                  125, 177, 212, 4, 117, 199, 195, 140, 29, 115, 30, 63, 61,
+                  125, 212, 4, 117, 199, 195, 140, 29, 115, 30, 63, 61,
 
                   64, 65, 216, 50, 43, 26, 59, 62,
                 ];
@@ -438,8 +438,8 @@ export class OccupancyPermitComponent implements OnInit {
                 });
               } else {
                 const releasedBpDocs = [
-                  125, 177, 212, 4, 117, 199, 195, 140, 29, 115, 30, 63, 61, 64,
-                  65, 216, 194, 50, 43, 26, 59, 62,
+                  125, 212, 4, 117, 199, 195, 140, 29, 115, 30, 63, 61, 64, 65,
+                  216, 194, 50, 43, 26, 59, 62,
                 ];
                 let docs = [];
                 let count = 0;
