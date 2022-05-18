@@ -21,7 +21,7 @@ export class DownloadableFormsComponent implements OnInit {
     },
     {
       title: 'Excavation Permit Checklist',
-      src: '../../../assets/applicant-checklists/Checklist_in_securing_excavation_permit.pdf',
+      src: '../../../assets/applicant-checklists/Checklist_in_securing_excavation_permit_may_19.pdf',
       caption:
         'CHECKLIST IN SECURING EXCAVATION PERMIT Pursuant to P.D. 1096, National Building Code of the Philippines and its IRR',
     },
