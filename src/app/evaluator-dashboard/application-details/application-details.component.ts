@@ -1,3 +1,4 @@
+import { PopOutNotificationsService } from './../../core/services/pop-out-notification.service';
 import { SchedulingService } from './../../core/services/scheduling.service';
 import { AddInspectionComponent } from './../add-inspection/add-inspection.component';
 import { AppTitleService } from './../../core/services/app-title.service';
@@ -32,6 +33,7 @@ import { FormControl } from '@angular/forms';
 })
 export class ApplicationDetailsComponent implements OnInit {
   public fullPartialDetails = new FormControl();
+  public isPartialFull;
 
   panelOpenState = false;
   public applicationFee;
@@ -54,7 +56,8 @@ export class ApplicationDetailsComponent implements OnInit {
     public router: Router,
     private occupancyService: OccupancyService,
     private appTitle: AppTitleService,
-    private inspection: SchedulingService
+    private inspection: SchedulingService,
+    private notif: PopOutNotificationsService
   ) {}
   openProjectDialog(): void {
     const dialogRef = this.dialog.open(ProjectDetailsComponent, {
@@ -87,11 +90,27 @@ export class ApplicationDetailsComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
+        this.isPartialFull =
+          this.applicationDetails.project_detail.is_partial_full;
         this.fetchApplicationInspections();
         this.fetchEvaluatorDetails();
         this.fetchUserDocs();
         if (this.applicationDetails.associated_released_permits.length > 0)
           this.fetchOldBpDetails();
+      });
+  }
+
+  onPartialFullChange(e) {
+    console.log(e);
+    const payload = {
+      is_partial_full: e.value,
+    };
+
+    this.applicationService
+      .updateApplicationInfo(payload, this.applicationId)
+      .subscribe((res) => {
+        this.notif.openSnackBar('Saved!');
+        this.ngOnInit();
       });
   }
 

@@ -132,6 +132,9 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_td_number: ['', Validators.required],
       project_basement: [''],
       project_landmark: [''],
+      no_of_attic: [''],
+      no_of_roof_deck: [''],
+
       // inspector_name: ['', Validators.required],
       // inspector_profession: ['', Validators.required],
       // inspector_prc_no: ['', Validators.required],
@@ -174,6 +177,8 @@ export class CommonFieldsAddressInfoComponent implements OnInit {
       project_tax_dec_number: data.project_td_number,
       project_landmark: data.project_landmark,
       project_subdivision: data.project_subdivision,
+      no_of_attic: data.no_of_attic,
+      no_of_roof_deck: data.no_of_roof_deck,
       // inspector_name: data.inspector_name,
       // inspector_profession: data.inspector_profession,
       // inspector_prc_no: data.inspector_prc_no,
