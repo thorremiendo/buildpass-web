@@ -1,5 +1,10 @@
 <div id="e-signature">
-  <ng-container *ngIf="this.documentInfo.document_id !== 50">
+  <ng-container
+    *ngIf="
+      this.documentInfo.document_id !== 50 &&
+      this.documentInfo.document_id !== 225
+    "
+  >
     <div id="e-sig-container" cdkDrag (cdkDragEnded)="dragEnd($event)">
       <div id="resize-container">
         <div cdkDragHandle id="e-sig-image-container">
@@ -67,7 +72,10 @@
       class="submit"
       (click)="insertEsig()"
       [disabled]="isLoading"
-      *ngIf="this.documentInfo.document_id !== 50"
+      *ngIf="
+        this.documentInfo.document_id !== 50 &&
+        this.documentInfo.document_id !== 225
+      "
     >
       {{ isLoading ? "Saving" : "Insert Signature" }}
     </button>
@@ -77,6 +85,15 @@
       (click)="bldgPermitSignature()"
       [disabled]="isLoading"
       *ngIf="this.documentInfo.document_id == 50"
+    >
+      {{ isLoading ? "Saving" : "Sign" }}
+    </button>
+    <button
+      mat-button
+      class="submit"
+      (click)="occupancyCertificate()"
+      [disabled]="isLoading"
+      *ngIf="this.documentInfo.document_id == 225"
     >
       {{ isLoading ? "Saving" : "Sign" }}
     </button>

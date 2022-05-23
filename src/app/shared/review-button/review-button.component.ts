@@ -250,7 +250,7 @@ export class ReviewButtonComponent implements OnInit {
         break;
       case 'CBAO-BO':
         body = {
-          application_status_id: 8,
+          application_status_id: 24,
           bo_status_id: 1,
         };
         break;
@@ -261,9 +261,52 @@ export class ReviewButtonComponent implements OnInit {
     this.applicationService
       .updateApplicationStatus(body, this.applicationInfo.id)
       .subscribe((res) => {
-        this.isLoading = false;
-        this.alert.openSnackBar('Review Saved!');
-        window.location.reload();
+        if (role == 'CBAO-BO' && this.applicationInfo.permit_type_id == 2) {
+          this.uploadOccupancyCertificate();
+        } else {
+          this.isLoading = false;
+
+          this.alert.openSnackBar('Review Saved!');
+          window.location.reload();
+        }
+      });
+  }
+
+  uploadOccupancyCertificate() {
+    const uploadDocumentData = {
+      application_id: this.applicationInfo.id,
+      user_id: this.evaluatorDetails.user_id,
+      document_id: 225,
+      document_status_id: 1,
+      is_document_string: 1,
+      document_path:
+        'https://s3-ap-southeast-1.amazonaws.com/buildpass-storage/DvOImkBsO6KUobW3D5qJYQ6pPBzafCvgotohdgo6.pdf',
+    };
+
+    this.newApplicationService
+      .submitDocument(uploadDocumentData)
+      .subscribe((res) => {
+        const doc = res.data.document_path;
+        const id = res.data.id;
+        this.newApplicationService
+          .updateDocumentFile({ receiving_status_id: 1 }, id)
+          .subscribe((res) => {
+            this.newApplicationService
+              .updateDocumentFile({ bfp_status_id: 1 }, id)
+              .subscribe((res) => {
+                this.newApplicationService
+                  .updateDocumentFile({ cbao_status_id: 1 }, id)
+                  .subscribe((res) => {
+                    this.newApplicationService
+                      .updateDocumentFile({ cepmo_status_id: 1 }, id)
+                      .subscribe((res) => {
+                        this.isLoading = false;
+                        this.alert.openSnackBar('Approved!');
+                        window.location.reload();
+                      });
+                  });
+              });
+          });
       });
   }
 

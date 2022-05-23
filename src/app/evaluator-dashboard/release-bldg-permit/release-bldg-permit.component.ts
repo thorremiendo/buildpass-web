@@ -57,6 +57,7 @@ export class ReleaseBldgPermitComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((res) => {
         this.applicationDetails = res.data;
+        console.log(this.applicationDetails);
         if (this.data.form.document_id == 50) {
           this.formData = {
             owner_address:
@@ -109,6 +110,15 @@ export class ReleaseBldgPermitComponent implements OnInit {
             permit_no: this.applicationDetails.permit_released_code,
           };
           console.log(this.formData);
+        } else if (this.data.form.document_id == 225) {
+          this.formData = {
+            name_of_owner:
+              `${this.applicationDetails.applicant_detail.first_name} ${this.applicationDetails.applicant_detail.middle_name} ${this.applicationDetails.applicant_detail.last_name}`.toUpperCase(),
+            name_of_project:
+              `${this.applicationDetails.project_detail.project_title}`.toUpperCase(),
+            location_atalong:
+              `${this.applicationDetails.project_detail.house_number} ${this.applicationDetails.project_detail.lot_number} ${this.applicationDetails.project_detail.street_name} ${this.applicationDetails.project_detail.barangay}`.toUpperCase(),
+          };
         }
       });
   }

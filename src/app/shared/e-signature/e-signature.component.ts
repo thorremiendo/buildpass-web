@@ -84,6 +84,7 @@ export class ESignatureComponent implements OnInit {
       .subscribe((res) => {
         this.documentInfo = res.data[0];
         this.pdfSource = res.data[0].document_path;
+
         this.getImageDimensions(this.esigSource);
         this.newApplicationService
           .fetchApplicationInfo(this.applicationId)
@@ -559,7 +560,7 @@ export class ESignatureComponent implements OnInit {
     var count = 0;
     var bar = new Promise<void>((resolve, reject) => {
       this.userDocuments.forEach((element, index, array) => {
-        if (element.document_id !== 50) {
+        if (element.document_id !== 50 && element.document_id !== 225) {
           this.waterMarkService
             .insertWaterMark(element.document_path, 'compliant')
             .then((blob) => {
@@ -643,6 +644,59 @@ export class ESignatureComponent implements OnInit {
     this.newApplicationService
       .updateDocumentFile(updateFileData, this.documentId)
       .subscribe((res) => {
+        const body = {
+          application_status_id: 8,
+          bo_status_id: 1,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.addWatermarkToAllCompliant();
+          });
+      });
+  }
+
+  async occupancyCertificate() {
+    const url = this.pdfSource;
+    const qr_code_bytes = await fetch(this.esigSource).then((res) =>
+      res.arrayBuffer()
+    );
+
+    const existingPdfBytes = await fetch(url).then((res) => res.arrayBuffer());
+    const pdfDocLoad = await PDFDocument.load(existingPdfBytes, {
+      parseSpeed: Infinity,
+    });
+    const qr_code = await pdfDocLoad.embedPng(qr_code_bytes);
+
+    const pages = pdfDocLoad.getPages();
+    const pageCount = pages.length;
+    const { width, height } = pages[0].getSize();
+    const pngDims = qr_code.scale(0.5);
+    const pngDimsfire = qr_code.scale(0.4);
+
+    for (let i = 0; i < pageCount; i++) {
+      pages[0].drawImage(qr_code, {
+        x: width / 2 + 140,
+        y: height / 2 - 195,
+        width: pngDims.width,
+        height: pngDims.height,
+      });
+    }
+
+    const pdfBytes = await pdfDocLoad.save({ objectsPerTick: Infinity });
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const file = window.URL.createObjectURL(blob);
+    // window.open(file); // open in new window
+
+    const updateFileData = {
+      document_status_id: 1,
+      document_path: blob,
+    };
+    this.isLoading = true;
+    this.newApplicationService
+      .updateDocumentFile(updateFileData, this.documentId)
+      .subscribe((res) => {
+        console.log('HERE', res);
         const body = {
           application_status_id: 8,
           bo_status_id: 1,
