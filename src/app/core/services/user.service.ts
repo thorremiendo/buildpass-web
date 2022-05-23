@@ -29,11 +29,17 @@ export class UserService {
       ...value,
     });
   }
-
+  
   updateUserInfo(body, id): Observable<UserModel> {
     const url = `/user/${id}/update`;
     return this._api.post(url, body);
   }
+
+  updateEmployeeInfo(body, id): Observable<UserModel> {
+    const url = `/user/${id}/update-employee`;
+    return this._api.post(url, body);
+  }
+
 
   getUserInfo(firebase_uid) {
     const url = `/user/${firebase_uid}`;

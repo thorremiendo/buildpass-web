@@ -341,9 +341,9 @@ export class AdminEmployeeViewComponent implements OnInit {
 
       // console.log(user, this.userInfo.id)
       // console.log(this._adminUpdateUserForm.value.barangay)
-
-      this._userService
-        .updateUserInfo(user, this.userInfo.id)
+      if(this.userInfo.employee_detail){
+        this._userService
+        .updateEmployeeInfo(user, this.userInfo.id)
         .subscribe((result) => {
           this.isUpdating = false;
         },
@@ -352,8 +352,8 @@ export class AdminEmployeeViewComponent implements OnInit {
           console.log(errorMessage, error)
           this._snackbarService.open(errorMessage,"close",3000)
         });
-    }
-    
+      }
+    } 
   }
 }
 
