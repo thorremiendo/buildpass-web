@@ -81,6 +81,7 @@
       color="primary"
       [disabled]="isSubmitting"
       (click)="callSave()"
+      *ngIf="applicationDetails.application_status_id !== 4"
     >
       Save
     </button>

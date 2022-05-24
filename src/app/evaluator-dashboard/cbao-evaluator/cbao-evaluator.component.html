@@ -375,7 +375,8 @@
                           color="accent"
                           (click)="openUploadDocument(element)"
                           *ngIf="
-                            this.user.user_roles[0].is_special == 1 &&
+                            (this.user.user_roles[0].is_special == 1 ||
+                              evaluatorRole.code == 'CBAO-REL') &&
                             (element.document_id == 50 ||
                               element.document_id == 15 ||
                               element.document_id == 225)
