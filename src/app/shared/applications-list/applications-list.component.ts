@@ -33,9 +33,7 @@ export class ApplicationsListComponent implements OnInit {
   private userInfo;
   public loading: boolean = true;
 
-  constructor(
-    private applicationService: ApplicationInfoService
-  ) {}
+  constructor(private applicationService: ApplicationInfoService) {}
 
   ngOnInit(): void {
     this.userInfo = JSON.parse(localStorage.getItem('user'));
@@ -45,14 +43,14 @@ export class ApplicationsListComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     this.addLatestActivity(this.applications);
-    this.loading = false; 
+    this.loading = false;
   }
 
   addLatestActivity(applications) {
-    applications.forEach(application => {
+    applications.forEach((application) => {
       this.applicationService
         .fetchApplicationTmeline(application['id'])
-        .subscribe(res => {
+        .subscribe((res) => {
           application['latest_activity'] = res.data[res.data.length - 1];
         });
     });

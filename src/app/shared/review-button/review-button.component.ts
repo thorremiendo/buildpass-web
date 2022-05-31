@@ -323,6 +323,7 @@ export class ReviewButtonComponent implements OnInit {
       else return false;
     } else if (role == 'CBAO-DC' && status == 12) return true;
     else if (role == 'CBAO-BO' && status == 13) return true;
+    else if (role == 'CBAO-REL' && status == 4) return true;
     else return false;
   }
 

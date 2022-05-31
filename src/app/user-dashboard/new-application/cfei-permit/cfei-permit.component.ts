@@ -69,7 +69,7 @@ export class CfeiPermitComponent implements OnInit {
           isCalamity
             ? this.fieldSets[0].documents.push(...this.isAffectedByCalamity)
             : null;
-          switch (this.applicationDetails.sub_permit_type_id) {
+          switch (this.applicationDetails.cfei_type_id) {
             case 1:
               this.forms.push(
                 {
