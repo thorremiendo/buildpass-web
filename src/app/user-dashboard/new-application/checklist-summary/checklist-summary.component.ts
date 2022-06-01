@@ -115,17 +115,19 @@ export class ChecklistSummaryComponent implements OnInit {
     this.applicationService
       .updateApplicationStatus(body, this.applicationId)
       .subscribe((res) => {
-        if (res.includes('Maximum')) {
-          this.isLoading = false;
-          Swal.fire(
-            'Info!',
-            'Maximum applications reached for the day. Please try again tomorrow.',
-            'info'
-          );
-        } else {
-          this.isLoading = false;
-          this.goToSuccessPage();
-        }
+        // if (res.includes('Maximum')) {
+        //   this.isLoading = false;
+        //   Swal.fire(
+        //     'Info!',
+        //     'Maximum applications reached for the day. Please try again tomorrow.',
+        //     'info'
+        //   );
+        // } else {
+        //   this.isLoading = false;
+        //   this.goToSuccessPage();
+        // }
+        this.isLoading = false;
+        this.goToSuccessPage();
       });
   }
 
