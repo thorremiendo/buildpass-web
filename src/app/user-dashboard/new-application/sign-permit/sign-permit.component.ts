@@ -24,6 +24,7 @@ export class SignPermitComponent implements OnInit {
   public applicationDetails;
   public isLoading: boolean = false;
   public isSignPermit;
+  public documentTypes;
   public forms: any = [
     {
       id: 108,
@@ -67,7 +68,7 @@ export class SignPermitComponent implements OnInit {
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
-      // this.documentTypes = res.data;
+      this.documentTypes = res.data;
       this.applicationId = localStorage.getItem('app_id');
       this.applicationService
         .fetchApplicationInfo(this.applicationId)
@@ -170,7 +171,8 @@ export class SignPermitComponent implements OnInit {
   }
 
   getDocType(id): string {
-    return documentTypes[id];
+    // return documentTypes[id];
+    return this.documentTypes[id - 1].name;
   }
 
   initData() {

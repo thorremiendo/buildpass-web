@@ -188,7 +188,9 @@ export class UserApplicationsTableComponent implements OnInit {
                   this.router.navigateByUrl('/dashboard/new/sign-permit');
                   break;
                 case 8:
-                  this.router.navigateByUrl('/dashboard/new/sidewalk-permit');
+                  this.router.navigateByUrl(
+                    '/dashboard/new/temporary-sidewalk'
+                  );
                   break;
                 case 9:
                   this.router.navigateByUrl('/dashboard/new/mechanical-permit');

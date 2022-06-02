@@ -22,6 +22,7 @@ export class TemporarySidewalkComponent implements OnInit {
   public applicationId;
   public applicationDetails;
   public isLoading: boolean = false;
+  public documentTypes;
 
   public forms: any = [
     {
@@ -34,22 +35,22 @@ export class TemporarySidewalkComponent implements OnInit {
     {
       label: 'Step 2',
       title: 'Documentary Requirements',
-      documents: [109, 111, 112],
+      documents: [26, 104, 27, 103, 23, 153],
     },
     {
       label: 'Step 3',
       title: 'Plans, Specifications',
-      documents: [104, 163, 25],
+      documents: [154, 155],
     },
     {
       label: 'Step 4',
       title: 'Professional Details',
-      documents: [165],
+      documents: [156],
     },
   ];
 
-  public representativeDocs: Array<any> = [113];
-  public lesseeDocs: Array<any> = [110];
+  // public representativeDocs: Array<any> = [113];
+  // public lesseeDocs: Array<any> = [110];
   // public registeredDocs: Array<any> = [44];
   // public notRegisteredDocs: Array<any> = [120, 121];
   // public isWithinSubdivision: Array<any> = [72];
@@ -71,7 +72,7 @@ export class TemporarySidewalkComponent implements OnInit {
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
-      // this.documentTypes = res.data;
+      this.documentTypes = res.data;
       this.applicationId = localStorage.getItem('app_id');
       this.applicationService
         .fetchApplicationInfo(this.applicationId)
@@ -104,12 +105,12 @@ export class TemporarySidewalkComponent implements OnInit {
               ? true
               : false;
 
-          isRepresentative
-            ? this.fieldSets[0].documents.push(...this.representativeDocs)
-            : null;
-          isLessee
-            ? this.fieldSets[0].documents.push(...this.lesseeDocs)
-            : null;
+          // isRepresentative
+          //   ? this.fieldSets[0].documents.push(...this.representativeDocs)
+          //   : null;
+          // isLessee
+          //   ? this.fieldSets[0].documents.push(...this.lesseeDocs)
+          //   : null;
 
           this.initData();
           this.setFilePaths();
@@ -163,7 +164,8 @@ export class TemporarySidewalkComponent implements OnInit {
   }
 
   getDocType(id): string {
-    return documentTypes[id];
+    // return documentTypes[id];
+    return this.documentTypes[id - 1].name;
   }
 
   initData() {
@@ -330,5 +332,48 @@ export class TemporarySidewalkComponent implements OnInit {
     this.snackBar.open(message, 'Close', {
       duration: 2000,
     });
+  }
+
+  submitNotApplicableDocument(file: File, doctypeId: string) {
+    this.isLoading = true;
+    const uploadDocumentData = {
+      application_id: this.applicationId,
+      user_id: this.user.id,
+      document_id: doctypeId,
+      document_path: file,
+      document_status_id: 1,
+      is_applicable: 2,
+      receiving_status_id: 1,
+      cbao_status_id: 1,
+      bfp_status_id: 1,
+      cepmo_status_id: 1,
+    };
+
+    this.newApplicationService
+      .submitDocument(uploadDocumentData)
+      .subscribe((res) => {
+        this.isLoading = false;
+        const path = res.data.document_path;
+        this.forms.forEach((form) => {
+          if (form.id == doctypeId) form.path = path;
+        });
+        this.fieldSets.forEach((fieldSet) => {
+          fieldSet.documents.forEach((field) => {
+            if (field.id == doctypeId) field.path = path;
+          });
+        });
+        this.fetchApplicationInfo();
+      });
+  }
+
+  fetchApplicationInfo() {
+    this.applicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((res) => {
+        this.applicationDetails = res.data;
+        this.openSnackBar('Saved!');
+        this.setFilePaths();
+        this.isLoading = false;
+      });
   }
 }
