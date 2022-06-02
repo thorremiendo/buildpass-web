@@ -5,8 +5,6 @@
         <div class="welcome">
           <div class="greeting">
             Hello, {{userName}}!
-          </div>
-          <div class="stats">
             <div class="task-count">
               <div *ngIf="evaluationApplicationCount != 1">
                 There are 
@@ -16,7 +14,7 @@
                 >
                   {{evaluationApplicationCount}} applications
                 </span>
-                being evaluated.
+                under your evaluation.
               </div>
               <div *ngIf="evaluationApplicationCount == 1">
                 There is
@@ -29,6 +27,13 @@
                 being evaluated.
               </div>
             </div>
+          </div>
+          <div class="stats">
+            <div class="task-chart-header">
+              BuildPASS Realtime Statistics
+              <br />
+              Task Count per Office
+            </div>
             <div class="task-chart">
               <div id="task-chart"></div>
               <div class="task-chart-legend" *ngIf="applicationStats">
@@ -39,8 +44,10 @@
                   >
                     <div class="color"></div>
                     <div class="legend">
-                      Receiving
-                      ({{applicationStats[0].value}})
+                      Receiving Section
+                      <span class="legend-count">
+                        ({{applicationStats[0].value}})
+                      </span>
                     </div>
                   </li>
                   <li
@@ -50,7 +57,9 @@
                     <div class="color"></div>
                     <div class="legend">
                       CPDO Evaluation
-                      ({{applicationStats[1].value + applicationStats[2].value}})
+                      <span class="legend-count">
+                        ({{applicationStats[1].value + applicationStats[2].value}})
+                      </span>
                     </div>
                   </li>
                   <li
@@ -61,7 +70,9 @@
                       <div class="color"></div>
                       <div class="legend">
                         CBAO, BFP, CEPMO Evaluation
-                        ({{applicationStats[3].value + applicationStats[4].value}})
+                        <span class="legend-count">
+                          ({{applicationStats[3].value + applicationStats[4].value}})
+                        </span>
                       </div>
                     </div>
                     <ul>
@@ -71,7 +82,9 @@
                       >
                         <div class="legend">
                           CBAO Evaluation
-                          ({{applicationStats[20].value}})
+                          <span class="legend-count">
+                            ({{applicationStats[20].value}})
+                          </span>
                         </div>
                       </li>
                       <li 
@@ -80,7 +93,9 @@
                       >
                         <div class="legend">
                           BFP Evaluation
-                          ({{applicationStats[19].value}})
+                          <span class="legend-count">
+                            ({{applicationStats[19].value}})
+                          </span>
                         </div>
                       </li>
                       <li 
@@ -89,7 +104,9 @@
                       >
                         <div class="legend">
                           CEPMO Evaluation
-                          ({{applicationStats[18].value}})
+                          <span class="legend-count">
+                            ({{applicationStats[18].value}})
+                          </span>
                         </div>
                       </li>
                     </ul>
@@ -101,7 +118,9 @@
                     <div class="color"></div>
                     <div class="legend">
                       Division Chief Evaluation
-                      ({{applicationStats[5].value}})
+                      <span class="legend-count">
+                        ({{applicationStats[5].value}})
+                      </span>
                     </div>
                   </li>
                   <li
@@ -111,7 +130,9 @@
                     <div class="color"></div>
                     <div class="legend">
                       Building Official Evaluation
-                      ({{applicationStats[6].value}})
+                      <span class="legend-count">
+                        ({{applicationStats[6].value}})
+                      </span>
                     </div>
                   </li>
                   <li
@@ -121,7 +142,9 @@
                     <div class="color"></div>
                     <div class="legend">
                       Releasing
-                      ({{applicationStats[7].value + applicationStats[8].value + applicationStats[9].value + applicationStats[10].value}})
+                      <div class="legend-count">
+                        ({{applicationStats[7].value + applicationStats[8].value + applicationStats[9].value + applicationStats[10].value}})
+                      </div>
                     </div>
                   </li>
                 </ul>

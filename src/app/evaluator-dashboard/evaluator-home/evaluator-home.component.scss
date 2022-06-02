@@ -33,15 +33,11 @@
       background-color: maroon;
       color: #fff;
       text-align: center;
-    }
-
-    .stats {
-      padding: 0 30px 30px 30px;
 
       .task-count {
         font-size: 20px;
         font-weight: 400;
-        margin-top: 15px;
+        margin-top: 10px;
         text-align: center;
     
         span {
@@ -49,8 +45,19 @@
           font-weight: 700;
           text-decoration: underline;
           cursor: pointer;
-          color: #007bff;
+          color: #fca650;
         }
+      }
+    }
+
+    .stats {
+      padding: 0 30px 30px 30px;
+
+      .task-chart-header {
+        font-size: 19px;
+        font-weight: 700;
+        text-align: center;
+        margin-top: 30px;
       }
 
       .task-chart {
@@ -85,11 +92,19 @@
               }
               
               .legend {
+                width: 100%;
                 margin-left: 10px;
+                
+                .legend-count {
+                  font-size: 15px;
+                  font-weight: 500;
+                  float: right;
+                  margin-left: 20px;
+                }
               }
 
               &.active-category {
-                font-size: 19px;
+                font-size: 17px;
                 font-weight: 700;
               }
               
@@ -103,7 +118,12 @@
                 }
 
                 ul {
-                  margin-left: 30px;
+                  margin: 0;
+                  width: 100%;
+
+                  .legend {
+                    margin: 0 30px 0 50px;
+                  }
                 }
               }
             }
@@ -145,7 +165,7 @@
     > div {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: space-evenly;
       height: 100%;
 
       .category {
@@ -178,10 +198,13 @@
     }
   }
 
+  .calendar-container {
+    height: fit-content;
+  }
+
   .calendar {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     width: 420px;
     float: right;
 
