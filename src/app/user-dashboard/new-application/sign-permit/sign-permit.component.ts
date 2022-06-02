@@ -36,7 +36,7 @@ export class SignPermitComponent implements OnInit {
     {
       label: 'Step 2',
       title: 'Documentary Requirements',
-      documents: [109, 111, 112, 46],
+      documents: [109, 111, 112, 46, 155],
     },
     {
       label: 'Step 3',
