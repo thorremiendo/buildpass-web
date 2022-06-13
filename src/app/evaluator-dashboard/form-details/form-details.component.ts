@@ -180,7 +180,10 @@ export class FormDetailsComponent implements OnInit {
         this.data.form.document_id == 81 ||
         this.data.form.document_id == 204 ||
         this.data.form.document_id == 83 ||
-        this.data.form.document_id == 84
+        this.data.form.document_id == 84 ||
+        this.data.form.document_id == 117 ||
+        this.data.form.document_id == 4 ||
+        this.data.form.document_id == 195
       ) {
         return true;
       } else return false;

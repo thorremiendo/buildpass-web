@@ -209,8 +209,10 @@ export class StepOneComponent implements OnInit {
           is_under_mortgage: value.is_under_mortgage,
           is_owned_by_corporation: value.is_owned_by_corporation,
           is_property_have_coowners: value.is_property_have_coowners,
-          cfei_type_id: this.cfeiType ? this.cfeiType : 0,
-          sub_permit_type_id: value.sub_permit_type_id ? value.sub_permit_type_id : 0,
+          cfei_type_id: value.cfei_type_id ? value.cfei_type_id : 0,
+          sub_permit_type_id: value.sub_permit_type_id
+            ? value.sub_permit_type_id
+            : 0,
           is_affected_by_fire: value.is_affected_by_fire
             ? value.is_affected_by_fire
             : 0,
