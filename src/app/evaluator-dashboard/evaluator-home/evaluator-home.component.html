@@ -51,16 +51,44 @@
                     </div>
                   </li>
                   <li
-                    (click)="applicationStatus.setValue('2'); complianceStatus.setValue('0');"
+                    class="has-nested-list"
                     [ngClass]="{'active-category': applicationStatus.value == '2'}"
                   >
-                    <div class="color"></div>
-                    <div class="legend">
-                      CPDO Evaluation
-                      <span class="legend-count">
-                        ({{applicationStats[1].value + applicationStats[2].value}})
-                      </span>
+                    <div
+                      (click)="applicationStatus.setValue('2'); complianceStatus.setValue('0');"
+                    >
+                      <div class="color"></div>
+                      <div class="legend">
+                        CPDO Evaluation
+                        <span class="legend-count">
+                          ({{applicationStats[1].value + applicationStats[2].value}})
+                        </span>
+                      </div>
                     </div>
+                    <ul>
+                      <li
+                        (click)="applicationStatus.setValue('2.1');  complianceStatus.setValue('0');"
+                        [ngClass]="{'active-category': applicationStatus.value == '2.1'}"
+                      >
+                        <div class="legend">
+                          Zoning Inspector
+                          <span class="legend-count">
+                            ({{applicationStats[1].value}})
+                          </span>
+                        </div>
+                      </li>
+                      <li 
+                        (click)="applicationStatus.setValue('2.2'); complianceStatus.setValue('0');"
+                        [ngClass]="{'active-category': applicationStatus.value == '2.2'}"
+                      >
+                        <div class="legend">
+                          Coordinator
+                          <span class="legend-count">
+                            ({{applicationStats[2].value}})
+                          </span>
+                        </div>
+                      </li>
+                    </ul>
                   </li>
                   <li
                     class="has-nested-list"
@@ -206,6 +234,19 @@
               </span>
               <br />
               Evaluated
+            </mat-card>
+          </div>
+
+          <div class="category">
+            <mat-card 
+              [ngClass]="{'active-category': applicationStatus.value == '7'}"
+              (click)="applicationStatus.setValue('7'); complianceStatus.setValue('0');"
+            >
+              <span class="count">
+                {{releasedApplicationCount}}
+              </span>
+              <br />
+              Released
             </mat-card>
           </div>
         </div>

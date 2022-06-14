@@ -29,6 +29,7 @@ export class EvaluatorHomeComponent implements OnInit {
   public complianceApplicationCount = 0;
   public reevaluationApplicationCount = 0;
   public evaluatedApplicationCount = 0;
+  public releasedApplicationCount = 0;
   public searchKey = new FormControl('');
   public permitType = new FormControl('0');
   public applicationStatus = new FormControl('0');
@@ -81,14 +82,14 @@ export class EvaluatorHomeComponent implements OnInit {
         this.fetchApplications();
       });
 
-      this.applicationStatus.valueChanges.subscribe((res) => {
+      this.applicationStatus.valueChanges.pipe(debounceTime(300)).subscribe((res) => {
         this.setApplicationStatus(res);
         this.pageIndex = 0;
         this.getFilterCount();
         this.fetchApplications();
       });
 
-      this.complianceStatus.valueChanges.subscribe((res) => {
+      this.complianceStatus.valueChanges.pipe(debounceTime(300)).subscribe((res) => {
         this.pageIndex = 0;
         this.getFilterCount();
         this.fetchApplications();
@@ -158,6 +159,12 @@ export class EvaluatorHomeComponent implements OnInit {
         break;
       case '2':
         this.applicationStatusValue = [2, 10];
+        break;
+      case '2.1':
+        this.applicationStatusValue = [2];
+        break;
+      case '2.2':
+        this.applicationStatusValue = [10];
         break;
       case '3':
         this.applicationStatusValue = [3, 18];
@@ -273,6 +280,9 @@ export class EvaluatorHomeComponent implements OnInit {
     const params = {
       searchKey: this.searchKey.value ? this.searchKey.value : '',
       permitType: this.permitType.value ? this.permitType.value : '',
+      applicationStatus: this.applicationStatus.value
+        ? this.applicationStatus.value
+        : '',
       complianceStatus: this.complianceStatus.value
         ? this.complianceStatus.value
         : '',
@@ -291,19 +301,33 @@ export class EvaluatorHomeComponent implements OnInit {
       this.evaluationApplicationCount = data.total;
     });
 
-    params.complianceStatus = '2';
-    this.evaluatorService.fetchApplications(params).subscribe((data) => {
+    this.evaluatorService.fetchApplications({
+      ...params,
+      complianceStatus: 2,
+    }).subscribe((data) => {
       this.complianceApplicationCount = data.total;
     });
 
-    params.complianceStatus = '3';
-    this.evaluatorService.fetchApplications(params).subscribe((data) => {
+    this.evaluatorService.fetchApplications({
+      ...params,
+      complianceStatus: 3,
+    }).subscribe((data) => {
       this.reevaluationApplicationCount = data.total;
     });
 
-    params.complianceStatus = '4';
-    this.evaluatorService.fetchApplications(params).subscribe((data) => {
+    this.evaluatorService.fetchApplications({
+      ...params,
+      complianceStatus: 4,
+    }).subscribe((data) => {
       this.evaluatedApplicationCount = data.total;
+    });
+
+    this.adminService.fetchApplications({
+      ...params,
+      complianceStatus: 0,
+      applicationStatus: 11,
+    }).subscribe((data) => {
+      this.releasedApplicationCount = data.total;
     });
   }
 
