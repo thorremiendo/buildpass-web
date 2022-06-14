@@ -627,8 +627,8 @@ export class ESignatureComponent implements OnInit {
       pages[0].drawImage(qr_code, {
         x: width / 2 - 120,
         y: height / 2 - 230,
-        width: pngDims.width * 0.75,
-        height: pngDims.height * 0.75,
+        width: pngDims.width * 1.5,
+        height: pngDims.height * 1.5,
       });
     }
 
