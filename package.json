@@ -1,6 +1,10 @@
 {
   "name": "ocpas-web",
+<<<<<<< HEAD
   "version": "2.11.4",
+=======
+  "version": "2.11.5",
+>>>>>>> cfb940cf5cb485152d2ada3421fe69ecacfe0c14
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
