@@ -201,7 +201,11 @@ export class ViewApplicationComponent implements OnInit {
     };
 
     const filteredDocs = forms.filter(
-      (doc) => doc.document_id !== 50 && doc.document_id !== 107
+      (doc) =>
+        doc.document_id !== 50 &&
+        doc.document_id !== 107 &&
+        doc.document_id !== 80 &&
+        doc.document_id !== 225
     );
     filteredDocs.forEach((element) => {
       const docType =
