@@ -495,7 +495,8 @@ export class CbaoEvaluatorComponent implements OnInit {
       } else if (
         this.evaluatorRole.code == 'CBAO-DC' ||
         this.evaluatorRole.code == 'CBAO-BO' ||
-        this.evaluatorRole.code == 'CBAO-REL'
+        this.evaluatorRole.code == 'CBAO-REL' ||
+        this.evaluatorRole.code == 'SPRADM'
       ) {
         this.documentStatusSelector = 'document_status_id';
       } else this.documentStatusSelector = 'cbao_status_id';
