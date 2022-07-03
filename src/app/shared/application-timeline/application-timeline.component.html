@@ -165,14 +165,14 @@
             (click)="expandTimelineBox('cpdo')"
           >
             <div class="timeline-box-label">CPDO</div>
-            <div class="timeline-box-division-label">Zoning Inspector</div>
+            <div class="timeline-box-division-label">CPDO Inspector</div>
             <ul>
               <li *ngFor="let log of applicationTimeline['1.1']">
                 <div [ngClass]="log.color">{{log.status}}</div>
                 <div>{{log.created_at | date : 'MMMM dd, yyyy hh:mm:ss a'}}</div>
               </li>
             </ul>
-            <div class="timeline-box-division-label">Coordinator</div>
+            <div class="timeline-box-division-label">CPDO Head</div>
             <ul>
               <li *ngFor="let log of applicationTimeline['1.2']">
                 <div [ngClass]="log.color">{{log.status}}</div>
