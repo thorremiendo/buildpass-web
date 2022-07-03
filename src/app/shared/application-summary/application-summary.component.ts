@@ -43,12 +43,26 @@ export class ApplicationSummaryComponent implements OnInit {
       user_id: this.userInfo.id,
       permit_type_id: 2,
       // old_permit_number: inputs.toString(),
-      applicant_first_name: this.userInfo.first_name,
-      applicant_middle_name: this.userInfo.middle_name,
-      applicant_last_name: this.userInfo.last_name,
-      applicant_suffix_name: this.userInfo.suffix_name,
-      applicant_contact_number: this.userInfo.contact_number,
-      applicant_email_address: this.userInfo.email_address,
+      applicant_first_name: this.applicationInfo.applicant_detail.first_name
+        ? this.applicationInfo.applicant_detail.first_name
+        : '',
+      applicant_middle_name: this.applicationInfo.applicant_detail.middle_name
+        ? this.applicationInfo.applicant_detail.middle_name
+        : '',
+      applicant_last_name: this.applicationInfo.applicant_detail.last_name
+        ? this.applicationInfo.applicant_detail.last_name
+        : '',
+      applicant_suffix_name: this.applicationInfo.applicant_detail.suffix_name
+        ? this.applicationInfo.applicant_detail.suffix_name
+        : '',
+      applicant_contact_number: this.applicationInfo.applicant_detail
+        .contact_number
+        ? this.applicationInfo.applicant_detail.contact_number
+        : '',
+      applicant_email_address: this.applicationInfo.applicant_detail
+        .email_address
+        ? this.applicationInfo.applicant_detail.email_address
+        : '',
       old_permit_number: this.applicationInfo.permit_application_code,
     };
 
