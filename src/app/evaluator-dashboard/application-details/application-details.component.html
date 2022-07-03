@@ -446,7 +446,10 @@
       </mat-card-content>
     </mat-card>
   </div>
-  <div class="app-bp" *ngIf="!isLoading && oldBpInfo">
+  <div
+    class="app-bp"
+    *ngIf="!isLoading && oldBpInfo && applicationDetails.permit_type_id == 2"
+  >
     <mat-card>
       <mat-card-content>
         <h4 style="color: #141414" class="mb-4">
@@ -512,6 +515,20 @@
                   </div>
                 </div>
               </mat-expansion-panel>
+            </ng-container>
+            <ng-container *ngIf="releasedBuildingPermit">
+              <div>
+                <p>
+                  Building Permit:&nbsp;
+                  <a
+                    [routerLink]="['../', releasedBuildingPermit.id]"
+                    routerLinkActive="active"
+                    target="_blank"
+                  >
+                    {{ releasedBuildingPermit.permit_released_code }}
+                  </a>
+                </p>
+              </div>
             </ng-container>
           </div>
         </h4>

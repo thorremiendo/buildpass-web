@@ -49,6 +49,7 @@ export class ApplicationDetailsComponent implements OnInit {
   public oldBpInfo = [];
   public inspections = [];
   public editMode: boolean = false;
+  public releasedBuildingPermit;
   constructor(
     private applicationService: ApplicationInfoService,
     public dialog: MatDialog,
@@ -90,13 +91,13 @@ export class ApplicationDetailsComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
+        console.log('here', this.applicationDetails);
         this.isPartialFull =
           this.applicationDetails.project_detail.is_partial_full;
         this.fetchApplicationInspections();
         this.fetchEvaluatorDetails();
         this.fetchUserDocs();
-        if (this.applicationDetails.associated_released_permits.length > 0)
-          this.fetchOldBpDetails();
+        this.fetchOldBpDetails();
       });
   }
 
@@ -167,13 +168,22 @@ export class ApplicationDetailsComponent implements OnInit {
   }
 
   fetchOldBpDetails() {
-    this.applicationDetails.associated_released_permits.forEach((element) => {
-      this.occupancyService
-        .fetchSpecificOldBp(element.old_permit_number)
+    if (this.applicationDetails.associated_released_permits.length !== 0) {
+      this.applicationDetails.associated_released_permits.forEach((element) => {
+        this.occupancyService
+          .fetchSpecificOldBp(element.old_permit_number)
+          .subscribe((res) => {
+            this.oldBpInfo.push(res.data[0]);
+          });
+      });
+    } else {
+      this.applicationService
+        .fetchApplicationInfoByAPn(this.applicationDetails.old_permit_number)
         .subscribe((res) => {
-          this.oldBpInfo.push(res.data[0]);
+          this.releasedBuildingPermit = res.data[0];
+          console.log(this.releasedBuildingPermit);
         });
-    });
+    }
   }
 
   getConfirmationStatus(permitNumber) {
