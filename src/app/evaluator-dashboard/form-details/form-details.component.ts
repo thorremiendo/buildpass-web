@@ -53,6 +53,8 @@ export class FormDetailsComponent implements OnInit {
     enableAnnotationAPIs: true /* Default value is false */,
     includePDFAnnotations: true,
   };
+  public documentTypes;
+
   constructor(
     private NgxExtendedPdfViewerService: NgxExtendedPdfViewerService,
     private newApplicationService: NewApplicationService,
@@ -92,6 +94,9 @@ export class FormDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.newApplicationService.fetchDocumentTypes().subscribe((res) => {
+      this.documentTypes = res.data;
+    });
     this.userService.cast.subscribe((userSubject) => {
       this.user = userSubject;
       if (localStorage.getItem('user')) {
@@ -191,7 +196,8 @@ export class FormDetailsComponent implements OnInit {
   }
 
   getDocType(id): string {
-    return documentTypes[id];
+    // return documentTypes[id];
+    return this.documentTypes[id - 1].name;
   }
 
   onSelect($event: NgxDropzoneChangeEvent, type) {
