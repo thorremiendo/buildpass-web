@@ -30,11 +30,7 @@ export class TechnicalEvaluationComponent implements OnInit {
       (form) => form.document_id == 117
     );
     if (mechanicalForm) {
-      if (mechanicalForm.is_applicable == 2) {
-        return false;
-      } else {
-        return true;
-      }
+      return true;
     } else {
       return false;
     }
