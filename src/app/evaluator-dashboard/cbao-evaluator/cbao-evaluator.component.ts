@@ -35,6 +35,7 @@ export class CbaoEvaluatorComponent implements OnInit {
     'remarks',
     'action',
   ];
+  public technicalEvaluatorNonCompliantDocs = [];
   public user;
   public dataSource = [];
   public applicationId;
@@ -197,6 +198,10 @@ export class CbaoEvaluatorComponent implements OnInit {
         label: 'Plans, Designs, Specifications, Cost Estimate',
         data: [],
       },
+      approvedPlans: {
+        label: 'Approved Plans, Designs, Specifications, Cost Estimate',
+        data: [],
+      },
       professional: {
         label:
           'Photocopy of Professional Details (Professional Tax Receipt and Professional Regulation Commission ID, signed and sealed)',
@@ -226,7 +231,11 @@ export class CbaoEvaluatorComponent implements OnInit {
           sortedForms.documents.data.push(element);
           break;
         case 3:
-          sortedForms.plans.data.push(element);
+          if (this.applicationInfo.permit_type_id == 1) {
+            sortedForms.plans.data.push(element);
+          } else if (this.applicationInfo.permit_type_id == 2) {
+            sortedForms.approvedPlans.data.push(element);
+          }
           break;
         case 4:
           sortedForms.professional.data.push(element);
@@ -266,6 +275,10 @@ export class CbaoEvaluatorComponent implements OnInit {
         label: sortedData[5].data.length ? sortedData[5].label : 'hidden',
       },
       ...sortedData[5].data,
+      {
+        label: sortedData[6].data.length ? sortedData[6].label : 'hidden',
+      },
+      ...sortedData[6].data,
     ];
 
     return sortedData;
@@ -650,7 +663,21 @@ export class CbaoEvaluatorComponent implements OnInit {
           break;
       }
     } else {
-      this.openSnackBar('Please review documents.');
+      this.findTechnicalEvaluatorNonCompliantDocs();
+      // let docs = [];
+      // this.technicalEvaluatorNonCompliantDocs.forEach((e) => {
+      //   let docName = this.getDocType(e);
+      //   docs.push(docName);
+      // });
+      // console.log('here', docs);
+
+      Swal.fire(
+        'Please review the following documents first.',
+        `${this.technicalEvaluatorNonCompliantDocs.toString()}`,
+        'info'
+      ).then((result) => {
+        this.isLoading = false;
+      });
     }
   }
 
@@ -1543,5 +1570,54 @@ export class CbaoEvaluatorComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+  findTechnicalEvaluatorNonCompliantDocs() {
+    this.technicalEvaluatorNonCompliantDocs = [];
+    switch (this.evaluatorRole.code) {
+      case 'CBAO-LG':
+        this.userDocuments.forEach((form) => {
+          if (form.cbao_lg_status_id == 2) {
+            this.technicalEvaluatorNonCompliantDocs.push(form.docName);
+          }
+        });
+      case 'CBAO-ARCH':
+        this.userDocuments.forEach((form) => {
+          if (form.cbao_arch_status_id == 2) {
+            this.technicalEvaluatorNonCompliantDocs.push(form.docName);
+          }
+        });
+        break;
+      case 'CBAO-STR':
+        this.userDocuments.forEach((form) => {
+          if (form.cbao_str_status_id == 2) {
+            this.technicalEvaluatorNonCompliantDocs.push(form.docName);
+          }
+        });
+        break;
+      case 'CBAO-SAN':
+        this.userDocuments.forEach((form) => {
+          if (form.cbao_san_status_id == 2) {
+            this.technicalEvaluatorNonCompliantDocs.push(form.docName);
+          }
+        });
+        break;
+      case 'CBAO-ELEC':
+        this.userDocuments.forEach((form) => {
+          if (form.cbao_elec_status_id == 2) {
+            this.technicalEvaluatorNonCompliantDocs.push(form.docName);
+          }
+        });
+        break;
+      case 'CBAO-MEC':
+        this.userDocuments.forEach((form) => {
+          if (form.cbao_mec_status_id == 2) {
+            this.technicalEvaluatorNonCompliantDocs.push(form.docName);
+          }
+        });
+        break;
+
+      default:
+        break;
+    }
   }
 }
