@@ -231,9 +231,9 @@ export class CbaoEvaluatorComponent implements OnInit {
           sortedForms.documents.data.push(element);
           break;
         case 3:
-          if (this.applicationInfo.permit_type_id == 1) {
+          if (this.applicationInfo.permit_type_id !== 2) {
             sortedForms.plans.data.push(element);
-          } else if (this.applicationInfo.permit_type_id == 2) {
+          } else {
             sortedForms.approvedPlans.data.push(element);
           }
           break;
