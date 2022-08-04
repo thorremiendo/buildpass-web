@@ -18,12 +18,15 @@ export class FencingPermitComponent implements OnInit {
   public isSubmitting: boolean = false;
   public user;
   public pdfSource;
+  public noticeSource;
   public formData;
   public applicationId;
   public applicationDetails;
   public documentTypes;
   public isLoading: boolean = false;
-
+  public hasFencingPermit;
+  public hasNotice;
+  public currentIndex;
   public forms: any = [
     {
       id: 98,
@@ -39,7 +42,7 @@ export class FencingPermitComponent implements OnInit {
     {
       label: 'Step 3',
       title: 'Documentary Requirements',
-      documents: [26, 104, 54, 39],
+      documents: [26, 104, 54, 233],
     },
     {
       label: 'Step 4',
@@ -84,8 +87,14 @@ export class FencingPermitComponent implements OnInit {
         .subscribe((res) => {
           this.applicationDetails = res.data;
           this.saveRoute();
-          this.formData = this.dataBindingService.getFormData(
-            this.applicationDetails
+          // this.formData = this.dataBindingService.getFormData(
+          //   this.applicationDetails
+          // );
+          this.hasFencingPermit = this.applicationDetails.user_docs.find(
+            (e) => e.document_id == 98
+          );
+          this.hasNotice = this.applicationDetails.user_docs.find(
+            (e) => e.document_id == 48
           );
 
           const isRepresentative =
@@ -136,8 +145,19 @@ export class FencingPermitComponent implements OnInit {
             : null;
 
           this.initData();
+          if (!this.hasFencingPermit) {
+            this.formData = this.dataBindingService.getFormData(
+              this.applicationDetails
+            );
+            this.pdfSource = this.forms[0].src;
+          }
+          // if (!this.hasNotice) {
+          //   this.formData = this.dataBindingService.getFormData(
+          //     this.applicationDetails
+          //   );
+          //   this.noticeSource = this.forms[1].src;
+          // }
           this.setFilePaths();
-          this.pdfSource = this.forms[0].src;
         });
     });
   }
@@ -180,9 +200,25 @@ export class FencingPermitComponent implements OnInit {
 
   initPdfViewer(event) {
     const index = event.selectedIndex;
+    this.currentIndex = index;
     const pdfViewer = document.getElementById('pdf-viewer');
     const pdfContainer = document.getElementById(`form-${index}`);
-    this.forms[index] ? (this.pdfSource = this.forms[index].src) : null;
+    if (index == 0) {
+      debugger;
+      if (!this.hasFencingPermit) {
+        this.forms[0] ? (this.pdfSource = this.forms[0].src) : null;
+      } else {
+        this.pdfSource = this.hasFencingPermit.document_path;
+      }
+    } else if (index == 1) {
+      debugger;
+      if (!this.hasNotice) {
+        this.forms[1] ? (this.pdfSource = this.forms[1].src) : null;
+      } else {
+        this.pdfSource = this.hasNotice.document_path;
+      }
+    }
+
     pdfContainer ? pdfContainer.appendChild(pdfViewer) : null;
   }
 
@@ -217,6 +253,20 @@ export class FencingPermitComponent implements OnInit {
       docs.forEach((doc) => {
         if (form.id == doc.document_id) {
           form.path = doc.document_path;
+          form.doc_id = doc.id;
+          form.is_applicable = doc.is_applicable;
+          if (form.id == 98) {
+            this.hasFencingPermit = doc;
+          } else if (form.id == 48) {
+            this.hasNotice = doc;
+          }
+          if (form.id == 98 && this.currentIndex !== 1) {
+            this.pdfSource = this.hasFencingPermit ? form.path : null;
+            debugger;
+          } else if (form.id == 48 && this.currentIndex == 1) {
+            this.pdfSource = this.hasNotice ? form.path : null;
+            debugger;
+          }
         }
       });
     });
@@ -230,7 +280,7 @@ export class FencingPermitComponent implements OnInit {
       });
     });
   }
-  public async upload(form): Promise<void> {
+  public async upload(form, type): Promise<void> {
     const blob =
       await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     if (!form.path) {
@@ -248,7 +298,12 @@ export class FencingPermitComponent implements OnInit {
           .submitDocument(uploadDocumentData)
           .subscribe((res) => {
             this.isLoading = false;
-            this.updateApplicationInfoWithFormData();
+            if (type == 'draft') {
+              this.router.navigateByUrl('/dashboard/applications');
+            } else {
+              this.fetchApplicationInfo();
+            }
+            // this.updateApplicationInfoWithFormData();
             this.updateFilePath();
           });
       } else {
@@ -264,10 +319,26 @@ export class FencingPermitComponent implements OnInit {
       this.newApplicationService
         .updateDocumentFile(uploadDocumentData, form.doc_id)
         .subscribe((res) => {
-          this.updateApplicationInfoWithFormData();
+          // this.updateApplicationInfoWithFormData();
+          if (type == 'draft') {
+            this.router.navigateByUrl('/dashboard/applications');
+          } else {
+            this.fetchApplicationInfo();
+          }
           this.openSnackBar('Saved!');
         });
     }
+  }
+
+  fetchApplicationInfo() {
+    this.applicationService
+      .fetchApplicationInfo(this.applicationId)
+      .subscribe((res) => {
+        this.applicationDetails = res.data;
+        this.openSnackBar('Saved!');
+        this.setFilePaths();
+        this.isLoading = false;
+      });
   }
   submitDocument(file: File, doctypeId: string) {
     const uploadDocumentData = {

@@ -26,7 +26,7 @@
             <div id="form-{{ i }}">
               <div id="pdf-viewer" *ngIf="i == 0 && pdfSource">
                 <ngx-extended-pdf-viewer
-                  [src]="pdfSource"
+                  [src]="pdfSource "
                   [showToolbar]="true"
                   [showSidebarButton]="false"
                   [showFindButton]="false"
@@ -65,7 +65,7 @@
         <button
           mat-raised-button
           color="accent"
-          [routerLink]="['/dashboard/applications']"
+          (click)="upload(form, 'draft')"
         >
           Save as Draft
         </button>
@@ -84,11 +84,8 @@
       <div class="fieldsets">
         <h1>{{ fieldSet.title }}</h1>
         <div class="step-label">
-          Please make sure uploaded documents follow prescribed templates. Check 
-          <a
-            routerLink="/dashboard/checklists"
-            routerLinkActive="active"
-          >
+          Please make sure uploaded documents follow prescribed templates. Check
+          <a routerLink="/dashboard/checklists" routerLinkActive="active">
             downloadables
           </a>
           for more info.

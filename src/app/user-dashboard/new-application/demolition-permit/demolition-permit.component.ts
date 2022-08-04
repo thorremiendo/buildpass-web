@@ -51,7 +51,7 @@ export class DemolitionPermitComponent implements OnInit {
     {
       label: 'Step 5',
       title: 'Other Requirements',
-      documents: [42, 39],
+      documents: [42, 233],
     },
   ];
 

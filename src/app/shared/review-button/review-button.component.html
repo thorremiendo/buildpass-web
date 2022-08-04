@@ -5,6 +5,13 @@
     (click)="handleReviewDone()"
     [disabled]="isLoading || !isAuthorized()"
   >
-    {{ isLoading ? "Saving" : "Review Done" }}
+    <ng-container
+      *ngIf="applicationInfo.application_status_id == 4; else notReleasing"
+    >
+      {{ isLoading ? "Saving" : "Release Permit" }}
+    </ng-container>
+    <ng-template #notReleasing>
+      {{ isLoading ? "Saving" : "Review Done" }}
+    </ng-template>
   </button>
 </div>

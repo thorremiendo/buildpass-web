@@ -7,6 +7,7 @@
   <h4 style="font-weight: bold; color: grey">
     Uploaded Documents: {{ getUniqueUserDocs() }}/
     {{ getFieldSetsLength() + getFormsLength() }}
+   
   </h4>
   <mat-horizontal-stepper
     linear="false"
@@ -148,11 +149,8 @@
       <div class="fieldsets">
         <h1>{{ fieldSet.title }}</h1>
         <div class="step-label">
-          Please make sure uploaded documents follow prescribed templates. Check 
-          <a
-            routerLink="/dashboard/checklists"
-            routerLinkActive="active"
-          >
+          Please make sure uploaded documents follow prescribed templates. Check
+          <a routerLink="/dashboard/checklists" routerLinkActive="active">
             downloadables
           </a>
           for more info.
@@ -165,6 +163,7 @@
             path="{{ field.path }}"
             info="{{ field.info }}"
             optional="{{ field.id !== '194' }}"
+            documentId="{{ field.id }}"
           ></app-file-upload>
         </div>
       </div>

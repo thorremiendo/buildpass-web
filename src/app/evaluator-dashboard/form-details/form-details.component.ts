@@ -176,6 +176,7 @@ export class FormDetailsComponent implements OnInit {
         this.data.form.document_id == 117 ||
         this.data.form.document_id == 108 ||
         this.data.form.document_id == 146 ||
+        this.data.form.document_id == 232 ||
         this.data.form.document_id == 124
       ) {
         return true;
@@ -188,6 +189,7 @@ export class FormDetailsComponent implements OnInit {
         this.data.form.document_id == 84 ||
         this.data.form.document_id == 117 ||
         this.data.form.document_id == 4 ||
+        this.data.form.document_id == 232 ||
         this.data.form.document_id == 195
       ) {
         return true;

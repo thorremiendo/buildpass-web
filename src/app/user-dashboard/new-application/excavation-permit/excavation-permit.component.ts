@@ -54,7 +54,7 @@ export class ExcavationPermitComponent implements OnInit {
     {
       label: 'Step 5',
       title: 'Other Requirements',
-      documents: [19, 20, 39],
+      documents: [19, 20, 233],
     },
   ];
 

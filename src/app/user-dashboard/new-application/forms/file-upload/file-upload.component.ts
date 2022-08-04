@@ -11,20 +11,25 @@ export class FileUploadComponent implements OnInit {
   @Input() description: string;
   @Input() path: string;
   @Input() info: string;
+  @Input() documentId;
   @Input() optional: string;
   @Output() emitFile: EventEmitter<File> = new EventEmitter<File>();
   @Output() emitNotApplicable: EventEmitter<File> = new EventEmitter<File>();
+  geodeticAffidavit =
+    'https://s3-ap-southeast-1.amazonaws.com/buildpass-storage/poTJUVui033kVk4P3SwOIPHct93PMgQI7S2KP8Xp.docx';
+  civilAffidavit =
+    'https://s3-ap-southeast-1.amazonaws.com/buildpass-storage/88owVI29Xv1I4K1wBuXrpt6M2SZKiuV0GjzDbLGO.docx';
+
   public filePath: string;
   public editMode: boolean = false;
   public loading: boolean = false;
   public isOptional: boolean = false;
 
-  constructor(
-    private snackBar: MatSnackBar,
-  ) {}
+  constructor(private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.filePath = this.path;
+    console.log('here', this.documentId);
   }
 
   ngOnChanges() {
@@ -52,16 +57,20 @@ export class FileUploadComponent implements OnInit {
     fileReader.onload = (e) => {
       const isEncrypted = fileReader.result.toString().includes('Encrypt');
       if (isEncrypted) {
-        this.snackBar.open('You can only upload unprotected PDF files.', 'Close', {
-          duration: 2000,
-        });
+        this.snackBar.open(
+          'You can only upload unprotected PDF files.',
+          'Close',
+          {
+            duration: 2000,
+          }
+        );
       } else {
         this.emitFile.emit(file);
       }
     };
     fileReader.readAsText(file);
   }
-  
+
   toggleEditMode() {
     this.editMode = !this.editMode;
   }

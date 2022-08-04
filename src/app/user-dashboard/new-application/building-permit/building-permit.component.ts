@@ -82,6 +82,12 @@ export class BuildingPermitComponent implements OnInit {
       label: 'Step 9',
       sample: '',
     },
+    {
+      id: 232,
+      src: '../../../../assets/forms/updated/version-3/UNDERTAKING-for-building-permit.pdf',
+      label: 'Step 10',
+      sample: '',
+    },
   ];
 
   public fieldSets: any = [
@@ -109,7 +115,7 @@ export class BuildingPermitComponent implements OnInit {
     {
       label: `Step ${this.forms.length + 5}`,
       title: 'Other Requirements',
-      documents: [39, 221],
+      documents: [233, 221],
     },
   ];
 

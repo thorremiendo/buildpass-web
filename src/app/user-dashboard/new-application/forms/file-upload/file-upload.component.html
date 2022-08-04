@@ -2,16 +2,20 @@
   <div class="document">
     <div class="file-description">
       {{ description }}
+      <a *ngIf="documentId == 37" [href]="geodeticAffidavit" target="_blank"
+        >Sample</a
+      >
+      <a *ngIf="documentId == 38" [href]="civilAffidavit" target="_blank"
+        >Sample</a
+      >
     </div>
     <div class="file-actions">
       <div *ngIf="!loading">
         <a *ngIf="info" [href]="info" target="_blank">Info</a>
-        
+
         <a *ngIf="filePath" [href]="filePath" target="_blank">View</a>
 
-        <span *ngIf="filePath"
-          (click)="toggleEditMode()"
-        >
+        <span *ngIf="filePath" (click)="toggleEditMode()">
           {{ editMode ? "Close" : "Change" }}
         </span>
 

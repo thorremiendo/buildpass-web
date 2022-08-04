@@ -3,6 +3,7 @@ import { ApplicationInfoService } from 'src/app/core/services/application-info.s
 import { PopOutNotificationsService } from './../../core/services/pop-out-notification.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { NewApplicationService } from 'src/app/core/services/new-application.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-review-button',
@@ -178,6 +179,8 @@ export class ReviewButtonComponent implements OnInit {
         this.alert.openSnackBar('Review all documents first!');
         this.isLoading = false;
       }
+    } else if (this.evaluatorRole.code == 'CBAO-REL') {
+      debugger;
     }
   }
 
@@ -475,6 +478,22 @@ export class ReviewButtonComponent implements OnInit {
           this.isLoading = false;
           window.location.reload();
         }, 1500);
+      });
+  }
+
+  handleRelease() {
+    const body = {
+      application_status_id: 11,
+      releasing_status_id: 1,
+    };
+    this.applicationService
+      .updateApplicationStatus(body, this.applicationInfo.id)
+      .subscribe((res) => {
+        Swal.fire('Success!', `Building Permit Released!`, 'success').then(
+          (result) => {
+            window.location.reload();
+          }
+        );
       });
   }
 }

@@ -198,6 +198,14 @@ export class CbaoEvaluatorComponent implements OnInit {
         label: 'Plans, Designs, Specifications, Cost Estimate',
         data: [],
       },
+      approvedForms: {
+        label: 'Approved Forms',
+        data: [],
+      },
+      approvedDocuments: {
+        label: 'Approved Documentary Requirements',
+        data: [],
+      },
       approvedPlans: {
         label: 'Approved Plans, Designs, Specifications, Cost Estimate',
         data: [],
@@ -225,10 +233,18 @@ export class CbaoEvaluatorComponent implements OnInit {
 
       switch (docType) {
         case 1:
-          sortedForms.forms.data.push(element);
+          if (this.applicationInfo.permit_type_id !== 2) {
+            sortedForms.forms.data.push(element);
+          } else {
+            sortedForms.approvedForms.data.push(element);
+          }
           break;
         case 2:
-          sortedForms.documents.data.push(element);
+          if (this.applicationInfo.permit_type_id !== 2) {
+            sortedForms.documents.data.push(element);
+          } else {
+            sortedForms.approvedDocuments.data.push(element);
+          }
           break;
         case 3:
           if (this.applicationInfo.permit_type_id !== 2) {
@@ -248,7 +264,6 @@ export class CbaoEvaluatorComponent implements OnInit {
           break;
       }
     });
-
     let sortedData = Object.values(sortedForms);
     sortedData = [
       {
@@ -279,8 +294,15 @@ export class CbaoEvaluatorComponent implements OnInit {
         label: sortedData[6].data.length ? sortedData[6].label : 'hidden',
       },
       ...sortedData[6].data,
+      {
+        label: sortedData[7].data.length ? sortedData[7].label : 'hidden',
+      },
+      ...sortedData[7].data,
+      {
+        label: sortedData[8].data.length ? sortedData[8].label : 'hidden',
+      },
+      ...sortedData[8].data,
     ];
-
     return sortedData;
   }
 

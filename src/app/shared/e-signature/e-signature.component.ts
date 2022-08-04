@@ -61,6 +61,7 @@ export class ESignatureComponent implements OnInit {
   public isLoading: boolean = false;
   public documentInfo;
   public userDocuments;
+  public applicationDetails;
   constructor(
     private route: ActivatedRoute,
     private applicationService: ApplicationInfoService,
@@ -90,6 +91,7 @@ export class ESignatureComponent implements OnInit {
           .fetchApplicationInfo(this.applicationId)
           .subscribe((res) => {
             this.isLoading = false;
+            this.applicationDetails = res.data;
             this.userDocuments = res.data.user_docs;
           });
       });
@@ -560,7 +562,17 @@ export class ESignatureComponent implements OnInit {
     var count = 0;
     var bar = new Promise<void>((resolve, reject) => {
       this.userDocuments.forEach((element, index, array) => {
-        if (element.document_id !== 50 && element.document_id !== 225) {
+        if (
+          element.document_id !== 50 &&
+          element.document_id !== 225 &&
+          element.document_id !== 5 &&
+          element.document_id !== 98 &&
+          element.document_id !== 99 &&
+          element.document_id !== 124 &&
+          element.document_id !== 146 &&
+          element.document_id !== 117 &&
+          element.document_id !== 108
+        ) {
           this.waterMarkService
             .insertWaterMark(element.document_path, 'compliant')
             .then((blob) => {
@@ -692,7 +704,59 @@ export class ESignatureComponent implements OnInit {
       document_status_id: 1,
       document_path: blob,
     };
+    // this.isLoading = true;
+    this.newApplicationService
+      .updateDocumentFile(updateFileData, this.documentId)
+      .subscribe((res) => {
+        console.log('HERE', res);
+        const body = {
+          application_status_id: 8,
+          bo_status_id: 1,
+        };
+        this.applicationService
+          .updateApplicationStatus(body, this.applicationId)
+          .subscribe((res) => {
+            this.addWatermarkToAllCompliant();
+          });
+      });
+  }
+
+  async otherPermitsEsig() {
     this.isLoading = true;
+    const esigBuffer = await fetch(this.esigSource).then((res) =>
+      res.arrayBuffer()
+    );
+    const pdfBuffer = await fetch(this.pdfSource).then((res) =>
+      res.arrayBuffer()
+    );
+
+    const pdfDocLoad = await PDFDocument.load(pdfBuffer, {
+      parseSpeed: Infinity,
+    });
+    const eSig = await pdfDocLoad.embedPng(esigBuffer);
+
+    const pages = pdfDocLoad.getPages();
+    const data = this.getCoordinates(pages);
+
+    pages[data.page].drawImage(eSig, {
+      x: data.xCoordinate,
+      y: data.yCoordinate,
+      height: data.imageHeight,
+      width: data.imageWidth,
+      rotate: degrees(Number(data.rotation)),
+    });
+    const pdfBytes = await pdfDocLoad.save({
+      objectsPerTick: Infinity,
+    });
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const file = window.URL.createObjectURL(blob);
+    window.open(file); // open in new window
+    debugger;
+    const updateFileData = {
+      document_status_id: 1,
+      document_path: blob,
+    };
+    // this.isLoading = true;
     this.newApplicationService
       .updateDocumentFile(updateFileData, this.documentId)
       .subscribe((res) => {

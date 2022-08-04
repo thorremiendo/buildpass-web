@@ -588,4 +588,34 @@ export class OtherPermitsComponent implements OnInit {
         }
       });
   }
+
+  forSignature() {
+    this.isLoading = true;
+    if (this.checkFormsCompliant) {
+      const body = {
+        application_status_id: 24,
+        bo_status_id: 1,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          Swal.fire(
+            'Success!',
+            `Forwarded for signature!`,
+            'success'
+          ).then((result) => {
+            this.isLoading = false;
+            window.location.reload();
+          });
+        });
+    } else {
+      Swal.fire(
+        'Warning!',
+        `Please review all documents first!`,
+        'warning'
+      ).then((result) => {
+        this.isLoading = false;
+      });
+    }
+  }
 }
