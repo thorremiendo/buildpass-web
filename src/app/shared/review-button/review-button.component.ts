@@ -180,7 +180,7 @@ export class ReviewButtonComponent implements OnInit {
         this.isLoading = false;
       }
     } else if (this.evaluatorRole.code == 'CBAO-REL') {
-      debugger;
+      this.handleRelease();
     }
   }
 
@@ -489,11 +489,16 @@ export class ReviewButtonComponent implements OnInit {
     this.applicationService
       .updateApplicationStatus(body, this.applicationInfo.id)
       .subscribe((res) => {
-        Swal.fire('Success!', `Building Permit Released!`, 'success').then(
-          (result) => {
+        Swal.fire(
+          'Success!',
+          `Certificate of Occupancy Released!`,
+          'success'
+        ).then((result) => {
+          this.isLoading = false;
+          setTimeout(() => {
             window.location.reload();
-          }
-        );
+          }, 1500);
+        });
       });
   }
 }
