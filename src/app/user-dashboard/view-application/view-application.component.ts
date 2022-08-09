@@ -588,7 +588,7 @@ export class ViewApplicationComponent implements OnInit {
       } else if (this.applicationDetails.cbao_status_id == 2) {
         //other permits
         const body = {
-          application_status_id: 1,
+          application_status_id: 18,
           cbao_status_id: 0,
         };
         this.applicationService
@@ -596,7 +596,7 @@ export class ViewApplicationComponent implements OnInit {
           .subscribe((res) => {
             Swal.fire(
               'Success!',
-              `Forwarded to CBAO Receiving for Evaluation!`,
+              `Forwarded to CBAO for Evaluation!`,
               'success'
             ).then((result) => {
               this.isLoading = false;
