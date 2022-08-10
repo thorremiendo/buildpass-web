@@ -66,37 +66,19 @@
         <mat-icon [inline]="true">arrow_forward</mat-icon>
       </button>
     </div>
-    <ng-container
+
+    <button
+      mat-button
+      class="submit"
+      (click)="insertEsig()"
+      [disabled]="isLoading"
       *ngIf="
-        applicationDetails.permit_type_id == 1 ||
-          applicationDetails.permit_type_id == 2;
-        else otherPermits
+        this.documentInfo.document_id !== 50 &&
+        this.documentInfo.document_id !== 225
       "
     >
-      <button
-        mat-button
-        class="submit"
-        (click)="insertEsig()"
-        [disabled]="isLoading"
-        *ngIf="
-          this.documentInfo.document_id !== 50 &&
-          this.documentInfo.document_id !== 225
-        "
-      >
-        {{ isLoading ? "Saving" : "Insert Signature" }}
-      </button>
-    </ng-container>
-    <ng-template #otherPermits>
-      <button
-        mat-button
-        class="submit"
-        (click)="otherPermitsEsig()"
-        [disabled]="isLoading"
-      >
-        {{ isLoading ? "Saving" : "Insert Signature" }}
-      </button>
-    </ng-template>
-
+      {{ isLoading ? "Saving" : "Insert Signature" }}
+    </button>
     <button
       mat-button
       class="submit"
