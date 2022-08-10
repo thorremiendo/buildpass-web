@@ -204,14 +204,12 @@ export class FencingPermitComponent implements OnInit {
     const pdfViewer = document.getElementById('pdf-viewer');
     const pdfContainer = document.getElementById(`form-${index}`);
     if (index == 0) {
-      debugger;
       if (!this.hasFencingPermit) {
         this.forms[0] ? (this.pdfSource = this.forms[0].src) : null;
       } else {
         this.pdfSource = this.hasFencingPermit.document_path;
       }
     } else if (index == 1) {
-      debugger;
       if (!this.hasNotice) {
         this.forms[1] ? (this.pdfSource = this.forms[1].src) : null;
       } else {
@@ -262,10 +260,8 @@ export class FencingPermitComponent implements OnInit {
           }
           if (form.id == 98 && this.currentIndex !== 1) {
             this.pdfSource = this.hasFencingPermit ? form.path : null;
-            debugger;
           } else if (form.id == 48 && this.currentIndex == 1) {
             this.pdfSource = this.hasNotice ? form.path : null;
-            debugger;
           }
         }
       });

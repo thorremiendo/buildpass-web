@@ -562,17 +562,7 @@ export class ESignatureComponent implements OnInit {
     var count = 0;
     var bar = new Promise<void>((resolve, reject) => {
       this.userDocuments.forEach((element, index, array) => {
-        if (
-          element.document_id !== 50 &&
-          element.document_id !== 225 &&
-          element.document_id !== 5 &&
-          element.document_id !== 98 &&
-          element.document_id !== 99 &&
-          element.document_id !== 124 &&
-          element.document_id !== 146 &&
-          element.document_id !== 117 &&
-          element.document_id !== 108
-        ) {
+        if (element.document_id !== 50 && element.document_id !== 225) {
           this.waterMarkService
             .insertWaterMark(element.document_path, 'compliant')
             .then((blob) => {
@@ -751,7 +741,7 @@ export class ESignatureComponent implements OnInit {
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
     window.open(file); // open in new window
-    debugger;
+
     const updateFileData = {
       document_status_id: 1,
       document_path: blob,
