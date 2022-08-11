@@ -435,7 +435,9 @@ export class BuildingPermitComponent implements OnInit {
         this.applicationDetails.user_docs.map((item) => item.document_id)
       ),
     ];
-    return unique.length;
+
+    const userdocs = unique.filter((e) => e !== 39);
+    return userdocs.length;
   }
 
   submitApplication() {
