@@ -66,14 +66,23 @@
       mat-raised-button
       (click)="forSignature()"
       color="primary"
-      *ngIf="evaluatorRole.code == 'CBAO-BO'"
-      [disabled]="
-        !checkFormsCompliant() ||
-        applicationInfo.application_status_id !== 13 ||
-        isLoading
+      *ngIf="
+        evaluatorRole.code == 'CBAO-BO' &&
+        applicationInfo.application_status_id == 13
       "
+      [disabled]="!checkFormsCompliant() || isLoading"
     >
-      Approve
+      For Signature
+      <mat-icon>check</mat-icon>
+    </button>
+    <button
+      mat-raised-button
+      (click)="forPayment()"
+      color="primary"
+      *ngIf="applicationInfo.application_status_id == 24"
+      [disabled]="!checkFormsCompliant() || isLoading"
+    >
+      For Payment of Fees
       <mat-icon>check</mat-icon>
     </button>
     <button
