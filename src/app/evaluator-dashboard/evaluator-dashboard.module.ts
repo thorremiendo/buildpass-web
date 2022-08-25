@@ -97,6 +97,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { EvalutorReminderComponent } from './evalutor-reminder/evalutor-reminder.component';
 import { NoticeOfViolationComponent } from './notice-of-violation/notice-of-violation.component';
 import { NoticeOfViolationOptionsComponent } from './notice-of-violation-options/notice-of-violation-options.component';
+import { NoticeOfViolationFormsComponent } from './notice-of-violation-forms/notice-of-violation-forms.component';
 
 @NgModule({
   declarations: [
@@ -150,6 +151,7 @@ import { NoticeOfViolationOptionsComponent } from './notice-of-violation-options
     NoticeOfViolationComponent,
     NewNoticeOfViolationComponent,
     NoticeOfViolationOptionsComponent,
+    NoticeOfViolationFormsComponent,
   ],
 
   imports: [
