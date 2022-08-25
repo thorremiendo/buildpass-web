@@ -1,3 +1,6 @@
+import { NoticeOfViolationOptionsComponent } from './../notice-of-violation-options/notice-of-violation-options.component';
+import { NewNoticeOfViolationComponent } from './../new-notice-of-violation/new-notice-of-violation.component';
+import { NoticeOfViolationComponent } from './../notice-of-violation/notice-of-violation.component';
 import { SchedulingComponent } from './../scheduling/scheduling.component';
 import { EsignatureGuard } from './../../core/guard/esignature.guard';
 import { EsigPromptComponent } from './../../shared/esig-prompt/esig-prompt.component';
@@ -103,6 +106,18 @@ const routes: Routes = [
       {
         path: 'schedule',
         component: SchedulingComponent,
+      },
+      {
+        path: 'nov',
+        component: NoticeOfViolationComponent,
+      },
+      {
+        path: 'nov/new',
+        component: NewNoticeOfViolationComponent,
+      },
+      {
+        path: 'nov/new/options',
+        component: NoticeOfViolationOptionsComponent,
       },
     ],
   },

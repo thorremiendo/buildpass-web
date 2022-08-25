@@ -1,0 +1,19 @@
+<div class="wrapper">
+  <button mat-raised-button color="secondary">Back</button>
+  <div class="d-flex justify-content-center">
+    <ng-container *ngFor="let item of notice">
+      <mat-card
+        [ngClass]="{ selected: item.selected == true }"
+        (click)="item.selected = !item.selected"
+      >
+        <mat-card-content>
+          <h3>{{ item.title }}</h3>
+          <span class="text-center status">{{ item.status }}</span>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+  </div>
+  <div class="d-flex justify-content-end">
+    <button mat-raised-button color="primary">Next</button>
+  </div>
+</div>

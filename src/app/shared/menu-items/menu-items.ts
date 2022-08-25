@@ -109,6 +109,12 @@ const EVALUATORMENUITEMS = [
     icon: 'report',
     outlet: 'modal',
   },
+  {
+    state: 'evaluator/nov',
+    name: 'Notice of Violation',
+    type: 'link',
+    icon: 'cancel',
+  },
 ];
 
 const ADMINMENUITEMS = [
@@ -171,6 +177,15 @@ const TREASURYMENUITEMS = [
   },
 ];
 
+const NOVMENUITEMS = [
+  {
+    state: 'treasury/dashboard/home',
+    name: 'Home',
+    type: 'link',
+    icon: 'description',
+  },
+];
+
 @Injectable()
 export class MenuItems {
   getMenuitem(type = ''): Menu[] {
@@ -188,6 +203,9 @@ export class MenuItems {
         break;
       case 'treasury':
         menu = TREASURYMENUITEMS;
+        break;
+      case 'nov':
+        menu = NOVMENUITEMS;
         break;
     }
 

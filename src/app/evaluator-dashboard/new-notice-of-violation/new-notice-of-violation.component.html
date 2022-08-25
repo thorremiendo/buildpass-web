@@ -1,0 +1,157 @@
+<div class="wrapper">
+  <button mat-raised-button color="secondary">Back</button>
+  <ng-container>
+    <div class="wrapper__form shadow-md">
+      <div class="wrapper__form__group">
+        <div class="wrapper__form__group__title">Detail of Respondent</div>
+        <div class="wrapper__form__group__body p-3">
+          <div class="row">
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Middle Name</mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>House Number</mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Lot Number</mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Unit Number</mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Purok </mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Street </mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Subdivision </mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Region </mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Province </mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>City </mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wrapper__form shadow-md my-3">
+      <div class="wrapper__form__group pb-3">
+        <div class="wrapper__form__group__title">
+          Detail of Building/Structure/Construction
+        </div>
+        <div class="wrapper__form__group__body p-3">
+          <div class="row">
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>House Number</mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Lot Number</mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Unit Number</mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Purok</mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Street</mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Subdivision</mat-label>
+                <input type="text" matInput />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 mb-2">
+          <div id="map" class="match-parent" style="height: 600px"></div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <div class="d-flex justify-content-end w-100">
+    <div>
+      <button
+        class="text-right my-3 mb-3"
+        mat-raised-button
+        color="primary"
+        [routerLink]="['/evaluator/nov/new/options']"
+        routerLinkActive="router-link-active"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+</div>

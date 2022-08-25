@@ -1,3 +1,4 @@
+import { NewNoticeOfViolationComponent } from './new-notice-of-violation/new-notice-of-violation.component';
 import { NgModule } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { EvaluatorRoutingModule } from './evaluator-routing.module';
@@ -94,6 +95,8 @@ import { SchedulingComponent } from './scheduling/scheduling.component';
 import { AddInspectionComponent } from './add-inspection/add-inspection.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { EvalutorReminderComponent } from './evalutor-reminder/evalutor-reminder.component';
+import { NoticeOfViolationComponent } from './notice-of-violation/notice-of-violation.component';
+import { NoticeOfViolationOptionsComponent } from './notice-of-violation-options/notice-of-violation-options.component';
 
 @NgModule({
   declarations: [
@@ -144,6 +147,9 @@ import { EvalutorReminderComponent } from './evalutor-reminder/evalutor-reminder
     SchedulingComponent,
     AddInspectionComponent,
     EvalutorReminderComponent,
+    NoticeOfViolationComponent,
+    NewNoticeOfViolationComponent,
+    NoticeOfViolationOptionsComponent,
   ],
 
   imports: [

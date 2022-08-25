@@ -1,0 +1,23 @@
+.status {
+  border-radius: 20px;
+  padding: 5px 10px;
+  background-color: rgb(245, 179, 179);
+  font-size: 12px;
+}
+
+mat-card {
+  &:hover {
+    transform: scale(1.01);
+    cursor: pointer;
+  }
+}
+
+.selected {
+  background-color: rgba(128, 0, 0, 0.795);
+  color: white;
+}
+
+
+.wrapper{
+  padding: 0px 20px;
+}
