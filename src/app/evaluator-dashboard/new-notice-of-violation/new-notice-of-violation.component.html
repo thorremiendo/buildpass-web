@@ -1,5 +1,7 @@
 <div class="wrapper">
-  <button mat-raised-button color="secondary">Back</button>
+  <button mat-raised-button color="secondary" [routerLink]="['/evaluator/nov']">
+    Back
+  </button>
   <ng-container>
     <div class="wrapper__form shadow-md">
       <div class="wrapper__form__group">
@@ -147,7 +149,7 @@
         class="text-right my-3 mb-3"
         mat-raised-button
         color="primary"
-        [routerLink]="['/evaluator/nov/new/options']"
+        [routerLink]="['/evaluator/nov/new/details']"
         routerLinkActive="router-link-active"
       >
         Next

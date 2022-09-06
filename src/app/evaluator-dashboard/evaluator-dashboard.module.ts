@@ -98,6 +98,7 @@ import { EvalutorReminderComponent } from './evalutor-reminder/evalutor-reminder
 import { NoticeOfViolationComponent } from './notice-of-violation/notice-of-violation.component';
 import { NoticeOfViolationOptionsComponent } from './notice-of-violation-options/notice-of-violation-options.component';
 import { NoticeOfViolationFormsComponent } from './notice-of-violation-forms/notice-of-violation-forms.component';
+import { DetailsNoticeOfViolationComponent } from './details-notice-of-violation/details-notice-of-violation.component';
 
 @NgModule({
   declarations: [
@@ -152,6 +153,7 @@ import { NoticeOfViolationFormsComponent } from './notice-of-violation-forms/not
     NewNoticeOfViolationComponent,
     NoticeOfViolationOptionsComponent,
     NoticeOfViolationFormsComponent,
+    DetailsNoticeOfViolationComponent,
   ],
 
   imports: [

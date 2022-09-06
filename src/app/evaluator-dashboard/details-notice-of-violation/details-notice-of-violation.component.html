@@ -1,0 +1,48 @@
+<div class="wrapper__form shadow-md">
+  <div class="wrapper__form__group">
+    <div class="wrapper__form__group__title">Additional Details</div>
+    <div class="wrapper__form__group__body p-3">
+      <div class="row px-3">
+        <section class="example-section">
+          <h4>Select actions:</h4>
+          <ng-container *ngFor="let item of actionsList">
+            <span>
+              <mat-checkbox (change)="handleAction($event)" [value]="item.title"
+                >{{ item.title }}
+              </mat-checkbox>
+            </span>
+          </ng-container>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Others</mat-label>
+            <input type="text" matInput [(ngModel)]="actionOthers" />
+            <mat-icon matSuffix (click)="handleAddOthers()">add_box</mat-icon>
+          </mat-form-field>
+        </section>
+      </div>
+      <div class="row" *ngIf="selectedActions.length > 0">
+        <div class="border border-1 p-3">
+          <div class="d-flex flex-column">
+            <ng-container *ngFor="let item of selectedActions">
+              <span>
+                {{ item }}
+              </span>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end w-100">
+      <div class="m-3">
+        <button
+          mat-raised-button
+          color="primary"
+          [routerLink]="['/evaluator/nov/new/options']"
+          routerLinkActive="router-link-active"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

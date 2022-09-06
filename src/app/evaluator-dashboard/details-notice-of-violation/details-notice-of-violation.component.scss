@@ -1,0 +1,29 @@
+.wrapper {
+  padding-bottom: 20px;
+  &__form {
+    background-color: white;
+    margin-top: 20px;
+    border-radius: 10px;
+    &__group {
+      &__title {
+        border-radius: 10px 10px 0px 0px;
+        padding: 10px;
+        background-color: #400c06;
+        color: white;
+        text-align: center;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+::ng-deep .mat-checkbox-layout {
+  white-space: normal !important;
+}
+
+mat-icon {
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.02);
+  }
+}
