@@ -1,4 +1,6 @@
+import { NoticeOfViolationService } from './../../core/services/notice-of-violation.service';
 import { Component, OnInit } from '@angular/core';
+import { NgxDropzoneChangeEvent } from 'ngx-dropzone';
 
 @Component({
   selector: 'app-details-notice-of-violation',
@@ -20,9 +22,34 @@ export class DetailsNoticeOfViolationComponent implements OnInit {
   ];
   selectedActions = [];
   actionOthers;
-  constructor() {}
+  public photoA: File;
+  public photoB: File;
+
+  constructor(private nov: NoticeOfViolationService) {}
 
   ngOnInit(): void {}
+
+  onSelect($event: NgxDropzoneChangeEvent, type) {
+    const file = $event.addedFiles[0];
+    switch (type) {
+      case 'photoA':
+        this.photoA = file;
+        break;
+      case 'photoB':
+        this.photoB = file;
+        break;
+    }
+  }
+  onRemove(type) {
+    switch (type) {
+      case 'photoA':
+        this.photoA = null;
+        break;
+      case 'photoB':
+        this.photoB = null;
+        break;
+    }
+  }
 
   handleAction(e) {
     console.log(e);
@@ -33,5 +60,9 @@ export class DetailsNoticeOfViolationComponent implements OnInit {
 
   handleAddOthers() {
     this.selectedActions.push(this.actionOthers);
+  }
+
+  generatePdf() {
+    this.nov.insertWaterMark().then((blob) => {});
   }
 }
