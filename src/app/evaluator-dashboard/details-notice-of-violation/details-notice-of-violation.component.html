@@ -21,10 +21,13 @@
         </section>
       </div>
       <div class="row" *ngIf="selectedActions.length > 0">
-        <div class="border border-1 p-3">
+        <div class="border border-1 p-3 w-100 mx-3">
           <div class="d-flex flex-column">
-            <ng-container *ngFor="let item of selectedActions">
-              <span> - {{ item }} </span>
+            <ng-container *ngFor="let item of selectedActions; let i = index">
+              <div class="d-flex justify-content-between align-items-center">
+                <span> - {{ item }} </span>
+                <button mat-button (click)="handleRemove(i)">Remove</button>
+              </div>
             </ng-container>
           </div>
         </div>

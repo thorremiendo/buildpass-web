@@ -51,10 +51,20 @@ export class DetailsNoticeOfViolationComponent implements OnInit {
     }
   }
 
+  handleRemove(index) {
+    this.selectedActions.splice(index, 1);
+  }
+
   handleAction(e) {
     console.log(e);
     if (e.checked == true) {
       this.selectedActions.push(e.source.value);
+    } else {
+      const find = this.selectedActions.find(
+        (element) => element == e.source.value
+      );
+      const index = this.selectedActions.indexOf(find);
+      this.selectedActions.splice(index, 1);
     }
   }
 
