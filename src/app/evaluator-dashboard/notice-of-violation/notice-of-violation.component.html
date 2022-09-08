@@ -9,4 +9,47 @@
       New
     </button>
   </div>
+  <div class="wrapper__body mt-5">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Respondent</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.respondent_first_name }}
+          {{ element.respondent_lastname_name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>Type</th>
+        <td mat-cell *matCellDef="let element">
+          {{
+            element.sub_detail.length == 0 ? "" : getType(element.sub_detail)
+          }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let element">
+          {{
+            element.sub_detail.length == 0 ? "" : getStatus(element.sub_detail)
+          }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            mat-button
+            (click)="handleView(element.sub_detail[element.sub_detail.length - 1].id)"
+            [disabled]="element.sub_detail.length == 0"
+          >
+            View
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
 </div>

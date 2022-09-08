@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { ApiService } from './api.service';
-
+import { BehaviorSubject, from, Observable, throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
@@ -12,9 +13,77 @@ export class NoticeOfViolationService {
     'https://s3-ap-southeast-1.amazonaws.com/buildpass-storage/hC9fFkAwKRu1qssaUXZsSI6rGrW1jzHtY22JuE6r.jpg';
   photoB =
     'https://s3-ap-southeast-1.amazonaws.com/buildpass-storage/oTUjkXvi6Mc7REabfZXmj8yIqCcllH6AOZBjuaHl.jpg';
-  constructor() {}
 
-  async insertWaterMark() {
+  constructor(private api: ApiService) {}
+
+  uploadFile(body) {
+    const url = `/noticeofviolation/upload-file`;
+    return this.api.post(url, body);
+  }
+
+  getActions(id) {
+    const url = `/noticeofviolation/actions/${id}`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+
+  addNov(body) {
+    const url = `/noticeofviolation`;
+    return this.api.post(url, body);
+  }
+
+  addSubNov(body) {
+    const url = `/noticeofviolation/sub`;
+    return this.api.post(url, body);
+  }
+
+  updateSub(body, id) {
+    const url = `/noticeofviolation/sub/${id}`;
+    return this.api.post(url, body);
+  }
+
+  getSubById(id) {
+    const url = `/noticeofviolation/sub/${id}`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+  getMainById(id) {
+    const url = `/noticeofviolation/${id}`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+
+  getInvestigatorNov(id) {
+    const url = `/noticeofviolation/${id}/evaluator`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+
+  async generatePdf(photoApath, photoBpath) {
     const url = this.blankPdf;
     const existingPdfBytes = await fetch(url).then((res) => res.arrayBuffer());
 
@@ -22,10 +91,10 @@ export class NoticeOfViolationService {
       parseSpeed: Infinity,
     });
 
-    const photoABytes = await fetch(this.photoA).then((res) =>
+    const photoABytes = await fetch(photoApath).then((res) =>
       res.arrayBuffer()
     );
-    const photoBBytes = await fetch(this.photoB).then((res) =>
+    const photoBBytes = await fetch(photoBpath).then((res) =>
       res.arrayBuffer()
     );
 
@@ -68,8 +137,8 @@ export class NoticeOfViolationService {
     });
 
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    const file = window.URL.createObjectURL(blob);
-    window.open(file); // open in new window
+    // const file = window.URL.createObjectURL(blob);
+    // window.open(file); // open in new window
     return blob;
   }
 }

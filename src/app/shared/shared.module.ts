@@ -63,6 +63,7 @@ import { CepmoCertificateComponent } from './cepmo-certificate/cepmo-certificate
 import { UploadTarpaulinComponent } from './upload-tarpaulin/upload-tarpaulin.component';
 import { UpdateDocumentFileComponent } from './update-document-file/update-document-file.component';
 import { UploadDocumentComponent } from './upload-document/upload-document.component';
+import { ViewPdfComponent } from './view-pdf/view-pdf.component';
 
 @NgModule({
   declarations: [
@@ -110,6 +111,7 @@ import { UploadDocumentComponent } from './upload-document/upload-document.compo
     UploadTarpaulinComponent,
     UpdateDocumentFileComponent,
     UploadDocumentComponent,
+    ViewPdfComponent,
   ],
   imports: [
     NgxDropzoneModule,
@@ -153,6 +155,7 @@ import { UploadDocumentComponent } from './upload-document/upload-document.compo
     DocumentRemarksComponent,
     AdminEditDialogComponent,
     ReviewButtonComponent,
+    ViewPdfComponent,
   ],
   providers: [
     {

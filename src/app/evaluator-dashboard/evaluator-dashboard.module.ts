@@ -99,6 +99,7 @@ import { NoticeOfViolationComponent } from './notice-of-violation/notice-of-viol
 import { NoticeOfViolationOptionsComponent } from './notice-of-violation-options/notice-of-violation-options.component';
 import { NoticeOfViolationFormsComponent } from './notice-of-violation-forms/notice-of-violation-forms.component';
 import { DetailsNoticeOfViolationComponent } from './details-notice-of-violation/details-notice-of-violation.component';
+import { NoticeOfViolationSummaryComponent } from './notice-of-violation-summary/notice-of-violation-summary.component';
 
 @NgModule({
   declarations: [
@@ -154,6 +155,7 @@ import { DetailsNoticeOfViolationComponent } from './details-notice-of-violation
     NoticeOfViolationOptionsComponent,
     NoticeOfViolationFormsComponent,
     DetailsNoticeOfViolationComponent,
+    NoticeOfViolationSummaryComponent,
   ],
 
   imports: [

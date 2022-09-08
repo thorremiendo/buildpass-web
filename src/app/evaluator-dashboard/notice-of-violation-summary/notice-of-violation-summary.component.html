@@ -1,0 +1,174 @@
+<ng-container *ngIf="subDetails">
+  <div class="app-details" *ngIf="!isLoading">
+    <mat-card>
+      <mat-card-content>
+        <div class="d-flex justify-content-between">
+          <div>
+            <h4 style="color: #ffa653" class="mb-4">
+              <strong>Notice of Violation Details</strong>
+            </h4>
+          </div>
+        </div>
+        <div class="row mb-1">
+          <div class="avatar-container col-md-4">
+            <div>
+              <h4>
+                <strong
+                  >&nbsp;{{
+                    subDetails.main_detail.respondent_first_name
+                  }}&nbsp;{{
+                    subDetails.main_detail.respondent_lastname_name
+                  }}</strong
+                >
+              </h4>
+            </div>
+            <div>
+              <h5 style="color: #7b7b7b">
+                {{
+                  subDetails.main_detail.respondent_street
+                    ? subDetails.main_detail.respondent_street
+                    : ""
+                }}
+              </h5>
+            </div>
+            <div>
+              <h5 style="color: #7b7b7b">
+                {{
+                  subDetails.main_detail.respondent_purok
+                    ? subDetails.main_detail.respondent_purok
+                    : ""
+                }}
+              </h5>
+            </div>
+            <div>
+              <h5 style="color: #7b7b7b">
+                {{
+                  subDetails.main_detail.respondent_subdivision
+                    ? subDetails.main_detail.respondent_subdivision
+                    : ""
+                }}
+              </h5>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="col">
+              <h5 style="color: #7b7b7b">Investigator:</h5>
+              <h5>
+                <strong>{{ subDetails.status_id }}</strong>
+              </h5>
+            </div>
+            <div class="col">
+              <h5 style="color: #7b7b7b">Date Submitted:</h5>
+              <h5>
+                <strong
+                  >&nbsp;{{
+                    subDetails.created_at | date: "MMMM dd, yyyy"
+                  }}</strong
+                >
+              </h5>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="col">
+              <h5 style="color: #7b7b7b">Status:</h5>
+              <h5>
+                <strong
+                  >&nbsp;
+                  {{ getStatus(subDetails.status_id) }}
+                </strong>
+              </h5>
+            </div>
+            <div class="col">
+              <h5 style="color: #7b7b7b">Type:</h5>
+              <h5>
+                <strong
+                  >&nbsp;
+                  {{ getType(subDetails.type_id) }}
+                </strong>
+              </h5>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="app-details" *ngIf="!isLoading">
+    <mat-card>
+      <mat-card-content>
+        <div class="d-flex justify-content-between">
+          <div>
+            <h4 style="color: #ffa653" class="mb-4">
+              <strong>Structure Details</strong>
+            </h4>
+          </div>
+        </div>
+        <div class="row mb-1">
+          <div class="col-md-4">
+            <div class="col">
+              <h5 style="color: #7b7b7b">House Number:</h5>
+              <h5>
+                <strong>{{
+                  subDetails.main_detail.structure_house_number
+                }}</strong>
+              </h5>
+            </div>
+            <div class="col">
+              <h5 style="color: #7b7b7b">Lot Number:</h5>
+              <h5>
+                <strong
+                  >&nbsp;{{
+                    subDetails.main_detail.structure_lot_number
+                  }}</strong
+                >
+              </h5>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="col">
+              <h5 style="color: #7b7b7b">Purok:</h5>
+              <h5>
+                <strong
+                  >&nbsp;
+                  {{ subDetails.main_detail.structure_purok }}
+                </strong>
+              </h5>
+            </div>
+            <div class="col">
+              <h5 style="color: #7b7b7b">Street:</h5>
+              <h5>
+                <strong
+                  >&nbsp;
+                  {{ subDetails.main_detail.structure_street }}
+                </strong>
+              </h5>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <a
+              [href]="subDetails.notice_of_violation_photo_path"
+              target="_blank"
+              >View Photo</a
+            >
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <mat-card>
+    <mat-card-content>
+      <h4 style="color: maroon" class="mb-4">
+        <strong>Notice of Violation Form</strong>
+        <hr />
+      </h4>
+      <div>
+        <app-view-pdf
+          [pdfSource]="subDetails.notice_of_violation_form_path"
+        ></app-view-pdf>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
+
+<div class="spinner" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>

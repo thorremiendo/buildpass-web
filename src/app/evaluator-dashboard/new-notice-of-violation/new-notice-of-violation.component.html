@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" [formGroup]="form">
   <button mat-raised-button color="secondary" [routerLink]="['/evaluator/nov']">
     Back
   </button>
@@ -11,19 +11,31 @@
             <div class="col-lg-4">
               <mat-form-field appearance="outline">
                 <mat-label>First Name</mat-label>
-                <input type="text" matInput />
+                <input
+                  type="text"
+                  matInput
+                  formControlName="respondent_first_name"
+                />
               </mat-form-field>
             </div>
             <div class="col-lg-4">
               <mat-form-field appearance="outline">
                 <mat-label>Middle Name</mat-label>
-                <input type="text" matInput />
+                <input
+                  type="text"
+                  matInput
+                  formControlName="respondent_middle_name"
+                />
               </mat-form-field>
             </div>
             <div class="col-lg-4">
               <mat-form-field appearance="outline">
                 <mat-label>Last Name</mat-label>
-                <input type="text" matInput />
+                <input
+                  type="text"
+                  matInput
+                  formControlName="respondent_lastname_name"
+                />
               </mat-form-field>
             </div>
           </div>
@@ -31,19 +43,31 @@
             <div class="col-lg-4">
               <mat-form-field appearance="outline">
                 <mat-label>House Number</mat-label>
-                <input type="text" matInput />
+                <input
+                  type="text"
+                  matInput
+                  formControlName="respondent_house_number"
+                />
               </mat-form-field>
             </div>
             <div class="col-lg-4">
               <mat-form-field appearance="outline">
                 <mat-label>Lot Number</mat-label>
-                <input type="text" matInput />
+                <input
+                  type="text"
+                  matInput
+                  formControlName="respondent_lot_number"
+                />
               </mat-form-field>
             </div>
             <div class="col-lg-4">
               <mat-form-field appearance="outline">
                 <mat-label>Unit Number</mat-label>
-                <input type="text" matInput />
+                <input
+                  type="text"
+                  matInput
+                  formControlName="respondent_unit_number"
+                />
               </mat-form-field>
             </div>
           </div>
@@ -51,39 +75,78 @@
             <div class="col-lg-4">
               <mat-form-field appearance="outline">
                 <mat-label>Purok </mat-label>
-                <input type="text" matInput />
+                <input
+                  type="text"
+                  matInput
+                  formControlName="respondent_purok"
+                />
               </mat-form-field>
             </div>
             <div class="col-lg-4">
               <mat-form-field appearance="outline">
                 <mat-label>Street </mat-label>
-                <input type="text" matInput />
+                <input
+                  type="text"
+                  matInput
+                  formControlName="respondent_street"
+                />
               </mat-form-field>
             </div>
             <div class="col-lg-4">
               <mat-form-field appearance="outline">
                 <mat-label>Subdivision </mat-label>
-                <input type="text" matInput />
+                <input
+                  type="text"
+                  matInput
+                  formControlName="respondent_subdivision"
+                />
               </mat-form-field>
             </div>
           </div>
           <div class="row">
             <div class="col-lg-4">
               <mat-form-field appearance="outline">
-                <mat-label>Region </mat-label>
-                <input type="text" matInput />
+                <mat-label>Region</mat-label>
+                <mat-select
+                  [(value)]="selectedRegion"
+                  (selectionChange)="onRegionSelect($event)"
+                >
+                  <mat-option
+                    *ngFor="let item of regions"
+                    value="{{ item.id }}"
+                    >{{ item.name }}</mat-option
+                  >
+                </mat-select>
               </mat-form-field>
             </div>
             <div class="col-lg-4">
               <mat-form-field appearance="outline">
-                <mat-label>Province </mat-label>
-                <input type="text" matInput />
+                <mat-label>Province</mat-label>
+                <mat-select
+                  [(value)]="selectedProvince"
+                  (selectionChange)="onProvinceSelect($event)"
+                >
+                  <mat-option
+                    *ngFor="let item of provinces"
+                    value="{{ item.id }}"
+                    >{{ item.name }}</mat-option
+                  >
+                </mat-select>
               </mat-form-field>
             </div>
             <div class="col-lg-4">
               <mat-form-field appearance="outline">
-                <mat-label>City </mat-label>
-                <input type="text" matInput />
+                <mat-label>City/Municipality</mat-label>
+                <mat-select
+                  [(value)]="selectedCity"
+                  (selectionChange)="onCitySelect($event)"
+                >
+                  <mat-option
+                    *ngFor="let item of cities"
+                    value="{{ item.id }}"
+                    >{{ item.name }}</mat-option
+                  >
+                </mat-select>
               </mat-form-field>
             </div>
           </div>
@@ -100,19 +163,31 @@
             <div class="col-lg-4">
               <mat-form-field appearance="outline">
                 <mat-label>House Number</mat-label>
-                <input type="text" matInput />
+                <input
+                  type="text"
+                  matInput
+                  formControlName="structure_house_number"
+                />
               </mat-form-field>
             </div>
             <div class="col-lg-4">
               <mat-form-field appearance="outline">
                 <mat-label>Lot Number</mat-label>
-                <input type="text" matInput />
+                <input
+                  type="text"
+                  matInput
+                  formControlName="structure_lot_number"
+                />
               </mat-form-field>
             </div>
             <div class="col-lg-4">
               <mat-form-field appearance="outline">
                 <mat-label>Unit Number</mat-label>
-                <input type="text" matInput />
+                <input
+                  type="text"
+                  matInput
+                  formControlName="structure_unit_number"
+                />
               </mat-form-field>
             </div>
           </div>
@@ -120,19 +195,27 @@
             <div class="col-lg-4">
               <mat-form-field appearance="outline">
                 <mat-label>Purok</mat-label>
-                <input type="text" matInput />
+                <input type="text" matInput formControlName="structure_purok" />
               </mat-form-field>
             </div>
             <div class="col-lg-4">
               <mat-form-field appearance="outline">
                 <mat-label>Street</mat-label>
-                <input type="text" matInput />
+                <input
+                  type="text"
+                  matInput
+                  formControlName="structure_street"
+                />
               </mat-form-field>
             </div>
             <div class="col-lg-4">
               <mat-form-field appearance="outline">
                 <mat-label>Subdivision</mat-label>
-                <input type="text" matInput />
+                <input
+                  type="text"
+                  matInput
+                  formControlName="structure_subdivision"
+                />
               </mat-form-field>
             </div>
           </div>
@@ -149,10 +232,10 @@
         class="text-right my-3 mb-3"
         mat-raised-button
         color="primary"
-        [routerLink]="['/evaluator/nov/new/details']"
-        routerLinkActive="router-link-active"
+        (click)="submitNov()"
+        [disabled]="isLoading"
       >
-        Next
+        {{ isLoading ? "Submitting" : "Submit" }}
       </button>
     </div>
   </div>

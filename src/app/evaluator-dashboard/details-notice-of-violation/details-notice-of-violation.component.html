@@ -1,26 +1,38 @@
+<form [formGroup]=""></form>
 <div class="wrapper__form shadow-md">
   <div class="wrapper__form__group">
     <div class="wrapper__form__group__title">Additional Details</div>
     <div class="wrapper__form__group__body p-3">
       <div class="row px-3">
+        <h4>Select:</h4>
+        <mat-form-field appearance="outline">
+          <mat-label>Notice of Violation</mat-label>
+          <mat-select [formControl]="subType">
+            <mat-option value="1">First</mat-option>
+            <mat-option value="2">Second</mat-option>
+            <mat-option value="3">Third & Last</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="row px-3">
         <section class="example-section">
           <h4>Select actions:</h4>
           <ng-container *ngFor="let item of actionsList">
             <span>
-              <mat-checkbox (change)="handleAction($event)" [value]="item.title"
-                >{{ item.title }}
+              <mat-checkbox (change)="handleAction($event)" [value]="item.id"
+                >{{ item.action }}
               </mat-checkbox>
             </span>
           </ng-container>
-
+          <!--
           <mat-form-field appearance="outline">
             <mat-label>Others</mat-label>
             <input type="text" matInput [(ngModel)]="actionOthers" />
             <mat-icon matSuffix (click)="handleAddOthers()">add_box</mat-icon>
-          </mat-form-field>
+          </mat-form-field> -->
         </section>
       </div>
-      <div class="row" *ngIf="selectedActions.length > 0">
+      <!-- <div class="row" *ngIf="selectedActions.length > 0">
         <div class="border border-1 p-3 w-100 mx-3">
           <div class="d-flex flex-column">
             <ng-container *ngFor="let item of selectedActions; let i = index">
@@ -31,7 +43,7 @@
             </ng-container>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
@@ -48,16 +60,17 @@
         class="mt-3"
       >
         <ngx-dropzone-label>Click here to upload photo A </ngx-dropzone-label>
-        <ngx-dropzone-preview
+        <ngx-dropzone-image-preview
           *ngIf="photoA"
           [removable]="true"
           (removed)="onRemove('photoA')"
           class="mx-auto"
+          [file]="photoA"
         >
           <ngx-dropzone-label
             >{{ photoA.name }} ({{ photoA.type }})</ngx-dropzone-label
           >
-        </ngx-dropzone-preview>
+        </ngx-dropzone-image-preview>
       </ngx-dropzone>
       <h4 class="mt-4">Photo B</h4>
       <ngx-dropzone
@@ -67,20 +80,21 @@
         class="mt-3"
       >
         <ngx-dropzone-label>Click here to upload photo A </ngx-dropzone-label>
-        <ngx-dropzone-preview
+        <ngx-dropzone-image-preview
           *ngIf="photoB"
           [removable]="true"
           (removed)="onRemove('photoB')"
           class="mx-auto"
+          [file]="photoB"
         >
           <ngx-dropzone-label
             >{{ photoB.name }} ({{ photoB.type }})</ngx-dropzone-label
           >
-        </ngx-dropzone-preview>
+        </ngx-dropzone-image-preview>
       </ngx-dropzone>
       <div class="d-flex flex-row-reverse mt-4">
-        <button mat-raised-button color="primary" (click)="generatePdf()">
-          Generate PDF
+        <button mat-raised-button color="primary" (click)="handleNext()">
+          Next
         </button>
       </div>
     </div>

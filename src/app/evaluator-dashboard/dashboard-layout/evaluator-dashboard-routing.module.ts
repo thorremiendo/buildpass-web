@@ -1,3 +1,4 @@
+import { NoticeOfViolationSummaryComponent } from './../notice-of-violation-summary/notice-of-violation-summary.component';
 import { DetailsNoticeOfViolationComponent } from './../details-notice-of-violation/details-notice-of-violation.component';
 import { NoticeOfViolationFormsComponent } from './../notice-of-violation-forms/notice-of-violation-forms.component';
 import { NoticeOfViolationOptionsComponent } from './../notice-of-violation-options/notice-of-violation-options.component';
@@ -118,16 +119,16 @@ const routes: Routes = [
         component: NewNoticeOfViolationComponent,
       },
       {
-        path: 'nov/new/options',
-        component: NoticeOfViolationOptionsComponent,
-      },
-      {
-        path: 'nov/new/details',
+        path: 'nov/new/details/:id',
         component: DetailsNoticeOfViolationComponent,
       },
       {
-        path: 'nov/new/forms',
+        path: 'nov/new/form/:id',
         component: NoticeOfViolationFormsComponent,
+      },
+      {
+        path: 'nov/view/:id',
+        component: NoticeOfViolationSummaryComponent,
       },
     ],
   },
