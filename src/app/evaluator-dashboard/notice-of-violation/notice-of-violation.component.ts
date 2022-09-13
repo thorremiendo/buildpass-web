@@ -11,15 +11,23 @@ export class NoticeOfViolationComponent implements OnInit {
   userInfo;
   displayedColumns: string[] = ['name', 'status', 'type', 'action'];
   dataSource;
+  userRole: string;
   constructor(private nov: NoticeOfViolationService, private router: Router) {}
 
   ngOnInit(): void {
     this.userInfo = JSON.parse(localStorage.getItem('user'));
-
-    this.nov.getInvestigatorNov(this.userInfo.id).subscribe((res) => {
-      this.dataSource = res.data;
-      console.log(this.dataSource);
-    });
+    this.userRole = this.userInfo.user_roles[0].role[0].code;
+    if (this.userRole == 'INV-DC' || this.userRole == 'CBAO-BO') {
+      this.nov.getAllNovs().subscribe((res) => {
+        console.log(res);
+        this.dataSource = res.data;
+      });
+    } else {
+      this.nov.getInvestigatorNov(this.userInfo.id).subscribe((res) => {
+        this.dataSource = res.data;
+        console.log(this.dataSource);
+      });
+    }
   }
 
   getStatus(sub) {

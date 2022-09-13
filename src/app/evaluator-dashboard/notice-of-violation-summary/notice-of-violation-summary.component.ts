@@ -12,6 +12,8 @@ export class NoticeOfViolationSummaryComponent implements OnInit {
   subId: any;
   isLoading: boolean = false;
   subDetails: any;
+  userRole: string;
+  userInfo;
 
   constructor(
     private nov: NoticeOfViolationService,
@@ -22,6 +24,8 @@ export class NoticeOfViolationSummaryComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.userInfo = JSON.parse(localStorage.getItem('user'));
+    this.userRole = this.userInfo.user_roles[0].role[0].code;
     this.subId = this.route.snapshot.params.id;
     this.nov.getSubById(this.subId).subscribe((res) => {
       this.subDetails = res.data[0];
@@ -30,12 +34,28 @@ export class NoticeOfViolationSummaryComponent implements OnInit {
     });
   }
 
+  handleForward() {
+    this.isLoading = true;
+    this.nov.updateSub({ status_id: 2 }, this.subId).subscribe((res) => {
+      this.nov.getSubById(this.subId).subscribe((res) => {
+        this.subDetails = res.data[0];
+        console.log(this.subDetails);
+        this.notif.openSnackBar('Success!');
+        this.isLoading = false;
+      });
+    });
+  }
+
+  forHearing() {}
+
   getStatus(id) {
     switch (id) {
       case 1:
         return 'For Initial Review of Division Chief';
       case 2:
         return 'For Signature of Department Head';
+      case 3:
+        return 'Delivered';
     }
   }
   getType(id) {

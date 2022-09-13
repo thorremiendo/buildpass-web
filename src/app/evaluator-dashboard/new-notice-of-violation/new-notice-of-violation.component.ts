@@ -21,6 +21,9 @@ export class NewNoticeOfViolationComponent implements OnInit {
   public regions = [];
   public cities = [];
   public provinces = [];
+  public complainantRegions = [];
+  public complainantCities = [];
+  public complainantProvinces = [];
   public selectedRegion;
   public selectedProvince;
   public selectedCity;
@@ -54,6 +57,19 @@ export class NewNoticeOfViolationComponent implements OnInit {
       respondent_region_id: ['', Validators.required],
       respondent_province_id: ['', Validators.required],
       respondent_city_id: ['', Validators.required],
+      complainant_first_name: ['', Validators.required],
+      complainant_middle_name: ['', Validators.required],
+      complainant_lastname_name: ['', Validators.required],
+      complainant_house_number: ['', Validators.required],
+      complainant_lot_number: ['', Validators.required],
+      complainant_unit_number: ['', Validators.required],
+      complainant_floor_number: ['', Validators.required],
+      complainant_purok: ['', Validators.required],
+      complainant_street: ['', Validators.required],
+      complainant_subdivision: ['', Validators.required],
+      complainant_region_id: ['', Validators.required],
+      complainant_province_id: ['', Validators.required],
+      complainant_city_id: ['', Validators.required],
       structure_house_number: ['', Validators.required],
       structure_lot_number: ['', Validators.required],
       structure_unit_number: ['', Validators.required],
@@ -70,25 +86,42 @@ export class NewNoticeOfViolationComponent implements OnInit {
     this.mapService.buildMap();
     this.newApplicationService.fetchRegions('').subscribe((res) => {
       this.regions = res.data;
+      this.complainantRegions = res.data;
       console.log(this.regions);
     });
   }
 
-  onRegionSelect(e) {
-    this.newApplicationService
-      .fetchProvince('', parseInt(e.value))
-      .subscribe((res) => {
-        this.provinces = res.data;
-      });
+  onRegionSelect(e, type: string) {
+    if (type == 'respondent') {
+      this.newApplicationService
+        .fetchProvince('', parseInt(e.value))
+        .subscribe((res) => {
+          this.provinces = res.data;
+        });
+    } else {
+      this.newApplicationService
+        .fetchProvince('', parseInt(e.value))
+        .subscribe((res) => {
+          this.complainantProvinces = res.data;
+        });
+    }
   }
-  onProvinceSelect(e) {
-    this.newApplicationService
-      .fetchCities(parseInt(e.value))
-      .subscribe((res) => {
-        this.cities = res.data;
-      });
+  onProvinceSelect(e, type: string) {
+    if (type == 'respondent') {
+      this.newApplicationService
+        .fetchCities(parseInt(e.value))
+        .subscribe((res) => {
+          this.cities = res.data;
+        });
+    } else {
+      this.newApplicationService
+        .fetchCities(parseInt(e.value))
+        .subscribe((res) => {
+          this.complainantCities = res.data;
+        });
+    }
   }
-  onCitySelect(e) {
+  onCitySelect(e, type: string) {
     this.getNames();
     console.log(this.selectedCity);
   }

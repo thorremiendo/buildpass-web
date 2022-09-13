@@ -16,6 +16,18 @@ export class NoticeOfViolationService {
 
   constructor(private api: ApiService) {}
 
+  getAllNovs() {
+    const url = `/noticeofviolation`;
+    return this.api.get(url).pipe(
+      map((data: any) => {
+        return data;
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong.');
+      })
+    );
+  }
+
   uploadFile(body) {
     const url = `/noticeofviolation/upload-file`;
     return this.api.post(url, body);

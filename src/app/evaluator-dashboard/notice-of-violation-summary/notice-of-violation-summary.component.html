@@ -167,6 +167,26 @@
       </div>
     </mat-card-content>
   </mat-card>
+  <div class="d-flex flex-row-reverse m-3" *ngIf="userRole == 'INV-DC'">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="handleForward()"
+      [disabled]="isLoading || subDetails.status_id !== 1"
+    >
+      {{ isLoading ? "Saving" : "Forward" }}
+    </button>
+  </div>
+  <div class="d-flex flex-row-reverse m-3" *ngIf="userRole == 'CBAO-BO'">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="forHearing()"
+      [disabled]="isLoading || subDetails.status_id !== 2"
+    >
+      {{ isLoading ? "Saving" : "For Hearing" }}
+    </button>
+  </div>
 </ng-container>
 
 <div class="spinner" *ngIf="isLoading">

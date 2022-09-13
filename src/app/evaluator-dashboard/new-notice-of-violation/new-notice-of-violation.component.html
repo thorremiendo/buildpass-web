@@ -5,7 +5,7 @@
   <ng-container>
     <div class="wrapper__form shadow-md">
       <div class="wrapper__form__group">
-        <div class="wrapper__form__group__title">Detail of Respondent</div>
+        <div class="wrapper__form__group__title">Details of Respondent</div>
         <div class="wrapper__form__group__body p-3">
           <div class="row">
             <div class="col-lg-4">
@@ -109,7 +109,7 @@
                 <mat-label>Region</mat-label>
                 <mat-select
                   [(value)]="selectedRegion"
-                  (selectionChange)="onRegionSelect($event)"
+                  (selectionChange)="onRegionSelect($event, 'respondent')"
                 >
                   <mat-option
                     *ngFor="let item of regions"
@@ -124,7 +124,7 @@
                 <mat-label>Province</mat-label>
                 <mat-select
                   [(value)]="selectedProvince"
-                  (selectionChange)="onProvinceSelect($event)"
+                  (selectionChange)="onProvinceSelect($event, 'respondent')"
                 >
                   <mat-option
                     *ngFor="let item of provinces"
@@ -139,7 +139,7 @@
                 <mat-label>City/Municipality</mat-label>
                 <mat-select
                   [(value)]="selectedCity"
-                  (selectionChange)="onCitySelect($event)"
+                  (selectionChange)="onCitySelect($event, 'respondent')"
                 >
                   <mat-option
                     *ngFor="let item of cities"
@@ -153,10 +153,161 @@
         </div>
       </div>
     </div>
+
+    <div class="wrapper__form shadow-md">
+      <div class="wrapper__form__group">
+        <div class="wrapper__form__group__title">Details of Complainant</div>
+        <div class="wrapper__form__group__body p-3">
+          <div class="row">
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  formControlName="complainant_first_name"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Middle Name</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  formControlName="complainant_middle_name"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  formControlName="complainant_lastname_name"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>House Number</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  formControlName="complainant_house_number"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Lot Number</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  formControlName="complainant_lot_number"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Unit Number</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  formControlName="complainant_unit_number"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Purok </mat-label>
+                <input
+                  type="text"
+                  matInput
+                  formControlName="complainant_purok"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Street </mat-label>
+                <input
+                  type="text"
+                  matInput
+                  formControlName="complainant_street"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Subdivision </mat-label>
+                <input
+                  type="text"
+                  matInput
+                  formControlName="complainant_subdivision"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Region</mat-label>
+                <mat-select
+                  [(value)]="selectedRegion"
+                  (selectionChange)="onRegionSelect($event, 'complainant')"
+                >
+                  <mat-option
+                    *ngFor="let item of complainantRegions"
+                    value="{{ item.id }}"
+                    >{{ item.name }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Province</mat-label>
+                <mat-select
+                  [(value)]="selectedProvince"
+                  (selectionChange)="onProvinceSelect($event, 'complainant')"
+                >
+                  <mat-option
+                    *ngFor="let item of complainantProvinces"
+                    value="{{ item.id }}"
+                    >{{ item.name }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-4">
+              <mat-form-field appearance="outline">
+                <mat-label>City/Municipality</mat-label>
+                <mat-select
+                  [(value)]="selectedCity"
+                  (selectionChange)="onCitySelect($event, 'complainant')"
+                >
+                  <mat-option
+                    *ngFor="let item of complainantCities"
+                    value="{{ item.id }}"
+                    >{{ item.name }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="wrapper__form shadow-md my-3">
       <div class="wrapper__form__group pb-3">
         <div class="wrapper__form__group__title">
-          Detail of Building/Structure/Construction
+          Details of Building/Structure/Construction
         </div>
         <div class="wrapper__form__group__body p-3">
           <div class="row">
