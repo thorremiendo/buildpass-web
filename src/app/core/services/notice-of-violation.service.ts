@@ -179,17 +179,18 @@ export class NoticeOfViolationService {
 
     for (let i = 0; i < pageCount; i++) {
       pages[0].drawImage(qr_code, {
-        x: width / 2 + 130,
-        y: height / 2 - 430,
-        width: pngDims.width * 1,
-        height: pngDims.height * 1,
+        x: width / 2 + 100,
+        y: height / 2 - 460,
+        width: pngDims.width * 0.6,
+        height: pngDims.height * 0.6,
       });
     }
 
     const pdfBytes = await pdfDocLoad.save({ objectsPerTick: Infinity });
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
-    // window.open(file); // open in new window
-    return blob;
+    window.open(file); // open in new window
+    debugger;
+    // return blob;
   }
 }

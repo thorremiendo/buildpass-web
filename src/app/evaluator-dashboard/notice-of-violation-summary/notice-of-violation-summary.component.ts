@@ -99,6 +99,17 @@ export class NoticeOfViolationSummaryComponent implements OnInit {
       });
     });
   }
+  handleDelivered() {
+    this.isLoading = true;
+    this.nov.updateSub({ status_id: 4 }, this.subId).subscribe((res) => {
+      this.nov.getSubById(this.subId).subscribe((res) => {
+        this.subDetails = res.data[0];
+        console.log(this.subDetails);
+        this.notif.openSnackBar('Success!');
+        this.isLoading = false;
+      });
+    });
+  }
 
   forHearing() {}
 
@@ -109,6 +120,8 @@ export class NoticeOfViolationSummaryComponent implements OnInit {
       case 2:
         return 'For Signature of Department Head';
       case 3:
+        return 'For Delivery';
+      case 4:
         return 'Delivered';
       case 5:
         return 'Pending';

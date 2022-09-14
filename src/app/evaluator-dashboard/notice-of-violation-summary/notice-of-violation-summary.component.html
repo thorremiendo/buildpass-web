@@ -2,10 +2,16 @@
   <div class="app-details" *ngIf="!isLoading">
     <mat-card>
       <mat-card-content>
+        <div class="text-center">
+          <span style="font-weight: bold; color: maroon; font-size: 24px"
+            >{{ subDetails.main_detail.complainant_lastname_name }} vs
+            {{ subDetails.main_detail.respondent_lastname_name }}</span
+          >
+        </div>
         <div class="d-flex justify-content-between">
           <div>
             <h4 style="color: #ffa653" class="mb-4">
-              <strong>Notice of Violation Details</strong>
+              <strong>Notice of Violation Details </strong>
             </h4>
           </div>
         </div>
@@ -278,8 +284,18 @@
       color="primary"
       (click)="handleForwardDc()"
       [disabled]="isLoading || subDetails.status_id !== 5"
+      *ngIf="subDetails.status_id == 5"
     >
       {{ isLoading ? "Saving" : "Forward" }}
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="handleDelivered()"
+      [disabled]="isLoading || subDetails.status_id !== 3"
+      *ngIf="subDetails.status_id == 3"
+    >
+      {{ isLoading ? "Saving" : "Delivered" }}
     </button>
   </div>
   <div class="d-flex justify-content-between m-3" *ngIf="userRole == 'INV-DC'">

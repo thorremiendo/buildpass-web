@@ -98,6 +98,7 @@ export class NoticeOfViolationEsigComponent implements OnInit {
               .updateSub(
                 {
                   notice_of_violation_form_path: err.error.text,
+                  status_id: 3,
                 },
                 this.subDetails.id
               )
