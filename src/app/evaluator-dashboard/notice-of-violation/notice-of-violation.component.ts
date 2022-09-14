@@ -28,12 +28,12 @@ export class NoticeOfViolationComponent implements OnInit {
     if (this.userRole == 'INV-DC' || this.userRole == 'CBAO-BO') {
       this.nov.getAllNovs().subscribe((res) => {
         console.log(res);
-        this.novs = res.data;
+        this.novs = res.data.filter((e) => e.sub_detail.length !== 0);
         this.filteredNovs = this.novs;
       });
     } else {
       this.nov.getInvestigatorNov(this.userInfo.id).subscribe((res) => {
-        this.novs = res.data;
+        this.novs = res.data.filter((e) => e.sub_detail.length !== 0);
         this.filteredNovs = this.novs;
         console.log(this.novs);
       });
