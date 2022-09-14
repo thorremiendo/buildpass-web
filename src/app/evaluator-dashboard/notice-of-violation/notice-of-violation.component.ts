@@ -1,6 +1,8 @@
+import { debounceTime } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { NoticeOfViolationService } from 'src/app/core/services/notice-of-violation.service';
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-notice-of-violation',
@@ -10,24 +12,44 @@ import { Component, OnInit } from '@angular/core';
 export class NoticeOfViolationComponent implements OnInit {
   userInfo;
   displayedColumns: string[] = ['name', 'status', 'type', 'action'];
-  dataSource;
+  novs;
+  filteredNovs;
   userRole: string;
+  searchValue = new FormControl();
   constructor(private nov: NoticeOfViolationService, private router: Router) {}
 
   ngOnInit(): void {
     this.userInfo = JSON.parse(localStorage.getItem('user'));
     this.userRole = this.userInfo.user_roles[0].role[0].code;
+    this.searchValue.valueChanges.pipe(debounceTime(1000)).subscribe((key) => {
+      console.log(key);
+      this.handleSearch(key);
+    });
     if (this.userRole == 'INV-DC' || this.userRole == 'CBAO-BO') {
       this.nov.getAllNovs().subscribe((res) => {
         console.log(res);
-        this.dataSource = res.data;
+        this.novs = res.data;
+        this.filteredNovs = this.novs;
       });
     } else {
       this.nov.getInvestigatorNov(this.userInfo.id).subscribe((res) => {
-        this.dataSource = res.data;
-        console.log(this.dataSource);
+        this.novs = res.data;
+        this.filteredNovs = this.novs;
+        console.log(this.novs);
       });
     }
+  }
+
+  handleSearch(e) {
+    const results = this.novs.filter((obj) => {
+      return Object.keys(obj).reduce((acc, curr) => {
+        if (typeof obj[curr] == 'string') {
+          console.log(obj[curr]);
+          return acc || obj[curr].toLowerCase().includes(e);
+        }
+      }, false);
+    });
+    console.log(results);
   }
 
   getStatus(sub) {

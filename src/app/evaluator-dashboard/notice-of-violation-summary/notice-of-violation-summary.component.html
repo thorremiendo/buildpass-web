@@ -51,12 +51,12 @@
             </div>
           </div>
           <div class="col-md-4">
-            <div class="col">
+            <!-- <div class="col">
               <h5 style="color: #7b7b7b">Investigator:</h5>
               <h5>
                 <strong>{{ subDetails.status_id }}</strong>
               </h5>
-            </div>
+            </div> -->
             <div class="col">
               <h5 style="color: #7b7b7b">Date Submitted:</h5>
               <h5>
@@ -84,6 +84,67 @@
                 <strong
                   >&nbsp;
                   {{ getType(subDetails.type_id) }}
+                </strong>
+              </h5>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="app-details" *ngIf="!isLoading">
+    <mat-card>
+      <mat-card-content>
+        <div class="d-flex justify-content-between">
+          <div>
+            <h4 style="color: #ffa653" class="mb-4">
+              <strong>Complainant Details</strong>
+            </h4>
+          </div>
+        </div>
+        <div class="row mb-1">
+          <div class="col-md-6">
+            <div class="col">
+              <h5 style="color: #7b7b7b">Full Name:</h5>
+              <h5>
+                <strong
+                  >{{ subDetails.main_detail.complainant_first_name }}
+                  {{
+                    subDetails.main_detail.complainant_middle_name
+                      ? subDetails.main_detail.complainant_middle_name
+                      : ""
+                  }}
+                  {{ subDetails.main_detail.complainant_lastname_name }}</strong
+                >
+              </h5>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="col">
+              <h5 style="color: #7b7b7b">Address:</h5>
+              <h5>
+                <strong
+                  >&nbsp;
+                  {{
+                    subDetails.main_detail.complainant_house_number
+                      ? subDetails.main_detail.complainant_house_number
+                      : ""
+                  }}
+                  {{
+                    subDetails.main_detail.complainant_street
+                      ? subDetails.main_detail.complainant_street
+                      : ""
+                  }}
+                  {{
+                    subDetails.main_detail.complainant_purok
+                      ? subDetails.main_detail.complainant_purok
+                      : ""
+                  }}
+                  {{
+                    subDetails.main_detail.complainant_subdivision
+                      ? subDetails.main_detail.complainant_subdivision
+                      : ""
+                  }}
                 </strong>
               </h5>
             </div>
@@ -156,18 +217,80 @@
   </div>
   <mat-card>
     <mat-card-content>
-      <h4 style="color: maroon" class="mb-4">
-        <strong>Notice of Violation Form</strong>
-        <hr />
-      </h4>
-      <div>
-        <app-view-pdf
-          [pdfSource]="subDetails.notice_of_violation_form_path"
-        ></app-view-pdf>
-      </div>
+      <mat-tab-group>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>assignment</mat-icon>
+            Form
+          </ng-template>
+          <h4 style="color: maroon" class="mb-4 mt-4">
+            <strong>Notice of Violation Form</strong>
+            <hr />
+          </h4>
+          <div>
+            <div class="d-flex flex-row-reverse mb-3">
+              <button mat-raised-button (click)="handleUpdateForm()">
+                {{ isSubmitting ? "Saving" : "Save Form" }}
+              </button>
+            </div>
+            <div id="pdf-viewer">
+              <ngx-extended-pdf-viewer
+                [src]="subDetails.notice_of_violation_form_path"
+                [showToolbar]="true"
+                [showSidebarButton]="false"
+                [showFindButton]="false"
+                [showPagingButtons]="false"
+                [showZoomButtons]="true"
+                [showPresentationModeButton]="true"
+                [showOpenFileButton]="false"
+                [showPrintButton]="false"
+                [showDownloadButton]="true"
+                [showBookmarkButton]="false"
+                [showSecondaryToolbarButton]="true"
+                [showRotateButton]="false"
+                [showHandToolButton]="false"
+                [showScrollingButton]="false"
+                [showSpreadButton]="false"
+                [showPropertiesButton]="false"
+                [useBrowserLocale]="true"
+                height="1000px"
+                zoom="100%"
+              >
+              </ngx-extended-pdf-viewer>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>report</mat-icon>
+            Remarks
+          </ng-template>
+          <app-notice-of-violation-remarks
+            [evaluatorDetails]="userInfo"
+          ></app-notice-of-violation-remarks>
+        </mat-tab>
+      </mat-tab-group>
     </mat-card-content>
   </mat-card>
-  <div class="d-flex flex-row-reverse m-3" *ngIf="userRole == 'INV-DC'">
+  <div class="d-flex flex-row-reverse m-3" *ngIf="userRole == 'INV'">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="handleForwardDc()"
+      [disabled]="isLoading || subDetails.status_id !== 5"
+    >
+      {{ isLoading ? "Saving" : "Forward" }}
+    </button>
+  </div>
+  <div class="d-flex justify-content-between m-3" *ngIf="userRole == 'INV-DC'">
+    <button
+      mat-raised-button
+      color="accent"
+      (click)="handleReturn()"
+      [disabled]="isLoading || subDetails.status_id !== 1"
+    >
+      {{ isLoading ? "Saving" : "Return" }}
+    </button>
     <button
       mat-raised-button
       color="primary"
@@ -181,10 +304,10 @@
     <button
       mat-raised-button
       color="primary"
-      (click)="forHearing()"
+      (click)="handleSignature()"
       [disabled]="isLoading || subDetails.status_id !== 2"
     >
-      {{ isLoading ? "Saving" : "For Hearing" }}
+      {{ isLoading ? "Saving" : "Sign" }}
     </button>
   </div>
 </ng-container>

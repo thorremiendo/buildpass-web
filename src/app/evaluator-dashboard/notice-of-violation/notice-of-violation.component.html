@@ -10,7 +10,96 @@
     </button>
   </div>
   <div class="wrapper__body mt-5">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <mat-form-field appearance="outline">
+      <mat-label>Search</mat-label>
+      <input matInput [formControl]="searchValue" />
+    </mat-form-field>
+    <mat-card
+      class="application"
+      *ngFor="let item of filteredNovs"
+      (click)="handleView(item.sub_detail[item.sub_detail.length - 1].id)"
+    >
+      <div class="application-logo">
+        <img src="../../../assets/illustrations/warning.png" />
+      </div>
+      <div class="application-details" *ngIf="item.sub_detail.length !== 0">
+        <div>
+          <div class="application-type">
+            {{
+              item.sub_detail[item.sub_detail.length - 1].type_id == 1
+                ? "First Notice of Violation"
+                : null
+            }}
+            {{
+              item.sub_detail[item.sub_detail.length - 1].type_id == 2
+                ? "Second Notice of Violation"
+                : null
+            }}
+            {{
+              item.sub_detail[item.sub_detail.length - 1].type_id == 3
+                ? "Third Notice of Violation"
+                : null
+            }}
+          </div>
+          <div class="application-date">
+            {{
+              item.sub_detail[item.sub_detail.length - 1].created_at
+                | date: "MMMM dd, yyyy"
+            }}
+          </div>
+        </div>
+        <div>
+          <div class="application-code">
+            {{ item.nov_code }}
+          </div>
+          <div class="application-status">
+            {{
+              item.sub_detail[item.sub_detail.length - 1].status_id == 5
+                ? "Pending"
+                : null
+            }}
+            {{
+              item.sub_detail[item.sub_detail.length - 1].status_id == 1
+                ? "For Initial Review of Division Chief"
+                : null
+            }}
+            {{
+              item.sub_detail[item.sub_detail.length - 1].status_id == 2
+                ? "For Signature of Department Head"
+                : null
+            }}
+          </div>
+        </div>
+        <div>
+          <div class="application-applicant">
+            <mat-icon [inline]="true">person</mat-icon>
+            <span style="color: maroon">
+              {{ item.complainant_lastname_name }}
+              VS
+              {{ item.respondent_lastname_name }}
+            </span>
+          </div>
+        </div>
+        <div>
+          <div class="application-location">
+            <mat-icon [inline]="true">location_on</mat-icon>
+            {{
+              item.structure_house_number
+                ? "Number " + item.structure_house_number
+                : ""
+            }}
+            {{ item.structure_purok ? "Purok " + item.structure_purok : "" }}
+            {{ item.structure_street ? "Street " + item.structure_street : "" }}
+            {{
+              item.structure_subdivision
+                ? "Subd. " + item.structure_subdivision
+                : ""
+            }}
+          </div>
+        </div>
+      </div>
+    </mat-card>
+    <!-- <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Respondent</th>
         <td mat-cell *matCellDef="let element">
@@ -50,6 +139,6 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
+    </table> -->
   </div>
 </div>

@@ -60,6 +60,11 @@ export class NoticeOfViolationService {
     return this.api.post(url, body);
   }
 
+  addRemarks(body) {
+    const url = `/noticeofviolation/remark`;
+    return this.api.post(url, body);
+  }
+
   getSubById(id) {
     const url = `/noticeofviolation/sub/${id}`;
     return this.api.get(url).pipe(
@@ -150,6 +155,40 @@ export class NoticeOfViolationService {
 
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     // const file = window.URL.createObjectURL(blob);
+    // window.open(file); // open in new window
+    return blob;
+  }
+
+  async inserEsig(pdfSource, esigSource) {
+    const url = pdfSource;
+    const qr_code_bytes = await fetch(esigSource).then((res) =>
+      res.arrayBuffer()
+    );
+
+    const existingPdfBytes = await fetch(url).then((res) => res.arrayBuffer());
+    const pdfDocLoad = await PDFDocument.load(existingPdfBytes, {
+      parseSpeed: Infinity,
+    });
+    const qr_code = await pdfDocLoad.embedPng(qr_code_bytes);
+
+    const pages = pdfDocLoad.getPages();
+    const pageCount = pages.length;
+    const { width, height } = pages[0].getSize();
+    const pngDims = qr_code.scale(0.5);
+    const pngDimsfire = qr_code.scale(0.4);
+
+    for (let i = 0; i < pageCount; i++) {
+      pages[0].drawImage(qr_code, {
+        x: width / 2 + 130,
+        y: height / 2 - 430,
+        width: pngDims.width * 1,
+        height: pngDims.height * 1,
+      });
+    }
+
+    const pdfBytes = await pdfDocLoad.save({ objectsPerTick: Infinity });
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const file = window.URL.createObjectURL(blob);
     // window.open(file); // open in new window
     return blob;
   }

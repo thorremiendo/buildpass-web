@@ -259,7 +259,7 @@
               <mat-form-field appearance="outline">
                 <mat-label>Region</mat-label>
                 <mat-select
-                  [(value)]="selectedRegion"
+                  [(value)]="complainantSelectedRegion"
                   (selectionChange)="onRegionSelect($event, 'complainant')"
                 >
                   <mat-option
@@ -274,7 +274,7 @@
               <mat-form-field appearance="outline">
                 <mat-label>Province</mat-label>
                 <mat-select
-                  [(value)]="selectedProvince"
+                  [(value)]="complainantSelectedProvince"
                   (selectionChange)="onProvinceSelect($event, 'complainant')"
                 >
                   <mat-option
@@ -289,7 +289,7 @@
               <mat-form-field appearance="outline">
                 <mat-label>City/Municipality</mat-label>
                 <mat-select
-                  [(value)]="selectedCity"
+                  [(value)]="complainantSelectedCity"
                   (selectionChange)="onCitySelect($event, 'complainant')"
                 >
                   <mat-option

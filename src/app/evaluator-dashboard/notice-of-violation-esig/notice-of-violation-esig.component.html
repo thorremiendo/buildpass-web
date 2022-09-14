@@ -1,0 +1,28 @@
+<ng-container *ngIf="!isLoading && userPdfSignature">
+  <div class="pdf-container">
+    <pdf-viewer
+      [show-all]="true"
+      [render-text]="true"
+      [original-size]="true"
+      [fit-to-page]="false"
+      [src]="userPdfSignature"
+      [show-borders]="true"
+      (page-rendered)="pageRendered($event)"
+    ></pdf-viewer>
+  </div>
+  <!-- <img [src]="userSignature" alt=""> -->
+
+  <button
+    mat-raised-button
+    color="accent"
+    (click)="selectSignature()"
+    [disabled]="!userPdfSignature || !esigRendered"
+  >
+    {{ userPdfSignature ? "Confirm" : "Loading" }}
+  </button>
+  <ng-container *ngIf="submitting">
+    <div class="spinner">
+      <mat-progress-bar></mat-progress-bar>
+    </div>
+  </ng-container>
+</ng-container>

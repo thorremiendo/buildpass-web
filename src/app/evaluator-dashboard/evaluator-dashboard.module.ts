@@ -16,7 +16,7 @@ import { LayoutModule } from '../layout/layout.module';
 import { CoreModule } from '../core/core.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { TableViewComponent } from './table-view/table-view.component';
 import { CalendarViewComponent } from './calendar-view/calendar-view.component';
 
@@ -100,6 +100,8 @@ import { NoticeOfViolationOptionsComponent } from './notice-of-violation-options
 import { NoticeOfViolationFormsComponent } from './notice-of-violation-forms/notice-of-violation-forms.component';
 import { DetailsNoticeOfViolationComponent } from './details-notice-of-violation/details-notice-of-violation.component';
 import { NoticeOfViolationSummaryComponent } from './notice-of-violation-summary/notice-of-violation-summary.component';
+import { NoticeOfViolationRemarksComponent } from './notice-of-violation-remarks/notice-of-violation-remarks.component';
+import { NoticeOfViolationEsigComponent } from './notice-of-violation-esig/notice-of-violation-esig.component';
 
 @NgModule({
   declarations: [
@@ -156,6 +158,8 @@ import { NoticeOfViolationSummaryComponent } from './notice-of-violation-summary
     NoticeOfViolationFormsComponent,
     DetailsNoticeOfViolationComponent,
     NoticeOfViolationSummaryComponent,
+    NoticeOfViolationRemarksComponent,
+    NoticeOfViolationEsigComponent,
   ],
 
   imports: [
@@ -210,6 +214,7 @@ import { NoticeOfViolationSummaryComponent } from './notice-of-violation-summary
     MatSortModule,
     MatSlideToggleModule,
     MatPaginatorModule,
+    PdfViewerModule,
   ],
 
   exports: [TechnicalEvaluationComponent, CbaoFeesTableComponent],

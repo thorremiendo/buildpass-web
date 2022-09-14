@@ -27,6 +27,9 @@ export class NewNoticeOfViolationComponent implements OnInit {
   public selectedRegion;
   public selectedProvince;
   public selectedCity;
+  complainantSelectedRegion;
+  complainantSelectedProvince;
+  complainantSelectedCity;
   public regionName;
   public provinceName;
   public cityName = null;
@@ -154,6 +157,19 @@ export class NewNoticeOfViolationComponent implements OnInit {
       respondent_region_id: this.selectedRegion,
       respondent_province_id: this.selectedProvince,
       respondent_city_id: this.selectedCity,
+      complainant_first_name: form.complainant_first_name,
+      complainant_middle_name: form.complainant_middle_name,
+      complainant_lastname_name: form.complainant_lastname_name,
+      complainant_house_number: form.complainant_house_number,
+      complainant_lot_number: form.complainant_lot_number,
+      complainant_unit_number: form.complainant_unit_number,
+      complainant_floor_number: form.complainant_floor_number,
+      complainant_purok: form.complainant_purok,
+      complainant_street: form.complainant_street,
+      complainant_subdivision: form.complainant_subdivision,
+      complainant_region_id: this.complainantSelectedRegion,
+      complainant_province_id: this.complainantSelectedProvince,
+      complainant_city_id: this.complainantSelectedCity,
       structure_house_number: form.structure_house_number,
       structure_lot_number: form.structure_lot_number,
       structure_unit_number: form.structure_unit_number,
@@ -163,6 +179,7 @@ export class NewNoticeOfViolationComponent implements OnInit {
       structure_long: form.structure_long,
       structure_lat: form.structure_lat,
     };
+    debugger;
     this.novService.addNov(body).subscribe(
       (res) => {
         console.log(res);

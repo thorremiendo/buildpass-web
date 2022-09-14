@@ -1,3 +1,4 @@
+import { NoticeOfViolationEsigComponent } from './../notice-of-violation-esig/notice-of-violation-esig.component';
 import { NoticeOfViolationSummaryComponent } from './../notice-of-violation-summary/notice-of-violation-summary.component';
 import { DetailsNoticeOfViolationComponent } from './../details-notice-of-violation/details-notice-of-violation.component';
 import { NoticeOfViolationFormsComponent } from './../notice-of-violation-forms/notice-of-violation-forms.component';
@@ -129,6 +130,10 @@ const routes: Routes = [
       {
         path: 'nov/view/:id',
         component: NoticeOfViolationSummaryComponent,
+      },
+      {
+        path: 'nov/sign/:id',
+        component: NoticeOfViolationEsigComponent,
       },
     ],
   },

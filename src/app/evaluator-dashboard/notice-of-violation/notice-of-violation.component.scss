@@ -67,3 +67,92 @@ table {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
+.loader {
+  display: flex;
+  justify-content: center;
+  margin: 100px 0;
+}
+
+.no-applications-found {
+  text-align: center;
+  margin: 100px 0;
+}
+
+.application {
+  display: flex;
+  margin: 15px 20px;
+  cursor: pointer;
+  font-weight: 400;
+
+  .application-logo {
+    padding: 15px;
+
+    img {
+      width: 65px;
+      margin: 10px;
+    }
+  }
+
+  .application-details {
+    padding: 20px 20px 20px 0;
+    width: 100%;
+
+    > div {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .application-type,
+    .application-date {
+      font-size: 15px;
+    }
+
+    .application-code {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .application-status {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .for-compliance {
+      font-size: 15px;
+      font-weight: 700;
+      color: red;
+    }
+
+    .application-applicant,
+    .application-location,
+    .application-latest-activity {
+      display: flex;
+      align-items: center;
+      font-size: 15px;
+      text-align: left;
+
+      ::ng-deep .mat-icon {
+        line-height: 17px;
+        font-size: 20px;
+        margin-right: 10px;
+      }
+
+      span {
+        font-weight: 700;
+        margin: 0 5px;
+
+        &:first-of-type {
+          margin-left: 0;
+        }
+      }
+    }
+
+    button {
+      position: absolute;
+      right: 15px;
+      background-color: red;
+      color: #fff;
+      line-height: 2.3;
+    }
+  }
+}
