@@ -17,4 +17,5 @@ export enum applicationStatus {
   'For Technical Evaluation' = 18,
   'For Signature' = 24,
   'Archived' = 26,
+  'For Amendment' = 27,
 }

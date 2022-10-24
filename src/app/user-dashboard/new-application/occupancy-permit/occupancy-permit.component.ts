@@ -123,6 +123,12 @@ export class OccupancyPermitComponent implements OnInit {
               documents: [202, 201, 14],
             });
           } else {
+            this.fieldSets.push({
+              label: '',
+              title:
+                'Professional Tax Receipt and Professional Regulations Commission ID',
+              documents: [34, 35, 36, 196, 46, 47],
+            });
             this.fieldSets[0].documents.push(
               ...this.withBuildpassBuildingPermit
             );
@@ -406,7 +412,7 @@ export class OccupancyPermitComponent implements OnInit {
               ) {
                 const oldBpDocs = [
                   125, 212, 4, 117, 199, 195, 140, 29, 115, 30, 63, 61, 64, 65,
-                  216, 50, 43, 26, 59, 62, 108
+                  216, 50, 43, 26, 59, 62, 108,
                 ];
                 //OLD BPS
                 var count = 0;
@@ -438,7 +444,7 @@ export class OccupancyPermitComponent implements OnInit {
               } else {
                 const releasedBpDocs = [
                   125, 212, 4, 117, 199, 195, 140, 29, 115, 30, 63, 61, 64, 65,
-                  216, 194, 50, 43, 26, 59, 62,108
+                  216, 194, 50, 43, 26, 59, 62, 108,
                 ];
                 let docs = [];
                 let count = 0;

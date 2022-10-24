@@ -109,12 +109,12 @@ const EVALUATORMENUITEMS = [
     icon: 'report',
     outlet: 'modal',
   },
-  {
-    state: 'evaluator/nov',
-    name: 'Notice of Violation',
-    type: 'link',
-    icon: 'cancel',
-  },
+  // {
+  //   state: 'evaluator/nov',
+  //   name: 'Notice of Violation',
+  //   type: 'link',
+  //   icon: 'cancel',
+  // },
 ];
 
 const ADMINMENUITEMS = [

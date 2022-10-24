@@ -23,7 +23,11 @@ export class ReviewButtonComponent implements OnInit {
     private checkFees: CheckEvaluatorFeesService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.applicationInfo.is_amendment == 2) {
+      this.docs = this.docs.filter((e) => e.is_duplicate == 1);
+    }
+  }
 
   handleReviewDone() {
     this.isLoading = true;

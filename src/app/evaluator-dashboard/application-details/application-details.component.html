@@ -179,6 +179,25 @@
                   </button>
                 </div>
               </div>
+              <div class="full-partial mt-3">
+                <mat-radio-group [(ngModel)]="isAmendAsBuilt">
+                  <mat-radio-button value="1" (change)="onAmendChange($event)"
+                    >As Built</mat-radio-button
+                  >
+                  <mat-radio-button value="2" (change)="onAmendChange($event)"
+                    >Amend</mat-radio-button
+                  >
+                </mat-radio-group>
+
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="handleAmend()"
+                  *ngIf="isAmendAsBuilt"
+                >
+                  {{ isAmendSaving ? "Saving" : "Save" }}
+                </button>
+              </div>
             </div>
           </div>
         </div>

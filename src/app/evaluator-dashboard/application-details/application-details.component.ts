@@ -1,3 +1,4 @@
+import { NewApplicationService } from './../../core/services/new-application.service';
 import { PopOutNotificationsService } from './../../core/services/pop-out-notification.service';
 import { SchedulingService } from './../../core/services/scheduling.service';
 import { AddInspectionComponent } from './../add-inspection/add-inspection.component';
@@ -34,7 +35,7 @@ import { FormControl } from '@angular/forms';
 export class ApplicationDetailsComponent implements OnInit {
   public fullPartialDetails = new FormControl();
   public isPartialFull;
-
+  isAmendAsBuilt;
   panelOpenState = false;
   public applicationFee;
   public isLoading = true;
@@ -50,6 +51,8 @@ export class ApplicationDetailsComponent implements OnInit {
   public inspections = [];
   public editMode: boolean = false;
   public releasedBuildingPermit;
+  isAmendSaving: boolean = false;
+  duplicateDocs = [];
   constructor(
     private applicationService: ApplicationInfoService,
     public dialog: MatDialog,
@@ -58,7 +61,8 @@ export class ApplicationDetailsComponent implements OnInit {
     private occupancyService: OccupancyService,
     private appTitle: AppTitleService,
     private inspection: SchedulingService,
-    private notif: PopOutNotificationsService
+    private notif: PopOutNotificationsService,
+    private newApplicationService: NewApplicationService
   ) {}
   openProjectDialog(): void {
     const dialogRef = this.dialog.open(ProjectDetailsComponent, {
@@ -222,6 +226,7 @@ export class ApplicationDetailsComponent implements OnInit {
       .fetchUserDocs(this.applicationId)
       .subscribe((res) => {
         this.userDocuments = res.data;
+
         if (this.applicationDetails.application_status_id == 3) {
           this.checkIfParallelEvaluationDone();
         } else {
@@ -429,6 +434,64 @@ export class ApplicationDetailsComponent implements OnInit {
           console.log(res);
           this.editMode = !this.editMode;
           this.ngOnInit();
+        });
+    }
+  }
+
+  onAmendChange(e) {
+    console.log(e);
+  }
+
+  handleAmend() {
+    this.isAmendSaving = true;
+    if (this.isAmendAsBuilt == 1) {
+      const body = {
+        is_amendment: 2,
+      };
+      this.applicationService
+        .updateApplicationInfo(body, this.applicationId)
+        .subscribe((res) => {
+          this.userDocuments.forEach((doc, index, array) => {
+            const forms = [81, 204, 83, 84];
+            let isForm = forms.find((e) => e == doc.document_id);
+            if (!isForm) {
+              const uploadDoc = {
+                application_id: this.applicationId,
+                user_id: this.user.id,
+                document_id: doc.document_id,
+                document_path: doc.document_path,
+                is_document_string: 1,
+                is_duplicate: 1,
+              };
+              this.newApplicationService
+                .submitDocument(uploadDoc)
+                .subscribe((res) => {
+                  if (index == array.length - 1) {
+                    this.notif.openSuccess('Success.');
+                    this.isAmendSaving = false;
+                    this.ngOnInit();
+                  }
+                });
+            }
+          });
+        });
+    } else if (this.isAmendAsBuilt == 2) {
+      const body = {
+        application_status_id: 27,
+      };
+      this.applicationService
+        .updateApplicationStatus(body, this.applicationId)
+        .subscribe((res) => {
+          const body = {
+            is_amendment: 1,
+          };
+          this.applicationService
+            .updateApplicationInfo(body, this.applicationId)
+            .subscribe((res) => {
+              this.notif.openSuccess('Success.');
+              this.isAmendSaving = false;
+              this.ngOnInit();
+            });
         });
     }
   }
