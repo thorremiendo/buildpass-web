@@ -142,7 +142,6 @@ export class ViewApplicationComponent implements OnInit {
             this.isAuthorized = true;
             this.fetchApplicationInspections();
             this.fetchApplicationInfo();
-            this.fetchUserDocs();
           },
           (error) => {
             this.router.navigateByUrl('dashboard/applications');
@@ -160,6 +159,7 @@ export class ViewApplicationComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
+        this.fetchUserDocs();
         if (this.applicationDetails.application_status_id == 27) {
           Swal.fire({
             title: 'For Amendment',
@@ -174,7 +174,15 @@ export class ViewApplicationComponent implements OnInit {
     this.applicationService
       .fetchUserDocs(this.applicationId)
       .subscribe((result) => {
-        this.sortUserDocs(result.data);
+        if (
+          this.applicationDetails.is_amendment == 2 &&
+          this.applicationDetails.permit_type_id == 2
+        ) {
+          const filter = result.data.filter((e) => e.is_duplicate == 1);
+          this.sortUserDocs(filter);
+        } else {
+          this.sortUserDocs(result.data);
+        }
         this.unfilteredData = result.data;
       });
   }

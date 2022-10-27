@@ -447,6 +447,10 @@ export class ApplicationDetailsComponent implements OnInit {
     if (this.isAmendAsBuilt == 1) {
       const body = {
         is_amendment: 2,
+        application_status_id: 5,
+        parallel_cepmo_status_id: 2,
+        parallel_bfp_status_id: 2,
+        parallel_cbao_status_id: 2,
       };
       this.applicationService
         .updateApplicationInfo(body, this.applicationId)
@@ -462,6 +466,8 @@ export class ApplicationDetailsComponent implements OnInit {
                 document_path: doc.document_path,
                 is_document_string: 1,
                 is_duplicate: 1,
+                document_status_id: 2,
+                cbao_status_id: 2,
               };
               this.newApplicationService
                 .submitDocument(uploadDoc)
