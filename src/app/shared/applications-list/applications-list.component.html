@@ -1,173 +1,212 @@
 <div *ngIf="!loading">
-  <mat-card
-    class="application"
+  <a
+    href="{{ '/evaluator/application/' + application.id }}"
     *ngFor="let application of applications"
-    (click)="chooseApplication(application)"
   >
-    <div class="application-logo">
-      <img
-        src="../../../assets/illustrations/building.svg"
-        *ngIf="application.permit_type_id == 1"
-      />
-      <img
-        src="../../../assets/illustrations/home.svg"
-        *ngIf="application.permit_type_id == 2"
-      />
-      <img
-        src="../../../assets/illustrations/excavation.svg"
-        *ngIf="application.permit_type_id == 3"
-      />
-      <img
-        src="../../../assets/illustrations/fencing.svg"
-        *ngIf="application.permit_type_id == 4"
-      />
-      <img
-        src="../../../assets/illustrations/demolition.svg"
-        *ngIf="application.permit_type_id == 5"
-      />
-      <img
-        src="../../../assets/illustrations/scaffolding.svg"
-        *ngIf="application.permit_type_id == 6"
-      />
-      <img
-        src="../../../assets/illustrations/sign.svg"
-        *ngIf="application.permit_type_id == 7"
-      />
-      <img
-        src="../../../assets/illustrations/sidewalk.svg"
-        *ngIf="application.permit_type_id == 8"
-      />
-      <img
-        src="../../../assets/illustrations/mechanical.svg"
-        *ngIf="application.permit_type_id == 9"
-      />
-      <img
-        src="../../../assets/illustrations/electrical.svg"
-        *ngIf="application.permit_type_id == 10"
-      />
-    </div>
-    <div class="application-details">
-      <div>
-        <div class="application-type" *ngIf="application.permit_type_id">
-          {{ application.permit_type_id == 1 ? "Building Permit" : "" }}
-          {{ application.permit_type_id == 2 ? "Certificate of Occupancy" : "" }}
-          {{ application.permit_type_id == 3 ? "Excavation Permit" : "" }}
-          {{ application.permit_type_id == 4 ? "Fencing Permit" : "" }}
-          {{ application.permit_type_id == 5 ? "Demolition Permit" : "" }}
-          {{ application.permit_type_id == 6 ? "Scaffolding Permit" : "" }}
-          {{ application.permit_type_id == 7 ? "Sign Permit" : "" }}
-          {{ application.permit_type_id == 8 ? "Temporary Side Walk Enclosure" : "" }}
-          {{ application.permit_type_id == 9 ? "Mechanical Permit" : "" }}
-          {{ application.permit_type_id == 10 && application.sub_permit_type_id == 1 
-            ? "CFEI - Temporary Connection" 
-            : "" }}
-          {{ application.permit_type_id == 10 && application.sub_permit_type_id == 2
-            ? "CFEI - Additional Connection"
-            : "" }}
-          {{ application.permit_type_id == 10 && application.sub_permit_type_id == 3 
-            ? "CFEI - Structures with Building Permit / Occupancy Certificate"
-            : "" }}
-          {{ application.permit_type_id == 10 && application.sub_permit_type_id == 4 
-            ? "CFEI - Structures affected by fire or calamities" 
-            : "" }}
-          {{ application.permit_type_id == 10 && application.sub_permit_type_id == 5 
-            ? "CFEI - Structures w/o Building Permit" 
-            : "" }}
-          <span *ngIf="application.construction_status_id">
-            ({{ getConstructionType(application.construction_status_id) }})
-          </span>
+    <mat-card class="application" (click)="chooseApplication(application)">
+      <div class="application-logo">
+        <img
+          src="../../../assets/illustrations/building.svg"
+          *ngIf="application.permit_type_id == 1"
+        />
+        <img
+          src="../../../assets/illustrations/home.svg"
+          *ngIf="application.permit_type_id == 2"
+        />
+        <img
+          src="../../../assets/illustrations/excavation.svg"
+          *ngIf="application.permit_type_id == 3"
+        />
+        <img
+          src="../../../assets/illustrations/fencing.svg"
+          *ngIf="application.permit_type_id == 4"
+        />
+        <img
+          src="../../../assets/illustrations/demolition.svg"
+          *ngIf="application.permit_type_id == 5"
+        />
+        <img
+          src="../../../assets/illustrations/scaffolding.svg"
+          *ngIf="application.permit_type_id == 6"
+        />
+        <img
+          src="../../../assets/illustrations/sign.svg"
+          *ngIf="application.permit_type_id == 7"
+        />
+        <img
+          src="../../../assets/illustrations/sidewalk.svg"
+          *ngIf="application.permit_type_id == 8"
+        />
+        <img
+          src="../../../assets/illustrations/mechanical.svg"
+          *ngIf="application.permit_type_id == 9"
+        />
+        <img
+          src="../../../assets/illustrations/electrical.svg"
+          *ngIf="application.permit_type_id == 10"
+        />
+      </div>
+      <div class="application-details">
+        <div>
+          <div class="application-type" *ngIf="application.permit_type_id">
+            {{ application.permit_type_id == 1 ? "Building Permit" : "" }}
+            {{
+              application.permit_type_id == 2 ? "Certificate of Occupancy" : ""
+            }}
+            {{ application.permit_type_id == 3 ? "Excavation Permit" : "" }}
+            {{ application.permit_type_id == 4 ? "Fencing Permit" : "" }}
+            {{ application.permit_type_id == 5 ? "Demolition Permit" : "" }}
+            {{ application.permit_type_id == 6 ? "Scaffolding Permit" : "" }}
+            {{ application.permit_type_id == 7 ? "Sign Permit" : "" }}
+            {{
+              application.permit_type_id == 8
+                ? "Temporary Side Walk Enclosure"
+                : ""
+            }}
+            {{ application.permit_type_id == 9 ? "Mechanical Permit" : "" }}
+            {{
+              application.permit_type_id == 10 &&
+              application.sub_permit_type_id == 1
+                ? "CFEI - Temporary Connection"
+                : ""
+            }}
+            {{
+              application.permit_type_id == 10 &&
+              application.sub_permit_type_id == 2
+                ? "CFEI - Additional Connection"
+                : ""
+            }}
+            {{
+              application.permit_type_id == 10 &&
+              application.sub_permit_type_id == 3
+                ? "CFEI - Structures with Building Permit / Occupancy Certificate"
+                : ""
+            }}
+            {{
+              application.permit_type_id == 10 &&
+              application.sub_permit_type_id == 4
+                ? "CFEI - Structures affected by fire or calamities"
+                : ""
+            }}
+            {{
+              application.permit_type_id == 10 &&
+              application.sub_permit_type_id == 5
+                ? "CFEI - Structures w/o Building Permit"
+                : ""
+            }}
+            <span *ngIf="application.construction_status_id">
+              ({{ getConstructionType(application.construction_status_id) }})
+            </span>
+          </div>
+          <div class="application-date" *ngIf="application.submitted_at">
+            {{ application.submitted_at | date: "MMMM dd, yyyy" }}
+          </div>
         </div>
-        <div class="application-date" *ngIf="application.submitted_at">
-          {{ application.submitted_at | date: "MMMM dd, yyyy" }}
+        <div>
+          <div
+            class="application-code"
+            *ngIf="application.permit_application_code"
+          >
+            {{ application.permit_application_code }}
+          </div>
+          <div
+            class="application-status"
+            *ngIf="application.application_status_id"
+          >
+            {{ getApplicationStatus(application.application_status_id) }}
+          </div>
+        </div>
+        <div>
+          <div
+            class="application-applicant"
+            *ngIf="application.applicant_detail"
+          >
+            <mat-icon [inline]="true">person</mat-icon>
+            {{ application.applicant_detail.first_name }}
+            {{
+              application.applicant_detail.middle_name
+                ? application.applicant_detail.middle_name
+                : application.applicant_detail.middle_name == "N/A"
+                ? ""
+                : ""
+            }}
+            {{ application.applicant_detail.last_name }}
+            {{
+              application.applicant_detail.suffix_name != "na"
+                ? application.applicant_detail.suffix_name
+                : ""
+            }}
+          </div>
+          <div
+            class="for-compliance"
+            *ngIf="application.reevaluation_status_id == 5"
+          >
+            FOR COMPLIANCE
+          </div>
+        </div>
+        <div>
+          <div class="application-location" *ngIf="application.project_detail">
+            <mat-icon [inline]="true">location_on</mat-icon>
+            {{
+              application.project_detail.block_number
+                ? "BLOCK " + application.project_detail.block_number
+                : ""
+            }}
+            {{
+              application.project_detail.lot_number
+                ? "LOT " + application.project_detail.lot_number
+                : ""
+            }}
+            {{
+              application.project_detail.house_number
+                ? "#" + application.project_detail.house_number
+                : ""
+            }}
+            {{
+              application.project_detail.street_name
+                ? application.project_detail.street_name
+                : ""
+            }}
+            {{
+              application.project_detail.subdivision
+                ? application.project_detail.subdivision
+                : ""
+            }}
+            {{
+              application.project_detail.barangay
+                ? application.project_detail.barangay
+                : ""
+            }}
+          </div>
+          <button
+            mat-button
+            *ngIf="
+              application.application_status_id == 6 &&
+              userInfo.id == application.user_id
+            "
+            (click)="
+              deleteApplication(application.id); $event.stopPropagation()
+            "
+          >
+            Delete
+          </button>
+        </div>
+        <div>
+          <div
+            class="application-latest-activity"
+            *ngIf="application.latest_activity"
+          >
+            <mat-icon [inline]="true">assignment</mat-icon>
+            <span>{{ application.latest_activity.status }}</span>
+            by <span>{{ application.latest_activity.name }}</span> on
+            {{
+              application.latest_activity.created_at | date: "MMM d, y h:mm a"
+            }}
+          </div>
         </div>
       </div>
-      <div>
-        <div class="application-code" *ngIf="application.permit_application_code">
-          {{ application.permit_application_code }}
-        </div>
-        <div class="application-status" *ngIf="application.application_status_id">
-          {{ getApplicationStatus(application.application_status_id) }}
-        </div>
-      </div>
-      <div>
-        <div class="application-applicant" *ngIf="application.applicant_detail">
-          <mat-icon [inline]="true">person</mat-icon>
-          {{ application.applicant_detail.first_name }}
-          {{
-            application.applicant_detail.middle_name
-              ? application.applicant_detail.middle_name
-              : application.applicant_detail.middle_name == "N/A"
-              ? ""
-              : ""
-          }}
-          {{ application.applicant_detail.last_name }}
-          {{
-            application.applicant_detail.suffix_name != "na"
-              ? application.applicant_detail.suffix_name
-              : ""
-          }}
-        </div>
-        <div class="for-compliance" *ngIf="application.reevaluation_status_id == 5">
-          FOR COMPLIANCE
-        </div>
-      </div>
-      <div>
-        <div class="application-location" *ngIf="application.project_detail">
-          <mat-icon [inline]="true">location_on</mat-icon>
-          {{
-            application.project_detail.block_number
-              ? "BLOCK " + application.project_detail.block_number
-              : ""
-          }}
-          {{
-            application.project_detail.lot_number
-              ? "LOT " + application.project_detail.lot_number
-              : ""
-          }}
-          {{
-            application.project_detail.house_number
-              ? "#" + application.project_detail.house_number
-              : ""
-          }}
-          {{
-            application.project_detail.street_name
-              ? application.project_detail.street_name
-              : ""
-          }}
-          {{
-            application.project_detail.subdivision
-              ? application.project_detail.subdivision
-              : ""
-          }}
-          {{
-            application.project_detail.barangay
-              ? application.project_detail.barangay
-              : ""
-          }}
-        </div>
-        <button
-          mat-button
-          *ngIf="
-            application.application_status_id == 6 &&
-            userInfo.id == application.user_id
-          "
-          (click)="
-            deleteApplication(application.id); $event.stopPropagation()
-          "
-        >
-          Delete
-        </button>
-      </div>
-      <div>
-        <div class="application-latest-activity" *ngIf="application.latest_activity">
-          <mat-icon [inline]="true">assignment</mat-icon>
-          <span>{{application.latest_activity.status}}</span>
-          by <span>{{application.latest_activity.name}}</span>
-          on {{application.latest_activity.created_at | date: "MMM d, y h:mm a"}}
-        </div>
-      </div>
-    </div>
-  </mat-card>
+    </mat-card>
+  </a>
 </div>
 
 <div class="loader" *ngIf="loading">
@@ -177,10 +216,7 @@
   ></mat-progress-spinner>
 </div>
 
-<div
-  *ngIf="applications.length == 0 && !loading"
-  class="no-applications-found"
->
+<div *ngIf="applications.length == 0 && !loading" class="no-applications-found">
   No applications found
 </div>
 
