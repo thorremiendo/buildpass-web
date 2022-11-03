@@ -100,7 +100,7 @@ export class OccupancyUploadFileComponent implements OnInit {
       evaluator_user_id: this.evaluator.employee_detail.user_id,
       document_id: this.selectedDocId.id,
       document_path: this.selectedFile,
-      document_status: '0',
+      document_status: 1,
     };
 
     this.applicationService
