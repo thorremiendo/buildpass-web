@@ -73,31 +73,31 @@ export class CfeiPermitComponent implements OnInit {
             case 1:
               this.forms.push(
                 {
-                  id: 166,
+                  id: 157,
                   src: '../../../../assets/forms/updated/Certificate_of_Electrical_Inspection_for_Temporary_Power_Connection_E-04.pdf',
                   label: 'Step 1',
                 },
                 {
-                  id: 167,
+                  id: 158,
                   src: '../../../../assets/forms/updated/FORM_E-03Temporary_Service_Connection_Permit.pdf',
                   label: 'Step 2',
                 }
               );
-              this.fieldSets[0].documents.push(168, 169, 170, 171, 172, 173);
+              this.fieldSets[0].documents.push(228, 229, 161, 230, 231);
               break;
             case 2:
               this.forms.push({
-                id: 174,
+                id: 83,
                 src: '../../../../assets/forms/updated/Certificate_of_Final_Electrical_Inspection_E-05.pdf',
               });
-              this.fieldSets[0].documents.push(175, 170, 178, 172, 173);
+              this.fieldSets[0].documents.push(228, 167, 161, 230, 231);
               break;
             case 3:
               this.forms.push({
-                id: 174,
+                id: 83,
                 src: '../../../../assets/forms/updated/Certificate_of_Final_Electrical_Inspection_E-05.pdf',
               });
-              this.fieldSets[0].documents.push(182, 170, 178, 172, 195, 187);
+              this.fieldSets[0].documents.push(228, 161, 230, 231, 39);
               break;
             case 4:
               this.forms.push({
