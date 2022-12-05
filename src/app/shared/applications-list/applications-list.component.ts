@@ -41,6 +41,14 @@ export class ApplicationsListComponent implements OnInit {
     this.loading = false;
   }
 
+  getExternalUrl(application) {
+    if (this.userInfo.employee_detail) {
+      return '/evaluator/application/' + application.id;
+    } else {
+      return '/dashboard/applications/view/' + application.id;
+    }
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     this.addLatestActivity(this.applications);
     this.loading = false;

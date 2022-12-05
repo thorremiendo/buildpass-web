@@ -1,6 +1,6 @@
 <div *ngIf="!loading">
   <a
-    href="{{ '/evaluator/application/' + application.id }}"
+    [href]="getExternalUrl(application)"
     *ngFor="let application of applications"
   >
     <mat-card class="application" (click)="chooseApplication(application)">
@@ -99,7 +99,7 @@
             </span>
           </div>
           <div class="application-date" *ngIf="application.submitted_at">
-            {{ application.submitted_at | date: "MMMM dd, yyyy" }}
+            {{ application.submitted_at | date : "MMMM dd, yyyy" }}
           </div>
         </div>
         <div>
@@ -200,7 +200,7 @@
             <span>{{ application.latest_activity.status }}</span>
             by <span>{{ application.latest_activity.name }}</span> on
             {{
-              application.latest_activity.created_at | date: "MMM d, y h:mm a"
+              application.latest_activity.created_at | date : "MMM d, y h:mm a"
             }}
           </div>
         </div>
