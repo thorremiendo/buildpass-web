@@ -338,7 +338,7 @@ export class ApplicationDetailsComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.evaluatorDetails = this.user.employee_detail;
     this.evaluatorRole = this.user.user_roles[0].role[0];
-    console.log(this.evaluatorRole);
+    console.log('evaluator', this.evaluatorDetails);
     this.isLoading = false;
   }
   getApplicationStatus(id): string {
@@ -447,16 +447,16 @@ export class ApplicationDetailsComponent implements OnInit {
     if (this.isAmendAsBuilt == 1) {
       const body = {
         is_amendment: 2,
-        application_status_id: 5,
-        parallel_cepmo_status_id: 2,
-        parallel_bfp_status_id: 2,
-        parallel_cbao_status_id: 2,
+        // application_status_id: 5,
+        // parallel_cepmo_status_id: 2,
+        // parallel_bfp_status_id: 2,
+        // parallel_cbao_status_id: 2,
       };
       this.applicationService
         .updateApplicationInfo(body, this.applicationId)
         .subscribe((res) => {
           this.userDocuments.forEach((doc, index, array) => {
-            const forms = [81, 204, 83, 84];
+            const forms = [81, 204, 83, 84, 194];
             let isForm = forms.find((e) => e == doc.document_id);
             if (!isForm) {
               const uploadDoc = {
@@ -468,6 +468,12 @@ export class ApplicationDetailsComponent implements OnInit {
                 is_duplicate: 1,
                 document_status_id: 2,
                 cbao_status_id: 2,
+                cbao_lg_status_id: 2,
+                cbao_arch_status_id: 2,
+                cbao_str_status_id: 2,
+                cbao_san_status_id: 2,
+                cbao_elec_status_id: 2,
+                cbao_mec_status_id: 2,
               };
               this.newApplicationService
                 .submitDocument(uploadDoc)

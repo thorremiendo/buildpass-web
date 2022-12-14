@@ -179,7 +179,7 @@ export class NewNoticeOfViolationComponent implements OnInit {
       structure_long: form.structure_long,
       structure_lat: form.structure_lat,
     };
-    debugger;
+
     this.novService.addNov(body).subscribe(
       (res) => {
         console.log(res);

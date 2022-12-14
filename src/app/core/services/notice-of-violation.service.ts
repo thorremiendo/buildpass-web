@@ -190,7 +190,7 @@ export class NoticeOfViolationService {
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const file = window.URL.createObjectURL(blob);
     window.open(file); // open in new window
-    debugger;
+
     // return blob;
   }
 }

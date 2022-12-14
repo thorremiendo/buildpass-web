@@ -143,7 +143,7 @@ export class CepmoEvaluatorComponent implements OnInit {
           obj.document_id == 221
       );
     }
-
+    CEPMO_FORMS = CEPMO_FORMS.filter((e) => e.is_duplicate !== 1);
     this.dataSource = this.sortUserDocs(CEPMO_FORMS);
     this.userDocuments = CEPMO_FORMS;
     this.unfilteredData = CEPMO_FORMS;

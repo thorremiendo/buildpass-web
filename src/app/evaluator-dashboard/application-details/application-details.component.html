@@ -52,7 +52,7 @@
               <h5>
                 <strong
                   >&nbsp;{{
-                    applicationDetails.submitted_at | date: "MMMM dd, yyyy"
+                    applicationDetails.submitted_at | date : "MMMM dd, yyyy"
                   }}</strong
                 >
               </h5>
@@ -179,7 +179,10 @@
                   </button>
                 </div>
               </div>
-              <div class="full-partial mt-3">
+              <div
+                class="full-partial mt-3"
+                *ngIf="evaluatorDetails.office_id == 4"
+              >
                 <mat-radio-group [(ngModel)]="isAmendAsBuilt">
                   <mat-radio-button value="1" (change)="onAmendChange($event)"
                     >As Built</mat-radio-button

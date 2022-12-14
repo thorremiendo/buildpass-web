@@ -48,7 +48,7 @@ export class ViewApplicationComponent implements OnInit {
   displayedColumns: string[] = ['index', 'name', 'status', 'remarks', 'action'];
   public searchKey = new FormControl('');
   public unfilteredData = null;
-
+  viewNonCompliant = new FormControl();
   constructor(
     private applicationService: ApplicationInfoService,
     private newApplicationService: NewApplicationService,
@@ -60,7 +60,37 @@ export class ViewApplicationComponent implements OnInit {
     private pdfService: WaterMarkService,
     private appTitle: AppTitleService,
     private inspectionService: SchedulingService
-  ) {}
+  ) {
+    this.viewNonCompliant.valueChanges.subscribe((e) => {
+      console.log(e);
+      if (e == true) {
+        this.isLoading = true;
+        this.applicationService
+          .fetchUserDocs(this.applicationId)
+          .subscribe((result) => {
+            if (
+              this.applicationDetails.is_amendment == 2 &&
+              this.applicationDetails.permit_type_id == 2
+            ) {
+              let filter = result.data.filter((e) => e.is_duplicate == 1);
+              let bfpCepmoDocs = result.data.filter(
+                (e) => e.is_duplicate !== 1 && e.document_status_id == 2
+              );
+              filter.push(...bfpCepmoDocs);
+              filter = filter.filter((e) => e.document_status_id == 2);
+              this.sortUserDocs(filter);
+            } else {
+              this.sortUserDocs(
+                result.data.filter((e) => e.document_status_id == 2)
+              );
+            }
+            this.unfilteredData = result.data;
+          });
+      } else {
+        this.fetchUserDocs();
+      }
+    });
+  }
   openProjectDialog(): void {
     const dialogRef = this.dialog.open(ProjectDetailsComponent, {
       width: '1600px',
@@ -118,7 +148,6 @@ export class ViewApplicationComponent implements OnInit {
     this.isAuthorized = false;
     this.applicationId = this.route.snapshot.params.id;
     this.user = JSON.parse(localStorage.getItem('user'));
-
     this.searchKey.valueChanges.subscribe((res) => {
       this.sortUserDocs(
         this.unfilteredData.filter((document) => {
@@ -178,7 +207,12 @@ export class ViewApplicationComponent implements OnInit {
           this.applicationDetails.is_amendment == 2 &&
           this.applicationDetails.permit_type_id == 2
         ) {
-          const filter = result.data.filter((e) => e.is_duplicate == 1);
+          let filter = result.data.filter((e) => e.is_duplicate == 1);
+          let bfpCepmoDocs = result.data.filter(
+            (e) => e.is_duplicate !== 1 && e.document_status_id == 2
+          );
+          filter.push(...bfpCepmoDocs);
+
           this.sortUserDocs(filter);
         } else {
           this.sortUserDocs(result.data);
@@ -559,7 +593,32 @@ export class ViewApplicationComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe((result) => {
-        this.ngOnInit();
+        if (this.viewNonCompliant.value !== true) {
+          this.ngOnInit();
+        } else {
+          this.isLoading = true;
+          this.applicationService
+            .fetchUserDocs(this.applicationId)
+            .subscribe((result) => {
+              if (
+                this.applicationDetails.is_amendment == 2 &&
+                this.applicationDetails.permit_type_id == 2
+              ) {
+                let filter = result.data.filter((e) => e.is_duplicate == 1);
+                let bfpCepmoDocs = result.data.filter(
+                  (e) => e.is_duplicate !== 1 && e.document_status_id == 2
+                );
+                filter.push(...bfpCepmoDocs);
+                filter = filter.filter((e) => e.document_status_id == 2);
+                this.sortUserDocs(filter);
+              } else {
+                this.sortUserDocs(
+                  result.data.filter((e) => e.document_status_id == 2)
+                );
+              }
+              this.unfilteredData = result.data;
+            });
+        }
       });
     }
   }

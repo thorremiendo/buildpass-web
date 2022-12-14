@@ -404,6 +404,14 @@ export class FormDetailsComponent implements OnInit {
     }
     if (!findId) {
       uploadDocumentData['cbao_status_id'] = 0;
+      uploadDocumentData['cepmo_status_id'] = 0;
+      uploadDocumentData['bfp_status_id'] = 0;
+      uploadDocumentData['cbao_arch_status_id'] = 0;
+      uploadDocumentData['cbao_elec_status_id'] = 0;
+      uploadDocumentData['cbao_san_status_id'] = 0;
+      uploadDocumentData['cbao_lg_status_id'] = 0;
+      uploadDocumentData['cbao_str_status_id'] = 0;
+      uploadDocumentData['cbao_mec_status_id'] = 0;
     }
     if (findId) {
       const doc = this.data.form;
@@ -424,6 +432,12 @@ export class FormDetailsComponent implements OnInit {
           const body = {
             cbao_status_id: 0,
             document_status_id: 0,
+            cbao_arch_status_id: 0,
+            cbao_elec_status_id: 0,
+            cbao_san_status_id: 0,
+            cbao_lg_status_id: 0,
+            cbao_str_status_id: 0,
+            cbao_mec_status_id: 0,
           };
           this.updateDoc(body, id);
         } else if (e.cepmo_status_id == 2) {

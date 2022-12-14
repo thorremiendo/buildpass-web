@@ -24,7 +24,10 @@ export class ReviewButtonComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.applicationInfo.is_amendment == 2) {
+    if (
+      this.applicationInfo.is_amendment == 2 &&
+      this.evaluatorDetails.office_id == 4
+    ) {
       this.docs = this.docs.filter((e) => e.is_duplicate == 1);
     }
   }
@@ -167,21 +170,35 @@ export class ReviewButtonComponent implements OnInit {
       this.evaluatorRole.code == 'CBAO-DC' ||
       this.evaluatorRole.code == 'CBAO-BO'
     ) {
-      if (
-        this.docs.every(
-          (form) => form.document_status_id == 1 || form.document_status_id == 2
-        )
-      ) {
-        if (this.docs.find((form) => form.document_status_id == 2)) {
-          //RETURN TO APPLICANT
-          this.updateApplicationNonCompliant();
-        } else if (this.docs.every((form) => form.document_status_id == 1)) {
-          //FORWARD
-          this.updateApplicationStatus(this.evaluatorRole.code);
+      if (this.applicationInfo.is_amendment !== 2) {
+        if (
+          this.docs.every(
+            (form) =>
+              form.document_status_id == 1 || form.document_status_id == 2
+          )
+        ) {
+          if (this.docs.find((form) => form.document_status_id == 2)) {
+            //RETURN TO APPLICANT
+            this.updateApplicationNonCompliant();
+          } else if (this.docs.every((form) => form.document_status_id == 1)) {
+            //FORWARD
+            this.updateApplicationStatus(this.evaluatorRole.code);
+          }
+        } else {
+          this.alert.openSnackBar('Review all documents first!');
+          this.isLoading = false;
         }
       } else {
-        this.alert.openSnackBar('Review all documents first!');
-        this.isLoading = false;
+        const STATUS = [
+          this.applicationInfo.parallel_cbao_status_id,
+          this.applicationInfo.parallel_cepmo_status_id,
+          this.applicationInfo.parallel_bfp_status_id,
+        ];
+        if (STATUS.find((e) => e == 2)) {
+          this.updateApplicationNonCompliant();
+        } else if (STATUS.every((e) => e == 1)) {
+          this.updateApplicationStatus(this.evaluatorRole.code);
+        }
       }
     } else if (this.evaluatorRole.code == 'CBAO-REL') {
       this.handleRelease();

@@ -178,7 +178,7 @@ export class BfpEvaluatorComponent implements OnInit {
           obj.document_id == 224
       );
     }
-
+    BFP_FORMS = BFP_FORMS.filter((e) => e.is_duplicate !== 1);
     this.dataSource = this.sortUserDocs(BFP_FORMS);
     this.userDocuments = BFP_FORMS;
     this.unfilteredData = BFP_FORMS;
