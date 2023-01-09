@@ -192,7 +192,7 @@ export class ViewApplicationComponent implements OnInit {
         if (this.applicationDetails.application_status_id == 27) {
           Swal.fire({
             title: 'For Amendment',
-            text: 'Your application for Certificate of Occupancy cannot be processed as of the moment due to non conformance with the approved Building Permit. Hence, you are required to secure an amended building permit following the Building Permit process. For more inquiries, please contact us for more details.',
+            text: 'Your application for Certificate of Occupancy cannot be processed as of the moment due to non conformance with the approved Building Permit. Hence, you are required to secure an amended building permit following the Building Permit process. For inquiries, please contact us.',
             icon: 'info',
           });
         }
