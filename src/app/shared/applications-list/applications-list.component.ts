@@ -44,6 +44,8 @@ export class ApplicationsListComponent implements OnInit {
   getExternalUrl(application) {
     if (this.userInfo.employee_detail) {
       return '/evaluator/application/' + application.id;
+    } else if (this.userInfo == 'treasury-cbao') {
+      return '/treasury/dashboard/application/' + application.id;
     } else {
       return '/dashboard/applications/view/' + application.id;
     }
