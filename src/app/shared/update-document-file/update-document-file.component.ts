@@ -62,10 +62,7 @@ export class UpdateDocumentFileComponent implements OnInit {
     this.applicationService
       .updateDocumentFile(uploadDocumentData, this.data.document.id)
       .subscribe((res) => {
-        if (
-          this.data.application.permit_type_id == 2 &&
-          this.data.application.old_permit_number !== ''
-        ) {
+        if (this.data.application.permit_type_id == 2) {
           const body = {
             document_status_id: 1,
             receiving_status_id: 1,
