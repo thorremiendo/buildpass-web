@@ -891,6 +891,7 @@ export class FormDetailsComponent implements OnInit {
         .updateDocumentFile({ is_applicable: 1 }, form.id)
         .subscribe((res) => {
           this.isFormApplicable = res.data.is_applicable;
+          this.openSnackBar('Saved!');
         });
     } else if (this.isFormApplicable == 1 || this.isFormApplicable == 0) {
       this.applicationService
@@ -907,6 +908,7 @@ export class FormDetailsComponent implements OnInit {
         )
         .subscribe((res) => {
           this.isFormApplicable = res.data.is_applicable;
+          this.openSnackBar('Saved!');
         });
     }
   }

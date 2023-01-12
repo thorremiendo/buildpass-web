@@ -240,8 +240,12 @@ export class CepmoEvaluatorComponent implements OnInit {
   getDocType(id): string {
     return this.documentTypes[id - 1].name;
   }
-  getDocStatus(id): string {
-    return documentStatus[id];
+  getDocStatus(status_id, is_applicable): string {
+    if (status_id == 1 && is_applicable == 2) {
+      return 'Not Applicable';
+    } else {
+      return documentStatus[status_id];
+    }
   }
   openWwmsDialog() {
     const dialogRef = this.dialog.open(WwwmsCertificateComponent, {
