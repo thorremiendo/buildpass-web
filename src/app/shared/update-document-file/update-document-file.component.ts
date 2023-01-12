@@ -59,14 +59,32 @@ export class UpdateDocumentFileComponent implements OnInit {
     const uploadDocumentData = {
       document_path: file,
     };
-
     this.applicationService
       .updateDocumentFile(uploadDocumentData, this.data.document.id)
       .subscribe((res) => {
-        this.snackbar.openSuccessToast('File updated!');
-        this.dialogRef.close();
-        this.loading = false;
-        this.onDialogClose();
+        if (
+          this.data.application.permit_type_id == 2 &&
+          this.data.application.old_permit_number !== ''
+        ) {
+          debugger;
+          const body = {
+            document_status_id: 1,
+            receiving_status_id: 1,
+          };
+          this.newApplicationService
+            .updateDocumentFile(body, res.data.id)
+            .subscribe((res) => {
+              this.snackbar.openSuccessToast('File updated!');
+              this.dialogRef.close();
+              this.loading = false;
+              this.onDialogClose();
+            });
+        } else {
+          this.snackbar.openSuccessToast('File updated!');
+          this.dialogRef.close();
+          this.loading = false;
+          this.onDialogClose();
+        }
       });
   }
 
