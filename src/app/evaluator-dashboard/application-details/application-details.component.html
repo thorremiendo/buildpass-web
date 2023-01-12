@@ -183,11 +183,17 @@
                 class="full-partial mt-3"
                 *ngIf="evaluatorDetails.office_id == 4"
               >
-                <mat-radio-group [(ngModel)]="isAmendAsBuilt">
-                  <mat-radio-button value="1" (change)="onAmendChange($event)"
+                <mat-radio-group>
+                  <mat-radio-button
+                    value="1"
+                    (change)="onAmendChange($event)"
+                    [checked]="isAmendAsBuilt == 2 ? true : false"
                     >As Built</mat-radio-button
                   >
-                  <mat-radio-button value="2" (change)="onAmendChange($event)"
+                  <mat-radio-button
+                    value="2"
+                    (change)="onAmendChange($event)"
+                    [checked]="isAmendAsBuilt == 1 ? true : false"
                     >Amend</mat-radio-button
                   >
                 </mat-radio-group>

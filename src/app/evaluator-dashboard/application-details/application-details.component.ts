@@ -95,6 +95,7 @@ export class ApplicationDetailsComponent implements OnInit {
       .fetchApplicationInfo(this.applicationId)
       .subscribe((result) => {
         this.applicationDetails = result.data;
+        this.isAmendAsBuilt = this.applicationDetails.is_amendment;
         console.log('here', this.applicationDetails);
         this.isPartialFull =
           this.applicationDetails.project_detail.is_partial_full;
@@ -440,6 +441,7 @@ export class ApplicationDetailsComponent implements OnInit {
 
   onAmendChange(e) {
     console.log(e);
+    this.isAmendAsBuilt = e.value;
   }
 
   handleAmend() {
