@@ -545,7 +545,14 @@ export class OccupancyPermitComponent implements OnInit {
   }
 
   async submitNotApplicable(form) {
-    console.log(form);
+    let pdf = await fetch(
+      'https://s3-ap-southeast-1.amazonaws.com/baguio-ocpas/MaZXPXPOptMGBcvThBJ2VejNVzCEXVbEcYHZtU8y.pdf'
+    );
+    let data = await pdf.blob();
+    let metadata = {
+      type: 'application/pdf',
+    };
+    let file = new File([data], 'not-applicable.pdf', metadata);
     const blob =
       await this.NgxExtendedPdfViewerService.getCurrentDocumentAsBlob();
     if (blob) {
@@ -566,7 +573,28 @@ export class OccupancyPermitComponent implements OnInit {
       this.newApplicationService
         .submitDocument(uploadDocumentData)
         .subscribe((res) => {
-          this.fetchApplicationInfo();
+          if (form.id == 84) {
+            const uploadDocumentData = {
+              application_id: this.applicationId,
+              user_id: this.user.id,
+              document_id: 47,
+              document_path: file,
+              document_status_id: 1,
+              is_applicable: 2,
+              receiving_status_id: 1,
+              cbao_status_id: 1,
+              bfp_status_id: 1,
+              cepmo_status_id: 1,
+            };
+            this.newApplicationService
+              .submitDocument(uploadDocumentData)
+              .subscribe((res) => {
+                console.log('mech occ', res);
+                this.fetchApplicationInfo();
+              });
+          } else {
+            this.fetchApplicationInfo();
+          }
         });
     }
     this.isOptional = false;
