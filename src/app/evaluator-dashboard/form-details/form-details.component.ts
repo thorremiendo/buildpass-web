@@ -493,14 +493,18 @@ export class FormDetailsComponent implements OnInit {
         //BLDG PERMIT EVALUATORS
         const filters = [59, 63, 36, 62, 32, 33, 140];
         const findId = filters.find((e) => e == this.data.form.document_id);
-        if (findId) {
+        if (
+          findId &&
+          (this.data.application.permit_type_id == 1 ||
+            this.data.application.permit_type_id == 2)
+        ) {
           //PARALLEL DOC
           body = {
             cbao_status_id: this.permitDetails.value.is_compliant,
             is_override: 1,
           };
           this.updateDoc(body, id);
-        } else if (!findId) {
+        } else {
           //NOT PARALLEL DOC
           body = {
             document_status_id: this.permitDetails.value.is_compliant,

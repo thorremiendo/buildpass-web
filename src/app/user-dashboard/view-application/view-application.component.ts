@@ -652,7 +652,7 @@ export class ViewApplicationComponent implements OnInit {
           .subscribe((res) => {
             Swal.fire(
               'Success!',
-              `Forwarded to CBAO Receiving for Evaluation!`,
+              `Forwarded to Receiving for Evaluation!`,
               'success'
             ).then((result) => {
               this.isLoading = false;

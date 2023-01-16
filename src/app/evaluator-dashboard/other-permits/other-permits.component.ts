@@ -117,7 +117,7 @@ export class OtherPermitsComponent implements OnInit {
         if (this.evaluatorRole.code == 'CBAO-REC') {
           const body = {
             application_status_id: 5,
-            cbao_status_id: 2,
+            receiving_status_id: 2,
           };
           this.updateStatus(body);
         } else if (this.evaluatorRole.code == 'CBAO-DC') {
@@ -589,6 +589,49 @@ export class OtherPermitsComponent implements OnInit {
       });
   }
 
+  uploadTarpaulin() {
+    const uploadDocumentData = {
+      application_id: this.applicationId,
+      user_id: this.evaluatorDetails.user_id,
+      document_id: 15,
+      document_status_id: 1,
+      is_document_string: 1,
+      document_path:
+        'https://s3-ap-southeast-1.amazonaws.com/buildpass-storage/00DgfOpnvb3mMwPHHEE4z9HuutbCAfkXopDHml7l.pdf',
+    };
+
+    this.newApplicationService
+      .submitDocument(uploadDocumentData)
+      .subscribe((res) => {
+        const doc = res.data.document_path;
+        const id = res.data.id;
+        this.newApplicationService
+          .updateDocumentFile({ receiving_status_id: 1 }, id)
+          .subscribe((res) => {
+            this.newApplicationService
+              .updateDocumentFile({ bfp_status_id: 1 }, id)
+              .subscribe((res) => {
+                this.newApplicationService
+                  .updateDocumentFile({ cbao_status_id: 1 }, id)
+                  .subscribe((res) => {
+                    this.newApplicationService
+                      .updateDocumentFile({ cepmo_status_id: 1 }, id)
+                      .subscribe((res) => {
+                        Swal.fire(
+                          'Success!',
+                          `Forwarded for signature!`,
+                          'success'
+                        ).then((result) => {
+                          this.isLoading = false;
+                          window.location.reload();
+                        });
+                      });
+                  });
+              });
+          });
+      });
+  }
+
   forSignature() {
     this.isLoading = true;
     if (this.checkFormsCompliant) {
@@ -599,14 +642,7 @@ export class OtherPermitsComponent implements OnInit {
       this.applicationService
         .updateApplicationStatus(body, this.applicationId)
         .subscribe((res) => {
-          Swal.fire(
-            'Success!',
-            `Forwarded for signature!`,
-            'success'
-          ).then((result) => {
-            this.isLoading = false;
-            window.location.reload();
-          });
+          this.uploadTarpaulin();
         });
     } else {
       Swal.fire(
