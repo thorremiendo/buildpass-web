@@ -589,8 +589,14 @@ export class OccupancyPermitComponent implements OnInit {
             this.newApplicationService
               .submitDocument(uploadDocumentData)
               .subscribe((res) => {
-                console.log('mech occ', res);
-                this.fetchApplicationInfo();
+                const body = {
+                  cbao_mec_status_id: 1,
+                };
+                this.applicationService
+                  .updateCbaoStatus(body, this.applicationId)
+                  .subscribe((res) => {
+                    this.fetchApplicationInfo();
+                  });
               });
           } else {
             this.fetchApplicationInfo();
