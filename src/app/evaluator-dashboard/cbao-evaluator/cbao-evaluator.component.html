@@ -857,11 +857,12 @@
                         (click)="nonCompliant()"
                         *ngIf="applicationInfo.application_status_id !== 3"
                         [disabled]="
-                          evaluatorRole.code == 'CBAO-REC' &&
-                          applicationInfo.application_status_id !== 1
+                          (evaluatorRole.code == 'CBAO-REC' &&
+                            applicationInfo.application_status_id !== 1) ||
+                          !checkFormNonCompliant()
                         "
                       >
-                        Return to Applicant
+                        Return to Applicants
                       </button>
                     </div>
                   </div>
