@@ -70,6 +70,11 @@
         evaluatorRole.code == 'CBAO-BO' &&
         applicationInfo.application_status_id == 13
       "
+      [disabled]="
+        !checkFormsCompliant() ||
+        applicationInfo.application_status_id !== 13 ||
+        isLoading
+      "
       [disabled]="!checkFormsCompliant() || isLoading"
     >
       For Signature
@@ -83,6 +88,19 @@
       [disabled]="!checkFormsCompliant() || isLoading"
     >
       For Payment of Fees
+      <mat-icon>check</mat-icon>
+    </button>
+    <button
+      mat-raised-button
+      (click)="forPayment()"
+      color="primary"
+      *ngIf="
+        evaluatorRole.code == 'CBAO-BO' &&
+        applicationInfo.application_status_id == 24
+      "
+      [disabled]="!checkFormsCompliant() || isLoading"
+    >
+      Forward to Payment of Fees
       <mat-icon>check</mat-icon>
     </button>
     <button
