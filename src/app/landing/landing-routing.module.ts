@@ -20,7 +20,7 @@ const routes: Routes = [
     component: LandingComponent,
   },
   {
-    path: 'error',
+    path: 'maintenance',
     component: ErrorPageComponent,
   },
   {
@@ -69,7 +69,7 @@ const routes: Routes = [
     path: 'registration',
     component: RegistrationComponent,
   },
-  { path: '**', redirectTo: 'error' },
+  { path: '**', redirectTo: 'maintenance' },
 ];
 
 @NgModule({
