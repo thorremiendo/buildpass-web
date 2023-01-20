@@ -226,7 +226,7 @@ export class OtherPermitsComponent implements OnInit {
                   count = count + 1;
                   if (count === array.length - 1) {
                     this.isLoading = false;
-                    this.openSnackBar('Permit Approved!');
+                    this.openSnackBar('Forwarded to Payment of Fees.');
                     window.location.reload();
                   }
                 });
