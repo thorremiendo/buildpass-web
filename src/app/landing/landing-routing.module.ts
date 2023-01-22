@@ -19,10 +19,10 @@ const routes: Routes = [
     path: '',
     component: LandingComponent,
   },
-  {
-    path: 'maintenance',
-    component: ErrorPageComponent,
-  },
+  // {
+  //   path: 'maintenance',
+  //   component: ErrorPageComponent,
+  // },
   {
     path: 'about',
     component: AboutComponent,
