@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-const routes: Routes = [{ path: '**', redirectTo: 'maintenance' }];
+const routes: Routes = [
+  // { path: '**', redirectTo: 'maintenance' }
+];
 
 @NgModule({
   imports: [
