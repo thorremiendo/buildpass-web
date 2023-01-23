@@ -19,10 +19,10 @@ const routes: Routes = [
     path: '',
     component: LandingComponent,
   },
-  {
-    path: 'maintenance',
-    component: ErrorPageComponent,
-  },
+  // {
+  //   path: 'maintenance',
+  //   component: ErrorPageComponent,
+  // },
   {
     path: 'about',
     component: AboutComponent,
@@ -69,7 +69,7 @@ const routes: Routes = [
     path: 'registration',
     component: RegistrationComponent,
   },
-  { path: '**', redirectTo: 'maintenance' },
+  // { path: '**', redirectTo: 'maintenance' },
 ];
 
 @NgModule({
