@@ -640,6 +640,7 @@ export class ViewApplicationComponent implements OnInit {
   }
 
   otherPermitsSave() {
+    //other permits
     if (!this.checkFormNonCompliant()) {
       this.isLoading = true;
       if (this.applicationDetails.receiving_status_id == 2) {
@@ -660,10 +661,10 @@ export class ViewApplicationComponent implements OnInit {
             });
           });
       } else if (this.applicationDetails.cbao_status_id == 2) {
-        //other permits
         const body = {
           application_status_id: 18,
           cbao_status_id: 0,
+          dc_status_id: 0,
         };
         this.applicationService
           .updateApplicationStatus(body, this.applicationId)
@@ -681,6 +682,7 @@ export class ViewApplicationComponent implements OnInit {
         const body = {
           application_status_id: 18,
           dc_status_id: 0,
+          cbao_status_id: 0,
         };
         this.updateTechnicalEvaluatorStatus();
         this.applicationService

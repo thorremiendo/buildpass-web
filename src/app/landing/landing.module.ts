@@ -39,6 +39,7 @@ import { DataPrivacyComponent } from './data-privacy/data-privacy.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { SharedModule } from '../shared/shared.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ErrorPageComponent } from './error-page/error-page.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     RegistrationComponent,
     DataPrivacyComponent,
     ChangePasswordComponent,
+    ErrorPageComponent,
   ],
   imports: [
     CommonModule,
