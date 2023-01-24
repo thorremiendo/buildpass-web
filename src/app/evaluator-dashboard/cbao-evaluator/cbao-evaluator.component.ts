@@ -373,8 +373,10 @@ export class CbaoEvaluatorComponent implements OnInit {
 
   checkTechnicalEvaluationDone() {
     const app = this.applicationInfo;
+    const appStoreys = this.applicationInfo.project_detail.number_of_storey;
     let status;
-    if (app.occupancy_classification_id == 1) {
+
+    if (app.occupancy_classification_id == 1 && appStoreys < 3) {
       status = [
         {
           id: app.cbao_arch_status_id,
@@ -390,6 +392,27 @@ export class CbaoEvaluatorComponent implements OnInit {
         },
         {
           id: app.cbao_str_status_id,
+        },
+      ];
+    } else if (app.occupancy_classification_id == 1 && appStoreys >= 3) {
+      status = [
+        {
+          id: app.cbao_arch_status_id,
+        },
+        {
+          id: app.cbao_elec_status_id,
+        },
+        {
+          id: app.cbao_san_status_id,
+        },
+        {
+          id: app.cbao_lg_status_id,
+        },
+        {
+          id: app.cbao_str_status_id,
+        },
+        {
+          id: app.cbao_mec_status_id,
         },
       ];
     } else {
@@ -422,8 +445,9 @@ export class CbaoEvaluatorComponent implements OnInit {
   checkTechnicalEvaluationCompliant() {
     if (this.checkTechnicalEvaluationDone()) {
       const app = this.applicationInfo;
+      const appStoreys = this.applicationInfo.project_detail.number_of_storey;
       let status;
-      if (app.occupancy_classification_id == 1) {
+      if (app.occupancy_classification_id == 1 && appStoreys < 3) {
         status = [
           {
             id: app.cbao_arch_status_id,
@@ -439,6 +463,27 @@ export class CbaoEvaluatorComponent implements OnInit {
           },
           {
             id: app.cbao_str_status_id,
+          },
+        ];
+      } else if (app.occupancy_classification_id == 1 && appStoreys >= 3) {
+        status = [
+          {
+            id: app.cbao_arch_status_id,
+          },
+          {
+            id: app.cbao_elec_status_id,
+          },
+          {
+            id: app.cbao_san_status_id,
+          },
+          {
+            id: app.cbao_lg_status_id,
+          },
+          {
+            id: app.cbao_str_status_id,
+          },
+          {
+            id: app.cbao_mec_status_id,
           },
         ];
       } else {
