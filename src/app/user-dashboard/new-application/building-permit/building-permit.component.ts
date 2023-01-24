@@ -99,7 +99,7 @@ export class BuildingPermitComponent implements OnInit {
     {
       label: `Step ${this.forms.length + 2}`,
       title: 'Plans',
-      documents: [194, 59, 61, 63, 62, 64, 65, 140, 115],
+      documents: [59, 61, 63, 62, 64, 65, 140, 115],
     },
     {
       label: `Step ${this.forms.length + 3}`,
