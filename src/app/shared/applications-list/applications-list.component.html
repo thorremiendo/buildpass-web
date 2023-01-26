@@ -65,32 +65,27 @@
             }}
             {{ application.permit_type_id == 9 ? "Mechanical Permit" : "" }}
             {{
-              application.permit_type_id == 10 &&
-              application.cfei_type_id == 1
+              application.permit_type_id == 10 && application.cfei_type_id == 1
                 ? "CFEI - Temporary Connection"
                 : ""
             }}
             {{
-              application.permit_type_id == 10 &&
-              application.cfei_type_id == 2
+              application.permit_type_id == 10 && application.cfei_type_id == 2
                 ? "CFEI - Additional Connection"
                 : ""
             }}
             {{
-              application.permit_type_id == 10 &&
-              application.cfei_type_id == 3
+              application.permit_type_id == 10 && application.cfei_type_id == 3
                 ? "CFEI - Structures with Building Permit / Occupancy Certificate"
                 : ""
             }}
             {{
-              application.permit_type_id == 10 &&
-              application.cfei_type_id == 4
+              application.permit_type_id == 10 && application.cfei_type_id == 4
                 ? "CFEI - Structures affected by fire or calamities"
                 : ""
             }}
             {{
-              application.permit_type_id == 10 &&
-              application.cfei_type_id == 5
+              application.permit_type_id == 10 && application.cfei_type_id == 5
                 ? "CFEI - Structures w/o Building Permit"
                 : ""
             }}
@@ -136,6 +131,7 @@
                 ? application.applicant_detail.suffix_name
                 : ""
             }}
+            ({{ application.applicant_detail.email_address }})
           </div>
           <div
             class="for-compliance"
@@ -145,7 +141,17 @@
           </div>
         </div>
         <div>
-          <div class="application-location" *ngIf="application.project_detail">
+          <div class="application-applicant">
+            <mat-icon>mail</mat-icon>
+            {{ application.user_detail.email_address }}
+          </div>
+        </div>
+
+        <div>
+          <div
+            class="application-location"
+            *ngIf="application.project_detail.barangay"
+          >
             <mat-icon [inline]="true">location_on</mat-icon>
             {{
               application.project_detail.block_number
