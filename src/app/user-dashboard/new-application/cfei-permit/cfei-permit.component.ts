@@ -324,7 +324,10 @@ export class CfeiPermitComponent implements OnInit {
       this.isLoading = false;
     } else {
       if (environment.receiveApplications == true) {
-        if (this.getFieldSetsLength() + 1 == this.getUniqueUserDocs()) {
+        if (
+          this.getFieldSetsLength() + this.getFormsLength() ==
+          this.getUniqueUserDocs()
+        ) {
           this.isLoading = true;
           const body = {
             application_status_id: 9,

@@ -2,7 +2,7 @@
   <h3>Certificate of Final Electrical Inspection</h3>
   <h4 style="font-weight: bold; color: grey">
     Uploaded Documents: {{ getUniqueUserDocs() }}/
-    {{ getFieldSetsLength() + 1 }}
+    {{ getFieldSetsLength() + getFormsLength() }}
   </h4>
   <mat-horizontal-stepper
     linear
@@ -80,11 +80,8 @@
       <div class="fieldsets">
         <h1>{{ fieldSet.title }}</h1>
         <div class="step-label">
-          Please make sure uploaded documents follow prescribed templates. Check 
-          <a
-            routerLink="/dashboard/checklists"
-            routerLinkActive="active"
-          >
+          Please make sure uploaded documents follow prescribed templates. Check
+          <a routerLink="/dashboard/checklists" routerLinkActive="active">
             downloadables
           </a>
           for more info.
