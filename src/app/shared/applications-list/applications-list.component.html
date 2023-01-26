@@ -66,31 +66,31 @@
             {{ application.permit_type_id == 9 ? "Mechanical Permit" : "" }}
             {{
               application.permit_type_id == 10 &&
-              application.sub_permit_type_id == 1
+              application.cfei_type_id == 1
                 ? "CFEI - Temporary Connection"
                 : ""
             }}
             {{
               application.permit_type_id == 10 &&
-              application.sub_permit_type_id == 2
+              application.cfei_type_id == 2
                 ? "CFEI - Additional Connection"
                 : ""
             }}
             {{
               application.permit_type_id == 10 &&
-              application.sub_permit_type_id == 3
+              application.cfei_type_id == 3
                 ? "CFEI - Structures with Building Permit / Occupancy Certificate"
                 : ""
             }}
             {{
               application.permit_type_id == 10 &&
-              application.sub_permit_type_id == 4
+              application.cfei_type_id == 4
                 ? "CFEI - Structures affected by fire or calamities"
                 : ""
             }}
             {{
               application.permit_type_id == 10 &&
-              application.sub_permit_type_id == 5
+              application.cfei_type_id == 5
                 ? "CFEI - Structures w/o Building Permit"
                 : ""
             }}

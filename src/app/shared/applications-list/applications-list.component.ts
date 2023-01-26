@@ -1,3 +1,4 @@
+import { cfeiTypes } from './../../core/enums/application-type.enum';
 import {
   Component,
   OnInit,
@@ -78,6 +79,10 @@ export class ApplicationsListComponent implements OnInit {
 
   getPermitType(id): string {
     return applicationTypes[id];
+  }
+
+  getCfeiType(id): string {
+    return cfeiTypes[id];
   }
 
   onPageChange($event) {

@@ -18,3 +18,11 @@ export enum applicationDescriptions {
   'A document issued by Building Official that authorize property owner to construct a fence around their property' = 4,
   'A document issued by the Building Official authorizes an applicant with the right to demolish any structure that requires a building permit to construct.' = 5,
 }
+
+export enum cfeiTypes {
+  'CFEI - Temporary Connection' = 1,
+  'CFEI - Additional Connection' = 2,
+  'CFEI - Structures with Building Permit / Occupancy Certificate' = 3,
+  'CFEI - Structures affected by fire or calamities' = 4,
+  'CFEI - Structures w/o Building Permit' = 5,
+}
