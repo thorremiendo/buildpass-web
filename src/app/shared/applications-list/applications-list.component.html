@@ -140,7 +140,7 @@
             FOR COMPLIANCE
           </div>
         </div>
-        <div>
+        <div *ngIf="application.user_detail">
           <div class="application-applicant">
             <mat-icon>mail</mat-icon>
             {{ application.user_detail.email_address }}
