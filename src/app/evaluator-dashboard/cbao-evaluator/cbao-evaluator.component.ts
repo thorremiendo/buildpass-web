@@ -318,8 +318,31 @@ export class CbaoEvaluatorComponent implements OnInit {
             this.user = JSON.parse(localStorage.getItem('user'));
             this.evaluatorDetails = this.user.employee_detail;
             this.evaluatorRole = this.user.user_roles[0].role[0];
-            this.filterUserDocs(result.data);
             this.userDocuments = result.data;
+            if (this.evaluatorRole.code == 'CBAO-DC') {
+              const find = this.userDocuments.find((e) => e.document_id == 194);
+              console.log('sheet1', find);
+              if (find) {
+                let body = {
+                  document_status_id: 1,
+                };
+                this.newApplicationService
+                  .updateDocumentFile(body, find.id)
+                  .subscribe((res) => {
+                    this.applicationService
+                      .fetchUserDocs(this.applicationId)
+                      .subscribe((res) => {
+                        this.userDocuments = res.data;
+                        this.filterUserDocs(res.data);
+                      });
+                  });
+              } else {
+                this.userDocuments = result.data;
+                this.filterUserDocs(result.data);
+              }
+            } else {
+              this.filterUserDocs(result.data);
+            }
             this.plansDocuments = this.userDocuments.filter(
               (e) =>
                 e.document_id == 59 ||
