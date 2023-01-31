@@ -406,7 +406,7 @@ export class OccupancyPermitComponent implements OnInit {
               ) {
                 const oldBpDocs = [
                   125, 212, 4, 117, 199, 195, 140, 29, 115, 30, 63, 61, 64, 65,
-                  216, 50, 43, 26, 59, 62, 108
+                  50, 43, 26, 59, 62, 108,
                 ];
                 //OLD BPS
                 var count = 0;
@@ -438,7 +438,7 @@ export class OccupancyPermitComponent implements OnInit {
               } else {
                 const releasedBpDocs = [
                   125, 212, 4, 117, 199, 195, 140, 29, 115, 30, 63, 61, 64, 65,
-                  216, 194, 50, 43, 26, 59, 62,108
+                  194, 50, 43, 26, 59, 62, 108,
                 ];
                 let docs = [];
                 let count = 0;
