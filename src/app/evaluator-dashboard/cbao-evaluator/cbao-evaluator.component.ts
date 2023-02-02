@@ -127,6 +127,17 @@ export class CbaoEvaluatorComponent implements OnInit {
       }
     });
   }
+
+  isDocumentAForm(doc) {
+    const forms = [
+      1, 2, 3, 4, 5, 48, 106, 98, 99, 195, 117, 108, 146, 232, 124, 81, 204, 83,
+      84, 117, 4, 232, 195,
+    ];
+    let find = forms.find((e) => doc == e);
+    if (find) {
+      return true;
+    } else return false;
+  }
   checkBfpParallelDocs() {
     this.isLoading = true;
 
