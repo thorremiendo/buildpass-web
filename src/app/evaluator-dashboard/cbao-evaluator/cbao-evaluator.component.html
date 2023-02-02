@@ -728,12 +728,10 @@
                           color="accent"
                           (click)="openUploadDocument(element)"
                           *ngIf="
-                            ((this.user.user_roles[0].is_special == 1 ||
-                              evaluatorRole.code == 'CBAO-REL') &&
-                              (element.document_id == 50 ||
-                                element.document_id == 15 ||
-                                element.document_id == 225)) ||
-                            evaluatorRole.code == 'SPRADM'
+                            (this.user.user_roles[0].is_special == 1 ||
+                              evaluatorRole.code == 'CBAO-REL' ||
+                              evaluatorRole.code == 'SPRADM') &&
+                            isDocumentAForm(element.document_id)
                           "
                         >
                           Update Fields
@@ -743,8 +741,11 @@
                           color="accent"
                           (click)="openUpdateDocumentFile(element)"
                           *ngIf="
-                            evaluatorRole.code == 'CBAO-REC' ||
-                            evaluatorRole.code == 'SPRADM'
+                            (this.user.user_roles[0].is_special == 1 ||
+                              evaluatorRole.code == 'CBAO-REC' ||
+                              evaluatorRole.code == 'SPRADM' ||
+                              evaluatorRole.code == 'CBAO-REL') &&
+                            !isDocumentAForm(element.document_id)
                           "
                         >
                           Update File
