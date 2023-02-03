@@ -376,10 +376,12 @@
                           (click)="openUploadDocument(element)"
                           *ngIf="
                             (this.user.user_roles[0].is_special == 1 ||
+                              evaluatorRole.code == 'CBAO-REC' ||
                               evaluatorRole.code == 'CBAO-REL' ||
                               evaluatorRole.code == 'SPRADM') &&
                             isDocumentAForm(element.document_id)
                           "
+                          [disabled]="applicationInfo.permit_type_id == 2"
                         >
                           Update Fields
                         </button>
@@ -388,11 +390,10 @@
                           color="accent"
                           (click)="openUpdateDocumentFile(element)"
                           *ngIf="
-                            (this.user.user_roles[0].is_special == 1 ||
-                              evaluatorRole.code == 'CBAO-REC' ||
-                              evaluatorRole.code == 'SPRADM' ||
-                              evaluatorRole.code == 'CBAO-REL') &&
-                            !isDocumentAForm(element.document_id)
+                            this.user.user_roles[0].is_special == 1 ||
+                            evaluatorRole.code == 'CBAO-REC' ||
+                            evaluatorRole.code == 'SPRADM' ||
+                            evaluatorRole.code == 'CBAO-REL'
                           "
                         >
                           Update File
