@@ -878,7 +878,15 @@ export class FormDetailsComponent implements OnInit {
   onToggleChange(e, form) {
     if (this.isFormApplicable == 2) {
       this.applicationService
-        .updateDocumentFile({ is_applicable: 1 }, form.id)
+        .updateDocumentFile(
+          {
+            is_applicable: 1,
+            cbao_status_id: 0,
+            bfp_status_id: 0,
+            cepmo_status_id: 0,
+          },
+          form.id
+        )
         .subscribe((res) => {
           this.isFormApplicable = res.data.is_applicable;
         });
