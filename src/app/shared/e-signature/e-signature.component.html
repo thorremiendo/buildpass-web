@@ -1,4 +1,4 @@
-<div id="e-signature">
+<!-- <div id="e-signature" *ngIf="documentInfo">
   <ng-container
     *ngIf="
       this.documentInfo.document_id !== 50 &&
@@ -103,4 +103,15 @@
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
   </ng-container>
-</div>
+</div> -->
+<ng-container *ngIf="pdfSource">
+  <pdf-viewer
+    [show-all]="false"
+    [(page)]="targetPage"
+    [render-text]="true"
+    [original-size]="true"
+    [fit-to-page]="false"
+    [src]="pdfSource"
+    [show-borders]="true"
+  ></pdf-viewer>
+</ng-container>
