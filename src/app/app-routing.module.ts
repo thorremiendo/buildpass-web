@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  // { path: '**', redirectTo: 'maintenance' }
+  { path: '**', redirectTo: 'maintenance' }
 ];
 
 @NgModule({
@@ -15,4 +15,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
